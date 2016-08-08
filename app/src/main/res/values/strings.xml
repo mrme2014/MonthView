@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ischool</string>
+
+    <string name="permisson_quanxian_ok">确定</string>
+    <string name="permisson_quanxian_call">该功能需要赋予访问电话的权限，否则该功能可能不能正常工作！</string>
+    <string name="permisson_quanxian_storage">该功能需要赋予访问存储的权限，否则该功能可能不能正常工作！</string>
+    <string name="permisson_quanxian_connact">该功能需要赋予访问并修改联系人的权限，否则该功能可能不能正常工作！</string>
+    <string name="title_complete">完成</string>
+</resources>

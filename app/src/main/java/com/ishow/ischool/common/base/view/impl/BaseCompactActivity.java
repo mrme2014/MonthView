@@ -55,7 +55,7 @@ public abstract class BaseCompactActivity<V extends IView, P extends BasePresent
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initData();
+        initEnv();
         setUpContentView();
 
         presenter = bindPresenter();
@@ -68,7 +68,12 @@ public abstract class BaseCompactActivity<V extends IView, P extends BasePresent
         setUpData();
     }
 
-    protected abstract void initData();
+    /**
+     * 初始化 环境，intent数据
+     */
+    protected void initEnv() {
+
+    }
 
     protected abstract void setUpContentView();
 

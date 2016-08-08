@@ -12,7 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ishow.crm.utils.common.LogUtil;
+import com.ishow.ischool.util.LogUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

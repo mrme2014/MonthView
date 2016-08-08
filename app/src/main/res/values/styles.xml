@@ -8,7 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="ToolBarStyle">
+    <style name="Theme.MaterialDesign" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- toolbar颜色 -->
+        <item name="colorPrimary">@color/color_header</item>
+        <!-- toolbar标题文字颜色 仅在Lollipop以上机器生效-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!-- 通知栏底色 -->
+        <item name="colorPrimaryDark">@color/color_header</item>
+        <!-- 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色 -->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:textSize">16sp</item>-->
+        <item name="android:windowBackground">@color/color_app_bg</item>
+        <item name="actionMenuTextAppearance">@style/MenuTextStyle</item>
+    </style>
+
+    <style name="MenuTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:layout_width">match_parent</item>
         <!--<item name="android:layout_height">wrap_content</item>-->
         <!--<item name="android:minHeight">?attr/actionBarSize</item>-->
@@ -25,4 +45,17 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
+    <style name="radioButton_main" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:textColor">@color/selector_main_radiobutton_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:height">48dp</item>
+    </style>
+
+    <color name="color_app_bg">#FFFFFF</color>
 </resources>

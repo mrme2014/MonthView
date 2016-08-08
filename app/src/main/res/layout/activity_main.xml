@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/tabcontent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/split_line_color" />
+
+    <RadioGroup
+        android:id="@+id/RadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+        <!--<RadioButton-->
+        <!--android:id="@+id/main_data"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/tabbar_title_main"-->
+        <!--android:checked="true"-->
+        <!--android:drawableTop="@drawable/main_radiobutton_shuju"-->
+        <!--style="@style/radioButton_main" />-->
+
+        <RadioButton
+            android:id="@+id/tab_business"
+            style="@style/radioButton_main"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_business"
+            android:text="@string/tab_business" />
+
+        <RadioButton
+            android:id="@+id/tab_me"
+            style="@style/radioButton_main"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/tab_me"
+            android:text="@string/tab_me" />
+    </RadioGroup>
+</LinearLayout>

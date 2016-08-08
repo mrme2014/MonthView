@@ -1,21 +1,6 @@
 package com.ishow.ischool.common.api;
 
 
-import com.ishow.crm.bean.ApiResult;
-import com.ishow.crm.bean.openclass.OpenClassInfo;
-import com.ishow.crm.bean.student.AddStudentResult;
-import com.ishow.crm.bean.student.StudentInfo;
-import com.ishow.crm.bean.university.Province;
-import com.ishow.crm.bean.user.UserResult;
-
-import java.util.TreeMap;
-
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
-import rx.Observable;
-
 /**
  * Created by MrS on 2016/7/15.
  */

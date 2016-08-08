@@ -20,12 +20,12 @@ import butterknife.ButterKnife;
  * Created by MrS on 2016/7/11.
  */
 public abstract class BaseFragment<V extends IView, P extends BasePresenter> extends Fragment implements IView {
-    public View rootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(getResId(), null);
+        initData();
+        View rootView  = inflater.inflate(getLayoutId(), null);
         ButterKnife.bind(this, rootView);
 
         presenter = bindPresenter();
@@ -34,14 +34,17 @@ public abstract class BaseFragment<V extends IView, P extends BasePresenter> ext
             presenter.attachView(view);
         }
 
-        onCreateView();
+        setUpView();
 
         return rootView;
     }
+    protected void initData() {
 
-    public abstract int getResId();
+    }
 
-    public abstract void onCreateView();
+    public abstract int getLayoutId();
+
+    public abstract void setUpView();
 
     private P presenter;
     private V view;
@@ -63,8 +66,8 @@ public abstract class BaseFragment<V extends IView, P extends BasePresenter> ext
     Snackbar snackbar = null;
 
     public void showToast(String s) {
-        if (rootView != null) {
-            snackbar = Snackbar.make(rootView, s, Snackbar.LENGTH_LONG);
+        if (getView() != null) {
+            snackbar = Snackbar.make(getView(), s, Snackbar.LENGTH_LONG);
             snackbar.setAction("朕知道了", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

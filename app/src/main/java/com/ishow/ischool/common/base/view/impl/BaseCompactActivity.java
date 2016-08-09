@@ -25,17 +25,13 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.IView;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by MrS on 2016/7/20.
  */
-public abstract class BaseCompactActivity<V extends IView, P extends BasePresenter> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
 
     private P presenter;
-    private V view;
 
     private static final int PERMISSION_CODE = 100;
     private String permission;
@@ -49,7 +45,6 @@ public abstract class BaseCompactActivity<V extends IView, P extends BasePresent
 
     protected User mUser;
     private Toast mToast;
-    public String notificationUserNick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +54,6 @@ public abstract class BaseCompactActivity<V extends IView, P extends BasePresent
         setUpContentView();
 
         presenter = bindPresenter();
-        if (presenter != null) {
-            view = bindView();
-            presenter.attachView(view);
-        }
 
         setUpView();
         setUpData();
@@ -184,8 +175,6 @@ public abstract class BaseCompactActivity<V extends IView, P extends BasePresent
 
     public abstract P bindPresenter();
 
-    public abstract V bindView();
-
     public P getPresenter() {
         return presenter;
     }
@@ -224,11 +213,9 @@ public abstract class BaseCompactActivity<V extends IView, P extends BasePresent
     public void onDestroy() {
         super.onDestroy();
         if (presenter != null) {
-            presenter.dettachView();
             presenter = null;
         }
         CrmApplication.removeStack(this);
-        ButterKnife.unbind(this);
     }
 
     public void checkPermission(String permission, checkPermissionListner l) {

@@ -1,4 +1,4 @@
-package com.ishow.ischool.util;
+package util;
 
 import java.util.ArrayList;
 import java.util.HashSet;

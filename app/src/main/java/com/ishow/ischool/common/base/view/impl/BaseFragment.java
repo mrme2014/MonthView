@@ -14,18 +14,21 @@ import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by MrS on 2016/7/11.
  */
 public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
+    private Unbinder unbinder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initData();
         View rootView = inflater.inflate(getLayoutId(), null);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
 
         presenter = bindPresenter();
 
@@ -78,10 +81,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (presenter != null) {
-            presenter.dettachView();
             presenter = null;
         }
-        ButterKnife.unbind(this);
+        unbinder.unbind();
 
         RefWatcher refWatcher = CrmApplication.getRefWatcher();
         refWatcher.watch(this);

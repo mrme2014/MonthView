@@ -2,9 +2,9 @@ package com.commonlib.application;
 
 import android.app.Activity;
 
-import java.util.Stack;
+import com.commonlib.util.LogUtil;
 
-import util.LogUtil;
+import java.util.Stack;
 
 /**
  * Created by wqf on 16/8/9.

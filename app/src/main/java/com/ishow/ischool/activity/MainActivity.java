@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.IView;
 import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
 import com.ishow.ischool.fragment.BusinessFragment;
 import com.ishow.ischool.fragment.MeFragment;
@@ -43,11 +42,6 @@ public class MainActivity extends BaseCompactActivity implements android.widget.
 
     @Override
     public BasePresenter bindPresenter() {
-        return null;
-    }
-
-    @Override
-    public IView bindView() {
         return null;
     }
 

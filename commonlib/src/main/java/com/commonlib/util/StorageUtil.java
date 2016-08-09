@@ -1,4 +1,4 @@
-package util;
+package com.commonlib.util;
 
 import android.content.Context;
 import android.os.Environment;

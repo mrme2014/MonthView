@@ -1,4 +1,4 @@
-package util;
+package com.commonlib.util;
 
 import android.util.Log;
 
@@ -29,13 +29,13 @@ public class LogUtil {
     }
 
     public static int dd(String tag, String msg) {
-//        LogCatch.addLog(com.tools.util.DateUtil.parseDate2Str(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss SSS") + " " + tag + "/D " + msg);
+//        LogCatch.addLog(com.tools.com.commonlib.application.util.DateUtil.parseDate2Str(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss SSS") + " " + tag + "/D " + msg);
         Log.d(tag, msg);
         return 0;
     }
 
     public static int ee(String tag, String msg) {
-//        LogCatch.addLog(com.tools.util.DateUtil.parseDate2Str(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss SSS") + " " + tag + "/E " + msg);
+//        LogCatch.addLog(com.tools.com.commonlib.application.util.DateUtil.parseDate2Str(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss SSS") + " " + tag + "/E " + msg);
         Log.e(tag, msg);
         return 0;
     }

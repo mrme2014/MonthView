@@ -1,4 +1,4 @@
-package com.ishow.ischool.util;
+package util;
 
 import java.io.UnsupportedEncodingException;
 

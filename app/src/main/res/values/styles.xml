@@ -58,4 +58,69 @@
     </style>
 
     <color name="color_app_bg">#FFFFFF</color>
+
+
+    <!--popwindow  从下到上弹出 从上到下 滑出去-->
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!--popwindow  渐隐渐现出现  消失-->
+    <!--popwindow  渐隐渐现出现  消失-->
+    <style name="fade_PopupAnimation" parent="PopupAnimation">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!--wheelView-->
+    <style name="wheelViewStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="itemNumber">3</item>
+        <item name="lineColor">@color/theme</item>
+        <item name="bottomLineColor">#f1f1f1</item>
+        <item name="lineHeight">1dp</item>
+        <item name="firstLineAndSecondLineSpace">10dp</item>
+        <item name="maskHight">36dp</item>
+        <item name="noEmpty">true</item>
+        <item name="normalTextColor">#999999</item>
+        <item name="normalTextSize">14sp</item>
+        <item name="selectedTextColor">#666666</item>
+        <item name="selectedTextSize">22sp</item>
+        <item name="unitHight">50dp</item>
+    </style>
+
+    <!--这个中间弹出方式  选择形式是 1.年月日  2.礼拜几 小时  分钟 3.时间段 小时  分钟-->
+    <style name="wheelViewStyle_time_picker_for_creat_claz">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="itemNumber">5</item>
+        <item name="lineColor">#e1e1e1</item>
+        <item name="bottomLineColor">@color/white</item>
+        <item name="lineHeight">1px</item>
+        <item name="maskHight">40dp</item>
+        <item name="noEmpty">true</item>
+        <item name="normalTextColor">#cccccc</item>
+        <item name="normalTextSize">12sp</item>
+        <item name="selectedTextColor">#333333</item>
+        <item name="selectedTextSize">16sp</item>
+        <item name="unitHight">50dp</item>
+    </style>
 </resources>

@@ -1,4 +1,4 @@
-package com.ishow.ischool.application;
+package com.commonlib.application;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,8 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ishow.ischool.util.LogUtil;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -26,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import util.LogUtil;
 
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告.

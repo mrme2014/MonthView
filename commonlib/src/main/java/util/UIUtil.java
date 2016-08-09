@@ -1,10 +1,11 @@
-package com.ishow.ischool.util;
+package util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 public class UIUtil {
 
@@ -39,6 +40,31 @@ public class UIUtil {
         return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
     }
 
+    /**
+     * 获取屏幕宽度
+     * @param mContext
+     * @return px
+     */
+    public static int getScreenWidthPixels(Context mContext) {
+
+        WindowManager wm =(WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm =new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        return dm.widthPixels;
+    }
+
+    /**
+     * 获取屏幕高度
+     * @param mContext
+     * @return  px
+     */
+    public static int getScreenHeightPixels(Context mContext) {
+
+        WindowManager wm =(WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm =new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        return dm.heightPixels;
+    }
     /**
      * 在activity 查找View
      * 

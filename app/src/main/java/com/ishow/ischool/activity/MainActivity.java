@@ -10,12 +10,12 @@ import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
 import com.ishow.ischool.fragment.BusinessFragment;
 import com.ishow.ischool.fragment.MeFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseCompactActivity implements android.widget.RadioGroup.OnCheckedChangeListener {
 
-    @Bind(R.id.RadioGroup)
+    @BindView(R.id.RadioGroup)
     android.widget.RadioGroup RadioGroup;
 
     BusinessFragment businessFragment;

@@ -26,8 +26,6 @@ import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by MrS on 2016/7/20.
  */
@@ -218,7 +216,6 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
             mPresenter.destroy();
         }
         CrmApplication.removeStack(this);
-        ButterKnife.unbind(this);
     }
 
     public void checkPermission(String permission, checkPermissionListner l) {

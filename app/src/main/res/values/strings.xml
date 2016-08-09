@@ -9,4 +9,79 @@
     <string name="tab_business">业务</string>
     <string name="tab_me">我</string>
     <string name="submit">提交</string>
+
+    <!--时间滑轮 头部时间显示格式-->
+    <string name="picker_title">%1$s年%2$s月%3$s日</string>
+
+
+
+    <!--这里是中弹框方式  选择 日期 时间 时间段 等格式的提示语 之后可能会改-->
+    <string name="open_claz_time_picker_go">上课时间</string>
+    <string name="open_claz_time_picker_off">下课时间</string>
+    <string name="open_claz_time_picker_start">开始时间</string>
+    <string name="open_claz_time_picker_over">截止时间</string>
+    <string name="open_claz_time_over_year_less_than_start_year">不允许结束年份早于开始年份</string>
+    <string name="open_claz_time_over_month_less_than_start_month">不允许结束时间早于开始时间</string>
+    <!--公开课管理-->
+    <string name="open_class_title">公开课管理</string>
+    <string name="open_class_title_complete">完成</string>
+    <string name="open_class_week">本周公开课详情</string>
+    <string name="open_class_history">历史课程详情</string>
+    <string name="open_class_time_too_short">一节课的时间太短了</string>
+    <string name="open_class_date_is_early">上课日期不等小于当前日期</string>
+    <string name="open_claz_time_valitate_time_too_short">有效时间太短了</string>
+
+
+
+
+
+
+
+    <!--下面都是选择条件 或者筛选条件固定的  -->
+    <array name="week_days">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </array>
+
+    <array name="course_strings">
+        <item>初级班</item>
+        <item>中级班</item>
+        <item>高级班</item>
+        <item>影视班</item>
+    </array>
+
+    <array name="source_strings">
+        <item>校聊</item>
+        <item>晨读</item>
+        <item>转介绍</item>
+    </array>
+
+    <array name="source_shijianduan">
+        <item>上午</item>
+        <item>下午</item>
+        <item>晚上</item>
+    </array>
+
+    <!--筛选的报名的状态（1.未报名；2.欠款；3.已报名；4.退款'）-->
+    <array name="pay_sate_strings">
+        <item>未报名</item>
+        <item>欠款</item>
+        <item>已报名</item>
+        <item>退款</item>
+    </array>
+
+    <array name="grade_strings">
+        <item>大一</item>
+        <item>大二</item>
+        <item>大三</item>
+        <item>大四</item>
+        <item>研究生</item>
+        <item>硕士</item>
+        <item>其它</item>
+    </array>
 </resources>

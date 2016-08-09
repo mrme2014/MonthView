@@ -1,4 +1,4 @@
-package com.ishow.ischool.util;
+package util;
 
 import android.content.Context;
 import android.os.Environment;

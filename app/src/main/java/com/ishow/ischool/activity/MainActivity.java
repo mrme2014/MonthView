@@ -1,4 +1,4 @@
-package com.ishow.ischool.module.main;
+package com.ishow.ischool.activity;
 
 import android.support.v4.app.FragmentTransaction;
 
@@ -7,6 +7,8 @@ import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 import com.ishow.ischool.common.base.view.IView;
 import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
+import com.ishow.ischool.fragment.BusinessFragment;
+import com.ishow.ischool.fragment.MeFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

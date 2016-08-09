@@ -1,4 +1,4 @@
-package com.ishow.ischool.module.main;
+package com.ishow.ischool.fragment;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.IView;
 import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
@@ -19,25 +18,22 @@ import butterknife.ButterKnife;
 /**
  * Created by MrS on 2016/7/11.
  */
-public abstract class BaseFragment<V extends IView, P extends BasePresenter> extends Fragment implements IView {
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initData();
-        View rootView  = inflater.inflate(getLayoutId(), null);
+        View rootView = inflater.inflate(getLayoutId(), null);
         ButterKnife.bind(this, rootView);
 
         presenter = bindPresenter();
-        if (presenter != null) {
-            view = bindView();
-            presenter.attachView(view);
-        }
 
         setUpView();
 
         return rootView;
     }
+
     protected void initData() {
 
     }
@@ -47,17 +43,13 @@ public abstract class BaseFragment<V extends IView, P extends BasePresenter> ext
     public abstract void setUpView();
 
     private P presenter;
-    private V view;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     public abstract P bindPresenter();
-
-    public abstract V bindView();
 
     public P getPresenter() {
         return presenter;

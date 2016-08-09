@@ -1,7 +1,5 @@
 package com.ishow.ischool.common.base.presenter.impl;
 
-import android.content.Context;
-
 import com.ishow.ischool.common.base.presenter.IPresenter;
 import com.ishow.ischool.common.base.view.IView;
 
@@ -13,20 +11,8 @@ public class BasePresenter<V extends IView> implements IPresenter<V> {
 
     private V view;
 
-    public Context context;
-
-    public BasePresenter(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    public void attachView(V view) {
+    public BasePresenter(V view) {
         this.view = view;
-    }
-
-    @Override
-    public void dettachView() {
-        this.view = null;
     }
 
     public V getView() {

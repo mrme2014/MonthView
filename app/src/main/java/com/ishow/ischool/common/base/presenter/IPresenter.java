@@ -8,4 +8,6 @@ import com.ishow.ischool.common.base.view.IView;
  */
 public interface IPresenter<V extends IView> {
 
+    void destroy();
+
 }

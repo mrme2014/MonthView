@@ -8,8 +8,7 @@
     <string name="title_complete">完成</string>
     <string name="tab_business">业务</string>
     <string name="tab_me">我</string>
-
-
+    <string name="submit">提交</string>
 
     <!--时间滑轮 头部时间显示格式-->
     <string name="picker_title">%1$s年%2$s月%3$s日</string>

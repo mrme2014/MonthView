@@ -2,7 +2,6 @@ package com.ishow.ischool.fragment;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.IView;
 import com.ishow.ischool.common.base.view.impl.BaseFragment;
 
 /**
@@ -21,11 +20,6 @@ public class MeFragment extends BaseFragment{
 
     @Override
     public BasePresenter bindPresenter() {
-        return null;
-    }
-
-    @Override
-    public IView bindView() {
         return null;
     }
 }

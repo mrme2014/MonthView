@@ -7,4 +7,10 @@
     <color name="color_header">#000000</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="split_line_color">#D1D1D1</color>
+
+
+    <!--现在这三个颜色只是 为了  copy原来资源 不报错      之后会改色值的-->
+    <color name="green">#20af1f</color>
+    <color name="theme">#20af1f</color>
+    <color name="green_press">#47a657</color>
 </resources>

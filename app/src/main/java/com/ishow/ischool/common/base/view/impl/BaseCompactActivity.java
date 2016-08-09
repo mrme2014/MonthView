@@ -57,6 +57,8 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
 
         setUpView();
         setUpData();
+
+        CrmApplication.addStack(this);
     }
 
     /**
@@ -213,6 +215,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public void onDestroy() {
         super.onDestroy();
         if (presenter != null) {
+
             presenter = null;
         }
         CrmApplication.removeStack(this);

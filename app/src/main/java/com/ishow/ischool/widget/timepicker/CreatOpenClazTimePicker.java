@@ -14,29 +14,29 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.util.LogUtil;
-import com.ishow.ischool.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import util.LogUtil;
+import util.UIUtil;
 
 /**
  * Created by MrS on 2016/7/19.
  */
 public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.OnDismissListener {
 
-    @Bind(R.id.open_claz_date_peroid)
+    @BindView(R.id.open_claz_date_peroid)
     WheelView openClazDatePeroid;
-    @Bind(R.id.open_claz_date_weekday)
+    @BindView(R.id.open_claz_date_weekday)
     WheelView openClazDateWeekday;
-    @Bind(R.id.open_claz_date_hour)
+    @BindView(R.id.open_claz_date_hour)
     WheelView openClazDateHour;
-    @Bind(R.id.open_claz_date_min)
+    @BindView(R.id.open_claz_date_min)
     WheelView openClazDateMin;
     private int START_YEAR = 1970;
     private int END_YEAR = 2017;
@@ -117,6 +117,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
         View view = inflater.inflate(R.layout.time_picker_for_creat_open_claz, null);
         ButterKnife.bind(this, view);
         setContentView(view);
+
 
         int width = UIUtil.getScreenWidthPixels(context)-UIUtil.dip2px(context,30);
         setWidth(width);
@@ -563,7 +564,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
     @Override
     public void onDismiss() {
         backgroundAlpha((Activity) context, 1f);
-        ButterKnife.unbind(this);
+      //  ButterKnife.(this);
     }
 
     public interface onCreatOpenClazPickerEvent {

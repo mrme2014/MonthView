@@ -12,27 +12,11 @@ import java.util.List;
  */
 public class ApiResult<T> {
 
-    private int error_no;
+    public int error_no;
 
-    private String error_msg;
+    public String error_msg;
 
     public JsonElement result;
-
-    public String getError_msg() {
-        return error_msg;
-    }
-
-    public void setError_msg(String error_msg) {
-        this.error_msg = error_msg;
-    }
-
-    public int getError_no() {
-        return error_no;
-    }
-
-    public void setError_no(int error_no) {
-        this.error_no = error_no;
-    }
 
     public JsonElement getResult() {
         return result;
@@ -46,6 +30,16 @@ public class ApiResult<T> {
         Gson gson = new Gson();
         try {
             return gson.fromJson(result, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public T getResultBean(Type type) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(result, type);
         } catch (Exception e) {
             e.printStackTrace();
         }

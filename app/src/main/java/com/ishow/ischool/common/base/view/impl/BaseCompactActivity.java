@@ -31,17 +31,17 @@ import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
  */
 public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
 
-    private P presenter;
+    public P mPresenter;
 
     private static final int PERMISSION_CODE = 100;
     private String permission;
 
-    protected Toolbar toolbar;
-    protected TextView toolbar_title;
+    protected Toolbar mToolbar;
+    protected TextView mToolbarTitle;
+    public static final int MODE_NONE = -1;      // 空
     public static final int MODE_BACK = 0;      // 左侧返回键
     public static final int MODE_DRAWER = 1;
-    public static final int MODE_NONE = 2;      // 空
-    public static final int MODE_HOME = 3;      //
+    public static final int MODE_HOME = 2;      //
 
     protected User mUser;
     private Toast mToast;
@@ -53,7 +53,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
         initEnv();
         setUpContentView();
 
-        presenter = bindPresenter();
+        mPresenter = bindPresenter();
 
         setUpView();
         setUpData();
@@ -102,14 +102,14 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
 
     protected void setUpToolbar(int titleResId, int menuId, int mode) {
         if (mode != MODE_NONE) {
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            toolbar.setTitle("");
-            toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar.setTitle("");
+            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
             if (mode == MODE_BACK) {
-                toolbar.setNavigationIcon(R.drawable.bg_nav_back);
+                mToolbar.setNavigationIcon(R.drawable.bg_nav_back);
             }
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onNavigationBtnClicked();
@@ -123,14 +123,14 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
 
     protected void setUpToolbar(String titleStr, int menuId, int mode) {
         if (mode != MODE_NONE) {
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            toolbar.setTitle("");
-            toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar.setTitle("");
+            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
             if (mode == MODE_BACK) {
-                toolbar.setNavigationIcon(R.mipmap.nav_back_normal);
+                mToolbar.setNavigationIcon(R.mipmap.nav_back_normal);
             }
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onNavigationBtnClicked();
@@ -143,24 +143,24 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     }
 
     protected void setUpMenu(int menuId) {
-        if (toolbar != null) {
-            toolbar.getMenu().clear();
+        if (mToolbar != null) {
+            mToolbar.getMenu().clear();
             if (menuId > 0) {
-                toolbar.inflateMenu(menuId);
-                toolbar.setOnMenuItemClickListener(this);
+                mToolbar.inflateMenu(menuId);
+                mToolbar.setOnMenuItemClickListener(this);
             }
         }
     }
 
     protected void setUpTitle(int titleResId) {
-        if (titleResId > 0 && toolbar_title != null) {
-            toolbar_title.setText(titleResId);
+        if (titleResId > 0 && mToolbarTitle != null) {
+            mToolbarTitle.setText(titleResId);
         }
     }
 
     protected void setUpTitle(String titleStr) {
-        if (!titleStr.equals("") && toolbar_title != null) {
-            toolbar_title.setText(titleStr);
+        if (!titleStr.equals("") && mToolbarTitle != null) {
+            mToolbarTitle.setText(titleStr);
         }
     }
 
@@ -176,14 +176,14 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public abstract P bindPresenter();
 
     public P getPresenter() {
-        return presenter;
+        return mPresenter;
     }
 
     Snackbar snackbar = null;
 
     public void showToast(String s) {
-        if (toolbar != null) {
-            snackbar = Snackbar.make(toolbar, s, Snackbar.LENGTH_LONG);
+        if (mToolbar != null) {
+            snackbar = Snackbar.make(mToolbar, s, Snackbar.LENGTH_LONG);
             snackbar.setAction("朕知道了", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -212,8 +212,8 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (presenter != null) {
-            presenter = null;
+        if (mPresenter != null) {
+            mPresenter.destroy();
         }
         CrmApplication.removeStack(this);
     }

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2011 Patrik Åkerfeldt
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <attr name="rightPadding" format="dimension"></attr>
+    <declare-styleable name="SlidingMenu">
+        <attr name="rightPadding"></attr>
+    </declare-styleable>
+
+    <!--这里的属性是 轮播图 以后可能会用到-->
+    <declare-styleable name="ViewFlow">
+        <attr name="sidebuffer" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="CircleFlowIndicator">
+        <attr name="activeColor" format="color" />
+        <attr name="inactiveColor" format="color" />
+        <attr name="radius" format="dimension" />
+        <attr name="centered" format="boolean" />
+        <attr name="fadeOut" format="integer" />
+        <attr name="inactiveType">
+            <flag name="stroke" value="0" />
+            <flag name="fill" value="1" />
+        </attr>
+        <attr name="activeType">
+            <flag name="stroke" value="0" />
+            <flag name="fill" value="1" />
+        </attr>
+        <attr name="circleSeparation" format="dimension" />
+        <attr name="activeRadius" format="dimension" />
+    </declare-styleable>
+
+
+    <!--圆环进度-->
+    <declare-styleable name="RoundProgressBar">
+        <attr name="roundColor" format="color" />
+        <attr name="roundProgressColor" format="color" />
+        <attr name="roundWidth" format="dimension"></attr>
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="max" format="integer"></attr>
+        <attr name="textIsDisplayable" format="boolean"></attr>
+        <attr name="style">
+            <enum name="STROKE" value="0"></enum>
+            <enum name="FILL" value="1"></enum>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="materialprogressbar">
+        <attr name="barcolor" format="color"></attr>
+        <attr name="is_linear_bar" format="boolean"></attr>
+    </declare-styleable>
+
+    <!--自定义editext  密码显示 隐藏-->
+    <declare-styleable name="password_edit_text">
+        <attr name="show_drawable" format="integer" />
+        <attr name="hide_drawable" format="integer" />
+        <attr name="password_visible" format="boolean" />
+        <attr name="show_as_text" format="boolean" />
+        <attr name="hide_text" format="string" />
+        <attr name="show_text" format="string" />
+        <attr name="clear_text" format="boolean" />
+    </declare-styleable>
+
+    <!--环形边框的圆形imageview-->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension"></attr>
+        <attr name="border_color" format="color"></attr>
+    </declare-styleable>
+    <!--PullScrollView-->
+    <declare-styleable name="PullScrollView">
+        <attr name="header" format="reference" />
+        <attr name="headerHeight" format="dimension" />
+        <attr name="headerVisibleHeight" format="dimension" />
+    </declare-styleable>
+
+    <!--带下划线的-->
+    <declare-styleable name="BottomTextView">
+        <attr name="bottomlinecolor" format="reference|color" />
+        <attr name="bottomlinecolor_clear" format="reference|color" />
+        <attr name="bottomlinecolor_lineHeight" format="dimension" />
+        <attr name="bottomlinecolor_lineMargin" format="dimension" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="WheelView">
+        <attr name="normalTextColor" format="color" />
+        <attr name="normalTextSize" format="dimension" />
+        <attr name="selectedTextColor" format="color" />
+        <attr name="selectedTextSize" format="dimension" />
+        <attr name="unitHight" format="dimension" />
+        <attr name="itemNumber" format="integer" />
+        <attr name="lineColor" format="color" />
+        <attr name="bottomLineColor" format="color" />
+        <attr name="lineHeight" format="dimension" />
+        <attr name="firstLineAndSecondLineSpace" format="dimension" />
+        <attr name="maskHight" format="dimension" />
+        <attr name="noEmpty" format="boolean" />
+        <attr name="isEnable" format="boolean" />
+    </declare-styleable>
+
+    <!--联系人 26个字母的-->
+    <declare-styleable name="QuickSideBarView">
+        <attr name="sidebarTextColor" format="color|reference" />
+        <attr name="sidebarBackgroundColor" format="color|reference" />
+        <attr name="sidebarTextColorChoose" format="color|reference" />
+        <attr name="sidebarTextSize" format="dimension" />
+        <attr name="sidebarTextSizeChoose" format="dimension" />
+        <attr name="sidebarItemHeight" format="dimension" />
+    </declare-styleable>
+
+    <!--这个就是 fagmentme  这一页 每个item的自定义属性的 -->
+    <declare-styleable name="FragmentItemTextView">
+        <attr name="lineTextColor" format="color|reference" />
+        <attr name="drawTLongLine" format="boolean" />
+        <attr name="drawBLongLine" format="boolean" />
+        <attr name="leftIcon" format="reference" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="margin" format="integer" />
+        <attr name="iconMargin" format="integer" />
+        <attr name="textLeftMargin" format="integer" />
+        <attr name="text" format="string" />
+        <attr name="text_tips" format="string" />
+
+    </declare-styleable>
+
+
+    <!--这个是沟通记录详情的  可能没用了-->
+    <declare-styleable name="CommunicationRecordDetailTextView">
+        <attr name="left_text" format="string"></attr>
+        <attr name="line_left_padding" format="dimension"></attr>
+        <attr name="should_draw_line" format="boolean"></attr>
+        <attr name="should_pin_top" format="boolean"></attr>
+        <attr name="when_input_shold_say" format="string"></attr>
+        <attr name="input_type" format="integer"></attr>
+        <attr name="top_padding" format="integer"></attr>
+    </declare-styleable>
+    <declare-styleable name="CommunicationRecordTextView">
+        <attr name="should_draw_history" format="boolean"></attr>
+    </declare-styleable>
+
+</resources>

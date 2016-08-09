@@ -24,7 +24,6 @@ public class CrmApplication extends Application {
         super.onCreate();
 
         _refWatcher = LeakCanary.install(this);
-
         instance = this;
     }
 

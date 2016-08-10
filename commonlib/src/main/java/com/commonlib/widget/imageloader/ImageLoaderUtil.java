@@ -10,7 +10,7 @@ import android.widget.ImageView;
     * ImageLoaderUtil.getInstance().loadImage(context,imageLoader);
     *
     * Demo2:
-    * ImageLoaderUtil.getInstance().
+    * ImageLoaderUtil.getInstance().loadImage(context, "img url", imageView)
     * */
 
 /**

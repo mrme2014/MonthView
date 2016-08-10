@@ -53,7 +53,7 @@ public class ImageLoaderUtil {
     }
 
     public void loadImage(Context context, String imgUrl, ImageView imageView) {
-        ImageLoader imageLoader = new ImageLoader.Builder().url("img url").imageView(imageView).build();
+        ImageLoader imageLoader = new ImageLoader.Builder().url(imgUrl).imageView(imageView).build();
         ImageLoaderUtil.getInstance().loadImage(context,imageLoader);
     }
 

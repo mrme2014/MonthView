@@ -14,6 +14,7 @@ public class MainActivity extends BaseCompactActivity implements android.widget.
     BusinessFragment businessFragment;
     MeFragment meFragment;
 
+
     android.widget.RadioGroup RadioGroup;
 
     @Override

@@ -20,8 +20,7 @@ public class SpUtil {
     }
 
     private SpUtil(Context context) {
-        this(context.getApplicationContext().getSharedPreferences(SP_NAME,
-                Context.MODE_PRIVATE));
+        this(context.getApplicationContext().getSharedPreferences(SP_NAME, Context.MODE_PRIVATE));
     }
 
     private SpUtil(SharedPreferences sp) {

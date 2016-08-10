@@ -44,7 +44,7 @@
         <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_switch_campus"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_switch"
             android:text="@string/fm_me_switch_campus"
             app:draw_bottom_line="true"
@@ -56,7 +56,7 @@
 
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_switch_role"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_switch"
             android:text="@string/fm_me_switch_role"
             android:layout_marginTop="0dp"
@@ -67,7 +67,7 @@
 
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_notify_msg"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_message"
             android:text="@string/fm_me_notify_msg"
             app:draw_right_redPoint="true"
@@ -78,7 +78,7 @@
 
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_mornig_qrcode"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_code"
             android:text="@string/fm_me_mornig_qrcode"
             />
@@ -86,21 +86,21 @@
 
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_change_pwd"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_changepassword"
             android:text="@string/fm_me_change_pwd"
             />
 
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_kefu"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_service"
             android:text="@string/fm_me_kefu"
             />
 
         <Button
             android:id="@+id/fm_me_login_out"
-            style="@style/fragment_textview_Wmatch_50height"
+            style="@style/fragment_textview_Wmatch_45height"
             android:text="@string/fm_me_login_out"
             android:textColor="#f21"
             android:gravity="center"

@@ -144,18 +144,20 @@
     </declare-styleable>
 
 
-    <!--这个是沟通记录详情的  可能没用了-->
-    <declare-styleable name="CommunicationRecordDetailTextView">
-        <attr name="left_text" format="string"></attr>
-        <attr name="line_left_padding" format="dimension"></attr>
-        <attr name="should_draw_line" format="boolean"></attr>
-        <attr name="should_pin_top" format="boolean"></attr>
-        <attr name="when_input_shold_say" format="string"></attr>
-        <attr name="input_type" format="integer"></attr>
-        <attr name="top_padding" format="integer"></attr>
-    </declare-styleable>
-    <declare-styleable name="CommunicationRecordTextView">
-        <attr name="should_draw_history" format="boolean"></attr>
+    <!--fragment-me item 带文本提示 消息提醒下划线+++-->
+    <declare-styleable name="FmItemTextView">
+        <!--是否绘制下划线-->
+        <attr name="draw_bottom_line" format="boolean"></attr>
+        <!--下划线左侧应该距离父窗体多少距离-->
+        <attr name="draw_bottom_line_padding" format="integer"></attr>
+        <!--下划线颜色-->
+        <attr name="draw_bottom_line_color" format="color|reference"></attr>
+        <!--提示类型的 文本 消息小红点 距离右边多少距离-->
+        <attr name="tip_right_padding" format="integer"></attr>
+        <!--提示类型的 文本 消息小红点 颜色-->
+        <attr name="tip_right_color" format="color|reference"></attr>
+        <!--是否是绘制 消息提示类型的-->
+        <attr name="draw_right_redPoint" format="boolean"></attr>
     </declare-styleable>
 
 </resources>

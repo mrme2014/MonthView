@@ -21,9 +21,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.commonlib.application.ActivityStackManager;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.CrmApplication;
-import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 
 /**
@@ -33,8 +32,8 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
 
     public P mPresenter;
 
-    private static final int PERMISSION_CODE = 100;
-    private String permission;
+    private static final int PERMISSION_CODE = 100;//权限申请默认的request_code
+    private String permission ;//当前正在申请的那一条权限
 
     protected Toolbar mToolbar;
     protected TextView mToolbarTitle;
@@ -42,9 +41,6 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public static final int MODE_BACK = 0;      // 左侧返回键
     public static final int MODE_DRAWER = 1;
     public static final int MODE_HOME = 2;      //
-
-    protected User mUser;
-    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +54,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
         setUpView();
         setUpData();
 
-        CrmApplication.addStack(this);
+        ActivityStackManager.getInstance().pushActivity(this);
     }
 
     /**
@@ -214,10 +210,10 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.destroy();
+        if (getPresenter() != null) {
+            getPresenter().destroy();
         }
-        CrmApplication.removeStack(this);
+        ActivityStackManager.getInstance().popActivity(this);
     }
 
     public void checkPermission(String permission, checkPermissionListner l) {

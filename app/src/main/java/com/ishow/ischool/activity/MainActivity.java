@@ -8,21 +8,18 @@ import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
 import com.ishow.ischool.fragment.BusinessFragment;
 import com.ishow.ischool.fragment.MeFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends BaseCompactActivity implements android.widget.RadioGroup.OnCheckedChangeListener {
 
-    @BindView(R.id.RadioGroup)
-    android.widget.RadioGroup RadioGroup;
 
     BusinessFragment businessFragment;
     MeFragment meFragment;
 
+    android.widget.RadioGroup RadioGroup;
+
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_main, -1, -1, MODE_NONE);
-        ButterKnife.bind(this);
+        RadioGroup = (android.widget.RadioGroup) findViewById(R.id.RadioGroup);
         showFragment(R.id.tab_business);
         RadioGroup.setOnCheckedChangeListener(this);
     }

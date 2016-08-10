@@ -25,6 +25,13 @@ public class UIUtil {
         return (int) (pxValue / scale + 0.5f);
     }
 
+    /*字体大小转化成sp*/
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+
     public static float getScale(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }

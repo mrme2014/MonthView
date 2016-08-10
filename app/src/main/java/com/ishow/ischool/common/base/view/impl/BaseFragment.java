@@ -22,12 +22,13 @@ import butterknife.Unbinder;
 public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     private Unbinder unbinder;
+    public  View rootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initData();
-        View rootView = inflater.inflate(getLayoutId(), null);
+        rootView= inflater.inflate(getLayoutId(), null);
         unbinder = ButterKnife.bind(this, rootView);
 
         presenter = bindPresenter();

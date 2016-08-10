@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.commonlib.util.LogUtil;
+import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
 import java.util.ArrayList;
@@ -22,8 +24,6 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import util.LogUtil;
-import util.UIUtil;
 
 /**
  * Created by MrS on 2016/7/19.

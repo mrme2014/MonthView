@@ -48,25 +48,26 @@ public class FmItemTextView extends TextView {
 
 
     public FmItemTextView(Context context) {
-        this(context, null);
+        super(context);initEnv(context, null);
     }
 
     public FmItemTextView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);initEnv(context, attrs);
     }
 
     public FmItemTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);initEnv(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public FmItemTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initEnv(context, attrs);
-        setBackgroundResource(R.drawable.bg_item_text_ripple);
+
     }
 
     private void initEnv(Context context, AttributeSet attrs) {
+        setBackgroundResource(R.drawable.bg_item_text_ripple);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FmItemTextView);
         bottom_line_Lp = ta.getInteger(R.styleable.FmItemTextView_draw_bottom_line_padding, 0);
         line_color = ta.getColor(R.styleable.FmItemTextView_draw_bottom_line_color, line_color);

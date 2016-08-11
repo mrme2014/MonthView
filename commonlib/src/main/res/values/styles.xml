@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Toolbar样式 -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:minHeight">?attr/actionBarSize</item>-->
+        <item name="android:layout_height">@dimen/default_toolbar_height</item>
+        <item name="android:minHeight">@dimen/default_toolbar_height</item>
+        <!-- Toolbar背景颜色 -->
+        <item name="android:background">?attr/colorPrimary</item>
+        <!-- Toolbar popup menu样式 -->
+        <item name="android:theme">@style/PopWindowStyle</item>
+    </style>
+
+
+    <style name="PopWindowStyle" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
+
+    <style name="RecyclerViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:overScrollMode">ifContentScrolls</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="RecyclerItemViewStyle">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+</resources>

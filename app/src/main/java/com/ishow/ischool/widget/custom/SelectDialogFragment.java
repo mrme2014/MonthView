@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
+import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BasicAdapter;
 import com.ishow.ischool.adpter.ViewHolder;
@@ -28,51 +28,60 @@ import java.util.List;
  * Created by MrS on 2016/8/10.
  */
 public class SelectDialogFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
-    private ListView content;
+    private ListView listView;
     private Button cancel;
     private selectDialogAdapter adapter;
     private Dialog dialog;
-    private ArrayList<String> datas;
-    private int messageColor;
-    private int buttonColor;
 
+    private ArrayList<String> datas; //message btn  文本集合
+    private ArrayList<Integer> messageColor;//message btn的颜色集合
+    private int buttonColor;//取消按钮的颜色
 
+    /**
+     * 使用方法：
+     * SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
+     * SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS")
+     * .setMessageColor(R.color.color_header,R.color.colorAccent,R.color.green_press).Build();
+     * dialog.show(getChildFragmentManager());
+     * <p>
+     * OR:
+     * SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
+     * SelectDialogFragment dialog= builder.setMessage(list<String> datas)
+     * .setMessageColor(List<Integer> colors).Build();
+     * dialog.show(getChildFragmentManager());
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-       // WindowManager.LayoutParams params = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        dialog = new Dialog(getContext(),R.style.Select_dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        dialog = new Dialog(getContext(), R.style.Select_dialog);
         View contentView = View.inflate(getContext(), R.layout.select_dialog, null);
-        content = (ListView) contentView.findViewById(R.id.select_dialog_content);
-        content.setBackgroundResource(R.drawable.bg_round_corner);
+        listView = (ListView) contentView.findViewById(R.id.select_dialog_content);
+        listView.setBackgroundResource(R.drawable.bg_round_corner);
         cancel = (Button) contentView.findViewById(R.id.select_dialog_cancel);
 
         Bundle bundle = getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             this.datas = bundle.getStringArrayList("datas");
-            this.messageColor = bundle.getInt("messageColor");
-            this.buttonColor =  bundle.getInt("buttonColor");
+            this.messageColor = bundle.getIntegerArrayList("messageColor");
+            this.buttonColor = bundle.getInt("buttonColor");
         }
-        adapter = new selectDialogAdapter(getContext(), datas ,messageColor);
-        content.setAdapter(adapter);
+        adapter = new selectDialogAdapter(getContext(), datas, messageColor);
+        listView.setAdapter(adapter);
 
         dialog.setContentView(contentView);
         Window window = dialog.getWindow();
         WindowManager.LayoutParams params1 = window.getAttributes();
-        params1.gravity= Gravity.BOTTOM;
-       /* params1.y = UIUtil.getScreenHeightPixels(getContext())-UIUtil.dip2px(getContext(),8);
-        LogUtil.e(params1.y+"");*/
+        params1.gravity = Gravity.BOTTOM;
+        params1.y = UIUtil.dip2px(getContext(), 10);
         window.setAttributes(params1);
 
-        content.setOnItemClickListener(this);
+        listView.setOnItemClickListener(this);
         cancel.setOnClickListener(this);
-
-        LogUtil.e(datas.toString()+"==="+messageColor);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
         return dialog;
     }
+
     @Override
     public void onClick(View v) {
         this.dismiss();
@@ -85,38 +94,52 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         this.dismiss();
     }
 
-    public void show(FragmentManager manger){
-        show(manger,"dialog");
+    public void show(FragmentManager manger) {
+        show(manger, "dialog");
     }
 
     public static class Builder {
-        private String[] Message;
-        private int messageColor;
-        private List<String> args;
-        public ArrayList<String> datas;
+        private int buttonColor;//取消按钮的颜色
+        public ArrayList<String> datas;//message btb 文本集合
+        public ArrayList<Integer> colors; //为每一个message btb指定不同的颜色
 
         public int getButtonColor() {
             return buttonColor;
         }
 
-        public int getMessageColor() {
-            return messageColor;
-        }
-
-        private int buttonColor;
-
+        /*===========setMessage(String... args)========setMessage(List<String> args)使用其中一个就可以了======================================*/
         public Builder setMessage(String... args) {
-            Message = args;
+            if (datas == null) datas = new ArrayList<>();
+            datas.clear();
+            if (args != null) {
+                for (int i = 0; i < args.length; i++) {
+                    datas.add(args[i]);
+                }
+            }
             return this;
         }
 
         public Builder setMessage(List<String> args) {
-            this.args = args;
+            if (datas == null) datas = new ArrayList<>();
+            datas.clear();
+            if (args != null) datas.addAll(args);
+            return this;
+        }
+
+        /*===========setMessageColor(int...messageColor)========setMessageColor(int messageColor)使用其中一个就可以了======================================*/
+        public Builder setMessageColor(int... messageColor) {
+            if (colors == null) colors = new ArrayList<>();
+            colors.clear();
+            for (int i = 0; i < messageColor.length; i++) {
+                colors.add(messageColor[i]);
+            }
             return this;
         }
 
         public Builder setMessageColor(int messageColor) {
-            this.messageColor = messageColor;
+            if (colors == null) colors = new ArrayList<>();
+            colors.clear();
+            colors.add(messageColor);
             return this;
         }
 
@@ -126,19 +149,12 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         }
 
         public SelectDialogFragment Build() {
-            datas = new ArrayList<>();
-            if (args != null) datas.addAll(args);
 
-            else if (Message != null) {
-                for (int i = 0; i < Message.length; i++) {
-                    datas.add(Message[i]);
-                }
-            }
             SelectDialogFragment fragment = new SelectDialogFragment();
             Bundle bundle = new Bundle();
-            bundle.putStringArrayList("datas",datas);
-            bundle.putInt("messageColor",messageColor);
-            bundle.putInt("buttonColor",buttonColor);
+            bundle.putStringArrayList("datas", datas);
+            bundle.putIntegerArrayList("messageColor", colors);
+            bundle.putInt("buttonColor", buttonColor);
             fragment.setArguments(bundle);
             return fragment;
         }
@@ -146,9 +162,9 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
 
     class selectDialogAdapter extends BasicAdapter<String> {
 
-        private int messageColor;
+        private ArrayList<Integer> messageColor;
 
-        public selectDialogAdapter(Context context, List<String> datas, int messageColor) {
+        public selectDialogAdapter(Context context, List<String> datas, ArrayList<Integer> messageColor) {
             super(context, datas);
             this.messageColor = messageColor;
         }
@@ -158,7 +174,19 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             ViewHolder holder = ViewHolder.get(context, convertView, parent, R.layout.select_dialog_item, position);
             TextView item = holder.getView(R.id.select_dialog_listview_item);
             item.setText(datas.get(position));
-            //item.setTextColor(messageColor);
+
+            /*这种情况是 为每一个 message btn指定一个颜色 messageColor的大小 就会跟datas集合大小一样*/
+            int size = messageColor.size();
+            if (messageColor != null && size >= datas.size()) {
+                item.setTextColor(context.getResources().getColor(messageColor.get(position)));
+
+                /*下面这 种情况是 为 message btn指定一个颜色 messageColor的大小 就会小于datas集合大小
+                * 这种情况超过messageColor的大小的位置 会使用默认颜色 */
+            } else if (messageColor != null && size <=datas.size()) {
+                if (position < size)
+                    item.setTextColor(context.getResources().getColor(messageColor.get(position)));
+            }
+
             return holder.getConvertView();
         }
     }

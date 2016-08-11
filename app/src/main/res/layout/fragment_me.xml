@@ -104,6 +104,7 @@
             android:text="@string/fm_me_login_out"
             android:textColor="#f21"
             android:gravity="center"
+            android:drawableRight="@null"
             android:background="@drawable/bg_item_text_ripple"
             />
     </LinearLayout>

@@ -172,9 +172,12 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
-        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+        <!--如果 不要 上下滑入式动画  去掉下面这句话-->
+        <item name="android:windowAnimationStyle">@style/Select_dialog_windowAnimationStyle</item>
         <item name="android:background">@android:color/transparent</item>
-
     </style>
+   <style name="Select_dialog_windowAnimationStyle">
+       <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+       <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+   </style>
 </resources>

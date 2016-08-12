@@ -160,4 +160,19 @@
         <attr name="draw_right_redPoint" format="boolean"></attr>
     </declare-styleable>
 
+
+    <declare-styleable name="InputLayout">
+        <!--Edittext text-->
+        <attr name="inputLayout_text" format="string" />
+        <!--Edittext hint-->
+        <attr name="inputLayout_texthint" format="string" />
+        <!--左侧TextView text-->
+        <attr name="label_text" format="string" />
+        <!--是否显示右侧 ">"-->
+        <attr name="next" format="boolean" />
+        <!--是否绘制下划线-->
+        <attr name="bottom_line" format="boolean" />
+    </declare-styleable>
+
+
 </resources>

@@ -23,14 +23,12 @@ public class MainActivity extends BaseCompactActivity implements android.widget.
     protected void setUpContentView() {
         setContentView(R.layout.activity_main, -1, -1, MODE_NONE);
 //        RadioGroup = (android.widget.RadioGroup) findViewById(R.id.RadioGroup);
-
-        showFragment(R.id.tab_business);
-        RadioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
     protected void setUpView() {
-
+        showFragment(R.id.tab_business);
+        RadioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override

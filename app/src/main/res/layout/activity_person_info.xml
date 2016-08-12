@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#f1f1f1">
+
+    <RelativeLayout
+       android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_item_text_ripple"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:textColor="#000000"
+            android:text="@string/per_info_avart"/>
+
+        <com.ishow.ischool.widget.custom.CircleImageView
+            android:id="@+id/person_info_avart"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:src="@mipmap/ic_launcher"/>
+    </RelativeLayout>
+
+    <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/person_info_name"
+        style="@style/activity_person_info"
+        android:text="@string/per_info_xingming"
+        app:draw_bottom_line="true"
+        app:draw_bottom_line_color="@android:color/darker_gray"
+        app:tip_right_color="@android:color/darker_gray"
+        app:draw_bottom_line_padding="8"
+        app:tip_right_padding="8"
+        />
+
+    <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/person_info_phone"
+        style="@style/activity_person_info"
+
+        app:draw_bottom_line_color="@android:color/darker_gray"
+        app:tip_right_color="@android:color/darker_gray"
+        app:tip_right_padding="8"
+        android:layout_marginTop="0dp"
+        android:text="@string/per_info_phone"
+        />
+
+    <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/person_info_birthday"
+        style="@style/activity_person_info"
+        android:text="@string/per_info_birthday"
+        android:drawableRight="@mipmap/icon_list_next"
+        app:draw_bottom_line="true"
+        app:draw_bottom_line_color="@android:color/darker_gray"
+        app:tip_right_color="@android:color/darker_gray"
+        app:draw_bottom_line_padding="8"
+        app:tip_right_padding="8"
+        />
+
+    <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/person_info_QQ"
+        style="@style/activity_person_info"
+        android:text="@string/per_info_QQ"
+        app:draw_bottom_line_color="@android:color/darker_gray"
+        app:tip_right_color="@android:color/darker_gray"
+        app:tip_right_padding="8"
+        android:layout_marginTop="0dp"
+        />
+</LinearLayout>

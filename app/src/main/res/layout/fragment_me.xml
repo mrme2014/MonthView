@@ -1,12 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
+    android:background="#f1f1f1"
+    android:orientation="vertical"
+    android:scrollbars="none">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="me" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <!--顶部个人头像 姓名 布局-->
+        <RelativeLayout
+            android:id="@+id/fm_me_header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@android:color/holo_blue_light">
+
+            <com.ishow.ischool.widget.custom.CircleImageView
+                android:id="@+id/fm_me_header_avart"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/fm_me_header_name"
+                style="@style/fragment_textview_Wwrap_Hwrap"
+                android:layout_below="@+id/fm_me_header_avart"
+                android:text="颜文字"
+                />
+
+            <TextView
+                android:id="@+id/fm_me_header_job"
+                style="@style/fragment_textview_Wwrap_Hwrap"
+                android:layout_below="@+id/fm_me_header_name"
+                android:text="杭州校区 晨读讲师"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_switch_campus"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_switch"
+            android:text="@string/fm_me_switch_campus"
+            app:draw_bottom_line="true"
+            app:draw_bottom_line_color="@android:color/darker_gray"
+            app:tip_right_color="@android:color/darker_gray"
+            app:draw_bottom_line_padding="45"
+            app:tip_right_padding="20"
+            />
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_switch_role"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_switch"
+            android:text="@string/fm_me_switch_role"
+            android:layout_marginTop="0dp"
+            app:tip_right_color="@android:color/darker_gray"
+            app:tip_right_padding="20"
+            />
+
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_notify_msg"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_message"
+            android:text="@string/fm_me_notify_msg"
+            app:draw_right_redPoint="true"
+            app:tip_right_color="@android:color/holo_red_light"
+            app:tip_right_padding="20"
+            />
+
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_mornig_qrcode"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_code"
+            android:text="@string/fm_me_mornig_qrcode"
+            />
+
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_change_pwd"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_changepassword"
+            android:text="@string/fm_me_change_pwd"
+            />
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_kefu"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_service"
+            android:text="@string/fm_me_kefu"
+            />
+
+        <Button
+            android:id="@+id/fm_me_login_out"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:text="@string/fm_me_login_out"
+            android:textColor="#f21"
+            android:gravity="center"
+            android:drawableRight="@null"
+            android:background="@drawable/bg_item_text_ripple"
+            />
+    </LinearLayout>
+</ScrollView>

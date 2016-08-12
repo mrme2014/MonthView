@@ -87,16 +87,16 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <!--wheelView-->
+    <!--wheelView--><!--<item name="firstLineAndSecondLineSpace">120dp</item>-->
     <style name="wheelViewStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="itemNumber">3</item>
-        <item name="lineColor">@color/theme</item>
+        <item name="lineColor">@color/green</item>
         <item name="bottomLineColor">#f1f1f1</item>
         <item name="lineHeight">1dp</item>
-        <item name="firstLineAndSecondLineSpace">10dp</item>
+
         <item name="maskHight">36dp</item>
         <item name="noEmpty">true</item>
         <item name="normalTextColor">#999999</item>
@@ -128,4 +128,60 @@
         <item name="android:background">@drawable/selector_btn_blue_bg</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
+    <!--fragment_me  item的 宽匹配父窗体高45统一风格-->
+    <style name="fragment_textview_Wmatch_45height">
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#666666</item>
+        <item name="android:drawableRight">@mipmap/icon_list_next</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <!--fragment_me header中textview 宽高自适应统一风格-->
+    <style name="fragment_textview_Wwrap_Hwrap" >
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxWidth">120dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!--个人资料的itemstyle-->
+    <style name="activity_person_info" parent="fragment_textview_Wwrap_Hwrap">
+        <item name="android:textColor">#333333</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:drawableRight">@null</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <!--底部弹出dialog的方式-->
+    <style name="Select_dialog"  parent="android:style/Theme.Translucent">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--如果 不要 上下滑入式动画  去掉下面这句话-->
+        <item name="android:windowAnimationStyle">@style/Select_dialog_windowAnimationStyle</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+   <style name="Select_dialog_windowAnimationStyle">
+       <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+       <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+   </style>
 </resources>

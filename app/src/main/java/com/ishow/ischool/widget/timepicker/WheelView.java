@@ -220,6 +220,7 @@ public class WheelView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        firstLineAndSecondLineSpace = 360;
         controlWidth = getWidth();
         if (controlWidth != 0) {
             setMeasuredDimension(getWidth(), itemNumber * unitHeight);

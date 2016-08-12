@@ -10,7 +10,6 @@ import com.ishow.ischool.common.base.view.IView;
 public class BasePresenter<V extends IView> implements IPresenter<V> {
 
     public V view;
-
     public BasePresenter(V view) {
         this.view = view;
     }
@@ -23,4 +22,5 @@ public class BasePresenter<V extends IView> implements IPresenter<V> {
     public void destroy() {
         view = null;
     }
+
 }

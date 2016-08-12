@@ -5,10 +5,8 @@ import android.os.Message;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.TokenManager;
-
 public class SplashActivity extends BaseCompactActivity {
 
     public static final int WHAT_MAIN = 1;
@@ -32,9 +30,14 @@ public class SplashActivity extends BaseCompactActivity {
         }
     };
 
+
+    private void gotoMainActivity() {
+       startActivity(LoginActivity.class);
+    }
+
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_splash,MODE_NONE,MODE_NONE,MODE_NONE);
     }
 
     @Override

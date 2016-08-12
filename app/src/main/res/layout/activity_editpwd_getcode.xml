@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<include layout="@layout/widget_toolbar"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <EditText
+            android:id="@+id/getcode_phone"
+            style="@style/edit_white_bg"
+            android:hint="@string/input_phone"
+            />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:text="获取验证码"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sp12"
+            android:gravity="center"
+            android:background="@drawable/bg_btn_corner"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e1e1e1"/>
+
+    <EditText
+        android:id="@+id/getcode_smscode"
+        style="@style/edit_white_bg"
+        android:hint="@string/input_smscode"
+        />
+
+    <TextView
+        android:id="@+id/submit_tv"
+        style="@style/btn_green_cor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/submit" />
+</LinearLayout>

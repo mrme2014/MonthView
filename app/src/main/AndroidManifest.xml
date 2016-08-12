@@ -28,9 +28,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialDesign">
-        <activity android:name=".activity.MainActivity">
 
-        </activity>
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +36,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.LoginActivity" />
+
+        <activity android:name=".activity.MainActivity"/>
+
+        <activity android:name=".activity.LoginActivity" />
+
+        <activity android:name=".activity.ForgetPwdActivity1" />
+
+        <activity android:name=".activity.ForgetPwdActivity2" />
+
+        <activity android:name=".activity.EditPwdActivity" />
+
+        <activity android:name=".activity.MorningReadActivity" />
 
         <!-- 百度定位 -->
         <meta-data

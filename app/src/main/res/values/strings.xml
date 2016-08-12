@@ -9,7 +9,15 @@
     <string name="tab_business">业务</string>
     <string name="tab_me">我</string>
     <string name="submit">提交</string>
-
+    <string name="old_pwd_hnit">请输入旧密码</string>
+    <string name="new_pwd_hnit">请输入新密码</string>
+    <string name="new_pwd_hnit_again">请确认新密码</string>
+    <string name="input_phone">请输入手机号</string>
+    <string name="input_smscode">请输入验证码</string>
+    <string name="eidt_pwd_title_getcode">找回密码</string>
+    <string name="eidt_pwd_title_newpwd">设置新密码</string>
+    <string name="edit_pwd">修改密码</string>
+    <string name="morning_read_qrcode_title">晨读二维码</string>
     <!--时间滑轮 头部时间显示格式-->
     <string name="picker_title">%1$s年%2$s月%3$s日</string>
 
@@ -100,4 +108,17 @@
         <item>硕士</item>
         <item>其它</item>
     </array>
+
+
+    <!-- 添加学员 -->
+    <string name="item_name">姓名</string>
+    <string name="item_phone">联系电话</string>
+    <string name="item_qq">QQ/微信</string>
+    <string name="item_school">就读学校</string>
+    <string name="item_major">专业</string>
+    <string name="span_business_info">业务信息</string>
+    <string name="item_campus">所属校区</string>
+    <string name="item_from">来源</string>
+    <string name="item_reference">推荐人</string>
+    <string name="item_remark">备注</string>
 </resources>

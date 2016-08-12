@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:input="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp">
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_name"
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_name"
+        input:inputLayout_texthint="请输入学员姓名（必填）" />
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_phone"
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_phone"
+        input:inputLayout_texthint="请输入学员电话（必填）"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_qq"
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_qq"
+        input:inputLayout_texthint="请输入学员QQ/微信"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_school"
+        input:inputLayout_texthint="请选择学员就读学校（必填）"
+        input:next="true"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_major"
+        input:inputLayout_texthint="请输入学员就读专业（必填）"
+        input:bottom_line="false"/>
+
+    <include layout="@layout/view_bottom_line"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/span_business_info"
+        android:layout_marginTop="20dp"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_campus"
+        input:inputLayout_texthint="请输入学员所属校区（必填）"
+        input:next="true"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_from"
+        input:inputLayout_texthint="请选择学员来源（必填）"
+        input:next="true"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_reference"
+        input:inputLayout_texthint="请选择推荐人"
+        input:next="true"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        style="@style/input_linearLayout_style"
+        input:label_text="@string/item_campus"
+        input:inputLayout_texthint="请填写备注信息"
+        input:bottom_line="false"/>
+
+    <include layout="@layout/view_bottom_line"/>
+</LinearLayout>

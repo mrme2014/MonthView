@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
-import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
+
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.presenter.LoginPresenter;
 import com.ishow.ischool.view.ILoginView;
@@ -27,7 +27,7 @@ public class LoginActivity extends BaseCompactActivity<LoginPresenter> implement
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login,MODE_NONE,MODE_NONE,MODE_NONE);
     }
 
     @Override
@@ -49,17 +49,27 @@ public class LoginActivity extends BaseCompactActivity<LoginPresenter> implement
     void onLogin() {
         String username = usernameEt.getText().toString();
         String passwd = passwdEt.getText().toString();
+
+        handProgressbar(true);
         mPresenter.login(username, passwd);
     }
 
     @Override
     public void loginSuccess(User user) {
+
+        handProgressbar(false);
+
         JumpManager.jumpActivity(this, MainActivity.class);
         finish();
+
     }
 
     @Override
     public void loginError(String msg) {
+
+        handProgressbar(false);
+
         showToast(msg);
+
     }
 }

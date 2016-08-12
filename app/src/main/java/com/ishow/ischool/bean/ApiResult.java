@@ -47,8 +47,7 @@ public class ApiResult<T> {
     }
 
     public T getResultList() {
-        Type type1 = new TypeToken<List<T>>() {
-        }.getType();
+        Type type1 = new TypeToken<List<T>>() {}.getType();
         Gson gson = new Gson();
         try {
             return gson.fromJson(result, type1);

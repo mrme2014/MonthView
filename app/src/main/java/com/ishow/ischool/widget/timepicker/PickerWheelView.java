@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class WLQQTimePicker extends LinearLayout {
+public class PickerWheelView extends LinearLayout {
     public static final String PICKED_TIME_EXT = "picked_time";
     private static final int UPDATE_TITLE_MSG = 0x111;
     private static final int UPDATE_WHEEL = 0x112;
@@ -95,11 +95,11 @@ public class WLQQTimePicker extends LinearLayout {
 
     private Context mContext;
 
-    public WLQQTimePicker(Context context) {
+    public PickerWheelView(Context context) {
         this(context, null);
     }
 
-    public WLQQTimePicker(Context context, AttributeSet attrs) {
+    public PickerWheelView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -116,6 +116,8 @@ public class WLQQTimePicker extends LinearLayout {
         mWheelYear.setOnSelectListener(mYearListener);
         mWheelMonth.setOnSelectListener(mMonthListener);
         mWheelDay.setOnSelectListener(mDayListener);
+
+
     }
 
     private void updateDay(int month) {

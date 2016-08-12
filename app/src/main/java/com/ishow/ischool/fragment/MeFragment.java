@@ -2,6 +2,7 @@ package com.ishow.ischool.fragment;
 
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
@@ -70,7 +71,7 @@ public class MeFragment extends BaseFragment {
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
     private void on_fm_me_notify_msg_click() {
-
+        Toast.makeText(getContext(),"dsfsdfsd",Toast.LENGTH_SHORT).show();
     }
 
     /*晨读二维码*/

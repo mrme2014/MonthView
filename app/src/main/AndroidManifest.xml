@@ -38,13 +38,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LocActivity" />
+        <activity android:name=".activity.LoginActivity" />
 
         <!-- 百度定位 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="TXVjAR7cHjGmZa2VI4nPA59jV9d0MwoP" />
-        //key:开发者申请的key
+        <!--//key:开发者申请的key-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

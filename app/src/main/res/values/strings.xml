@@ -46,8 +46,11 @@
     <string name="per_info_birthday">生日</string>
     <string name="per_info_QQ">QQ</string>
     <string name="per_info_phone">手机号</string>
-
-
+    <string name="passwd_label">密码</string>
+    <string name="passwd_hint">请输入密码</string>
+    <string name="username_hint">请输入手机号</string>
+    <string name="forget_passwd">忘记密码?</string>
+    <string name="login">登录</string>
 
 
     <!--下面都是选择条件 或者筛选条件固定的  -->

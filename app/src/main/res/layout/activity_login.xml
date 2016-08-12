@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,30 +8,45 @@
     tools:context="com.ishow.ischool.activity.LoginActivity">
 
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="200dp"
         android:gravity="center"
-        android:text="@string/login_crm"
-        android:textSize="@dimen/sp25" />
+        android:scaleType="fitXY" />
 
-    <EditText
+    <com.commonlib.widget.LabelEditText
         android:id="@+id/username_et"
+        style="@style/login_edittext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></EditText>
+        android:layout_height="wrap_content"
+        android:hint="@string/username_hint"
+        android:paddingLeft="60dp"
+        app:label_text="@string/username_label" />
 
-    <EditText
+    <com.commonlib.widget.LabelEditText
         android:id="@+id/passwd_et"
+        style="@style/login_edittext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="@string/passwd_hint"
+        app:label_text="@string/passwd_label" />
 
     <TextView
         android:id="@+id/submit_tv"
         style="@style/btn_blue_cor"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
         android:gravity="center"
-        android:text="@string/submit" />
+        android:text="@string/login" />
+
+    <TextView
+        android:id="@+id/forget_passwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/forget_passwd" />
 
 </LinearLayout>

@@ -11,7 +11,6 @@ import com.ishow.ischool.presenter.LoginPresenter;
 import com.ishow.ischool.view.ILoginView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseCompactActivity<LoginPresenter> implements ILoginView {
@@ -33,7 +32,6 @@ public class LoginActivity extends BaseCompactActivity<LoginPresenter> implement
 
     @Override
     protected void setUpView() {
-        ButterKnife.bind(this);
     }
 
     @Override

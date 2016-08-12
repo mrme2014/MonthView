@@ -17,4 +17,5 @@
     <color name="blue">#538DEC</color>
     <color name="blue_press">#5799CD</color>
     <color name="gray">#EFEFEF</color>
+    <color name="text_3">#333333</color>
 </resources>

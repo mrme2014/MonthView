@@ -33,10 +33,12 @@ import butterknife.Unbinder;
  */
 public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
 
+    public int userPermission;
+
     public P mPresenter;
 
     private static final int PERMISSION_CODE = 100;//权限申请默认的request_code
-    private String permission;//当前正在申请的那一条权限
+    private String appPermission;//当前正在申请的那一条权限
 
     protected Toolbar mToolbar;
     protected TextView mToolbarTitle;
@@ -224,7 +226,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     }
 
     public void checkPermission(String permission, checkPermissionListner l) {
-        this.permission = permission;
+        this.appPermission = permission;
         this.listner = l;
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_CODE);
@@ -243,18 +245,18 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100 && permissions[0].equals(permission) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 100 && permissions[0].equals(appPermission) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (listner != null)
                 listner.PERMISSION_GRANTED();
         } else {
 
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, appPermission)) {
                 String tips = null;
-                if (TextUtils.equals(permission, Manifest.permission_group.PHONE))
+                if (TextUtils.equals(appPermission, Manifest.permission_group.PHONE))
                     tips = getString(R.string.permisson_quanxian_call);
-                else if (TextUtils.equals(permission, Manifest.permission_group.STORAGE))
+                else if (TextUtils.equals(appPermission, Manifest.permission_group.STORAGE))
                     tips = getString(R.string.permisson_quanxian_call);
-                else if (TextUtils.equals(permission, Manifest.permission_group.CONTACTS))
+                else if (TextUtils.equals(appPermission, Manifest.permission_group.CONTACTS))
                     tips = getString(R.string.permisson_quanxian_connact);
                 AlertDialog dialog = new AlertDialog.Builder(this)
                         .setMessage(tips)

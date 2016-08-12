@@ -9,8 +9,9 @@ import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 import com.ishow.ischool.common.base.view.impl.BaseFragment;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
-import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,13 +65,13 @@ public class MeFragment extends BaseFragment {
 
     /*角色切换*/
     @OnClick(R.id.fm_me_switch_role)
-    private void on_fm_me_switch_role_click() {
+    void on_fm_me_switch_role_click() {
 //        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
 //        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
 //        dialog.show(getChildFragmentManager());
 
         PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.renderPanel(1, 3, null);
+        pop.renderPanel(1, 3, new ArrayList<String>());
         pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
     }
 

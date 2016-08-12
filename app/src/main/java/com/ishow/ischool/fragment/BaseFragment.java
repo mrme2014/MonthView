@@ -1,5 +1,6 @@
-package com.ishow.ischool.common.base.view.impl;
+package com.ishow.ischool.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -78,6 +79,16 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         showToast(getString(stringId));
     }
 
+    private ProgressDialog dialog;
+    public void handProgressbar(boolean show) {
+        if (show) {
+            if (dialog == null) {
+                dialog = new ProgressDialog(getContext());
+                dialog.setMessage("request server...");
+            }
+            dialog.show();
+        } else if (!show && dialog != null) dialog.dismiss();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

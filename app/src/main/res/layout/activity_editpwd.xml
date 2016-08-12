@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/widget_toolbar"></include>
+    <EditText
+        android:id="@+id/old_pwd"
+        style="@style/edit_white_bg"
+        android:hint="@string/old_pwd_hnit"
+        android:text="13512341234">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/new_pwd"
+        style="@style/edit_white_bg"
+        android:hint="@string/new_pwd_hnit"
+        android:text="qq123456/"/>
+
+    <EditText
+        android:id="@+id/new_pwd_again"
+        style="@style/edit_white_bg"
+        android:hint="@string/new_pwd_hnit_again"
+        android:text="qq123456/"/>
+
+    <TextView
+        android:id="@+id/submit_tv"
+        style="@style/btn_green_cor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/submit" />
+</LinearLayout>

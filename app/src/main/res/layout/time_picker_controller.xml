@@ -3,5 +3,7 @@
     android:orientation="horizontal"
     android:id="@+id/PickerWheelViewLinearlayout"
     android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
     android:layout_height="match_parent">
 </com.ishow.ischool.widget.pickerview.PickerWheelViewLinearlayout>

@@ -1,12 +1,10 @@
 package com.ishow.ischool.fragment;
 
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.impl.BaseFragment;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
@@ -20,18 +18,16 @@ import butterknife.OnClick;
 public class MeFragment extends BaseFragment {
 
     @BindView(R.id.fm_me_header_avart)
-    CircleImageView fmMeHeaderAvart;
+    public  CircleImageView fmMeHeaderAvart;
     @BindView(R.id.fm_me_header_name)
-    TextView fmMeHeaderName;
+    public TextView fmMeHeaderName;
     @BindView(R.id.fm_me_header_job)
-    TextView fmMeHeaderJob;
+    public TextView fmMeHeaderJob;
 
-    @BindView(R.id.fm_me_switch_campus)
-    FmItemTextView fmMeSwitchCampus;
     @BindView(R.id.fm_me_switch_role)
-    FmItemTextView fmMeSwitchRole;
+    public FmItemTextView fmMeSwitchRole;
     @BindView(R.id.fm_me_notify_msg)
-    FmItemTextView fmMeNotifyMsg;
+    public FmItemTextView fmMeNotifyMsg;
 
     @Override
     public int getLayoutId() {
@@ -40,13 +36,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void setUpView() {
-        fmMeSwitchRole = (FmItemTextView) rootView.findViewById(R.id.fm_me_switch_role);
-        fmMeSwitchRole.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                on_fm_me_switch_role_click();
-            }
-        });
+
     }
 
     @Override
@@ -57,13 +47,13 @@ public class MeFragment extends BaseFragment {
 
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
-    void on_fm_me_header_layout_click() {
+    public void on_fm_me_header_layout_click() {
 
     }
 
     /*角色切换*/
     @OnClick(R.id.fm_me_switch_role)
-    void on_fm_me_switch_role_click() {
+    public void on_fm_me_switch_role_click() {
 //        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
 //        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
 //        dialog.show(getChildFragmentManager());
@@ -75,31 +65,31 @@ public class MeFragment extends BaseFragment {
 
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
-    void on_fm_me_notify_msg_click() {
+    public void on_fm_me_notify_msg_click() {
 
     }
 
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
-    void on_fm_me_mornig_qrcode_click() {
+   public void on_fm_me_mornig_qrcode_click() {
 
     }
 
     /*修改密码*/
     @OnClick(R.id.fm_me_change_pwd)
-    void on_fm_me_change_pwd_click() {
+    public void on_fm_me_change_pwd_click() {
 
     }
 
     /*客服*/
     @OnClick(R.id.fm_me_kefu)
-    void on_fm_me_kefu_click() {
+    public void on_fm_me_kefu_click() {
 
     }
 
     /*退出*/
     @OnClick(R.id.fm_me_login_out)
-    void on_fm_me_login_out_click() {
+    public void on_fm_me_login_out_click() {
 
     }
 

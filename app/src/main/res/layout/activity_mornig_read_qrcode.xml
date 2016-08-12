@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_corner"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <com.ishow.ischool.widget.custom.CircleImageView
+            android:id="@+id/qrcode_avart"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+        android:id="@+id/qrcode_name"
+        style="@style/fragment_textview_Wwrap_Hwrap"
+        android:text="张小小"
+        android:layout_toRightOf="@+id/qrcode_avart"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:textColor="#333333"/>
+
+        <TextView
+            android:id="@+id/qrcode_job"
+            style="@style/fragment_textview_Wwrap_Hwrap"
+            android:text="晨读讲师"
+            android:layout_toRightOf="@+id/qrcode_avart"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="33dp"
+            android:textColor="#999999"/>
+        <ImageView
+            android:id="@+id/qrcode_code"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/qrcode_job"
+            android:layout_marginTop="60dp"/>
+
+        <TextView
+            style="@style/fragment_textview_Wwrap_Hwrap"
+            android:text="扫我啊"
+            android:layout_below="@+id/qrcode_code"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="#999999"/>
+    </RelativeLayout>
+
+</LinearLayout>

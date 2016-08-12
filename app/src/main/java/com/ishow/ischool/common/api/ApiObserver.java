@@ -19,7 +19,6 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
     private Gson gson = new Gson();
     private Class<T> clazz;
     private Type type;
-
     public ApiObserver() {
     }
 
@@ -29,7 +28,9 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
 
     public ApiObserver(Type type) {
         this.type = type;
+
     }
+
 
     @Override
     public void onError(Throwable e) {
@@ -83,7 +84,6 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
 
     @Override
     public void onCompleted() {
-
     }
 
     /**

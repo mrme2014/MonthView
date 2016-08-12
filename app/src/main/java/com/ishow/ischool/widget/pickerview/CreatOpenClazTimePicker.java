@@ -1,4 +1,4 @@
-package com.ishow.ischool.widget.timepicker;
+package com.ishow.ischool.widget.pickerview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -449,7 +449,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
     };
     private WheelView.OnSelectListener mPeroidListner = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int day, String text) {
+        public void endSelect(WheelView wheelView,int day, String text) {
             if (day == 0) {
                 handler.sendEmptyMessage(2);
             } else {
@@ -465,7 +465,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
     private WheelView.OnSelectListener mWeekdayListener = new WheelView.OnSelectListener() {
 
         @Override
-        public void endSelect(int mWeekday, String text) {
+        public void endSelect(WheelView wheelView,int mWeekday, String text) {
             mWeekday_select = mWeekday;
         }
 
@@ -476,7 +476,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
     };
     private WheelView.OnSelectListener mHourListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int hour, String text) {
+        public void endSelect(WheelView wheelView,int hour, String text) {
             if (mclaz_time_be_start_hour) {
                 mclaz_time_start_hour = defalut_start_hour + hour;
             } else {
@@ -493,7 +493,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
 
     private WheelView.OnSelectListener mMinListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int min, String text) {
+        public void endSelect(WheelView wheelView,int min, String text) {
             if (mclaz_time_be_start_hour) {
                 mclaz_time_start_min = min;
             } else {
@@ -511,7 +511,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
 
 
         @Override
-        public void endSelect(int id, String text) {
+        public void endSelect(WheelView wheelView,int id, String text) {
            /*  if (mclaz_time_be_start_hour)
                mclaz_time_start_year = defalut_start_year - (openClazDateWeekday.getListSize() - id);
             else
@@ -527,7 +527,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
     private int mMonth;
     private WheelView.OnSelectListener mMonthListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int month, String text) {
+        public void endSelect(WheelView wheelView,int month, String text) {
             mMonth = month;
             handler.sendEmptyMessage(0);
 //            if (mclaz_time_be_start_hour) mclaz_time_start_month = mMonth;
@@ -540,7 +540,7 @@ public class CreatOpenClazTimePicker extends PopupWindow implements PopupWindow.
     };
     private WheelView.OnSelectListener mDayListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int day, String text) {
+        public void endSelect(WheelView wheelView,int day, String text) {
             mDay = day + 1;
             /*if (mclaz_time_be_start_hour) mclaz_time_start_day = mDay;
             else mclaz_time_end_day = mDay;*/

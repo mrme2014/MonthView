@@ -1,8 +1,8 @@
 package com.ishow.ischool.fragment;
 
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
@@ -10,6 +10,7 @@ import com.ishow.ischool.common.base.view.impl.BaseFragment;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,45 +58,49 @@ public class MeFragment extends BaseFragment {
 
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
-    private void on_fm_me_header_layout_click() {
+    void on_fm_me_header_layout_click() {
 
     }
 
     /*角色切换*/
     @OnClick(R.id.fm_me_switch_role)
     private void on_fm_me_switch_role_click() {
-        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
-        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
-        dialog.show(getChildFragmentManager());
+//        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
+//        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
+//        dialog.show(getChildFragmentManager());
+
+        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
+        pop.renderPanel(1, 3, null);
+        pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
     }
 
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
-    private void on_fm_me_notify_msg_click() {
-        Toast.makeText(getContext(),"dsfsdfsd",Toast.LENGTH_SHORT).show();
+    void on_fm_me_notify_msg_click() {
+
     }
 
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
-    private void on_fm_me_mornig_qrcode_click() {
+    void on_fm_me_mornig_qrcode_click() {
 
     }
 
     /*修改密码*/
     @OnClick(R.id.fm_me_change_pwd)
-    private void on_fm_me_change_pwd_click() {
+    void on_fm_me_change_pwd_click() {
 
     }
 
     /*客服*/
     @OnClick(R.id.fm_me_kefu)
-    private void on_fm_me_kefu_click() {
+    void on_fm_me_kefu_click() {
 
     }
 
     /*退出*/
     @OnClick(R.id.fm_me_login_out)
-    private void on_fm_me_login_out_click() {
+    void on_fm_me_login_out_click() {
 
     }
 

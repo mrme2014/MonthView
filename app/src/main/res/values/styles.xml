@@ -92,18 +92,17 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="itemNumber">3</item>
-        <item name="lineColor">@color/green</item>
+        <item name="itemNumber">4</item>
+        <item name="lineColor">#f1f1f1</item>
         <item name="bottomLineColor">#f1f1f1</item>
         <item name="lineHeight">1dp</item>
-
         <item name="maskHight">36dp</item>
         <item name="noEmpty">true</item>
         <item name="normalTextColor">#999999</item>
         <item name="normalTextSize">14sp</item>
-        <item name="selectedTextColor">#666666</item>
-        <item name="selectedTextSize">22sp</item>
-        <item name="unitHight">50dp</item>
+        <item name="selectedTextColor">#333333</item>
+        <item name="selectedTextSize">20sp</item>
+        <item name="unitHight">45dp</item>
     </style>
 
     <!--这个中间弹出方式  选择形式是 1.年月日  2.礼拜几 小时  分钟 3.时间段 小时  分钟-->
@@ -111,17 +110,17 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="itemNumber">5</item>
+        <item name="itemNumber">4</item>
         <item name="lineColor">#e1e1e1</item>
         <item name="bottomLineColor">@color/white</item>
         <item name="lineHeight">1px</item>
-        <item name="maskHight">40dp</item>
+        <item name="maskHight">35dp</item>
         <item name="noEmpty">true</item>
         <item name="normalTextColor">#cccccc</item>
         <item name="normalTextSize">12sp</item>
         <item name="selectedTextColor">#333333</item>
         <item name="selectedTextSize">16sp</item>
-        <item name="unitHight">50dp</item>
+        <item name="unitHight">45dp</item>
     </style>
 
     <style name="btn_blue_cor">

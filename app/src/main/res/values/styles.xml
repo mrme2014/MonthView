@@ -123,4 +123,9 @@
         <item name="selectedTextSize">16sp</item>
         <item name="unitHight">50dp</item>
     </style>
+
+    <style name="btn_blue_cor">
+        <item name="android:background">@drawable/selector_btn_blue_bg</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 </resources>

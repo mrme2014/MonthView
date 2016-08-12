@@ -154,6 +154,7 @@
         <attr name="input_type" format="integer"></attr>
         <attr name="top_padding" format="integer"></attr>
     </declare-styleable>
+
     <declare-styleable name="CommunicationRecordTextView">
         <attr name="should_draw_history" format="boolean"></attr>
     </declare-styleable>

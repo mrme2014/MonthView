@@ -2,13 +2,12 @@ package com.ishow.ischool.fragment;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.IView;
 import com.ishow.ischool.common.base.view.impl.BaseFragment;
 
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment{
+public class MeFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_me;
@@ -24,8 +23,4 @@ public class MeFragment extends BaseFragment{
         return null;
     }
 
-    @Override
-    public IView bindView() {
-        return null;
-    }
 }

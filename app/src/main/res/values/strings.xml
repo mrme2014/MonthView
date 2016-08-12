@@ -14,7 +14,6 @@
     <string name="picker_title">%1$s年%2$s月%3$s日</string>
 
 
-
     <!--这里是中弹框方式  选择 日期 时间 时间段 等格式的提示语 之后可能会改-->
     <string name="open_claz_time_picker_go">上课时间</string>
     <string name="open_claz_time_picker_off">下课时间</string>
@@ -30,11 +29,8 @@
     <string name="open_class_time_too_short">一节课的时间太短了</string>
     <string name="open_class_date_is_early">上课日期不等小于当前日期</string>
     <string name="open_claz_time_valitate_time_too_short">有效时间太短了</string>
-
-
-
-
-
+    <string name="login_crm">登录集体管理系统</string>
+    <string name="username_label">帐号</string>
 
 
     <!--下面都是选择条件 或者筛选条件固定的  -->

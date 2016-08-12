@@ -15,7 +15,7 @@ public class SpUtil {
     }
 
     public static SpUtil getInstance(Context context) {
-        mContext = context;
+        mContext = context.getApplicationContext();
         return LazyHolder.INSTANCE;
     }
 

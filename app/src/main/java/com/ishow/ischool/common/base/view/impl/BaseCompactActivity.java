@@ -33,7 +33,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public P mPresenter;
 
     private static final int PERMISSION_CODE = 100;//权限申请默认的request_code
-    private String permission ;//当前正在申请的那一条权限
+    private String permission;//当前正在申请的那一条权限
 
     protected Toolbar mToolbar;
     protected TextView mToolbarTitle;
@@ -73,7 +73,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
 
     @Override
     public void setContentView(int layoutResID) {
-        setContentView(layoutResID, -1, -1, MODE_BACK);
+        setContentView(layoutResID, -1, -1, MODE_NONE);
     }
 
     public void setContentView(int layoutResID, int titleResId) {

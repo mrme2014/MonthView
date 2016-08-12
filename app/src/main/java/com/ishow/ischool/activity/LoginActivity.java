@@ -1,12 +1,12 @@
 package com.ishow.ischool.activity;
 
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.presenter.LoginPresenter;
 import com.ishow.ischool.view.ILoginView;
 
@@ -48,7 +48,7 @@ public class LoginActivity extends BaseCompactActivity<LoginPresenter> implement
 
 
     @OnClick(R.id.submit_tv)
-    void onSubmit(View view) {
+    void onLogin() {
         String username = usernameEt.getText().toString();
         String passwd = passwdEt.getText().toString();
         mPresenter.login(username, passwd);
@@ -56,11 +56,12 @@ public class LoginActivity extends BaseCompactActivity<LoginPresenter> implement
 
     @Override
     public void loginSuccess(User user) {
-
+        JumpManager.jumpActivity(this, MainActivity.class);
+        finish();
     }
 
     @Override
     public void loginError(String msg) {
-
+        showToast(msg);
     }
 }

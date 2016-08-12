@@ -1,12 +1,7 @@
 package com.ishow.ischool.application;
 
-import android.app.Activity;
-
 import com.commonlib.application.BaseApplication;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
-
-import java.util.Stack;
+import com.ishow.ischool.common.manager.UserManager;
 
 /**
  * Created by MrS on 2016/7/1.
@@ -15,5 +10,10 @@ import java.util.Stack;
 public class CrmApplication extends BaseApplication {
 
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
+        UserManager.getInstance().init(this);
+    }
 }

@@ -55,45 +55,45 @@ public class MeFragment extends BaseFragment {
 
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
-    private void on_fm_me_header_layout_click() {
+    void on_fm_me_header_layout_click() {
 
     }
 
     /*角色切换*/
     @OnClick(R.id.fm_me_switch_role)
-    private void on_fm_me_switch_role_click() {
+    public void on_fm_me_switch_role_click() {
         SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
-        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
+        SelectDialogFragment dialog = builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent, R.color.green_press).Build();
         dialog.show(getChildFragmentManager());
     }
 
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
-    private void on_fm_me_notify_msg_click() {
+    void on_fm_me_notify_msg_click() {
 
     }
 
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
-    private void on_fm_me_mornig_qrcode_click() {
+    void on_fm_me_mornig_qrcode_click() {
 
     }
 
     /*修改密码*/
     @OnClick(R.id.fm_me_change_pwd)
-    private void on_fm_me_change_pwd_click() {
+    void on_fm_me_change_pwd_click() {
 
     }
 
     /*客服*/
     @OnClick(R.id.fm_me_kefu)
-    private void on_fm_me_kefu_click() {
+    void on_fm_me_kefu_click() {
 
     }
 
     /*退出*/
     @OnClick(R.id.fm_me_login_out)
-    private void on_fm_me_login_out_click() {
+    void on_fm_me_login_out_click() {
 
     }
 }

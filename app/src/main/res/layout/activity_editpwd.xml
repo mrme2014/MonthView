@@ -5,17 +5,26 @@
     <include layout="@layout/widget_toolbar"></include>
     <EditText
         android:id="@+id/old_pwd"
+        android:layout_marginTop="10dp"
         style="@style/edit_white_bg"
         android:hint="@string/old_pwd_hnit"
         android:text="13512341234">
 
     </EditText>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e1e1e1"/>
 
     <EditText
         android:id="@+id/new_pwd"
         style="@style/edit_white_bg"
         android:hint="@string/new_pwd_hnit"
         android:text="qq123456/"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e1e1e1"/>
 
     <EditText
         android:id="@+id/new_pwd_again"

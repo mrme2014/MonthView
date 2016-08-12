@@ -141,6 +141,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">left|center</item>
         <item name="android:textColorHint">#999999</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingLeft">10dp</item>
     </style>
 
     <!--fragment_me  item的 宽匹配父窗体高45统一风格-->

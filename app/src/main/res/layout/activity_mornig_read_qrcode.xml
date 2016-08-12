@@ -1,57 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_round_corner"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <com.ishow.ischool.widget.custom.CircleImageView
-            android:id="@+id/qrcode_avart"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@mipmap/ic_launcher"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
-        <TextView
-        android:id="@+id/qrcode_name"
-        style="@style/fragment_textview_Wwrap_Hwrap"
-        android:text="张小小"
-        android:layout_toRightOf="@+id/qrcode_avart"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="15dp"
-        android:textColor="#333333"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/bg_round_corner"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/qrcode_job"
+            android:id="@+id/qrcode_name"
             style="@style/fragment_textview_Wwrap_Hwrap"
-            android:text="晨读讲师"
-            android:layout_toRightOf="@+id/qrcode_avart"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="33dp"
-            android:textColor="#999999"/>
+            android:layout_marginTop="40dp"
+            android:text="张小小"
+            android:textColor="#333333" />
+
         <ImageView
             android:id="@+id/qrcode_code"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@mipmap/ic_launcher"
             android:layout_centerInParent="true"
-            android:layout_below="@+id/qrcode_job"
-            android:layout_marginTop="60dp"/>
+            android:layout_marginTop="40dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             style="@style/fragment_textview_Wwrap_Hwrap"
-            android:text="扫我啊"
             android:layout_below="@+id/qrcode_code"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:textColor="#999999"/>
-    </RelativeLayout>
+            android:layout_marginTop="15dp"
+            android:text="扫我啊"
+            android:textColor="#999999" />
+    </LinearLayout>
 
-</LinearLayout>
+    <com.ishow.ischool.widget.custom.CircleImageView
+        android:id="@+id/qrcode_avart"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/ic_launcher" />
+
+</FrameLayout>

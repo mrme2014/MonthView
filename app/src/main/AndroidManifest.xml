@@ -41,6 +41,14 @@
 
         <activity android:name=".activity.LoginActivity" />
 
+        <activity android:name=".activity.ForgetPwdActivity1" />
+
+        <activity android:name=".activity.ForgetPwdActivity2" />
+
+        <activity android:name=".activity.EditPwdActivity" />
+
+        <activity android:name=".activity.MorningReadActivity" />
+
         <!-- 百度定位 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

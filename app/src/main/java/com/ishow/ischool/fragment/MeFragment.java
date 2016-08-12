@@ -4,7 +4,10 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.activity.EditPwdActivity;
+import com.ishow.ischool.activity.MorningReadActivity;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
@@ -72,13 +75,13 @@ public class MeFragment extends BaseFragment {
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
    public void on_fm_me_mornig_qrcode_click() {
-
+        JumpManager.jumpActivity(getContext(), MorningReadActivity.class);
     }
 
     /*修改密码*/
     @OnClick(R.id.fm_me_change_pwd)
     public void on_fm_me_change_pwd_click() {
-
+        JumpManager.jumpActivity(getContext(), EditPwdActivity.class);
     }
 
     /*客服*/

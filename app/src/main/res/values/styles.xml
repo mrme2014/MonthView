@@ -87,16 +87,16 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <!--wheelView-->
+    <!--wheelView--><!--<item name="firstLineAndSecondLineSpace">120dp</item>-->
     <style name="wheelViewStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="itemNumber">3</item>
-        <item name="lineColor">@color/theme</item>
+        <item name="lineColor">@color/green</item>
         <item name="bottomLineColor">#f1f1f1</item>
         <item name="lineHeight">1dp</item>
-        <item name="firstLineAndSecondLineSpace">10dp</item>
+
         <item name="maskHight">36dp</item>
         <item name="noEmpty">true</item>
         <item name="normalTextColor">#999999</item>
@@ -124,6 +124,10 @@
         <item name="unitHight">50dp</item>
     </style>
 
+    <style name="btn_blue_cor">
+        <item name="android:background">@drawable/selector_btn_blue_bg</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 
     <!--fragment_me  item的 宽匹配父窗体高45统一风格-->
     <style name="fragment_textview_Wmatch_45height">

@@ -17,6 +17,7 @@ import butterknife.OnClick;
  * Created by abel on 16/8/8.
  */
 public class MeFragment extends BaseFragment {
+
     @BindView(R.id.fm_me_header_avart)
     CircleImageView fmMeHeaderAvart;
     @BindView(R.id.fm_me_header_name)
@@ -96,4 +97,5 @@ public class MeFragment extends BaseFragment {
     void on_fm_me_login_out_click() {
 
     }
+
 }

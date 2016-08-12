@@ -13,4 +13,8 @@
     <color name="green">#20af1f</color>
     <color name="theme">#20af1f</color>
     <color name="green_press">#47a657</color>
+
+    <color name="blue">#538DEC</color>
+    <color name="blue_press">#5799CD</color>
+    <color name="gray">#EFEFEF</color>
 </resources>

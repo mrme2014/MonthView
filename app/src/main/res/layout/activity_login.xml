@@ -7,10 +7,17 @@
     tools:context="com.ishow.ischool.activity.LoginActivity">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:gravity="center"
+        android:text="@string/login_crm"
+        android:textSize="@dimen/sp25" />
+
     <EditText
         android:id="@+id/username_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"></EditText>
 
     <EditText
         android:id="@+id/passwd_et"
@@ -19,8 +26,10 @@
 
     <TextView
         android:id="@+id/submit_tv"
+        style="@style/btn_blue_cor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:text="@string/submit" />
 

@@ -23,4 +23,5 @@ public class BusinessFragment extends BaseFragment {
     public BasePresenter bindPresenter() {
         return null;
     }
+
 }

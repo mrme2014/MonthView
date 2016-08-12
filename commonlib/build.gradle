@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
+
 
 android {
     compileSdkVersion 23
@@ -33,10 +33,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.wang.avi:library:1.0.1'
     compile 'com.facebook.fresco:fresco:0.8.+'
-
-    // butterknife:8.2.1
-    compile 'com.jakewharton:butterknife:8.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
 
     // retrofit
     compile 'io.reactivex:rxjava:1.1.6'

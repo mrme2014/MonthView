@@ -123,6 +123,10 @@
         <item name="unitHight">45dp</item>
     </style>
 
+    <style name="btn_blue_cor">
+        <item name="android:background">@drawable/selector_btn_blue_bg</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 
     <!--fragment_me  item的 宽匹配父窗体高45统一风格-->
     <style name="fragment_textview_Wmatch_45height">

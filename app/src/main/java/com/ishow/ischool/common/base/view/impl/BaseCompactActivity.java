@@ -25,6 +25,9 @@ import com.commonlib.application.ActivityStackManager;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by MrS on 2016/7/20.
  */
@@ -42,6 +45,8 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public static final int MODE_DRAWER = 1;
     public static final int MODE_HOME = 2;      //
 
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
         initEnv();
         setUpContentView();
 
+        unbinder = ButterKnife.bind(this);
         mPresenter = bindPresenter();
 
         setUpView();
@@ -213,6 +219,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
         if (getPresenter() != null) {
             getPresenter().destroy();
         }
+        unbinder.unbind();
         ActivityStackManager.getInstance().popActivity(this);
     }
 

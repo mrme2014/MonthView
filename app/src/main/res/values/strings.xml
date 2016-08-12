@@ -105,4 +105,17 @@
         <item>硕士</item>
         <item>其它</item>
     </array>
+
+
+    <!-- 添加学员 -->
+    <string name="item_name">姓名</string>
+    <string name="item_phone">联系电话</string>
+    <string name="item_qq">QQ/微信</string>
+    <string name="item_school">就读学校</string>
+    <string name="item_major">专业</string>
+    <string name="span_business_info">业务信息</string>
+    <string name="item_campus">所属校区</string>
+    <string name="item_from">来源</string>
+    <string name="item_reference">推荐人</string>
+    <string name="item_remark">备注</string>
 </resources>

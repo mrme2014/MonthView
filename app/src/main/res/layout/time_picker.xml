@@ -11,7 +11,6 @@
         android:id="@+id/picker_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#f1f1f1"
         android:gravity="center"
         android:text="@string/picker_title"
         android:textColor="@color/color_header"
@@ -19,7 +18,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="#DADADA" />
 
     <LinearLayout
@@ -27,19 +26,19 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:background="#f1f1f1"
+
         android:orientation="horizontal">
 
 
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/year"
             style="@style/wheelViewStyle" />
 
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/month"
             style="@style/wheelViewStyle" />
 
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/day"
             style="@style/wheelViewStyle" />
 

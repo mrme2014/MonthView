@@ -16,18 +16,18 @@
         android:gravity="center"
         android:background="@color/white"
         android:orientation="horizontal">
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/open_claz_date_peroid"
             style="@style/wheelViewStyle_time_picker_for_creat_claz" />
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/open_claz_date_weekday"
             style="@style/wheelViewStyle_time_picker_for_creat_claz" />
 
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/open_claz_date_hour"
             style="@style/wheelViewStyle_time_picker_for_creat_claz" />
 
-        <com.ishow.ischool.widget.timepicker.WheelView
+        <com.ishow.ischool.widget.pickerview.WheelView
             android:id="@+id/open_claz_date_min"
             style="@style/wheelViewStyle_time_picker_for_creat_claz" />
 

@@ -1,4 +1,4 @@
-package com.ishow.ischool.widget.timepicker;
+package com.ishow.ischool.widget.pickerview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -220,7 +220,7 @@ public class WheelView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        firstLineAndSecondLineSpace = 360;
+        firstLineAndSecondLineSpace = getMeasuredWidth()==0?360:getMeasuredWidth();
         controlWidth = getWidth();
         if (controlWidth != 0) {
             setMeasuredDimension(getWidth(), itemNumber * unitHeight);
@@ -274,7 +274,7 @@ public class WheelView extends View {
         for (ItemObject item : itemList) {
             if (item.isSelected()) {
                 if (onSelectListener != null)
-                    onSelectListener.endSelect(item.id, item.itemText);
+                    onSelectListener.endSelect(this,item.id, item.itemText);
                 break;
             }
         }
@@ -335,7 +335,7 @@ public class WheelView extends View {
                 if (itemList.get(i).isSelected()) {
                     newMove = (int) itemList.get(i).moveToSelected();
                     if (onSelectListener != null)
-                        onSelectListener.endSelect(itemList.get(i).id,
+                        onSelectListener.endSelect(this,itemList.get(i).id,
                                 itemList.get(i).itemText);
                     break;
                 }
@@ -345,7 +345,7 @@ public class WheelView extends View {
                 if (itemList.get(i).isSelected()) {
                     newMove = (int) itemList.get(i).moveToSelected();
                     if (onSelectListener != null)
-                        onSelectListener.endSelect(itemList.get(i).id,
+                        onSelectListener.endSelect(this,itemList.get(i).id,
                                 itemList.get(i).itemText);
                     break;
                 }
@@ -407,7 +407,7 @@ public class WheelView extends View {
                 for (ItemObject item : itemList) {
                     if (item.isSelected()) {
                         if (onSelectListener != null)
-                            onSelectListener.endSelect(item.id, item.itemText);
+                            onSelectListener.endSelect(WheelView.this,item.id, item.itemText);
                         break;
                     }
                 }
@@ -822,7 +822,7 @@ public class WheelView extends View {
          * @param id
          * @param text
          */
-        public void endSelect(int id, String text);
+        public void endSelect(WheelView wheelView,int id, String text);
 
         /**
          * 选中的内容

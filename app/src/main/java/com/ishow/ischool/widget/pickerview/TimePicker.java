@@ -1,4 +1,4 @@
-package com.ishow.ischool.widget.timepicker;
+package com.ishow.ischool.widget.pickerview;
 
 import android.content.Context;
 import android.os.Handler;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class PickerWheelView extends LinearLayout {
+public class TimePicker extends LinearLayout {
     public static final String PICKED_TIME_EXT = "picked_time";
     private static final int UPDATE_TITLE_MSG = 0x111;
     private static final int UPDATE_WHEEL = 0x112;
@@ -32,7 +33,9 @@ public class PickerWheelView extends LinearLayout {
     private int mMonth;
     private int mDay;
 
-
+    /**
+     * 使用方法: setDate(long time)即可
+     */
     private Calendar mCalendar;
     private int mDefaultDayWhellIndex = 0;
     private Handler mHandler = new Handler() {
@@ -58,19 +61,22 @@ public class PickerWheelView extends LinearLayout {
     };
     private WheelView.OnSelectListener mYearListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int year, String text) {
+        public void endSelect(WheelView wheelView,int year, String text) {
+            LogUtil.e(wheelView.getId()+"endSelect");
             mYear = START_YEAR + year;
             mHandler.sendEmptyMessage(UPDATE_TITLE_MSG);
         }
 
         @Override
         public void selecting(int id, String text) {
+
         }
     };
 
     private WheelView.OnSelectListener mMonthListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int month, String text) {
+        public void endSelect(WheelView wheelView,int month, String text) {
+            LogUtil.e(wheelView.getId()+"endSelect");
             mMonth = month;
             mHandler.sendEmptyMessage(UPDATE_TITLE_MSG);
             mHandler.sendEmptyMessage(UPDATE_UpdateDay_MSG);
@@ -83,7 +89,8 @@ public class PickerWheelView extends LinearLayout {
 
     private WheelView.OnSelectListener mDayListener = new WheelView.OnSelectListener() {
         @Override
-        public void endSelect(int day, String text) {
+        public void endSelect(WheelView wheelView,int day, String text) {
+            LogUtil.e(wheelView.getId()+"endSelect");
             mDay = day + 1;
             mHandler.sendEmptyMessage(UPDATE_TITLE_MSG);
         }
@@ -95,11 +102,11 @@ public class PickerWheelView extends LinearLayout {
 
     private Context mContext;
 
-    public PickerWheelView(Context context) {
+    public TimePicker(Context context) {
         this(context, null);
     }
 
-    public PickerWheelView(Context context, AttributeSet attrs) {
+    public TimePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

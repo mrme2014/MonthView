@@ -3,9 +3,16 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ishow'
+            keyPassword 'ishow888'
+            storeFile file('./ishow.jks')
+            storePassword 'ishow888'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "24.0.1"
-
     defaultConfig {
         applicationId "com.ishow.ischool"
         minSdkVersion 15
@@ -15,8 +22,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -30,4 +41,5 @@ dependencies {
     // butterknife:8.2.1
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
 }

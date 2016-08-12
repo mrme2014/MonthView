@@ -80,7 +80,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
 
     @Override
     public void setContentView(int layoutResID) {
-        setContentView(layoutResID, -1, -1, MODE_BACK);
+        setContentView(layoutResID, -1, -1, MODE_NONE);
     }
 
     public void setContentView(int layoutResID, int titleResId) {

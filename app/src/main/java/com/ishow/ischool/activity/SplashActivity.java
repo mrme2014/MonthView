@@ -1,12 +1,10 @@
 package com.ishow.ischool.activity;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
 
 public class SplashActivity extends BaseCompactActivity {
 
@@ -25,14 +23,12 @@ public class SplashActivity extends BaseCompactActivity {
     };
 
     private void gotoMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+       startActivity(LoginActivity.class);
     }
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_splash,MODE_NONE,MODE_NONE,MODE_NONE);
     }
 
     @Override

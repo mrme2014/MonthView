@@ -1,6 +1,7 @@
-package com.ishow.ischool.common.base.view.impl;
+package com.ishow.ischool.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +37,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public P mPresenter;
 
     private static final int PERMISSION_CODE = 100;//权限申请默认的request_code
-    private String permission ;//当前正在申请的那一条权限
+    private String permission;//当前正在申请的那一条权限
 
     protected Toolbar mToolbar;
     protected TextView mToolbarTitle;
@@ -268,6 +269,17 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
                 dialog.show();
             }
         }
+    }
+
+    private ProgressDialog dialog;
+    public void handProgressbar(boolean show) {
+        if (show) {
+            if (dialog == null) {
+                dialog = new ProgressDialog(this);
+                dialog.setMessage("request server...");
+            }
+            dialog.show();
+        } else if (!show && dialog != null) dialog.dismiss();
     }
 
     public void showSoftWindow(View view) {

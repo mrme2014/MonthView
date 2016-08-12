@@ -9,6 +9,9 @@
     <string name="tab_business">业务</string>
     <string name="tab_me">我</string>
     <string name="submit">提交</string>
+    <string name="old_pwd_hnit">请输入旧密码</string>
+    <string name="new_pwd_hnit">请输入新密码</string>
+    <string name="new_pwd_hnit_again">请确认新密码</string>
 
     <!--时间滑轮 头部时间显示格式-->
     <string name="picker_title">%1$s年%2$s月%3$s日</string>

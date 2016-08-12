@@ -29,7 +29,7 @@ public interface UserApi {
     //退出登录(system.user.logout) 接口
     @FormUrlEncoded
     @POST("/system/user/logout")
-    Observable<ApiResult> logout();
+    Observable<ApiResult<String>> logout();
 
     //修改信息(system.user.edit) 接口
     @FormUrlEncoded

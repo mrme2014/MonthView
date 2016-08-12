@@ -10,11 +10,12 @@
 
     <style name="Theme.MaterialDesign" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar颜色 -->
-        <item name="colorPrimary">@color/color_header</item>
+       <!-- <item name="colorPrimary">@color/color_header</item>-->
         <!-- toolbar标题文字颜色 仅在Lollipop以上机器生效-->
         <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <item name="colorPrimary">@color/colorPrimary</item>
         <!-- 通知栏底色 -->
-        <item name="colorPrimaryDark">@color/color_header</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!-- 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色 -->
         <!--<item name="colorAccent">@color/colorAccent</item>-->
         <!--<item name="android:textSize">16sp</item>-->
@@ -35,7 +36,7 @@
         <item name="android:layout_height">@dimen/app_header_height</item>
         <item name="android:minHeight">@dimen/app_header_height</item>
         <!-- Toolbar背景颜色 -->
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">@color/colorPrimary</item>
         <!-- Toolbar popup menu样式 -->
         <item name="android:theme">@style/PopWindowStyle</item>
     </style>
@@ -57,7 +58,7 @@
         <item name="android:height">48dp</item>
     </style>
 
-    <color name="color_app_bg">#FFFFFF</color>
+    <color name="color_app_bg">#f1f1f1</color>
 
 
     <!--popwindow  从下到上弹出 从上到下 滑出去-->
@@ -92,7 +93,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="itemNumber">4</item>
+        <item name="itemNumber">5</item>
         <item name="lineColor">#f1f1f1</item>
         <item name="bottomLineColor">#f1f1f1</item>
         <item name="lineHeight">1dp</item>
@@ -126,6 +127,20 @@
     <style name="btn_blue_cor">
         <item name="android:background">@drawable/selector_btn_blue_bg</item>
         <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="btn_green_cor">
+        <item name="android:background">@drawable/bg_btn_corner</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="edit_white_bg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColorHint">#999999</item>
     </style>
 
     <!--fragment_me  item的 宽匹配父窗体高45统一风格-->

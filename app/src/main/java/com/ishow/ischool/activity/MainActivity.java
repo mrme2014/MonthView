@@ -4,11 +4,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.common.base.view.impl.BaseCompactActivity;
 import com.ishow.ischool.fragment.BusinessFragment;
 import com.ishow.ischool.fragment.MeFragment;
-
-import butterknife.BindView;
 
 public class MainActivity extends BaseCompactActivity implements android.widget.RadioGroup.OnCheckedChangeListener {
 
@@ -16,13 +13,13 @@ public class MainActivity extends BaseCompactActivity implements android.widget.
     BusinessFragment businessFragment;
     MeFragment meFragment;
 
-    @BindView(R.id.RadioGroup)
+
     android.widget.RadioGroup RadioGroup;
 
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_main, -1, -1, MODE_NONE);
-//        RadioGroup = (android.widget.RadioGroup) findViewById(R.id.RadioGroup);
+        RadioGroup = (android.widget.RadioGroup) findViewById(R.id.RadioGroup);
 
         showFragment(R.id.tab_business);
         RadioGroup.setOnCheckedChangeListener(this);

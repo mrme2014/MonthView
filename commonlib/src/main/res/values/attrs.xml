@@ -7,4 +7,11 @@
         <attr name="label_text_color" format="color" />
         <attr name="label_padding" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="LoadFrameLayout">
+        <attr name="emptyView" format="reference" />
+        <attr name="errorView" format="reference" />
+        <attr name="loadingView" format="reference" />
+    </declare-styleable>
+
 </resources>

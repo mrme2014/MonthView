@@ -12,22 +12,20 @@ import com.commonlib.R;
 import com.commonlib.application.ActivityStackManager;
 import com.commonlib.core.util.GenericUtil;
 
-import butterknife.ButterKnife;
-
 
 /**
  * Created by wqf on 16/4/28.
+ * 宗旨：纯粹界面操作交互，不需要MP参与的行为，尽量V自己做，保证MVP职责清晰，P只有干净简洁的协助VM的业务逻辑操作，M只处理数据操作。
  */
-public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
     protected Toolbar toolbar;
     protected TextView toolbar_title;
     public static final int MODE_BACK = 0;      // 左侧返回键
     public static final int MODE_DRAWER = 1;
     public static final int MODE_NONE = 2;      // 空
-    public static final int MODE_HOME = 3;      //
 
-    public T mPresenter;
-    public E mModel;
+    public P mPresenter;
+    public M mModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
         initEnv();
         setUpContentView();
-        ButterKnife.bind(this);
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
         if (this instanceof BaseView) {
@@ -59,16 +56,27 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     protected abstract void setUpData();
 
 
-
+    /**
+     * 默认带有返回图标
+     * @param layoutResID
+     */
     @Override
     public void setContentView(int layoutResID) {
         setContentView(layoutResID, -1, -1, MODE_BACK);
     }
 
+    /**
+     * @param layoutResID
+     * @param titleResId    标题（ResourceId）
+     */
     public void setContentView(int layoutResID, int titleResId) {
         setContentView(layoutResID, titleResId, -1, MODE_BACK);
     }
 
+    /**
+     * @param layoutResID
+     * @param titleStr      标题（字符串）
+     */
     public void setContentView(int layoutResID, String titleStr) {
         setContentView(layoutResID, titleStr, -1, MODE_BACK);
     }
@@ -129,6 +137,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
     }
 
+    /**
+     * @param menuId
+     */
     protected void setUpMenu(int menuId) {
         if (toolbar != null) {
             toolbar.getMenu().clear();
@@ -175,6 +186,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }
+
         ActivityStackManager.getInstance().popActivity(this);
     }
 }

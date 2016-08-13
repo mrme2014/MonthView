@@ -12,6 +12,7 @@ public class GenericUtil {
      * @param i 参数顺序
      * @param <T> 泛型
      * @return      泛型对象
+     * 获取泛型参数
      */
     public static <T> T getType(Object o, int i) {
         try {

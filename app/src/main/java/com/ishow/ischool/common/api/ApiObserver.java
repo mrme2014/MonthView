@@ -39,7 +39,7 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
 
     @Override
     public void onNext(ApiResult<T> body) {
-        if (isAlive()) {
+        if (!isAlive()) {
             return;
         }
 

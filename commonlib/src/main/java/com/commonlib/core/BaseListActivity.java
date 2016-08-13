@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by wqf on 16/4/29.
  */
-public abstract class BaseListActivity<T> extends BaseActivity implements PullRecycler.OnRecyclerRefreshListener {
+public abstract class BaseListActivity<T, P extends BasePresenter, M extends BaseModel> extends BaseActivity<P, M> implements PullRecycler.OnRecyclerRefreshListener {
     protected BaseListAdapter mAdapter;
     protected ArrayList<T> mDataList;
     protected PullRecycler recycler;

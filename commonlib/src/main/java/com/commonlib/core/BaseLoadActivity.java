@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.commonlib.R;
+import com.commonlib.core.view.LoadFrameLayout;
 
 
 /**

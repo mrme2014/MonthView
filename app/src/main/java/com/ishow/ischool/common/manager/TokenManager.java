@@ -23,6 +23,6 @@ public class TokenManager {
     }
 
     public static boolean isAvailable() {
-        return tokenInfo != null && tokenInfo.getOver_time() > System.currentTimeMillis() / 1000;
+        return tokenInfo != null && tokenInfo.over_time > System.currentTimeMillis() / 1000;
     }
 }

@@ -36,7 +36,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
         if (this instanceof BaseView) {
-            mPresenter.setVM(this, mModel);
+            mPresenter.setMV(mModel, this);
         }
         setUpView();
         setUpData();
@@ -47,7 +47,8 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     /**
      * 初始化 环境，intent数据
      */
-    protected void initEnv() {}
+    protected void initEnv() {
+    }
 
     protected abstract void setUpContentView();
 
@@ -58,6 +59,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
     /**
      * 默认带有返回图标
+     *
      * @param layoutResID
      */
     @Override
@@ -67,7 +69,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
     /**
      * @param layoutResID
-     * @param titleResId    标题（ResourceId）
+     * @param titleResId  标题（ResourceId）
      */
     public void setContentView(int layoutResID, int titleResId) {
         setContentView(layoutResID, titleResId, -1, MODE_BACK);
@@ -75,7 +77,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
     /**
      * @param layoutResID
-     * @param titleStr      标题（字符串）
+     * @param titleStr    标题（字符串）
      */
     public void setContentView(int layoutResID, String titleStr) {
         setContentView(layoutResID, titleStr, -1, MODE_BACK);
@@ -102,7 +104,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
             toolbar_title = (TextView) findViewById(R.id.toolbar_title);
 
             if (mode == MODE_BACK) {
-//                toolbar.setNavigationIcon(R.drawable.bg_nav_back);
+                toolbar.setNavigationIcon(R.drawable.ic_return);
             }
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,7 +125,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
             toolbar_title = (TextView) findViewById(R.id.toolbar_title);
 
             if (mode == MODE_BACK) {
-//                toolbar.setNavigationIcon(R.drawable.ic_back);
+                toolbar.setNavigationIcon(R.drawable.ic_return);
             }
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override

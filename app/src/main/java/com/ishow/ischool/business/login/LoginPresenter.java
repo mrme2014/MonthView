@@ -1,11 +1,11 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.business.login;
 
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
 
 
 /**
- * Created by baixiaokang on 16/4/29.
+ * Created by wqf on 16/8/13.
  */
 public class LoginPresenter extends LoginContract.Presenter {
 
@@ -20,15 +20,9 @@ public class LoginPresenter extends LoginContract.Presenter {
 
                     @Override
                     public void onError(String msg) {
-//                        mView.();
+                        mView.loginError(msg);
                     }
                 });
     }
 
-//    @Override
-//    public void sign(String name, String pass) {
-//        mRxManager.add(mModel.sign(name, pass)
-//                .subscribe(res -> mView.signSuccess(),
-//                        e -> mView.showMsg("注册失败!")));
-//    }
 }

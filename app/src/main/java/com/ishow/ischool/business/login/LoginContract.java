@@ -1,4 +1,4 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.business.login;
 
 
 import com.commonlib.core.BaseModel;
@@ -11,23 +11,22 @@ import rx.Observable;
 
 
 /**
- * Created by baixiaokang on 16/4/29.
+ * 官方MVP实例，通过协议类XXXContract来对View和Presenter的接口进行内部继承。是对BaseView和BasePresenter的进一步封装，
+ * 所以我们实现的View和Presenter也只需要继承XXXContract中的对应内部接口就行。
+ * Created by wqf on 16/8/13.
  */
 public interface LoginContract {
     interface Model extends BaseModel {
         Observable<ApiResult<User>> login(String name, String pass);
-//        Observable<CreatedResult> sign(String name, String pass);
     }
 
 
     interface View extends BaseView {
         void loginSuccess();
-//        void signSuccess();
-//        void showMsg(String msg);
+        void loginError(String msg);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
         public abstract void login(String name, String pass);
-//        public abstract void sign(String name, String pass);
     }
 }

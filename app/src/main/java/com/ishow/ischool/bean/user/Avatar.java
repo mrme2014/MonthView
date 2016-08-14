@@ -1,43 +1,57 @@
 package com.ishow.ischool.bean.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by abel on 16/8/12.
  */
-public class Avatar {
-    private int id;
-    private int type;
-    private String file_name;
-    private int user_id;
+public class Avatar implements Parcelable {
 
-    public int getId() {
-        return id;
+    /**
+     * id : 29370
+     * type : 1
+     * file_name : http://7xwcxj.com1.z0.glb.clouddn.com//1469341646348avator.jpg
+     * user_id : 10017
+     */
+
+    public int id;
+    public int type;
+    public String file_name;
+    public int user_id;
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.type);
+        dest.writeString(this.file_name);
+        dest.writeInt(this.user_id);
     }
 
-    public int getType() {
-        return type;
+    public Avatar() {
     }
 
-    public void setType(int type) {
-        this.type = type;
+    protected Avatar(Parcel in) {
+        this.id = in.readInt();
+        this.type = in.readInt();
+        this.file_name = in.readString();
+        this.user_id = in.readInt();
     }
 
-    public String getFile_name() {
-        return file_name;
-    }
+    public static final Parcelable.Creator<Avatar> CREATOR = new Parcelable.Creator<Avatar>() {
+        @Override
+        public Avatar createFromParcel(Parcel source) {
+            return new Avatar(source);
+        }
 
-    public void setFile_name(String file_name) {
-        this.file_name = file_name;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
+        @Override
+        public Avatar[] newArray(int size) {
+            return new Avatar[size];
+        }
+    };
 }

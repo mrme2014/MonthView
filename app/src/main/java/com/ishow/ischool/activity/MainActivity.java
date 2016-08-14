@@ -3,14 +3,14 @@ package com.ishow.ischool.activity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.fragment.BusinessFragment;
 import com.ishow.ischool.fragment.MeFragment;
 
 public class MainActivity extends BaseCompactActivity implements android.widget.RadioGroup.OnCheckedChangeListener {
 
 
-    BusinessFragment businessFragment;
+    TabBusinessFragment businessFragment;
     MeFragment meFragment;
 
 
@@ -53,7 +53,7 @@ public class MainActivity extends BaseCompactActivity implements android.widget.
                     ft.hide(meFragment);
                 }
                 if (businessFragment == null) {
-                    businessFragment = new BusinessFragment();
+                    businessFragment = new TabBusinessFragment();
                     ft.add(R.id.tabcontent, businessFragment).show(businessFragment);
                 } else {
                     ft.show(businessFragment);

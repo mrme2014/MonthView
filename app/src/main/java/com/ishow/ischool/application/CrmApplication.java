@@ -1,7 +1,23 @@
 package com.ishow.ischool.application;
 
+import android.text.TextUtils;
+
 import com.commonlib.application.BaseApplication;
+import com.commonlib.util.LogUtil;
+import com.commonlib.widget.http.ApiFactory;
+import com.ishow.ischool.bean.user.Token;
+import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 
 /**
  * Created by MrS on 2016/7/1.
@@ -15,5 +31,53 @@ public class CrmApplication extends BaseApplication {
         super.onCreate();
 
         UserManager.getInstance().init(this);
+        initApi();
+    }
+
+
+    private void initApi() {
+        ApiFactory.getInstance().build(getApplicationContext(), Env.SITE_URL, new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Token token = TokenManager.getToken();
+                Request newRequest = chain.request();
+                if (token != null && !TextUtils.isEmpty(token.token)) {
+                    HttpUrl url = newRequest.url().newBuilder().addQueryParameter("token", token == null ? "" : token.token).build();
+                    newRequest = newRequest.newBuilder().url(url).build();
+                }
+                newRequest.newBuilder().addHeader("app_version_small", "1")
+                        .addHeader("api_version", "1.1")
+                        .addHeader("app_version", "1.1")
+                        .addHeader("app_os", "android")
+                        .addHeader("app_type", "huawei")
+                        .build();
+                okhttp3.Response response = chain.proceed(newRequest);
+
+                String bodyString = "";
+                if (response.isSuccessful()) {
+                    bodyString = response.body().string();
+                    LogUtil.d(this, "bodyString = " + bodyString);
+                    if (bodyString != null) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(bodyString);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (jsonObject != null) {
+                            int error_no = jsonObject.optInt("error_no");
+                            // 判断error_no
+//                            if (error_no == ApiResult.ERROR_TOKEN1 || error_no == ApiResult.ERROR_TOKEN2 || error_no == ApiResult.ERROR_TOKEN3) {
+//                                onReLogin();
+//                            }
+                        }
+                    }
+                }
+                okhttp3.Response r = response.newBuilder()
+                        .body(ResponseBody.create(response.body().contentType(), bodyString))
+                        .build();
+                return r;
+            }
+        });
     }
 }

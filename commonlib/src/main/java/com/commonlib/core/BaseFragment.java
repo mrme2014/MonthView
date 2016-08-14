@@ -5,18 +5,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.commonlib.core.util.GenericUtil;
 
 /**
  * Created by wqf on 16/4/28.
  */
-public class BaseFragment<P extends BasePresenter, M extends BaseModel> extends Fragment {
+public abstract class BaseFragment<P extends BasePresenter, M extends BaseModel> extends Fragment {
 
     public P mPresenter;
     public M mModel;
 
     protected Activity mActivity;
+    protected View rootView;
 
     @Override
     public void onAttach(Activity activity) {
@@ -24,18 +26,23 @@ public class BaseFragment<P extends BasePresenter, M extends BaseModel> extends 
         mActivity = activity;
     }
 
+
+    public abstract void init();
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
         if (this instanceof BaseView) {
-            mPresenter.setVM(this, mModel);
+            mPresenter.setMV(mModel, this);
         }
+        init();
     }
 
     /**
      * 得到可靠地Activity,避免NullPointerException
+     *
      * @return
      */
     public Activity getMyActivity() {
@@ -51,11 +58,6 @@ public class BaseFragment<P extends BasePresenter, M extends BaseModel> extends 
             return activity == null || activity.isFinishing();
         }
     }
-
-
-
-
-
 
 
 }

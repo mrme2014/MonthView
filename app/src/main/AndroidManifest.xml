@@ -37,11 +37,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".business.login.LoginActivity" />
+
+        <activity android:name=".business.statisticslist.StatisticsListActivity" />
 
         <activity android:name=".activity.MainActivity"/>
-
-        <activity android:name=".activity.LoginActivity" />
 
         <activity android:name=".activity.ForgetPwdActivity1" />
 

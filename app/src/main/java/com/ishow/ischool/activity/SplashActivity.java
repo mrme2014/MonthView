@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.TokenManager;

@@ -80,9 +80,11 @@ public abstract class BaseListActivity<T, P extends BasePresenter, M extends Bas
     protected boolean isSectionHeader(int position) {
         return false;
     }
+
     protected int getItemType(int position) {
         return 0;
     }
+
     protected abstract BaseViewHolder getViewHolder(ViewGroup parent, int viewType);
 
 

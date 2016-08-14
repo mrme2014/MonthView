@@ -1,25 +1,49 @@
 package com.ishow.ischool.bean.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by abel on 16/8/12.
  */
-public class Campus {
-    private int id;
-    private String name;
+public class Campus implements Parcelable {
 
-    public int getId() {
-        return id;
+    /**
+     * id : 1
+     * name : 杭州校区
+     */
+
+    public int id;
+    public String name;
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
     }
 
-    public String getName() {
-        return name;
+    public Campus() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    protected Campus(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
     }
+
+    public static final Creator<Campus> CREATOR = new Creator<Campus>() {
+        @Override
+        public Campus createFromParcel(Parcel source) {
+            return new Campus(source);
+        }
+
+        @Override
+        public Campus[] newArray(int size) {
+            return new Campus[size];
+        }
+    };
 }

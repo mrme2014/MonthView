@@ -1,9 +1,12 @@
 package com.ishow.ischool.bean.student;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by MrS on 2016/7/24.
  */
-public class StudentInfo {
+public class StudentInfo implements Parcelable {
 
     /**
      * id : 11
@@ -31,23 +34,104 @@ public class StudentInfo {
      * notes :
      */
 
-    private int id;
-    private int campus_id;
-    private int province_id;
-    private int city_id;
-    private int college_id;
-    private String name;
-    private String password;
-    private String mobile;
-    private String qq;
-    private String major;
-    private String idcard;
-    private int create_time;
-    private int update_time;
-    private int class_sate;
-    private int pay_sate;
-    private int upgrade_stae;
-    private int apply_stae;
+    public int id;
+    public int campus_id;
+    public int province_id;
+    public int city_id;
+    public int college_id;
+    public String name;
+    public String password;
+    public String mobile;
+    public String qq;
+    public String major;
+    public String idcard;
+    public int create_time;
+    public int update_time;
+    public int class_sate;
+    public int pay_sate;
+    public int upgrade_stae;
+    public int apply_stae;
+    public int student_id;
+    public int birthday;
+    public String grade;
+    public String english_name;
+    public int source;
+    public String notes;
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.campus_id);
+        dest.writeInt(this.province_id);
+        dest.writeInt(this.city_id);
+        dest.writeInt(this.college_id);
+        dest.writeString(this.name);
+        dest.writeString(this.password);
+        dest.writeString(this.mobile);
+        dest.writeString(this.qq);
+        dest.writeString(this.major);
+        dest.writeString(this.idcard);
+        dest.writeInt(this.create_time);
+        dest.writeInt(this.update_time);
+        dest.writeInt(this.class_sate);
+        dest.writeInt(this.pay_sate);
+        dest.writeInt(this.upgrade_stae);
+        dest.writeInt(this.apply_stae);
+        dest.writeInt(this.student_id);
+        dest.writeInt(this.birthday);
+        dest.writeString(this.grade);
+        dest.writeString(this.english_name);
+        dest.writeInt(this.source);
+        dest.writeString(this.notes);
+    }
+
+    public StudentInfo() {
+    }
+
+    protected StudentInfo(Parcel in) {
+        this.id = in.readInt();
+        this.campus_id = in.readInt();
+        this.province_id = in.readInt();
+        this.city_id = in.readInt();
+        this.college_id = in.readInt();
+        this.name = in.readString();
+        this.password = in.readString();
+        this.mobile = in.readString();
+        this.qq = in.readString();
+        this.major = in.readString();
+        this.idcard = in.readString();
+        this.create_time = in.readInt();
+        this.update_time = in.readInt();
+        this.class_sate = in.readInt();
+        this.pay_sate = in.readInt();
+        this.upgrade_stae = in.readInt();
+        this.apply_stae = in.readInt();
+        this.student_id = in.readInt();
+        this.birthday = in.readInt();
+        this.grade = in.readString();
+        this.english_name = in.readString();
+        this.source = in.readInt();
+        this.notes = in.readString();
+    }
+
+    public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
+        @Override
+        public StudentInfo createFromParcel(Parcel source) {
+            return new StudentInfo(source);
+        }
+
+        @Override
+        public StudentInfo[] newArray(int size) {
+            return new StudentInfo[size];
+        }
+    };
+
 
     @Override
     public String toString() {
@@ -76,196 +160,5 @@ public class StudentInfo {
                 ", source=" + source +
                 ", notes='" + notes + '\'' +
                 '}';
-    }
-
-    private int student_id;
-    private int birthday;
-    private String grade;
-    private String english_name;
-    private int source;
-    private String notes;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCampus_id() {
-        return campus_id;
-    }
-
-    public void setCampus_id(int campus_id) {
-        this.campus_id = campus_id;
-    }
-
-    public int getProvince_id() {
-        return province_id;
-    }
-
-    public void setProvince_id(int province_id) {
-        this.province_id = province_id;
-    }
-
-    public int getCity_id() {
-        return city_id;
-    }
-
-    public void setCity_id(int city_id) {
-        this.city_id = city_id;
-    }
-
-    public int getCollege_id() {
-        return college_id;
-    }
-
-    public void setCollege_id(int college_id) {
-        this.college_id = college_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
-
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard;
-    }
-
-    public int getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(int create_time) {
-        this.create_time = create_time;
-    }
-
-    public int getUpdate_time() {
-        return update_time;
-    }
-
-    public void setUpdate_time(int update_time) {
-        this.update_time = update_time;
-    }
-
-    public int getClass_sate() {
-        return class_sate;
-    }
-
-    public void setClass_sate(int class_sate) {
-        this.class_sate = class_sate;
-    }
-
-    public int getPay_sate() {
-        return pay_sate;
-    }
-
-    public void setPay_sate(int pay_sate) {
-        this.pay_sate = pay_sate;
-    }
-
-    public int getUpgrade_stae() {
-        return upgrade_stae;
-    }
-
-    public void setUpgrade_stae(int upgrade_stae) {
-        this.upgrade_stae = upgrade_stae;
-    }
-
-    public int getApply_stae() {
-        return apply_stae;
-    }
-
-    public void setApply_stae(int apply_stae) {
-        this.apply_stae = apply_stae;
-    }
-
-    public int getStudent_id() {
-        return student_id;
-    }
-
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
-    }
-
-    public int getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(int birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getEnglish_name() {
-        return english_name;
-    }
-
-    public void setEnglish_name(String english_name) {
-        this.english_name = english_name;
-    }
-
-    public int getSource() {
-        return source;
-    }
-
-    public void setSource(int source) {
-        this.source = source;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 }

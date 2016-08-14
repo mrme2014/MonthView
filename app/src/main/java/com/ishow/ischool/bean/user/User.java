@@ -8,49 +8,6 @@ import java.util.List;
 public class User {
 
     /**
-     * id : 29370
-     * type : 1
-     * file_name : http://7xwcxj.com1.z0.glb.clouddn.com//1469341646348avator.jpg
-     * user_id : 10017
-     */
-
-    private Avatar avatar;
-    /**
-     * mobile : 13512341234
-     * user_name : zhyon
-     * nick_name : jaya
-     * avatar : 29370
-     * campus_id : 1
-     * position_id : 1
-     * last_login_time : 1469619991
-     * login_num : 358
-     * status : 1
-     * user_id : 10017
-     * birthday : 1469289600
-     * job : PHP
-     * qq : 12456789710
-     */
-
-    private UserInfo userInfo;
-    /**
-     * user_id : 10017
-     * token : 136d0e6fc34b41c6b37562f2258f1cbb
-     * over_time : 1470224855
-     * refresh_token : 6fe2145f78bb42ef220579cfba92f872
-     * refresh_time : 1485172055
-     * loginname : 13512341234
-     * ip : 58.100.185.5
-     * status : 1
-     */
-
-    private Token token;
-    /**
-     * id : 1
-     * name : 杭州校区
-     */
-
-    private List<Campus> campus;
-    /**
      * avatar : {"id":29370,"type":1,"file_name":"http://7xwcxj.com1.z0.glb.clouddn.com//1469341646348avator.jpg","user_id":10017}
      * campus : [{"id":1,"name":"杭州校区"}]
      * position : []
@@ -58,7 +15,13 @@ public class User {
      * token : {"user_id":10017,"token":"136d0e6fc34b41c6b37562f2258f1cbb","over_time":1470224855,"refresh_token":"6fe2145f78bb42ef220579cfba92f872","refresh_time":1485172055,"loginname":"13512341234","ip":"58.100.185.5","status":1}
      */
 
+    private Avatar avatar;
+    private UserInfo userInfo;
+    private Token token;
+    private List<Campus> campus;
     private List<?> position;
+
+
 
     public Avatar getAvatar() {
         return avatar;
@@ -99,4 +62,5 @@ public class User {
     public void setPosition(List<?> position) {
         this.position = position;
     }
+
 }

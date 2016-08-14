@@ -1,9 +1,12 @@
 package com.ishow.ischool.bean.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by MrS on 2016/7/19.
  */
-public class Token {
+public class Token implements Parcelable {
 
     /**
      * user_id : 10017
@@ -16,9 +19,58 @@ public class Token {
      * status : 1
      */
 
-    private int user_id;
-    private String token;
-    private int over_time;
+    public int user_id;
+    public String token;
+    public int over_time;
+    public String refresh_token;
+    public int refresh_time;
+    public String loginname;
+    public String ip;
+    public int status;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.user_id);
+        dest.writeString(this.token);
+        dest.writeInt(this.over_time);
+        dest.writeString(this.refresh_token);
+        dest.writeInt(this.refresh_time);
+        dest.writeString(this.loginname);
+        dest.writeString(this.ip);
+        dest.writeInt(this.status);
+    }
+
+    public Token() {
+    }
+
+    protected Token(Parcel in) {
+        this.user_id = in.readInt();
+        this.token = in.readString();
+        this.over_time = in.readInt();
+        this.refresh_token = in.readString();
+        this.refresh_time = in.readInt();
+        this.loginname = in.readString();
+        this.ip = in.readString();
+        this.status = in.readInt();
+    }
+
+    public static final Creator<Token> CREATOR = new Creator<Token>() {
+        @Override
+        public Token createFromParcel(Parcel source) {
+            return new Token(source);
+        }
+
+        @Override
+        public Token[] newArray(int size) {
+            return new Token[size];
+        }
+    };
+
 
     @Override
     public String toString() {
@@ -32,75 +84,5 @@ public class Token {
                 ", ip='" + ip + '\'' +
                 ", status=" + status +
                 '}';
-    }
-
-    private String refresh_token;
-    private int refresh_time;
-    private String loginname;
-    private String ip;
-    private int status;
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public int getOver_time() {
-        return over_time;
-    }
-
-    public void setOver_time(int over_time) {
-        this.over_time = over_time;
-    }
-
-    public String getRefresh_token() {
-        return refresh_token;
-    }
-
-    public void setRefresh_token(String refresh_token) {
-        this.refresh_token = refresh_token;
-    }
-
-    public int getRefresh_time() {
-        return refresh_time;
-    }
-
-    public void setRefresh_time(int refresh_time) {
-        this.refresh_time = refresh_time;
-    }
-
-    public String getLoginname() {
-        return loginname;
-    }
-
-    public void setLoginname(String loginname) {
-        this.loginname = loginname;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }

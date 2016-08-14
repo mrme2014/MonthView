@@ -2,7 +2,6 @@ package com.commonlib.widget.http;
 
 import android.content.Context;
 
-import com.commonlib.BuildConfig;
 import com.commonlib.util.LogUtil;
 
 import java.io.File;
@@ -47,7 +46,7 @@ public class ApiFactory {
     public void build(Context context, String serverUrl, Interceptor interceptor) {
 
         HttpLoggingInterceptor httpLoggingInterceptor = null;
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             // 添加注释
             httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
@@ -56,7 +55,7 @@ public class ApiFactory {
                 }
             });
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        }
+//        }
 
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)

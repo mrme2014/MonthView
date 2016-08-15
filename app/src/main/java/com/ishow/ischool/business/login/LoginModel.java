@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.login;
 
-import com.commonlib.widget.http.ApiFactory;
+
+import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.UserApi;

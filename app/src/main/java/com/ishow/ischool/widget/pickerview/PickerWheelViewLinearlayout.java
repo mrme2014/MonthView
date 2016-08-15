@@ -118,4 +118,11 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
         return list;
     }
 
+    public String[] getSelectResult(){
+        String[] result = new String[array.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i]=array.get(i).getSelectedText();
+        }
+        return result;
+    }
 }

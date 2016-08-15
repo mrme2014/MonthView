@@ -36,4 +36,10 @@ public interface UserApi {
     @POST("/system/user/edit")
     Observable<ApiResult> edit(@Field("user_id") int user_id, @Field("mobile") String mobile, @Field("user_name") String user_name, @Field("birthday") int birthday, @Field("job") String job, @Field("qq") String qq);
 
+
+    //切换角色(system.user.change) 接口
+    @FormUrlEncoded
+    @POST("/system/user/change")
+    Observable<ApiResult<String>> change();
+
 }

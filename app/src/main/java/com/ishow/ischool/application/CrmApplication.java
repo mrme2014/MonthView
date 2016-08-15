@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.commonlib.application.BaseApplication;
 import com.commonlib.util.LogUtil;
-import com.commonlib.widget.http.ApiFactory;
+import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.user.Token;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;

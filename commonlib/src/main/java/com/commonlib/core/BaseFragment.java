@@ -59,5 +59,12 @@ public abstract class BaseFragment<P extends BasePresenter, M extends BaseModel>
         }
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+            mPresenter = null;
+        }
+    }
 }

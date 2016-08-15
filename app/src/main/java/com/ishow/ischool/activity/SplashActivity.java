@@ -5,10 +5,11 @@ import android.os.Message;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.login.LoginActivity;
-import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
+import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.TokenManager;
-public class SplashActivity extends BaseCompactActivity {
+
+public class SplashActivity extends BaseActivity4Crm {
 
     public static final int WHAT_MAIN = 1;
     public static final int WHAT_LOGIN = 2;
@@ -32,13 +33,9 @@ public class SplashActivity extends BaseCompactActivity {
     };
 
 
-    private void gotoMainActivity() {
-       startActivity(LoginActivity.class);
-    }
-
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_splash,MODE_NONE,MODE_NONE,MODE_NONE);
+        setContentView(R.layout.activity_splash, MODE_NONE, MODE_NONE, MODE_NONE);
     }
 
     @Override
@@ -54,10 +51,5 @@ public class SplashActivity extends BaseCompactActivity {
             mHandler.sendEmptyMessageDelayed(WHAT_LOGIN, 1000);
         }
 
-    }
-
-    @Override
-    public BasePresenter bindPresenter() {
-        return null;
     }
 }

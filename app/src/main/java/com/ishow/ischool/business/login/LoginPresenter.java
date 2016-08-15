@@ -2,6 +2,8 @@ package com.ishow.ischool.business.login;
 
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.manager.TokenManager;
+import com.ishow.ischool.common.manager.UserManager;
 
 
 /**
@@ -15,6 +17,10 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribe(new ApiObserver<User>() {
                     @Override
                     public void onSuccess(User user) {
+                        if (user != null && user.getToken() != null) {
+                            UserManager.getInstance().save(user);
+                            TokenManager.init(user.getToken());
+                        }
                         mView.loginSuccess();
                     }
 

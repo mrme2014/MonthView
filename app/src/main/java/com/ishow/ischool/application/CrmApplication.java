@@ -3,9 +3,10 @@ package com.ishow.ischool.application;
 import android.text.TextUtils;
 
 import com.commonlib.application.BaseApplication;
-import com.commonlib.util.LogUtil;
 import com.commonlib.http.ApiFactory;
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.bean.user.Token;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 
@@ -28,10 +29,19 @@ public class CrmApplication extends BaseApplication {
 
     @Override
     public void onCreate() {
+//        MultiDex.install(this);
         super.onCreate();
 
         UserManager.getInstance().init(this);
+        initUser();
         initApi();
+    }
+
+    private void initUser() {
+        User mUser = UserManager.getInstance().get();
+        if (mUser != null) {
+            TokenManager.init(mUser.getToken());
+        }
     }
 
 

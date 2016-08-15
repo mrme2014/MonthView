@@ -18,4 +18,6 @@
     <color name="blue_press">#5799CD</color>
     <color name="gray">#EFEFEF</color>
     <color name="text_3">#333333</color>
+    <color name="text_6">#666666</color>
+    <color name="text_9">#999999</color>
 </resources>

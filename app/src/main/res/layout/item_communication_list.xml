@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#EDEEEF" />
+
+    <ImageView
+        android:id="@+id/user_photo_iv"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_below="@id/line"
+        android:layout_margin="10dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/user_photo_iv"
+        android:singleLine="true"
+        android:text="wangxiao"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/communication_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/user_name"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="2018-10-10"
+        android:textColor="@color/text_9" />
+
+    <TextView
+        android:id="@+id/communication_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_name"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/user_photo_iv"
+        android:text="content----------"
+        android:textColor="@color/text_6" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/communication_content"
+        android:background="@color/split_line_color" />
+
+    <LinearLayout
+        android:id="@+id/state_group"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/line1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/user_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="升学"
+            android:textColor="@color/text_3"
+            app:label_text_top="状态" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@color/split_line_color" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/user_oppose_point"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="父母不同意"
+            android:textColor="@color/text_3"
+            app:label_text_top="抗拒点" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@color/split_line_color" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/user_faith"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="中"
+            android:textColor="@color/text_3"
+            app:label_text_top="信念" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/state_group"
+        android:background="@color/split_line_color" />
+
+
+</RelativeLayout>

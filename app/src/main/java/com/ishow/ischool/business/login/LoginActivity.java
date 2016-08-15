@@ -3,7 +3,6 @@ package com.ishow.ischool.business.login;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.MainActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -47,29 +46,9 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
         String username = usernameEt.getText().toString();
         String passwd = passwdEt.getText().toString();
 
-//        handProgressbar(true);
+        submitTv.setEnabled(false);
         mPresenter.login(username, passwd);
-        //mPresenter
-        LogUtil.d("submit");
     }
-
-//    @Override
-//    public void loginSuccess(User user) {
-//
-//        handProgressbar(false);
-//        JumpManager.jumpActivity(this, MainActivity.class);
-//        finish();
-//
-//    }
-
-//    @Override
-//    public void loginError(String msg) {
-//
-//        handProgressbar(false);
-//
-//        showToast(msg);
-//    }
-
 
     @Override
     public void loginSuccess() {
@@ -79,6 +58,7 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @Override
     public void loginError(String msg) {
-        LogUtil.d(msg);
+        submitTv.setEnabled(true);
+        showToast(msg);
     }
 }

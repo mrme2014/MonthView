@@ -1,7 +1,6 @@
 package com.ishow.ischool.common.base;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
@@ -22,8 +21,8 @@ public abstract class BaseListActivity4Crm<P extends BasePresenter, M extends Ba
     protected ProgressDialog dialog = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void bindView() {
+        super.bindView();
         ButterKnife.bind(this);
     }
 

@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.EditPwdActivity;
 import com.ishow.ischool.activity.MorningReadActivity;
-import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
+import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
@@ -20,10 +20,10 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment4Crm {
 
     @BindView(R.id.fm_me_header_avart)
-    public  CircleImageView fmMeHeaderAvart;
+    public CircleImageView fmMeHeaderAvart;
     @BindView(R.id.fm_me_header_name)
     public TextView fmMeHeaderName;
     @BindView(R.id.fm_me_header_job)
@@ -37,16 +37,6 @@ public class MeFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_me;
-    }
-
-    @Override
-    public void setUpView() {
-
-    }
-
-    @Override
-    public BasePresenter bindPresenter() {
-        return null;
     }
 
 
@@ -76,7 +66,7 @@ public class MeFragment extends BaseFragment {
 
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
-   public void on_fm_me_mornig_qrcode_click() {
+    public void on_fm_me_mornig_qrcode_click() {
         JumpManager.jumpActivity(getContext(), MorningReadActivity.class);
     }
 
@@ -98,4 +88,8 @@ public class MeFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void init() {
+
+    }
 }

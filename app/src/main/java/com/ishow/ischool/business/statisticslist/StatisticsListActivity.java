@@ -7,9 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commonlib.widget.pull.BaseViewHolder;
+import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.student.StudentStatistics;
+import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,21 +25,20 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_search_student, -1, R.menu.menu_statisticslist, MODE_BACK);
-    }
-
-    @Override
-    protected void setUpView() {
-    }
-
-    @Override
-    protected void setUpData() {
-
+        super.setUpContentView();
+        setUpMenu(R.menu.menu_statisticslist);
     }
 
     @Override
     public void onRefresh(int action) {
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
+        }
 
+        if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
+            mCurrentPage = 1;
+        }
+        mPresenter.getList4StudentStatistics();
     }
 
     @Override
@@ -74,6 +77,15 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             StudentStatistics data = mDataList.get(position);
 
         }
+    }
 
+    @Override
+    public void getListSuccess(StudentStatisticsList studentStatisticsList) {
+        loadSuccess(studentStatisticsList.lists);
+    }
+
+    @Override
+    public void getListFail(String msg) {
+        loadFailed();
     }
 }

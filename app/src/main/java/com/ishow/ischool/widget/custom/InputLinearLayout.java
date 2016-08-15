@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -14,13 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 
 /**
  * Created by wqf on 16/8/12.
  */
 public class InputLinearLayout extends LinearLayout {
-
+    private View mView;
     private String labeltext, text, hinttext;
     private boolean isMore;
     private TextView label;
@@ -28,6 +31,8 @@ public class InputLinearLayout extends LinearLayout {
     private ImageView next;
     private View line;
     private boolean drawLine;
+    private GestureDetector mGestureDetector;
+    private EidttextClick eidttextClick;
 
     public InputLinearLayout(Context context) {
         super(context);
@@ -50,6 +55,8 @@ public class InputLinearLayout extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
+        mView = this;
+        mGestureDetector = new GestureDetector(new Gesturelistener());
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.InputLayout);
         labeltext = t.getString(R.styleable.InputLayout_label_text);
         text = t.getString(R.styleable.InputLayout_inputLayout_text);
@@ -65,9 +72,11 @@ public class InputLinearLayout extends LinearLayout {
         label = (TextView) view.findViewById(R.id.label);
         input = (EditText) view.findViewById(R.id.input);
         next = (ImageView) view.findViewById(R.id.next);
+
         line = view.findViewById(R.id.bottom_line);
         if (isMore) {
             next.setVisibility(VISIBLE);
+            input.setFocusable(false);
         }
         label.setText(labeltext);
         input.setHint(hinttext);
@@ -75,6 +84,59 @@ public class InputLinearLayout extends LinearLayout {
         if (drawLine) {
             line.setVisibility(VISIBLE);
         }
+
+        input.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (isMore) {
+                    return mGestureDetector.onTouchEvent(motionEvent);
+                }
+                return false;
+            }
+        });
     }
 
+    private class Gesturelistener implements GestureDetector.OnGestureListener {
+
+        public boolean onDown(MotionEvent e) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        public void onShowPress(MotionEvent e) {
+            // TODO Auto-generated method stub
+        }
+
+        public boolean onSingleTapUp(MotionEvent e) {
+            // TODO Auto-generated method stub
+            input.clearFocus();
+            LogUtil.d("InputLinearLayout click");
+            eidttextClick.onEdittextClick(mView);
+            return false;
+        }
+
+        public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                                float distanceX, float distanceY) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        public void onLongPress(MotionEvent e) {
+            // TODO Auto-generated method stub
+        }
+
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                               float velocityY) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+    }
+
+    public interface EidttextClick {
+        void onEdittextClick(View view);
+    }
+
+    public void setOnEidttextClick(EidttextClick eidttextClick) {
+        this.eidttextClick = eidttextClick;
+    }
 }

@@ -1,6 +1,6 @@
 package com.ishow.ischool.business.statisticslist;
 
-import com.commonlib.widget.http.ApiFactory;
+import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.common.api.MarketApi;

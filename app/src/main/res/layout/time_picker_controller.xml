@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ishow.ischool.widget.pickerview.PickerWheelViewLinearlayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:id="@+id/PickerWheelViewLinearlayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:layout_height="match_parent">
-</com.ishow.ischool.widget.pickerview.PickerWheelViewLinearlayout>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="@dimen/sp12"
+            android:textColor="@android:color/holo_blue_bright" />
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="确定"
+            android:textSize="@dimen/sp12"
+            android:textColor="@android:color/holo_blue_bright" />
+    </RelativeLayout>
+
+    <com.ishow.ischool.widget.pickerview.PickerWheelViewLinearlayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/PickerWheelViewLinearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"></com.ishow.ischool.widget.pickerview.PickerWheelViewLinearlayout>
+</LinearLayout>

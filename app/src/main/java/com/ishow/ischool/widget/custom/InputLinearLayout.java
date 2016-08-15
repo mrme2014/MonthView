@@ -77,5 +77,4 @@ public class InputLinearLayout extends LinearLayout {
         }
     }
 
-
 }

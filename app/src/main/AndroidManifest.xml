@@ -51,6 +51,8 @@
 
         <activity android:name=".activity.MorningReadActivity" />
 
+        <activity android:name=".activity.PersonInfoActivity" />
+
         <!-- 百度定位 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

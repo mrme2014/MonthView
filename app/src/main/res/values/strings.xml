@@ -49,6 +49,7 @@
     <string name="fm_me_kefu">客服</string>
     <string name="fm_me_login_out">退出</string>
 <!--======================个人资料===================================-->
+    <string name="per_info_title">个人资料</string>
     <string name="per_info_avart">头像</string>
     <string name="per_info_xingming">姓名</string>
     <string name="per_info_birthday">生日</string>

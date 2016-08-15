@@ -53,7 +53,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StudentStatisti
         TextView state;
         @BindView(R.id.school)
         TextView school;
-        @BindView(R.id.name)
+        @BindView(R.id.phone)
         ImageView phone;
 
         public StatisticsListViewHolder(View itemView) {

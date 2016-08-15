@@ -77,8 +77,6 @@ public class LabelEditText extends EditText {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int width = getWidth();
-        int height = getHeight();
 
         if (!TextUtils.isEmpty(labelText)) {
             canvas.drawText(labelText, labelPadding, getBaseline(), labelPaint);

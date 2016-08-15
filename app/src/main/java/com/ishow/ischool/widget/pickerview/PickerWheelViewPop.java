@@ -104,7 +104,11 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
     public void onClick(View v) {
         this.dismiss();
         if (callback != null){
-            callback.onPickCallback("ddd",1,2,3);
+            if (timePicker!=null)
+                //1这个1  可以直接转换成时间戳
+                callback.onPickCallback(1,timePicker.getPickedTimeExt());
+            //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
+            else callback.onPickCallback(1,viewById.getSelectResult());
         }
 
     }
@@ -112,8 +116,8 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
     private PickCallback callback;
 
     public interface PickCallback {
-        /*ids 这个参数 在众多筛选条件中 UI界面上显示的是 string result  但服务器需要 int id,或者时间戳什么的.*/
-        void onPickCallback(String result, int... ids);
+        /*ids 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
+        void onPickCallback(int id,String...result);
     }
 
     public void addPickCallback(PickCallback callback1) {

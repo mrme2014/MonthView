@@ -1,4 +1,4 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.business.personinfo;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;

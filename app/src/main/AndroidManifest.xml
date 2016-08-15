@@ -43,15 +43,15 @@
 
         <activity android:name=".activity.MainActivity"/>
 
-        <activity android:name=".activity.ForgetPwdActivity1" />
+        <activity android:name=".business.forgetpwd.ForgetPwdActivity1" />
 
-        <activity android:name=".activity.ForgetPwdActivity2" />
+        <activity android:name=".business.forgetpwd.ForgetPwdActivity2" />
 
-        <activity android:name=".activity.EditPwdActivity" />
+        <activity android:name=".business.editpwd.EditPwdActivity" />
 
-        <activity android:name=".activity.MorningReadActivity" />
+        <activity android:name=".business.morningqrcode.MorningReadActivity" />
 
-        <activity android:name=".activity.PersonInfoActivity" />
+        <activity android:name=".business.personinfo.PersonInfoActivity" />
 
         <!-- 百度定位 -->
         <meta-data

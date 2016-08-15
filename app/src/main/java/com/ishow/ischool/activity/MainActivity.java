@@ -4,8 +4,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
+import com.ishow.ischool.common.base.BaseCompactActivity;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
-import com.ishow.ischool.fragment.MeFragment;
+import com.ishow.ischool.business.tabfragmentme.MeFragment;
 
 public class MainActivity extends BaseCompactActivity implements android.widget.RadioGroup.OnCheckedChangeListener {
 

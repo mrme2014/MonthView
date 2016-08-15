@@ -1,4 +1,4 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.common.base;
 
 import android.Manifest;
 import android.app.ProgressDialog;

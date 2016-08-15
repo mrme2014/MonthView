@@ -34,6 +34,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         initEnv();
         setUpContentView();
         bindView();
+
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
 

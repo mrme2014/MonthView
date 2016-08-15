@@ -1,15 +1,16 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.business.editpwd;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.common.base.BaseCompactActivity;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 
 /**
  * Created by MrS on 2016/8/12.
  */
-public class ForgetPwdActivity2 extends BaseCompactActivity {
+public class EditPwdActivity extends BaseCompactActivity {
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_editpwd_newpwd,R.string.eidt_pwd_title_newpwd,-1,0);
+        setContentView(R.layout.activity_editpwd,R.string.edit_pwd,-1,0);
     }
 
     @Override

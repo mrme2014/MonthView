@@ -205,7 +205,7 @@ public class TimePicker extends LinearLayout {
     }
 
     /*返回已选择了时间 格式是：2016-08-19*/
-    public String getPickedTimeExt(){
+    public String[] getPickedTimeExt(){
         String mYear = mWheelYear.getSelectedText();
         mYear = mYear.substring(0,mYear.length()-1);
 
@@ -216,7 +216,13 @@ public class TimePicker extends LinearLayout {
         if (mWheelMonth.getSelected()<9)
             mMonth= "0"+mMonth;
         mMonth =mMonth.substring(0,mMonth.length()-1);
-        return mYear+"-"+mMonth+"-"+mDay;
+
+
+        String[] strings = new String[1];
+        strings[0]=mYear+"-"+mMonth+"-"+mDay;
+        return strings;
+       // return mYear+"-"+mMonth+"-"+mDay;
+
 
     }
 }

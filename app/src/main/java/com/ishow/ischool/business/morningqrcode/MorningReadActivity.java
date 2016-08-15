@@ -1,6 +1,7 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.business.morningqrcode;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.common.base.BaseCompactActivity;
 import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 
 /**

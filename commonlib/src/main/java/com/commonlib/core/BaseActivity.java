@@ -36,6 +36,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         bindView();
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
+
         if (this instanceof BaseView) {
             mPresenter.setMV(mModel, this);
         }

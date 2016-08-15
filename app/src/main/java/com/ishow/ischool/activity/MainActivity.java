@@ -4,11 +4,10 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
-import com.ishow.ischool.common.base.BaseCompactActivity;
-import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 import com.ishow.ischool.business.tabfragmentme.MeFragment;
+import com.ishow.ischool.common.base.BaseActivity4Crm;
 
-public class MainActivity extends BaseCompactActivity implements android.widget.RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
 
     TabBusinessFragment businessFragment;
@@ -33,12 +32,6 @@ public class MainActivity extends BaseCompactActivity implements android.widget.
     protected void setUpData() {
 
     }
-
-    @Override
-    public BasePresenter bindPresenter() {
-        return null;
-    }
-
 
     @Override
     public void onCheckedChanged(android.widget.RadioGroup group, int checkedId) {

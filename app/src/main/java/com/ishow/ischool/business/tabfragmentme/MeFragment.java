@@ -22,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment4Crm implements MeView {
+public class MeFragment extends BaseFragment4Crm implements MeContract.View {
 
     @BindView(R.id.fm_me_header_avart)
     public CircleImageView fmMeHeaderAvart;
@@ -95,7 +95,6 @@ public class MeFragment extends BaseFragment4Crm implements MeView {
     }
 
     @Override
-
     public void logoutSucess() {
         JumpManager.jumpActivity(getContext(), LoginActivity.class);
         ActivityStackManager.getInstance().clear();

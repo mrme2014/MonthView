@@ -8,9 +8,8 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.business.editpwd.EditPwdActivity;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
-import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
+import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
-import com.ishow.ischool.presenter.MeFragmentPresenter;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
@@ -23,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment implements MeView{
+public class MeFragment extends BaseFragment4Crm implements MeView{
 
     @BindView(R.id.fm_me_header_avart)
     public  CircleImageView fmMeHeaderAvart;
@@ -43,16 +42,9 @@ public class MeFragment extends BaseFragment implements MeView{
     }
 
     @Override
-    public void setUpView() {
+    public void init() {
 
     }
-
-    @Override
-    public BasePresenter bindPresenter() {
-        return new MeFragmentPresenter(this);
-    }
-
-
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
     public void on_fm_me_header_layout_click() {
@@ -111,4 +103,6 @@ public class MeFragment extends BaseFragment implements MeView{
     public void logutFailed(String msg) {
         showToast(msg);
     }
+
+
 }

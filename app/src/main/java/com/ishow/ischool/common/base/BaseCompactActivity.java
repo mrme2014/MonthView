@@ -23,8 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.commonlib.application.ActivityStackManager;
+import com.commonlib.core.BasePresenter;
 import com.ishow.ischool.R;
-import com.ishow.ischool.common.base.presenter.impl.BasePresenter;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -220,7 +220,7 @@ public abstract class BaseCompactActivity<P extends BasePresenter> extends AppCo
     public void onDestroy() {
         super.onDestroy();
         if (getPresenter() != null) {
-            getPresenter().destroy();
+            getPresenter().onDestroy();
         }
         unbinder.unbind();
         ActivityStackManager.getInstance().popActivity(this);

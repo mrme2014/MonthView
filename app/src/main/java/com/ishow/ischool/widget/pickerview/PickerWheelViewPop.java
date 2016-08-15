@@ -43,7 +43,11 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void initYearMDPanel(Context context) {
+    /**
+     * 年月日选择类型的 界面
+     * @param context
+     */
+    public void renderYMDPanel(Context context) {
         this.setOutsideTouchable(true);
         this.setAnimationStyle(R.style.Select_dialog_windowAnimationStyle);
         View contentView = LayoutInflater.from(context).inflate(R.layout.time_picker, null);
@@ -59,6 +63,10 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
         ok.setOnClickListener(this);
     }
 
+    /**
+     * 这个所能展示的类型比较多了   时+分+秒  礼拜几+时+分  上午+时+分， 已报名+年+月
+     * @param context
+     */
     /*这里往下 是除了  年月日选择的 */
     public void initMultiSelectPanel(Context context) {
         this.setOutsideTouchable(true);

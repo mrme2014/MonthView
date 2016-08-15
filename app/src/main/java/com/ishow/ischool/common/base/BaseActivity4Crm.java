@@ -23,6 +23,10 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void bindView() {
         ButterKnife.bind(this);
     }
 

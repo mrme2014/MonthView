@@ -22,10 +22,10 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment4Crm implements MeView{
+public class MeFragment extends BaseFragment4Crm implements MeView {
 
     @BindView(R.id.fm_me_header_avart)
-    public  CircleImageView fmMeHeaderAvart;
+    public CircleImageView fmMeHeaderAvart;
     @BindView(R.id.fm_me_header_name)
     public TextView fmMeHeaderName;
     @BindView(R.id.fm_me_header_job)
@@ -71,7 +71,7 @@ public class MeFragment extends BaseFragment4Crm implements MeView{
 
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
-   public void on_fm_me_mornig_qrcode_click() {
+    public void on_fm_me_mornig_qrcode_click() {
         JumpManager.jumpActivity(getContext(), MorningReadActivity.class);
     }
 
@@ -94,6 +94,7 @@ public class MeFragment extends BaseFragment4Crm implements MeView{
     }
 
     @Override
+
     public void logoutSucess() {
         JumpManager.jumpActivity(getContext(), LoginActivity.class);
         ActivityStackManager.getInstance().clear();
@@ -103,6 +104,4 @@ public class MeFragment extends BaseFragment4Crm implements MeView{
     public void logutFailed(String msg) {
         showToast(msg);
     }
-
-
 }

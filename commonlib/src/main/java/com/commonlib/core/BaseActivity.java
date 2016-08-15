@@ -37,7 +37,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
 
-        if (this instanceof BaseView) {
+        if (mPresenter != null && mModel != null && this instanceof BaseView) {
             mPresenter.setMV(mModel, this);
         }
         setUpView();
@@ -55,10 +55,19 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     protected void bindView() {
     }
 
+    /**
+     * 初始化 content view
+     */
     protected abstract void setUpContentView();
 
+    /**
+     * 初始化 view
+     */
     protected abstract void setUpView();
 
+    /**
+     * view中填写数据
+     */
     protected abstract void setUpData();
 
 

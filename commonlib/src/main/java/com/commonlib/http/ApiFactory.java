@@ -1,4 +1,4 @@
-package com.commonlib.widget.http;
+package com.commonlib.http;
 
 import android.content.Context;
 

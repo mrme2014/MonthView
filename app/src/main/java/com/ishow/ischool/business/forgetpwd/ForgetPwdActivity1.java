@@ -1,13 +1,14 @@
 package com.ishow.ischool.business.forgetpwd;
 
-import com.commonlib.core.BasePresenter;
 import com.ishow.ischool.R;
-import com.ishow.ischool.common.base.BaseCompactActivity;
+
+import com.ishow.ischool.common.base.BaseActivity4Crm;
+
 
 /**
  * Created by MrS on 2016/8/12.
  */
-public class ForgetPwdActivity1 extends BaseCompactActivity {
+public class ForgetPwdActivity1 extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
@@ -22,10 +23,5 @@ public class ForgetPwdActivity1 extends BaseCompactActivity {
     @Override
     protected void setUpData() {
 
-    }
-
-    @Override
-    public BasePresenter bindPresenter() {
-        return null;
     }
 }

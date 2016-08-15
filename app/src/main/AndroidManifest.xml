@@ -44,6 +44,8 @@
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
         <activity android:name=".business.personinfo.PersonInfoActivity" />
 
+        <activity android:name=".business.addstudent.AddStudentActivity" />
+
         <!-- 百度定位 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

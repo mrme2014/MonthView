@@ -13,6 +13,7 @@
             android:hint="@string/input_phone"
             />
         <Button
+            android:id="@+id/getcode_btn"
             android:layout_width="80dp"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
@@ -36,7 +37,7 @@
         android:hint="@string/input_smscode"
         />
 
-    <TextView
+    <Button
         android:id="@+id/submit_tv"
         style="@style/btn_green_cor"
         android:layout_width="match_parent"

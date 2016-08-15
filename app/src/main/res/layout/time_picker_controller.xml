@@ -19,6 +19,15 @@
             android:textColor="@android:color/holo_blue_bright" />
 
         <TextView
+            android:id="@+id/title"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/sp12"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/holo_blue_bright" />
+
+        <TextView
             android:id="@+id/ok"
             android:layout_width="60dp"
             android:layout_height="match_parent"

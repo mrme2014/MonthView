@@ -14,12 +14,12 @@ import rx.Observable;
 public interface UserApi {
     @FormUrlEncoded
     @POST("/system/user/login")
-    Observable<ApiResult<User>> login(@Field("mobile") String phone, @Field("passwd") String password, @Field("fields") String fields);
+    Observable<ApiResult<User>> login(@Field("mobile") String mobile, @Field("passwd") String password, @Field("fields") String fields);
 
     //修改密码(system.user.editpwd) 接口
     @FormUrlEncoded
     @POST("/system/user/editpwd")
-    Observable<ApiResult> editpwd( @Field("user_id") int user_id, @Field("oldpasswd") String oldpasswd, @Field("newpasswd") String newpasswd);
+    Observable<ApiResult<String>> editpwd( @Field("user_id") int user_id, @Field("oldpasswd") String oldpasswd, @Field("newpasswd") String newpasswd);
 
     //找回密码(system.user.forgetpwd) 接口
     @FormUrlEncoded
@@ -34,7 +34,7 @@ public interface UserApi {
     //修改信息(system.user.edit) 接口
     @FormUrlEncoded
     @POST("/system/user/edit")
-    Observable<ApiResult> edit(@Field("user_id") int user_id, @Field("mobile") String mobile, @Field("user_name") String user_name, @Field("birthday") int birthday, @Field("job") String job, @Field("qq") String qq);
+    Observable<ApiResult> edit(@Field("user_id") int user_id,  @Field("birthday") int birthday, @Field("qq") String qq);
 
 
     //切换角色(system.user.change) 接口
@@ -42,4 +42,22 @@ public interface UserApi {
     @POST("/system/user/change")
     Observable<ApiResult<String>> change();
 
+    //获取七年上传token(system.qiniu.token) 接口
+    @FormUrlEncoded
+    @POST("/system/qiniu/token")
+    Observable<ApiResult<String>> get_qiniui_token(@Field("type") int type);
+
+    //APP找回密码第一步(system.user.checkrandcode) 接口
+    @FormUrlEncoded
+    @POST("/system/user/checkrandcode")
+    Observable<ApiResult<String>> checkrandcode(@Field("mobile")String mobile,@Field("randcode")String randcode);
+
+    //APP找回密码第二步，设置密码(system.user.setpasswd) 接口
+    @FormUrlEncoded
+    @POST("/system/user/setpasswd")
+    Observable<ApiResult<String>> setpasswd(@Field("mobile")String mobile,@Field("passwd")String passwd);
+
+    @FormUrlEncoded
+    @POST("/system/sms/send")
+    Observable<ApiResult<String>> sendSms(@Field("mobile") String mobile,@Field("type") int type);
 }

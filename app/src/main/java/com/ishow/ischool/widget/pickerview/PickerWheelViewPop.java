@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.ishow.ischool.R;
 
@@ -32,7 +33,6 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     public PickerWheelViewPop(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initMultiSelectPanel(context);
     }
 
     public PickerWheelViewPop(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -46,42 +46,39 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
     /**
      * 年月日选择类型的 界面
      * @param context
+     * @param context  面板中间的 标题 string资源ｉｄ  -1代表不显示标题
      */
-    public void renderYMDPanel(Context context) {
-        this.setOutsideTouchable(true);
-        this.setAnimationStyle(R.style.Select_dialog_windowAnimationStyle);
-        View contentView = LayoutInflater.from(context).inflate(R.layout.time_picker, null);
-        timePicker = (TimePicker) contentView.findViewById(R.id.picker);
-        View cancel = contentView.findViewById(R.id.cancel);
-        View ok = contentView.findViewById(R.id.ok);
-        setContentView(contentView);
-        setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#e1e1e1")));
-
-        cancel.setOnClickListener(this);
-        ok.setOnClickListener(this);
+    public void renderYMDPanel(Context context,int titleResId) {
+        renderPanel(context, titleResId,R.layout.time_picker);
     }
 
     /**
      * 这个所能展示的类型比较多了   时+分+秒  礼拜几+时+分  上午+时+分， 已报名+年+月
      * @param context
+     * @param context  面板中间的 标题 string资源ｉｄ  -1代表不显示标题
      */
-    /*这里往下 是除了  年月日选择的 */
-    public void initMultiSelectPanel(Context context) {
+    public void initMultiSelectPanel(Context context,int titleResId) {
+        renderPanel(context, titleResId,R.layout.time_picker_controller);
+    }
+
+    private void renderPanel(Context context, int titleResId, int layResId) {
         this.setOutsideTouchable(true);
         this.setAnimationStyle(R.style.Select_dialog_windowAnimationStyle);
-        View contentView = LayoutInflater.from(context).inflate(R.layout.time_picker_controller, null);
+
+        View contentView = LayoutInflater.from(context).inflate(layResId, null);
         viewById = (PickerWheelViewLinearlayout) contentView.findViewById(R.id.PickerWheelViewLinearlayout);
+
         View cancel = contentView.findViewById(R.id.cancel);
         View ok = contentView.findViewById(R.id.ok);
+        cancel.setOnClickListener(this);
+        ok.setOnClickListener(this);
+        TextView textView = (TextView) contentView.findViewById(R.id.title);
+        if (titleResId!=-1)textView.setText(context.getString(titleResId));
+
         setContentView(contentView);
         setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         setBackgroundDrawable(new ColorDrawable(Color.parseColor("#e1e1e1")));
-
-        cancel.setOnClickListener(this);
-        ok.setOnClickListener(this);
     }
 
     /**
@@ -90,7 +87,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
      * @param count 需要有几列wheelview  最多5个
      * @param datas
      */
-    public void renderPanel(int defalut, int count, ArrayList<String>... datas) {
+    public void setDatas(int defalut, int count, ArrayList<String>... datas) {
         if (count >= 5)
             throw new IndexOutOfBoundsException("the param count must less than 5.");
         /*if (datas==null||datas.length<count)

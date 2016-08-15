@@ -6,7 +6,7 @@
 
     <include layout="@layout/widget_toolbar" />
 
-    <com.commonlib.core.LoadFrameLayout
+    <com.commonlib.core.view.LoadFrameLayout
         android:id="@+id/baseFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

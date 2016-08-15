@@ -7,8 +7,7 @@
         android:id="@+id/old_pwd"
         android:layout_marginTop="10dp"
         style="@style/edit_white_bg"
-        android:hint="@string/old_pwd_hnit"
-        android:text="13512341234">
+        android:hint="@string/old_pwd_hnit">
 
     </EditText>
     <View
@@ -19,8 +18,7 @@
     <EditText
         android:id="@+id/new_pwd"
         style="@style/edit_white_bg"
-        android:hint="@string/new_pwd_hnit"
-        android:text="qq123456/"/>
+        android:hint="@string/new_pwd_hnit" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -29,15 +27,14 @@
     <EditText
         android:id="@+id/new_pwd_again"
         style="@style/edit_white_bg"
-        android:hint="@string/new_pwd_hnit_again"
-        android:text="qq123456/"/>
+        android:hint="@string/new_pwd_hnit_again" />
 
-    <TextView
+    <Button
         android:id="@+id/submit_tv"
         style="@style/btn_green_cor"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:gravity="center"
         android:text="@string/submit" />
 </LinearLayout>

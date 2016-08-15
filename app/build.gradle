@@ -41,5 +41,7 @@ dependencies {
     // butterknife:8.2.1
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
-//    compile 'com.android.support:multidex:1.0.0'
+
+    /*七牛SDK*/
+    compile 'com.qiniu:qiniu-android-sdk:7.2.+'
 }

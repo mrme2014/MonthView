@@ -24,7 +24,7 @@
         android:hint="@string/new_pwd_hnit_again"
          />
 
-    <TextView
+    <Button
         android:id="@+id/submit_tv"
         style="@style/btn_green_cor"
         android:layout_width="match_parent"

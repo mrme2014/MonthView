@@ -6,6 +6,7 @@ import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 
 
+
 /**
  * Created by wqf on 16/8/13.
  */
@@ -14,7 +15,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     @Override
     public void login(String name, String pass) {
         mModel.login(name, pass)
-                .subscribe(new ApiObserver<User>() {
+                .subscribe(new ApiObserver<User>(User.class) {
                     @Override
                     public void onSuccess(User user) {
                         if (user != null && user.getToken() != null) {
@@ -22,6 +23,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                             TokenManager.init(user.getToken());
                         }
                         mView.loginSuccess();
+                        TokenManager.init(user.getToken());
                     }
 
                     @Override

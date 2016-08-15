@@ -19,8 +19,6 @@ public interface LoginContract {
     interface Model extends BaseModel {
         Observable<ApiResult<User>> login(String name, String pass);
     }
-
-
     interface View extends BaseView {
         void loginSuccess();
         void loginError(String msg);

@@ -24,12 +24,14 @@
         input:inputLayout_texthint="请输入学员QQ/微信"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_college"
         style="@style/input_linearLayout_style"
-        input:label_text="@string/item_school"
+        input:label_text="@string/item_college"
         input:inputLayout_texthint="请选择学员就读学校（必填）"
         input:next="true"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_major"
         style="@style/input_linearLayout_style"
         input:label_text="@string/item_major"
         input:inputLayout_texthint="请输入学员就读专业（必填）"
@@ -44,26 +46,30 @@
         android:layout_marginTop="20dp"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_campus"
         style="@style/input_linearLayout_style"
         input:label_text="@string/item_campus"
         input:inputLayout_texthint="请输入学员所属校区（必填）"
         input:next="true"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_from"
         style="@style/input_linearLayout_style"
         input:label_text="@string/item_from"
         input:inputLayout_texthint="请选择学员来源（必填）"
         input:next="true"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_reference"
         style="@style/input_linearLayout_style"
         input:label_text="@string/item_reference"
         input:inputLayout_texthint="请选择推荐人"
         input:next="true"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_remark"
         style="@style/input_linearLayout_style"
-        input:label_text="@string/item_campus"
+        input:label_text="@string/item_remark"
         input:inputLayout_texthint="请填写备注信息"
         input:bottom_line="false"/>
 

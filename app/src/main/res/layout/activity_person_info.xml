@@ -7,6 +7,8 @@
     android:fitsSystemWindows="true"
     android:background="#f1f1f1">
 
+    <include layout="@layout/widget_toolbar"></include>
+
     <RelativeLayout
        android:layout_width="match_parent"
         android:layout_height="40dp"

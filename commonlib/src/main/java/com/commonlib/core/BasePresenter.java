@@ -1,12 +1,10 @@
 package com.commonlib.core;
 
-import android.content.Context;
-
 /**
  * Created by wqf on 16/8/11.
  */
 public abstract class BasePresenter<M, V> {
-    public Context context;
+
     public M mModel;
     public V mView;
 

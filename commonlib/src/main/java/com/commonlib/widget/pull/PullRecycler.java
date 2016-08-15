@@ -25,7 +25,7 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     public static final int ACTION_LOAD_MORE_END = 3;
     public static final int ACTION_IDLE = 0;
     private OnRecyclerRefreshListener listener;
-    private int mCurrentState = ACTION_IDLE;
+    public int mCurrentState = ACTION_IDLE;
     private boolean isLoadMoreEnabled = false;
     private boolean isPullToRefreshEnabled = true;
     private ILayoutManager mLayoutManager;

@@ -40,6 +40,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         recycler.setLayoutManager(getLayoutManager());
 //        recycler.addItemDecoration(getItemDecoration());
         recycler.setAdapter(mAdapter);
+        recycler.setRefreshing();
     }
 
     protected void setUpAdapter() {
@@ -88,8 +89,8 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
     protected abstract BaseViewHolder getViewHolder(ViewGroup parent, int viewType);
 
 
-    protected void loadSuccess(int loadAction, ArrayList<T> resultList) {
-        if (loadAction == PullRecycler.ACTION_PULL_TO_REFRESH) {
+    protected void loadSuccess(ArrayList<T> resultList) {
+        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mDataList.clear();
         }
         if (resultList == null || resultList.size() == 0) {

@@ -33,6 +33,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
         initEnv();
         setUpContentView();
+        bindView();
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
         if (this instanceof BaseView) {
@@ -48,6 +49,9 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
      * 初始化 环境，intent数据
      */
     protected void initEnv() {
+    }
+
+    protected void bindView() {
     }
 
     protected abstract void setUpContentView();

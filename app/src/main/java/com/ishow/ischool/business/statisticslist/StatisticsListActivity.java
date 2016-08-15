@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * Created by wqf on 16/8/14.
  */
-public class StatisticsListActivity extends BaseListActivity4Crm<StudentStatistics, StatisticsListPresenter, StatisticsListModel> implements StatisticsListContract.View {
+public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListPresenter, StatisticsListModel, StudentStatistics> implements StatisticsListContract.View {
 
     @Override
     protected void setUpContentView() {
@@ -53,7 +53,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StudentStatisti
         TextView state;
         @BindView(R.id.school)
         TextView school;
-        @BindView(R.id.name)
+        @BindView(R.id.phone)
         ImageView phone;
 
         public StatisticsListViewHolder(View itemView) {

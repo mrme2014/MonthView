@@ -14,8 +14,9 @@ import butterknife.ButterKnife;
 
 /**
  * Created by wqf on 16/8/13.
+ * 此处T类型是列表item的基础数据类型
  */
-public abstract class BaseListActivity4Crm<T, P extends BasePresenter, M extends BaseModel> extends BaseListActivity<T, P, M> {
+public abstract class BaseListActivity4Crm<P extends BasePresenter, M extends BaseModel, T> extends BaseListActivity<P, M, T> {
 
     protected Snackbar snackbar = null;
     protected ProgressDialog dialog = null;

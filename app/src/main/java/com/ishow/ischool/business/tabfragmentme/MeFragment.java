@@ -59,7 +59,7 @@ public class MeFragment extends BaseFragment4Crm implements MeView {
 //        dialog.show(getChildFragmentManager());
 
         PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.renderPanel(1, 3, new ArrayList<String>());
+        pop.setDatas(1, 3, new ArrayList<String>());
         pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
     }
 

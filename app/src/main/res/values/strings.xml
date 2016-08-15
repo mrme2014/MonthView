@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">ischool</string>
 
+    <!-- common -->
+    <string name="submit_str">提交</string>
+
+
     <string name="permisson_quanxian_ok">确定</string>
     <string name="permisson_quanxian_call">该功能需要赋予访问电话的权限，否则该功能可能不能正常工作！</string>
     <string name="permisson_quanxian_storage">该功能需要赋予访问存储的权限，否则该功能可能不能正常工作！</string>
@@ -122,11 +126,15 @@
     </array>
 
 
+    <!-- 学员统计 -->
+    <string name="student_statistics">学员统计</string>
+
     <!-- 添加学员 -->
+    <string name="add_student">添加学员</string>
     <string name="item_name">姓名</string>
     <string name="item_phone">联系电话</string>
     <string name="item_qq">QQ/微信</string>
-    <string name="item_school">就读学校</string>
+    <string name="item_college">就读学校</string>
     <string name="item_major">专业</string>
     <string name="span_business_info">业务信息</string>
     <string name="item_campus">所属校区</string>

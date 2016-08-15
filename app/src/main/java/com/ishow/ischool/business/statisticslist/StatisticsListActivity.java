@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.statisticslist;
 
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,35 +8,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commonlib.widget.pull.BaseViewHolder;
+import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.student.StudentStatistics;
+import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wqf on 16/8/14.
  */
 public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListPresenter, StatisticsListModel, StudentStatistics> implements StatisticsListContract.View {
 
+    @BindView(R.id.fab)
+    FloatingActionButton addFab;
+
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_search_student, -1, R.menu.menu_statisticslist, MODE_BACK);
-    }
-
-    @Override
-    protected void setUpView() {
-    }
-
-    @Override
-    protected void setUpData() {
-
+        setContentView(R.layout.activity_statistics_list, R.string.student_statistics, R.menu.menu_statisticslist, MODE_BACK);
     }
 
     @Override
     public void onRefresh(int action) {
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
+        }
 
+        if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
+            mCurrentPage = 1;
+        }
+        mPresenter.getList4StudentStatistics();
     }
 
     @Override
@@ -74,6 +83,20 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             StudentStatistics data = mDataList.get(position);
 
         }
+    }
 
+    @Override
+    public void getListSuccess(StudentStatisticsList studentStatisticsList) {
+        loadSuccess(studentStatisticsList.lists);
+    }
+
+    @Override
+    public void getListFail(String msg) {
+        loadFailed();
+    }
+
+    @OnClick(R.id.fab)
+    void add() {
+        JumpManager.jumpActivity(this, AddStudentActivity.class);
     }
 }

@@ -4,6 +4,10 @@ package com.ishow.ischool.business.statisticslist;
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
 import com.commonlib.core.BaseView;
+import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.student.StudentStatisticsList;
+
+import rx.Observable;
 
 
 /**
@@ -11,12 +15,15 @@ import com.commonlib.core.BaseView;
  */
 public interface StatisticsListContract {
     interface Model extends BaseModel {
+        Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics();
     }
 
-
     interface View extends BaseView {
+        void getListSuccess(StudentStatisticsList studentStatisticsList);
+        void getListFail(String msg);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
+        public abstract void getList4StudentStatistics();
     }
 }

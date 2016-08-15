@@ -37,6 +37,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile project(':commonlib')
+    compile project(':citypicker')
     compile files('libs/BaiduLBS_Android.jar')
     // butterknife:8.2.1
     compile 'com.jakewharton:butterknife:8.2.1'

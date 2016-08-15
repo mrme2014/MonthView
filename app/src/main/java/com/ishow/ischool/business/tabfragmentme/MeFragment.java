@@ -45,7 +45,6 @@ public class MeFragment extends BaseFragment4Crm implements MeContract.View {
     public void init() {
 
     }
-
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
     public void on_fm_me_header_layout_click() {
@@ -104,5 +103,4 @@ public class MeFragment extends BaseFragment4Crm implements MeContract.View {
     public void logutFailed(String msg) {
         showToast(msg);
     }
-
 }

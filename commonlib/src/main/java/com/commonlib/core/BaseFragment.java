@@ -66,6 +66,5 @@ public abstract class BaseFragment<P extends BasePresenter, M extends BaseModel>
             mPresenter.onDestroy();
             mPresenter = null;
         }
-
     }
 }

@@ -46,17 +46,7 @@
 
         <activity android:name=".business.addstudent.AddStudentActivity" />
 
-        <!-- 百度定位 -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="TXVjAR7cHjGmZa2VI4nPA59jV9d0MwoP" />
-        <!-- //key:开发者申请的key -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
-
-        <activity android:name=".business.communicationlist.CommunicationListActivity"></activity>
+        <activity android:name=".business.communicationlist.CommunicationListActivity" />
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@
 
         <!--高德地图定位-->
         <service android:name="com.amap.api.location.APSService"/>
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="07e4e3deba98311f4e9749f8170a9166"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="145422b5adaa84a61292ae1ef5b01af6"/>
         <!--高德地图定位结束-->
     </application>
 

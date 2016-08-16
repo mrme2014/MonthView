@@ -1,8 +1,10 @@
 package com.ishow.ischool.business.addstudent;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
 
@@ -15,23 +17,24 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
 
     @BindView(R.id.item_name)
-    InputLinearLayout name;
+    InputLinearLayout nameIL;
     @BindView(R.id.item_phone)
-    InputLinearLayout phone;
+    InputLinearLayout phoneIL;
     @BindView(R.id.item_qq)
-    InputLinearLayout qq;
-    @BindView(R.id.item_college)
-    InputLinearLayout college;
+    InputLinearLayout qqIL;
+    @BindView(R.id.item_university)
+    InputLinearLayout universityIL;
     @BindView(R.id.item_major)
-    InputLinearLayout major;
+    InputLinearLayout majorIL;
     @BindView(R.id.item_campus)
-    InputLinearLayout campus;
+    InputLinearLayout campusIL;
     @BindView(R.id.item_from)
-    InputLinearLayout from;
+    InputLinearLayout fromIL;
     @BindView(R.id.item_reference)
-    InputLinearLayout reference;
+    InputLinearLayout referenceIL;
     @BindView(R.id.item_remark)
-    InputLinearLayout remark;
+    InputLinearLayout remarkIL;
+    private String mUniversity = "";
 
 
     @Override
@@ -41,10 +44,10 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     @Override
     protected void setUpView() {
-        college.setOnEidttextClick(this);
-        campus.setOnEidttextClick(this);
-        from.setOnEidttextClick(this);
-        reference.setOnEidttextClick(this);
+        universityIL.setOnEidttextClick(this);
+        campusIL.setOnEidttextClick(this);
+        fromIL.setOnEidttextClick(this);
+        referenceIL.setOnEidttextClick(this);
     }
 
     @Override
@@ -55,8 +58,8 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     @Override
     public void onEdittextClick(View edittext) {
         switch (edittext.getId()) {
-            case R.id.item_college:
-                showToast("就读学校");
+            case R.id.item_university:
+                startActivityForResult(new Intent(AddStudentActivity.this, UniversityPickActivity.class), UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY);
                 break;
             case R.id.item_campus:
                 showToast("所属校区");
@@ -67,6 +70,22 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
             case R.id.item_reference:
                 showToast("推荐人");
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY:
+                    String university = data.getStringExtra(UniversityPickActivity.KEY_PICKED_UNIVERSITY);
+                    if ((!mUniversity.equals(university))) {
+                        mUniversity = university;
+                        universityIL.setContent(mUniversity);
+                    }
+                    break;
+            }
         }
     }
 }

@@ -26,9 +26,9 @@
         input:inputLayout_texthint="请输入学员QQ/微信"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_college"
+        android:id="@+id/item_university"
         style="@style/input_linearLayout_style"
-        input:label_text="@string/item_college"
+        input:label_text="@string/item_university"
         input:inputLayout_texthint="请选择学员就读学校（必填）"
         input:next="true"/>
 

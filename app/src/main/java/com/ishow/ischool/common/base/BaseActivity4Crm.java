@@ -31,9 +31,11 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
     }
 
     public void showToast(String s) {
-        if (toolbar != null) {
-            snackbar = Snackbar.make(toolbar, s, Snackbar.LENGTH_LONG);
-            snackbar.setAction("ok", new View.OnClickListener() {
+
+        if (mToolbar != null) {
+            snackbar = Snackbar.make(mToolbar, s, Snackbar.LENGTH_LONG);
+            snackbar.setAction("朕知道了", new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
                     snackbar.dismiss();

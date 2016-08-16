@@ -18,8 +18,8 @@ import com.commonlib.core.util.GenericUtil;
  * 宗旨：纯粹界面操作交互，不需要MP参与的行为，尽量V自己做，保证MVP职责清晰，P只有干净简洁的协助VM的业务逻辑操作，M只处理数据操作。
  */
 public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
-    protected Toolbar toolbar;
-    protected TextView toolbar_title;
+    protected Toolbar mToolbar;
+    protected TextView mToolbarTitle;
     public static final int MODE_BACK = 0;      // 左侧返回键
     public static final int MODE_DRAWER = 1;
     public static final int MODE_NONE = 2;      // 空
@@ -114,14 +114,14 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
     protected void setUpToolbar(int titleResId, int menuId, int mode) {
         if (mode != MODE_NONE) {
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            toolbar.setTitle("");
-            toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar.setTitle("");
+            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
             if (mode == MODE_BACK) {
-                toolbar.setNavigationIcon(R.drawable.ic_return);
+                mToolbar.setNavigationIcon(R.drawable.ic_return);
             }
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onNavigationBtnClicked();
@@ -135,14 +135,14 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
     protected void setUpToolbar(String titleStr, int menuId, int mode) {
         if (mode != MODE_NONE) {
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            toolbar.setTitle("");
-            toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar.setTitle("");
+            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
             if (mode == MODE_BACK) {
-                toolbar.setNavigationIcon(R.drawable.ic_return);
+                mToolbar.setNavigationIcon(R.drawable.ic_return);
             }
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onNavigationBtnClicked();
@@ -158,24 +158,24 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
      * @param menuId
      */
     protected void setUpMenu(int menuId) {
-        if (toolbar != null) {
-            toolbar.getMenu().clear();
+        if (mToolbar != null) {
+            mToolbar.getMenu().clear();
             if (menuId > 0) {
-                toolbar.inflateMenu(menuId);
-                toolbar.setOnMenuItemClickListener(this);
+                mToolbar.inflateMenu(menuId);
+                mToolbar.setOnMenuItemClickListener(this);
             }
         }
     }
 
     protected void setUpTitle(int titleResId) {
-        if (titleResId > 0 && toolbar_title != null) {
-            toolbar_title.setText(titleResId);
+        if (titleResId > 0 && mToolbarTitle != null) {
+            mToolbarTitle.setText(titleResId);
         }
     }
 
     protected void setUpTitle(String titleStr) {
-        if (!titleStr.equals("") && toolbar_title != null) {
-            toolbar_title.setText(titleStr);
+        if (!titleStr.equals("") && mToolbarTitle != null) {
+            mToolbarTitle.setText(titleStr);
         }
     }
 

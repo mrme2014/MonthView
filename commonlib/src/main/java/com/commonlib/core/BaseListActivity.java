@@ -31,6 +31,15 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
     @Override
     protected void setUpView() {
         recycler = (PullRecycler) findViewById(R.id.pullRecycler);
+        recycler.mPageEnable = setPageEnable();
+    }
+
+    /**
+     * 设置该页面不支持分页加载,默认支持分页
+     * @return
+     */
+    protected boolean setPageEnable() {
+        return true;
     }
 
     @Override
@@ -90,22 +99,34 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 
 
     protected void loadSuccess(ArrayList<T> resultList) {
+        recycler.resetView();
+        if (!recycler.mPageEnable) {            // 如果不支持分页，第一次加载之后就关闭下拉刷新
+            recycler.enablePullToRefresh(false);
+        }
+
         if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mDataList.clear();
         }
+
         if (resultList == null || resultList.size() == 0) {
-            if (mCurrentPage > 2) {      // 非第一页
-                recycler.enableLoadMore(false);
-                recycler.setOnLoadMoreEnd();
-            } else {        // 当curPage=2时，其实是第一页数据。showNoDataView
+            if (recycler.mPageEnable) {     // 支持分页
+                if (mCurrentPage > 2) {      // 非第一页
+                    recycler.enableLoadMore(false);
+                    recycler.setOnLoadMoreEnd();
+                } else {        // 当curPage=2时，其实是第一页数据。showNoDataView
+                    recycler.showEmptyView();
+                }
+            } else {
                 recycler.showEmptyView();
             }
         } else {
-            if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
-                recycler.enableLoadMore(false);
-                recycler.setOnLoadMoreEnd();
-            } else {
-                recycler.enableLoadMore(true);
+            if (recycler.mPageEnable) {     // 支持分页
+                if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
+                    recycler.enableLoadMore(false);
+                    recycler.setOnLoadMoreEnd();
+                } else {
+                    recycler.enableLoadMore(true);
+                }
             }
             mDataList.addAll(resultList);
             mAdapter.notifyDataSetChanged();
@@ -114,6 +135,10 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
     }
 
     protected void loadFailed() {
+        if (!recycler.mPageEnable) {        // 如果不支持分页，第一次加载之后就关闭下拉刷新
+            recycler.enablePullToRefresh(false);
+        }
+
         recycler.onRefreshCompleted();
         if (mCurrentPage > 1) {
             mCurrentPage--;

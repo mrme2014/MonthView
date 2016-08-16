@@ -38,8 +38,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!--<activity android:name=".business.login.LoginActivity" />-->
-        <activity android:name=".business.statisticslist.StatisticsListActivity" />
+       <!-- <activity android:name=".business.statisticslist.StatisticsListActivity" />-->
+
+       <!-- <activity android:name=".business.login.LoginActivity" />-->
+        <activity android:name=".business.statisticslist.StatisticsListActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity1" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity2" />
@@ -47,9 +53,14 @@
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
         <activity android:name=".business.personinfo.PersonInfoActivity" />
 
-        <activity android:name=".business.addstudent.AddStudentActivity" />
+        <activity android:name=".business.addstudent.AddStudentActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".business.communicationlist.CommunicationListActivity" />
+        <activity android:name=".business.universitypick.UniversityPickActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -1,16 +1,44 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme.NoActionBar" parent="AppTheme">-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:windowActionBar">false</item>-->
+    <!--</style>-->
+
+    <!-- Toolbar样式 -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:minHeight">?attr/actionBarSize</item>-->
+        <item name="android:layout_height">@dimen/default_toolbar_height</item>
+        <item name="android:minHeight">@dimen/default_toolbar_height</item>
+        <!-- Toolbar背景颜色 -->
+        <item name="android:background">?attr/colorPrimary</item>
+        <!-- Toolbar popup menu样式 -->
+        <item name="android:theme">@style/PopWindowStyle</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
+    <style name="Theme.MaterialDesign" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- toolbar颜色 -->
+        <!-- <item name="colorPrimary">@color/color_header</item>-->
+        <!-- toolbar标题文字颜色 仅在Lollipop以上机器生效-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 通知栏底色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色 -->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:textSize">16sp</item>-->
+        <!--<item name="android:windowBackground">@color/color_app_bg</item>-->
+        <!--<item name="actionMenuTextAppearance">@style/MenuTextStyle</item>-->
     </style>
 
     <style name="LetterIndexTextViewStyle">

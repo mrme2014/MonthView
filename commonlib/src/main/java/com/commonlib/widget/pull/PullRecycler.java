@@ -30,6 +30,7 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     private boolean isPullToRefreshEnabled = true;
     private ILayoutManager mLayoutManager;
     private BaseListAdapter adapter;
+    public boolean mPageEnable = true;
 
     public PullRecycler(Context context) {
         super(context);
@@ -65,11 +66,13 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (mCurrentState == ACTION_IDLE && isLoadMoreEnabled && checkIfNeedLoadMore()) {
-                    mCurrentState = ACTION_LOAD_MORE_LOADING;
-                    adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_SHOW);
-                    mSwipeRefreshLayout.setEnabled(false);
-                    listener.onRefresh(ACTION_LOAD_MORE_LOADING);
+                if (mPageEnable) {      // 判断是否支持分页，当不支持时，直接过滤加载更多
+                    if (mCurrentState == ACTION_IDLE && isLoadMoreEnabled && checkIfNeedLoadMore()) {
+                        mCurrentState = ACTION_LOAD_MORE_LOADING;
+                        adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_SHOW);
+                        mSwipeRefreshLayout.setEnabled(false);
+                        listener.onRefresh(ACTION_LOAD_MORE_LOADING);
+                    }
                 }
             }
         });
@@ -175,5 +178,9 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
 
     public void showEmptyView() {
         emptyLayout.setVisibility(VISIBLE);
+    }
+
+    public void resetView() {
+        emptyLayout.setVisibility(GONE);
     }
 }

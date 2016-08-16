@@ -139,7 +139,7 @@
     <string name="item_name">姓名</string>
     <string name="item_phone">联系电话</string>
     <string name="item_qq">QQ/微信</string>
-    <string name="item_college">就读学校</string>
+    <string name="item_university">就读学校</string>
     <string name="item_major">专业</string>
     <string name="span_business_info">业务信息</string>
     <string name="item_campus">所属校区</string>

@@ -2,8 +2,12 @@ package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.university.UniversityInfo;
+
+import java.util.ArrayList;
 
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -21,4 +25,27 @@ public interface MarketApi {
 //            @Query("end_time") int end_time,       //筛选的结束时间
 //            @Query("pay_sate") int pay_sate)
     );
+
+
+
+    //获取所有大学
+    @GET("/system/university/getall")
+    Observable<ApiResult<ArrayList<UniversityInfo>>> listUniversity(
+            @Query("page") Integer page,
+            @Query("pagesize") Integer pagesize);
+
+    //根据省id或地区id 获取大学
+    @GET("/system/university/getuniversity")
+    Observable<ApiResult<ArrayList<UniversityInfo>>> getUniversity(
+            @Query("city_name") String city_name,
+            @Query("provinceid") Integer provinceid,
+            @Query("cityid") Integer cityid);
+
+    //搜索大学
+    @GET("/system/university/search")
+    Observable<ApiResult<ArrayList<UniversityInfo>>> searchUniversity(
+            @Query("name") String name,
+            @Query("page") Integer page,
+            @Query("pagesize") Integer pagesize);
+
 }

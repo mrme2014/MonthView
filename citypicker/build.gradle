@@ -23,4 +23,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile files('libs/AMap_Location_V2.8.0_20160811.jar')
+    compile project(':commonlib')
 }

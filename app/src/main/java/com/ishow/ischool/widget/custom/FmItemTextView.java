@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -64,6 +66,46 @@ public class FmItemTextView extends TextView {
         super(context, attrs, defStyleAttr, defStyleRes);
         initEnv(context, attrs);
 
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        Parcelable superData = super.onSaveInstanceState();
+        bundle.putParcelable("super_data", superData);
+        bundle.putInt("bottom_line_Lp", bottom_line_Lp);
+        bundle.putInt("tip_Rp", tip_Rp);
+        bundle.putInt("line_color", line_color);
+        bundle.putBoolean("drawLine", drawLine);
+        bundle.putBoolean("drawRPoint", drawRPoint);
+        bundle.putBoolean("hasUnread", hasUnread);
+        bundle.putInt("rightTipColor", rightTipColor);
+        bundle.putString("tipTxt", tipTxt);
+        bundle.putFloat("txtHeight",txtHeight);
+        bundle.putFloat("txtWidth",txtWidth);
+        bundle.putInt("measuredWidth",measuredWidth);
+        bundle.putInt("measuredHeight",measuredHeight);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        Bundle bundle = (Bundle) state;
+        Parcelable superData = bundle.getParcelable("super_data");
+        bottom_line_Lp = bundle.getInt("bottom_line_Lp");
+        tip_Rp = bundle.getInt("tip_Rp");
+        line_color = bundle.getInt("line_color");
+        rightTipColor = bundle.getInt("rightTipColor");
+        measuredWidth = bundle.getInt("measuredWidth");
+        measuredHeight = bundle.getInt("measuredHeight");
+        txtHeight = bundle.getFloat("txtHeight");
+        txtWidth = bundle.getFloat("txtWidth");
+        drawLine = bundle.getBoolean("drawLine");
+        drawRPoint = bundle.getBoolean("drawRPoint");
+        hasUnread = bundle.getBoolean("hasUnread");
+        tipTxt =bundle.getString("tipTxt");
+
+        super.onRestoreInstanceState(superData);
     }
 
     private void initEnv(Context context, AttributeSet attrs) {

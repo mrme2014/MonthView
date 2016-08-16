@@ -90,7 +90,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (listner != null)
-            listner.onItemselect(position, ((TextView) view).getText().toString());
+            listner.onItemselect(position);
         this.dismiss();
     }
 
@@ -176,14 +176,14 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             item.setText(datas.get(position));
 
             /*这种情况是 为每一个 message btn指定一个颜色 messageColor的大小 就会跟datas集合大小一样*/
-            int size = messageColor.size();
-            if (messageColor != null && size >= datas.size()) {
+
+            if (messageColor != null && messageColor.size() >= datas.size()) {
                 item.setTextColor(context.getResources().getColor(messageColor.get(position)));
 
                 /*下面这 种情况是 为 message btn指定一个颜色 messageColor的大小 就会小于datas集合大小
                 * 这种情况超过messageColor的大小的位置 会使用默认颜色 */
-            } else if (messageColor != null && size <=datas.size()) {
-                if (position < size)
+            } else if (messageColor != null &&  messageColor.size() <=datas.size()) {
+                if (position <  messageColor.size())
                     item.setTextColor(context.getResources().getColor(messageColor.get(position)));
             }
 
@@ -192,7 +192,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
     }
 
     public interface onItemselectListner {
-        public void onItemselect(int position, String txt);
+        public void onItemselect(int position);
     }
 
     public onItemselectListner listner;

@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.api.Api;
 import com.ishow.ischool.common.api.ApiObserver;
@@ -59,9 +60,9 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
         Api.getUserApi().editpwd(1,"","")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ApiObserver<String>() {
+                .subscribe(new ApiObserver<JsonElement>() {
                     @Override
-                    public void onSuccess(String s) {
+                    public void onSuccess(JsonElement s) {
 
                     }
 

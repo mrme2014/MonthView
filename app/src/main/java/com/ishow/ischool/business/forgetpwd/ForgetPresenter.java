@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.forgetpwd;
 
 import com.commonlib.core.BasePresenter;
+import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.api.ApiObserver;
 
@@ -10,10 +11,10 @@ import com.ishow.ischool.common.api.ApiObserver;
 public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView> {
 
     public void sendSms(String mobile){
-      mModel.getSmsCode(mobile).subscribe(new ApiObserver<String>() {
+      mModel.getSmsCode(mobile).subscribe(new ApiObserver<JsonElement>() {
 
           @Override
-          public void onSuccess(String s) {
+          public void onSuccess(JsonElement s) {
               mView.onSmsSucess(R.string.send_sms_sucess);
           }
 
@@ -27,9 +28,9 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
 
     public void checkRandCode(String mobile ,String randCode){
         mModel.checkrandcode(mobile,randCode)
-                .subscribe(new ApiObserver<String>() {
+                .subscribe(new ApiObserver<JsonElement>() {
                     @Override
-                    public void onSuccess(String s) {
+                    public void onSuccess(JsonElement s) {
                         mView.onNetSucess(-1);
                     }
 
@@ -41,10 +42,10 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
 
 
     public void setPwd(String mobile ,String pwd){
-        mModel.setpasswd(mobile,pwd).subscribe(new ApiObserver<String>() {
+        mModel.setpasswd(mobile,pwd).subscribe(new ApiObserver<JsonElement>() {
 
             @Override
-            public void onSuccess(String s) {
+            public void onSuccess(JsonElement s) {
                 mView.onNetSucess(R.string.pwd_reset_sucess);
             }
 

@@ -81,6 +81,7 @@
     <string name="cancel">取消</string>
     <string name="permission_storage_denid">存储权限被禁止,部分功能可能无法正常工作.</string>
     <string name="permission_camera_denid">相机权限被禁止,部分功能可能无法正常工作.</string>
+    <string name="choose_birthday">选择日期</string>
     <!--下面都是选择条件 或者筛选条件固定的  -->
     <array name="week_days">
         <item>周一</item>

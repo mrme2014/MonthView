@@ -11,7 +11,7 @@
 
     <RelativeLayout
        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:background="@drawable/bg_item_text_ripple"
         android:layout_marginTop="10dp">
         <TextView
@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#000000"
             android:text="@string/per_info_avart"/>
 
@@ -38,10 +38,11 @@
         style="@style/activity_person_info"
         android:text="@string/per_info_xingming"
         app:draw_bottom_line="true"
-        app:draw_bottom_line_color="@android:color/darker_gray"
-        app:tip_right_color="@android:color/darker_gray"
-        app:draw_bottom_line_padding="8"
-        app:tip_right_padding="8"
+        app:draw_bottom_line_color="@color/comm_line"
+        app:tip_right_color="@color/txt_9"
+        app:draw_bottom_line_padding="10"
+        app:tip_right_padding="10"
+
         />
 
     <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
@@ -49,9 +50,9 @@
         android:id="@+id/person_info_phone"
         style="@style/activity_person_info"
 
-        app:draw_bottom_line_color="@android:color/darker_gray"
-        app:tip_right_color="@android:color/darker_gray"
-        app:tip_right_padding="8"
+        app:draw_bottom_line_color="@color/comm_line"
+        app:tip_right_color="@color/txt_9"
+        app:tip_right_padding="10"
         android:layout_marginTop="0dp"
         android:text="@string/per_info_phone"
         />
@@ -63,20 +64,36 @@
         android:text="@string/per_info_birthday"
         android:drawableRight="@mipmap/icon_list_next"
         app:draw_bottom_line="true"
-        app:draw_bottom_line_color="@android:color/darker_gray"
-        app:tip_right_color="@android:color/darker_gray"
-        app:draw_bottom_line_padding="8"
-        app:tip_right_padding="8"
+        app:draw_bottom_line_color="@color/comm_line"
+        app:tip_right_color="@color/txt_9"
+        app:draw_bottom_line_padding="10"
+        app:tip_right_padding="20"
         />
 
     <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
-    <com.ishow.ischool.widget.custom.FmItemTextView
-        android:id="@+id/person_info_QQ"
-        style="@style/activity_person_info"
-        android:text="@string/per_info_QQ"
-        app:draw_bottom_line_color="@android:color/darker_gray"
-        app:tip_right_color="@android:color/darker_gray"
-        app:tip_right_padding="8"
-        android:layout_marginTop="0dp"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="45dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:text="QQ"
+            android:textColor="@color/txt_2"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/person_info_QQ"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right|center"
+            android:layout_alignParentRight="true"
+            android:text="863597281"
+            android:layout_marginRight="10dp"
+            android:textColor="#999999"
+            android:textSize="13sp"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -26,13 +27,13 @@ public class FmItemTextView extends TextView {
     /*文本提示类型的 应该距离右侧边距多远*/
     private int tip_Rp;
     /*下划线的颜色*/
-    private int line_color = Color.parseColor("#f1f1f1");//默认色
+    private int line_color = Color.parseColor("#d9dadd");//默认色
     /*是否绘制下划线*/
     private boolean drawLine;
     /*是否绘制小红点 否则绘制文本*/
     private boolean drawRPoint;
     /*右侧提示类型的颜色*/
-    private int rightTipColor = Color.parseColor("#f1f1f1");//默认色
+    private int rightTipColor = Color.parseColor("#999999");//默认色
 
 
     private String tipTxt ="";//提示类型文本
@@ -170,15 +171,18 @@ public class FmItemTextView extends TextView {
             canvas.drawCircle(measuredWidth - tip_Rp - redPointRadius, measuredHeight / 2, redPointRadius, rightTipPaint);
         }
 
+        float v = measuredWidth - tip_Rp - txtWidth;
+        LogUtil.e(v+"--"+measuredWidth+"--"+tip_Rp+"--"+txtWidth);
          /*绘制文本提示类型*/
         if (tipTxt!=null&&tipTxt!="")
-           canvas.drawText(tipTxt,measuredWidth-tip_Rp-txtWidth,measuredHeight/2+txtHeight/4,rightTipPaint);
+           canvas.drawText(tipTxt, v,measuredHeight/2+txtHeight/4,rightTipPaint);
 
     }
 
     /*更新提示文本信息*/
     public void setTipTxt(String tipTxt) {
         this.tipTxt = tipTxt;
+        txtWidth = rightTipPaint.measureText(tipTxt);
         invalidate();
     }
 

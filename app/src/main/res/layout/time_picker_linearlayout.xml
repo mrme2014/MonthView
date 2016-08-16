@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ishow.ischool.widget.pickerview.TimePicker xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/picker"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-</com.ishow.ischool.widget.pickerview.TimePicker>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/txt_blue" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="日期选择"
+            android:textSize="@dimen/sp12"
+            android:layout_centerInParent="true"
+            android:textColor="@color/txt_blue" />
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="确定"
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/txt_blue" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+    <com.ishow.ischool.widget.pickerview.TimePicker
+        android:id="@+id/picker"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.ishow.ischool.widget.pickerview.TimePicker>
+</LinearLayout>

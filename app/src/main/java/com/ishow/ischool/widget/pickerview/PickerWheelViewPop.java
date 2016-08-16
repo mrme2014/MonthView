@@ -10,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by MrS on 2016/8/12.
@@ -26,54 +28,70 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     private PickerWheelViewLinearlayout viewById;
     private TimePicker timePicker;
+    private Context context;
 
     public PickerWheelViewPop(Context context) {
         super(context);
+        init(context);
     }
 
     public PickerWheelViewPop(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public PickerWheelViewPop(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     public PickerWheelViewPop(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context);
+    }
+
+    private void init(Context context) {
+        this.context = context;
     }
 
     /**
      * 年月日选择类型的 界面
-     * @param context
-     * @param context  面板中间的 标题 string资源ｉｄ  -1代表不显示标题
+     *
+     * @param
+     * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
      */
-    public void renderYMDPanel(Context context,int titleResId) {
-        renderPanel(context, titleResId,R.layout.time_picker);
+    public void renderYMDPanel(int titleResId) {
+        renderPanel(titleResId, R.layout.time_picker_linearlayout);
+        timePicker.setDate(new Date().getTime());
     }
 
     /**
      * 这个所能展示的类型比较多了   时+分+秒  礼拜几+时+分  上午+时+分， 已报名+年+月
-     * @param context
-     * @param context  面板中间的 标题 string资源ｉｄ  -1代表不显示标题
+     *
+     * @param
+     * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
      */
-    public void initMultiSelectPanel(Context context,int titleResId) {
-        renderPanel(context, titleResId,R.layout.time_picker_controller);
+    public void initMultiSelectPanel(int titleResId) {
+        renderPanel(titleResId, R.layout.time_picker_controller);
     }
 
-    private void renderPanel(Context context, int titleResId, int layResId) {
+    private void renderPanel(int titleResId, int layResId) {
         this.setOutsideTouchable(true);
         this.setAnimationStyle(R.style.Select_dialog_windowAnimationStyle);
 
         View contentView = LayoutInflater.from(context).inflate(layResId, null);
-        viewById = (PickerWheelViewLinearlayout) contentView.findViewById(R.id.PickerWheelViewLinearlayout);
+
+        if (layResId == R.layout.time_picker_controller)
+            viewById = (PickerWheelViewLinearlayout) contentView.findViewById(R.id.PickerWheelViewLinearlayout);
+        else if (layResId == R.layout.time_picker_linearlayout)
+            timePicker = (TimePicker) contentView.findViewById(R.id.picker);
 
         View cancel = contentView.findViewById(R.id.cancel);
         View ok = contentView.findViewById(R.id.ok);
         cancel.setOnClickListener(this);
         ok.setOnClickListener(this);
         TextView textView = (TextView) contentView.findViewById(R.id.title);
-        if (titleResId!=-1)textView.setText(context.getString(titleResId));
+        if (titleResId != -1) textView.setText(context.getString(titleResId));
 
         setContentView(contentView);
         setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -108,12 +126,15 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
     @Override
     public void onClick(View v) {
         this.dismiss();
-        if (callback != null){
-            if (timePicker!=null)
-                //1这个1  可以直接转换成时间戳
-                callback.onPickCallback(1,timePicker.getPickedTimeExt());
-            //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
-            else callback.onPickCallback(1,viewById.getSelectResult());
+        if (v.getId() == R.id.ok) {
+            if (callback != null) {
+                if (timePicker != null) {//1这个1  可以直接转换成时间戳
+                    String[] pickedTimeExt = timePicker.getPickedTimeExt();
+                    callback.onPickCallback(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
+                }
+                //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
+                else if (viewById != null) callback.onPickCallback(1, viewById.getSelectResult());
+            }
         }
 
     }
@@ -122,7 +143,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     public interface PickCallback {
         /*ids 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
-        void onPickCallback(int id,String...result);
+        void onPickCallback(int id, String... result);
     }
 
     public void addPickCallback(PickCallback callback1) {

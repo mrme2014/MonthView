@@ -179,10 +179,10 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
 
             if (messageColor != null && messageColor.size() >= datas.size()) {
                 item.setTextColor(context.getResources().getColor(messageColor.get(position)));
-
+            }
                 /*下面这 种情况是 为 message btn指定一个颜色 messageColor的大小 就会小于datas集合大小
                 * 这种情况超过messageColor的大小的位置 会使用默认颜色 */
-            } else if (messageColor != null &&  messageColor.size() <=datas.size()) {
+            else if (messageColor != null &&  messageColor.size() <=datas.size()) {
                 if (position <  messageColor.size())
                     item.setTextColor(context.getResources().getColor(messageColor.get(position)));
             }

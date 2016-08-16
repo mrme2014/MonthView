@@ -39,7 +39,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:text="2018-10-10"
-        android:textColor="@color/text_9" />
+        android:textColor="@color/txt_9" />
 
     <TextView
         android:id="@+id/communication_content"
@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/user_photo_iv"
         android:text="content----------"
-        android:textColor="@color/text_6" />
+        android:textColor="@color/txt_6" />
 
     <View
         android:id="@+id/line1"
@@ -74,7 +74,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="升学"
-            android:textColor="@color/text_3"
+            android:textColor="@color/txt_3"
             app:label_text_top="状态" />
 
         <View
@@ -90,7 +90,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="父母不同意"
-            android:textColor="@color/text_3"
+            android:textColor="@color/txt_3"
             app:label_text_top="抗拒点" />
 
         <View
@@ -106,7 +106,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="中"
-            android:textColor="@color/text_3"
+            android:textColor="@color/txt_3"
             app:label_text_top="信念" />
 
     </LinearLayout>

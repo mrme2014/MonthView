@@ -8,15 +8,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.util.PermissionUtil;
 import com.commonlib.util.StorageUtil;
+import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.user.Avatar;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
 import java.io.File;
 
@@ -26,7 +37,7 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/15.
  */
-public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.onItemselectListner, PersonView {
+public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.onItemselectListner, PersonView, TextWatcher, PickerWheelViewPop.PickCallback {
     @BindView(R.id.person_info_avart)
     CircleImageView personInfoAvart;
     @BindView(R.id.person_info_name)
@@ -35,28 +46,21 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     FmItemTextView personInfoPhone;
     @BindView(R.id.person_info_birthday)
     FmItemTextView personInfoBirthday;
-    @BindView(R.id.person_info_QQ)
-    FmItemTextView personInfoQQ;
+   // @BindView(R.id.person_info_QQ)
+    EditText personInfoQQ;
 
     private final int SELECT_SINGLE_IMAGE = 0;
     private final int CROP_IMAGE = 1;
     private final int CAPTURE = 2;
     private String tempPath;//拍照或者 选择照片裁剪时的临时存储路径
     private Bitmap bitmap;
+    private User user;
 
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_person_info, R.string.per_info_title, 0);
+        personInfoQQ = (EditText) findViewById(R.id.person_info_QQ);
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            tempPath = savedInstanceState.getString("tempPath");
-            bitmap = savedInstanceState.getParcelable("bitmap");
-        }
     }
 
     @Override
@@ -67,29 +71,53 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
-    protected void setUpView() {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            tempPath = savedInstanceState.getString("tempPath");
+            bitmap = savedInstanceState.getParcelable("bitmap");
+            personInfoAvart.setImageBitmap(bitmap);
 
+        }
+    }
+
+    @Override
+    protected void setUpView() {
+        user = UserManager.getInstance().get();
     }
 
     @Override
     protected void setUpData() {
-
+        if (user==null)
+            return;
+        UserInfo userInfo = user.getUserInfo();
+        if (userInfo==null)
+            return;
+        Avatar avatar = user.getAvatar();
+        if (avatar!=null)ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name,personInfoAvart);
+        personInfoName.setTipTxt(userInfo.nick_name);
+        personInfoPhone.setTipTxt(userInfo.mobile);
+        personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday,"yyyy-MM-dd"));
+        personInfoQQ.setText(userInfo.qq);
+        //在赋值之后再设置监听
+        personInfoQQ.addTextChangedListener(this);
     }
 
 
-    @OnClick({R.id.person_info_avart, R.id.person_info_birthday, R.id.person_info_QQ})
+    @OnClick({R.id.person_info_avart, R.id.person_info_birthday})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.person_info_avart:
                 SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
-                SelectDialogFragment dialog = builder.setMessage(getString(R.string.capture), getString(R.string.amblue))
-                        .Build();
+                SelectDialogFragment dialog = builder.setMessage(getString(R.string.capture), getString(R.string.amblue)).Build();
                 dialog.show(getSupportFragmentManager());
                 dialog.addOnItemselectListner(this);
                 break;
             case R.id.person_info_birthday:
-                break;
-            case R.id.person_info_QQ:
+                PickerWheelViewPop pop = new PickerWheelViewPop(this);
+                pop.renderYMDPanel(R.string.choose_birthday);
+                pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM,0,0);
+                pop.addPickCallback(this);
                 break;
         }
     }
@@ -106,7 +134,6 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         intent.putExtra("outputY", 300);
         intent.putExtra("scale", true);
         intent.putExtra("return-data", true); //返回数据bitmap
-        //intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(intent, CROP_IMAGE);
@@ -141,7 +168,6 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         if (requestCode == SELECT_SINGLE_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             cropImageUriAfterKikat(uri);
-            //LogUtil.e(uri + "onActivityResult");
         } else if (requestCode == CROP_IMAGE && resultCode == RESULT_OK && data != null) {
             //裁剪完成后显示头像
             bitmap = data.getExtras().getParcelable("data");
@@ -170,14 +196,11 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
                 @Override
                 public void onGrant(String grantPermission, int index) {
-                    //因为 我申请了  相机 和存储的权限 只有当两个都允许的时候 才应该 拍照 否者会有问题
                     capture();
                 }
-
                 @Override
                 public void onDenied(String deniedPermission, int index) {
-                    if (index == 0) showToast(R.string.permission_camera_denid);
-                    else if (index == 1) showToast(R.string.permission_storage_denid);
+                   showToast(R.string.permission_camera_denid);
                 }
             }, Manifest.permission.CAMERA);
         } else if (position == 1) {
@@ -198,8 +221,38 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
-    public void onNetFailed(int strResId) {
+    public void onNetFailed(String strResId) {
         handProgressbar(false);
         showToast(strResId);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        int unix =DateUtil.date2UnixTime(personInfoBirthday.getText().toString());
+        submitInfo(unix);
+    }
+
+    @Override
+    public void onPickCallback(int unix, String... result) {
+        if (submitInfo(unix)) return;
+        personInfoBirthday.setTipTxt(result[0]);
+    }
+
+    private boolean submitInfo(int unix) {
+        if (user==null)
+            return true;
+
+        mPresenter.submitInfo(user.getUserInfo().user_id,personInfoQQ.getText().toString(),unix);
+        return false;
     }
 }

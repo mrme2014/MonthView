@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:input="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="10dp">
+    android:layout_height="match_parent">
+
+    <include layout="@layout/widget_toolbar" />
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_name"
         style="@style/input_linearLayout_style"
         input:label_text="@string/item_name"
-        input:inputLayout_texthint="请输入学员姓名（必填）" />
+        input:inputLayout_texthint="请输入学员姓名（必填）"
+        android:layout_marginTop="10dp"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_phone"

@@ -8,6 +8,17 @@
         <attr name="label_padding" format="dimension" />
     </declare-styleable>
 
+
+    <declare-styleable name="LabelTextView">
+        <attr name="label_text_top" format="string" />
+        <attr name="label_text_left" format="string" />
+        <attr name="label_text_right" format="string" />
+        <attr name="label_text_button" format="string" />
+        <attr name="label_text_size" />
+        <attr name="label_text_color" />
+        <attr name="label_padding" />
+    </declare-styleable>
+
     <declare-styleable name="LoadFrameLayout">
         <attr name="emptyView" format="reference" />
         <attr name="errorView" format="reference" />

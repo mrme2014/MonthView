@@ -2,6 +2,7 @@ package com.ishow.ischool.common.api;
 
 import android.text.TextUtils;
 
+import com.commonlib.core.util.GenericUtil;
 import com.google.gson.Gson;
 import com.ishow.ischool.bean.ApiResult;
 
@@ -17,20 +18,9 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
     private static final String TAG = "ApiCallback";
 
     private Gson gson = new Gson();
-    private Class<T> clazz;
-    private Type type;
+
     public ApiObserver() {
     }
-
-    public ApiObserver(Class<T> clazz) {
-        this.clazz = clazz;
-    }
-
-    public ApiObserver(Type type) {
-        this.type = type;
-
-    }
-
 
     @Override
     public void onError(Throwable e) {
@@ -51,22 +41,16 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
                 onError("response is null");
             } else {
                 if (body.error_no == 0) {
-                    if (clazz == null && type == null) {
-                        onSuccess(null);
-                    } else if (clazz != null) {
-                        T result = body.getResultBean(clazz);
-                        if (result == null) {
-                            onError("data error");
-                        } else {
-                            onSuccess(result);
-                        }
-                    } else if (type != null) {
+                    Type type = GenericUtil.getGenericClass(this);
+                    if (type != null) {
                         T result = body.getResultBean(type);
                         if (result == null) {
                             onError("data error");
                         } else {
                             onSuccess(result);
                         }
+                    } else {
+                        onSuccess(null);
                     }
                 } else if (body.error_no >= 808) {
                     onError(TextUtils.isEmpty(body.error_msg) ? body.error_no + "" : body.error_msg);

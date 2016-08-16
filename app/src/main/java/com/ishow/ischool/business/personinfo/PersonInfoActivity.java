@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.PermissionUtil;
 import com.commonlib.util.StorageUtil;
 import com.ishow.ischool.R;
@@ -27,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/15.
  */
-public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.onItemselectListner {
+public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.onItemselectListner, PersonView {
     @BindView(R.id.person_info_avart)
     CircleImageView personInfoAvart;
     @BindView(R.id.person_info_name)
@@ -43,6 +42,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     private final int CROP_IMAGE = 1;
     private final int CAPTURE = 2;
     private String tempPath;//拍照或者 选择照片裁剪时的临时存储路径
+    private Bitmap bitmap;
 
     @Override
     protected void setUpContentView() {
@@ -53,16 +53,17 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             tempPath = savedInstanceState.getString("tempPath");
-        LogUtil.e("onCreate" + tempPath);
+            bitmap = savedInstanceState.getParcelable("bitmap");
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("tempPath", tempPath);
-        LogUtil.e("onSaveInstanceState" + tempPath);
+        outState.putParcelable("bitmap", bitmap);
     }
 
     @Override
@@ -136,16 +137,24 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //相册选择
         if (requestCode == SELECT_SINGLE_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             cropImageUriAfterKikat(uri);
             //LogUtil.e(uri + "onActivityResult");
         } else if (requestCode == CROP_IMAGE && resultCode == RESULT_OK && data != null) {
-            Bitmap bitmap = data.getExtras().getParcelable("data");
+            //裁剪完成后显示头像
+            bitmap = data.getExtras().getParcelable("data");
             personInfoAvart.setImageBitmap(bitmap);
+            //如果文件不存在
             if (tempPath == null || !new File(tempPath).exists())
                 showToast("file not exists");
-            else mPresenter.uploadImg(tempPath);
+            //开始上传
+            else {
+                handProgressbar(true);
+                mPresenter.uploadImg(tempPath);
+            }
+            //拍照
         } else if (requestCode == CAPTURE && resultCode == RESULT_OK) {
             File file = new File(tempPath);
             if (file.exists())
@@ -180,5 +189,17 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionUtil.getInstance().notifyPermissionsChange(this, permissions, grantResults);
+    }
+
+    @Override
+    public void onNetSucess(int strResId) {
+        handProgressbar(false);
+        showToast(strResId);
+    }
+
+    @Override
+    public void onNetFailed(int strResId) {
+        handProgressbar(false);
+        showToast(strResId);
     }
 }

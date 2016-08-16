@@ -19,8 +19,6 @@ public class UserManager {
 
     private Context context;
 
-    private Class<User> clazz;
-
     private Gson gson;
 
     private User user;
@@ -69,7 +67,7 @@ public class UserManager {
         synchronized (lock) {
             if (user == null) {
                 String data = readData();
-                user = gson.fromJson(data, clazz);
+                user = gson.fromJson(data, User.class);
             }
             if (user == null) {
                 LogUtil.d(this, "get user is null");

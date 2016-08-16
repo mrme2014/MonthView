@@ -47,12 +47,15 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
         String username = usernameEt.getText().toString();
         String passwd = passwdEt.getText().toString();
 
+
         handProgressbar(true);
         mPresenter.login(username, passwd);
 
         LogUtil.d("submit");
-    }
 
+        submitTv.setEnabled(false);
+        mPresenter.login(username, passwd);
+    }
 
     @Override
     public void loginSuccess() {
@@ -63,8 +66,12 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @Override
     public void loginError(String msg) {
+
         handProgressbar(false);
         showToast(msg);
         LogUtil.d(msg);
+        submitTv.setEnabled(true);
+        showToast(msg);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.zaaach.citypicker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -64,7 +65,7 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
     private void initLocation() {
         mLocationClient = new AMapLocationClient(this);
         AMapLocationClientOption option = new AMapLocationClientOption();
-        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);       //高精度模式
         option.setOnceLocation(true);
         mLocationClient.setLocationOption(option);
         mLocationClient.setLocationListener(new AMapLocationListener() {
@@ -173,10 +174,10 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
 
     private void back(String city){
         ToastUtils.showToast(this, "点击的城市：" + city);
-//        Intent data = new Intent();
-//        data.putExtra(KEY_PICKED_CITY, city);
-//        setResult(RESULT_OK, data);
-//        finish();
+        Intent data = new Intent();
+        data.putExtra(KEY_PICKED_CITY, city);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     @Override

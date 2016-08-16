@@ -4,7 +4,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.communicationlist.CommunicationListActivity;
 import com.ishow.ischool.business.statisticslist.StatisticsListActivity;
-import com.zaaach.citypicker.CityPickerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class TabBusinessModel implements TabBusinessContract.Model {
     }
 
     List<TabSpec> getTabSpecs() {
-        intentClazz = new Class[]{StatisticsListActivity.class, CommunicationListActivity.class, AddStudentActivity.class, CityPickerActivity.class};
+        intentClazz = new Class[]{StatisticsListActivity.class, CommunicationListActivity.class, AddStudentActivity.class, null};
         texts = new String[]{"学员统计", "沟通记录", "添加学员", "添加沟通记录"};
         iconResIds = new int[]{R.mipmap.icon_business_01, R.mipmap.icon_business_02, R.mipmap.icon_business_03, R.mipmap.icon_business_04};
         int tabsize = intentClazz.length;

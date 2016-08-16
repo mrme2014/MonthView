@@ -10,6 +10,8 @@ import com.qiniu.android.storage.UploadManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 /**
  * Created by MrS on 2016/8/15.
  */
@@ -19,6 +21,8 @@ public class PersonPresenter extends BasePresenter<PersonMode,PersonView> {
      * @param filePath
      */
     public void uploadImg(final String filePath){
+
+
         mModel.getQiNiuToken()
                 .subscribe(new ApiObserver<String>() {
                     @Override

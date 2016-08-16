@@ -76,7 +76,11 @@
     <string name="check_sms_faild">验证码错误</string>
     <string name="pwd_reset_sucess">密码重置成功</string>
     <string name="pwd_reset_faild">密码重置失败,密码必须是数字,字符,字母的组合</string>
-
+    <string name="capture">拍照</string>
+    <string name="amblue">相册</string>
+    <string name="cancel">取消</string>
+    <string name="permission_storage_denid">存储权限被禁止,部分功能可能无法正常工作.</string>
+    <string name="permission_camera_denid">相机权限被禁止,部分功能可能无法正常工作.</string>
     <!--下面都是选择条件 或者筛选条件固定的  -->
     <array name="week_days">
         <item>周一</item>

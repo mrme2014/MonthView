@@ -1,6 +1,5 @@
 package com.ishow.ischool.business.tabfragmentme;
 
-import android.view.Gravity;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
@@ -8,13 +7,11 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.business.editpwd.EditPwdActivity;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
+import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,7 +45,7 @@ public class MeFragment extends BaseFragment4Crm implements MeContract.View {
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
     public void on_fm_me_header_layout_click() {
-
+        JumpManager.jumpActivity(getContext(), PersonInfoActivity.class);
     }
 
     /*角色切换*/
@@ -58,9 +55,10 @@ public class MeFragment extends BaseFragment4Crm implements MeContract.View {
 //        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
 //        dialog.show(getChildFragmentManager());
 
-        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.setDatas(1, 3, new ArrayList<String>());
-        pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
+//        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
+//        pop.initMultiSelectPanel(getContext(),-1);
+//        pop.setDatas(1, 3, null);
+//        pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
     }
 
     /*消息通知*/

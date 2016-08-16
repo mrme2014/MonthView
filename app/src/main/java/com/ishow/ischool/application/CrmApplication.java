@@ -9,6 +9,7 @@ import com.ishow.ischool.bean.user.Token;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.zaaach.citypicker.utils.LocManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,13 +27,13 @@ import okhttp3.ResponseBody;
 
 public class CrmApplication extends BaseApplication {
 
-
     @Override
     public void onCreate() {
 //        MultiDex.install(this);
         super.onCreate();
 
         UserManager.getInstance().init(this);
+        LocManager.getInstance().init(this);
         initUser();
         initApi();
     }

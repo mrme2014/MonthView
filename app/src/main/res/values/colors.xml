@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="comm_blue">#2883f6</color>
+    <color name="comm_yellow">#ffa500</color>
+    <color name="comm_green">#62d05c</color>
+    <color name="comm_bg">#e7e8ea</color>
+    <color name="comm_line">#d9dadd</color>
+
+
+    <color name="txt_2">#222222</color>
+    <color name="txt_3">#333333</color>
+    <color name="txt_6">#666666</color>
+    <color name="txt_9">#999999</color>
+    <color name="txt_red">#d83330</color>
+    <color name="txt_blue">#2883f6</color>
+    <color name="txt_hint">#b6b6b6</color>
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -13,13 +29,10 @@
     <color name="green">#20af1f</color>
     <color name="theme">#20af1f</color>
     <color name="green_press">#47a657</color>
-
     <color name="blue">#538DEC</color>
     <color name="blue_press">#5799CD</color>
     <color name="gray">#EFEFEF</color>
-    <color name="text_3">#333333</color>
-    <color name="text_6">#666666</color>
-    <color name="text_9">#999999</color>
+
 
     <color name="text_tuichu">#f25844</color>
     <color name="fragment_me_bg">#4391f0</color>

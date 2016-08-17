@@ -56,10 +56,6 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
         handProgressbar(true);
         mPresenter.login(username, passwd);
 
-        LogUtil.d("submit");
-
-        submitTv.setEnabled(false);
-        mPresenter.login(username, passwd);
     }
 
     @Override

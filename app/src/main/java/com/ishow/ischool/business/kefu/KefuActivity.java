@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.kefu;
 
+import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 
 /**
@@ -8,7 +9,7 @@ import com.ishow.ischool.common.base.BaseActivity4Crm;
 public class KefuActivity extends BaseActivity4Crm {
     @Override
     protected void setUpContentView() {
-
+        setContentView(R.layout.activity_kefu,R.string.kefu_title,0);
     }
 
     @Override

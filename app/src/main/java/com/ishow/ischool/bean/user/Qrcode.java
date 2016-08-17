@@ -17,7 +17,7 @@ public class Qrcode implements Parcelable {
 
     private int id;
     private int type;
-    private String file_name;
+    public String file_name;
     private int user_id;
 
 

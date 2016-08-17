@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/widget_toolbar"></include>
+
+    <com.commonlib.widget.TopBottomTextView
+        app:label_text_top_str="客服电话"
+        app:label_text_bottom="15555043403"
+        style="@style/topbottomtextview"/>
+
+    <com.commonlib.widget.TopBottomTextView
+
+        app:label_text_top_str="客服电话"
+        app:label_text_bottom="15555043403"
+        style="@style/topbottomtextview"/>
+
+
+
+    <com.commonlib.widget.TopBottomTextView
+
+        app:label_text_top_str="客服电话"
+        app:label_text_bottom="15555043403"
+        style="@style/topbottomtextview"/>
+</LinearLayout>

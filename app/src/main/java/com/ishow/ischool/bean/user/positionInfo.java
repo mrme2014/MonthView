@@ -13,8 +13,8 @@ public class PositionInfo implements Parcelable {
      * title : 市场副部长
      */
 
-    private int id;
-    private String title;
+    public int id;
+    public String title;
 
 
     @Override

@@ -3,6 +3,8 @@ package com.ishow.ischool.bean.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by abel on 16/8/12.
  */
@@ -15,6 +17,7 @@ public class Campus implements Parcelable {
 
     public int id;
     public String name;
+    public ArrayList<String> positions;
 
     @Override
     public int describeContents() {

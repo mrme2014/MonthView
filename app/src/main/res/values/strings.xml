@@ -85,6 +85,8 @@
     <string name="choose_birthday">选择日期</string>
     <string name="twice_pwd_not_equal">两次密码不相同</string>
     <string name="time_left_to_try_again">%1$s s后重试</string>
+    <string name="switch_role">角色切换</string>
+    <string name="kefu_title">客服</string>
     <!--下面都是选择条件 或者筛选条件固定的  -->
     <array name="week_days">
         <item>周一</item>

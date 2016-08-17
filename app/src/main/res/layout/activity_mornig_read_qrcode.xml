@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="110dp"
         android:background="@drawable/bg_round_corner"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -19,8 +19,7 @@
             android:id="@+id/qrcode_name"
             style="@style/fragment_textview_Wwrap_Hwrap"
             android:layout_marginTop="40dp"
-            android:text="张小小"
-            android:textColor="#333333" />
+            android:textColor="@color/txt_2" />
 
         <ImageView
             android:id="@+id/qrcode_code"
@@ -28,7 +27,7 @@
             android:layout_height="160dp"
             android:layout_centerInParent="true"
             android:layout_marginTop="40dp"
-            android:src="@mipmap/ic_launcher" />
+             />
 
         <TextView
             style="@style/fragment_textview_Wwrap_Hwrap"
@@ -44,7 +43,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginTop="70dp"
+         />
 
 </FrameLayout>

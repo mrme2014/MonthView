@@ -19,9 +19,17 @@ public class User {
     private UserInfo userInfo;
     private Token token;
     private List<Campus> campus;
-    private List<?> position;
+    private List<Position> position;
+    private PositionInfo positionInfo;
+    private Qrcode qrcode;
 
+    public Qrcode getQrcode() {
+        return qrcode;
+    }
 
+    public PositionInfo getPositionInfo() {
+        return positionInfo;
+    }
 
     public Avatar getAvatar() {
         return avatar;
@@ -55,11 +63,11 @@ public class User {
         this.campus = campus;
     }
 
-    public List<?> getPosition() {
+    public List<Position> getPosition() {
         return position;
     }
 
-    public void setPosition(List<?> position) {
+    public void setPosition(List<Position> position) {
         this.position = position;
     }
 

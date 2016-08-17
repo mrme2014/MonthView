@@ -10,6 +10,7 @@ import com.ishow.ischool.bean.user.Token;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.util.AppUtil;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.json.JSONException;
@@ -30,17 +31,19 @@ public class CrmApplication extends BaseApplication {
 
     @Override
     public void onCreate() {
-//        MultiDex.install(this);
         super.onCreate();
 
-        UserManager.getInstance().init(this);
         LocManager.getInstance().init(this);
         initUser();
         initApi();
     }
 
     private void initUser() {
+        UserManager.getInstance().init(this);
         User mUser = UserManager.getInstance().get();
+
+
+        UserManager.getInstance().clear();
         if (mUser != null) {
             TokenManager.init(mUser.getToken());
         }
@@ -69,7 +72,7 @@ public class CrmApplication extends BaseApplication {
                 String bodyString = "";
                 if (response.isSuccessful()) {
                     bodyString = response.body().string();
-                    LogUtil.d(this, "bodyString = " + bodyString);
+//                    LogUtil.d(this, "bodyString = " + bodyString);
                     if (bodyString != null) {
                         JSONObject jsonObject = null;
                         try {
@@ -79,9 +82,9 @@ public class CrmApplication extends BaseApplication {
                         }
                         if (jsonObject != null) {
                             int error_no = jsonObject.optInt("error_no");
-//                             判断error_no
-                            if (error_no == ApiResult.ERROR_TOKEN) {
-                                onReLogin();
+                            // 判断error_no
+                            if (error_no == ApiResult.ERROR_TOKEN1 || error_no == ApiResult.ERROR_TOKEN2) {
+                                AppUtil.reLogin(getInstance().getBaseContext());
                             }
                         }
                     }

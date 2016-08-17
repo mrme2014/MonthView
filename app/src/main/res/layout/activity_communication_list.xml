@@ -1,10 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ishow.ischool.business.communicationlist.CommunicationListActivity">
 
-    <include layout="@layout/widget_toolbar"/>
+    <include layout="@layout/widget_toolbar" />
+
+    <com.commonlib.widget.pull.PullRecycler
+        android:id="@id/pullRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
+
+    <!--<ImageView-->
+    <!--android:id="@+id/communication_add"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:src="@mipmap/icon_add" />-->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/communication_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/icon_add_1"
+        app:backgroundTint="@color/comm_green"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="#33728dff" />
 
 </RelativeLayout>

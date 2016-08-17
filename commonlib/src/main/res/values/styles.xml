@@ -49,4 +49,16 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
+    <style name="topbottomtextview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="label_text_top_color">@color/txt_2</item>
+        <item name="label_text_top_size">14</item>
+        <item name="label_TB_padding">5</item>
+
+        <item name="label_left_padding">70</item>
+        <item name="label_text_bottom_color">@color/txt_9</item>
+        <item name="label_text_bottom_size">12</item>
+        <item name="label_top_padding">28</item>
+    </style>
 </resources>

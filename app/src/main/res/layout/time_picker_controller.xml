@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -37,7 +38,10 @@
             android:textSize="@dimen/sp12"
             android:textColor="@color/txt_blue" />
     </RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
     <com.ishow.ischool.widget.pickerview.PickerWheelViewLinearlayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/PickerWheelViewLinearlayout"
         android:layout_width="match_parent"

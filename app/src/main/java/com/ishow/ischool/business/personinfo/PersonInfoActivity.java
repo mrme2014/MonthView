@@ -243,8 +243,8 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
-    public void onPickCallback(int unix, String... result) {
-        if (submitInfo(unix)) return;
+    public void onPickCallback(Object unix, String... result) {
+        if (submitInfo((Integer)unix)) return;
         personInfoBirthday.setTipTxt(result[0]);
     }
 

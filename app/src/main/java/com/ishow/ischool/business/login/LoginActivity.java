@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.MainActivity;
+import com.ishow.ischool.business.forgetpwd.ForgetPwdActivity1;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 
@@ -32,6 +33,7 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @Override
     protected void setUpView() {
+
     }
 
     @Override
@@ -39,6 +41,10 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     }
 
+    @OnClick(R.id.forget_passwd)
+    void forgetPwd(){
+        JumpManager.jumpActivity(this, ForgetPwdActivity1.class);
+    }
 
     @OnClick(R.id.submit_tv)
     void onLogin() {
@@ -49,10 +55,6 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
         handProgressbar(true);
         mPresenter.login(username, passwd);
 
-        LogUtil.d("submit");
-
-        submitTv.setEnabled(false);
-        mPresenter.login(username, passwd);
     }
 
     @Override

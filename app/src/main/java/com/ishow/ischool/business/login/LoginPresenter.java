@@ -13,8 +13,8 @@ import com.ishow.ischool.common.manager.UserManager;
 public class LoginPresenter extends LoginContract.Presenter {
 
     @Override
-    void login(String name, String pass) {
-        mModel.login(name, pass)
+    public void login(String name, String pass) {
+        mModel.login(name, pass, "*")
                 .subscribe(new ApiObserver<User>() {
                     @Override
                     public void onSuccess(User user) {

@@ -8,7 +8,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 
 import java.util.ArrayList;
@@ -68,12 +67,20 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      * @param index    界面中从左到右第几个wheelview  从0开始
      * @param newDatas 新的数据源
      */
-    public void resfreshData(int index, ArrayList<String> newDatas) {
+    WheelView wheelView;
+    public void resfreshData(int index, final ArrayList<String> newDatas) {
         if (array != null) {
             if (index < array.size()) {
-                WheelView wheelView = array.get(index);
+                  wheelView = array.get(index);
                 if (wheelView != null)
-                    wheelView.resetData(newDatas);
+                    wheelView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            wheelView.resetData(newDatas);
+                            wheelView.setDefault(0);
+                        }
+                    },10);
+
             }
         }
     }
@@ -82,7 +89,9 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-        LogUtil.e(wheelView.getId() + "wheelView");
+        if (select!=null){
+            select.endSelect(wheelView,id,text);
+        }
         switch (wheelView.getId()) {
             case 0:
                 colTxt1 = text;
@@ -124,5 +133,13 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
             result[i]=array.get(i).getSelectedText();
         }
         return result;
+    }
+
+    wheelViewSelect select;
+    public  interface wheelViewSelect{
+      void  endSelect(WheelView wheelView, int id, String text);
+    }
+    public void setwheelViewSelect(wheelViewSelect select1){
+        this.select = select1;
     }
 }

@@ -17,7 +17,7 @@ import rx.Observable;
  */
 public interface LoginContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<User>> login(String name, String pass);
+        Observable<ApiResult<User>> login(String name, String pass,String fields);
     }
     interface View extends BaseView {
         void loginSuccess();

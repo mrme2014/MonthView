@@ -2,6 +2,7 @@ package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public interface MarketApi {
 
     //搜索大学
     @GET("/system/university/search")
-    Observable<ApiResult<ArrayList<UniversityInfo>>> searchUniversity(
+    Observable<ApiResult<SearchUniversityResult>> searchUniversity(
             @Query("name") String name,
             @Query("page") Integer page,
             @Query("pagesize") Integer pagesize);

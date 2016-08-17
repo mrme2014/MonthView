@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.universitypick;
 
+import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.common.api.ApiObserver;
 
@@ -29,10 +30,10 @@ public class UniversityPickPresenter extends UniversityPickContract.Presenter {
     @Override
     public void searchUniversity(String universityName) {
         mModel.searchUniversity(universityName)
-                .subscribe(new ApiObserver<ArrayList<UniversityInfo>>() {
+                .subscribe(new ApiObserver<SearchUniversityResult>() {
                     @Override
-                    public void onSuccess(ArrayList<UniversityInfo> universityInfos) {
-                        mView.searchSuccess(universityInfos);
+                    public void onSuccess(SearchUniversityResult searchUniversityResult) {
+                        mView.searchSuccess(searchUniversityResult.list);
                     }
 
                     @Override

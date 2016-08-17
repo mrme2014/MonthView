@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class ApiResult<T> {
 
+    public static final int ERROR_TOKEN1 = 2;
+    public static final int ERROR_TOKEN2 = 3;
+
     public int error_no;
 
     public String error_msg;
@@ -47,7 +50,8 @@ public class ApiResult<T> {
     }
 
     public T getResultList() {
-        Type type1 = new TypeToken<List<T>>() {}.getType();
+        Type type1 = new TypeToken<List<T>>() {
+        }.getType();
         Gson gson = new Gson();
         try {
             return gson.fromJson(result, type1);

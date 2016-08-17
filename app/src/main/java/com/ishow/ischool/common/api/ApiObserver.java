@@ -24,6 +24,9 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
 
     @Override
     public void onError(Throwable e) {
+        if (!isAlive()) {
+            return;
+        }
         onError(e.getMessage());
         onCompleted();
     }
@@ -35,30 +38,26 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         }
 
         if (body == null) {
-            onError("data error");
+            onError("response is null");
         } else {
-            if (body == null) {
-                onError("response is null");
-            } else {
-                if (body.error_no == 0) {
-                    Type type = GenericUtil.getGenericClass(this);
-                    if (type != null) {
-                        T result = body.getResultBean(type);
-                        if (result == null) {
-                            onError("data error");
-                        } else {
-                            onSuccess(result);
-                        }
+            if (body.error_no == 0) {
+                Type type = GenericUtil.getGenericClass(this);
+                if (type != null) {
+                    T result = body.getResultBean(type);
+                    if (result == null) {
+                        onError("data error");
                     } else {
-                        onSuccess(null);
+                        onSuccess(result);
                     }
-                } else if (body.error_no >= 808) {
-                    onError(TextUtils.isEmpty(body.error_msg) ? body.error_no + "" : body.error_msg);
                 } else {
-                    onError(TextUtils.isEmpty(body.error_msg) ? body.error_no + "" : body.error_msg);
+                    onSuccess(null);
                 }
+
+            } else {
+                onError(TextUtils.isEmpty(body.error_msg) ? body.error_no + "" : body.error_msg);
             }
         }
+
         onCompleted();
     }
 

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.ishow.ischool.business.communicationadd.CommunicationAddActivity">
+
+    <include layout="@layout/widget_toolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/comm_bg" />
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_student_name"
+        style="@style/communication_textview"
+        android:hint="@string/commun_choose_hint"
+        app:label_text_left="@string/commun_label_student_name" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_state"
+        style="@style/communication_textview"
+        android:hint="@string/commun_choose_hint"
+        app:label_text_left="@string/commun_label_state" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_faith"
+        style="@style/communication_textview"
+        android:hint="@string/commun_choose_hint"
+        app:label_text_left="@string/commun_label_faith" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_oppose"
+        style="@style/communication_textview"
+        android:hint="@string/commun_choose_hint"
+        app:label_text_left="@string/commun_label_oppose" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <com.commonlib.widget.LabelEditText
+        android:id="@+id/commun_source"
+        style="@style/communication_edittext"
+        android:hint="@string/commun_input_source_hint"
+        app:label_text="@string/commun_label_source" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_back_date"
+        style="@style/communication_textview"
+        android:hint="@string/commun_choose1_hint"
+        app:label_text_left="@string/commun_label_back_date" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/commun_detail"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:background="@color/content_bg"/>
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_date"
+        style="@style/communication_textview"
+        android:hint="@string/commun_choose_hint"
+        app:label_text_left="@string/commun_label_date" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/comm_line" />
+
+    <com.commonlib.widget.LabelEditText
+        android:id="@+id/commun_content"
+        android:layout_height="wrap_content"
+        style="@style/communication_edittext"
+        android:paddingTop="13dp"
+        android:gravity="top"
+        android:lines="6"
+        android:hint="@string/commun_input_content_hint"
+        app:label_text="@string/commun_label_content" />
+
+</LinearLayout>

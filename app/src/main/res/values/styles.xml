@@ -199,4 +199,21 @@
         <item name="android:layout_height">50dp</item>
     </style>
 
+    <style name="communication_edittext">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">45dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingLeft">98dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="label_padding">10dp</item>
+        <item name="label_text_color">@color/txt_2</item>
+    </style>
+
+    <style name="communication_textview" parent="communication_edittext">
+        <item name="android:drawableRight">@mipmap/icon_list_next</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
 </resources>

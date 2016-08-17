@@ -1,9 +1,12 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
+
+import java.util.ArrayList;
 
 import java.util.ArrayList;
 
@@ -26,7 +29,6 @@ public interface MarketApi {
 //            @Query("end_time") int end_time,       //筛选的结束时间
 //            @Query("pay_sate") int pay_sate)
     );
-
 
 
     //获取所有大学

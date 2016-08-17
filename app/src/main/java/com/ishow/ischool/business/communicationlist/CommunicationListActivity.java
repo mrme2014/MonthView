@@ -11,21 +11,31 @@ import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.market.Communication;
+import com.ishow.ischool.bean.market.CommunicationList;
+import com.ishow.ischool.business.communicationadd.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 沟通记录页面
  */
-public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> {
+public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> implements CommunicationListContract.View {
 
     @Override
     protected void setUpContentView() {
-        super.setUpContentView();
-        setUpToolbar(R.string.communication_list_title, R.menu.menu_communication_list, MODE_BACK);
-//        setContentView(com.commonlib.R.layout.activity_base_list, R.string.communication_list_title, R.menu.menu_communication_list, MODE_BACK);
+        //super.setUpContentView();
+        setContentView(R.layout.activity_communication_list, R.string.communication_list_title, R.menu.menu_communication_list, MODE_BACK);
+    }
+
+    @Override
+    protected void setUpData() {
+        super.setUpData();
     }
 
     @Override
@@ -37,11 +47,37 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     @Override
     public void onRefresh(int action) {
         switch (action) {
-            case PullRecycler.ACTION_PULL_TO_REFRESH:
-                break;
-            case PullRecycler.ACTION_LOAD_MORE_LOADING:
-                break;
+            case PullRecycler.ACTION_PULL_TO_REFRESH: {
+                mCurrentPage = 1;
+                HashMap<String, String> map = new HashMap<>();
+                map.put("page", mCurrentPage + "");
+                mPresenter.listCommunication(map);
+            }
+            break;
+            case PullRecycler.ACTION_LOAD_MORE_LOADING: {
+                mCurrentPage++;
+                HashMap<String, String> map = new HashMap<>();
+                map.put("page", mCurrentPage + "");
+                mPresenter.listCommunication(map);
+            }
+            break;
         }
+    }
+
+    @Override
+    public void listCommunicationSuccess(CommunicationList data) {
+        loadSuccess(data.lists);
+    }
+
+    @Override
+    public void listCommunicationFailed(String msg) {
+        loadFailed();
+        showToast(msg);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return !isActivityFinished();
     }
 
     class CommnunicationHolder extends BaseViewHolder {
@@ -75,5 +111,10 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             opposePointTv.setText(communication.communicationInfo.refuse);
             faithTv.setText(communication.communicationInfo.belief);
         }
+    }
+
+    @OnClick(R.id.communication_add)
+    public void onAddCommunication() {
+        JumpManager.jumpActivity(this, CommunicationAddActivity.class);
     }
 }

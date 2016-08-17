@@ -5,10 +5,12 @@ import android.text.TextUtils;
 import com.commonlib.application.BaseApplication;
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.LogUtil;
+import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.Token;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.util.AppUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,15 +31,14 @@ public class CrmApplication extends BaseApplication {
 
     @Override
     public void onCreate() {
-//        MultiDex.install(this);
         super.onCreate();
 
-        UserManager.getInstance().init(this);
         initUser();
         initApi();
     }
 
     private void initUser() {
+        UserManager.getInstance().init(this);
         User mUser = UserManager.getInstance().get();
         if (mUser != null) {
             TokenManager.init(mUser.getToken());
@@ -66,7 +67,7 @@ public class CrmApplication extends BaseApplication {
                 String bodyString = "";
                 if (response.isSuccessful()) {
                     bodyString = response.body().string();
-                    LogUtil.d(this, "bodyString = " + bodyString);
+//                    LogUtil.d(this, "bodyString = " + bodyString);
                     if (bodyString != null) {
                         JSONObject jsonObject = null;
                         try {
@@ -77,9 +78,9 @@ public class CrmApplication extends BaseApplication {
                         if (jsonObject != null) {
                             int error_no = jsonObject.optInt("error_no");
                             // 判断error_no
-//                            if (error_no == ApiResult.ERROR_TOKEN1 || error_no == ApiResult.ERROR_TOKEN2 || error_no == ApiResult.ERROR_TOKEN3) {
-//                                onReLogin();
-//                            }
+                            if (error_no == ApiResult.ERROR_TOKEN1 || error_no == ApiResult.ERROR_TOKEN2) {
+                                AppUtil.reLogin(getInstance().getBaseContext());
+                            }
                         }
                     }
                 }

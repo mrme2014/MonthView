@@ -142,4 +142,19 @@
     <string name="item_reference">推荐人</string>
     <string name="item_remark">备注</string>
     <string name="communication_list_title">沟通记录</string>
+    <string name="common_submit">提交</string>
+    <string name="add_communication">添加沟通记录</string>
+    <string name="commun_label_student_name">学员</string>
+    <string name="commun_choose_hint">请选择(必选)</string>
+    <string name="commun_label_state">状态</string>
+    <string name="commun_label_faith">学习信仰</string>
+    <string name="commun_label_oppose">抗拒点</string>
+    <string name="commun_label_source">学费来源</string>
+    <string name="commun_input_source_hint">请输入学员学费来源</string>
+    <string name="commun_label_back_date">回访时间</string>
+    <string name="commun_detail">沟通详情</string>
+    <string name="commun_label_date">沟通时间</string>
+    <string name="commun_choose1_hint">请选择</string>
+    <string name="commun_label_content">沟通内容</string>
+    <string name="commun_input_content_hint">请输入沟通内容（必填）</string>
 </resources>

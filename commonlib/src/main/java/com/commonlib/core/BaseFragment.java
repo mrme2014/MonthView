@@ -34,7 +34,7 @@ public abstract class BaseFragment<P extends BasePresenter, M extends BaseModel>
         super.onActivityCreated(savedInstanceState);
         mPresenter = GenericUtil.getType(this, 0);
         mModel = GenericUtil.getType(this, 1);
-        if (this instanceof BaseView) {
+        if (mPresenter != null && mModel != null && this instanceof BaseView) {
             mPresenter.setMV(mModel, this);
         }
         init();

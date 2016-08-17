@@ -1,7 +1,10 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
+
+import java.util.ArrayList;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -21,4 +24,6 @@ public interface MarketApi {
 //            @Query("end_time") int end_time,       //筛选的结束时间
 //            @Query("pay_sate") int pay_sate)
     );
+
+
 }

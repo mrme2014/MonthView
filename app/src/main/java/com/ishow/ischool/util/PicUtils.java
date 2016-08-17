@@ -4,6 +4,9 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.commonlib.widget.imageloader.ImageLoader;
+import com.commonlib.widget.imageloader.ImageLoaderUtil;
+import com.ishow.ischool.R;
 
 
 /**
@@ -85,5 +88,10 @@ public class PicUtils {
         } else {
             //imageView.setImageResource(R.drawable.ic_loading_small);
         }
+    }
+
+    public static void loadUserHeader(Context context, ImageView imageView, String imageUrl) {
+        ImageLoader imageLoader = new ImageLoader.Builder().url(imageUrl).placeHolder(R.drawable.ic_default_header).imageView(imageView).build();
+        ImageLoaderUtil.getInstance().loadImage(context, imageLoader);
     }
 }

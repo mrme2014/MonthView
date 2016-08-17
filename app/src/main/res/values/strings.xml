@@ -140,6 +140,9 @@
     <!-- 学员统计 -->
     <string name="student_statistics">学员统计</string>
 
+    <string name="call">拨打电话</string>
+    <string name="phone_contacts">保存到通讯录</string>
+
     <!-- 添加学员 -->
     <string name="add_student">添加学员</string>
     <string name="item_name">姓名</string>

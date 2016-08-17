@@ -7,9 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -24,13 +27,13 @@ public class FmItemTextView extends TextView {
     /*文本提示类型的 应该距离右侧边距多远*/
     private int tip_Rp;
     /*下划线的颜色*/
-    private int line_color = Color.parseColor("#f1f1f1");//默认色
+    private int line_color = Color.parseColor("#d9dadd");//默认色
     /*是否绘制下划线*/
     private boolean drawLine;
     /*是否绘制小红点 否则绘制文本*/
     private boolean drawRPoint;
     /*右侧提示类型的颜色*/
-    private int rightTipColor = Color.parseColor("#f1f1f1");//默认色
+    private int rightTipColor = Color.parseColor("#999999");//默认色
 
 
     private String tipTxt ="";//提示类型文本
@@ -64,6 +67,46 @@ public class FmItemTextView extends TextView {
         super(context, attrs, defStyleAttr, defStyleRes);
         initEnv(context, attrs);
 
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        Parcelable superData = super.onSaveInstanceState();
+        bundle.putParcelable("super_data", superData);
+        bundle.putInt("bottom_line_Lp", bottom_line_Lp);
+        bundle.putInt("tip_Rp", tip_Rp);
+        bundle.putInt("line_color", line_color);
+        bundle.putBoolean("drawLine", drawLine);
+        bundle.putBoolean("drawRPoint", drawRPoint);
+        bundle.putBoolean("hasUnread", hasUnread);
+        bundle.putInt("rightTipColor", rightTipColor);
+        bundle.putString("tipTxt", tipTxt);
+        bundle.putFloat("txtHeight",txtHeight);
+        bundle.putFloat("txtWidth",txtWidth);
+        bundle.putInt("measuredWidth",measuredWidth);
+        bundle.putInt("measuredHeight",measuredHeight);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        Bundle bundle = (Bundle) state;
+        Parcelable superData = bundle.getParcelable("super_data");
+        bottom_line_Lp = bundle.getInt("bottom_line_Lp");
+        tip_Rp = bundle.getInt("tip_Rp");
+        line_color = bundle.getInt("line_color");
+        rightTipColor = bundle.getInt("rightTipColor");
+        measuredWidth = bundle.getInt("measuredWidth");
+        measuredHeight = bundle.getInt("measuredHeight");
+        txtHeight = bundle.getFloat("txtHeight");
+        txtWidth = bundle.getFloat("txtWidth");
+        drawLine = bundle.getBoolean("drawLine");
+        drawRPoint = bundle.getBoolean("drawRPoint");
+        hasUnread = bundle.getBoolean("hasUnread");
+        tipTxt =bundle.getString("tipTxt");
+
+        super.onRestoreInstanceState(superData);
     }
 
     private void initEnv(Context context, AttributeSet attrs) {
@@ -128,15 +171,18 @@ public class FmItemTextView extends TextView {
             canvas.drawCircle(measuredWidth - tip_Rp - redPointRadius, measuredHeight / 2, redPointRadius, rightTipPaint);
         }
 
+        float v = measuredWidth - tip_Rp - txtWidth;
+        LogUtil.e(v+"--"+measuredWidth+"--"+tip_Rp+"--"+txtWidth);
          /*绘制文本提示类型*/
         if (tipTxt!=null&&tipTxt!="")
-           canvas.drawText(tipTxt,measuredWidth-tip_Rp-txtWidth,measuredHeight/2+txtHeight/4,rightTipPaint);
+           canvas.drawText(tipTxt, v,measuredHeight/2+txtHeight/4,rightTipPaint);
 
     }
 
     /*更新提示文本信息*/
     public void setTipTxt(String tipTxt) {
         this.tipTxt = tipTxt;
+        txtWidth = rightTipPaint.measureText(tipTxt);
         invalidate();
     }
 

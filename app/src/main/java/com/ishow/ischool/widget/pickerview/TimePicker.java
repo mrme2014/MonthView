@@ -6,7 +6,6 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
@@ -23,7 +22,7 @@ public class TimePicker extends LinearLayout {
     private static final int UPDATE_UpdateDay_MSG = 0x113;
     private final int START_YEAR = 2013;
     private final int END_YEAR = 2100;
-    private TextView mPickerTitle;
+   // private TextView mPickerTitle;
     private WheelView mWheelYear;
     private WheelView mWheelMonth;
     private WheelView mWheelDay;
@@ -115,7 +114,7 @@ public class TimePicker extends LinearLayout {
         super.onFinishInflate();
         mContext =  getContext();
         LayoutInflater.from(mContext).inflate(R.layout.time_picker, this);
-        mPickerTitle = (TextView) findViewById(R.id.picker_title);
+       // mPickerTitle = (TextView) findViewById(R.id.picker_title);
         mWheelYear = (WheelView) findViewById(R.id.year);
         mWheelMonth = (WheelView) findViewById(R.id.month);
         mWheelDay = (WheelView) findViewById(R.id.day);
@@ -162,7 +161,7 @@ public class TimePicker extends LinearLayout {
     }
 
     private void updateTitle() {
-        mPickerTitle.setText(mContext.getString(R.string.picker_title, mYear, mMonth + 1, mDay));
+       // mPickerTitle.setText(mContext.getString(R.string.picker_title, mYear, mMonth + 1, mDay));
     }
 
     private void updateWheel() {

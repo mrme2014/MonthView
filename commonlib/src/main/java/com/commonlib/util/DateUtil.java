@@ -68,4 +68,16 @@ public class DateUtil {
         return (int) between_days;
     }
 
+
+    public static int date2UnixTime(String time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        int unix = 0;
+        try {
+            Date date = sdf.parse(String.valueOf(time));
+            unix = (int) (date.getTime()/1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return unix;
+    }
 }

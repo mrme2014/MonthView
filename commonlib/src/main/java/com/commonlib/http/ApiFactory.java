@@ -44,7 +44,6 @@ public class ApiFactory {
 
     //  ------- retrofit2.0 -------
     public void build(Context context, String serverUrl, Interceptor interceptor) {
-
         HttpLoggingInterceptor httpLoggingInterceptor = null;
 //        if (BuildConfig.DEBUG) {
             // 添加注释

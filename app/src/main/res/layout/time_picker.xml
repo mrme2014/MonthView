@@ -2,80 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="240dp"
+    android:background="@color/white"
     android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <!--底部弹框 时间选择-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
+    <com.ishow.ischool.widget.pickerview.WheelView
+        android:id="@+id/year"
+        style="@style/wheelViewStyle" />
 
-        <TextView
-            android:id="@+id/cancel"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="取消"
-            android:textSize="@dimen/sp12"
-            android:textColor="@android:color/holo_blue_bright" />
+    <com.ishow.ischool.widget.pickerview.WheelView
+        android:id="@+id/month"
+        style="@style/wheelViewStyle" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="日期选择"
-            android:textSize="@dimen/sp12"
-            android:layout_centerInParent="true"
-            android:textColor="@android:color/holo_blue_bright" />
-
-        <TextView
-            android:id="@+id/ok"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="确定"
-            android:textSize="@dimen/sp12"
-            android:textColor="@android:color/holo_blue_bright" />
-    </RelativeLayout>
-    <TextView
-        android:id="@+id/picker_title"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:text="@string/picker_title"
-        android:textColor="@color/color_header"
-        android:textSize="22sp"
-        android:visibility="gone"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#DADADA" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-
-        android:orientation="horizontal">
-
-
-        <com.ishow.ischool.widget.pickerview.WheelView
-            android:id="@+id/year"
-            style="@style/wheelViewStyle" />
-
-        <com.ishow.ischool.widget.pickerview.WheelView
-            android:id="@+id/month"
-            style="@style/wheelViewStyle" />
-
-        <com.ishow.ischool.widget.pickerview.WheelView
-            android:id="@+id/day"
-            style="@style/wheelViewStyle" />
-
-    </LinearLayout>
+    <com.ishow.ischool.widget.pickerview.WheelView
+        android:id="@+id/day"
+        style="@style/wheelViewStyle" />
 
 </LinearLayout>

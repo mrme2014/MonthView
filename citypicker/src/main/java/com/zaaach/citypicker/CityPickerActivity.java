@@ -3,6 +3,7 @@ package com.zaaach.citypicker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,13 +20,13 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.commonlib.util.LogUtil;
 import com.zaaach.citypicker.adapter.CityListAdapter;
 import com.zaaach.citypicker.adapter.ResultListAdapter;
 import com.zaaach.citypicker.db.DBManager;
 import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.utils.StringUtils;
-import com.zaaach.citypicker.utils.ToastUtils;
 import com.zaaach.citypicker.view.SideLetterBar;
 
 import java.util.List;
@@ -42,8 +43,9 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
     private SideLetterBar mLetterBar;
     private EditText searchBox;
     private ImageView clearBtn;
-    private ImageView backBtn;
     private ViewGroup emptyView;
+    private Toolbar toolbar;
+    private TextView title;
 
     private CityListAdapter mCityAdapter;
     private ResultListAdapter mResultAdapter;
@@ -75,8 +77,8 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
                     if (aMapLocation.getErrorCode() == 0) {
                         String city = aMapLocation.getCity();
                         String district = aMapLocation.getDistrict();
-                        Log.e("onLocationChanged", "city: " + city);
-                        Log.e("onLocationChanged", "district: " + district);
+                        LogUtil.d("CityPickerActivity onLocationChanged", "city: " + city);
+                        LogUtil.d("CityPickerActivity onLocationChanged", "district: " + district);
                         String location = StringUtils.extractLocation(city, district);
                         mCityAdapter.updateLocateState(LocateState.SUCCESS, location);
                     } else {
@@ -112,6 +114,16 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initView() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(com.commonlib.R.drawable.ic_return);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText("选择城市");
         mListView = (ListView) findViewById(R.id.listview_all_city);
         mListView.setAdapter(mCityAdapter);
 
@@ -166,14 +178,10 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
         });
 
         clearBtn = (ImageView) findViewById(R.id.iv_search_clear);
-        backBtn = (ImageView) findViewById(R.id.back);
-
         clearBtn.setOnClickListener(this);
-        backBtn.setOnClickListener(this);
     }
 
     private void back(String city){
-        ToastUtils.showToast(this, "点击的城市：" + city);
         Intent data = new Intent();
         data.putExtra(KEY_PICKED_CITY, city);
         setResult(RESULT_OK, data);

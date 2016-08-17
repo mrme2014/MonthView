@@ -139,4 +139,8 @@ public class InputLinearLayout extends LinearLayout {
     public void setOnEidttextClick(EidttextClick eidttextClick) {
         this.eidttextClick = eidttextClick;
     }
+
+    public void setContent(String content) {
+        input.setText(content);
+    }
 }

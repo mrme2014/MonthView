@@ -11,6 +11,7 @@ import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
+import com.zaaach.citypicker.utils.LocManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,11 +29,11 @@ import okhttp3.ResponseBody;
 
 public class CrmApplication extends BaseApplication {
 
-
     @Override
     public void onCreate() {
         super.onCreate();
 
+        LocManager.getInstance().init(this);
         initUser();
         initApi();
     }
@@ -51,8 +52,9 @@ public class CrmApplication extends BaseApplication {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Token token = TokenManager.getToken();
+                LogUtil.e(token==null?"=======":"token"+token.token);
                 Request newRequest = chain.request();
-                if (token != null && !TextUtils.isEmpty(token.token)) {
+               if (token != null && !TextUtils.isEmpty(token.token)) {
                     HttpUrl url = newRequest.url().newBuilder().addQueryParameter("token", token == null ? "" : token.token).build();
                     newRequest = newRequest.newBuilder().url(url).build();
                 }

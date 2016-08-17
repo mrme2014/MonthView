@@ -5,8 +5,9 @@
     <include layout="@layout/widget_toolbar"></include>
     <EditText
         android:id="@+id/old_pwd"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         style="@style/edit_white_bg"
+        android:inputType="textPassword"
         android:hint="@string/old_pwd_hnit">
 
     </EditText>
@@ -18,6 +19,7 @@
     <EditText
         android:id="@+id/new_pwd"
         style="@style/edit_white_bg"
+        android:inputType="textPassword"
         android:hint="@string/new_pwd_hnit" />
     <View
         android:layout_width="match_parent"
@@ -27,14 +29,18 @@
     <EditText
         android:id="@+id/new_pwd_again"
         style="@style/edit_white_bg"
+        android:inputType="textPassword"
         android:hint="@string/new_pwd_hnit_again" />
 
     <Button
         android:id="@+id/submit_tv"
         style="@style/btn_green_cor"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="20dp"
+        android:layout_height="44dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
+        android:textSize="15sp"
         android:text="@string/submit" />
 </LinearLayout>

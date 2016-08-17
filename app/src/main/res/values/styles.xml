@@ -120,10 +120,10 @@
     <style name="edit_white_bg">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">45dp</item>
-        <item name="android:textColor">#333333</item>
+        <item name="android:textColor">#222</item>
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">left|center</item>
-        <item name="android:textColorHint">#999999</item>
+        <item name="android:textColorHint">#b6b6b6</item>
         <item name="android:background">@color/white</item>
         <item name="android:paddingLeft">10dp</item>
     </style>

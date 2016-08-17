@@ -37,6 +37,9 @@ public abstract class BaseFragment<P extends BasePresenter, M extends BaseModel>
         if (mPresenter != null && mModel != null && this instanceof BaseView) {
             mPresenter.setMV(mModel, this);
         }
+        /*if (this instanceof BaseView) {
+            mPresenter.setMV(mModel, this);
+        }*/
         init();
     }
 

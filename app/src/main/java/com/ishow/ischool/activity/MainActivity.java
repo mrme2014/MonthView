@@ -6,6 +6,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabfragmentme.MeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.zaaach.citypicker.utils.LocManager;
 
 public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
@@ -15,6 +16,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
 
 
     android.widget.RadioGroup RadioGroup;
+
 
     @Override
     protected void setUpContentView() {
@@ -30,7 +32,8 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
 
     @Override
     protected void setUpData() {
-
+        // 进入应用获取城市名然后保存起来
+        LocManager.getInstance().startLocation();
     }
 
     @Override

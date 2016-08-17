@@ -1,7 +1,8 @@
 package com.ishow.ischool.business.personinfo;
 
 import com.commonlib.core.BaseModel;
-import com.ishow.ischool.common.api.Api;
+import com.commonlib.http.ApiFactory;
+import com.ishow.ischool.common.api.UserApi;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -12,11 +13,12 @@ import rx.schedulers.Schedulers;
  */
 public class PersonMode implements BaseModel {
     public Observable getQiNiuToken(){
-       return Api.getUserApi().get_qiniui_token(1);
+       return ApiFactory.getInstance().getApi(UserApi.class).get_qiniui_token(1).subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable submitInfo(int userId,String qq,int birthday){
-        return Api.getUserApi().edit(userId,birthday,qq).subscribeOn(Schedulers.io())
+        return ApiFactory.getInstance().getApi(UserApi.class).edit(userId,birthday,qq).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

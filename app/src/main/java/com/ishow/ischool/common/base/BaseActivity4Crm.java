@@ -1,9 +1,11 @@
 package com.ishow.ischool.common.base;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.commonlib.core.BaseActivity;
@@ -57,5 +59,15 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
             }
             dialog.show();
         } else if (!show && dialog != null) dialog.dismiss();
+    }
+
+    InputMethodManager manager;
+    public void  hideSoftPanel(View view){
+        if (manager==null) manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
+    public void showSoftPanel(View view){
+        if (manager==null) manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.showSoftInputFromInputMethod(view.getWindowToken(),0);
     }
 }

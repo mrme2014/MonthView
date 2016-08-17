@@ -6,11 +6,18 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.commonlib.application.ActivityStackManager;
+import com.commonlib.http.ApiFactory;
 import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
-import com.ishow.ischool.common.api.Api;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.bean.user.UserInfo;
+import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.api.UserApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.manager.UserManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,6 +36,7 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
     EditText newPwdAgain;
     @BindView(R.id.submit_tv)
     Button submitTv;
+    private User user;
 
     @Override
     protected void setUpContentView() {
@@ -51,24 +59,40 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
 
     @Override
     protected void setUpData() {
-
+         user = UserManager.getInstance().get();
     }
 
 
     @OnClick(R.id.submit_tv)
     public void onClick() {
-        Api.getUserApi().editpwd(1,"","")
+        if (user==null)
+            return;
+        UserInfo userInfo = user.getUserInfo();
+        if (userInfo==null)
+            return;
+        if (!TextUtils.equals(newPwd.getText().toString(),newPwdAgain.getText().toString())){
+            showToast(R.string.twice_pwd_not_equal);
+            return;
+        }
+        handProgressbar(true);
+        hideSoftPanel(submitTv);
+        ApiFactory.getInstance().getApi(UserApi.class).editpwd(userInfo.user_id,oldPwd.getText().toString(),newPwd.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<JsonElement>() {
                     @Override
                     public void onSuccess(JsonElement s) {
-
+                        JumpManager.jumpActivity(EditPwdActivity.this, LoginActivity.class);
+                        ActivityStackManager.getInstance().clear();
+                        EditPwdActivity.this.finish();
+                        handProgressbar(false);
                     }
 
                     @Override
                     public void onError(String msg) {
-
+                        handProgressbar(false);
+                        showToast(msg);
+                        showSoftPanel(submitTv);
                     }
                 });
     }
@@ -93,4 +117,5 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
             setBtnEnable(true);
         }else setBtnEnable(false);
     }
+
 }

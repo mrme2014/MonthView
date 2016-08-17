@@ -10,6 +10,5 @@ import android.support.annotation.StringRes;
 public interface BasicView extends BaseView {
     @StringRes
     void onNetSucess(int  msg);
-    @StringRes
-    void onNetfaield(int msg);
+    void onNetfaield(String msg);
 }

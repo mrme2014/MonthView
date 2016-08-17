@@ -15,12 +15,12 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
 
           @Override
           public void onSuccess(JsonElement s) {
-              mView.onSmsSucess(R.string.send_sms_sucess);
+              mView.onNetSucess(R.string.send_sms_sucess);
           }
 
           @Override
           public void onError(String msg) {
-              mView.onSmsFaild(R.string.send_sms_faild);
+              mView.onNetfaield(msg);
           }
       });
     }
@@ -36,7 +36,7 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
 
                     @Override
                     public void onError(String msg) {
-                        mView.onNetfaield(R.string.check_sms_faild);
+                        mView.onNetfaield(msg);
                     }});
     }
 
@@ -51,7 +51,7 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
 
             @Override
             public void onError(String msg) {
-                mView.onNetSucess(R.string.pwd_reset_faild);
+                mView.onNetfaield(msg);
             }
         });
     }

@@ -112,9 +112,12 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     @Override
     public void onNetSucess() {
         handProgressbar(false);
+        UserManager.getInstance().clear();
+        ActivityStackManager.getInstance().clear();
         JumpManager.jumpActivity(getContext(), LoginActivity.class);
         getActivity().finish();
-        ActivityStackManager.getInstance().clear();
+
+
     }
 
     @Override

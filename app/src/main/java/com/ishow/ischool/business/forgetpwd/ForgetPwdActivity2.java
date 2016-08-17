@@ -6,8 +6,11 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.commonlib.application.ActivityStackManager;
 import com.ishow.ischool.R;
+import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -15,13 +18,16 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/12.
  */
-public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, ForgetPwdModel> implements TextWatcher {
+public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, ForgetPwdModel> implements TextWatcher,ForgetPwdView {
     @BindView(R.id.new_pwd)
     EditText newPwd;
     @BindView(R.id.new_pwd_again)
     EditText newPwdAgain;
     @BindView(R.id.submit_tv)
     Button submitTv;
+
+
+    private String intentMobile;
 
     @Override
     protected void setUpContentView() {
@@ -37,7 +43,7 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
 
     @Override
     protected void setUpData() {
-
+        intentMobile = getIntent().getStringExtra("mobile");
     }
 
     private void setBtnEnable(Button btn,boolean b) {
@@ -52,7 +58,12 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
 
     @OnClick(R.id.submit_tv)
     public void onClick() {
-     //   mPresenter.setPwd();
+        hideSoftPanel(submitTv);
+        if (!TextUtils.equals(newPwd.getText().toString(),newPwdAgain.getText().toString())){
+            showToast(getString(R.string.twice_pwd_not_equal));
+            return;
+        }
+        mPresenter.setPwd(intentMobile,newPwd.getText().toString());
     }
 
     @Override
@@ -67,8 +78,22 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (!isEmpty(newPwd)&&isEmpty(newPwdAgain)){
+        if (!isEmpty(newPwd)&&!isEmpty(newPwdAgain)){
             setBtnEnable(submitTv,true);
         }else setBtnEnable(submitTv,false);
+    }
+
+    @Override
+    public void onNetSucess(int msg) {
+        showToast(msg);
+        ActivityStackManager.getInstance().clear();
+        JumpManager.jumpActivity(this, LoginActivity.class);
+        this.finish();
+    }
+
+    @Override
+    public void onNetfaield(String msg) {
+        showToast(msg);
+        showSoftPanel(submitTv);
     }
 }

@@ -15,11 +15,11 @@
         <Button
             android:id="@+id/getcode_btn"
             android:layout_width="80dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            android:text="获取验证码"
+            android:text="@string/get_sms_code"
             android:textColor="#ffffff"
             android:textSize="@dimen/sp12"
             android:gravity="center"

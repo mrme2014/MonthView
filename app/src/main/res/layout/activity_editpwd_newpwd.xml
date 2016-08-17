@@ -10,6 +10,7 @@
         android:id="@+id/new_pwd"
         style="@style/edit_white_bg"
         android:layout_marginTop="15dp"
+        android:inputType="textPassword"
         android:hint="@string/new_pwd_hnit" />
 
     <View
@@ -22,6 +23,7 @@
         android:id="@+id/new_pwd_again"
         style="@style/edit_white_bg"
         android:hint="@string/new_pwd_hnit_again"
+        android:inputType="textPassword"
          />
 
     <Button

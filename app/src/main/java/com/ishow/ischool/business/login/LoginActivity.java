@@ -33,8 +33,7 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @Override
     protected void setUpView() {
-        usernameEt.setText("18912341234");
-        passwdEt.setText("123456");
+
     }
 
     @Override
@@ -54,8 +53,8 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
         handProgressbar(true);
         mPresenter.login(username, passwd);
-
         submitTv.setEnabled(false);
+
     }
 
     @Override

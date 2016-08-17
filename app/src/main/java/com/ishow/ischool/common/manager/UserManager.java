@@ -5,7 +5,13 @@ import android.content.Context;
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
+import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.Position;
+import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -76,6 +82,49 @@ public class UserManager {
         }
     }
 
+    public void updateCurrentPositionInfo(Position position){
+       if (user!=null) {
+           PositionInfo positionInfo = user.getPositionInfo();
+           positionInfo.id = position.campus_id;
+           positionInfo.title = position.title;
+           save(user);
+       }
+    }
+
+    boolean isInit;//是否对  campus下的  posotin 初始化过
+
+    public void initCampusPositions(User mUser) {
+        if (!isInit && mUser != null) {
+            isInit = true;
+            List<Campus> campus = mUser.getCampus();
+            List<Position> position = mUser.getPosition();
+
+            if (campus == null)
+                return;
+
+            /**Campus.class
+             *
+             * id : 1
+             * name : 杭州校区
+             *
+             public int id;
+             public String name;
+             public ArrayList<String> positions;
+             */
+            for (int i = 0; i < campus.size(); i++) {
+
+                ArrayList<String> campusPosition = new ArrayList<>();
+
+                for (int j = 0; j < position.size(); j++) {
+                    if (position.get(j).campus_id == campus.get(i).id) {
+                        campusPosition.add(position.get(j).title);
+                    }
+                    campus.get(i).positions = campusPosition;
+                }
+            }
+        }
+    }
+
     public void clear() {
         synchronized (lock) {
             user = null;
@@ -84,6 +133,7 @@ public class UserManager {
     }
 
     private void persistDate(String data) {
+        LogUtil.e("persistDate"+data);
         SpUtil.getInstance(context).setValue(USER_KEY, data);
         user = null;
     }

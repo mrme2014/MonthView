@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="arr_from">
+        <item>晨读</item>
+        <item>校聊</item>
+        <item>转介绍</item>
+    </string-array>
+
+
+</resources>

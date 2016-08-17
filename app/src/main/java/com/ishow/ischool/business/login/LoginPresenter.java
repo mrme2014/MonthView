@@ -14,7 +14,7 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     @Override
     public void login(String name, String pass) {
-        mModel.login(name, pass)
+        mModel.login(name, pass, "*")
                 .subscribe(new ApiObserver<User>() {
                     @Override
                     public void onSuccess(User user) {

@@ -14,9 +14,9 @@ public class Position implements Parcelable {
      * campus_id : 3
      */
 
-    private int id;
-    private String title;
-    private int campus_id;
+    public int id;
+    public String title;
+    public int campus_id;
 
 
     @Override

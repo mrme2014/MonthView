@@ -2,7 +2,8 @@
     <string name="app_name">ischool</string>
 
     <!-- common -->
-    <string name="submit_str">提交</string>
+    <string name="str_submit">提交</string>
+    <string name="str_cancel">取消</string>
 
 
     <string name="permisson_quanxian_ok">确定</string>
@@ -85,6 +86,8 @@
     <string name="choose_birthday">选择日期</string>
     <string name="twice_pwd_not_equal">两次密码不相同</string>
     <string name="time_left_to_try_again">%1$s s后重试</string>
+    <string name="switch_role">角色切换</string>
+    <string name="kefu_title">客服</string>
     <!--下面都是选择条件 或者筛选条件固定的  -->
     <array name="week_days">
         <item>周一</item>
@@ -137,6 +140,9 @@
     <!-- 学员统计 -->
     <string name="student_statistics">学员统计</string>
 
+    <string name="call">拨打电话</string>
+    <string name="phone_contacts">保存到通讯录</string>
+
     <!-- 添加学员 -->
     <string name="add_student">添加学员</string>
     <string name="item_name">姓名</string>
@@ -147,7 +153,7 @@
     <string name="span_business_info">业务信息</string>
     <string name="item_campus">所属校区</string>
     <string name="item_from">来源</string>
-    <string name="item_reference">推荐人</string>
+    <string name="item_referrer">推荐人</string>
     <string name="item_remark">备注</string>
     <string name="communication_list_title">沟通记录</string>
     <string name="common_submit">提交</string>

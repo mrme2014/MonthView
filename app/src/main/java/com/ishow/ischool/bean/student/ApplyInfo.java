@@ -20,6 +20,10 @@ public class ApplyInfo implements Parcelable {
     public long arrearage;
     public int is_use;
 
+    public static final int PAYSTATE_UNENROL = 1;   // 未报名
+    public static final int PAYSTATE_DEBT = 2;      // 欠款
+    public static final int PAYSTATE_ENROL = 3;     // 已报名
+    public static final int PAYSTATE_REFUND = 4;    // 退款
 
     @Override
     public int describeContents() {

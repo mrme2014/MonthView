@@ -15,8 +15,8 @@ import rx.schedulers.Schedulers;
  * Created by wqf on 16/8/14.
  */
 public class StatisticsListModel implements StatisticsListContract.Model {
-    public Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics(HashMap<String, String> params) {
-        return ApiFactory.getInstance().getApi(MarketApi.class).listStudentStatistics(params)
+    public Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics(int campusId) {
+        return ApiFactory.getInstance().getApi(MarketApi.class).listStudentStatistics(campusId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

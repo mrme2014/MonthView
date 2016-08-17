@@ -3,6 +3,7 @@ package com.ishow.ischool.widget.pickerview;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,14 @@ import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.Position;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by MrS on 2016/8/12.
@@ -24,11 +30,12 @@ import java.util.Date;
  * <p/>
  * 分开来写逻辑省很多代码
  */
-public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener {
+public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
 
     private PickerWheelViewLinearlayout viewById;
     private TimePicker timePicker;
     private Context context;
+    private User user;
 
     public PickerWheelViewPop(Context context) {
         super(context);
@@ -52,14 +59,59 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     private void init(Context context) {
         this.context = context;
+
     }
 
-    /**
-     * 年月日选择类型的 界面
-     *
-     * @param
-     * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
-     */
+
+    public void renderCampusPositionselectPanel(User user) {
+        this.user = user;
+        if (user==null)
+            return;
+        UserManager.getInstance().initCampusPositions(user);
+
+        List<Campus> campus = user.getCampus();
+
+        if (campus == null) return;
+
+        if (campus.size() == 1) {
+            ArrayList<String> positions = campus.get(0).positions;
+            setDatas(0, 1, positions);
+        } else {
+            ArrayList<String> campusList = new ArrayList<>();
+            for (int i = 0; i < campus.size(); i++) {
+                campusList.add(campus.get(i).name);
+            }
+
+            setDatas(0, 2, campusList, campus.get(0).positions);
+        }
+    }
+
+    private void refreshPositionForCampus(int index) {
+        if (user != null) {
+            List<Campus> campus = user.getCampus();
+            if (campus != null) resfreshData(1, campus.get(index).positions);
+        }
+    }
+
+    private Position getSelectPosition(String selectTxt) {
+        if (user != null) {
+            List<Position> position = user.getPosition();
+            if (position == null)
+                return null;
+            for (int i = 0; i < position.size(); i++) {
+                if (TextUtils.equals(selectTxt, position.get(i).title))
+                   return position.get(i);
+            }
+        }
+        return null;
+    }
+        /**
+         * 年月日选择类型的 界面
+         *
+         * @param
+         * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
+         */
+
     public void renderYMDPanel(int titleResId) {
         renderPanel(titleResId, R.layout.time_picker_linearlayout);
         timePicker.setDate(new Date().getTime());
@@ -81,9 +133,10 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
         View contentView = LayoutInflater.from(context).inflate(layResId, null);
 
-        if (layResId == R.layout.time_picker_controller)
+        if (layResId == R.layout.time_picker_controller) {
             viewById = (PickerWheelViewLinearlayout) contentView.findViewById(R.id.PickerWheelViewLinearlayout);
-        else if (layResId == R.layout.time_picker_linearlayout)
+            viewById.setwheelViewSelect(this);
+        } else if (layResId == R.layout.time_picker_linearlayout)
             timePicker = (TimePicker) contentView.findViewById(R.id.picker);
 
         View cancel = contentView.findViewById(R.id.cancel);
@@ -96,7 +149,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
         setContentView(contentView);
         setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
     }
 
     /**
@@ -120,7 +173,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
      * @param newDatas 新的数据源
      */
     public void resfreshData(int index, ArrayList<String> newDatas) {
-        resfreshData(index, newDatas);
+        viewById.resfreshData(index, newDatas);
     }
 
     @Override
@@ -133,17 +186,31 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                     callback.onPickCallback(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
                 }
                 //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
-                else if (viewById != null) callback.onPickCallback(1, viewById.getSelectResult());
+
+                else if (viewById != null){
+                    String[] selectResult = viewById.getSelectResult();
+                    //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
+                    if (selectResult!=null&&selectResult.length>=2&&user!=null) {
+                        String s = selectResult[1];
+                        callback.onPickCallback(getSelectPosition(s), selectResult);
+                    }else callback.onPickCallback(0, selectResult);
+
+                }
             }
         }
+    }
 
+    @Override
+    public void endSelect(WheelView wheelView, int id, String text) {
+        if (wheelView.getId() == 0)
+            refreshPositionForCampus(id);
     }
 
     private PickCallback callback;
 
     public interface PickCallback {
         /*ids 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
-        void onPickCallback(int id, String... result);
+        void onPickCallback(Object id, String... result);
     }
 
     public void addPickCallback(PickCallback callback1) {

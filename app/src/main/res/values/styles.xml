@@ -21,6 +21,7 @@
         <!--<item name="android:textSize">16sp</item>-->
         <item name="android:windowBackground">@color/color_app_bg</item>
         <item name="actionMenuTextAppearance">@style/MenuTextStyle</item>
+        <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
     </style>
 
     <style name="MenuTextStyle">

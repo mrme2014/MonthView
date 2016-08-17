@@ -20,6 +20,21 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+    <!-- iOS7 Style -->
+    <style name="ActionSheetStyleiOS7">
+        <item name="actionSheetBackground">@android:color/transparent</item>
+        <item name="cancelButtonBackground">@drawable/slt_as_ios7_cancel_bt</item>
+        <item name="otherButtonTopBackground">@drawable/slt_as_ios7_other_bt_top</item>
+        <item name="otherButtonMiddleBackground">@drawable/slt_as_ios7_other_bt_middle</item>
+        <item name="otherButtonBottomBackground">@drawable/slt_as_ios7_other_bt_bottom</item>
+        <item name="otherButtonSingleBackground">@drawable/slt_as_ios7_other_bt_single</item>
+        <item name="cancelButtonTextColor">@color/colorAccent</item>
+        <item name="otherButtonTextColor">@color/colorPrimary</item>
+        <item name="actionSheetPadding">10dp</item>
+        <item name="otherButtonSpacing">0dp</item>
+        <item name="cancelButtonMarginTop">10dp</item>
+        <item name="actionSheetTextSize">17sp</item>
+    </style>
 
     <style name="RecyclerViewStyle">
         <item name="android:layout_width">match_parent</item>
@@ -34,4 +49,16 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
+    <style name="topbottomtextview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="label_text_top_color">@color/txt_2</item>
+        <item name="label_text_top_size">14</item>
+        <item name="label_TB_padding">5</item>
+
+        <item name="label_left_padding">70</item>
+        <item name="label_text_bottom_color">@color/txt_9</item>
+        <item name="label_text_bottom_size">12</item>
+        <item name="label_top_padding">28</item>
+    </style>
 </resources>

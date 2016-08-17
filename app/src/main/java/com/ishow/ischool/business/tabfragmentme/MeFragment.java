@@ -1,11 +1,14 @@
 package com.ishow.ischool.business.tabfragmentme;
 
+import android.view.Gravity;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
+import com.ishow.ischool.bean.user.Position;
+import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.business.editpwd.EditPwdActivity;
@@ -18,6 +21,7 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
+import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements MePresenter.Iview {
+public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements MePresenter.Iview, PickerWheelViewPop.PickCallback {
 
     @BindView(R.id.fm_me_header_avart)
     public CircleImageView fmMeHeaderAvart;
@@ -39,6 +43,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     @BindView(R.id.fm_me_notify_msg)
     public FmItemTextView fmMeNotifyMsg;
 
+    private User user;
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_me;
@@ -46,7 +52,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
 
     @Override
     public void init() {
-        User user = UserManager.getInstance().get();
+        user = UserManager.getInstance().get();
         if (user == null)
             return;
         UserInfo userInfo = user.getUserInfo();
@@ -57,6 +63,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         fmMeHeaderName.setText(userInfo.nick_name);
         fmMeHeaderJob.setText(userInfo.job);
 
+        PositionInfo info = user.getPositionInfo();
+        if (info!=null)fmMeSwitchRole.setTipTxt(info.title);
+
     }
 
     /*头部个人信息点击事件*/
@@ -65,17 +74,18 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         JumpManager.jumpActivity(getContext(), PersonInfoActivity.class);
     }
 
-    /*角色切换*/
+    /*角色切换*/PickerWheelViewPop pop;
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
-//        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
-//        SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS").setMessageColor(R.color.colorAccent,R.color.green_press).Build();
-//        dialog.show(getChildFragmentManager());
-
-//        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-//        pop.initMultiSelectPanel(getContext(),-1);
-//        pop.setDatas(1, 3, null);
-//        pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
+        if (user!=null) {
+            if (pop==null){
+                pop = new PickerWheelViewPop(getContext());
+                pop.initMultiSelectPanel(R.string.switch_role);
+                pop.renderCampusPositionselectPanel(user);
+                pop.addPickCallback(this);
+            }
+            pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
+        }
     }
 
     /*消息通知*/
@@ -124,5 +134,13 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     public void onNetFailed(String msg) {
         handProgressbar(false);
         showToast(msg);
+    }
+
+    @Override
+    public void onPickCallback(Object object, String... result) {
+        if (result!=null&&result.length>=2&&object instanceof Position){
+            fmMeSwitchRole.setTipTxt(result[1]);
+            UserManager.getInstance().updateCurrentPositionInfo((Position)object);
+        }
     }
 }

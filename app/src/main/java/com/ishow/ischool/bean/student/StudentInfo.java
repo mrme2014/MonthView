@@ -47,10 +47,10 @@ public class StudentInfo implements Parcelable {
     public String idcard;
     public int create_time;
     public int update_time;
-    public int class_sate;
-    public int pay_sate;
-    public int upgrade_stae;
-    public int apply_stae;
+    public int class_state;
+    public int pay_state;
+    public int upgrade_state;
+    public int apply_state;
     public int student_id;
     public int birthday;
     public String grade;
@@ -79,10 +79,10 @@ public class StudentInfo implements Parcelable {
         dest.writeString(this.idcard);
         dest.writeInt(this.create_time);
         dest.writeInt(this.update_time);
-        dest.writeInt(this.class_sate);
-        dest.writeInt(this.pay_sate);
-        dest.writeInt(this.upgrade_stae);
-        dest.writeInt(this.apply_stae);
+        dest.writeInt(this.class_state);
+        dest.writeInt(this.pay_state);
+        dest.writeInt(this.upgrade_state);
+        dest.writeInt(this.apply_state);
         dest.writeInt(this.student_id);
         dest.writeInt(this.birthday);
         dest.writeString(this.grade);
@@ -108,10 +108,10 @@ public class StudentInfo implements Parcelable {
         this.idcard = in.readString();
         this.create_time = in.readInt();
         this.update_time = in.readInt();
-        this.class_sate = in.readInt();
-        this.pay_sate = in.readInt();
-        this.upgrade_stae = in.readInt();
-        this.apply_stae = in.readInt();
+        this.class_state = in.readInt();
+        this.pay_state = in.readInt();
+        this.upgrade_state = in.readInt();
+        this.apply_state = in.readInt();
         this.student_id = in.readInt();
         this.birthday = in.readInt();
         this.grade = in.readString();
@@ -149,10 +149,10 @@ public class StudentInfo implements Parcelable {
                 ", idcard=" + idcard +
                 ", create_time=" + create_time +
                 ", update_time=" + update_time +
-                ", class_sate=" + class_sate +
-                ", pay_sate=" + pay_sate +
-                ", upgrade_stae=" + upgrade_stae +
-                ", apply_stae=" + apply_stae +
+                ", class_sate=" + class_state +
+                ", pay_sate=" + pay_state +
+                ", upgrade_stae=" + upgrade_state +
+                ", apply_stae=" + apply_state +
                 ", student_id=" + student_id +
                 ", birthday=" + birthday +
                 ", grade=" + grade +

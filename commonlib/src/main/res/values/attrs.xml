@@ -19,6 +19,20 @@
         <attr name="label_padding" />
     </declare-styleable>
 
+    <declare-styleable name="TopBottomTextView">
+        <attr name="label_text_top_str" format="string" />
+        <attr name="label_text_bottom" format="string" />
+        <attr name="label_text_top_size" format="integer" />
+        <attr name="label_text_top_color" format="reference" />
+        <attr name="label_text_bottom_size" format="integer" />
+        <attr name="label_text_bottom_color" format="reference" />
+
+        <attr name="label_TB_padding" format="integer" />
+        <attr name="label_top_padding" format="integer" />
+        <attr name="label_left_padding" format="integer" />
+    </declare-styleable>
+
+
     <declare-styleable name="LoadFrameLayout">
         <attr name="emptyView" format="reference" />
         <attr name="errorView" format="reference" />

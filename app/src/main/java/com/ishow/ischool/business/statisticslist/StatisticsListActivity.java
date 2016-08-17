@@ -76,13 +76,13 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         @Override
         public void onBindViewHolder(int position) {
             StudentStatistics data = mDataList.get(position);
-            final String nameStr = data.StudentInfo.name;
-            final String phoneNumber = data.StudentInfo.mobile;
+            final String nameStr = data.studentInfo.name;
+            final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
 //                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
-                name.setText(data.StudentInfo.name);
+                name.setText(data.studentInfo.name);
 //                university.setText(data.StudentInfo.);
-                state.setText(UserUtil.getUserPayState(data.ApplyInfo.status));
+                state.setText(UserUtil.getUserPayState(data.applyInfo.status));
             }
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override

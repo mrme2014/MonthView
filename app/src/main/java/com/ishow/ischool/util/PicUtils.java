@@ -107,7 +107,10 @@ public class PicUtils {
     }
 
     public static void loadUserHeader(Context context, ImageView imageView, String imageUrl) {
-        ImageLoader imageLoader = new ImageLoader.Builder().url(imageUrl).placeHolder(R.drawable.ic_default_header).imageView(imageView).build();
+        ImageLoader imageLoader = new ImageLoader.Builder()
+                .url(imageUrl)
+//                .placeHolder(R.drawable.ic_default_header)
+                .imageView(imageView).build();
         ImageLoaderUtil.getInstance().loadImage(context, imageLoader);
     }
 }

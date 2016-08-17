@@ -16,7 +16,6 @@ public class PositionInfo implements Parcelable {
     public int id;
     public String title;
 
-
     @Override
     public int describeContents() {
         return 0;

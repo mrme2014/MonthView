@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.ishow.ischool.business.communicationadd.CommunicationAddActivity">
+    android:orientation="vertical">
 
     <include layout="@layout/widget_toolbar" />
 
@@ -68,7 +66,8 @@
         android:id="@+id/commun_source"
         style="@style/communication_edittext"
         android:hint="@string/commun_input_source_hint"
-        app:label_text="@string/commun_label_source" />
+        app:label_text="@string/commun_label_source"
+        app:label_text_size="@dimen/sp14" />
 
     <View
         android:layout_width="match_parent"
@@ -91,10 +90,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/commun_detail"
+        android:background="@color/content_bg"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:background="@color/content_bg"/>
+        android:text="@string/commun_detail" />
 
     <com.commonlib.widget.LabelTextView
         android:id="@+id/commun_date"
@@ -110,12 +109,12 @@
 
     <com.commonlib.widget.LabelEditText
         android:id="@+id/commun_content"
-        android:layout_height="wrap_content"
         style="@style/communication_edittext"
-        android:paddingTop="13dp"
+        android:layout_height="wrap_content"
         android:gravity="top"
-        android:lines="6"
         android:hint="@string/commun_input_content_hint"
+        android:lines="6"
+        android:paddingTop="13dp"
         app:label_text="@string/commun_label_content" />
 
 </LinearLayout>

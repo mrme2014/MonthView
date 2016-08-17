@@ -37,7 +37,7 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/15.
  */
-public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.onItemselectListner, PersonView, TextWatcher, PickerWheelViewPop.PickCallback {
+public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.OnItemSelectedListner, PersonView, TextWatcher, PickerWheelViewPop.PickCallback {
     @BindView(R.id.person_info_avart)
     CircleImageView personInfoAvart;
     @BindView(R.id.person_info_name)
@@ -111,7 +111,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
                 SelectDialogFragment dialog = builder.setMessage(getString(R.string.capture), getString(R.string.amblue)).Build();
                 dialog.show(getSupportFragmentManager());
-                dialog.addOnItemselectListner(this);
+                dialog.setOnItemSelectedListner(this);
                 break;
             case R.id.person_info_birthday:
                 PickerWheelViewPop pop = new PickerWheelViewPop(this);
@@ -191,7 +191,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
 
     @Override
-    public void onItemselect(int position) {
+    public void onItemSelected(int position) {
         if (position == 0) {
             PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
                 @Override

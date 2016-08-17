@@ -1,17 +1,16 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
-import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
 
 import java.util.ArrayList;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -22,6 +21,7 @@ public interface MarketApi {
     //学员统计数据列表(market.StudentStatistics.lists) 接口
     @GET("/market/studentstatistics/lists")
     Observable<ApiResult<StudentStatisticsList>> listStudentStatistics(
+            @QueryMap HashMap<String, String> params
 //            @Query("option") String option,         //列表选择项的数据
 //            @Query("campus_id") int campus_id,      //筛选的校区id
 //            @Query("time_type") int time_type,     //筛选时间的类型（1.登记时间，2.上课时间）

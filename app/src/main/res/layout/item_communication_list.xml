@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical">
 
@@ -12,13 +12,15 @@
         android:layout_height="10dp"
         android:background="#EDEEEF" />
 
-    <com.ishow.ischool.widget.custom.CircleImageView
+    <TextView
         android:id="@+id/user_photo_iv"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_below="@id/line"
         android:layout_margin="10dp"
-        android:src="@mipmap/ic_launcher" />
+        android:background="@drawable/shape_student_photo_bg"
+        android:gravity="center"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/user_name"
@@ -73,8 +75,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:paddingTop="20dp"
             android:text="升学"
             android:textColor="@color/txt_3"
+            app:label_text_color="@color/txt_9"
+            app:label_text_size="@dimen/sp12"
             app:label_text_top="状态" />
 
         <View
@@ -89,8 +94,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:paddingTop="20dp"
             android:text="父母不同意"
             android:textColor="@color/txt_3"
+            app:label_text_color="@color/txt_9"
+            app:label_text_size="@dimen/sp12"
             app:label_text_top="抗拒点" />
 
         <View
@@ -104,9 +112,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center_horizontal"
+            android:paddingTop="20dp"
             android:text="中"
             android:textColor="@color/txt_3"
+            app:label_text_color="@color/txt_9"
+            app:label_text_size="@dimen/sp12"
             app:label_text_top="信念" />
 
     </LinearLayout>

@@ -30,7 +30,7 @@ import java.util.List;
 public class SelectDialogFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ListView listView;
     private Button cancel;
-    private selectDialogAdapter adapter;
+    private SelectDialogAdapter adapter;
     private Dialog dialog;
 
     private ArrayList<String> datas; //message btn  文本集合
@@ -43,7 +43,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
      * SelectDialogFragment dialog= builder.setMessage("SAS", "ASDAS", "ASDAS")
      * .setMessageColor(R.color.color_header,R.color.colorAccent,R.color.green_press).Build();
      * dialog.show(getChildFragmentManager());
-     * <p>
+     * <p/>
      * OR:
      * SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
      * SelectDialogFragment dialog= builder.setMessage(list<String> datas)
@@ -65,7 +65,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             this.messageColor = bundle.getIntegerArrayList("messageColor");
             this.buttonColor = bundle.getInt("buttonColor");
         }
-        adapter = new selectDialogAdapter(getContext(), datas, messageColor);
+        adapter = new SelectDialogAdapter(getContext(), datas, messageColor);
         listView.setAdapter(adapter);
 
         dialog.setContentView(contentView);
@@ -90,7 +90,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (listner != null)
-            listner.onItemselect(position);
+            listner.onItemSelected(position);
         this.dismiss();
     }
 
@@ -102,6 +102,8 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         private int buttonColor;//取消按钮的颜色
         public ArrayList<String> datas;//message btb 文本集合
         public ArrayList<Integer> colors; //为每一个message btb指定不同的颜色
+        private OnItemSelectedListner listner;
+
 
         public int getButtonColor() {
             return buttonColor;
@@ -148,6 +150,11 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             return this;
         }
 
+        public Builder setOnItemselectListner(OnItemSelectedListner l) {
+            this.listner = l;
+            return this;
+        }
+
         public SelectDialogFragment Build() {
 
             SelectDialogFragment fragment = new SelectDialogFragment();
@@ -156,15 +163,16 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             bundle.putIntegerArrayList("messageColor", colors);
             bundle.putInt("buttonColor", buttonColor);
             fragment.setArguments(bundle);
+            fragment.setOnItemSelectedListner(listner);
             return fragment;
         }
     }
 
-    class selectDialogAdapter extends BasicAdapter<String> {
+    class SelectDialogAdapter extends BasicAdapter<String> {
 
         private ArrayList<Integer> messageColor;
 
-        public selectDialogAdapter(Context context, List<String> datas, ArrayList<Integer> messageColor) {
+        public SelectDialogAdapter(Context context, List<String> datas, ArrayList<Integer> messageColor) {
             super(context, datas);
             this.messageColor = messageColor;
         }
@@ -182,8 +190,8 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             }
                 /*下面这 种情况是 为 message btn指定一个颜色 messageColor的大小 就会小于datas集合大小
                 * 这种情况超过messageColor的大小的位置 会使用默认颜色 */
-            else if (messageColor != null &&  messageColor.size() <=datas.size()) {
-                if (position <  messageColor.size())
+            else if (messageColor != null && messageColor.size() <= datas.size()) {
+                if (position < messageColor.size())
                     item.setTextColor(context.getResources().getColor(messageColor.get(position)));
             }
 
@@ -191,13 +199,13 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         }
     }
 
-    public interface onItemselectListner {
-        public void onItemselect(int position);
+    public interface OnItemSelectedListner {
+        public void onItemSelected(int position);
     }
 
-    public onItemselectListner listner;
+    private OnItemSelectedListner listner;
 
-    public void addOnItemselectListner(onItemselectListner l) {
+    public void setOnItemSelectedListner(OnItemSelectedListner l) {
         this.listner = l;
     }
 }

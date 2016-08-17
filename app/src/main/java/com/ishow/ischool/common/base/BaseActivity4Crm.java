@@ -2,7 +2,6 @@ package com.ishow.ischool.common.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,11 +22,6 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
     protected ProgressDialog dialog = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected void bindView() {
         ButterKnife.bind(this);
     }
@@ -44,7 +38,9 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
                 }
             });
             snackbar.show();
-        } else Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showToast(int stringId) {
@@ -58,16 +54,25 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
                 dialog.setMessage("request server...");
             }
             dialog.show();
-        } else if (!show && dialog != null) dialog.dismiss();
+        } else if (!show && dialog != null) {
+            dialog.dismiss();
+        }
     }
 
     InputMethodManager manager;
-    public void  hideSoftPanel(View view){
-        if (manager==null) manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(view.getWindowToken(),0);
+
+    public void hideSoftPanel(View view) {
+        if (manager == null) {
+            manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        }
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-    public void showSoftPanel(View view){
-        if (manager==null) manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.showSoftInputFromInputMethod(view.getWindowToken(),0);
+
+    public void showSoftPanel(View view) {
+        if (manager == null) {
+            manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        }
+        manager.showSoftInputFromInputMethod(view.getWindowToken(), 0);
     }
+
 }

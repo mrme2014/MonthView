@@ -27,6 +27,22 @@ public class PicUtils {
         }
     }
 
+    public static void loadAvatarCircle(Context context, ImageView imageView, String imageUrl) {
+        if (context == null) {
+            return;
+        }
+
+        if (imageUrl != null && !"".equals(imageUrl)) {
+            Glide.with(context)
+                    .load(imageUrl)
+                    .dontAnimate()
+//                    .placeholder(R.drawable.ic_default_avatar_round)
+                    .into(imageView);
+        } else {
+//            imageView.setImageResource(R.drawable.ic_default_avatar_round);
+        }
+    }
+
     public static void loadAvatarRect(Context context, ImageView imageView, String imageUrl) {
         if (context == null) {
             return;

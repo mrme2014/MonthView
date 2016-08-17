@@ -165,4 +165,6 @@
     <string name="commun_choose1_hint">请选择</string>
     <string name="commun_label_content">沟通内容</string>
     <string name="commun_input_content_hint">请输入沟通内容（必填）</string>
+    <string name="pick_student">选择学员</string>
+    <string name="hint_search">搜索</string>
 </resources>

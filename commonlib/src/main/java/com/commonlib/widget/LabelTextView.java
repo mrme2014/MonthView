@@ -25,7 +25,7 @@ public class LabelTextView extends TextView {
     private String labelTextLeft;
     private String labelTextRight;
     private String labelTextButton;
-    private int labelTextSize;
+    private float labelTextSize;
     private int labelTextColor;
     private float labelPadding;
 
@@ -59,14 +59,14 @@ public class LabelTextView extends TextView {
         labelTextLeft = typedArray.getString(R.styleable.LabelTextView_label_text_left);
         labelTextRight = typedArray.getString(R.styleable.LabelTextView_label_text_right);
         labelTextButton = typedArray.getString(R.styleable.LabelTextView_label_text_button);
-        labelTextSize = typedArray.getInt(R.styleable.LabelTextView_label_text_size, 14);
+        labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.dip2px(getContext(), 14));
         labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0x333333);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
 
         typedArray.recycle();
 
         labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        labelPaint.setTextSize(UIUtil.dip2px(getContext(), labelTextSize));
+        labelPaint.setTextSize(labelTextSize);
         labelPaint.setColor(labelTextColor);
         Paint.FontMetrics fontMetrics = labelPaint.getFontMetrics();
         textHeight = fontMetrics.descent - fontMetrics.ascent;
@@ -90,7 +90,7 @@ public class LabelTextView extends TextView {
         }
 
         if (!TextUtils.isEmpty(labelTextTop)) {
-            canvas.drawText(labelTextTop, (with - labelPaint.measureText(labelTextTop)) / 2, getPaddingTop() + textHeight, labelPaint);
+            canvas.drawText(labelTextTop, (with - labelPaint.measureText(labelTextTop)) / 2, labelPadding + textHeight, labelPaint);
         }
         if (!TextUtils.isEmpty(labelTextRight)) {
             canvas.drawText(labelTextRight, (with - labelPaint.measureText(labelTextTop) - getPaddingRight()), getBaseline(), labelPaint);

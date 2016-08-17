@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public abstract class BaseListActivity<P extends BasePresenter, M extends BaseModel, T> extends BaseActivity<P, M> implements PullRecycler.OnRecyclerRefreshListener {
     protected BaseListAdapter mAdapter;
-    protected ArrayList<T> mDataList;
+    protected ArrayList<T> mDataList = new ArrayList<>();
     protected PullRecycler recycler;
     protected int mCurrentPage = 1;
 
@@ -36,6 +36,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 
     /**
      * 设置该页面不支持分页加载,默认支持分页
+     *
      * @return
      */
     protected boolean setPageEnable() {

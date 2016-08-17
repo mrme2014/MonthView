@@ -17,6 +17,7 @@ import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +45,9 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("page", mCurrentPage + "");
+        mPresenter.getList4StudentStatistics(params);
     }
 
     @Override

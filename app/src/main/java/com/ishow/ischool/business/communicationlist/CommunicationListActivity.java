@@ -2,7 +2,6 @@ package com.ishow.ischool.business.communicationlist;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
@@ -15,6 +14,7 @@ import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.business.communicationadd.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.util.AppUtil;
 
 import java.util.HashMap;
 
@@ -83,33 +83,41 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     class CommnunicationHolder extends BaseViewHolder {
 
         @BindView(R.id.user_photo_iv)
-        ImageView userPhotoIv;
+        TextView userPhotoIv;
+
+        @BindView(R.id.user_name)
         TextView usernameTv;
+
         @BindView(R.id.communication_date)
         TextView dateTv;
+
         @BindView(R.id.communication_content)
         TextView contentTv;
+
         @BindView(R.id.user_state)
         LabelTextView stateTv;
+
         @BindView(R.id.user_oppose_point)
         LabelTextView opposePointTv;
+
         @BindView(R.id.user_faith)
         LabelTextView faithTv;
 
         public CommnunicationHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override
         public void onBindViewHolder(int position) {
             Communication communication = mDataList.get(position);
-//            PicUtils.loadpic(this,userPhotoIv,communication.userInfo.avatar);
-            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time, "yyyy-MM-dd"));
+            userPhotoIv.setText(AppUtil.getLast2Text(communication.studentInfo.name));
+            usernameTv.setText(communication.studentInfo.name);
+            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
             contentTv.setText(communication.communicationInfo.content);
-            stateTv.setText(communication.communicationInfo.status);
-            opposePointTv.setText(communication.communicationInfo.refuse);
-            faithTv.setText(communication.communicationInfo.belief);
+            stateTv.setText(AppUtil.getStateById(communication.communicationInfo.status));
+            opposePointTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));
+            faithTv.setText(AppUtil.getBeliefById(communication.communicationInfo.belief));
         }
     }
 

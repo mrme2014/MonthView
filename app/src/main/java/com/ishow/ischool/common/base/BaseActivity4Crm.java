@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.commonlib.core.BaseActivity;
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.common.manager.UserManager;
 
 import butterknife.ButterKnife;
 
@@ -19,10 +21,17 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
 
     protected Snackbar snackbar = null;
     protected ProgressDialog dialog = null;
+    protected User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        mUser = UserManager.getInstance().get();
     }
 
     @Override

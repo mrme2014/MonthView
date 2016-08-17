@@ -25,6 +25,6 @@ public interface LoginContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        public abstract void login(String name, String pass);
+        abstract void login(String name, String pass);
     }
 }

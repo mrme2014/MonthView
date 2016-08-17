@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ishow.videochat.teacher.activity.AlbumActivity">
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/submit"
         android:orderInCategory="100"
-        android:title="@string/submit_str"
+        android:title="@string/str_submit"
         app:showAsAction="always" />
 </menu>

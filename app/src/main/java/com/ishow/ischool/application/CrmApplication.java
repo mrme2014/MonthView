@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.commonlib.application.BaseApplication;
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.LogUtil;
+import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.Token;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
@@ -78,10 +79,10 @@ public class CrmApplication extends BaseApplication {
                         }
                         if (jsonObject != null) {
                             int error_no = jsonObject.optInt("error_no");
-                            // 判断error_no
-//                            if (error_no == ApiResult.ERROR_TOKEN1 || error_no == ApiResult.ERROR_TOKEN2 || error_no == ApiResult.ERROR_TOKEN3) {
-//                                onReLogin();
-//                            }
+//                             判断error_no
+                            if (error_no == ApiResult.ERROR_TOKEN) {
+                                onReLogin();
+                            }
                         }
                     }
                 }
@@ -92,4 +93,10 @@ public class CrmApplication extends BaseApplication {
             }
         });
     }
+
+    private void onReLogin() {
+        // 退出App
+    }
+
+
 }

@@ -72,13 +72,18 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
             @Override
             public boolean onQueryTextChange(String newText) {
                 LogUtil.d("SearchView newText = " + newText);
-                mPresenter.searchUniversity(newText);
+                if (TextUtils.isEmpty(newText)) {
+                    loadFailed();
+                } else {
+                    mPresenter.searchUniversity(newText);
+                }
                 return true;
             }
         });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                mDataList.clear();
                 loadSuccess(originalDatas);
                 return false;
             }
@@ -141,6 +146,11 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
 
     @Override
     public void searchSuccess(ArrayList<UniversityInfo> universityInfos) {
+        if (mDataList != null) {
+            mDataList.clear();
+        } else {
+            mDataList = new ArrayList<>();
+        }
         loadSuccess(universityInfos);
     }
 
@@ -184,7 +194,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         public void onItemClick(View view, int position) {
             UniversityInfo data = mDataList.get(position);
             Intent intent = new Intent();
-            intent.putExtra(KEY_PICKED_UNIVERSITY, data.name);
+            intent.putExtra(KEY_PICKED_UNIVERSITY, data);
             setResult(RESULT_OK, intent);
             finish();
         }

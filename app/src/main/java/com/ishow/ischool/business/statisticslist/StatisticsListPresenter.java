@@ -9,8 +9,8 @@ import com.ishow.ischool.common.api.ApiObserver;
 public class StatisticsListPresenter extends StatisticsListContract.Presenter {
 
     @Override
-    public void getList4StudentStatistics() {
-        mModel.getList4StudentStatistics()
+    public void getList4StudentStatistics(int campusId) {
+        mModel.getList4StudentStatistics(campusId)
                 .subscribe(new ApiObserver<StudentStatisticsList>() {
                     @Override
                     public void onSuccess(StudentStatisticsList studentStatisticsList) {

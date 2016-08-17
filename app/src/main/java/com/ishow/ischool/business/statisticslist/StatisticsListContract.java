@@ -15,7 +15,7 @@ import rx.Observable;
  */
 public interface StatisticsListContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics();
+        Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics(int campusId);
     }
 
     interface View extends BaseView {
@@ -24,6 +24,6 @@ public interface StatisticsListContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        public abstract void getList4StudentStatistics();
+        public abstract void getList4StudentStatistics(int campusId);
     }
 }

@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class ApiResult<T> {
 
+    public static final int ERROR_TOKEN = 2;
+
     public int error_no;
 
     public String error_msg;

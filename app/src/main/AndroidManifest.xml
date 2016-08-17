@@ -54,13 +54,13 @@
         <activity android:name=".business.personinfo.PersonInfoActivity" />
 
         <activity android:name=".business.addstudent.AddStudentActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
         <activity android:name=".business.communicationlist.CommunicationListActivity" />
         <activity android:name=".business.universitypick.UniversityPickActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

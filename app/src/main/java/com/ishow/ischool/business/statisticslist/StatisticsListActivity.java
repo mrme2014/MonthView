@@ -44,7 +44,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics();
+        mPresenter.getList4StudentStatistics(mUser.getUserInfo().campus_id);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -15,8 +16,10 @@ import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.util.UserUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +47,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics();
+        mPresenter.getList4StudentStatistics(mUser.getUserInfo().campus_id);
     }
 
     @Override
@@ -60,8 +63,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         TextView name;
         @BindView(R.id.state)
         TextView state;
-        @BindView(R.id.school)
-        TextView school;
+        @BindView(R.id.university)
+        TextView university;
         @BindView(R.id.phone)
         ImageView phone;
 
@@ -73,15 +76,47 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         @Override
         public void onBindViewHolder(int position) {
             StudentStatistics data = mDataList.get(position);
+            final String nameStr = data.studentInfo.name;
+            final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
-
+//                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
+                name.setText(data.studentInfo.name);
+//                university.setText(data.StudentInfo.);
+                state.setText(UserUtil.getUserPayState(data.applyInfo.status));
             }
+            phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActionSheet.createBuilder(StatisticsListActivity.this, StatisticsListActivity.this.getSupportFragmentManager())
+                            .setCancelButtonTitle(R.string.str_cancel)
+                            .setOtherButtonTitles(nameStr + "\n" + phoneNumber, getString(R.string.call), getString(R.string.phone_contacts))
+                            .setCancelableOnTouchOutside(true)
+                            .setTag("TAG")
+                            .setListener(new ActionSheet.ActionSheetListener() {
+                                @Override
+                                public void onDismiss(ActionSheet actionSheet, boolean b) {
+
+                                }
+
+                                @Override
+                                public void onOtherButtonClick(ActionSheet actionSheet, int i) {
+                                    switch (i) {
+                                        case 1:
+                                            // TODO: 16/8/17  打电话
+                                            break;
+                                        case 2:
+                                            // TODO: 16/8/17  保存至通讯录
+                                            break;
+                                    }
+                                }
+                            }).show();
+                }
+            });
         }
 
         @Override
         public void onItemClick(View view, int position) {
             StudentStatistics data = mDataList.get(position);
-
         }
     }
 

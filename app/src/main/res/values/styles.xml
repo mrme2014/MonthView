@@ -21,6 +21,7 @@
         <!--<item name="android:textSize">16sp</item>-->
         <item name="android:windowBackground">@color/color_app_bg</item>
         <item name="actionMenuTextAppearance">@style/MenuTextStyle</item>
+        <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
     </style>
 
     <style name="MenuTextStyle">
@@ -207,6 +208,7 @@
         <item name="android:paddingLeft">98dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:textColor">@color/txt_2</item>
         <item name="label_padding">10dp</item>
         <item name="label_text_color">@color/txt_2</item>
     </style>

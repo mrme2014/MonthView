@@ -96,4 +96,10 @@ public class CrmApplication extends BaseApplication {
             }
         });
     }
+
+    private void onReLogin() {
+        // 退出App
+    }
+
+
 }

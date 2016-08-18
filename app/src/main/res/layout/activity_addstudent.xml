@@ -1,79 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:input="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/widget_toolbar" />
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_name"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_name"
-        input:inputLayout_texthint="请输入学员姓名（必填）"
-        android:layout_marginTop="10dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_phone"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_phone"
-        input:inputLayout_texthint="请输入学员电话（必填）"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_qq"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_qq"
-        input:inputLayout_texthint="请输入学员QQ/微信"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_name"
+                style="@style/input_linearLayout_style"
+                android:layout_marginTop="10dp"
+                input:inputLayout_texthint="请输入学员姓名（必填）"
+                input:label_text="@string/item_name" />
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_university"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_university"
-        input:inputLayout_texthint="请选择学员就读学校（必填）"
-        input:next="true"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_phone"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="请输入学员电话（必填）"
+                input:label_text="@string/item_phone" />
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_major"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_major"
-        input:inputLayout_texthint="请输入学员就读专业（必填）"
-        input:bottom_line="false"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_qq"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="请输入学员QQ/微信"
+                input:label_text="@string/item_qq" />
 
-    <include layout="@layout/view_bottom_line"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_university"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="请选择学员就读学校（必填）"
+                input:label_text="@string/item_university"
+                input:next="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/span_business_info"
-        android:layout_marginTop="20dp"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_major"
+                style="@style/input_linearLayout_style"
+                input:bottom_line="false"
+                input:inputLayout_texthint="请输入学员就读专业（必填）"
+                input:label_text="@string/item_major" />
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_campus"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_campus"
-        input:inputLayout_texthint="请输入学员所属校区（必填）"
-        input:next="true"/>
+            <include layout="@layout/view_bottom_line" />
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_from"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_from"
-        input:inputLayout_texthint="请选择学员来源（必填）"
-        input:next="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/span_business_info" />
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_reference"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_reference"
-        input:inputLayout_texthint="请选择推荐人"
-        input:next="true"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_campus"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="请输入学员所属校区（必填）"
+                input:label_text="@string/item_campus"
+                input:focusable="false"/>
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/item_remark"
-        style="@style/input_linearLayout_style"
-        input:label_text="@string/item_remark"
-        input:inputLayout_texthint="请填写备注信息"
-        input:bottom_line="false"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_from"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="请选择学员来源（必填）"
+                input:label_text="@string/item_from"
+                input:next="true" />
 
-    <include layout="@layout/view_bottom_line"/>
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_referrer"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="请选择推荐人"
+                input:label_text="@string/item_referrer"
+                input:focusable="false"
+                android:visibility="gone"/>
+
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_remark"
+                style="@style/input_linearLayout_style"
+                input:bottom_line="false"
+                input:inputLayout_texthint="请填写备注信息"
+                input:label_text="@string/item_remark" />
+
+            <include layout="@layout/view_bottom_line" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

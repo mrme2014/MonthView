@@ -11,7 +11,7 @@ import com.ishow.ischool.bean.user.UserInfo;
  */
 public class Communication implements Parcelable {
     public CommunicationInfo communicationInfo;//	CommunicationInfo	1				0
-    public StudentInfo studentInfo;//	StudentInfo	1			学生信息	0
+    public StudentInfo studentInfo;//		1			学生信息	0
     public UserInfo userInfo;//	UserInfo
 
     protected Communication(Parcel in) {

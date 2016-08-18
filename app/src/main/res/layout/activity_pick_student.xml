@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.ishow.ischool.business.student.pick.PickStudentActivity">
+
+    <include layout="@layout/widget_toolbar" />
+
+    <EditText
+        android:id="@+id/pick_search_text_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:background="@drawable/shape_pick_student_search_bg"
+        android:drawableLeft="@mipmap/ic_search"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:hint="@string/hint_search"
+        android:padding="8dp"
+        android:textSize="@dimen/sp14" />
+
+    <com.commonlib.widget.pull.PullRecycler
+        android:id="@id/pullRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
+</LinearLayout>

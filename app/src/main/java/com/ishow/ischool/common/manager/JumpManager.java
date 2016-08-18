@@ -1,5 +1,6 @@
 package com.ishow.ischool.common.manager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -25,5 +26,10 @@ public class JumpManager {
 
     private static boolean checkUserPermision() {
         return true;
+    }
+
+    public static void jumpActivityForResult(Activity from, Class to, int requestCode) {
+        Intent intent = new Intent(from, to);
+        from.startActivityForResult(intent, requestCode);
     }
 }

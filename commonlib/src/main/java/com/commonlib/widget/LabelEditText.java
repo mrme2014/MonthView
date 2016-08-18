@@ -23,7 +23,7 @@ public class LabelEditText extends EditText {
     private float textHeight;
 
     private String labelText;
-    private int labelTextSize;
+    private float labelTextSize;
     private int labelTextColor;
     private float labelPadding;
 
@@ -40,6 +40,7 @@ public class LabelEditText extends EditText {
 
     public LabelEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs);
     }
 
     public LabelEditText(Context context, AttributeSet attrs) {
@@ -54,14 +55,14 @@ public class LabelEditText extends EditText {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LabelEditText);
 
         labelText = typedArray.getString(R.styleable.LabelEditText_label_text);
-        labelTextSize = typedArray.getInt(R.styleable.LabelEditText_label_text_size, 14);
+        labelTextSize = typedArray.getDimension(R.styleable.LabelEditText_label_text_size, UIUtil.dip2px(getContext(), 14));
         labelTextColor = typedArray.getColor(R.styleable.LabelEditText_label_text_color, 0x333333);
         labelPadding = typedArray.getDimension(R.styleable.LabelEditText_label_padding, 0);
 
         typedArray.recycle();
 
         labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        labelPaint.setTextSize(UIUtil.dip2px(getContext(), labelTextSize));
+        labelPaint.setTextSize(labelTextSize);
         labelPaint.setColor(labelTextColor);
         Paint.FontMetrics fontMetrics = labelPaint.getFontMetrics();
         textHeight = fontMetrics.descent - fontMetrics.ascent;

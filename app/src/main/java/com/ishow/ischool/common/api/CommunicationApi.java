@@ -16,7 +16,7 @@ import rx.Observable;
 /**
  * Created by abel on 16/8/16.
  */
-public interface CommnicationApi {
+public interface CommunicationApi {
     /**
      * keyword	String	0			电话或手机	0
      * student_status	Int	0			学生状态	0

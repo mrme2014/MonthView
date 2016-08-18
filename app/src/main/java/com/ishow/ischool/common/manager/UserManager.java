@@ -82,20 +82,27 @@ public class UserManager {
         }
     }
 
-    public void updateCurrentPositionInfo(Position position){
-       if (user!=null) {
-           PositionInfo positionInfo = user.getPositionInfo();
-           positionInfo.id = position.campus_id;
-           positionInfo.title = position.title;
-           save(user);
-       }
+    public void updateCurrentPositionInfo(Position position) {
+        if (user != null) {
+            PositionInfo positionInfo = user.getPositionInfo();
+            positionInfo.id = position.id;
+            positionInfo.title = position.title;
+            positionInfo.campusId = position.campus_id;
+            List<Campus> campus = user.getCampus();
+            if (campus != null) {
+                for (int i = 0; i < campus.size(); i++) {
+                    if (campus.get(i).id == position.campus_id) {
+                        positionInfo.campus = campus.get(i).name;
+                        break;
+                    }
+                }
+            }
+            save(user);
+        }
     }
 
-    boolean isInit;//是否对  campus下的  posotin 初始化过
-
     public void initCampusPositions(User mUser) {
-        if (!isInit && mUser != null) {
-            isInit = true;
+        if ( mUser != null) {
             List<Campus> campus = mUser.getCampus();
             List<Position> position = mUser.getPosition();
 
@@ -122,8 +129,24 @@ public class UserManager {
                     campus.get(i).positions = campusPosition;
                 }
             }
+            /**
+             * public int id;
+             public String title;
+             public String campus;
+             public int campusId;
+             每次进来 都需要对PositionInfo 值 赋值
+             */
+            PositionInfo positionInfo = user.getPositionInfo();
+            for (int i = 0; i < position.size(); i++) {
+                if (position.get(i).id == positionInfo.id) {
+                    updateCurrentPositionInfo(position.get(i));
+                    break;
+                }
+            }
         }
+
     }
+
 
     public void clear() {
         synchronized (lock) {
@@ -133,7 +156,7 @@ public class UserManager {
     }
 
     private void persistDate(String data) {
-        LogUtil.e("persistDate"+data);
+        LogUtil.e("persistDate" + data);
         SpUtil.getInstance(context).setValue(USER_KEY, data);
         user = null;
     }

@@ -11,6 +11,8 @@ import com.qiniu.android.storage.UploadManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 /**
  * Created by MrS on 2016/8/15.
  */
@@ -43,17 +45,12 @@ public class PersonPresenter extends BasePresenter<PersonMode,PersonView> {
     public void uploadImg(String file_path,String token){
         UploadManager uploadManager = new UploadManager();
         //以下api可以修改为图片地址 或者file  或者byte[]//xx/xxx/xx.jpg
-        uploadManager.put(file_path, file_path.substring(file_path.lastIndexOf("/")+1), token, new UpCompletionHandler() {
+        uploadManager.put(file_path, file_path.substring(file_path.lastIndexOf("/")+1)+new Date().getTime(), token, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
-                try {
-                    if (response.getString("sucess") == "true"){
+                            if (info!=null&& info.statusCode==200){
                         mView.onNetSucess(R.string.per_net_token_sucess);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    mView.onNetFailed(e==null?"result error":e.getMessage());
-                }
+                    }else  mView.onNetFailed("result error!");
             }
         }, null);
 

@@ -4,9 +4,11 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
+import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
@@ -19,6 +21,7 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
+import com.ishow.ischool.widget.custom.CommuDialogFragment;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
@@ -28,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements MePresenter.Iview, PickerWheelViewPop.PickCallback {
+public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements MePresenter.Iview {
 
     @BindView(R.id.fm_me_header_avart)
     public CircleImageView fmMeHeaderAvart;
@@ -81,7 +84,16 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
                 pop = new PickerWheelViewPop(getContext());
                 pop.initMultiSelectPanel(R.string.switch_role);
                 pop.renderCampusPositionselectPanel(user);
-                pop.addPickCallback(this);
+                pop.addPickCallback(new PickerWheelViewPop.PickCallback<Position>() {
+                    @Override
+                    public void onPickCallback(Position position, String... result) {
+                        if (result!=null&&result.length>=2){
+                            fmMeSwitchRole.setTipTxt(result[1]);
+                            //更新本地 用户信息的 posiiotnInfo的 信息
+                            UserManager.getInstance().updateCurrentPositionInfo(position);
+                        }
+                    }
+                });
             }
             pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
         }
@@ -90,7 +102,14 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
     public void on_fm_me_notify_msg_click() {
-
+        CommuDialogFragment pop = new CommuDialogFragment();
+        pop.show(getChildFragmentManager(),"dialog");
+        pop.addOnSelectResultCallback(new CommuDialogFragment.selectResultCallback() {
+            @Override
+            public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
+                LogUtil.e(statePosition+"-"+confidencePosition+"-"+refusePosition);
+            }
+        });
     }
 
     /*晨读二维码*/
@@ -135,10 +154,4 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         showToast(msg);
     }
 
-    @Override
-    public void onPickCallback(int id, String... result) {
-        if (result!=null&&result.length>=2){
-            fmMeSwitchRole.setTipTxt(result[1]);
-        }
-    }
 }

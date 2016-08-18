@@ -176,4 +176,19 @@
     <string name="commun_input_content_hint">请输入沟通内容（必填）</string>
     <string name="pick_student">选择学员</string>
     <string name="hint_search">搜索</string>
+    <string name="commun_date">沟通时间</string>
+    <string name="commun_date_start">开始时间</string>
+    <string name="commun_date_end">结束时间</string>
+    <string name="commun_refuse">抗拒点</string>
+    <string name="commun_confidence">学习信念</string>
+    <string name="commun_order">办理人</string>
+    <string name="commun_state_hnit">学员学习状态</string>
+    <string name="commun_confidence_hnit">学员学习信念</string>
+    <string name="commun_refuse_hnit">报名抗拒点</string>
+    <string name="commun_order_hnit">报名办理人</string>
+    <string name="commun_rest">重置</string>
+    <string name="commun_ok">确定</string>
+    <string name="comm_dialog_stu_state_title">学员状态</string>
+
+
 </resources>

@@ -72,6 +72,11 @@ public class UIUtil {
         wm.getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
     }
+
+    public static int getToolbarSize(Context mContext) {
+
+        return   dip2px(mContext,48);
+    }
     /**
      * 在activity 查找View
      * 

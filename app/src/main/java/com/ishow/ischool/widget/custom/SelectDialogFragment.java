@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
 
     private ArrayList<String> datas; //message btn  文本集合
     private ArrayList<Integer> messageColor;//message btn的颜色集合
-    private int buttonColor;//取消按钮的颜色
+    private int buttonColor =-1;//取消按钮的颜色
+    private int[] txtSize;
 
     /**
      * 使用方法：
@@ -64,8 +66,9 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             this.datas = bundle.getStringArrayList("datas");
             this.messageColor = bundle.getIntegerArrayList("messageColor");
             this.buttonColor = bundle.getInt("buttonColor");
+            this.txtSize = bundle.getIntArray("txtSize");
         }
-        adapter = new selectDialogAdapter(getContext(), datas, messageColor);
+        adapter = new selectDialogAdapter(getContext(), datas, messageColor,txtSize);
         listView.setAdapter(adapter);
 
         dialog.setContentView(contentView);
@@ -75,6 +78,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         params1.y = UIUtil.dip2px(getContext(), 10);
         window.setAttributes(params1);
 
+        if (buttonColor!=-1)cancel.setTextColor(buttonColor);
         listView.setOnItemClickListener(this);
         cancel.setOnClickListener(this);
         dialog.setCancelable(true);
@@ -102,10 +106,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         private int buttonColor;//取消按钮的颜色
         public ArrayList<String> datas;//message btb 文本集合
         public ArrayList<Integer> colors; //为每一个message btb指定不同的颜色
-
-        public int getButtonColor() {
-            return buttonColor;
-        }
+        public int[] txtSize;//为每一个message btb指定不同的字体大小
 
         /*===========setMessage(String... args)========setMessage(List<String> args)使用其中一个就可以了======================================*/
         public Builder setMessage(String... args) {
@@ -143,7 +144,16 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             return this;
         }
 
-        public Builder setButtonColor(int buttonColor) {
+        /**
+         * 设置 message　btn 的字体大小
+         * @return
+         */
+        public Builder setMessageSize(int...txtSize){
+            this.txtSize = txtSize;
+            return  this;
+        }
+
+        public Builder setcancelButtonColor(int buttonColor) {
             this.buttonColor = buttonColor;
             return this;
         }
@@ -155,6 +165,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             bundle.putStringArrayList("datas", datas);
             bundle.putIntegerArrayList("messageColor", colors);
             bundle.putInt("buttonColor", buttonColor);
+            bundle.putIntArray("txtSize",txtSize);
             fragment.setArguments(bundle);
             return fragment;
         }
@@ -163,10 +174,12 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
     class selectDialogAdapter extends BasicAdapter<String> {
 
         private ArrayList<Integer> messageColor;
+        private int[] txtSize;
 
-        public selectDialogAdapter(Context context, List<String> datas, ArrayList<Integer> messageColor) {
+        public selectDialogAdapter(Context context, List<String> datas, ArrayList<Integer> messageColor, int[] txtSize) {
             super(context, datas);
             this.messageColor = messageColor;
+            this.txtSize = txtSize;
         }
 
         @Override
@@ -175,11 +188,16 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
             TextView item = holder.getView(R.id.select_dialog_listview_item);
             item.setText(datas.get(position));
 
-            /*这种情况是 为每一个 message btn指定一个颜色 messageColor的大小 就会跟datas集合大小一样*/
+            /*为每一个message btn 指定字体大小*/
+            if (txtSize!=null&&position<=txtSize.length){
+                item.setTextSize(TypedValue.COMPLEX_UNIT_SP,txtSize[position]);
+            }
 
+            /*这种情况是 为每一个 message btn指定一个颜色 messageColor的大小 就会跟datas集合大小一样*/
             if (messageColor != null && messageColor.size() >= datas.size()) {
                 item.setTextColor(context.getResources().getColor(messageColor.get(position)));
             }
+
                 /*下面这 种情况是 为 message btn指定一个颜色 messageColor的大小 就会小于datas集合大小
                 * 这种情况超过messageColor的大小的位置 会使用默认颜色 */
             else if (messageColor != null &&  messageColor.size() <=datas.size()) {

@@ -3,6 +3,7 @@ package com.ishow.ischool.widget.pickerview;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -24,10 +25,10 @@ import java.util.List;
 
 /**
  * Created by MrS on 2016/8/12.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * 这里动态 生成 几列WheelView 适用于大多数的选择 功能，，，年月日的生日筛选 在另一个 timePicker里面
- * <p/>
+ * <p>
  * 分开来写逻辑省很多代码
  */
 public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
@@ -65,7 +66,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     public void renderCampusPositionselectPanel(User user) {
         this.user = user;
-        if (user==null)
+        if (user == null)
             return;
         UserManager.getInstance().initCampusPositions(user);
 
@@ -100,17 +101,18 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                 return null;
             for (int i = 0; i < position.size(); i++) {
                 if (TextUtils.equals(selectTxt, position.get(i).title))
-                   return position.get(i);
+                    return position.get(i);
             }
         }
         return null;
     }
-        /**
-         * 年月日选择类型的 界面
-         *
-         * @param
-         * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
-         */
+
+    /**
+     * 年月日选择类型的 界面
+     *
+     * @param
+     * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
+     */
 
     public void renderYMDPanel(int titleResId) {
         renderPanel(titleResId, R.layout.time_picker_linearlayout);
@@ -123,7 +125,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
      * @param
      * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
      */
-    public void initMultiSelectPanel(int titleResId) {
+    public void initMultiSelectPanel(@StringRes int titleResId) {
         renderPanel(titleResId, R.layout.time_picker_controller);
     }
 
@@ -134,8 +136,10 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
         View contentView = LayoutInflater.from(context).inflate(layResId, null);
 
         if (layResId == R.layout.time_picker_controller) {
+
             viewById = (PickerWheelViewLinearlayout) contentView.findViewById(R.id.PickerWheelViewLinearlayout);
             viewById.setwheelViewSelect(this);
+
         } else if (layResId == R.layout.time_picker_linearlayout)
             timePicker = (TimePicker) contentView.findViewById(R.id.picker);
 
@@ -187,13 +191,15 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                 }
                 //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
 
-                else if (viewById != null){
+                else if (viewById != null) {
                     String[] selectResult = viewById.getSelectResult();
                     //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
-                    if (selectResult!=null&&selectResult.length>=2&&user!=null) {
+                    if (selectResult != null && selectResult.length >= 2 && user != null) {
                         String s = selectResult[1];
-                        callback.onPickCallback(getSelectPosition(s), selectResult);
-                    }else callback.onPickCallback(0, selectResult);
+                        callback.onPickCallback(0, selectResult);
+                        //更新本地 用户信息的 posiiotnInfo的 信息
+                        UserManager.getInstance().updateCurrentPositionInfo(getSelectPosition(s));
+                    } else callback.onPickCallback(0, selectResult);
 
                 }
             }
@@ -210,7 +216,9 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     public interface PickCallback {
         /*ids 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
-        void onPickCallback(Object id, String... result);
+
+        //这里 为什么要用 object呢  因为 有的大多地方需要返回 int id即可 ，。。。。有一个地方就是角色切换时  返回了个 Position对象。。。。其实不反回也可以
+        void onPickCallback(int id, String... result);
     }
 
     public void addPickCallback(PickCallback callback1) {

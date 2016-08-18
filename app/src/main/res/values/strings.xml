@@ -143,6 +143,9 @@
     <string name="call">拨打电话</string>
     <string name="phone_contacts">保存到通讯录</string>
 
+    <string name="item_pay_state">报名情况</string>
+    <string name="item_register_time">登记时间</string>
+
     <!-- 添加学员 -->
     <string name="add_student">添加学员</string>
     <string name="item_name">姓名</string>

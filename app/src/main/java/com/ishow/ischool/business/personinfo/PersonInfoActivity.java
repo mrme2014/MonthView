@@ -46,7 +46,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     FmItemTextView personInfoPhone;
     @BindView(R.id.person_info_birthday)
     FmItemTextView personInfoBirthday;
-   // @BindView(R.id.person_info_QQ)
+    // @BindView(R.id.person_info_QQ)
     EditText personInfoQQ;
 
     private final int SELECT_SINGLE_IMAGE = 0;
@@ -88,16 +88,17 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
     @Override
     protected void setUpData() {
-        if (user==null)
+        if (user == null)
             return;
         UserInfo userInfo = user.getUserInfo();
-        if (userInfo==null)
+        if (userInfo == null)
             return;
         Avatar avatar = user.getAvatar();
-        if (avatar!=null)ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name,personInfoAvart);
+        if (avatar != null)
+            ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
         personInfoName.setTipTxt(userInfo.nick_name);
         personInfoPhone.setTipTxt(userInfo.mobile);
-        personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday,"yyyy-MM-dd"));
+        personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday, "yyyy-MM-dd"));
         personInfoQQ.setText(userInfo.qq);
         //在赋值之后再设置监听
         personInfoQQ.addTextChangedListener(this);
@@ -116,7 +117,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             case R.id.person_info_birthday:
                 PickerWheelViewPop pop = new PickerWheelViewPop(this);
                 pop.renderYMDPanel(R.string.choose_birthday);
-                pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM,0,0);
+                pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM, 0, 0);
                 pop.addPickCallback(this);
                 break;
         }
@@ -175,7 +176,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             //如果文件不存在
             if (tempPath == null || !new File(tempPath).exists())
                 showToast("file not exists");
-            //开始上传
+                //开始上传
             else {
                 handProgressbar(true);
                 mPresenter.uploadImg(tempPath);
@@ -198,9 +199,10 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 public void onGrant(String grantPermission, int index) {
                     capture();
                 }
+
                 @Override
                 public void onDenied(String deniedPermission, int index) {
-                   showToast(R.string.permission_camera_denid);
+                    showToast(R.string.permission_camera_denid);
                 }
             }, Manifest.permission.CAMERA);
         } else if (position == 1) {
@@ -238,21 +240,21 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
     @Override
     public void afterTextChanged(Editable editable) {
-        int unix =DateUtil.date2UnixTime(personInfoBirthday.getText().toString());
+        int unix = DateUtil.date2UnixTime(personInfoBirthday.getText().toString());
         submitInfo(unix);
     }
 
     @Override
-    public void onPickCallback(Object unix, String... result) {
-        if (submitInfo((Integer)unix)) return;
-        personInfoBirthday.setTipTxt(result[0]);
+    public void onPickCallback(int unix, String... result) {
+        if (submitInfo(unix)) return;
+        if (result != null) personInfoBirthday.setTipTxt(result[0]);
     }
 
     private boolean submitInfo(int unix) {
-        if (user==null)
+        if (user == null)
             return true;
 
-        mPresenter.submitInfo(user.getUserInfo().user_id,personInfoQQ.getText().toString(),unix);
+        mPresenter.submitInfo(user.getUserInfo().user_id, personInfoQQ.getText().toString(), unix);
         return false;
     }
 }

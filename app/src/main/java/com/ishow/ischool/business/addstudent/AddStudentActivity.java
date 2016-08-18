@@ -204,11 +204,12 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     @Override
     public void addStudentSuccess(StudentInfo studentInfo) {
         finish();
+        showToast("添加成功");
     }
 
     @Override
     public void addStudentFail(String msg) {
-
+        showToast(msg);
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.ishow.ischool.common.base.BaseActivity4Crm;
 public class KefuActivity extends BaseActivity4Crm {
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_kefu,R.string.kefu_title,0);
+        setContentView(R.layout.activity_kefu,R.string.kefu_title);
     }
 
     @Override

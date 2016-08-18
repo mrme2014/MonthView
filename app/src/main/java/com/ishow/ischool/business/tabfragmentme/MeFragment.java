@@ -7,7 +7,6 @@ import com.commonlib.application.ActivityStackManager;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
-import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
@@ -137,10 +136,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     }
 
     @Override
-    public void onPickCallback(Object object, String... result) {
-        if (result!=null&&result.length>=2&&object instanceof Position){
+    public void onPickCallback(int id, String... result) {
+        if (result!=null&&result.length>=2){
             fmMeSwitchRole.setTipTxt(result[1]);
-            UserManager.getInstance().updateCurrentPositionInfo((Position)object);
         }
     }
 }

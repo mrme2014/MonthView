@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:input="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/root_ll">
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_campus"
@@ -11,6 +12,43 @@
         input:inputLayout_texthint="学员所在校区"
         input:label_text="@string/item_campus"
         input:focusable="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="91dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_register_time"
+            android:drawableRight="@mipmap/icon_adress_down"
+            android:drawablePadding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.commonlib.widget.ClearEditText
+                android:id="@+id/start_time"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:hint="开始时间"
+                android:singleLine="true"
+                android:background="@null"/>
+
+            <include layout="@layout/view_bottom_line" />
+
+            <com.commonlib.widget.ClearEditText
+                android:id="@+id/end_time"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:hint="结束时间"
+                android:singleLine="true"
+                android:background="@null"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_pay_state"

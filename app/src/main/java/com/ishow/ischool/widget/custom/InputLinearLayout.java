@@ -25,7 +25,7 @@ import com.ishow.ischool.R;
 public class InputLinearLayout extends LinearLayout {
     private View mView;
     private String labeltext, text, hinttext;
-    private boolean isMore;
+    private boolean hasNext;
     private boolean isFocusable;
     private TextView label;
     private EditText input;
@@ -62,7 +62,7 @@ public class InputLinearLayout extends LinearLayout {
         labeltext = t.getString(R.styleable.InputLayout_label_text);
         text = t.getString(R.styleable.InputLayout_inputLayout_text);
         hinttext = t.getString(R.styleable.InputLayout_inputLayout_texthint);
-        isMore = t.getBoolean(R.styleable.InputLayout_next, false);
+        hasNext = t.getBoolean(R.styleable.InputLayout_next, false);
         drawLine = t.getBoolean(R.styleable.InputLayout_bottom_line, true);
         isFocusable = t.getBoolean(R.styleable.InputLayout_focusable, true);
         t.recycle();
@@ -76,7 +76,7 @@ public class InputLinearLayout extends LinearLayout {
         next = (ImageView) view.findViewById(R.id.next);
 
         line = view.findViewById(R.id.bottom_line);
-        if (isMore) {
+        if (hasNext) {
             next.setVisibility(VISIBLE);
             input.setFocusable(false);
         }
@@ -93,7 +93,7 @@ public class InputLinearLayout extends LinearLayout {
         input.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (isMore) {
+                if (hasNext) {
                     return mGestureDetector.onTouchEvent(motionEvent);
                 }
                 return false;

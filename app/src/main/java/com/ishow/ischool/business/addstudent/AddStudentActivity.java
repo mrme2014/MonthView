@@ -90,7 +90,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.submit:
-                mPresenter.addStudent(nameStr, mobileStr, qqStr, province_id, city_id, campus_id, college_id, majorStr, source_id, mUser.getUserInfo().user_id, notesStr);
+                mPresenter.addStudent(nameStr, mobileStr, qqStr, province_id, city_id, campus_id, college_id, majorStr, source_id, notesStr);
                 break;
         }
         return true;

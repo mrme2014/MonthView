@@ -27,7 +27,6 @@ public interface AddStudentContract {
                                                       int college_id,
                                                       String major,
                                                       int source,
-                                                      int referrer,
                                                       String notes);
     }
 
@@ -51,7 +50,6 @@ public interface AddStudentContract {
                                  int college_id,
                                  String major,
                                  int source,
-                                 int referrer,
                                  String notes);
     }
 }

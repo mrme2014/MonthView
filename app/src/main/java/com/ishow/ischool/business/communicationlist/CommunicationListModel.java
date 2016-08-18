@@ -3,7 +3,7 @@ package com.ishow.ischool.business.communicationlist;
 import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.market.CommunicationList;
-import com.ishow.ischool.common.api.CommnicationApi;
+import com.ishow.ischool.common.api.CommunicationApi;
 
 import java.util.HashMap;
 
@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
 public class CommunicationListModel implements CommunicationListContract.Model {
 
     public Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params) {
-        return ApiFactory.getInstance().getApi(CommnicationApi.class)
+        return ApiFactory.getInstance().getApi(CommunicationApi.class)
                 .listCommnunication(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

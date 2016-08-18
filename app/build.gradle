@@ -43,4 +43,5 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     /*七牛SDK*/
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
+    compile 'com.bigkoo:pickerview:2.1.0'
 }

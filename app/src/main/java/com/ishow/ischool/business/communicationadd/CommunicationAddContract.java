@@ -3,9 +3,11 @@ package com.ishow.ischool.business.communicationadd;
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
 import com.commonlib.core.BaseView;
-import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.bean.ApiResult;
 
 import java.util.HashMap;
+
+import rx.Observable;
 
 /**
  * Created by abel on 16/8/16.
@@ -20,10 +22,10 @@ public interface CommunicationAddContract {
     }
 
     interface Model extends BaseModel {
-        ApiObserver<String> addCommunication(HashMap<String, String> params);
+        Observable<ApiResult<String>> addCommunication(HashMap<String, String> params);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-
+        abstract void addCommunication(CommunicationAddActivity.CommunicationForm form);
     }
 }

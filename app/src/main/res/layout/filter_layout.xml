@@ -2,28 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:input="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/root_ll">
+    android:id="@+id/root_ll"
+    android:background="#44000000"
+    android:visibility="gone">
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_campus"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员所在校区"
         input:label_text="@string/item_campus"
-        input:focusable="false"/>
+        input:next="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="91dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@android:color/white">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/item_register_time"
             android:drawableRight="@mipmap/icon_adress_down"
-            android:drawablePadding="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"/>
         <LinearLayout
@@ -36,7 +38,8 @@
                 android:layout_height="45dp"
                 android:hint="开始时间"
                 android:singleLine="true"
-                android:background="@null"/>
+                android:background="@null"
+                android:focusable="false"/>
 
             <include layout="@layout/view_bottom_line" />
 
@@ -46,30 +49,61 @@
                 android:layout_height="45dp"
                 android:hint="结束时间"
                 android:singleLine="true"
-                android:background="@null"/>
+                android:background="@null"
+                android:focusable="false"/>
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/split_line_color" />
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_pay_state"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员报名情况"
         input:label_text="报名情况"
-        input:focusable="false"/>
+        input:next="true"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_university"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员所在学校"
         input:label_text="@string/item_university"
-        input:focusable="false"/>
+        input:next="true"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_referrer"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="请选择推荐人"
         input:label_text="@string/item_referrer"
-        input:focusable="false"/>
+        input:next="true"
+        input:bottom_line="false"/>
 
+    <include layout="@layout/view_bottom_line" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/filter_reset"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_reset"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/filter_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_ok"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:background="@color/color_orange"/>
+    </LinearLayout>
 </LinearLayout>

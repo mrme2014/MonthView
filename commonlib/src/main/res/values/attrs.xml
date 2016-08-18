@@ -13,7 +13,7 @@
         <attr name="label_text_top" format="string" />
         <attr name="label_text_left" format="string" />
         <attr name="label_text_right" format="string" />
-        <attr name="label_text_button" format="string" />
+        <attr name="label_text_bottom" />
         <attr name="label_text_size" />
         <attr name="label_text_color" />
         <attr name="label_padding" />

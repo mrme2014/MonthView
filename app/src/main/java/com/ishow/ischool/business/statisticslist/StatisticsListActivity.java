@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.statisticslist;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,12 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.student.StudentStatistics;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
+import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.UserUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,6 +118,9 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         @Override
         public void onItemClick(View view, int position) {
             StudentStatistics data = mDataList.get(position);
+            Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
+            intent.putExtra(StudentDetailActivity.P_STUDENT, data);
+            JumpManager.jumpActivity(StatisticsListActivity.this, intent);
         }
     }
 

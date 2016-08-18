@@ -24,7 +24,7 @@ public class LabelTextView extends TextView {
     private String labelTextTop;
     private String labelTextLeft;
     private String labelTextRight;
-    private String labelTextButton;
+    private String labelTextBottom;
     private float labelTextSize;
     private int labelTextColor;
     private float labelPadding;
@@ -58,9 +58,9 @@ public class LabelTextView extends TextView {
         labelTextTop = typedArray.getString(R.styleable.LabelTextView_label_text_top);
         labelTextLeft = typedArray.getString(R.styleable.LabelTextView_label_text_left);
         labelTextRight = typedArray.getString(R.styleable.LabelTextView_label_text_right);
-        labelTextButton = typedArray.getString(R.styleable.LabelTextView_label_text_button);
+        labelTextBottom = typedArray.getString(R.styleable.LabelTextView_label_text_bottom);
         labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.dip2px(getContext(), 14));
-        labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0x333333);
+        labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF333333);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
 
         typedArray.recycle();
@@ -93,7 +93,11 @@ public class LabelTextView extends TextView {
             canvas.drawText(labelTextTop, (with - labelPaint.measureText(labelTextTop)) / 2, labelPadding + textHeight, labelPaint);
         }
         if (!TextUtils.isEmpty(labelTextRight)) {
-            canvas.drawText(labelTextRight, (with - labelPaint.measureText(labelTextTop) - getPaddingRight()), getBaseline(), labelPaint);
+            canvas.drawText(labelTextRight, (with - labelPaint.measureText(labelTextRight) - labelPadding), getBaseline(), labelPaint);
+        }
+
+        if (!TextUtils.isEmpty(labelTextBottom)) {
+            canvas.drawText(labelTextBottom, (with - labelPaint.measureText(labelTextBottom)) / 2, height - labelPadding, labelPaint);
         }
     }
 

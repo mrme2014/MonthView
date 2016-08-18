@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:input="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_campus"
+        style="@style/input_linearLayout_style"
+        input:inputLayout_texthint="学员所在校区"
+        input:label_text="@string/item_campus"
+        input:focusable="false"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_pay_state"
+        style="@style/input_linearLayout_style"
+        input:inputLayout_texthint="学员报名情况"
+        input:label_text="@string/item_pay_state"
+        input:focusable="false"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_university"
+        style="@style/input_linearLayout_style"
+        input:inputLayout_texthint="学员所在学校"
+        input:label_text="@string/item_university"
+        input:focusable="false"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_referrer"
+        style="@style/input_linearLayout_style"
+        input:inputLayout_texthint="请选择推荐人"
+        input:label_text="@string/item_referrer"
+        input:focusable="false"/>
+
+
+</LinearLayout>

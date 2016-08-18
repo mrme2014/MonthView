@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 /**
  * Created by MrS on 2016/8/12.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * 适用于 列与列直接关联不是很密切 可以有联动，，，但像年月日样式的选择。。。。联动
  */
 public class PickerWheelViewLinearlayout extends LinearLayout implements WheelView.OnSelectListener {
@@ -52,7 +52,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
             wheelView.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
             if (datas != null && i < datas.length)
                 wheelView.setData(datas[i]);
-            else  wheelView.setData(getMonthData());//这句话是测试用的
+            else wheelView.setData(getMonthData());//这句话是测试用的
             wheelView.setId(i);
             wheelView.setDefault(defalut);
             wheelView.setOnSelectListener(this);
@@ -68,10 +68,11 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      * @param newDatas 新的数据源
      */
     WheelView wheelView;
+
     public void resfreshData(int index, final ArrayList<String> newDatas) {
         if (array != null) {
             if (index < array.size()) {
-                  wheelView = array.get(index);
+                wheelView = array.get(index);
                 if (wheelView != null)
                     wheelView.postDelayed(new Runnable() {
                         @Override
@@ -79,7 +80,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
                             wheelView.resetData(newDatas);
                             wheelView.setDefault(0);
                         }
-                    },10);
+                    }, 10);
 
             }
         }
@@ -89,8 +90,8 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-        if (select!=null){
-            select.endSelect(wheelView,id,text);
+        if (select != null) {
+            select.endSelect(wheelView, id, text);
         }
         switch (wheelView.getId()) {
             case 0:
@@ -127,19 +128,23 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
         return list;
     }
 
-    public String[] getSelectResult(){
+    public String[] getSelectResult() {
+        if (array == null)
+            return null;
         String[] result = new String[array.size()];
         for (int i = 0; i < result.length; i++) {
-            result[i]=array.get(i).getSelectedText();
+            result[i] = array.get(i).getSelectedText();
         }
         return result;
     }
 
     wheelViewSelect select;
-    public  interface wheelViewSelect{
-      void  endSelect(WheelView wheelView, int id, String text);
+
+    public interface wheelViewSelect {
+        void endSelect(WheelView wheelView, int id, String text);
     }
-    public void setwheelViewSelect(wheelViewSelect select1){
+
+    public void setwheelViewSelect(wheelViewSelect select1) {
         this.select = select1;
     }
 }

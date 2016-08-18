@@ -54,7 +54,7 @@
         android:id="@+id/item_pay_state"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员报名情况"
-        input:label_text="@string/item_pay_state"
+        input:label_text="报名情况"
         input:focusable="false"/>
 
     <com.ishow.ischool.widget.custom.InputLinearLayout

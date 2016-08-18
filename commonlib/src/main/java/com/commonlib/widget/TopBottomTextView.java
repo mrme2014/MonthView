@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -99,5 +101,42 @@ public class TopBottomTextView extends TextView {
         canvas.drawText(labelTextTop,labelleftPadding,labelTopPadding,topPaint);
 
         canvas.drawText(labelTextBottom,labelleftPadding,labelTopPadding+topTxtHei+labelTBPadding,btmPaint);
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        Parcelable superData = super.onSaveInstanceState();
+        bundle.putParcelable("superData",superData);
+        bundle.putInt("labelTextTopSize",labelTextTopSize);
+        bundle.putInt("labelTextTopColor",labelTextTopColor);
+        bundle.putInt("labelTextBottomColor",labelTextBottomColor);
+        bundle.putInt("labelTextBottomSize",labelTextBottomSize);
+        bundle.putInt("labelleftPadding",labelleftPadding);
+        bundle.putFloat("labelTopPadding",labelTopPadding);
+        bundle.putFloat("labelTBPadding",labelTBPadding);
+        bundle.putFloat("topTxtHei",topTxtHei);
+        bundle.putFloat("botTxtHei",botTxtHei);
+        bundle.putString("labelTextTop",labelTextTop);
+        bundle.putString("labelTextBottom",labelTextBottom);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        Bundle bundle =(Bundle)state;
+        Parcelable superData = bundle.getParcelable("super_data");
+        labelTextTopSize = bundle.getInt("labelTextTopSize");
+        labelTextTopColor = bundle.getInt("labelTextTopColor");
+        labelTextBottomColor = bundle.getInt("labelTextBottomColor");
+        labelTextBottomSize = bundle.getInt("labelTextBottomSize");
+        labelleftPadding = bundle.getInt("labelleftPadding");
+        labelTopPadding = bundle.getFloat("labelTopPadding",labelTopPadding);
+        labelTBPadding = bundle.getFloat("labelTBPadding",labelTBPadding);
+        botTxtHei = bundle.getFloat("botTxtHei",botTxtHei);
+        labelTextTop = bundle.getString("labelTextTop");
+        labelTextBottom = bundle.getString("labelTextBottom");
+
+        super.onRestoreInstanceState(superData);
     }
 }

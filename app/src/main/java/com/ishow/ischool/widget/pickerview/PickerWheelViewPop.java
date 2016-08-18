@@ -65,7 +65,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     public void renderCampusPositionselectPanel(User user) {
         this.user = user;
-        if (user==null)
+        if (user == null)
             return;
         UserManager.getInstance().initCampusPositions(user);
 
@@ -100,17 +100,18 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                 return null;
             for (int i = 0; i < position.size(); i++) {
                 if (TextUtils.equals(selectTxt, position.get(i).title))
-                   return position.get(i);
+                    return position.get(i);
             }
         }
         return null;
     }
-        /**
-         * 年月日选择类型的 界面
-         *
-         * @param
-         * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
-         */
+
+    /**
+     * 年月日选择类型的 界面
+     *
+     * @param
+     * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
+     */
 
     public void renderYMDPanel(int titleResId) {
         renderPanel(titleResId, R.layout.time_picker_linearlayout);
@@ -187,13 +188,15 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                 }
                 //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
 
-                else if (viewById != null){
+                else if (viewById != null) {
                     String[] selectResult = viewById.getSelectResult();
                     //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
-                    if (selectResult!=null&&selectResult.length>=2&&user!=null) {
+                    if (selectResult != null && selectResult.length >= 2 && user != null) {
                         String s = selectResult[1];
                         callback.onPickCallback(getSelectPosition(s), selectResult);
-                    }else callback.onPickCallback(0, selectResult);
+                    } else {
+                        callback.onPickCallback(0, selectResult);
+                    }
 
                 }
             }

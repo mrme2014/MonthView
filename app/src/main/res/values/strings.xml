@@ -173,4 +173,11 @@
     <string name="commun_input_content_hint">请输入沟通内容（必填）</string>
     <string name="pick_student">选择学员</string>
     <string name="hint_search">搜索</string>
+    <string name="check_student">请选择学生</string>
+    <string name="check_tuition_source">请填写学费来源</string>
+    <string name="check_status">请选择状态</string>
+    <string name="check_belief">请选择学习信念</string>
+    <string name="check_refuse">请选择抗拒点</string>
+    <string name="check_communication_date">请选择沟通时间</string>
+    <string name="check_content">请填写沟通内容</string>
 </resources>

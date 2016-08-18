@@ -43,5 +43,5 @@ dependencies {
     /*七牛SDK*/
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
-    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.bigkoo:pickerview:2.1.0'
 }

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.text.TextUtils;
@@ -18,7 +19,7 @@ import com.commonlib.util.UIUtil;
  * Created by abel on 16/8/15.
  */
 public class LabelTextView extends TextView {
-    private Paint labelPaint;
+    private Paint labelPaint,linePaint;
     private float textHeight;
 
     private String labelTextTop;
@@ -28,6 +29,8 @@ public class LabelTextView extends TextView {
     private float labelTextSize;
     private int labelTextColor;
     private float labelPadding;
+    private boolean draw_bottom_line;
+    private int bottom_line_color;
 
     public LabelTextView(Context context) {
         super(context);
@@ -63,6 +66,9 @@ public class LabelTextView extends TextView {
         labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF333333);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
 
+        draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line ,false);
+        bottom_line_color = typedArray.getColor(R.styleable.LabelTextView_bottom_line_color, 0);
+
         typedArray.recycle();
 
         labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -71,6 +77,14 @@ public class LabelTextView extends TextView {
         Paint.FontMetrics fontMetrics = labelPaint.getFontMetrics();
         textHeight = fontMetrics.descent - fontMetrics.ascent;
 
+        if (draw_bottom_line){
+            linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            linePaint.setStyle(Paint.Style.FILL);
+            if(bottom_line_color==0)bottom_line_color = Color.parseColor("#d9dadd");
+            linePaint.setColor(bottom_line_color);
+            linePaint.setStrokeWidth(2);
+
+        }
 //        if (!TextUtils.isEmpty(labelTextTop)) {
 //            int leftPadding = Math.max(getPaddingLeft(), (int) labelPaint.measureText(labelTextTop));
 //            setPadding(leftPadding, getPaddingTop(), getPaddingRight(), getPaddingBottom());
@@ -99,6 +113,10 @@ public class LabelTextView extends TextView {
         if (!TextUtils.isEmpty(labelTextBottom)) {
             canvas.drawText(labelTextBottom, (with - labelPaint.measureText(labelTextBottom)) / 2, height - labelPadding, labelPaint);
         }
+
+        /*绘制下划线 */
+        if(draw_bottom_line)
+            canvas.drawLine(labelPadding,getMeasuredHeight(),getMeasuredWidth(),getMeasuredHeight(),linePaint);
     }
 
 

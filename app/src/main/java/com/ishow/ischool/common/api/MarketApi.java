@@ -60,7 +60,7 @@ public interface MarketApi {
             @Field("college_id") int college_id,        //学员所上的大学
             @Field("major") String major,
             @Field("source") int source_id,                //来源。1.晨读；2.转介绍；3.校聊
-            @Field("referrer") int referrer_id,            //晨读讲师id或推荐人id或校聊专员id
+//            @Field("referrer") int referrer_id,            //晨读讲师id或推荐人id或校聊专员id
             @Field("notes") String notes);
 
     //获取所有大学

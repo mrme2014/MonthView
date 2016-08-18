@@ -160,9 +160,8 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();
                 showItemDialog(datas, new SelectDialogFragment.OnItemSelectedListner() {
-
                     @Override
-                    public void onItemSelected(int position) {
+                    public void onItemSelected(int position,String txt) {
                         stateTv.setText(datas.get(position));
                         form.status = position + 1;
                     }
@@ -173,7 +172,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 showItemDialog(faiths, new SelectDialogFragment.OnItemSelectedListner() {
 
                     @Override
-                    public void onItemSelected(int position) {
+                    public void onItemSelected(int position,String txt) {
                         faithTv.setText(faiths.get(position));
                         form.belief = position + 1;
                     }
@@ -184,7 +183,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 showItemDialog(opposes, new SelectDialogFragment.OnItemSelectedListner() {
 
                     @Override
-                    public void onItemSelected(int position) {
+                    public void onItemSelected(int position,String txt) {
                         opposeTv.setText(opposes.get(position));
                         form.refuse = position + 1;
                     }

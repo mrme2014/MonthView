@@ -15,6 +15,8 @@ public class PositionInfo implements Parcelable {
 
     public int id;
     public String title;
+    public String campus;
+    public int campusId;
 
     @Override
     public int describeContents() {

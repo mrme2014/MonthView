@@ -17,9 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:minWidth="80dp"
-            android:paddingLeft="10dp"
-            android:textColor="@android:color/black" />
+            android:minWidth="100dp"
+            android:paddingLeft="10dp" />
 
         <EditText
             android:id="@+id/input"
@@ -43,6 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="10dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/split_line_color"
         android:visibility="gone" />
 </LinearLayout>

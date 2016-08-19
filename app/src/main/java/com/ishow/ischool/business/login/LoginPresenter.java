@@ -18,12 +18,17 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribe(new ApiObserver<User>() {
                     @Override
                     public void onSuccess(User user) {
-                        if (user != null && user.getToken() != null) {
-                            UserManager.getInstance().save(user);
-                            TokenManager.init(user.getToken());
+
+                        if (user != null && user.token != null) {
+
+                            //UserManager.getInstance().save(user);
+
+                            UserManager.getInstance().initCampusPositions(user);
+
+                            TokenManager.init(user.token);
                         }
                         mView.loginSuccess();
-                        TokenManager.init(user.getToken());
+                        TokenManager.init(user.token);
                     }
 
                     @Override

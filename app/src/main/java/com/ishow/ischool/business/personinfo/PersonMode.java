@@ -18,7 +18,7 @@ public class PersonMode implements BaseModel {
     }
 
     public Observable submitInfo(int userId,String qq,int birthday){
-        return ApiFactory.getInstance().getApi(UserApi.class).edit(userId,birthday,qq).subscribeOn(Schedulers.io())
+        return ApiFactory.getInstance().getApi(UserApi.class).edit(45,userId,birthday,qq).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -11,6 +11,7 @@ import com.ishow.ischool.bean.student.StudentStatisticsList;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import rx.Observable;
 
@@ -20,7 +21,7 @@ import rx.Observable;
  */
 public interface StatisticsListContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics(int campusId);
+        Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics(int campusId, HashMap<String, String> params, int page);
         ArrayList<String> getCampus();
         ArrayList<String> getPayStates();
     }
@@ -31,11 +32,11 @@ public interface StatisticsListContract {
         void onCampusPicked(String picked);
         void onStartTimePicked(Date picked);
         void onEndTimePicked(Date picked);
-        void onPayStatePicked(String picked);
+        void onPayStatePicked(int pickPosition, String picked);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        public abstract void getList4StudentStatistics(int campusId);
+        public abstract void getList4StudentStatistics(int campusId, HashMap<String, String> params, int page);
         public abstract void showCampusPick(OptionsPickerView optionsPickerView);
         public abstract void showStartTimePick(TimePickerView timePickerView);
         public abstract void showEndTimePick(TimePickerView timePickerView);

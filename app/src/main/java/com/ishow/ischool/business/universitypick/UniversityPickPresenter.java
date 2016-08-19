@@ -1,10 +1,8 @@
 package com.ishow.ischool.business.universitypick;
 
 import com.ishow.ischool.bean.university.SearchUniversityResult;
-import com.ishow.ischool.bean.university.UniversityInfo;
+import com.ishow.ischool.bean.university.UniversityInfoListResult;
 import com.ishow.ischool.common.api.ApiObserver;
-
-import java.util.ArrayList;
 
 /**
  * Created by wqf on 16/8/16.
@@ -14,10 +12,10 @@ public class UniversityPickPresenter extends UniversityPickContract.Presenter {
     @Override
     public void getListUniversity(String cityName) {
         mModel.getListUniversity(cityName)
-                .subscribe(new ApiObserver<ArrayList<UniversityInfo>>() {
+                .subscribe(new ApiObserver<UniversityInfoListResult>() {
                     @Override
-                    public void onSuccess(ArrayList<UniversityInfo> universityInfos) {
-                        mView.getListSuccess(universityInfos);
+                    public void onSuccess(UniversityInfoListResult universityInfos) {
+                        mView.getListSuccess(universityInfos.lists);
                     }
 
                     @Override
@@ -33,7 +31,7 @@ public class UniversityPickPresenter extends UniversityPickContract.Presenter {
                 .subscribe(new ApiObserver<SearchUniversityResult>() {
                     @Override
                     public void onSuccess(SearchUniversityResult searchUniversityResult) {
-                        mView.searchSuccess(searchUniversityResult.list);
+                        mView.searchSuccess(searchUniversityResult.lists);
                     }
 
                     @Override

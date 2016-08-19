@@ -2,6 +2,7 @@ package com.ishow.ischool.activity;
 
 import android.support.v4.app.FragmentTransaction;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabfragmentme.MeFragment;
@@ -57,6 +58,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                 }
                 break;
             case R.id.tab_me:
+                LogUtil.e(System.currentTimeMillis()+"");
                 if (businessFragment != null) {
                     ft.hide(businessFragment);
                 }

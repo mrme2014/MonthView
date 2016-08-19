@@ -1,5 +1,6 @@
 package com.ishow.ischool.widget.pickerview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -29,7 +31,7 @@ import java.util.List;
  * <p>
  * 分开来写逻辑省很多代码
  */
-public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
+public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect, PopupWindow.OnDismissListener {
 
     private PickerWheelViewLinearlayout viewById;
     private TimePicker timePicker;
@@ -58,7 +60,9 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     private void init(Context context) {
         this.context = context;
-
+        setOutsideTouchable(false);
+        setFocusable(true);
+        setOnDismissListener(this);
     }
 
 
@@ -68,13 +72,14 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
             return;
         //UserManager.getInstance().initCampusPositions(user);
 
-        List<Campus> campus = user.getCampus();
+        List<Campus> campus = user.campus;
 
         if (campus == null) return;
 
         if (campus.size() == 1) {
             ArrayList<String> positions = campus.get(0).positions;
             setDatas(0, 1, positions);
+            if (viewById!=null)viewById.setwheelViewSelect(null);
         } else {
             ArrayList<String> campusList = new ArrayList<>();
             for (int i = 0; i < campus.size(); i++) {
@@ -87,14 +92,14 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     private void refreshPositionForCampus(int index) {
         if (user != null) {
-            List<Campus> campus = user.getCampus();
+            List<Campus> campus = user.campus;
             if (campus != null) resfreshData(1, campus.get(index).positions);
         }
     }
 
     private Position getSelectPosition(String selectTxt) {
         if (user != null) {
-            List<Position> position = user.getPosition();
+            List<Position> position = user.position;
             if (position == null)
                 return null;
             for (int i = 0; i < position.size(); i++) {
@@ -159,7 +164,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
 
         setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
-
+        //backgroundAlpha(0.5f);
     }
 
     /**
@@ -200,8 +205,8 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                 else if (viewById != null) {
                     String[] selectResult = viewById.getSelectResult();
                     //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
-                    if (selectResult != null && selectResult.length >= 2 && user != null) {
-                        String s = selectResult[1];
+                    if (selectResult != null  && user != null) {
+                        String s = selectResult[selectResult.length-1];
                         callback.onPickCallback(getSelectPosition(s), selectResult);
                     } else callback.onPickCallback(viewById.getSelectResultId(), selectResult);
 
@@ -212,11 +217,16 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-        if (wheelView.getId() == 0)
+        if (wheelView.getId() == 0&&user!=null)
             refreshPositionForCampus(id);
     }
 
     private PickCallback callback;
+
+    @Override
+    public void onDismiss() {
+        //backgroundAlpha(1f);
+    }
 
     public interface PickCallback<T> {
         /*object 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
@@ -225,5 +235,14 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     public void addPickCallback(PickCallback callback1) {
         this.callback = callback1;
+    }
+
+
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = ((Activity)context).getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        ((Activity)context).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        ((Activity)context).getWindow().setAttributes(lp);
     }
 }

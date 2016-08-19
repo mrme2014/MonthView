@@ -6,7 +6,7 @@
 
     <include layout="@layout/widget_toolbar"></include>
 
-    <com.commonlib.widget.TopBottomTextView
+    <!--<com.commonlib.widget.TopBottomTextView
         app:label_text_top_str="客服电话"
         app:label_text_bottom="15555043403"
         style="@style/topbottomtextview"/>
@@ -23,5 +23,12 @@
 
         app:label_text_top_str="客服电话"
         app:label_text_bottom="15555043403"
-        style="@style/topbottomtextview"/>
+        style="@style/topbottomtextview"/>-->
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </WebView>
 </LinearLayout>

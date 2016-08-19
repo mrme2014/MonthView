@@ -44,12 +44,9 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         HashMap<String, String> params = new HashMap<>();
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
-        } else if (action == PullRecycler.ACTION_LOAD_MORE_LOADING) {
-            mCurrentPage++;
         }
-        params.put("page", mCurrentPage + "");
-        params.put("campus_id", "1");
-        mPresenter.getStudentStatisticsList(params);
+//        params.put("campus_id", "1");
+        mPresenter.getStudentStatisticsList(1, params, mCurrentPage++);
     }
 
     @OnTextChanged(R.id.pick_search_text_et)
@@ -58,7 +55,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         mCurrentPage = 1;
         params.put("page", mCurrentPage + "");
         params.put("mobile_or_name", mSearchEt.getText().toString());
-        mPresenter.getStudentStatisticsList(params);
+        mPresenter.getStudentStatisticsList(1, params, mCurrentPage++);
     }
 
 

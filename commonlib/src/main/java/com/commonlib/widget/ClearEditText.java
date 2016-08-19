@@ -39,10 +39,11 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
         mClearDrawable = getCompoundDrawables()[2];
         if (mClearDrawable == null) {
             mClearDrawable = getResources().getDrawable(
-                    R.drawable.icon_edittext_delete);
+                    R.drawable.icon_edittext_clear);
         }
 
-        setPadding(0, 0, 20, 0);
+
+        setPadding(0, 0, 0, 0);
         mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(),
                 mClearDrawable.getIntrinsicHeight());
         // 默认设置隐藏图标
@@ -108,9 +109,9 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
 
     @Override
     public void onTextChanged(CharSequence s, int start, int count, int after) {
-        if (hasFoucs) {
+//        if (hasFoucs) {
             setClearIconVisible(s.length() > 0);
-        }
+//        }
     }
 
     @Override

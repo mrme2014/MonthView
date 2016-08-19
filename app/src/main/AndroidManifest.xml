@@ -51,6 +51,7 @@
         <activity android:name=".business.forgetpwd.ForgetPwdActivity1" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity2" />
         <activity android:name=".business.editpwd.EditPwdActivity" />
+        <activity android:name=".business.kefu.KefuActivity" />
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
         <activity android:name=".business.personinfo.PersonInfoActivity" />
         <activity android:name=".business.communicationlist.CommunicationListActivity" />
@@ -63,8 +64,14 @@
             android:name=".business.universitypick.UniversityPickActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".business.student.pick.PickStudentActivity" />
-        <activity android:name=".business.student.detail.StudentDetailActivity"></activity>
+        <activity android:name=".business.student.pick.PickStudentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".business.pickreferrer.PickReferrerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".business.student.detail.StudentDetailActivity"/>
+
     </application>
 
 </manifest>

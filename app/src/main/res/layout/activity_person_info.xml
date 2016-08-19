@@ -29,6 +29,7 @@
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="14dp"
+            android:layout_centerVertical="true"
             android:src="@mipmap/ic_launcher"/>
     </RelativeLayout>
 
@@ -89,10 +90,12 @@
             android:layout_height="match_parent"
             android:gravity="right|center"
             android:layout_alignParentRight="true"
-            android:text="863597281"
             android:layout_marginRight="10dp"
             android:textColor="#999999"
             android:textSize="13sp"
+            android:focusable="true"
+            android:hint="@string/per_info_input_QQ"
+            android:textColorHint="#999999"
             android:background="@android:color/transparent"
             />
     </RelativeLayout>

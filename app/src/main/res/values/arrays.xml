@@ -1,10 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="arr_from">
-        <item>晨读</item>
-        <item>校聊</item>
-        <item>转介绍</item>
+    <string-array name="arr_time_type">
+        <item>登记时间</item>
+        <item>上课时间</item>
     </string-array>
 
+    <!--下面都是选择条件 或者筛选条件固定的  -->
+    <array name="week_days">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </array>
 
+    <array name="course_strings">
+        <item>初级班</item>
+        <item>中级班</item>
+        <item>高级班</item>
+        <item>影视班</item>
+    </array>
+
+    <array name="source_strings">
+        <item>校聊</item>
+        <item>晨读</item>
+        <item>转介绍</item>
+    </array>
+
+    <array name="source_shijianduan">
+        <item>上午</item>
+        <item>下午</item>
+        <item>晚上</item>
+    </array>
+
+    <!--筛选的报名的状态（1.未报名；2.欠款；3.已报名；4.退款'）-->
+    <array name="pay_sate_strings">
+        <item>未报名</item>
+        <item>欠款</item>
+        <item>已报名</item>
+        <item>退款</item>
+    </array>
+
+    <array name="grade_strings">
+        <item>大一</item>
+        <item>大二</item>
+        <item>大三</item>
+        <item>大四</item>
+        <item>研究生</item>
+        <item>硕士</item>
+        <item>其它</item>
+    </array>
 </resources>

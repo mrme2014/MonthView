@@ -57,15 +57,15 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         user = UserManager.getInstance().get();
         if (user == null)
             return;
-        UserInfo userInfo = user.getUserInfo();
+        UserInfo userInfo = user.userInfo;
         if (userInfo == null)
             return;
-        Avatar avatar = user.getAvatar();
+        Avatar avatar = user.avatar;
         if (avatar!=null)ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
         fmMeHeaderName.setText(userInfo.nick_name);
         fmMeHeaderJob.setText(userInfo.job);
 
-        PositionInfo info = user.getPositionInfo();
+        PositionInfo info = user.positionInfo;
         if (info!=null)fmMeSwitchRole.setTipTxt(info.title);
 
     }
@@ -87,8 +87,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
                 pop.addPickCallback(new PickerWheelViewPop.PickCallback<Position>() {
                     @Override
                     public void onPickCallback(Position position, String... result) {
-                        if (result!=null&&result.length>=2){
-                            fmMeSwitchRole.setTipTxt(result[1]);
+                        if (result!=null){
+                            fmMeSwitchRole.setTipTxt(result[result.length-1]);
                             //更新本地 用户信息的 posiiotnInfo的 信息
                             UserManager.getInstance().updateCurrentPositionInfo(position);
                         }
@@ -154,4 +154,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         showToast(msg);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.e(System.currentTimeMillis()+"");
+    }
 }

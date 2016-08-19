@@ -43,7 +43,7 @@ public class CrmApplication extends BaseApplication {
         User mUser = UserManager.getInstance().get();
         UserManager.getInstance().initCampusPositions(mUser);
         if (mUser != null) {
-            TokenManager.init(mUser.getToken());
+            TokenManager.init(mUser.token);
         }
     }
 

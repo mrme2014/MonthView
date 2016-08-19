@@ -13,7 +13,8 @@
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员所在校区"
         input:label_text="@string/item_campus"
-        input:next="true"/>
+        input:next="true"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
         android:gravity="center_vertical"
         android:background="@android:color/white">
         <TextView
+            android:id="@+id/time_type"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/item_register_time"

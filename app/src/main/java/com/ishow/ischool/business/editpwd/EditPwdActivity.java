@@ -67,7 +67,7 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
     public void onClick() {
         if (user==null)
             return;
-        UserInfo userInfo = user.getUserInfo();
+        UserInfo userInfo = user.userInfo;
         if (userInfo==null)
             return;
         if (!TextUtils.equals(newPwd.getText().toString(),newPwdAgain.getText().toString())){

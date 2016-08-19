@@ -41,13 +41,13 @@ public class MorningReadActivity extends BaseActivity4Crm {
     protected void setUpData() {
         if (user == null)
             return;
-        Avatar avatar = user.getAvatar();
+        Avatar avatar = user.avatar;
         if (avatar != null)
             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, qrcodeAvart);
-        Qrcode qrcode = user.getQrcode();
+        Qrcode qrcode = user.qrcode;
         if (qrcode != null)
             ImageLoaderUtil.getInstance().loadImage(this, qrcode.file_name, qrcodeCode);
-        UserInfo userInfo = user.getUserInfo();
+        UserInfo userInfo = user.userInfo;
         if (userInfo != null) qrcodeName.setText(userInfo.nick_name);
     }
 

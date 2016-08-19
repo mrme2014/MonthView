@@ -49,7 +49,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     private MenuItem submitMenu;
     private String nameStr, mobileStr, qqStr, universityStr, majorStr, campusStr, fromStr, referrerStr, notesStr;
-    private int province_id, city_id, campus_id, college_id, source_id;
+    private int province_id, city_id, campus_id, university_id, source_id;
     private UniversityInfo mUniversityInfo;
 
 
@@ -65,12 +65,12 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         campusIL.setOnEidttextClick(this);
         fromIL.setOnEidttextClick(this);
         referrerIL.setOnEidttextClick(this);
-        referrerIL.setContent(mUser.getUserInfo().user_name);
+        referrerIL.setContent(mUser.userInfo.user_name);
     }
 
     @Override
     protected void setUpData() {
-        mPresenter.getCampus(mUser.getUserInfo().campus_id);
+        mPresenter.getCampus(mUser.userInfo.campus_id);
     }
 
     private void init() {
@@ -90,7 +90,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.submit:
-                mPresenter.addStudent(nameStr, mobileStr, qqStr, province_id, city_id, campus_id, college_id, majorStr, source_id, notesStr);
+                mPresenter.addStudent(nameStr, mobileStr, qqStr, province_id, city_id, campus_id, university_id, majorStr, source_id, notesStr);
                 break;
         }
         return true;
@@ -131,7 +131,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
             case R.id.item_from:
                 ActionSheet.createBuilder(this, this.getSupportFragmentManager())
                         .setCancelButtonTitle(R.string.str_cancel)
-                        .setOtherButtonTitles(getResources().getStringArray(R.array.arr_from))
+                        .setOtherButtonTitles(getResources().getStringArray(R.array.source_strings))
                         .setCancelableOnTouchOutside(true)
                         .setListener(new ActionSheet.ActionSheetListener() {
                             @Override
@@ -144,7 +144,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                                 switch (i) {
                                     case 0:
                                         fromIL.setContent("晨读");
-                                        source_id = MarketApi.TYPE1;
+                                        source_id = MarketApi.TYPESOURCE1;
                                         if (referrerIL.getVisibility() != View.GONE) {
                                             referrerIL.setVisibility(View.GONE);
 //                                            referrerIL.setContent("");
@@ -152,7 +152,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                                         break;
                                     case 1:
                                         fromIL.setContent("校聊");
-                                        source_id = MarketApi.TYPE3;
+                                        source_id = MarketApi.TYPESOURCE3;
                                         if (referrerIL.getVisibility() != View.GONE) {
                                             referrerIL.setVisibility(View.GONE);
 //                                            referrerIL.setContent("");
@@ -160,7 +160,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                                         break;
                                     case 2:
                                         fromIL.setContent("转介绍");
-                                        source_id = MarketApi.TYPE2;
+                                        source_id = MarketApi.TYPESOURCE2;
                                         if (referrerIL.getVisibility() != View.VISIBLE) {
                                             referrerIL.setVisibility(View.VISIBLE);
                                         }
@@ -182,7 +182,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                 case UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY:
                     mUniversityInfo = data.getParcelableExtra(UniversityPickActivity.KEY_PICKED_UNIVERSITY);
                     universityIL.setContent(mUniversityInfo.name);
-                    college_id = mUniversityInfo.id;
+                    university_id = mUniversityInfo.id;
                     province_id = mUniversityInfo.prov_id;
                     city_id = mUniversityInfo.city_id;
                     break;
@@ -198,7 +198,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     @Override
     public void getCampusFail(String msg) {
-        campus_id = mUser.getUserInfo().campus_id;
+        campus_id = mUser.userInfo.campus_id;
     }
 
     @Override

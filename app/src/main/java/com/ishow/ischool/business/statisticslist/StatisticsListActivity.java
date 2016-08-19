@@ -2,6 +2,7 @@ package com.ishow.ischool.business.statisticslist;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,8 +23,12 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.student.StudentStatistics;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.bean.university.UniversityInfo;
+import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
+import com.ishow.ischool.business.pickreferrer.PickReferrerActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
+import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.UserUtil;
@@ -32,6 +37,7 @@ import com.ishow.ischool.widget.custom.InputLinearLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +56,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     LinearLayout popup_layout;
     @BindView(R.id.item_campus)
     InputLinearLayout campusIL;
+    @BindView(R.id.time_type)
+    TextView timeType;
     @BindView(R.id.start_time)
     EditText startTimeEt;
     @BindView(R.id.end_time)
@@ -68,6 +76,13 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     private SimpleDateFormat sdf;
 
     private UniversityInfo mUniversityInfo;
+    private int mFilterUniversityId, mFilterProvinceId;
+    private HashMap<String, String> params;
+    private int mFilterCampusId;
+    private long mFilterStartTime, mFilterEndTime;
+    private int mFilterPayStatePosition;
+    private int mFilterReferrerId;
+    private boolean isUserCampus;       // 是否是校区员工（非总部员工）
 
     @Override
     protected void setUpContentView() {
@@ -77,6 +92,14 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     protected void setUpView() {
         super.setUpView();
+        isUserCampus = (mUser.userInfo.campus_id == Campus.HEADQUARTERS) ? false : true;
+        if (!isUserCampus) {     // 总部才显示“所属校区”筛选条件
+            campusIL.setVisibility(View.VISIBLE);
+            mFilterCampusId = Campus.HEADQUARTERS;       // 总部获取学院统计列表campus_id传1
+        } else {
+            mFilterCampusId = mUser.userInfo.campus_id;
+        }
+        params = new HashMap<>();
         campusIL.setOnEidttextClick(this);
         payStateIL.setOnEidttextClick(this);
         universityIL.setOnEidttextClick(this);
@@ -102,7 +125,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search_statistics:
+            case R.id.action_search:
                 if (popup_layout.getVisibility() == View.VISIBLE) {
                     popup_layout.setVisibility(View.GONE);
                 }
@@ -118,15 +141,72 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         return true;
     }
 
-    @OnClick({R.id.filter_reset, R.id.filter_ok})
+    @OnClick({R.id.time_type, R.id.filter_reset, R.id.filter_ok})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.time_type:
+                ActionSheet.createBuilder(this, this.getSupportFragmentManager())
+                        .setCancelButtonTitle(R.string.str_cancel)
+                        .setOtherButtonTitles(getResources().getStringArray(R.array.arr_time_type))
+                        .setCancelableOnTouchOutside(true)
+                        .setListener(new ActionSheet.ActionSheetListener() {
+                            @Override
+                            public void onDismiss(ActionSheet actionSheet, boolean b) {
+
+                            }
+
+                            @Override
+                            public void onOtherButtonClick(ActionSheet actionSheet, int i) {
+                                switch (i) {
+                                    case 0:
+                                        timeType.setText(R.string.item_register_time);
+                                        break;
+                                    case 1:
+                                        timeType.setText(R.string.item_matriculation_time);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }).show();
+                break;
             case R.id.filter_reset:
                 resetFilter();
                 break;
             case R.id.filter_ok:
                 popup_layout.setVisibility(View.GONE);
+                setFilter();
+                recycler.setRefreshing();
                 break;
+        }
+    }
+
+    void setFilter() {
+        if (campusIL.getVisibility() == View.VISIBLE && !TextUtils.isEmpty(campusIL.getContent())) {
+//            mFilterCampusId = "";
+        }
+        if (!TextUtils.isEmpty(startTimeEt.getText().toString()) || !TextUtils.isEmpty(endTimeEt.getText().toString())) {
+            if (timeType.getText().equals(getString(R.string.item_register_time))) {
+                params.put("time_type", MarketApi.TYPETIME_REGISTER + "");
+            } else {
+                params.put("time_type", MarketApi.TYPETIME_MATRICULATION + "");
+            }
+            if (!TextUtils.isEmpty(startTimeEt.getText().toString())) {
+                params.put("start_time", mFilterStartTime + "");
+            }
+            if (!TextUtils.isEmpty(endTimeEt.getText().toString())) {
+                params.put("end_time", mFilterEndTime + "");
+            }
+        }
+        if (!TextUtils.isEmpty(payStateIL.getContent())) {
+            params.put("pay_state", mFilterPayStatePosition + "");
+        }
+        if (!TextUtils.isEmpty(universityIL.getContent())) {
+            params.put("college_id", mFilterUniversityId + "");
+            params.put("province_id", mFilterProvinceId + "");
+        }
+        if (!TextUtils.isEmpty(referrerIL.getContent())) {
+            params.put("referrer", mFilterReferrerId + "");
         }
     }
 
@@ -158,7 +238,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 startActivityForResult(new Intent(StatisticsListActivity.this, UniversityPickActivity.class), UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY);
                 break;
             case R.id.item_referrer:
-
+                startActivityForResult(new Intent(StatisticsListActivity.this, PickReferrerActivity.class), PickReferrerActivity.REQUEST_CODE_PICK_REFERRER);
                 break;
             default:
                 break;
@@ -173,9 +253,13 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 case UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY:
                     mUniversityInfo = data.getParcelableExtra(UniversityPickActivity.KEY_PICKED_UNIVERSITY);
                     universityIL.setContent(mUniversityInfo.name);
-//                    college_id = mUniversityInfo.id;
-//                    province_id = mUniversityInfo.prov_id;
+                    mFilterUniversityId = mUniversityInfo.id;
+                    mFilterProvinceId = mUniversityInfo.prov_id;
 //                    city_id = mUniversityInfo.city_id;
+                    break;
+                case PickReferrerActivity.REQUEST_CODE_PICK_REFERRER:
+                    User user = data.getParcelableExtra(PickReferrerActivity.PICKREFERRER);
+                    mFilterReferrerId = user.userInfo.user_id;
                     break;
             }
         }
@@ -190,7 +274,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics(mUser.getUserInfo().campus_id);
+        mPresenter.getList4StudentStatistics(mFilterCampusId, params, mCurrentPage++);
     }
 
     @Override
@@ -319,21 +403,25 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     public void onCampusPicked(String picked) {
         campusIL.setContent(picked);
+        params.put("campus_id", "");
     }
 
     @Override
     public void onStartTimePicked(Date picked) {
-        startTimeEt.setText(picked.toString());
+        startTimeEt.setText(sdf.format(picked));
+        mFilterStartTime = picked.getTime();
     }
 
     @Override
     public void onEndTimePicked(Date picked) {
         endTimeEt.setText(sdf.format(picked));
+        mFilterEndTime = picked.getTime();
     }
 
     @Override
-    public void onPayStatePicked(String picked) {
-        payStateIL.setContent(sdf.format(picked));
+    public void onPayStatePicked(int pickedPosition, String picked) {
+        mFilterPayStatePosition = pickedPosition;
+        payStateIL.setContent(picked);
     }
 
     @OnClick(R.id.fab)

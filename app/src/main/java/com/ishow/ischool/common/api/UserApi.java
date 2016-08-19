@@ -3,10 +3,13 @@ package com.ishow.ischool.common.api;
 import com.google.gson.JsonElement;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.bean.user.UserListResult;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -60,4 +63,8 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/system/sms/send")
     Observable<ApiResult<JsonElement>> sendSms(@Field("mobile") String mobile,@Field("type") int type);
+
+    @GET("/system/user/lists")
+    Observable<ApiResult<UserListResult>> listUsers(@Query("pagesize") int pagesize,
+                                                    @Query("page") int page);
 }

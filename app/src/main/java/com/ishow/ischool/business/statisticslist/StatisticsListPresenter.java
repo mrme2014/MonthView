@@ -7,6 +7,7 @@ import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by wqf on 16/8/14.
@@ -14,8 +15,8 @@ import java.util.Date;
 public class StatisticsListPresenter extends StatisticsListContract.Presenter {
 
     @Override
-    public void getList4StudentStatistics(int campusId) {
-        mModel.getList4StudentStatistics(campusId)
+    public void getList4StudentStatistics(int campusId, HashMap<String, String> params, int page) {
+        mModel.getList4StudentStatistics(campusId, params, page)
                 .subscribe(new ApiObserver<StudentStatisticsList>() {
                     @Override
                     public void onSuccess(StudentStatisticsList studentStatisticsList) {
@@ -90,7 +91,7 @@ public class StatisticsListPresenter extends StatisticsListContract.Presenter {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3) {
                 //返回的分别是三个级别的选中位置
-                mView.onPayStatePicked(payStates.get(options1));
+                mView.onPayStatePicked(options1, payStates.get(options1));
             }
         });
         opv.show();

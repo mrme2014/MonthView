@@ -84,7 +84,7 @@ public class UserManager {
 
     public void updateCurrentPositionInfo(Position position){
        if (user!=null) {
-           PositionInfo positionInfo = user.getPositionInfo();
+           PositionInfo positionInfo = user.positionInfo;
            positionInfo.id = position.campus_id;
            positionInfo.title = position.title;
            save(user);
@@ -96,8 +96,8 @@ public class UserManager {
     public void initCampusPositions(User mUser) {
         if (!isInit && mUser != null) {
             isInit = true;
-            List<Campus> campus = mUser.getCampus();
-            List<Position> position = mUser.getPosition();
+            List<Campus> campus = mUser.campus;
+            List<Position> position = mUser.position;
 
             if (campus == null)
                 return;

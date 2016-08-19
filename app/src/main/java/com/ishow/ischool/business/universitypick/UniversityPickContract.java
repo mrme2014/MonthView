@@ -7,6 +7,7 @@ import com.commonlib.core.BaseView;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
+import com.ishow.ischool.bean.university.UniversityInfoListResult;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import rx.Observable;
  */
 public interface UniversityPickContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<ArrayList<UniversityInfo>>> getListUniversity(String cityName);
+        Observable<ApiResult<UniversityInfoListResult>> getListUniversity(String cityName);
         Observable<ApiResult<SearchUniversityResult>> searchUniversity(String universityName);
     }
 

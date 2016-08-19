@@ -1,16 +1,15 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
-
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
+import com.ishow.ischool.bean.university.UniversityInfoListResult;
 import com.ishow.ischool.bean.user.Campus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -25,28 +24,23 @@ import rx.Observable;
  */
 public interface MarketApi {
 
-    //学员统计数据列表(market.StudentStatistics.lists) 接口
+    int TYPESOURCE1 = 1;  // 晨读
+    int TYPESOURCE2 = 2;  // 转介绍
+    int TYPESOURCE3 = 3;  // 校聊
+
+    int TYPETIME_REGISTER = 1;          // 登记时间
+    int TYPETIME_MATRICULATION = 2;     // 入学时间
+
+
+    //学员统计数据列表(market.StudentStatistics.lists) 接口（params是筛选条件）
     @GET("/market/studentstatistics/lists")
     Observable<ApiResult<StudentStatisticsList>> listStudentStatistics(
-            @Query("campus_id") int campus_id
-//            @Query("option") String option,         //列表选择项的数据
-//            @Query("campus_id") int campus_id,      //筛选的校区id
-//            @Query("time_type") int time_type,     //筛选时间的类型（1.登记时间，2.上课时间）
-//            @Query("start_time") int start_time,   //筛选的开始时间
-//            @Query("end_time") int end_time,       //筛选的结束时间
-//            @Query("pay_sate") int pay_sate)
+            @Query("campus_id") int campus_id,
+            @QueryMap HashMap<String, String> params,
+            @Query("pagesize") int pagesize,
+            @Query("page") int page
     );
 
-    //学员统计数据列表(market.StudentStatistics.lists) 接口
-    @GET("/market/studentstatistics/lists")
-    Observable<ApiResult<StudentStatisticsList>> listStudentStatistics(
-            @QueryMap HashMap<String, String> params
-    );
-
-
-    int TYPE1 = 1;  // 晨读
-    int TYPE2 = 2;  // 转介绍
-    int TYPE3 = 3;  // 校聊
     //新学员登记
     @FormUrlEncoded
     @POST("/market/student/add")
@@ -71,7 +65,7 @@ public interface MarketApi {
 
     //根据省id或地区id 获取大学
     @GET("/system/university/getuniversity")
-    Observable<ApiResult<ArrayList<UniversityInfo>>> getUniversity(
+    Observable<ApiResult<UniversityInfoListResult>> getUniversity(
             @Query("city_name") String city_name,
             @Query("provinceid") Integer provinceid,
             @Query("cityid") Integer cityid);

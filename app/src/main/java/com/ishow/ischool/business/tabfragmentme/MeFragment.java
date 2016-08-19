@@ -54,15 +54,15 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         user = UserManager.getInstance().get();
         if (user == null)
             return;
-        UserInfo userInfo = user.getUserInfo();
+        UserInfo userInfo = user.userInfo;
         if (userInfo == null)
             return;
-        Avatar avatar = user.getAvatar();
+        Avatar avatar = user.avatar;
         if (avatar!=null)ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
         fmMeHeaderName.setText(userInfo.nick_name);
         fmMeHeaderJob.setText(userInfo.job);
 
-        PositionInfo info = user.getPositionInfo();
+        PositionInfo info = user.positionInfo;
         if (info!=null)fmMeSwitchRole.setTipTxt(info.title);
 
     }

@@ -12,7 +12,7 @@ public class SearchUniversityResult implements Parcelable {
     public int total;
     public int page;
     public int pagesize;
-    public ArrayList<UniversityInfo> list;
+    public ArrayList<UniversityInfo> lists;
 
 
     @Override
@@ -25,7 +25,7 @@ public class SearchUniversityResult implements Parcelable {
         dest.writeInt(this.total);
         dest.writeInt(this.page);
         dest.writeInt(this.pagesize);
-        dest.writeTypedList(this.list);
+        dest.writeTypedList(this.lists);
     }
 
     public SearchUniversityResult() {
@@ -35,7 +35,7 @@ public class SearchUniversityResult implements Parcelable {
         this.total = in.readInt();
         this.page = in.readInt();
         this.pagesize = in.readInt();
-        this.list = in.createTypedArrayList(UniversityInfo.CREATOR);
+        this.lists = in.createTypedArrayList(UniversityInfo.CREATOR);
     }
 
     public static final Creator<SearchUniversityResult> CREATOR = new Creator<SearchUniversityResult>() {

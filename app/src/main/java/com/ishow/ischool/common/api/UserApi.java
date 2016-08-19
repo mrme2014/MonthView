@@ -65,6 +65,9 @@ public interface UserApi {
     Observable<ApiResult<JsonElement>> sendSms(@Field("mobile") String mobile,@Field("type") int type);
 
     @GET("/system/user/lists")
-    Observable<ApiResult<UserListResult>> listUsers(@Query("pagesize") int pagesize,
-                                                    @Query("page") int page);
+    Observable<ApiResult<UserListResult>> listUsers(
+            @Query("resources_id") int resources_id,
+            @Query("keyword") String keyword,
+            @Query("pagesize") int pagesize,
+            @Query("page") int page);
 }

@@ -13,7 +13,7 @@ import rx.Observable;
  */
 public interface PickReferrerContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<UserListResult>> getReferrers(int page);
+        Observable<ApiResult<UserListResult>> getReferrers(String keyword, int page);
     }
 
     interface View extends BaseView {
@@ -22,6 +22,6 @@ public interface PickReferrerContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        public abstract void getReferrers(int page);
+        public abstract void getReferrers(String keyword, int page);
     }
 }

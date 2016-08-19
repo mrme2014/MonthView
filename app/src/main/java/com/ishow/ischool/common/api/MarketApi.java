@@ -35,6 +35,7 @@ public interface MarketApi {
     //学员统计数据列表(market.StudentStatistics.lists) 接口（params是筛选条件）
     @GET("/market/studentstatistics/lists")
     Observable<ApiResult<StudentStatisticsList>> listStudentStatistics(
+            @Query("resources_id") int resources_id,
             @Query("campus_id") int campus_id,
             @QueryMap HashMap<String, String> params,
             @Query("pagesize") int pagesize,
@@ -45,6 +46,7 @@ public interface MarketApi {
     @FormUrlEncoded
     @POST("/market/student/add")
     Observable<ApiResult<StudentInfo>> addStudent(
+            @Field("resources_id") int resources_id,
             @Field("name") String name,
             @Field("mobile") String mobile,
             @Field("qq") String qq,
@@ -73,6 +75,7 @@ public interface MarketApi {
     //搜索大学
     @GET("/system/university/search")
     Observable<ApiResult<SearchUniversityResult>> searchUniversity(
+            @Query("resources_id") int resources_id,
             @Query("name") String name,
             @Query("page") Integer page,
             @Query("pagesize") Integer pagesize);
@@ -80,5 +83,6 @@ public interface MarketApi {
     //根据校区id获取校区信息，id为0，获取所有校区
     @GET("/system/campus/get")
     Observable<ApiResult<ArrayList<Campus>>> getCampus(
+            @Query("resources_id") int resources_id,
             @Query("campus_id") int campus_id);
 }

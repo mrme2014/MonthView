@@ -8,8 +8,8 @@ import com.ishow.ischool.common.api.ApiObserver;
  */
 public class PickReferrerPresenter extends PickReferrerContract.Presenter {
     @Override
-    public void getReferrers(int page) {
-        mModel.getReferrers(page).subscribe(new ApiObserver<UserListResult>() {
+    public void getReferrers(String keyword, int page) {
+        mModel.getReferrers(keyword, page).subscribe(new ApiObserver<UserListResult>() {
             @Override
             public void onSuccess(UserListResult userListResult) {
                 mView.getListSuccess(userListResult);

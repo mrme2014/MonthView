@@ -142,6 +142,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
     @Override
     public void getListFail(String msg) {
         loadFailed();
+        showToast(msg);
     }
 
     @Override

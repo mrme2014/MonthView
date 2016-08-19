@@ -27,19 +27,18 @@ import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.pickreferrer.PickReferrerActivity;
+import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.api.MarketApi;
-import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.UserUtil;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.HashMap;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +61,12 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     TextView timeType;
     @BindView(R.id.start_time)
     EditText startTimeEt;
+    @BindView(R.id.start_time_clear)
+    ImageView startTimeIv;
     @BindView(R.id.end_time)
     EditText endTimeEt;
+    @BindView(R.id.end_time_clear)
+    ImageView endTimeIv;
     @BindView(R.id.item_pay_state)
     InputLinearLayout payStateIL;
     @BindView(R.id.item_university)
@@ -143,7 +146,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         return true;
     }
 
-    @OnClick({R.id.time_type, R.id.filter_reset, R.id.filter_ok})
+    @OnClick({R.id.time_type, R.id.filter_reset, R.id.filter_ok, R.id.start_time_clear, R.id.end_time_clear})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.time_type:
@@ -179,6 +182,14 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 popup_layout.setVisibility(View.GONE);
                 setFilter();
                 recycler.setRefreshing();
+                break;
+            case R.id.start_time_clear:
+                startTimeEt.setText("");
+                startTimeIv.setVisibility(View.GONE);
+                break;
+            case R.id.end_time_clear:
+                endTimeEt.setText("");
+                endTimeIv.setVisibility(View.GONE);
                 break;
         }
     }
@@ -261,6 +272,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                     break;
                 case PickReferrerActivity.REQUEST_CODE_PICK_REFERRER:
                     User user = data.getParcelableExtra(PickReferrerActivity.PICKREFERRER);
+                    referrerIL.setContent(user.userInfo.user_name);
                     mFilterReferrerId = user.userInfo.user_id;
                     break;
             }
@@ -415,12 +427,14 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     public void onStartTimePicked(Date picked) {
         startTimeEt.setText(sdf.format(picked));
         mFilterStartTime = picked.getTime();
+        startTimeIv.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onEndTimePicked(Date picked) {
         endTimeEt.setText(sdf.format(picked));
         mFilterEndTime = picked.getTime();
+        endTimeIv.setVisibility(View.VISIBLE);
     }
 
     @Override

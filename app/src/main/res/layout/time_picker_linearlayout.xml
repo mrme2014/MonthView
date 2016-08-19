@@ -25,8 +25,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="日期选择"
-            android:textSize="@dimen/sp12"
+            android:textSize="@dimen/sp14"
             android:layout_centerInParent="true"
             android:textColor="@color/txt_blue" />
 

@@ -60,6 +60,7 @@
     <string name="per_info_xingming">姓名</string>
     <string name="per_info_birthday">生日</string>
     <string name="per_info_QQ">QQ</string>
+    <string name="per_info_input_QQ">请输入QQ</string>
 
     <string name="per_net_token_failed">头像保存失败</string>
     <string name="per_net_info_failed">资料保存失败</string>

@@ -2,7 +2,6 @@ package com.ishow.ischool.widget.custom;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -37,7 +36,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
 
     private ArrayList<String> datas; //message btn  文本集合
     private ArrayList<Integer> messageColor;//message btn的颜色集合
-    private int buttonColor = Color.parseColor("#999999");//取消按钮的颜色
+    private int buttonColor ;//取消按钮的颜色
     private int[] txtSize;
 
     /**
@@ -83,7 +82,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         params1.y = UIUtil.dip2px(getContext(), 10);
         window.setAttributes(params1);
 
-         cancel.setTextColor(buttonColor);
+        cancel.setTextColor(getResources().getColor(buttonColor));
         listView.setOnItemClickListener(this);
         cancel.setOnClickListener(this);
         dialog.setCancelable(true);
@@ -108,7 +107,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
     }
 
     public static class Builder {
-        private int buttonColor;//取消按钮的颜色
+        private int buttonColor = R.color.txt_blue;//取消按钮的颜色
         public ArrayList<String> datas;//message btb 文本集合
         public ArrayList<Integer> colors; //为每一个message btb指定不同的颜色
 

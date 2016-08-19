@@ -1,10 +1,12 @@
 package com.ishow.ischool.adpter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
@@ -20,6 +22,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
 
     Context mContext;
     List<TabBusinessModel.TabSpec> tabSpecs;
+    private int childHeight;
 
     public BusinessAdapter(Context ctx, List<TabBusinessModel.TabSpec> tabSpecs) {
         mContext = ctx;
@@ -29,7 +32,22 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
     @Override
     public BusinessViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_business, parent, false);
-        return new BusinessViewHolder(itemView);
+
+
+        RecyclerView.LayoutManager layoutManager = ((RecyclerView) parent).getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            int spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
+            int cloum = (getItemCount() + 1) / spanCount;
+            int height = parent.getHeight();
+            childHeight = height / cloum;
+        }
+        BusinessViewHolder holder = new BusinessViewHolder(itemView);
+        if (childHeight > 0) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, childHeight);
+            holder.itemView.setLayoutParams(params);
+        }
+
+        return holder;
     }
 
     @Override
@@ -51,9 +69,11 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
 
     class BusinessViewHolder extends RecyclerView.ViewHolder {
         TextView itemTv;
+        View itemView;
 
         public BusinessViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             itemTv = (TextView) itemView.findViewById(R.id.business_item);
         }
     }

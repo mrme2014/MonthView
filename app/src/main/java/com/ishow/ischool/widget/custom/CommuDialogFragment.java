@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.commonlib.util.UIUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.util.AppUtil;
@@ -67,8 +66,8 @@ public class CommuDialogFragment extends DialogFragment {
         win.setAttributes(params);
 
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.popwindow_filter_commu, null);
-        View viewById = contentView.findViewById(R.id.root);
-        viewById.setPadding(0, UIUtil.getToolbarSize(getContext()),0,0);
+       /* View viewById = contentView.findViewById(R.id.root);
+        viewById.setPadding(0, UIUtil.getToolbarSize(getContext()),0,0);*/
         ButterKnife.bind(this,contentView);
 
         dialog.setCancelable(true);

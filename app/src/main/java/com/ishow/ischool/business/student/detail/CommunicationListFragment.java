@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 
 

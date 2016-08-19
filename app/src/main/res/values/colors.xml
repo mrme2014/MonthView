@@ -17,7 +17,7 @@
     <color name="txt_hint">#b6b6b6</color>
 
     <color name="colorPrimary">#2883f6</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#2883f6</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="color_header">#000000</color>
@@ -38,5 +38,6 @@
     <color name="text_tuichu">#f25844</color>
     <color name="fragment_me_bg">#4391f0</color>
     <color name="trans_bg_22">#22000000</color>
+    <color name="trans_txt_55">#55FFFFFF</color>
 
 </resources>

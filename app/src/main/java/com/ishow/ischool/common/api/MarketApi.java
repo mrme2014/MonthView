@@ -1,7 +1,6 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
-
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
@@ -10,7 +9,6 @@ import com.ishow.ischool.bean.user.Campus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -28,7 +26,8 @@ public interface MarketApi {
     //学员统计数据列表(market.StudentStatistics.lists) 接口
     @GET("/market/studentstatistics/lists")
     Observable<ApiResult<StudentStatisticsList>> listStudentStatistics(
-            @Query("campus_id") int campus_id
+            @Query("campus_id") int campus_id,
+            @Query("resources_id") int resources_id
 //            @Query("option") String option,         //列表选择项的数据
 //            @Query("campus_id") int campus_id,      //筛选的校区id
 //            @Query("time_type") int time_type,     //筛选时间的类型（1.登记时间，2.上课时间）
@@ -47,6 +46,7 @@ public interface MarketApi {
     int TYPE1 = 1;  // 晨读
     int TYPE2 = 2;  // 转介绍
     int TYPE3 = 3;  // 校聊
+
     //新学员登记
     @FormUrlEncoded
     @POST("/market/student/add")
@@ -87,4 +87,10 @@ public interface MarketApi {
     @GET("/system/campus/get")
     Observable<ApiResult<ArrayList<Campus>>> getCampus(
             @Query("campus_id") int campus_id);
+
+
+    @GET("/market/student/get")
+    Observable<ApiResult<StudentInfo>> getStudent(@QueryMap HashMap<String, String> params);
+
+
 }

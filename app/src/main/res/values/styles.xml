@@ -22,6 +22,8 @@
         <item name="android:windowBackground">@color/color_app_bg</item>
         <item name="actionMenuTextAppearance">@style/MenuTextStyle</item>
         <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
+        <!--<item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>-->
+        <!--<item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>-->
     </style>
 
     <style name="MenuTextStyle">
@@ -186,13 +188,14 @@
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
 
-    <style name="Comm_dialogfragment" >
+    <style name="Comm_dialogfragment">
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <!--如果 不要 上下滑入式动画  去掉下面这句话-->
         <item name="android:windowFrame">@null</item>
-        <item name="android:windowAnimationStyle">@style/Comm_dialogfragment_windowAnimationStyle</item>
+        <item name="android:windowAnimationStyle">@style/Comm_dialogfragment_windowAnimationStyle
+        </item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 

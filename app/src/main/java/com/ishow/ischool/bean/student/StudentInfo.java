@@ -32,6 +32,14 @@ public class StudentInfo implements Parcelable {
      * english_name :
      * source : 1
      * notes :
+     * "college_name": "浙江大学",
+     * "province_name": "浙江",
+     * "referrer_id": 4,
+     * "referrer_name": "王晓斌",
+     * "pay_state_name": "未报名",
+     * "class_hour_total": 28,
+     * "class_hour": 0,
+     * "payed": 0
      */
 
     public int id;
@@ -57,73 +65,94 @@ public class StudentInfo implements Parcelable {
     public String english_name;
     public int source;
     public String notes;
+    public String college_name;
+    public String province_name;
+    public int referrer_id;
+    public String referrer_name;
+    public String pay_state_name;
+    public int class_hour_total;
+    public int class_hour;
+    public int payed;
 
+
+    protected StudentInfo(Parcel in) {
+        id = in.readInt();
+        campus_id = in.readInt();
+        province_id = in.readInt();
+        city_id = in.readInt();
+        college_id = in.readInt();
+        name = in.readString();
+        password = in.readString();
+        mobile = in.readString();
+        qq = in.readString();
+        major = in.readString();
+        idcard = in.readString();
+        create_time = in.readInt();
+        update_time = in.readInt();
+        class_state = in.readInt();
+        pay_state = in.readInt();
+        upgrade_state = in.readInt();
+        apply_state = in.readInt();
+        student_id = in.readInt();
+        birthday = in.readInt();
+        grade = in.readString();
+        english_name = in.readString();
+        source = in.readInt();
+        notes = in.readString();
+        college_name = in.readString();
+        province_name = in.readString();
+        referrer_id = in.readInt();
+        referrer_name = in.readString();
+        pay_state_name = in.readString();
+        class_hour_total = in.readInt();
+        class_hour = in.readInt();
+        payed = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(campus_id);
+        dest.writeInt(province_id);
+        dest.writeInt(city_id);
+        dest.writeInt(college_id);
+        dest.writeString(name);
+        dest.writeString(password);
+        dest.writeString(mobile);
+        dest.writeString(qq);
+        dest.writeString(major);
+        dest.writeString(idcard);
+        dest.writeInt(create_time);
+        dest.writeInt(update_time);
+        dest.writeInt(class_state);
+        dest.writeInt(pay_state);
+        dest.writeInt(upgrade_state);
+        dest.writeInt(apply_state);
+        dest.writeInt(student_id);
+        dest.writeInt(birthday);
+        dest.writeString(grade);
+        dest.writeString(english_name);
+        dest.writeInt(source);
+        dest.writeString(notes);
+        dest.writeString(college_name);
+        dest.writeString(province_name);
+        dest.writeInt(referrer_id);
+        dest.writeString(referrer_name);
+        dest.writeString(pay_state_name);
+        dest.writeInt(class_hour_total);
+        dest.writeInt(class_hour);
+        dest.writeInt(payed);
+    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeInt(this.campus_id);
-        dest.writeInt(this.province_id);
-        dest.writeInt(this.city_id);
-        dest.writeInt(this.college_id);
-        dest.writeString(this.name);
-        dest.writeString(this.password);
-        dest.writeString(this.mobile);
-        dest.writeString(this.qq);
-        dest.writeString(this.major);
-        dest.writeString(this.idcard);
-        dest.writeInt(this.create_time);
-        dest.writeInt(this.update_time);
-        dest.writeInt(this.class_state);
-        dest.writeInt(this.pay_state);
-        dest.writeInt(this.upgrade_state);
-        dest.writeInt(this.apply_state);
-        dest.writeInt(this.student_id);
-        dest.writeInt(this.birthday);
-        dest.writeString(this.grade);
-        dest.writeString(this.english_name);
-        dest.writeInt(this.source);
-        dest.writeString(this.notes);
-    }
-
-    public StudentInfo() {
-    }
-
-    protected StudentInfo(Parcel in) {
-        this.id = in.readInt();
-        this.campus_id = in.readInt();
-        this.province_id = in.readInt();
-        this.city_id = in.readInt();
-        this.college_id = in.readInt();
-        this.name = in.readString();
-        this.password = in.readString();
-        this.mobile = in.readString();
-        this.qq = in.readString();
-        this.major = in.readString();
-        this.idcard = in.readString();
-        this.create_time = in.readInt();
-        this.update_time = in.readInt();
-        this.class_state = in.readInt();
-        this.pay_state = in.readInt();
-        this.upgrade_state = in.readInt();
-        this.apply_state = in.readInt();
-        this.student_id = in.readInt();
-        this.birthday = in.readInt();
-        this.grade = in.readString();
-        this.english_name = in.readString();
-        this.source = in.readInt();
-        this.notes = in.readString();
-    }
-
     public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
         @Override
-        public StudentInfo createFromParcel(Parcel source) {
-            return new StudentInfo(source);
+        public StudentInfo createFromParcel(Parcel in) {
+            return new StudentInfo(in);
         }
 
         @Override
@@ -131,34 +160,4 @@ public class StudentInfo implements Parcelable {
             return new StudentInfo[size];
         }
     };
-
-
-    @Override
-    public String toString() {
-        return "studentinfo{" +
-                "id=" + id +
-                ", campus_id=" + campus_id +
-                ", province_id=" + province_id +
-                ", city_id=" + city_id +
-                ", college_id=" + college_id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", qq='" + qq + '\'' +
-                ", major='" + major + '\'' +
-                ", idcard=" + idcard +
-                ", create_time=" + create_time +
-                ", update_time=" + update_time +
-                ", class_sate=" + class_state +
-                ", pay_sate=" + pay_state +
-                ", upgrade_stae=" + upgrade_state +
-                ", apply_stae=" + apply_state +
-                ", student_id=" + student_id +
-                ", birthday=" + birthday +
-                ", grade=" + grade +
-                ", english_name='" + english_name + '\'' +
-                ", source=" + source +
-                ", notes='" + notes + '\'' +
-                '}';
-    }
 }

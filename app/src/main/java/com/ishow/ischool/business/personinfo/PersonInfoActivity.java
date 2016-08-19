@@ -92,10 +92,10 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     protected void setUpData() {
         if (user == null)
             return;
-        UserInfo userInfo = user.getUserInfo();
+        UserInfo userInfo = user.userInfo;
         if (userInfo == null)
             return;
-        Avatar avatar = user.getAvatar();
+        Avatar avatar = user.avatar;
         if (avatar != null)
             PicUtils.loadUserHeader(this,personInfoAvart,avatar.file_name);
            // ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
@@ -268,7 +268,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         if (user == null)
             return true;
 
-        mPresenter.submitInfo(user.getUserInfo().user_id, personInfoQQ.getText().toString(), unix);
+        mPresenter.submitInfo(user.userInfo.user_id, personInfoQQ.getText().toString(), unix);
         return false;
     }
 }

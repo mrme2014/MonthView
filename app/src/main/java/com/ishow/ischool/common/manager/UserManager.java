@@ -13,6 +13,8 @@ import com.ishow.ischool.bean.user.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.HEAD;
+
 
 /**
  * Created by kevin on 15/8/7.
@@ -84,11 +86,11 @@ public class UserManager {
 
     public void updateCurrentPositionInfo(Position position) {
         if (user != null) {
-            PositionInfo positionInfo = user.getPositionInfo();
+            PositionInfo positionInfo = user.positionInfo;
             positionInfo.id = position.id;
             positionInfo.title = position.title;
             positionInfo.campusId = position.campus_id;
-            List<Campus> campus = user.getCampus();
+            List<Campus> campus = user.campus;
             if (campus != null) {
                 for (int i = 0; i < campus.size(); i++) {
                     if (campus.get(i).id == position.campus_id) {
@@ -103,9 +105,11 @@ public class UserManager {
 
     public void initCampusPositions(User mUser) {
         if ( mUser != null) {
+
             this.user =mUser;
-            List<Campus> campus = mUser.getCampus();
-            List<Position> position = mUser.getPosition();
+            List<Campus> campus = mUser.campus;
+            List<Position> position = mUser.position;
+
 
             if (campus == null)
                 return;
@@ -137,7 +141,8 @@ public class UserManager {
              public int campusId;
              每次进来 都需要对PositionInfo 值 赋值
              */
-            PositionInfo positionInfo = mUser.getPositionInfo();
+            PositionInfo positionInfo = user.positionInfo;
+
             for (int i = 0; i < position.size(); i++) {
                 if (position.get(i).id == positionInfo.id) {
                     updateCurrentPositionInfo(position.get(i));

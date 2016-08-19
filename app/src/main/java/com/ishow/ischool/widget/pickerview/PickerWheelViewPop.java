@@ -72,7 +72,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
             return;
         //UserManager.getInstance().initCampusPositions(user);
 
-        List<Campus> campus = user.getCampus();
+        List<Campus> campus = user.campus;
 
         if (campus == null) return;
 
@@ -92,14 +92,14 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     private void refreshPositionForCampus(int index) {
         if (user != null) {
-            List<Campus> campus = user.getCampus();
+            List<Campus> campus = user.campus;
             if (campus != null) resfreshData(1, campus.get(index).positions);
         }
     }
 
     private Position getSelectPosition(String selectTxt) {
         if (user != null) {
-            List<Position> position = user.getPosition();
+            List<Position> position = user.position;
             if (position == null)
                 return null;
             for (int i = 0; i < position.size(); i++) {

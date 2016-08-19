@@ -90,53 +90,7 @@
     <string name="time_left_to_try_again">%1$s s后重试</string>
     <string name="switch_role">角色切换</string>
     <string name="kefu_title">客服</string>
-    <!--下面都是选择条件 或者筛选条件固定的  -->
-    <array name="week_days">
-        <item>周一</item>
-        <item>周二</item>
-        <item>周三</item>
-        <item>周四</item>
-        <item>周五</item>
-        <item>周六</item>
-        <item>周日</item>
-    </array>
 
-    <array name="course_strings">
-        <item>初级班</item>
-        <item>中级班</item>
-        <item>高级班</item>
-        <item>影视班</item>
-    </array>
-
-    <array name="source_strings">
-        <item>校聊</item>
-        <item>晨读</item>
-        <item>转介绍</item>
-    </array>
-
-    <array name="source_shijianduan">
-        <item>上午</item>
-        <item>下午</item>
-        <item>晚上</item>
-    </array>
-
-    <!--筛选的报名的状态（1.未报名；2.欠款；3.已报名；4.退款'）-->
-    <array name="pay_sate_strings">
-        <item>未报名</item>
-        <item>欠款</item>
-        <item>已报名</item>
-        <item>退款</item>
-    </array>
-
-    <array name="grade_strings">
-        <item>大一</item>
-        <item>大二</item>
-        <item>大三</item>
-        <item>大四</item>
-        <item>研究生</item>
-        <item>硕士</item>
-        <item>其它</item>
-    </array>
 
 
     <!-- 学员统计 -->
@@ -147,6 +101,10 @@
 
     <string name="item_pay_state">报名情况</string>
     <string name="item_register_time">登记时间</string>
+    <string name="item_matriculation_time">上课时间</string>
+
+    <!-- 选择推荐人 -->
+    <string name="pick_referrer">选择推荐人</string>
 
     <!-- 添加学员 -->
     <string name="add_student">添加学员</string>

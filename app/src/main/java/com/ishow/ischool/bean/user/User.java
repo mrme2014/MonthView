@@ -1,11 +1,14 @@
 package com.ishow.ischool.bean.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by MrS on 2016/7/19.
  */
-public class User {
+public class User implements Parcelable {
 
     /**
      * avatar : {"id":29370,"type":1,"file_name":"http://7xwcxj.com1.z0.glb.clouddn.com//1469341646348avator.jpg","user_id":10017}
@@ -15,60 +18,53 @@ public class User {
      * token : {"user_id":10017,"token":"136d0e6fc34b41c6b37562f2258f1cbb","over_time":1470224855,"refresh_token":"6fe2145f78bb42ef220579cfba92f872","refresh_time":1485172055,"loginname":"13512341234","ip":"58.100.185.5","status":1}
      */
 
-    private Avatar avatar;
-    private UserInfo userInfo;
-    private Token token;
-    private List<Campus> campus;
-    private List<Position> position;
-    private PositionInfo positionInfo;
-    private Qrcode qrcode;
+    public Avatar avatar;
+    public UserInfo userInfo;
+    public Token token;
+    public List<Campus> campus;
+    public List<Position> position;
+    public PositionInfo positionInfo;
+    public Qrcode qrcode;
 
-    public Qrcode getQrcode() {
-        return qrcode;
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public PositionInfo getPositionInfo() {
-        return positionInfo;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.avatar, flags);
+        dest.writeParcelable(this.userInfo, flags);
+        dest.writeParcelable(this.token, flags);
+        dest.writeTypedList(this.campus);
+        dest.writeTypedList(this.position);
+        dest.writeParcelable(this.positionInfo, flags);
+        dest.writeParcelable(this.qrcode, flags);
     }
 
-    public Avatar getAvatar() {
-        return avatar;
+    public User() {
     }
 
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
+    protected User(Parcel in) {
+        this.avatar = in.readParcelable(Avatar.class.getClassLoader());
+        this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
+        this.token = in.readParcelable(Token.class.getClassLoader());
+        this.campus = in.createTypedArrayList(Campus.CREATOR);
+        this.position = in.createTypedArrayList(Position.CREATOR);
+        this.positionInfo = in.readParcelable(PositionInfo.class.getClassLoader());
+        this.qrcode = in.readParcelable(Qrcode.class.getClassLoader());
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
-
-    public List<Campus> getCampus() {
-        return campus;
-    }
-
-    public void setCampus(List<Campus> campus) {
-        this.campus = campus;
-    }
-
-    public List<Position> getPosition() {
-        return position;
-    }
-
-    public void setPosition(List<Position> position) {
-        this.position = position;
-    }
-
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

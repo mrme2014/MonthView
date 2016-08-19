@@ -19,6 +19,8 @@ public class Campus implements Parcelable {
     public String name;
     public ArrayList<String> positions;
 
+    public static final int HEADQUARTERS = 1;       // campus_id=1时代表总部
+
     @Override
     public int describeContents() {
         return 0;

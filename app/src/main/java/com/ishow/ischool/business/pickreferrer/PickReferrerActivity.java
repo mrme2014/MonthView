@@ -1,11 +1,16 @@
 package com.ishow.ischool.business.pickreferrer;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -26,9 +31,45 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
     public static final int REQUEST_CODE_PICK_REFERRER = 2002;
     public static final String PICKREFERRER = "pick_referrer";
 
+    private ArrayList<User> originalDatas = new ArrayList<>();
+    private SearchView mSearchView;
+    private boolean isFirst = true;
+
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_pick_referrer, R.string.pick_referrer, R.menu.menu_pickreferrer, MODE_BACK);
+        initSearchView();
+    }
+
+    void initSearchView() {
+        final MenuItem item = mToolbar.getMenu().findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                LogUtil.d("SearchView newText = " + newText);
+                if (TextUtils.isEmpty(newText)) {
+                    loadFailed();
+                } else {
+                    mCurrentPage = 1;
+                    mPresenter.getReferrers(newText, mCurrentPage++);
+                }
+                return true;
+            }
+        });
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mDataList.clear();
+                loadSuccess(originalDatas);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -40,11 +81,16 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getReferrers(mCurrentPage++);
+        mPresenter.getReferrers(null, mCurrentPage++);
     }
 
     @Override
     public void getListSuccess(UserListResult userListResult) {
+        if (isFirst) {
+            originalDatas.clear();
+            originalDatas.addAll(userListResult.lists);
+            isFirst = false;
+        }
         loadSuccess(userListResult.lists);
     }
 

@@ -23,7 +23,7 @@ public class UniversityPickModel implements UniversityPickContract.Model {
 
     @Override
     public Observable<ApiResult<SearchUniversityResult>> searchUniversity(String universityName) {
-        return ApiFactory.getInstance().getApi(MarketApi.class).searchUniversity(universityName, null, null)
+        return ApiFactory.getInstance().getApi(MarketApi.class).searchUniversity(-1, universityName, null, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

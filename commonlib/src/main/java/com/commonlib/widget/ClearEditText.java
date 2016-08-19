@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.commonlib.R;
-import com.commonlib.util.UIUtil;
 
 /**
  * 自定义带删除按钮的EditText
@@ -32,21 +31,19 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
 
     public ClearEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        int paddingLeftPx = UIUtil.dip2px(context, 15);
-        int paddingRightPx = UIUtil.dip2px(context, 10);
-        init(paddingLeftPx, paddingRightPx);
+        init();
     }
 
-    private void init(int paddingLeftPx, int paddingRight) {
+    private void init() {
         // 获取EditText的DrawableRight,假如没有设置我们就使用默认的图片,获取图片的顺序是左上右下（0,1,2,3,）
         mClearDrawable = getCompoundDrawables()[2];
         if (mClearDrawable == null) {
             mClearDrawable = getResources().getDrawable(
-                    R.drawable.icon_edittext_delete);
+                    R.drawable.icon_edittext_clear);
         }
 
 
-        setPadding(paddingLeftPx, 0, paddingRight, 0);
+        setPadding(0, 0, 0, 0);
         mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(),
                 mClearDrawable.getIntrinsicHeight());
         // 默认设置隐藏图标

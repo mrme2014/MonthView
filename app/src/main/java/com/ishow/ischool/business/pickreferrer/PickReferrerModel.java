@@ -1,7 +1,7 @@
 package com.ishow.ischool.business.pickreferrer;
 
+import com.commonlib.Conf;
 import com.commonlib.http.ApiFactory;
-import com.ishow.ischool.application.Constans;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.api.UserApi;
@@ -16,9 +16,9 @@ import rx.schedulers.Schedulers;
 public class PickReferrerModel implements PickReferrerContract.Model {
 
     @Override
-    public Observable<ApiResult<UserListResult>> getReferrers(int page) {
+    public Observable<ApiResult<UserListResult>> getReferrers(String keyword, int page) {
         return ApiFactory.getInstance().getApi(UserApi.class)
-                .listUsers(Constans.DEFAULT_PAGESIZE, page)
+                .listUsers(-1, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

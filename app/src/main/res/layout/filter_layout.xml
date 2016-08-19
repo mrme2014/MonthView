@@ -1,60 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:input="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/root_ll"
     android:background="#44000000"
+    android:orientation="vertical"
     android:visibility="gone">
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_campus"
         style="@style/input_linearLayout_style"
+        android:visibility="gone"
         input:inputLayout_texthint="学员所在校区"
         input:label_text="@string/item_campus"
-        input:next="true"
-        android:visibility="gone"/>
+        input:next="true" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="91dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:background="@android:color/white">
+
         <TextView
             android:id="@+id/time_type"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/item_register_time"
-            android:drawableRight="@mipmap/icon_adress_down"
+            android:layout_centerVertical="true"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/icon_time_down"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:text="@string/item_register_time" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="100dp"
             android:orientation="vertical">
-            <com.commonlib.widget.ClearEditText
-                android:id="@+id/start_time"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:hint="开始时间"
-                android:singleLine="true"
-                android:background="@null"
-                android:focusable="false"/>
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/start_time"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:hint="开始时间"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:id="@+id/start_time_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:src="@mipmap/icon_list_delete"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
             <include layout="@layout/view_bottom_line" />
 
-            <com.commonlib.widget.ClearEditText
-                android:id="@+id/end_time"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:hint="结束时间"
-                android:singleLine="true"
-                android:background="@null"
-                android:focusable="false"/>
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/end_time"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:hint="结束时间"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:id="@+id/end_time_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:src="@mipmap/icon_list_delete"
+                    android:visibility="gone"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -67,45 +102,46 @@
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员报名情况"
         input:label_text="报名情况"
-        input:next="true"/>
+        input:next="true" />
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_university"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员所在学校"
         input:label_text="@string/item_university"
-        input:next="true"/>
+        input:next="true" />
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_referrer"
         style="@style/input_linearLayout_style"
+        input:bottom_line="false"
         input:inputLayout_texthint="请选择推荐人"
         input:label_text="@string/item_referrer"
-        input:next="true"
-        input:bottom_line="false"/>
+        input:next="true" />
 
     <include layout="@layout/view_bottom_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <TextView
             android:id="@+id/filter_reset"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/str_reset"
+            android:background="@android:color/white"
             android:gravity="center"
-            android:background="@android:color/white"/>
+            android:text="@string/str_reset" />
 
         <TextView
             android:id="@+id/filter_ok"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/str_ok"
+            android:background="@color/color_orange"
             android:gravity="center"
-            android:textColor="@android:color/white"
-            android:background="@color/color_orange"/>
+            android:text="@string/str_ok"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

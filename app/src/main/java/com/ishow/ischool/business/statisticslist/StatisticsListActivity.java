@@ -29,15 +29,17 @@ import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.pickreferrer.PickReferrerActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.UserUtil;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.HashMap;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -343,6 +345,9 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         @Override
         public void onItemClick(View view, int position) {
             StudentStatistics data = mDataList.get(position);
+            Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
+            intent.putExtra(StudentDetailActivity.P_STUDENT, data);
+            JumpManager.jumpActivity(StatisticsListActivity.this, intent);
         }
     }
 

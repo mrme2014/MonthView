@@ -135,6 +135,23 @@
     <string name="commun_input_content_hint">请输入沟通内容（必填）</string>
     <string name="pick_student">选择学员</string>
     <string name="hint_search">搜索</string>
+
+    <string name="commun_date">沟通时间</string>
+    <string name="commun_date_start">开始时间</string>
+    <string name="commun_date_end">结束时间</string>
+    <string name="commun_refuse">抗拒点</string>
+    <string name="commun_confidence">学习信念</string>
+    <string name="commun_order">办理人</string>
+    <string name="commun_state_hnit">学员学习状态</string>
+    <string name="commun_confidence_hnit">学员学习信念</string>
+    <string name="commun_refuse_hnit">报名抗拒点</string>
+    <string name="commun_order_hnit">报名办理人</string>
+    <string name="commun_rest">重置</string>
+    <string name="commun_ok">确定</string>
+    <string name="comm_dialog_stu_state_title">学员状态</string>
+
+
+
     <string name="check_student">请选择学生</string>
     <string name="check_tuition_source">请填写学费来源</string>
     <string name="check_status">请选择状态</string>
@@ -142,4 +159,20 @@
     <string name="check_refuse">请选择抗拒点</string>
     <string name="check_communication_date">请选择沟通时间</string>
     <string name="check_content">请填写沟通内容</string>
+    <string name="apply_status">报名状态</string>
+    <string name="label_student_info_english_name">英文名</string>
+    <string name="hint_uninput">未添加</string>
+    <string name="label_student_phone">联系电话</string>
+    <string name="label_student_qq">QQ</string>
+    <string name="label_student_birthday">生日</string>
+    <string name="label_student_school">就读学校</string>
+    <string name="label_student_specialty">专业</string>
+    <string name="label_student_class">班级</string>
+    <string name="label_student_idcard">身份证</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="student_detail">学员详情</string>
+    <string name="commun_list">沟通记录</string>
+
 </resources>

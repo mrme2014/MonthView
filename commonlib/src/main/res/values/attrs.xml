@@ -13,10 +13,12 @@
         <attr name="label_text_top" format="string" />
         <attr name="label_text_left" format="string" />
         <attr name="label_text_right" format="string" />
-        <attr name="label_text_button" format="string" />
+        <attr name="label_text_bottom" />
         <attr name="label_text_size" />
         <attr name="label_text_color" />
         <attr name="label_padding" />
+        <attr name="draw_bottom_line" format="boolean"></attr>
+        <attr name="bottom_line_color" format="color|reference"></attr>
     </declare-styleable>
 
     <declare-styleable name="TopBottomTextView">

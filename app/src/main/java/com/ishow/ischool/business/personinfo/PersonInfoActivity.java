@@ -17,13 +17,13 @@ import android.widget.EditText;
 import com.commonlib.util.DateUtil;
 import com.commonlib.util.PermissionUtil;
 import com.commonlib.util.StorageUtil;
-import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
@@ -37,7 +37,7 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/15.
  */
-public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.OnItemSelectedListner, PersonView, TextWatcher, PickerWheelViewPop.PickCallback {
+public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.OnItemSelectedListner, PersonView, TextWatcher {
     @BindView(R.id.person_info_avart)
     CircleImageView personInfoAvart;
     @BindView(R.id.person_info_name)
@@ -64,22 +64,24 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("tempPath", tempPath);
-        outState.putParcelable("bitmap", bitmap);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             tempPath = savedInstanceState.getString("tempPath");
-            bitmap = savedInstanceState.getParcelable("bitmap");
+            bitmap =savedInstanceState.getParcelable("bitmap");
             personInfoAvart.setImageBitmap(bitmap);
 
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("tempPath", tempPath);
+        outState.putParcelable("bitmap",bitmap);
+    }
+
+
 
     @Override
     protected void setUpView() {
@@ -95,7 +97,8 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             return;
         Avatar avatar = user.avatar;
         if (avatar != null)
-            ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
+            PicUtils.loadUserHeader(this,personInfoAvart,avatar.file_name);
+           // ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
         personInfoName.setTipTxt(userInfo.nick_name);
         personInfoPhone.setTipTxt(userInfo.mobile);
         personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday, "yyyy-MM-dd"));
@@ -118,7 +121,13 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 PickerWheelViewPop pop = new PickerWheelViewPop(this);
                 pop.renderYMDPanel(R.string.choose_birthday);
                 pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM, 0, 0);
-                pop.addPickCallback(this);
+                pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
+                    @Override
+                    public void onPickCallback(Integer unix, String... result) {
+                        if (submitInfo(unix)) return;
+                        if (result != null) personInfoBirthday.setTipTxt(result[0]);
+                    }
+                });
                 break;
         }
     }
@@ -192,21 +201,30 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
 
     @Override
-    public void onItemSelected(int position) {
+    public void onItemSelected(final int position,String txt) {
         if (position == 0) {
             PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
                 @Override
                 public void onGrant(String grantPermission, int index) {
                     capture();
                 }
-
                 @Override
                 public void onDenied(String deniedPermission, int index) {
                     showToast(R.string.permission_camera_denid);
                 }
             }, Manifest.permission.CAMERA);
         } else if (position == 1) {
-            selectAlbums();
+            PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
+                @Override
+                public void onGrant(String grantPermission, int index) {
+                    selectAlbums();
+                }
+                @Override
+                public void onDenied(String deniedPermission, int index) {
+                    showToast(R.string.permission_storage_denid);
+                }
+            }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
         }
     }
 
@@ -244,11 +262,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         submitInfo(unix);
     }
 
-    @Override
-    public void onPickCallback(int unix, String... result) {
-        if (submitInfo(unix)) return;
-        if (result != null) personInfoBirthday.setTipTxt(result[0]);
-    }
+
 
     private boolean submitInfo(int unix) {
         if (user == null)

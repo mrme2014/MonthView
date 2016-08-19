@@ -3,7 +3,6 @@ package com.ishow.ischool.widget.pickerview;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.User;
-import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,7 +66,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
         this.user = user;
         if (user == null)
             return;
-        UserManager.getInstance().initCampusPositions(user);
+        //UserManager.getInstance().initCampusPositions(user);
 
         List<Campus> campus = user.campus;
 
@@ -125,7 +123,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
      * @param
      * @param //面板中间的 标题 string资源ｉｄ  -1代表不显示标题
      */
-    public void initMultiSelectPanel(@StringRes int titleResId) {
+    public void initMultiSelectPanel( int titleResId) {
         renderPanel(titleResId, R.layout.time_picker_controller);
     }
 
@@ -150,10 +148,18 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
         TextView textView = (TextView) contentView.findViewById(R.id.title);
         if (titleResId != -1) textView.setText(context.getString(titleResId));
 
+      /*  WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        params.gravity= Gravity.BOTTOM;
+        params.verticalMargin=2000;
+        contentView.setLayoutParams(params);*/
+
         setContentView(contentView);
-        setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
         setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
         setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
+
     }
 
     /**
@@ -196,10 +202,8 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
                     //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
                     if (selectResult != null && selectResult.length >= 2 && user != null) {
                         String s = selectResult[1];
-                        callback.onPickCallback(0, selectResult);
-                        //更新本地 用户信息的 posiiotnInfo的 信息
-                        UserManager.getInstance().updateCurrentPositionInfo(getSelectPosition(s));
-                    } else callback.onPickCallback(0, selectResult);
+                        callback.onPickCallback(getSelectPosition(s), selectResult);
+                    } else callback.onPickCallback(viewById.getSelectResultId(), selectResult);
 
                 }
             }
@@ -214,11 +218,9 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
 
     private PickCallback callback;
 
-    public interface PickCallback {
-        /*ids 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
-
-        //这里 为什么要用 object呢  因为 有的大多地方需要返回 int id即可 ，。。。。有一个地方就是角色切换时  返回了个 Position对象。。。。其实不反回也可以
-        void onPickCallback(int id, String... result);
+    public interface PickCallback<T> {
+        /*object 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
+        void onPickCallback( T object, String... result);
     }
 
     public void addPickCallback(PickCallback callback1) {

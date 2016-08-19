@@ -160,9 +160,8 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();
                 showItemDialog(datas, new SelectDialogFragment.OnItemSelectedListner() {
-
                     @Override
-                    public void onItemSelected(int position) {
+                    public void onItemSelected(int position, String txt) {
                         stateTv.setText(datas.get(position));
                         form.status = position + 1;
                     }
@@ -173,7 +172,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 showItemDialog(faiths, new SelectDialogFragment.OnItemSelectedListner() {
 
                     @Override
-                    public void onItemSelected(int position) {
+                    public void onItemSelected(int position, String txt) {
                         faithTv.setText(faiths.get(position));
                         form.belief = position + 1;
                     }
@@ -184,26 +183,26 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 showItemDialog(opposes, new SelectDialogFragment.OnItemSelectedListner() {
 
                     @Override
-                    public void onItemSelected(int position) {
+                    public void onItemSelected(int position, String txt) {
                         opposeTv.setText(opposes.get(position));
                         form.refuse = position + 1;
                     }
                 });
                 break;
             case R.id.commun_back_date:
-                ShowTimePickerDialog(backDateTv, new PickerWheelViewPop.PickCallback() {
+                ShowTimePickerDialog(backDateTv, new PickerWheelViewPop.PickCallback<Integer>() {
                     @Override
-                    public void onPickCallback(Object id, String... result) {
-                        form.callback_date = (int) id;
+                    public void onPickCallback(Integer id, String... result) {
+                        form.callback_date = id;
                         backDateTv.setText(result[0]);
                     }
                 });
                 break;
             case R.id.commun_date:
-                ShowTimePickerDialog(dateTv, new PickerWheelViewPop.PickCallback() {
+                ShowTimePickerDialog(dateTv, new PickerWheelViewPop.PickCallback<Integer>() {
                     @Override
-                    public void onPickCallback(Object id, String... result) {
-                        form.communication_date = (int) id;
+                    public void onPickCallback(Integer id, String... result) {
+                        form.communication_date = id;
                         dateTv.setText(result[0]);
                     }
                 });

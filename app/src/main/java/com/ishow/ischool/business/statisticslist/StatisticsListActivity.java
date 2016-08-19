@@ -105,7 +105,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search_statistics:
+            case R.id.action_search:
                 if (popup_layout.getVisibility() == View.VISIBLE) {
                     popup_layout.setVisibility(View.GONE);
                 }

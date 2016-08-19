@@ -4,6 +4,7 @@
     android:id="@+id/root"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:paddingTop="?attr/actionBarSize"
     android:layout_height="match_parent"
     >
 

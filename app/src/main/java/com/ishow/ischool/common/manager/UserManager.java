@@ -103,6 +103,7 @@ public class UserManager {
 
     public void initCampusPositions(User mUser) {
         if ( mUser != null) {
+            this.user =mUser;
             List<Campus> campus = mUser.getCampus();
             List<Position> position = mUser.getPosition();
 
@@ -136,7 +137,7 @@ public class UserManager {
              public int campusId;
              每次进来 都需要对PositionInfo 值 赋值
              */
-            PositionInfo positionInfo = user.getPositionInfo();
+            PositionInfo positionInfo = mUser.getPositionInfo();
             for (int i = 0; i < position.size(); i++) {
                 if (position.get(i).id == positionInfo.id) {
                     updateCurrentPositionInfo(position.get(i));

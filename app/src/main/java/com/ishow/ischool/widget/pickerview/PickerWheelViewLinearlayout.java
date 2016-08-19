@@ -86,14 +86,14 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
         }
     }
 
-    private String colTxt1, colTxt2, colTxt3, colTxt4, colTxt5;
+    //private String colTxt1, colTxt2, colTxt3, colTxt4, colTxt5;
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-        if (select != null) {
+       if (select != null) {
             select.endSelect(wheelView, id, text);
         }
-        switch (wheelView.getId()) {
+        /* switch (wheelView.getId()) {
             case 0:
                 colTxt1 = text;
                 break;
@@ -112,7 +112,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
             default:
                 throw new IndexOutOfBoundsException("must less than or equal 5 wheelview at the same time.");
 
-        }
+        }*/
     }
 
     @Override

@@ -19,7 +19,11 @@ public class LoginPresenter extends LoginContract.Presenter {
                     @Override
                     public void onSuccess(User user) {
                         if (user != null && user.getToken() != null) {
-                            UserManager.getInstance().save(user);
+
+                            //UserManager.getInstance().save(user);
+
+                            UserManager.getInstance().initCampusPositions(user);
+
                             TokenManager.init(user.getToken());
                         }
                         mView.loginSuccess();

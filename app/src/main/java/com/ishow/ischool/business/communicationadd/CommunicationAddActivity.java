@@ -190,19 +190,19 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 });
                 break;
             case R.id.commun_back_date:
-                ShowTimePickerDialog(backDateTv, new PickerWheelViewPop.PickCallback() {
+                ShowTimePickerDialog(backDateTv, new PickerWheelViewPop.PickCallback<Integer>() {
                     @Override
-                    public void onPickCallback(int id, String... result) {
-                        form.callback_date = (int) id;
+                    public void onPickCallback(Integer id, String... result) {
+                        form.callback_date = id;
                         backDateTv.setText(result[0]);
                     }
                 });
                 break;
             case R.id.commun_date:
-                ShowTimePickerDialog(dateTv, new PickerWheelViewPop.PickCallback() {
+                ShowTimePickerDialog(dateTv, new PickerWheelViewPop.PickCallback<Integer>() {
                     @Override
-                    public void onPickCallback(int id, String... result) {
-                        form.communication_date = (int) id;
+                    public void onPickCallback(Integer id, String... result) {
+                        form.communication_date = id;
                         dateTv.setText(result[0]);
                     }
                 });

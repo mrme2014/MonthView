@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="130dp"
         android:background="@drawable/bg_round_corner"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/qrcode_name"
             style="@style/fragment_textview_Wwrap_Hwrap"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="45dp"
             android:textColor="@color/txt_2" />
 
         <ImageView
@@ -32,8 +32,8 @@
         <TextView
             style="@style/fragment_textview_Wwrap_Hwrap"
             android:layout_below="@+id/qrcode_code"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
             android:text="扫我啊"
             android:textColor="#999999" />
     </LinearLayout>
@@ -43,7 +43,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="70dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="93dp"
          />
 
 </FrameLayout>

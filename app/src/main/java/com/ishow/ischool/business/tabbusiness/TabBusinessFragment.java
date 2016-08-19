@@ -26,6 +26,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     @Override
     public void init() {
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs());
         mRecyclerView.setAdapter(mAdapter);

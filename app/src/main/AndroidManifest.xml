@@ -50,6 +50,7 @@
         <activity android:name=".business.forgetpwd.ForgetPwdActivity1" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity2" />
         <activity android:name=".business.editpwd.EditPwdActivity" />
+        <activity android:name=".business.kefu.KefuActivity" />
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
         <activity android:name=".business.personinfo.PersonInfoActivity" />
         <activity android:name=".business.communicationlist.CommunicationListActivity" />

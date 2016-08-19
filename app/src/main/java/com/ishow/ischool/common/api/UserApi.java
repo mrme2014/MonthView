@@ -34,7 +34,7 @@ public interface UserApi {
     //修改信息(system.user.edit) 接口
     @FormUrlEncoded
     @POST("/system/user/edit")
-    Observable<ApiResult> edit(@Field("user_id") int user_id,  @Field("birthday") int birthday, @Field("qq") String qq);
+    Observable<ApiResult> edit(@Field("resources_id")int resources_id,@Field("user_id") int user_id,  @Field("birthday") int birthday, @Field("qq") String qq);
 
 
     //切换角色(system.user.change) 接口

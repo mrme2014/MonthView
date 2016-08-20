@@ -10,6 +10,7 @@ import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by abel on 16/8/16.
@@ -116,4 +117,9 @@ public class AppUtil {
     }
 
 
+    public static HashMap<String, String> getParamsHashMap(int i) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("resources_id", String.valueOf(i));
+        return params;
+    }
 }

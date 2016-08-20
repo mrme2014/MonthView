@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.student.detail;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -45,6 +46,12 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     @BindView(R.id.student_tuition)
     LabelTextView tuitionLtv;
 
+    @BindView(R.id.titlebar_title)
+    TextView titlebarTitleTv;
+
+    @BindView(R.id.appbar)
+    AppBarLayout mAppBar;
+
     public StudentInfo student;
     public int studentId;
 
@@ -77,12 +84,26 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
         mTabs.setTabGravity(TabLayout.GRAVITY_FILL);
         mTabs.setupWithViewPager(mViewPaper);
+
+        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int maxScroll = appBarLayout.getTotalScrollRange();
+                float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
+                handleAlphaOnTitle(percentage);
+            }
+        });
+    }
+
+    private void handleAlphaOnTitle(float percentage) {
+        titlebarTitleTv.setAlpha(percentage);
+        //mToolbar.getBackground().setAlpha((int) (255 * percentage));
     }
 
     private void initViewPager() {
         ArrayList<Fragment> fragments = new ArrayList<>();
         studentInfoFragment = StudentInfoFragment.newInstance(student);
-        communicationListFragment = CommunicationListFragment.newInstance("");
+        communicationListFragment = CommunicationListFragment.newInstance(studentId);
         fragments.add(studentInfoFragment);
         fragments.add(communicationListFragment);
 
@@ -122,6 +143,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         classHourLtv.setText(student.class_hour + "/" + student.class_hour_total);
         tuitionLtv.setText(student.payed + "");
         studentInfoFragment.refresh(student);
+        titlebarTitleTv.setText(student.name);
     }
 
     @Override

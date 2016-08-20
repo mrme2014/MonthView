@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.tabfragmentme;
 
+import android.content.Intent;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -17,11 +18,11 @@ import com.ishow.ischool.business.kefu.KefuActivity;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
 import com.ishow.ischool.business.personinfo.PersonInfoActivity;
+import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
-import com.ishow.ischool.widget.custom.CommuDialogFragment;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
@@ -31,7 +32,7 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements MePresenter.Iview {
+public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implements MePresenter.Iview {
 
     @BindView(R.id.fm_me_header_avart)
     public CircleImageView fmMeHeaderAvart;
@@ -61,12 +62,13 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         if (userInfo == null)
             return;
         Avatar avatar = user.avatar;
-        if (avatar!=null)ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
+        if (avatar != null)
+            ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
         fmMeHeaderName.setText(userInfo.nick_name);
         fmMeHeaderJob.setText(userInfo.job);
 
         PositionInfo info = user.positionInfo;
-        if (info!=null)fmMeSwitchRole.setTipTxt(info.title);
+        if (info != null) fmMeSwitchRole.setTipTxt(info.title);
 
     }
 
@@ -76,19 +78,20 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
         JumpManager.jumpActivity(getContext(), PersonInfoActivity.class);
     }
 
-    /*角色切换*/PickerWheelViewPop pop;
+    /*角色切换*/ PickerWheelViewPop pop;
+
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
-        if (user!=null) {
-            if (pop==null){
+        if (user != null) {
+            if (pop == null) {
                 pop = new PickerWheelViewPop(getContext());
                 pop.initMultiSelectPanel(R.string.switch_role);
                 pop.renderCampusPositionselectPanel(user);
                 pop.addPickCallback(new PickerWheelViewPop.PickCallback<Position>() {
                     @Override
                     public void onPickCallback(Position position, String... result) {
-                        if (result!=null){
-                            fmMeSwitchRole.setTipTxt(result[result.length-1]);
+                        if (result != null) {
+                            fmMeSwitchRole.setTipTxt(result[result.length - 1]);
                             //更新本地 用户信息的 posiiotnInfo的 信息
                             UserManager.getInstance().updateCurrentPositionInfo(position);
                         }
@@ -102,14 +105,17 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
     public void on_fm_me_notify_msg_click() {
-        CommuDialogFragment pop = new CommuDialogFragment();
-        pop.show(getChildFragmentManager(),"dialog");
-        pop.addOnSelectResultCallback(new CommuDialogFragment.selectResultCallback() {
-            @Override
-            public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
-                LogUtil.e(statePosition+"-"+confidencePosition+"-"+refusePosition);
-            }
-        });
+//        CommuDialogFragment pop = new CommuDialogFragment();
+//        pop.show(getChildFragmentManager(),"dialog");
+//        pop.addOnSelectResultCallback(new CommuDialogFragment.selectResultCallback() {
+//            @Override
+//            public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
+//                LogUtil.e(statePosition+"-"+confidencePosition+"-"+refusePosition);
+//            }
+//        });
+        Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
+        intent.putExtra(StudentDetailActivity.P_STUDENT_ID, 7);
+        startActivity(intent);
     }
 
     /*晨读二维码*/
@@ -157,6 +163,6 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     @Override
     public void onResume() {
         super.onResume();
-        LogUtil.e(System.currentTimeMillis()+"");
+        LogUtil.e(System.currentTimeMillis() + "");
     }
 }

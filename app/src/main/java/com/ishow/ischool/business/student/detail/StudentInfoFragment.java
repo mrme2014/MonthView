@@ -19,8 +19,6 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
 
     private static final String ARG_PARAM = "param";
 
-    private StudentInfo mParam1;
-
     private OnFragmentInteractionListener mListener;
     private StudentInfo mStudent;
 
@@ -56,7 +54,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getParcelable(ARG_PARAM);
+            mStudent = getArguments().getParcelable(ARG_PARAM);
         }
     }
 
@@ -67,7 +65,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
 
     @Override
     public void init() {
-
+        updateView();
     }
 
     public void onButtonPressed(Bundle data) {
@@ -94,18 +92,18 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     }
 
     public void refresh(StudentInfo student) {
-        if (student == null) {
-            return;
-        }
         this.mStudent = student;
         updateView();
     }
 
     private void updateView() {
+        if (mStudent == null) {
+            return;
+        }
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile + "");
         qqTv.setText(mStudent.qq + "");
-        birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000));
+        birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
         classTv.setText(mStudent.grade);

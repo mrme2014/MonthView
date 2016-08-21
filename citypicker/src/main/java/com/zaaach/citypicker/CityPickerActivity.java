@@ -26,9 +26,12 @@ import com.zaaach.citypicker.adapter.ResultListAdapter;
 import com.zaaach.citypicker.db.DBManager;
 import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.utils.LimitQueue;
+import com.zaaach.citypicker.utils.SearchLocalHistoryUtil;
 import com.zaaach.citypicker.utils.StringUtils;
 import com.zaaach.citypicker.view.SideLetterBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -141,10 +144,12 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
         searchBox = (EditText) findViewById(R.id.et_search);
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -181,7 +186,28 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
         clearBtn.setOnClickListener(this);
     }
 
-    private void back(String city){
+    private void cacheLocalHistory(String city) {
+        LimitQueue<String> limitQueue = new LimitQueue<String>(3);
+        List<String> cities = SearchLocalHistoryUtil.getCities(CityPickerActivity.this);   // 先取本地已缓存的数据
+        if (cities != null && cities.size() > 0) {
+            for (int i = 0; i < cities.size(); i++) {
+                if (!city.equals(cities.get(i))) {      // 如果历史记录中存在，则删除历史记录中的，重新入队
+                    limitQueue.offer(cities.get(i));
+                }
+            }
+        }
+        limitQueue.offer(city);     // 通过队列把新的数据入队
+
+        List<String> queueDatas = new ArrayList<String>();
+        for (int j = 0; j < limitQueue.getQueueSize(); j++) {
+            String queueData = limitQueue.get(j);
+            queueDatas.add(queueData);
+        }
+        SearchLocalHistoryUtil.saveCities(CityPickerActivity.this, queueDatas);
+    }
+
+    private void back(String city) {
+        cacheLocalHistory(city);
         Intent data = new Intent();
         data.putExtra(KEY_PICKED_CITY, city);
         setResult(RESULT_OK, data);

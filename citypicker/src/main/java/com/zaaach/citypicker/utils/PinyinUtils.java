@@ -22,7 +22,8 @@ public class PinyinUtils {
         } else if ("0".equals(c)){
             return "定位";
         } else if ("1".equals(c)){
-            return "热门";
+//            return "热门";
+            return "历史";
         }
         return "定位";
     }

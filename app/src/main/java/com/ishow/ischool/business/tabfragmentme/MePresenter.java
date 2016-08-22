@@ -23,8 +23,24 @@ public class MePresenter extends BasePresenter<MeModel,MePresenter.Iview>{
                });
    }
 
+    public void change(int position_id){
+        mModel.change(position_id).subscribe(new ApiObserver<JsonElement>() {
+            @Override
+            public void onSuccess(JsonElement s) {
+                mView.onChangeSucess();
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.onChageFailed(msg);
+            }
+        });
+    }
     interface Iview extends BaseView{
         void onNetSucess();
         void onNetFailed(String msg);
+
+        void onChangeSucess();
+        void onChageFailed(String msg);
     }
 }

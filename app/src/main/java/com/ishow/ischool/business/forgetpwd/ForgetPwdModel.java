@@ -13,19 +13,19 @@ import rx.schedulers.Schedulers;
  */
 public class ForgetPwdModel implements BaseModel {
     public Observable getSmsCode(String mobile){
-      return  ApiFactory.getInstance().getApi(UserApi.class).sendSms(mobile,1)
+      return  ApiFactory.getInstance().getApi(UserApi.class).sendSms(-1,mobile,1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable checkrandcode(String mobile,String randCode){
-        return   ApiFactory.getInstance().getApi(UserApi.class).checkrandcode(mobile,randCode)
+        return   ApiFactory.getInstance().getApi(UserApi.class).checkrandcode(-1,mobile,randCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable setpasswd(String mobile,String pwd){
-        return   ApiFactory.getInstance().getApi(UserApi.class).setpasswd(mobile,pwd)
+        return   ApiFactory.getInstance().getApi(UserApi.class).setpasswd(-1,mobile,pwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -91,6 +91,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
                             fmMeSwitchRole.setTipTxt(result[result.length-1]);
                             //更新本地 用户信息的 posiiotnInfo的 信息
                             UserManager.getInstance().updateCurrentPositionInfo(position);
+                            handProgressbar(true);
+                            mPresenter.change(position.id);
                         }
                     }
                 });
@@ -155,8 +157,19 @@ public class MeFragment extends BaseFragment4Crm<MePresenter,MeModel> implements
     }
 
     @Override
+    public void onChangeSucess() {
+        handProgressbar(false);
+    }
+
+    @Override
+    public void onChageFailed(String msg) {
+        handProgressbar(false);
+        showToast(msg);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        LogUtil.e(System.currentTimeMillis()+"");
+       // LogUtil.e(System.currentTimeMillis()+"");
     }
 }

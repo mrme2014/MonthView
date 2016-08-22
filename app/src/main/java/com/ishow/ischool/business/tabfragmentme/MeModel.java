@@ -13,7 +13,13 @@ import rx.schedulers.Schedulers;
  */
 public class MeModel implements BaseModel {
     public Observable logout(){
-       return ApiFactory.getInstance().getApi(UserApi.class).logout()
+       return ApiFactory.getInstance().getApi(UserApi.class).logout(-1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable change(int position_id){
+        return ApiFactory.getInstance().getApi(UserApi.class).change(-1,position_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

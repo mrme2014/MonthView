@@ -76,7 +76,7 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
         }
         handProgressbar(true);
         hideSoftPanel(submitTv);
-        ApiFactory.getInstance().getApi(UserApi.class).editpwd(userInfo.user_id,oldPwd.getText().toString(),newPwd.getText().toString())
+        ApiFactory.getInstance().getApi(UserApi.class).editpwd(-1,userInfo.user_id,oldPwd.getText().toString(),newPwd.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<JsonElement>() {

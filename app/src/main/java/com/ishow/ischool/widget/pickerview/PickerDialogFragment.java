@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by MrS on 2016/8/22.
  */
-public class PickDialogFragment extends DialogFragment implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
+public class PickerDialogFragment extends DialogFragment implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
     //  @BindView(R.id.cancel)
     TextView cancel;
     //  @BindView(R.id.title)
@@ -40,13 +41,15 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
 
     private Dialog dialog;
 
-    private static final int PICK_TYPE_DATE = 0;
+    public static final int PICK_TYPE_DATE = 0;
 
-    private static final int PICK_TYPE_OTHERS = 1;
+    public static final int PICK_TYPE_OTHERS = 1;
 
-    private static int PICK_TITLE = -1;
+    public static int PICK_TITLE = -1;
 
-    private int PICK_TYPE = PICK_TYPE_DATE;
+    public static int PICK_THEME = R.style.Comm_dialogfragment;
+
+    public static int PICK_TYPE = PICK_TYPE_DATE;
 
     private View contentView;
     private User user;
@@ -54,18 +57,23 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = new Dialog(getContext());
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            PICK_TYPE = bundle.getInt("PICK_TYPE");
+            PICK_TITLE = bundle.getInt("PICK_TITLE");
+            PICK_THEME = bundle.getInt("PICK_THEME");
+        }
+        dialog = new Dialog(getContext(), PICK_THEME);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
         return dialog;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            PICK_TYPE = bundle.getInt("PICK_TYPE");
-            PICK_TITLE = bundle.getInt("PICK_TITLE");
-        }
+        Dialog dialog = getDialog();
         if (PICK_TYPE == PICK_TYPE_DATE) {
             contentView = LayoutInflater.from(getContext()).inflate(R.layout.time_picker_linearlayout, null);
             picker = (TimePicker) contentView.findViewById(R.id.picker);
@@ -79,14 +87,17 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
         ok = (TextView) contentView.findViewById(R.id.ok);
         cancel.setOnClickListener(this);
         ok.setOnClickListener(this);
-        if (PICK_TITLE != -1) title.setText(getContext().getString(PICK_TITLE));
+        if (PICK_TITLE != -1) title.setText(getContext().getResources().getString(PICK_TITLE));
 
-        Dialog dialog = getDialog();
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(contentView);
         Window window = dialog.getWindow();
         window.setLayout(-1, -2);
         WindowManager.LayoutParams params = window.getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.BOTTOM;
         params.windowAnimations = R.style.Select_dialog_windowAnimationStyle;
         window.setAttributes(params);
 
@@ -94,8 +105,15 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
             picker.setDate(new Date().getTime());
         }
 
-        if ( linearlayout!=null) linearlayout.setwheelViewSelect(this);
-        return contentView;
+        if (linearlayout != null) {
+            linearlayout.setwheelViewSelect(this);
+        }
+
+        //if (callback!=null&&callback instanceof PickCallback||callback instanceof MultilinkPickCallback)callback.onDialogCreatCompelete();
+        if (pickcallback != null) pickcallback.onDialogCreatCompelete();
+        else if (multicallback != null) multicallback.onDialogCreatCompelete();
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -109,17 +127,18 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
                 if (callback != null) {
                     if (picker != null) {//1这个1  可以直接转换成时间戳
                         String[] pickedTimeExt = picker.getPickedTimeExt();
-                        callback.onPickCallback(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
+                        callback.onPickResult(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
                     }
                     //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
 
                     else if (linearlayout != null) {
                         String[] selectResult = linearlayout.getSelectResult();
                         //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
-                        if (selectResult != null  && user != null) {
-                            String s = selectResult[selectResult.length-1];
-                            callback.onPickCallback(getSelectPosition(s), selectResult);
-                        } else callback.onPickCallback(linearlayout.getSelectResultId(), selectResult);
+                        if (selectResult != null && user != null) {
+                            String s = selectResult[selectResult.length - 1];
+                            callback.onPickResult(getSelectPosition(s), selectResult);
+                        } else
+                            callback.onPickResult(linearlayout.getSelectResultId(), selectResult);
 
                     }
                 }
@@ -127,7 +146,7 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
         }
     }
 
-    public void renderCampusPositionselectPanel(User user) {
+    public void renderPanel(User user) {
         this.user = user;
         if (user == null)
             return;
@@ -140,7 +159,7 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
         if (campus.size() == 1) {
             ArrayList<String> positions = campus.get(0).positions;
             setDatas(0, 1, positions);
-            if (linearlayout!=null)linearlayout.setwheelViewSelect(null);
+            if (linearlayout != null) linearlayout.setwheelViewSelect(null);
         } else {
             ArrayList<String> campusList = new ArrayList<>();
             for (int i = 0; i < campus.size(); i++) {
@@ -170,8 +189,9 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
         }
         return null;
     }
+
     /**
-     * 给pop内容区添加view
+     * 给面板内容区添加view
      *
      * @param count 需要有几列wheelview  最多5个
      * @param datas
@@ -194,18 +214,45 @@ public class PickDialogFragment extends DialogFragment implements View.OnClickLi
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-        if (wheelView.getId() == 0&&user!=null)
-            refreshPositionForCampus(id);
+        //if (wheelView.getId() == 0 && user != null)
+        //    refreshPositionForCampus(id);
+        //因为multicallback  需要多级联动 在 每一列的 wheelview  选中 后 都会回调这个联动方法 到业务逻辑界面
+        if (multicallback != null) {
+            multicallback.endSelect(wheelView,id,text);
+        }
     }
 
-    private PickCallback callback;
+    private Callback callback;
 
-    public interface PickCallback<T> {
+    private PickCallback pickcallback;
+
+    private MultilinkPickCallback multicallback;
+
+    /*普通单列表 或者 年月日 这样的 设置这个监听即可*/
+    public interface Callback<T> {
+        void onPickResult(T object, String... result);
+    }
+
+    /*适用于 PickerDialogfragment new 出来之后 在填充数据 且不需要wheel之间联动的*/
+    public interface PickCallback<T> extends Callback<T> {
         /*object 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
-        void onPickCallback( T object, String... result);
+        void onDialogCreatCompelete();
+    }
+
+    /*适用于 PickerDialogfragment new 出来之后 在填充数据 需要wheel之间联动的*/
+    public interface MultilinkPickCallback<T> extends PickCallback<T> {
+        void endSelect(WheelView wheelView, int id, String text);
+    }
+
+    public void addCallback(Callback callback1) {
+        this.callback = callback1;
     }
 
     public void addPickCallback(PickCallback callback1) {
-        this.callback = callback1;
+        this.pickcallback = callback1;
+    }
+
+    public void addMultilinkPickCallback(MultilinkPickCallback callback1) {
+        this.multicallback = callback1;
     }
 }

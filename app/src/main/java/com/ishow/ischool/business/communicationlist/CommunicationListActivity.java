@@ -140,8 +140,10 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                   dialog.addOnSelectResultCallback(this);
 
               }
+
                break;
            case R.id.action_search:
+
                break;
        }
         return false;

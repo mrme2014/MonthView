@@ -1,7 +1,11 @@
 package com.ishow.ischool.business.tabfragmentme;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.view.Gravity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
@@ -17,13 +21,12 @@ import com.ishow.ischool.business.kefu.KefuActivity;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
 import com.ishow.ischool.business.personinfo.PersonInfoActivity;
-import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,7 +67,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         if (userInfo == null)
             return;
         Avatar avatar = user.avatar;
-        if (avatar != null)
+        if (avatar != null&& !TextUtils.equals(avatar.file_name,""))
+           // LogUtil.e(avatar.file_name+"Avatar");
             ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
         fmMeHeaderName.setText(userInfo.nick_name);
         fmMeHeaderJob.setText(userInfo.job);
@@ -77,21 +81,45 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
     public void on_fm_me_header_layout_click() {
-        JumpManager.jumpActivity(getContext(), PersonInfoActivity.class);
+        JumpManager.jumpActivityForResult((Activity)getContext(), PersonInfoActivity.class,100);
     }
 
-    /*角色切换*/ PickerWheelViewPop pop;
-
+    /*角色切换*/
+    //PickerWheelViewPop pop;
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
         if (user != null) {
-            if (pop == null) {
+            final PickerDialogFragment dialog = new PickerDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("PICK_TITLE",R.string.choose_birthday);
+            bundle.putInt("PICK_TYPE", com.ishow.ischool.widget.pickerview.PickerDialogFragment.PICK_TYPE_OTHERS);
+            bundle.putInt("PICK_THEME",R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME  //R.style.Comm_dialogfragment
+            dialog.setArguments(bundle);
+            dialog.show(getChildFragmentManager(),"dialog");
+            dialog.addPickCallback(new PickerDialogFragment.PickCallback<Position>() {
+                @Override
+                public void onDialogCreatCompelete() {
+                    dialog.renderPanel(user);
+                }
+
+                @Override
+                public void onPickResult(Position position, String... result) {
+                    selectPosition = position;
+                    selectResult =result;
+                    if (position != null) {
+                        handProgressbar(true);
+                        mPresenter.change(position.campus_id,position.id);
+                    }
+                }
+            });
+
+            /*if (pop == null) {
                 pop = new PickerWheelViewPop(getContext());
                 pop.initMultiSelectPanel(R.string.switch_role);
-                pop.renderCampusPositionselectPanel(user);
+                pop.renderPanel(user);
                 pop.addPickCallback(new PickerWheelViewPop.PickCallback<Position>() {
                     @Override
-                    public void onPickCallback(Position position, String... result) {
+                    public void onPickResult(Position position, String... result) {
                         selectPosition = position;
                         selectResult =result;
                         if (position != null) {
@@ -101,7 +129,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
                     }
                 });
             }
-            pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);
+            pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);*/
         }
     }
 
@@ -116,9 +144,18 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 //                LogUtil.e(statePosition+"-"+confidencePosition+"-"+refusePosition);
 //            }
 //        });
-        Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
-        intent.putExtra(StudentDetailActivity.P_STUDENT_ID, 7);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
+//        intent.putExtra(StudentDetailActivity.P_STUDENT_ID, 7);
+//        startActivity(intent);
+        PickerDialogFragment dialog = new PickerDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("PICK_TITLE",R.string.choose_birthday);
+        bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
+        bundle.putInt("PICK_THEME",R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
+        dialog.setArguments(bundle);
+        dialog.show(getChildFragmentManager(),"dialog");
+
+
     }
 
     /*晨读二维码*/
@@ -179,4 +216,13 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         showToast(msg);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null){
+            String path = data.getStringExtra("bitmap");
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            fmMeHeaderAvart.setImageBitmap(bitmap);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.communicationlist;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.ishow.ischool.business.communicationadd.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.CommuDialogFragment;
 
 import java.util.HashMap;
 
@@ -25,7 +27,7 @@ import butterknife.OnClick;
 /**
  * 沟通记录页面
  */
-public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> implements CommunicationListContract.View {
+public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> implements CommunicationListContract.View, CommuDialogFragment.selectResultCallback {
 
     @Override
     protected void setUpContentView() {
@@ -80,6 +82,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         return !isActivityFinished();
     }
 
+
+
     class CommnunicationHolder extends BaseViewHolder {
 
         @BindView(R.id.user_photo_iv)
@@ -124,5 +128,34 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
         JumpManager.jumpActivity(this, CommunicationAddActivity.class);
+    }
+
+    CommuDialogFragment dialog=null;
+    public boolean onMenuItemClick(MenuItem item) {
+       switch (item.getItemId()){
+           case R.id.action_filter:
+              if (dialog==null){
+                  dialog = new CommuDialogFragment();
+                  dialog.show(getSupportFragmentManager(),"dialog");
+                  dialog.addOnSelectResultCallback(this);
+
+              }
+               break;
+           case R.id.action_search:
+               break;
+       }
+        return false;
+    }
+
+    @Override
+    public void cancelDilaog() {
+        getSupportFragmentManager().beginTransaction().remove(dialog).commit();
+        dialog.dismiss();
+        dialog= null;
+    }
+
+    @Override
+    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
+
     }
 }

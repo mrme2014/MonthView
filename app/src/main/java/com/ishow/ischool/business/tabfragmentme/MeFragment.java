@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
-import com.commonlib.util.LogUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
@@ -47,6 +46,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public FmItemTextView fmMeNotifyMsg;
 
     private User user;
+
+    private Position selectPosition;
+    private String[] selectResult;
 
     @Override
     public int getLayoutId() {
@@ -90,12 +92,11 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
                 pop.addPickCallback(new PickerWheelViewPop.PickCallback<Position>() {
                     @Override
                     public void onPickCallback(Position position, String... result) {
-                        if (result != null) {
-                            fmMeSwitchRole.setTipTxt(result[result.length - 1]);
-                            //更新本地 用户信息的 posiiotnInfo的 信息
-                            UserManager.getInstance().updateCurrentPositionInfo(position);
+                        selectPosition = position;
+                        selectResult =result;
+                        if (position != null) {
                             handProgressbar(true);
-                            mPresenter.change(position.id);
+                            mPresenter.change(position.campus_id,position.id);
                         }
                     }
                 });
@@ -165,6 +166,11 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     @Override
     public void onChangeSucess() {
         handProgressbar(false);
+        if (selectResult != null) {
+            fmMeSwitchRole.setTipTxt(selectResult[selectResult.length - 1]);
+            //更新本地 用户信息的 posiiotnInfo的 信息
+            UserManager.getInstance().updateCurrentPositionInfo(selectPosition);
+        }
     }
 
     @Override

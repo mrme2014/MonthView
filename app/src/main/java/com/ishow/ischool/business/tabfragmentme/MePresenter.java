@@ -23,8 +23,8 @@ public class MePresenter extends BasePresenter<MeModel,MePresenter.Iview>{
                });
    }
 
-    public void change(int position_id){
-        mModel.change(position_id).subscribe(new ApiObserver<JsonElement>() {
+    public void change(int campuse_id,int position_id){
+        mModel.change(campuse_id,position_id).subscribe(new ApiObserver<JsonElement>() {
             @Override
             public void onSuccess(JsonElement s) {
                 mView.onChangeSucess();

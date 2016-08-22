@@ -34,6 +34,7 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
     private ArrayList<User> originalDatas = new ArrayList<>();
     private SearchView mSearchView;
     private boolean isFirst = true;
+    private String mSearchKey;
 
     @Override
     protected void setUpContentView() {
@@ -57,7 +58,8 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
                     loadFailed();
                 } else {
                     mCurrentPage = 1;
-                    mPresenter.getReferrers(newText, mCurrentPage++);
+                    mSearchKey = newText;
+                    mPresenter.getReferrers(mSearchKey, mCurrentPage++);
                 }
                 return true;
             }
@@ -66,6 +68,7 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
             @Override
             public boolean onClose() {
                 mDataList.clear();
+                mSearchKey = "";
                 loadSuccess(originalDatas);
                 return false;
             }
@@ -81,7 +84,11 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getReferrers(null, mCurrentPage++);
+        if (mSearchKey.equals("")) {
+            mPresenter.getReferrers(null, mCurrentPage++);
+        } else {
+            mPresenter.getReferrers(mSearchKey, mCurrentPage++);
+        }
     }
 
     @Override

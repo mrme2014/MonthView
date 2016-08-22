@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.zaaach.citypicker.R;
+import com.zaaach.citypicker.utils.SearchLocalHistoryUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,15 +24,20 @@ public class HotCityGridAdapter extends BaseAdapter {
     public HotCityGridAdapter(Context context) {
         this.mContext = context;
         mCities = new ArrayList<>();
-        mCities.add("北京");
-        mCities.add("上海");
-        mCities.add("广州");
-        mCities.add("深圳");
-        mCities.add("杭州");
-        mCities.add("南京");
-        mCities.add("天津");
-        mCities.add("武汉");
-        mCities.add("重庆");
+        List<String> cities = SearchLocalHistoryUtil.getCities(mContext);
+        if (cities != null && cities.size() > 0) {
+            mCities.addAll(cities);
+        }
+        Collections.reverse(mCities);
+//        mCities.add("北京");
+//        mCities.add("上海");
+//        mCities.add("广州");
+//        mCities.add("深圳");
+//        mCities.add("杭州");
+//        mCities.add("南京");
+//        mCities.add("天津");
+//        mCities.add("武汉");
+//        mCities.add("重庆");
     }
 
     @Override

@@ -3,9 +3,13 @@ package com.ishow.ischool.business.student.detail;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.commonlib.util.DateUtil;
+import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.student.StudentStatistics;
+import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+
+import butterknife.BindView;
 
 /**
  * Created by abel on 16/8/18.
@@ -15,15 +19,31 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
 
     private static final String ARG_PARAM = "param";
 
-    private StudentStatistics mParam1;
-
     private OnFragmentInteractionListener mListener;
+    private StudentInfo mStudent;
+
+    @BindView(R.id.student_english_name)
+    LabelTextView englishNameTv;
+    @BindView(R.id.student_phone)
+    LabelTextView phoneTv;
+    @BindView(R.id.student_qq)
+    LabelTextView qqTv;
+    @BindView(R.id.student_birthday)
+    LabelTextView birthdayTv;
+    @BindView(R.id.student_school)
+    LabelTextView schoolTv;
+    @BindView(R.id.student_specialty)
+    LabelTextView specialtyTv;
+    @BindView(R.id.student_class)
+    LabelTextView classTv;
+    @BindView(R.id.student_idcard)
+    LabelTextView idcardTv;
 
     public StudentInfoFragment() {
     }
 
-    public static CommunicationListFragment newInstance(StudentStatistics student) {
-        CommunicationListFragment fragment = new CommunicationListFragment();
+    public static StudentInfoFragment newInstance(StudentInfo student) {
+        StudentInfoFragment fragment = new StudentInfoFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAM, student);
         fragment.setArguments(args);
@@ -34,7 +54,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getParcelable(ARG_PARAM);
+            mStudent = getArguments().getParcelable(ARG_PARAM);
         }
     }
 
@@ -45,7 +65,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
 
     @Override
     public void init() {
-
+        updateView();
     }
 
     public void onButtonPressed(Bundle data) {
@@ -69,6 +89,25 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void refresh(StudentInfo student) {
+        this.mStudent = student;
+        updateView();
+    }
+
+    private void updateView() {
+        if (mStudent == null) {
+            return;
+        }
+        englishNameTv.setText(mStudent.english_name);
+        phoneTv.setText(mStudent.mobile + "");
+        qqTv.setText(mStudent.qq + "");
+        birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
+        schoolTv.setText(mStudent.college_name);
+        specialtyTv.setText(mStudent.major);
+        classTv.setText(mStudent.grade);
+        idcardTv.setText(mStudent.idcard);
     }
 
 

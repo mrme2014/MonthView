@@ -85,4 +85,10 @@ public interface MarketApi {
     Observable<ApiResult<ArrayList<Campus>>> getCampus(
             @Query("resources_id") int resources_id,
             @Query("campus_id") int campus_id);
+
+
+    @GET("/market/student/get")
+    Observable<ApiResult<StudentInfo>> getStudent(@QueryMap HashMap<String, String> params);
+
+
 }

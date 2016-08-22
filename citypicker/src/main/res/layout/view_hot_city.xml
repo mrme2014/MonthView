@@ -7,9 +7,13 @@
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
+    <!--<TextView-->
+        <!--style="@style/LetterIndexTextViewStyle"-->
+        <!--android:text="@string/hot_city"/>-->
+
     <TextView
         style="@style/LetterIndexTextViewStyle"
-        android:text="@string/hot_city"/>
+        android:text="历史记录"/>
 
     <com.zaaach.citypicker.view.WrapHeightGridView
         android:id="@+id/gridview_hot_city"

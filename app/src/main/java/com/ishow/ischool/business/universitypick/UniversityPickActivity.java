@@ -40,6 +40,8 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
     private AMapLocationClient mLocationClient;
     private ArrayList<UniversityInfo> originalDatas = new ArrayList<>();
     private SearchView mSearchView;
+    private String mSearchKey;
+    private boolean isSearchFlag = false;       // 搜索模式
 
     @Override
     protected void setUpContentView() {
@@ -61,8 +63,8 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         if (TextUtils.isEmpty(LocManager.getInstance().getCurCityName())) {
             startLocation();
         }
-        final MenuItem item = mToolbar.getMenu().findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -72,10 +74,12 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
             @Override
             public boolean onQueryTextChange(String newText) {
                 LogUtil.d("SearchView newText = " + newText);
-                if (TextUtils.isEmpty(newText)) {
+                mSearchKey = newText;
+                isSearchFlag = true;
+                if (TextUtils.isEmpty(mSearchKey)) {
                     loadFailed();
                 } else {
-                    mPresenter.searchUniversity(newText);
+                    recycler.setRefreshing();
                 }
                 return true;
             }
@@ -83,11 +87,14 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                mSearchKey = "";
+                isSearchFlag = false;
                 mDataList.clear();
                 loadSuccess(originalDatas);
                 return false;
             }
         });
+
     }
 
     @Override
@@ -165,7 +172,11 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
             mCurrentPage = 1;
         }
 
-        mPresenter.getListUniversity(curCity);
+        if (isSearchFlag) {
+            mPresenter.searchUniversity(mSearchKey);
+        } else {
+            mPresenter.getListUniversity(curCity);
+        }
     }
 
     @Override

@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -358,7 +359,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         public void onItemClick(View view, int position) {
             StudentStatistics data = mDataList.get(position);
             Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
-            intent.putExtra(StudentDetailActivity.P_STUDENT, data);
+            intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
             JumpManager.jumpActivity(StatisticsListActivity.this, intent);
         }
     }

@@ -12,6 +12,7 @@
         <item name="android:background">?attr/colorPrimary</item>
         <!-- Toolbar popup menu样式 -->
         <item name="android:theme">@style/PopWindowStyle</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
 

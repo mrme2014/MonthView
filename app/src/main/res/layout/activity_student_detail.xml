@@ -10,6 +10,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@mipmap/bg_student"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -17,46 +18,48 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@color/color_header"
+            app:contentScrim="@color/comm_blue"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <ImageView
-                android:id="@+id/blur_bg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
+            <!--<ImageView-->
+            <!--android:id="@+id/blur_bg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scaleType="fitXY" />-->
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/trans_bg_22" />
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/trans_bg_22" />-->
 
             <!-- 老师信息组 -->
             <RelativeLayout
                 android:id="@+id/user_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
 
                 <LinearLayout
                     android:id="@+id/avatar_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="46dp"
                     android:orientation="vertical">
 
-                    <com.ishow.ischool.widget.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/avatar_iv"
+                    <TextView
+                        android:id="@+id/student_avatar_iv"
                         android:layout_width="78dp"
-                        android:layout_height="78dp" />
+                        android:layout_height="78dp"
+                        android:background="@drawable/shape_student_photo_bg"
+                        android:gravity="center" />
 
                     <TextView
-                        android:id="@+id/user_name"
+                        android:id="@+id/student_user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_horizontal|bottom"
-                        android:text="王晓晓" />
+                        android:gravity="center_horizontal|bottom" />
 
                 </LinearLayout>
 
@@ -65,99 +68,80 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/avatar_layout"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_apply_state"
                         android:layout_width="0dp"
                         android:layout_height="55dp"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:paddingTop="5dp"
-                        android:text="已报名"
-                        app:label_padding="5dp"
+                        android:paddingTop="8dp"
+                        app:label_padding="10dp"
                         app:label_text_bottom="@string/apply_status"
-                        app:label_text_color="@color/txt_9" />
+                        app:label_text_color="@color/trans_txt_55" />
 
                     <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_class_hour"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:paddingTop="5dp"
-                        android:text="已报名"
-                        app:label_padding="5dp"
-                        app:label_text_bottom="@string/apply_status"
-                        app:label_text_color="@color/txt_9" />
+                        android:paddingTop="8dp"
+                        app:label_padding="10dp"
+                        app:label_text_bottom="@string/apply_class_hour"
+                        app:label_text_color="@color/trans_txt_55" />
 
                     <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_tuition"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:paddingTop="5dp"
-                        android:text="已报名"
-                        app:label_padding="5dp"
-                        app:label_text_bottom="@string/apply_status"
-                        app:label_text_color="@color/txt_9" />
+                        android:paddingTop="8dp"
+                        app:label_padding="10dp"
+                        app:label_text_bottom="@string/apply_tuition"
+                        app:label_text_color="@color/trans_txt_55" />
                 </LinearLayout>
 
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:orientation="horizontal"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin">
 
-                <!-- title bar -->
-                <RelativeLayout
-                    android:id="@+id/titlebar"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/app_header_height"
-                    android:minHeight="@dimen/app_header_height">
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/app_header_height"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/titlebar_back"
-                        android:layout_width="@dimen/app_header_height"
-                        android:layout_height="@dimen/app_header_height"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/nav_back_pressed" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/titlebar_title"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:layout_weight="1"
+                        android:alpha="0"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxWidth="150dp"
+                        android:singleLine="true"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
-                        <TextView
-                            android:id="@+id/titlebar_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxWidth="150dp"
-                            android:singleLine="true"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
+                    <TextView
+                        android:layout_width="75dp"
+                        android:layout_height="48dp" />
 
-                        <TextView
-                            android:id="@+id/titlebar_subtitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxLength="20"
-                            android:singleLine="true"
-                            android:textColor="@color/white"
-                            android:textSize="12sp" />
-                    </LinearLayout>
+                </LinearLayout>
 
-                </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
 

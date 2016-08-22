@@ -9,7 +9,8 @@
         android:id="@+id/select_dialog_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.7"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
        >
     </ListView>
 
@@ -20,7 +21,6 @@
         android:background="@drawable/bg_round_corner"
         android:layout_marginTop="10dp"
         android:text="取消"
-        android:alpha="0.7"
         android:textColor="@color/txt_blue"
         />
 </LinearLayout>

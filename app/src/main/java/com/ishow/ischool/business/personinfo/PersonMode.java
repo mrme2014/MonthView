@@ -13,12 +13,12 @@ import rx.schedulers.Schedulers;
  */
 public class PersonMode implements BaseModel {
     public Observable getQiNiuToken(){
-       return ApiFactory.getInstance().getApi(UserApi.class).get_qiniui_token(1).subscribeOn(Schedulers.io())
+       return ApiFactory.getInstance().getApi(UserApi.class).get_qiniui_token(-1,1).subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable submitInfo(int userId,String qq,int birthday){
-        return ApiFactory.getInstance().getApi(UserApi.class).edit(45,userId,birthday,qq).subscribeOn(Schedulers.io())
+    public Observable submitInfo(int userId,String QQ,int birthday){
+        return ApiFactory.getInstance().getApi(UserApi.class).edit(-1,userId,birthday,QQ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
  */
 public class LoginModel implements LoginContract.Model {
     public Observable<ApiResult<User>> login(String name, String pass,String fields) {
-        return ApiFactory.getInstance().getApi(UserApi.class).login(name, pass, fields)
+        return ApiFactory.getInstance().getApi(UserApi.class).login(-1,name, pass, fields)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

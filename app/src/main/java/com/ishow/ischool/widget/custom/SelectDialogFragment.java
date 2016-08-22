@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -76,18 +78,28 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         listView.setAdapter(adapter);
 
         dialog.setContentView(contentView);
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams params1 = window.getAttributes();
-        params1.gravity = Gravity.BOTTOM;
-        params1.y = UIUtil.dip2px(getContext(), 10);
-        window.setAttributes(params1);
 
         cancel.setTextColor(getResources().getColor(buttonColor));
         listView.setOnItemClickListener(this);
         cancel.setOnClickListener(this);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
+
         return dialog;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams params1 = window.getAttributes();
+        window.setLayout(UIUtil.getScreenWidthPixels(getContext())-UIUtil.dip2px(getContext(),20),-2);
+        params1.gravity = Gravity.BOTTOM;
+        params1.y = UIUtil.dip2px(getContext(), 10);
+        window.setAttributes(params1);
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

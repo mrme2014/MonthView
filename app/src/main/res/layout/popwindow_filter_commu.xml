@@ -4,10 +4,14 @@
     android:id="@+id/root"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingTop="?attr/actionBarSize"
     android:layout_height="match_parent"
     >
 
+    <TextView
+        android:id="@+id/commun_block_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"/>
     <com.commonlib.widget.LabelTextView
         android:id="@+id/commun_state"
         style="@style/communication_textview"
@@ -106,6 +110,7 @@
             android:textColor="@color/white"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/commun_block_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.commonlib.widget.LabelTextView;
@@ -41,6 +43,18 @@ public class CommuDialogFragment extends DialogFragment {
     LabelTextView communConfidence;
     @BindView(R.id.commun_order)
     LabelTextView communOrder;
+    @BindView(R.id.commun_block_top)
+    TextView communBlockTop;
+    @BindView(R.id.commun_date_label)
+    TextView communDateLabel;
+    @BindView(R.id.commu_reset)
+    TextView commuReset;
+    @BindView(R.id.commu_ok)
+    TextView commuOk;
+    @BindView(R.id.commun_block_bottom)
+    TextView communBlockBottom;
+    @BindView(R.id.root)
+    LinearLayout root;
 
     private int statePosition;
     private int startUnix;
@@ -50,30 +64,30 @@ public class CommuDialogFragment extends DialogFragment {
     private int orderPosition;
 
     private Dialog dialog;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = new Dialog(getContext(),R.style.Comm_dialogfragment_windowAnimationStyle);
+        dialog = new Dialog(getContext(), R.style.Comm_dialogfragment_windowAnimationStyle);
         Window win = dialog.getWindow();
         // 一定要设置Background，如果不设置，window属性设置无效
-        win.setBackgroundDrawable( new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        win.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         WindowManager.LayoutParams params = win.getAttributes();
         params.gravity = Gravity.TOP;
         // 使用ViewGroup.LayoutParams，以便Dialog 宽度充满整个屏幕
-        params.width =  ViewGroup.LayoutParams.MATCH_PARENT;
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         win.setAttributes(params);
 
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.popwindow_filter_commu, null);
-       /* View viewById = contentView.findViewById(R.id.root);
-        viewById.setPadding(0, UIUtil.getToolbarSize(getContext()),0,0);*/
-        ButterKnife.bind(this,contentView);
+        //  View viewById = contentView.findViewById(R.id.root);
+        // viewById.setTop(UIUtil.getToolbarSize(getContext()));
+        ButterKnife.bind(this, contentView);
 
         dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(contentView);
-
         return dialog;
     }
 
@@ -82,20 +96,19 @@ public class CommuDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Dialog dialog = getDialog();
         Window window = dialog.getWindow();
-        window.setLayout(-1,-1);
-
+        window.setLayout(-1, -1);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @OnClick({R.id.commun_state, R.id.commun_date_start, R.id.commun_date_end, R.id.commun_refuse, R.id.commun_confidence, R.id.commun_order,R.id.commu_reset,  R.id.commu_ok})
+    @OnClick({R.id.commun_block_top, R.id.commun_block_bottom,R.id.commun_state, R.id.commun_date_start, R.id.commun_date_end, R.id.commun_refuse, R.id.commun_confidence, R.id.commun_order, R.id.commu_reset, R.id.commu_ok})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.commun_state:
                 showPickPop(R.string.comm_dialog_stu_state_title, 3, 1, AppUtil.getStateList(), new PickerWheelViewPop.PickCallback<int[]>() {
                     @Override
                     public void onPickCallback(int[] position, String... result) {
-                        if (result!=null)communState.setText(result[0]);
-                        if (position!=null)statePosition = position[0]+1;
+                        if (result != null) communState.setText(result[0]);
+                        if (position != null) statePosition = position[0] + 1;
                     }
                 });
                 break;
@@ -106,42 +119,49 @@ public class CommuDialogFragment extends DialogFragment {
                 showTimePickPop(false);
                 break;
             case R.id.commun_refuse:
-               showPickPop(R.string.commun_refuse, 4, 1, AppUtil.getRefuseList(), new PickerWheelViewPop.PickCallback<int[]>() {
-                   @Override
-                   public void onPickCallback(int[] position, String... result) {
-                       if (position!=null) refusePosition = position[0]+1;
-                       if (result!=null)communRefuse.setText(result[0]);
-                   }
-               });
+                showPickPop(R.string.commun_refuse, 4, 1, AppUtil.getRefuseList(), new PickerWheelViewPop.PickCallback<int[]>() {
+                    @Override
+                    public void onPickCallback(int[] position, String... result) {
+                        if (position != null) refusePosition = position[0] + 1;
+                        if (result != null) communRefuse.setText(result[0]);
+                    }
+                });
                 break;
             case R.id.commun_confidence:
-              showPickPop(R.string.commun_confidence, 1, 1, AppUtil.getBeliefList(), new PickerWheelViewPop.PickCallback<int[]>() {
-                  @Override
-                  public void onPickCallback(int[] position, String... result) {
-                      if (position!=null)  confidencePosition = position[0]+1;
-                      if (result!=null) communConfidence.setText(result[0]);
-                  }
-              });
+                showPickPop(R.string.commun_confidence, 1, 1, AppUtil.getBeliefList(), new PickerWheelViewPop.PickCallback<int[]>() {
+                    @Override
+                    public void onPickCallback(int[] position, String... result) {
+                        if (position != null) confidencePosition = position[0] + 1;
+                        if (result != null) communConfidence.setText(result[0]);
+                    }
+                });
                 break;
             case R.id.commun_order:
-                Toast.makeText(getContext(),"commun_order",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "commun_order", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.commu_reset:
                 resetSlectResult();
                 break;
             case R.id.commu_ok:
                 this.dismiss();
+                if (callback != null)
+                    callback.onResult(statePosition, confidencePosition, refusePosition, orderPosition, startUnix, endUnix);
+                break;
+
+            case R.id.commun_block_top:
+            case R.id.commun_block_bottom:
+                this.dismiss();
                 if (callback!=null)
-                    callback.onResult(statePosition,confidencePosition,refusePosition,orderPosition,startUnix,endUnix);
+                    callback.cancelDilaog();
                 break;
         }
     }
 
-    private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas,PickerWheelViewPop.PickCallback callback) {
+    private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerWheelViewPop.PickCallback callback) {
         PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
         pop.initMultiSelectPanel(titleResId);
-        pop.setDatas(defalut,colum, datas);
-        pop.showAtLocation(communOrder,Gravity.BOTTOM,0,0);
+        pop.setDatas(defalut, colum, datas);
+        pop.showAtLocation(communOrder, Gravity.BOTTOM, 0, 0);
         pop.addPickCallback(callback);
     }
 
@@ -152,11 +172,11 @@ public class CommuDialogFragment extends DialogFragment {
         communConfidence.setText("");
         communRefuse.setText("");
         communOrder.setText("");
-        startUnix=0;
-        endUnix=0;
-        statePosition=0;
-        confidencePosition=0;
-        refusePosition=0;
+        startUnix = 0;
+        endUnix = 0;
+        statePosition = 0;
+        confidencePosition = 0;
+        refusePosition = 0;
         orderPosition = 0;
     }
 
@@ -166,24 +186,28 @@ public class CommuDialogFragment extends DialogFragment {
         pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
             @Override
             public void onPickCallback(Integer unix, String... result) {
-                if (start){
+                if (start) {
                     startUnix = unix;
-                    if (result!=null)communDateStart.setText(result[0]);
-                }else{
+                    if (result != null) communDateStart.setText(result[0]);
+                } else {
                     endUnix = unix;
-                    if (result!=null)communDateEnd.setText(result[0]);
+                    if (result != null) communDateEnd.setText(result[0]);
                 }
             }
         });
-        pop.showAtLocation(communOrder,Gravity.BOTTOM,0,0);
+        pop.showAtLocation(communOrder, Gravity.BOTTOM, 0, 0);
     }
 
     private selectResultCallback callback;
+
+
     public interface selectResultCallback {
-        void onResult(int statePosition,int confidencePosition,int refusePosition,int orderPosition,int startUnix,int endUnix);
+        void cancelDilaog();
+        void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix);
     }
-    public void addOnSelectResultCallback(selectResultCallback callback1){
-        this.callback =callback1;
+
+    public void addOnSelectResultCallback(selectResultCallback callback1) {
+        this.callback = callback1;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.ishow.ischool.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 
 import com.commonlib.util.LogUtil;
@@ -74,4 +75,11 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
         ft.commitAllowingStateLoss();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (meFragment!=null)
+            meFragment.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }

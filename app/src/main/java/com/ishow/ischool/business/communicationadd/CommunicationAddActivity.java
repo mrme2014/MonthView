@@ -25,6 +25,7 @@ import butterknife.OnClick;
 public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddPresenter, CommunicationAddModel> implements CommunicationAddContract.View {
 
     private static final int REQUEST_PICK_STUDENT = 100;
+    public static final String P_STUDENT = "student";
 
     @BindView(R.id.commun_student_name)
     LabelTextView studentNameTv;
@@ -52,8 +53,15 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
 
     private StudentInfo studentInfo;
-    private CommunicationForm form;
+    private CommunicationForm form = new CommunicationForm();
+    ;
     private boolean isSubmitting;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        studentInfo = getIntent().getParcelableExtra(P_STUDENT);
+    }
 
     @Override
     protected void setUpContentView() {
@@ -62,22 +70,25 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpView() {
-
+        updateStudentView();
     }
 
     @Override
     protected void setUpData() {
-        form = new CommunicationForm();
+        form.resources_id = 62;
     }
 
     @Override
     public void onAddSuccess() {
         isSubmitting = false;
+        showToast(R.string.add_success);
+        finish();
     }
 
     @Override
-    public void onAddFailed() {
+    public void onAddFailed(String msg) {
         isSubmitting = false;
+        showToast(msg);
     }
 
     @Override
@@ -104,7 +115,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
         //----
         form.type = 1;
-        form.campus_id = 1;
+        form.campus_id = mUser.positionInfo.campusId;
         //----
 
         boolean check = true;
@@ -245,6 +256,13 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         studentNameTv.setText(studentInfo.name);
     }
 
+    private void updateStudentView() {
+        if (studentInfo != null) {
+            form.student_id = studentInfo.student_id;
+            updateStudentNameView();
+        }
+    }
+
     public static class CommunicationForm {
         int student_id;//	Int	1			学生ID	0
         int status;//	Int	1			学生状态： array( 1 => '晨读', 2 => '公开课', 3 => '报名中', 4 => '升学（中）', 5 => '升学（高）', 6 => '升学（影）', 7 => '其它' )	0
@@ -257,5 +275,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         long communication_date;//	Int	1			沟通日期	0
         long callback_date;//	Int	0			回访时间	0
         int campus_id;//	Int	1			校区ID	0
+        int resources_id;
+
     }
 }

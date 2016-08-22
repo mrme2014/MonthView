@@ -1,6 +1,6 @@
 package com.ishow.ischool.business.student.pick;
 
-import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import java.util.HashMap;
 public class PickStudentPresenter extends PickStudentContract.Presenter {
     @Override
     public void getStudentStatisticsList(int campusId, HashMap<String, String> params, int page) {
-        mModel.getStudentStatisticsList(campusId, params, page).subscribe(new ApiObserver<StudentStatisticsList>() {
+        mModel.getStudentStatisticsList(campusId, params, page).subscribe(new ApiObserver<StudentList>() {
             @Override
-            public void onSuccess(StudentStatisticsList studentStatisticsList) {
+            public void onSuccess(StudentList studentStatisticsList) {
                 mView.getListSuccess(studentStatisticsList);
             }
 

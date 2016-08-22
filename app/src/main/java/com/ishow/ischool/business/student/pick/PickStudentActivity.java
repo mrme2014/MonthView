@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.student.StudentStatistics;
-import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.student.Student;
+import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
 
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
-public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresenter, PickStudentModel, StudentStatistics> implements PickStudentContract.View {
+public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresenter, PickStudentModel, Student> implements PickStudentContract.View {
 
     public static final String STUDENT_ID = "sid";
     public static final String STUDENT_NAME = "sname";
@@ -41,12 +41,12 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
 
     @Override
     public void onRefresh(int action) {
-        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, String> params = AppUtil.getParamsHashMap(1);
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-//        params.put("campus_id", "1");
-        mPresenter.getStudentStatisticsList(1, params, mCurrentPage++);
+        params.put("source", "-1");
+        mPresenter.getStudentStatisticsList(mUser.positionInfo.campusId, params, mCurrentPage++);
     }
 
     @OnTextChanged(R.id.pick_search_text_et)
@@ -54,13 +54,14 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         HashMap<String, String> params = new HashMap<>();
         mCurrentPage = 1;
         params.put("page", mCurrentPage + "");
+        params.put("campus_id", mUser.positionInfo.campusId + "");
         params.put("mobile_or_name", mSearchEt.getText().toString());
-        mPresenter.getStudentStatisticsList(1, params, mCurrentPage++);
+        mPresenter.getStudentStatisticsList(mUser.positionInfo.campusId, params, mCurrentPage++);
     }
 
 
     @Override
-    public void getListSuccess(StudentStatisticsList studentStatisticsList) {
+    public void getListSuccess(StudentList studentStatisticsList) {
         loadSuccess(studentStatisticsList.lists);
     }
 
@@ -79,12 +80,12 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
 
         public PickStudentHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this,itemView);
         }
 
         @Override
         public void onBindViewHolder(int position) {
-            StudentStatistics ss = mDataList.get(position);
+            Student ss = mDataList.get(position);
             photoIv.setText(AppUtil.getLast2Text(ss.studentInfo.name));
             usernameTv.setText(ss.studentInfo.name);
         }
@@ -92,7 +93,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         @Override
         public void onItemClick(View view, int position) {
             Intent intent = new Intent();
-            StudentStatistics student = mDataList.get(position);
+            Student student = mDataList.get(position);
             intent.putExtra(STUDENT, student.studentInfo);
             setResult(RESULT_OK, intent);
             finish();

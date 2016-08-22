@@ -23,7 +23,7 @@ public interface UserApi {
     //修改密码(system.user.editpwd) 接口
     @FormUrlEncoded
     @POST("/system/user/editpwd")
-    Observable<ApiResult<JsonElement>> editpwd( @Field("user_id") int user_id, @Field("oldpasswd") String oldpasswd, @Field("newpasswd") String newpasswd);
+    Observable<ApiResult<JsonElement>> editpwd(@Field("user_id") int user_id, @Field("oldpasswd") String oldpasswd, @Field("newpasswd") String newpasswd);
 
     //找回密码(system.user.forgetpwd) 接口
     @FormUrlEncoded
@@ -32,12 +32,12 @@ public interface UserApi {
 
     //退出登录(system.user.logout) 接口
     @POST("/system/user/logout")
-    Observable<ApiResult<JsonElement>> logout();
+    Observable<ApiResult<JsonElement>> logout(@Field("resources_id") int resources_id);
 
     //修改信息(system.user.edit) 接口
     @FormUrlEncoded
     @POST("/system/user/edit")
-    Observable<ApiResult> edit(@Field("resources_id")int resources_id,@Field("user_id") int user_id,  @Field("birthday") int birthday, @Field("qq") String qq);
+    Observable<ApiResult> edit(@Field("resources_id") int resources_id, @Field("user_id") int user_id, @Field("birthday") int birthday, @Field("qq") String qq);
 
 
     //切换角色(system.user.change) 接口
@@ -53,16 +53,16 @@ public interface UserApi {
     //APP找回密码第一步(system.user.checkrandcode) 接口
     @FormUrlEncoded
     @POST("/system/user/checkrandcode")
-    Observable<ApiResult<JsonElement>> checkrandcode(@Field("mobile")String mobile,@Field("randcode")String randcode);
+    Observable<ApiResult<JsonElement>> checkrandcode(@Field("mobile") String mobile, @Field("randcode") String randcode);
 
     //APP找回密码第二步，设置密码(system.user.setpasswd) 接口
     @FormUrlEncoded
     @POST("/system/user/setpasswd")
-    Observable<ApiResult<JsonElement>> setpasswd(@Field("mobile")String mobile,@Field("passwd")String passwd);
+    Observable<ApiResult<JsonElement>> setpasswd(@Field("mobile") String mobile, @Field("passwd") String passwd);
 
     @FormUrlEncoded
     @POST("/system/sms/send")
-    Observable<ApiResult<JsonElement>> sendSms(@Field("mobile") String mobile,@Field("type") int type);
+    Observable<ApiResult<JsonElement>> sendSms(@Field("mobile") String mobile, @Field("type") int type);
 
     @GET("/system/user/lists")
     Observable<ApiResult<UserListResult>> listUsers(

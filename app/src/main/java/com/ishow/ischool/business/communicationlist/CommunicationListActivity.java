@@ -46,21 +46,21 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     @Override
     public void onRefresh(int action) {
+        HashMap<String, String> map = AppUtil.getParamsHashMap(12);
+
         switch (action) {
-            case PullRecycler.ACTION_PULL_TO_REFRESH: {
+            case PullRecycler.ACTION_PULL_TO_REFRESH:
                 mCurrentPage = 1;
-                HashMap<String, String> map = new HashMap<>();
                 map.put("page", mCurrentPage + "");
                 mPresenter.listCommunication(map);
-            }
-            break;
-            case PullRecycler.ACTION_LOAD_MORE_LOADING: {
+
+                break;
+            case PullRecycler.ACTION_LOAD_MORE_LOADING:
                 mCurrentPage++;
-                HashMap<String, String> map = new HashMap<>();
                 map.put("page", mCurrentPage + "");
                 mPresenter.listCommunication(map);
-            }
-            break;
+
+                break;
         }
     }
 

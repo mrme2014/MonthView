@@ -17,7 +17,7 @@ public interface CommunicationAddContract {
     interface View extends BaseView {
         void onAddSuccess();
 
-        void onAddFailed();
+        void onAddFailed(String msg);
 
     }
 

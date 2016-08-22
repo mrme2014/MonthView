@@ -5,6 +5,6 @@ import java.util.ArrayList;
 /**
  * Created by wqf on 16/8/15.
  */
-public class StudentStatisticsList {
-    public ArrayList<StudentStatistics> lists;
+public class StudentList {
+    public ArrayList<Student> lists;
 }

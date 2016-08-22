@@ -20,8 +20,8 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.student.StudentStatistics;
-import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.student.Student;
+import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.User;
@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,7 +47,7 @@ import butterknife.OnClick;
 /**
  * Created by wqf on 16/8/14.
  */
-public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListPresenter, StatisticsListModel, StudentStatistics> implements StatisticsListContract.View,
+public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListPresenter, StatisticsListModel, Student> implements StatisticsListContract.View,
         InputLinearLayout.EidttextClick, View.OnTouchListener {
 
     @BindView(R.id.fab)
@@ -106,6 +105,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             mFilterCampusId = mUser.userInfo.campus_id;
         }
         params = new HashMap<>();
+        params.put("source", "-1");
         campusIL.setOnEidttextClick(this);
         payStateIL.setOnEidttextClick(this);
         universityIL.setOnEidttextClick(this);
@@ -317,7 +317,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
         @Override
         public void onBindViewHolder(int position) {
-            StudentStatistics data = mDataList.get(position);
+            Student data = mDataList.get(position);
             final String nameStr = data.studentInfo.name;
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
@@ -357,7 +357,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
         @Override
         public void onItemClick(View view, int position) {
-            StudentStatistics data = mDataList.get(position);
+            Student data = mDataList.get(position);
             Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
             JumpManager.jumpActivity(StatisticsListActivity.this, intent);
@@ -409,7 +409,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     @Override
-    public void getListSuccess(StudentStatisticsList studentStatisticsList) {
+    public void getListSuccess(StudentList studentStatisticsList) {
         loadSuccess(studentStatisticsList.lists);
     }
 

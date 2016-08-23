@@ -143,16 +143,16 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                             public void onOtherButtonClick(ActionSheet actionSheet, int i) {
                                 switch (i) {
                                     case 0:
-                                        fromIL.setContent("晨读");
-                                        source_id = MarketApi.TYPESOURCE1;
+                                        fromIL.setContent("校聊");
+                                        source_id = MarketApi.TYPESOURCE3;
                                         if (referrerIL.getVisibility() != View.GONE) {
                                             referrerIL.setVisibility(View.GONE);
 //                                            referrerIL.setContent("");
                                         }
                                         break;
                                     case 1:
-                                        fromIL.setContent("校聊");
-                                        source_id = MarketApi.TYPESOURCE3;
+                                        fromIL.setContent("晨读");
+                                        source_id = MarketApi.TYPESOURCE1;
                                         if (referrerIL.getVisibility() != View.GONE) {
                                             referrerIL.setVisibility(View.GONE);
 //                                            referrerIL.setContent("");

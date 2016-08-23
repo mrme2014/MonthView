@@ -118,7 +118,7 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
 
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(com.commonlib.R.drawable.ic_return);
+        toolbar.setNavigationIcon(R.mipmap.ic_return);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

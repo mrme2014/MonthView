@@ -4,6 +4,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/split_line_color" />
+        android:background="@color/comm_line" />
 
 </merge>

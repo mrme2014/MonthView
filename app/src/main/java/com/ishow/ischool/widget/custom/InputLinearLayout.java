@@ -29,6 +29,7 @@ public class InputLinearLayout extends LinearLayout {
     private boolean isFocusable;
     private TextView label;
     private EditText input;
+    private int lines;
     private ImageView next;
     private View line;
     private boolean drawLine;
@@ -65,6 +66,7 @@ public class InputLinearLayout extends LinearLayout {
         hasNext = t.getBoolean(R.styleable.InputLayout_next, false);
         drawLine = t.getBoolean(R.styleable.InputLayout_bottom_line, true);
         isFocusable = t.getBoolean(R.styleable.InputLayout_focusable, true);
+        lines = t.getInteger(R.styleable.InputLayout_text_line, 1);
         t.recycle();
         View view = LayoutInflater.from(context).inflate(R.layout.view_inputlayout, null);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -82,6 +84,10 @@ public class InputLinearLayout extends LinearLayout {
         }
         if (!isFocusable) {
             input.setEnabled(false);
+        }
+        if (lines > 1) {
+            input.setSingleLine(false);
+            input.setLines(lines);
         }
         label.setText(labeltext);
         input.setHint(hinttext);

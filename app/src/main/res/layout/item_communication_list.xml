@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@id/communication_content"
-        android:background="@color/split_line_color" />
+        android:background="@color/comm_line" />
 
     <LinearLayout
         android:id="@+id/state_group"
@@ -86,7 +86,7 @@
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="@color/split_line_color" />
+            android:background="@color/comm_line" />
 
         <com.commonlib.widget.LabelTextView
             android:id="@+id/user_oppose_point"
@@ -105,7 +105,7 @@
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="@color/split_line_color" />
+            android:background="@color/comm_line" />
 
         <com.commonlib.widget.LabelTextView
             android:id="@+id/user_faith"
@@ -126,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@id/state_group"
-        android:background="@color/split_line_color" />
+        android:background="@color/comm_line" />
 
 
 </RelativeLayout>

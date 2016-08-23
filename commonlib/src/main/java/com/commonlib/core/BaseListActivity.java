@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.commonlib.Conf;
 import com.commonlib.R;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseListAdapter;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.DividerItemDecoration;
@@ -51,6 +52,11 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 //        recycler.addItemDecoration(getItemDecoration());
         recycler.setAdapter(mAdapter);
         recycler.setRefreshing();
+    }
+
+    protected void setRefreshing() {
+        recycler.mSwipeRefreshLayout.setRefreshing(true);
+        recycler.onRefresh();
     }
 
     protected void setUpAdapter() {

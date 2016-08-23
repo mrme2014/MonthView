@@ -261,4 +261,18 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="common_label_style">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textColor">@color/txt_2</item>
+        <item name="android:textSize">@dimen/sp14</item>
+    </style>
+
+    <style name="common_edittext_style">
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textColor">@color/txt_2</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:textColorHint">@color/txt_hint</item>
+    </style>
+
 </resources>

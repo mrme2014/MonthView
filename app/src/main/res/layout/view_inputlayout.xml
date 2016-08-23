@@ -18,7 +18,9 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:minWidth="100dp"
-            android:paddingLeft="10dp" />
+            android:paddingLeft="10dp"
+            android:textColor="@color/txt_2"
+            android:textSize="@dimen/sp14"/>
 
         <EditText
             android:id="@+id/input"
@@ -27,7 +29,10 @@
             android:layout_weight="1"
             android:background="@null"
             android:singleLine="true"
-            android:paddingRight="15dp"/>
+            android:paddingRight="15dp"
+            android:textColor="@color/txt_2"
+            android:textSize="@dimen/sp14"
+            android:textColorHint="@color/txt_hint"/>
 
         <ImageView
             android:id="@+id/next"
@@ -42,6 +47,5 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="10dp"
-        android:background="@color/split_line_color"
-        android:visibility="gone" />
+        android:background="#dddddd" />
 </LinearLayout>

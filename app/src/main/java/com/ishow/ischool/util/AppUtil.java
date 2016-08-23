@@ -116,6 +116,16 @@ public class AppUtil {
         return stateList.get(id);
     }
 
+    public static ArrayList<String> getPayState() {
+        ArrayList<String> stateList = new ArrayList<>();
+        stateList.add("未报名");
+        stateList.add("欠款");
+        stateList.add("已报名");
+        stateList.add("退款");
+
+        return stateList;
+    }
+
 
     public static HashMap<String, String> getParamsHashMap(int i) {
         HashMap<String, String> params = new HashMap<>();

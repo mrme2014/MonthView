@@ -136,20 +136,9 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 dialog.setOnItemSelectedListner(this);
                 break;
             case R.id.person_info_birthday:
-               /* PickerWheelViewPop pop = new PickerWheelViewPop(this);
-                pop.renderYMDPanel(R.string.choose_birthday);
-                pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM, 0, 0);
-                pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
-                    @Override
-                    public void onPickCallback(Integer unix, String... result) {
-
-                    }
-                });*/
-                PickerDialogFragment dialogFragment = new PickerDialogFragment();
-                Bundle bundl= new Bundle();
-                bundl.putInt("PICK_TITLE",R.string.choose_birthday);
-                bundl.putInt("PICK_THEME",R.style.Comm_dialogfragment);
-                dialogFragment.setArguments(bundl);
+                PickerDialogFragment.Builder builder1 = new PickerDialogFragment.Builder();
+                builder1.setBackgroundDark(true).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setDialogTitle(R.string.choose_birthday);
+                PickerDialogFragment dialogFragment = builder1.Build();
                 dialogFragment.show(getSupportFragmentManager(),"dialog");
                 dialogFragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
                     @Override
@@ -159,6 +148,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                     }
                 });
                 break;
+
         }
     }
 

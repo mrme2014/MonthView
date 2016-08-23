@@ -242,6 +242,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
                     multicallback.onPickResult(null, selectResult);
             }
         }
+
     }
 
     /*普通单列表 或者 年月日 这样的 设置这个监听即可*/

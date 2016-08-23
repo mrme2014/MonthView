@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
@@ -224,7 +225,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             String path = data.getStringExtra("bitmap");
-            if (!TextUtils.equals(path,"")){
+            LogUtil.e("onActivityResult"+path);
+            if (!TextUtils.equals(path,"")&&path!=null){
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 fmMeHeaderAvart.setImageBitmap(bitmap);
             }

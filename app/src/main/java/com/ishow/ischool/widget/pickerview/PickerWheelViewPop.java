@@ -31,6 +31,7 @@ import java.util.List;
  * <p>
  * 分开来写逻辑省很多代码
  */
+@Deprecated
 public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect, PopupWindow.OnDismissListener {
 
     private PickerWheelViewLinearlayout viewById;

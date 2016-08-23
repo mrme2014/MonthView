@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.communicationlist;
+package com.ishow.ischool.business.communication.list;
 
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;

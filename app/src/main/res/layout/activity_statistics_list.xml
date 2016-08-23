@@ -10,20 +10,12 @@
 
         <include layout="@layout/widget_toolbar" />
 
-        <FrameLayout
+        <com.commonlib.widget.pull.PullRecycler
+            android:id="@id/pullRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar" />
 
-            <com.commonlib.widget.pull.PullRecycler
-                android:id="@id/pullRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/toolbar" />
-
-            <include layout="@layout/filter_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

@@ -54,7 +54,7 @@ public interface CommunicationApi {
      */
     @POST("/market/communication/add")
     @FormUrlEncoded
-    Observable<ApiResult<String>> addCommnunication(@FieldMap HashMap<String, String> params);
+    Observable<ApiResult<Object>> addCommnunication(@FieldMap HashMap<String, String> params);
 
     /**
      * status	Int	0			学生状态	0
@@ -74,7 +74,7 @@ public interface CommunicationApi {
      */
     @POST("/market/communication/edit")
     @FormUrlEncoded
-    Observable<ApiResult<String>> editCommnunication(@FieldMap HashMap<String, String> params);
+    Observable<ApiResult<Object>> editCommnunication(@FieldMap HashMap<String, String> params);
 
     @GET("/market/communication/delete")
     Observable<ApiResult<String>> deleteCommnunication(@Query("id") int id);

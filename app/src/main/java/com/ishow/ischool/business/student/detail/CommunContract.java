@@ -21,10 +21,21 @@ public interface CommunContract {
 
         void listCommunicationFailed(String msg);
 
+        void onEditCommunicationFailed(String msg);
+
+        void onEditCommunicationSuccedd(HashMap<String, String> params);
+
+        void onAddCommunicationSuccess();
+
+        void onAddCommunicationFailed(String msg);
     }
 
     interface Model extends BaseModel {
         Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params);
+
+        Observable<ApiResult<Object>> editCommunication(HashMap<String, String> params);
+
+        Observable<ApiResult<Object>> addCommunication(HashMap<String, String> params);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

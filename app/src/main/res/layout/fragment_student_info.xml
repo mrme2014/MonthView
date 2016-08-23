@@ -44,6 +44,17 @@
             android:background="@color/comm_line" />
 
         <com.commonlib.widget.LabelTextView
+            android:id="@+id/student_wechat"
+            style="@style/student_info_textview"
+            app:label_text_left="@string/label_student_wechat" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
             android:id="@+id/student_birthday"
             style="@style/student_info_textview"
             app:label_text_left="@string/label_student_birthday" />

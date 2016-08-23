@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.communicationadd;
+package com.ishow.ischool.business.communication.add;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -9,7 +9,11 @@ import android.view.View;
 import com.commonlib.widget.LabelEditText;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.business.communication.add.CommunicationAddContract;
+import com.ishow.ischool.business.communication.add.CommunicationAddModel;
+import com.ishow.ischool.business.communication.add.CommunicationAddPresenter;
 import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
@@ -75,7 +79,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpData() {
-        form.resources_id = 62;
+        form.resources_id = Resourse.COMMUNICATION_ADD;
     }
 
     @Override

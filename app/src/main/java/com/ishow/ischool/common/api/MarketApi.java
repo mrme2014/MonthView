@@ -3,6 +3,7 @@ package com.ishow.ischool.common.api;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.bean.system.CampusInfo;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
@@ -96,5 +97,6 @@ public interface MarketApi {
     @POST("/market/student/edit")
     Observable<ApiResult<Object>> editStudent(@FieldMap HashMap<String, String> params);
 
-
+    @GET("/system/campus/lists")
+    Observable<ApiResult<ArrayList<CampusInfo>>> getCampusList();
 }

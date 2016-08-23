@@ -1,5 +1,6 @@
-package com.ishow.ischool.business.communicationadd;
+package com.ishow.ischool.business.communication.edit;
 
+import com.commonlib.core.BaseModel;
 import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.common.api.CommunicationApi;
@@ -11,14 +12,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by abel on 16/8/16.
+ * Created by abel on 16/8/22.
  */
-public class CommunicationAddModel implements CommunicationAddContract.Model {
-    @Override
-    public Observable<ApiResult<String>> addCommunication(HashMap<String, String> params) {
+public class CommunEditModel implements BaseModel {
 
+    public Observable<ApiResult<Object>> editCommun(HashMap<String, String> params) {
         return ApiFactory.getInstance().getApi(CommunicationApi.class)
-                .addCommnunication(params)
+                .editCommnunication(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -11,4 +11,6 @@
     <dimen name="sp_nav">17sp</dimen>
     <dimen name="sp13">13sp</dimen>
     <dimen name="sp11">11sp</dimen>
+    <dimen name="sp10">10sp</dimen>
+    <dimen name="sp15">15sp</dimen>
 </resources>

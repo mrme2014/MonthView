@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.communicationlist;
+package com.ishow.ischool.business.communication.list;
 
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.common.api.ApiObserver;

@@ -18,7 +18,6 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="nihao"
         android:textSize="@dimen/sp14" />
 
     <TextView

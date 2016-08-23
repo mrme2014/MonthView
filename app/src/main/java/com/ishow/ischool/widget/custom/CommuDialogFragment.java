@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 
@@ -100,13 +100,14 @@ public class CommuDialogFragment extends DialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @OnClick({R.id.commun_block_top, R.id.commun_block_bottom,R.id.commun_state, R.id.commun_date_start, R.id.commun_date_end, R.id.commun_refuse, R.id.commun_confidence, R.id.commun_order, R.id.commu_reset, R.id.commu_ok})
+    @OnClick({R.id.commun_block_top, R.id.commun_block_bottom, R.id.commun_state, R.id.commun_date_start, R.id.commun_date_end, R.id.commun_refuse, R.id.commun_confidence, R.id.commun_order, R.id.commu_reset, R.id.commu_ok})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.commun_state:
-                showPickPop(R.string.comm_dialog_stu_state_title, 3, 1, AppUtil.getStateList(), new PickerWheelViewPop.PickCallback<int[]>() {
+                showPickPop(R.string.comm_dialog_stu_state_title, 3, 1, AppUtil.getStateList(), new PickerDialogFragment.Callback<int[]>() {
+
                     @Override
-                    public void onPickCallback(int[] position, String... result) {
+                    public void onPickResult(int[] position, String... result) {
                         if (result != null) communState.setText(result[0]);
                         if (position != null) statePosition = position[0] + 1;
                     }
@@ -119,18 +120,19 @@ public class CommuDialogFragment extends DialogFragment {
                 showTimePickPop(false);
                 break;
             case R.id.commun_refuse:
-                showPickPop(R.string.commun_refuse, 4, 1, AppUtil.getRefuseList(), new PickerWheelViewPop.PickCallback<int[]>() {
+                showPickPop(R.string.commun_refuse, 4, 1, AppUtil.getRefuseList(), new PickerDialogFragment.Callback<int[]>() {
+
                     @Override
-                    public void onPickCallback(int[] position, String... result) {
+                    public void onPickResult(int[] position, String... result) {
                         if (position != null) refusePosition = position[0] + 1;
                         if (result != null) communRefuse.setText(result[0]);
                     }
                 });
                 break;
             case R.id.commun_confidence:
-                showPickPop(R.string.commun_confidence, 1, 1, AppUtil.getBeliefList(), new PickerWheelViewPop.PickCallback<int[]>() {
+                showPickPop(R.string.commun_confidence, 1, 1, AppUtil.getBeliefList(), new PickerDialogFragment.Callback<int[]>() {
                     @Override
-                    public void onPickCallback(int[] position, String... result) {
+                    public void onPickResult(int[] position, String... result) {
                         if (position != null) confidencePosition = position[0] + 1;
                         if (result != null) communConfidence.setText(result[0]);
                     }
@@ -151,19 +153,22 @@ public class CommuDialogFragment extends DialogFragment {
             case R.id.commun_block_top:
             case R.id.commun_block_bottom:
                 this.dismiss();
-                if (callback!=null)
+                if (callback != null)
                     callback.cancelDilaog();
                 break;
         }
     }
 
-    private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerWheelViewPop.PickCallback callback) {
-        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.initMultiSelectPanel(titleResId);
-        pop.setDatas(defalut, colum, datas);
-        pop.showAtLocation(communOrder, Gravity.BOTTOM, 0, 0);
-        pop.addPickCallback(callback);
+    private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerDialogFragment.Callback callback) {
+        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+        PickerDialogFragment dialog = builder.setDialogTitle(titleResId)
+                                            .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
+                                            .setBackgroundDark(true)
+                                            .setDatas(defalut,colum,datas).Build();
+        dialog.show(getChildFragmentManager(),"dialog");
+        dialog.addCallback(callback);
     }
+
 
     private void resetSlectResult() {
         communState.setText("");
@@ -181,11 +186,12 @@ public class CommuDialogFragment extends DialogFragment {
     }
 
     private void showTimePickPop(final boolean start) {
-        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.renderYMDPanel(R.string.commun_date);
-        pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
+        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+        PickerDialogFragment dialog = builder.setDialogTitle(R.string.commun_date).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setBackgroundDark(true).Build();
+        dialog.show(getChildFragmentManager(), "dialog");
+        dialog.addCallback(new PickerDialogFragment.Callback<Integer>() {
             @Override
-            public void onPickCallback(Integer unix, String... result) {
+            public void onPickResult(Integer unix, String... result) {
                 if (start) {
                     startUnix = unix;
                     if (result != null) communDateStart.setText(result[0]);
@@ -195,7 +201,6 @@ public class CommuDialogFragment extends DialogFragment {
                 }
             }
         });
-        pop.showAtLocation(communOrder, Gravity.BOTTOM, 0, 0);
     }
 
     private selectResultCallback callback;
@@ -203,6 +208,7 @@ public class CommuDialogFragment extends DialogFragment {
 
     public interface selectResultCallback {
         void cancelDilaog();
+
         void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix);
     }
 

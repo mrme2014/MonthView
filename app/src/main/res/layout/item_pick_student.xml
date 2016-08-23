@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingLeft="10dp">
@@ -14,7 +14,6 @@
         android:layout_centerInParent="true"
         android:background="@drawable/shape_student_photo_bg"
         android:gravity="center"
-        android:text="佳佳"
         android:textColor="@color/white" />
 
     <TextView
@@ -23,8 +22,7 @@
         android:layout_height="63dp"
         android:layout_toRightOf="@id/user_photo_iv"
         android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:text="徐佳佳" />
+        android:paddingLeft="10dp"/>
 
     <View
         android:layout_width="match_parent"

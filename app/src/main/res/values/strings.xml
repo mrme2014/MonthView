@@ -92,7 +92,6 @@
     <string name="kefu_title">客服</string>
 
 
-
     <!-- 学员统计 -->
     <string name="student_statistics">学员统计</string>
 
@@ -152,7 +151,6 @@
     <string name="comm_dialog_stu_state_title">学员状态</string>
 
 
-
     <string name="check_student">请选择学生</string>
     <string name="check_tuition_source">请填写学费来源</string>
     <string name="check_status">请选择状态</string>
@@ -178,5 +176,8 @@
     <string name="apply_class_hour">已上课时/总课时</string>
     <string name="apply_tuition">已收学费</string>
     <string name="commun_add">添加沟通记录</string>
+    <string name="communication_empty">暂时没有沟通记录</string>
+    <string name="add_success">添加成功</string>
+    <string name="str_complete">完成</string>
 
 </resources>

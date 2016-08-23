@@ -2,7 +2,7 @@ package com.ishow.ischool.business.statisticslist;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
-import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class StatisticsListPresenter extends StatisticsListContract.Presenter {
     @Override
     public void getList4StudentStatistics(int campusId, HashMap<String, String> params, int page) {
         mModel.getList4StudentStatistics(campusId, params, page)
-                .subscribe(new ApiObserver<StudentStatisticsList>() {
+                .subscribe(new ApiObserver<StudentList>() {
                     @Override
-                    public void onSuccess(StudentStatisticsList studentStatisticsList) {
+                    public void onSuccess(StudentList studentStatisticsList) {
                         mView.getListSuccess(studentStatisticsList);
                     }
 

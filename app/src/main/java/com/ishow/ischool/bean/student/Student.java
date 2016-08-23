@@ -6,28 +6,28 @@ import android.os.Parcelable;
 /**
  * Created by wqf on 16/8/14.
  */
-public class StudentStatistics implements Parcelable {
+public class Student implements Parcelable {
     public ApplyInfo applyInfo;
     public StudentInfo studentInfo;
     public OpenclassInfo openclassInfo;
     public StudentRelationInfo studentRelationInfo;
 
-    protected StudentStatistics(Parcel in) {
+    protected Student(Parcel in) {
         applyInfo = in.readParcelable(ApplyInfo.class.getClassLoader());
         studentInfo = in.readParcelable(StudentInfo.class.getClassLoader());
         openclassInfo = in.readParcelable(OpenclassInfo.class.getClassLoader());
         studentRelationInfo = in.readParcelable(StudentRelationInfo.class.getClassLoader());
     }
 
-    public static final Creator<StudentStatistics> CREATOR = new Creator<StudentStatistics>() {
+    public static final Creator<Student> CREATOR = new Creator<Student>() {
         @Override
-        public StudentStatistics createFromParcel(Parcel in) {
-            return new StudentStatistics(in);
+        public Student createFromParcel(Parcel in) {
+            return new Student(in);
         }
 
         @Override
-        public StudentStatistics[] newArray(int size) {
-            return new StudentStatistics[size];
+        public Student[] newArray(int size) {
+            return new Student[size];
         }
     };
 

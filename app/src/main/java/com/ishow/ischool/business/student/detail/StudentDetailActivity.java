@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
+import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
@@ -52,7 +53,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     @BindView(R.id.appbar)
     AppBarLayout mAppBar;
 
-    public StudentInfo student;
+    public Student student;
     public int studentId;
 
     private StudentInfoFragment studentInfoFragment;
@@ -102,8 +103,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     private void initViewPager() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        studentInfoFragment = StudentInfoFragment.newInstance(student);
-        communicationListFragment = CommunicationListFragment.newInstance(studentId);
+        studentInfoFragment = StudentInfoFragment.newInstance();
+        communicationListFragment = CommunicationListFragment.newInstance();
         fragments.add(studentInfoFragment);
         fragments.add(communicationListFragment);
 
@@ -131,23 +132,42 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     }
 
     @Override
-    public void onGetStudentSuccess(StudentInfo student) {
+    public void onGetStudentSuccess(Student student) {
         this.student = student;
         updateView(student);
     }
 
-    private void updateView(StudentInfo student) {
-        avatarTv.setText(AppUtil.getLast2Text(student.name));
-        usernameTv.setText(student.name);
-        applyStateLtv.setText(student.pay_state_name);
-        classHourLtv.setText(student.class_hour + "/" + student.class_hour_total);
-        tuitionLtv.setText(student.payed + "");
-        studentInfoFragment.refresh(student);
-        titlebarTitleTv.setText(student.name);
+    private void updateView(Student student) {
+        avatarTv.setText(AppUtil.getLast2Text(student.studentInfo.name));
+        usernameTv.setText(student.studentInfo.name);
+        applyStateLtv.setText(student.studentInfo.pay_state_name);
+        classHourLtv.setText(student.studentInfo.class_hour + "/" + student.studentInfo.class_hour_total);
+        tuitionLtv.setText(student.studentInfo.payed + "");
+        titlebarTitleTv.setText(student.studentInfo.name);
+
+        studentInfoFragment.refresh();
+        communicationListFragment.refresh();
     }
 
     @Override
     public void onGetStudentFailed(String msg) {
+        showToast(msg);
+    }
 
+    @Override
+    public void onEditStudentSuccess(Object student) {
+
+    }
+
+    @Override
+    public void onEditStudentFailed(String msg) {
+        showToast(msg);
+    }
+
+    public StudentInfo getStudentInfo() {
+        if (student != null) {
+            return student.studentInfo;
+        }
+        return null;
     }
 }

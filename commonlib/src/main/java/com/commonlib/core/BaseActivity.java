@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.commonlib.R;
@@ -36,11 +35,13 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         setUpContentView();
         bindView();
 
-        mPresenter = GenericUtil.getType(this, 0);
-        mModel = GenericUtil.getType(this, 1);
+        if (this instanceof BaseView) {
+            mPresenter = GenericUtil.getType(this, 0);
+            mModel = GenericUtil.getType(this, 1);
 
-        if (mPresenter != null && mModel != null && this instanceof BaseView) {
-            mPresenter.setMV(mModel, this);
+            if (mPresenter != null && mModel != null) {
+                mPresenter.setMV(mModel, this);
+            }
         }
         setUpView();
         setUpData();

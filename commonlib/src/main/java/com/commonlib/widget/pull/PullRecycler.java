@@ -126,6 +126,11 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
         });
     }
 
+    public void setRefreshingMainThread() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+    }
+
     public void setOnRefreshListener(OnRecyclerRefreshListener listener) {
         this.listener = listener;
     }

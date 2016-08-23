@@ -1,15 +1,29 @@
 package com.ishow.ischool.business.student.detail;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.bean.university.UniversityInfo;
+import com.ishow.ischool.business.student.edit.EditActivity;
+import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by abel on 16/8/18.
@@ -18,9 +32,20 @@ import butterknife.BindView;
 public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter, StudentDetailModel> {
 
     private static final String ARG_PARAM = "param";
+    private static final int REQUEST_ENGLISH_NAME = 1000;
+    private static final int REQUEST_PHONE = 1001;
+    private static final int REQUEST_QQ = 1002;
+    private static final int REQUEST_SCHOOL = 1003;
+    private static final int REQUEST_SPECIALTY = 1004;
+    private static final int REQUEST_CLASS = 1005;
+    private static final int REQUEST_IDCARD = 1006;
+    private static final int REQUEST_CODE_PICK_UNIVERSITY = 1007;
 
     private OnFragmentInteractionListener mListener;
-    private StudentInfo mStudent;
+
+    private int province_id, city_id, campus_id, university_id, source_id;
+    private UniversityInfo mUniversityInfo;
+
 
     @BindView(R.id.student_english_name)
     LabelTextView englishNameTv;
@@ -42,20 +67,14 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     public StudentInfoFragment() {
     }
 
-    public static StudentInfoFragment newInstance(StudentInfo student) {
+    public static StudentInfoFragment newInstance() {
         StudentInfoFragment fragment = new StudentInfoFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM, student);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mStudent = getArguments().getParcelable(ARG_PARAM);
-        }
     }
 
     @Override
@@ -91,12 +110,12 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
         mListener = null;
     }
 
-    public void refresh(StudentInfo student) {
-        this.mStudent = student;
+    public void refresh() {
         updateView();
     }
 
     private void updateView() {
+        StudentInfo mStudent = getStudentInfo();
         if (mStudent == null) {
             return;
         }
@@ -110,8 +129,150 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
         idcardTv.setText(mStudent.idcard);
     }
 
+    private StudentInfo getStudentInfo() {
+        return ((StudentDetailActivity) getActivity()).getStudentInfo();
+    }
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Bundle data);
+    }
+
+    @OnClick({R.id.student_english_name, R.id.student_phone, R.id.student_qq, R.id.student_birthday,
+            R.id.student_school, R.id.student_specialty,
+            R.id.student_class, R.id.student_idcard,})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.student_english_name: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_english_name));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME);
+                break;
+            }
+            case R.id.student_phone: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_phone));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_phone);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().mobile);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE);
+                break;
+            }
+            case R.id.student_qq: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_qq));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ);
+            }
+            break;
+            case R.id.student_birthday: {
+                ShowTimePickerDialog(view, new PickerWheelViewPop.PickCallback<Integer>() {
+                    @Override
+                    public void onPickCallback(Integer object, String... result) {
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                        params.put("id", getStudentInfo().student_id + "");
+                        params.put("birthday", String.valueOf(object));
+                        mPresenter.editStudent(params);
+                    }
+                });
+            }
+            break;
+            case R.id.student_school: {
+                startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY);
+            }
+            break;
+            case R.id.student_specialty: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_specialty));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_specialty);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().major);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY);
+            }
+            break;
+            case R.id.student_class: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_class));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_class);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().grade);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_CLASS);
+            }
+            break;
+            case R.id.student_idcard: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_idcard));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_idcard);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD);
+            }
+            break;
+        }
+    }
+
+    private void ShowTimePickerDialog(View parent, PickerWheelViewPop.PickCallback callback) {
+
+        PickerWheelViewPop pop = new PickerWheelViewPop(getActivity());
+        pop.renderYMDPanel(R.string.choose_birthday);
+        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+        pop.addPickCallback(callback);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            String text = data.getStringExtra("data");
+            switch (requestCode) {
+                case REQUEST_CODE_PICK_UNIVERSITY:
+                    mUniversityInfo = data.getParcelableExtra(UniversityPickActivity.KEY_PICKED_UNIVERSITY);
+                    university_id = mUniversityInfo.id;
+                    province_id = mUniversityInfo.prov_id;
+                    city_id = mUniversityInfo.city_id;
+                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.STUDENT_EDIT);
+                    params.put("college_id", university_id + "");
+                    mPresenter.editStudent(params);
+
+                    schoolTv.setText(mUniversityInfo.name);
+                    break;
+                case REQUEST_ENGLISH_NAME:
+                    englishNameTv.setText(text);
+                    getStudentInfo().english_name = text;
+                    break;
+                case REQUEST_PHONE:
+                    phoneTv.setText(text);
+                    getStudentInfo().mobile = text;
+                    break;
+                case REQUEST_QQ:
+                    qqTv.setText(text);
+                    getStudentInfo().qq = text;
+                    break;
+                case REQUEST_SCHOOL:
+                    schoolTv.setText(text);
+                    getStudentInfo().college_name = text;
+                    break;
+                case REQUEST_SPECIALTY:
+                    specialtyTv.setText(text);
+                    getStudentInfo().major = text;
+                    break;
+                case REQUEST_CLASS:
+                    classTv.setText(text);
+                    getStudentInfo().grade = text;
+                    break;
+                case REQUEST_IDCARD:
+                    idcardTv.setText(text);
+                    getStudentInfo().idcard = text;
+                    break;
+
+            }
+        }
+
     }
 }

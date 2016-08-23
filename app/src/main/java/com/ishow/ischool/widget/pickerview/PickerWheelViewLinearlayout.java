@@ -44,14 +44,14 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      */
     private SparseArray<WheelView> array;
 
-    public void initWheelSetDatas(int defalut, int cloums, ArrayList<String>... datas) {
+    public void initWheelSetDatas(int defalut, int cloums, ArrayList<ArrayList<String>> datas) {
         if (array == null) array = new SparseArray<>(cloums);
 
         for (int i = 0; i < cloums; i++) {
             WheelView wheelView = (WheelView) LayoutInflater.from(getContext()).inflate(R.layout.wheelview, null);
             wheelView.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
-            if (datas != null && i < datas.length)
-                wheelView.setData(datas[i]);
+            if (datas != null && i < datas.size())
+                wheelView.setData(datas.get(i));
             else wheelView.setData(getMonthData());//这句话是测试用的
             wheelView.setId(i);
             wheelView.setDefault(defalut);
@@ -68,10 +68,12 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      * @param newDatas 新的数据源
      */
     WheelView wheelView;
-
     public void resfreshData(int index, final ArrayList<String> newDatas) {
+        if (newDatas==null)
+            return;
         if (array != null) {
-            if (index < array.size()) {
+            if (index >= array.size())
+                index = array.size() - 1;
                 wheelView = array.get(index);
                 if (wheelView != null)
                     wheelView.postDelayed(new Runnable() {
@@ -82,7 +84,6 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
                         }
                     }, 10);
 
-            }
         }
     }
 
@@ -90,7 +91,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-       if (select != null) {
+        if (select != null) {
             select.endSelect(wheelView, id, text);
         }
         /* switch (wheelView.getId()) {

@@ -3,6 +3,7 @@ package com.ishow.ischool.common.manager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by abel on 16/8/12.
@@ -32,4 +33,14 @@ public class JumpManager {
         Intent intent = new Intent(from, to);
         from.startActivityForResult(intent, requestCode);
     }
+
+    public static void jumpActivityForResult(Activity from, Intent intent, int requestCode) {
+        from.startActivityForResult(intent, requestCode);
+    }
+
+
+    public static void jumpActivityForResult(Fragment from, Intent intent, int requestCode) {
+        from.startActivityForResult(intent, requestCode);
+    }
+
 }

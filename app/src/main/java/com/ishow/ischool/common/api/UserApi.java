@@ -38,7 +38,7 @@ public interface UserApi {
     //修改信息(system.user.edit) 接口
     @FormUrlEncoded
     @POST("/system/user/edit")
-    Observable<ApiResult> edit(@Field("resources_id")int resources_id,@Field("user_id") int user_id,  @Field("birthday") int birthday, @Field("qq") String qq);
+    Observable<ApiResult> edit(@Field("resources_id") int resources_id, @Field("user_id") int user_id, @Field("birthday") int birthday, @Field("qq") String qq);
 
 
     //切换角色(system.user.change) 接口
@@ -56,6 +56,7 @@ public interface UserApi {
     @POST("/system/user/checkrandcode")
     Observable<ApiResult<JsonElement>> checkrandcode(@Field("resources_id")int resources_id,@Field("mobile")String mobile,@Field("randcode")String randcode);
 
+
     //APP找回密码第二步，设置密码(system.user.setpasswd) 接口
     @FormUrlEncoded
     @POST("/system/user/setpasswd")
@@ -64,6 +65,7 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("/system/sms/send")
     Observable<ApiResult<JsonElement>> sendSms(@Field("resources_id")int resources_id,@Field("mobile") String mobile,@Field("type") int type);
+
 
     @GET("/system/user/lists")
     Observable<ApiResult<UserListResult>> listUsers(

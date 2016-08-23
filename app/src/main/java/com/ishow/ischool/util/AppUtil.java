@@ -127,9 +127,9 @@ public class AppUtil {
     }
 
 
-    public static HashMap<String, String> getParamsHashMap(int i) {
+    public static HashMap<String, String> getParamsHashMap(int resourcesId) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("resources_id", String.valueOf(i));
+        params.put("resources_id", String.valueOf(resourcesId));
         return params;
     }
 }

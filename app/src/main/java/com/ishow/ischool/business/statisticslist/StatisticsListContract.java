@@ -5,7 +5,7 @@ import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
 import com.commonlib.core.BaseView;
 import com.ishow.ischool.bean.ApiResult;
-import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.student.StudentList;
 
 import java.util.HashMap;
 
@@ -17,11 +17,11 @@ import rx.Observable;
  */
 public interface StatisticsListContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<StudentStatisticsList>> getList4StudentStatistics(int campusId, HashMap<String, String> params, int page);
+        Observable<ApiResult<StudentList>> getList4StudentStatistics(int campusId, HashMap<String, String> params, int page);
     }
 
     interface View extends BaseView {
-        void getListSuccess(StudentStatisticsList studentStatisticsList);
+        void getListSuccess(StudentList studentList);
         void getListFail(String msg);
     }
 

@@ -8,11 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
 import com.commonlib.util.PermissionUtil;
@@ -27,7 +28,7 @@ import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.io.File;
 
@@ -58,9 +59,26 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_person_info, R.string.per_info_title, 0);
+        setContentView(R.layout.activity_person_info, R.string.per_info_title, MODE_NONE);
         personInfoQQ = (EditText) findViewById(R.id.person_info_QQ);
+        mToolbar = (Toolbar) findViewById(com.commonlib.R.id.toolbar);
+        mToolbar.setTitle("");
+        mToolbarTitle = (TextView) findViewById(com.commonlib.R.id.toolbar_title);
 
+        mToolbar.setNavigationIcon(com.commonlib.R.drawable.ic_return);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivity();
+            }
+        });
+    }
+
+    private void finishActivity() {
+        Intent intent = new Intent();
+        intent.putExtra("bitmap",tempPath);
+        setResult(100,intent);
+        this.finish();
     }
 
     @Override
@@ -99,7 +117,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         if (avatar != null)
             PicUtils.loadUserHeader(this,personInfoAvart,avatar.file_name);
            // ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
-        personInfoName.setTipTxt(userInfo.nick_name);
+        personInfoName.setTipTxt(userInfo.user_name);
         personInfoPhone.setTipTxt(userInfo.mobile);
         personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday, "yyyy-MM-dd"));
         personInfoQQ.setText(userInfo.qq);
@@ -118,17 +136,19 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 dialog.setOnItemSelectedListner(this);
                 break;
             case R.id.person_info_birthday:
-                PickerWheelViewPop pop = new PickerWheelViewPop(this);
-                pop.renderYMDPanel(R.string.choose_birthday);
-                pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM, 0, 0);
-                pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
+                PickerDialogFragment.Builder builder1 = new PickerDialogFragment.Builder();
+                builder1.setBackgroundDark(true).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setDialogTitle(R.string.choose_birthday);
+                PickerDialogFragment dialogFragment = builder1.Build();
+                dialogFragment.show(getSupportFragmentManager(),"dialog");
+                dialogFragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
                     @Override
-                    public void onPickCallback(Integer unix, String... result) {
+                    public void onPickResult(Integer unix, String... result) {
                         if (submitInfo(unix)) return;
                         if (result != null) personInfoBirthday.setTipTxt(result[0]);
                     }
                 });
                 break;
+
         }
     }
 
@@ -270,5 +290,12 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
         mPresenter.submitInfo(user.userInfo.user_id, personInfoQQ.getText().toString(), unix);
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishActivity();
+        super.onBackPressed();
+
     }
 }

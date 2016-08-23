@@ -29,9 +29,8 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private LayoutInflater inflater;
     private View.OnClickListener mListener;
 
-    public CommunListAdapter(Context context, ArrayList<CommunicationItem> datas) {
+    public CommunListAdapter(Context context) {
         this.context = context;
-        this.datas = datas;
         inflater = LayoutInflater.from(context);
 
     }

@@ -17,8 +17,8 @@ import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.student.StudentStatistics;
-import com.ishow.ischool.bean.student.StudentStatisticsList;
+import com.ishow.ischool.bean.student.Student;
+import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
@@ -38,7 +38,7 @@ import butterknife.OnClick;
 /**
  * Created by wqf on 16/8/14.
  */
-public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListPresenter, StatisticsListModel, StudentStatistics> implements StatisticsListContract.View,
+public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListPresenter, StatisticsListModel, Student> implements StatisticsListContract.View,
         StatisticsFilterFragment.FilterCallback {
 
     @BindView(R.id.fab)
@@ -188,7 +188,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
         @Override
         public void onBindViewHolder(int position) {
-            StudentStatistics data = mDataList.get(position);
+            Student data = mDataList.get(position);
             final String nameStr = data.studentInfo.name;
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
@@ -231,7 +231,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
         @Override
         public void onItemClick(View view, int position) {
-            StudentStatistics data = mDataList.get(position);
+            Student data = mDataList.get(position);
             Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
             JumpManager.jumpActivity(StatisticsListActivity.this, intent);
@@ -239,11 +239,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     @Override
-    public void getListSuccess(StudentStatisticsList studentStatisticsList) {
+    public void getListSuccess(StudentList studentList) {
         if (mSearchMode && mCurrentPage == 2) {
             mDataList.clear();
         }
-        loadSuccess(studentStatisticsList.lists);
+        loadSuccess(studentList.lists);
     }
 
 

@@ -1,7 +1,12 @@
 package com.commonlib.widget.imageloader;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 
 /*
@@ -52,12 +57,44 @@ public class ImageLoaderUtil {
         mStrategy.loadImage(context, img);
     }
 
+
     public void loadImage(Context context, String imgUrl, ImageView imageView) {
         ImageLoader imageLoader = new ImageLoader.Builder().url(imgUrl).imageView(imageView).build();
-        ImageLoaderUtil.getInstance().loadImage(context,imageLoader);
+        ImageLoaderUtil.getInstance().loadImage(context, imageLoader);
     }
 
     public void setLoadImgStrategy(BaseImageLoaderStrategy strategy) {
         mStrategy = strategy;
+    }
+
+    public void loadImageWithCallback(Context context, final ImageLoader img, final loadComplete complete) {
+        Glide.with(context).load(img.getUrl()).asBitmap().fitCenter().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                if (img != null)
+                    if (img.getImgView() != null)
+                        img.getImgView().setImageBitmap(resource);
+                loadComplete = complete;
+                if (loadComplete != null)
+                    loadComplete.Complete(resource);
+            }
+        });
+    }
+
+    public void loadImageWithCallback(Context context, String imgUrl, final ImageView imageView, final loadComplete complete) {
+        Glide.with(context).load(imgUrl).asBitmap().fitCenter().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                imageView.setImageBitmap(resource);
+                loadComplete = complete;
+                if (loadComplete != null)
+                    loadComplete.Complete(resource);
+            }
+        });
+    }
+
+    loadComplete loadComplete;
+    public interface loadComplete {
+        void Complete(Bitmap resource);
     }
 }

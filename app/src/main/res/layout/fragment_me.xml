@@ -24,21 +24,18 @@
                 android:layout_height="80dp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="40dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/img_header_default" />
 
             <TextView
                 android:id="@+id/fm_me_header_name"
                 style="@style/fragment_textview_Wwrap_Hwrap"
                 android:layout_below="@+id/fm_me_header_avart"
-
-                android:text="颜文字"
                 />
 
             <TextView
                 android:id="@+id/fm_me_header_job"
                 style="@style/fragment_textview_Wwrap_Hwrap"
                 android:layout_below="@+id/fm_me_header_name"
-                android:text="杭州校区 晨读讲师"
                 android:layout_marginTop="7dp"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -63,6 +60,7 @@
             app:draw_right_redPoint="true"
             app:tip_right_color="@android:color/holo_red_light"
             app:tip_right_padding="24"
+            android:visibility="gone"
             />
 
 

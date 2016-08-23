@@ -1,9 +1,10 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.bean.student.StudentStatisticsList;
 import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.university.UniversityInfoListResult;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -35,7 +37,7 @@ public interface MarketApi {
 
     //学员统计数据列表(market.StudentStatistics.lists) 接口（params是筛选条件）
     @GET("/market/studentstatistics/lists")
-    Observable<ApiResult<StudentStatisticsList>> listStudentStatistics(
+    Observable<ApiResult<StudentList>> listStudentStatistics(
             @Query("resources_id") int resources_id,
             @Query("campus_id") int campus_id,
             @QueryMap HashMap<String, String> params,
@@ -89,7 +91,11 @@ public interface MarketApi {
 
 
     @GET("/market/student/get")
-    Observable<ApiResult<StudentInfo>> getStudent(@QueryMap HashMap<String, String> params);
+    Observable<ApiResult<Student>> getStudent(@QueryMap HashMap<String, String> params);
+
+    @FormUrlEncoded
+    @POST("/market/student/edit")
+    Observable<ApiResult<Object>> editStudent(@FieldMap HashMap<String, String> params);
 
     @GET("/system/campus/lists")
     Observable<ApiResult<ArrayList<CampusInfo>>> getCampusList();

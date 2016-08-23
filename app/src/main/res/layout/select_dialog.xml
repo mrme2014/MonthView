@@ -10,17 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="@android:color/transparent"
-        android:listSelector="@android:color/transparent"
        >
     </ListView>
 
     <Button
         android:id="@+id/select_dialog_cancel"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:background="@drawable/bg_round_corner"
         android:layout_marginTop="10dp"
         android:text="取消"
-        android:textColor="@color/txt_blue"
+        android:textColor="@color/txt_red"
         />
 </LinearLayout>

@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="14dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/img_header_default"/>
     </RelativeLayout>
 
     <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->

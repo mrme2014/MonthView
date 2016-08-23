@@ -16,7 +16,7 @@
     <string name="tab_me">我</string>
     <string name="submit">提交</string>
     <string name="old_pwd_hnit">请输入旧密码</string>
-    <string name="new_pwd_hnit">请输入新密码</string>
+    <string name="new_pwd_hnit">新密码密码须为6位及以上 字母加数字组合</string>
     <string name="new_pwd_hnit_again">请确认新密码</string>
     <string name="input_phone">请输入手机号</string>
     <string name="input_smscode">请输入验证码</string>
@@ -92,7 +92,6 @@
     <string name="kefu_title">客服</string>
 
 
-
     <!-- 学员统计 -->
     <string name="student_statistics">学员统计</string>
 
@@ -152,7 +151,6 @@
     <string name="comm_dialog_stu_state_title">学员状态</string>
 
 
-
     <string name="check_student">请选择学生</string>
     <string name="check_tuition_source">请填写学费来源</string>
     <string name="check_status">请选择状态</string>
@@ -178,5 +176,11 @@
     <string name="apply_class_hour">已上课时/总课时</string>
     <string name="apply_tuition">已收学费</string>
     <string name="commun_add">添加沟通记录</string>
+    <string name="communication_empty">暂时没有沟通记录</string>
+    <string name="add_success">添加成功</string>
+    <string name="str_complete">完成</string>
+    <string name="save_pic">保存图片</string>
+    <string name="save_pic_complete">保存成功</string>
+    <string name="save_pic_faild">保存失败,可能没有文件存储权限.</string>
 
 </resources>

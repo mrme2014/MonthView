@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +15,35 @@ import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.user.Campus;
-import com.ishow.ischool.bean.user.Position;
-import com.ishow.ischool.bean.user.User;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by MrS on 2016/8/22.
  */
 public class PickerDialogFragment extends DialogFragment implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
+    /**
+     * 年月日的选择  PickerDialogFragment dialog = new PickerDialogFragment();
+     * dialog.show(getSupportManager,"dialog);
+     * dialog.addCallback(new Callback);
+     * <p/>
+     * <p/>
+     * 需要多个滑轮列表或者 列与列之间需要联动的
+     * <p/>
+     * final PickerDialogFragment dialog = new PickerDialogFragment();
+     * Bundle bundle = new Bundle();
+     * bundle.putInt("PICK_TITLE", R.string.fm_me_switch_role);
+     * bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_OTHERS);
+     * //PickerDialogFragment.STYLE_NO_FRAME------->背景不会变暗   //R.style.Comm_dialogfragment ----> 背景变暗   设定其他的style也可以
+     * bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);
+     * dialog.setArguments(bundle);
+     * dialog.show(getChildFragmentManager(), "dialog");
+     * dialog.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() ；------->多列表 或者列表之间需要联动的 需要设定这个回调
+     *
+     *
+     *
+     */
     //  @BindView(R.id.cancel)
     TextView cancel;
     //  @BindView(R.id.title)
@@ -52,7 +68,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     public static int PICK_TYPE = PICK_TYPE_DATE;
 
     private View contentView;
-    private User user;
+
 
     @NonNull
     @Override
@@ -116,80 +132,6 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.cancel:
-                this.dismiss();
-                break;
-            case R.id.ok:
-                this.dismiss();
-                if (callback != null) {
-                    if (picker != null) {//1这个1  可以直接转换成时间戳
-                        String[] pickedTimeExt = picker.getPickedTimeExt();
-                        callback.onPickResult(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
-                    }
-                    //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
-
-                    else if (linearlayout != null) {
-                        String[] selectResult = linearlayout.getSelectResult();
-                        //这个 回调的判断 是对 角色切换 返回 选中的 职位名称 和 Position 对象的
-                        if (selectResult != null && user != null) {
-                            String s = selectResult[selectResult.length - 1];
-                            callback.onPickResult(getSelectPosition(s), selectResult);
-                        } else
-                            callback.onPickResult(linearlayout.getSelectResultId(), selectResult);
-
-                    }
-                }
-                break;
-        }
-    }
-
-    public void renderPanel(User user) {
-        this.user = user;
-        if (user == null)
-            return;
-        //UserManager.getInstance().initCampusPositions(user);
-
-        List<Campus> campus = user.campus;
-
-        if (campus == null) return;
-
-        if (campus.size() == 1) {
-            ArrayList<String> positions = campus.get(0).positions;
-            setDatas(0, 1, positions);
-            if (linearlayout != null) linearlayout.setwheelViewSelect(null);
-        } else {
-            ArrayList<String> campusList = new ArrayList<>();
-            for (int i = 0; i < campus.size(); i++) {
-                campusList.add(campus.get(i).name);
-            }
-
-            setDatas(0, 2, campusList, campus.get(0).positions);
-        }
-    }
-
-    private void refreshPositionForCampus(int index) {
-        if (user != null) {
-            List<Campus> campus = user.campus;
-            if (campus != null) resfreshData(1, campus.get(index).positions);
-        }
-    }
-
-    private Position getSelectPosition(String selectTxt) {
-        if (user != null) {
-            List<Position> position = user.position;
-            if (position == null)
-                return null;
-            for (int i = 0; i < position.size(); i++) {
-                if (TextUtils.equals(selectTxt, position.get(i).title))
-                    return position.get(i);
-            }
-        }
-        return null;
-    }
-
     /**
      * 给面板内容区添加view
      *
@@ -199,8 +141,13 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     public void setDatas(int defalut, int count, ArrayList<String>... datas) {
         if (linearlayout == null)
             return;
+        //如果是 多级联动的 但是就一列  直接取消回调
+        if (count == 1)
+            linearlayout.setwheelViewSelect(null);
+        //最多5列 wheelview吧
         if (count >= 5)
             throw new IndexOutOfBoundsException("the param count must less than 5.");
+        //有几列 就要有几个arrylist 数据
         if (datas == null || datas.length < count)
             throw new IndexOutOfBoundsException("the param datas must not be null and its length must be equal to count.");
         linearlayout.initWheelSetDatas(defalut, count, datas);
@@ -218,7 +165,8 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         //    refreshPositionForCampus(id);
         //因为multicallback  需要多级联动 在 每一列的 wheelview  选中 后 都会回调这个联动方法 到业务逻辑界面
         if (multicallback != null) {
-            multicallback.endSelect(wheelView,id,text);
+            ArrayList endSelect = multicallback.endSelect(wheelView.getId(), id, text);
+            resfreshData(wheelView.getId() + 1, endSelect);
         }
     }
 
@@ -227,6 +175,25 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     private PickCallback pickcallback;
 
     private MultilinkPickCallback multicallback;
+
+    @Override
+    public void onClick(View view) {
+        this.dismiss();
+        if (view.getId() == R.id.ok) {
+            if (picker != null) {//1这个1  可以直接转换成时间戳
+                String[] pickedTimeExt = picker.getPickedTimeExt();
+                if (callback != null)
+                    callback.onPickResult(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
+            } else if (linearlayout != null) {
+                String[] selectResult = linearlayout.getSelectResult();
+                if (callback != null) callback.onPickResult(null, selectResult);
+                else if (pickcallback != null)
+                    pickcallback.onPickResult(null, selectResult);
+                else if (multicallback != null)
+                    multicallback.onPickResult(null, selectResult);
+            }
+        }
+    }
 
     /*普通单列表 或者 年月日 这样的 设置这个监听即可*/
     public interface Callback<T> {
@@ -241,7 +208,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
 
     /*适用于 PickerDialogfragment new 出来之后 在填充数据 需要wheel之间联动的*/
     public interface MultilinkPickCallback<T> extends PickCallback<T> {
-        void endSelect(WheelView wheelView, int id, String text);
+        ArrayList<String> endSelect(int colum, int selectPosition, String text);
     }
 
     public void addCallback(Callback callback1) {

@@ -60,6 +60,7 @@
             app:draw_right_redPoint="true"
             app:tip_right_color="@android:color/holo_red_light"
             app:tip_right_padding="24"
+            android:visibility="gone"
             />
 
 

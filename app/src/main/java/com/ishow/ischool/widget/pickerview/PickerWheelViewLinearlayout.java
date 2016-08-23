@@ -68,10 +68,12 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      * @param newDatas 新的数据源
      */
     WheelView wheelView;
-
     public void resfreshData(int index, final ArrayList<String> newDatas) {
+        if (newDatas==null)
+            return;
         if (array != null) {
-            if (index < array.size()) {
+            if (index >= array.size())
+                index = array.size() - 1;
                 wheelView = array.get(index);
                 if (wheelView != null)
                     wheelView.postDelayed(new Runnable() {
@@ -82,7 +84,6 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
                         }
                     }, 10);
 
-            }
         }
     }
 
@@ -90,7 +91,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
 
     @Override
     public void endSelect(WheelView wheelView, int id, String text) {
-       if (select != null) {
+        if (select != null) {
             select.endSelect(wheelView, id, text);
         }
         /* switch (wheelView.getId()) {

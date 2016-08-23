@@ -114,6 +114,14 @@
         input:next="true" />
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
+        android:id="@+id/item_source"
+        style="@style/input_linearLayout_style"
+        input:inputLayout_texthint="学员来源途径"
+        input:label_text="来源"
+        input:next="true"
+        android:visibility="gone"/>
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_university"
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="学员所在学校"

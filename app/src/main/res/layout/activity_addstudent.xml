@@ -32,8 +32,14 @@
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_qq"
                 style="@style/input_linearLayout_style"
-                input:inputLayout_texthint="请输入学员QQ/微信"
+                input:inputLayout_texthint="QQ/微信必填一个"
                 input:label_text="@string/item_qq" />
+
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/item_weixin"
+                style="@style/input_linearLayout_style"
+                input:inputLayout_texthint="QQ/微信必填一个"
+                input:label_text="@string/item_wexin" />
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_university"
@@ -73,7 +79,7 @@
                 style="@style/input_linearLayout_style"
                 input:inputLayout_texthint="请选择学员来源(必填)"
                 input:label_text="@string/item_from"
-                input:next="true" />
+                input:focusable="false" />
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_referrer"

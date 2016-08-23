@@ -48,5 +48,5 @@
         android:src="@mipmap/icon_student_tel"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"/>
+        android:padding="10dp"/>
 </RelativeLayout>

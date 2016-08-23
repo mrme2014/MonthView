@@ -26,8 +26,8 @@ public class AddStudentPresenter extends AddStudentContract.Presenter {
     }
 
     @Override
-    void addStudent(String name, String mobile, String qq, int province_id, int city_id, int campus_id, int college_id, String major, int source, String notes) {
-        mModel.addStudent(name, mobile, qq, province_id, city_id, campus_id, college_id, major, source, notes)
+    void addStudent(String name, String mobile, String qq, String wechat, int province_id, int city_id, int campus_id, int college_id, String major, int source, String notes) {
+        mModel.addStudent(name, mobile, qq, wechat, province_id, city_id, campus_id, college_id, major, source, notes)
                 .subscribe(new ApiObserver<StudentInfo>() {
                     @Override
                     public void onSuccess(StudentInfo studentInfo) {

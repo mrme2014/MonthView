@@ -21,14 +21,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.pickreferrer.PickReferrerActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
+import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
 import java.text.SimpleDateFormat;
@@ -60,6 +63,8 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     ImageView endTimeIv;
     @BindView(R.id.item_pay_state)
     InputLinearLayout payStateIL;
+    @BindView(R.id.item_source)
+    InputLinearLayout sourceIL;
     @BindView(R.id.item_university)
     InputLinearLayout universityIL;
     @BindView(R.id.item_referrer)
@@ -77,17 +82,23 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     private boolean isUserCampus;       // 是否是校区员工（非总部员工）
     private String mFilterCampusId;
     private String mFilterTimeType = "";
-    private String mFilterStartTime, mFilterEndTime;
+    private String mFilterStartTime;
+    private String mFilterEndTime;
     private String mFilterPayState;
-    private UniversityInfo mUniversityInfo;
-    private String mFilterUniversityId, mFilterProvinceId;
-    private String mFilterUniversityName = "";
+    private String mFilterSource;
+    private String mFilterSourceName;
+    private String mFilterUniversityId;
+    private String mFilterProvinceId;
     private String mFilterReferrerId;
-    private String mFilterReferrerName = "";
+    private String mFilterUniversityName;
+    private String mFilterReferrerName;
+
     private FilterCallback callback;
+    private ArrayList<String> sources;
+    private UniversityInfo mUniversityInfo;
 
 
-    public static StatisticsFilterFragment newInstance(Map<String, String> params, String college_name, String referrer_name) {
+    public static StatisticsFilterFragment newInstance(Map<String, String> params, String source_name, String college_name, String referrer_name) {
         StatisticsFilterFragment fragment = new StatisticsFilterFragment();
         Bundle args = new Bundle();
         Iterator iter = params.entrySet().iterator();
@@ -95,6 +106,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             Map.Entry entry = (Map.Entry) iter.next();
             args.putString(entry.getKey().toString(), entry.getValue().toString());
         }
+        args.putString("source_name", source_name);
         args.putString("college_name", college_name);
         args.putString("referrer_name", referrer_name);
         fragment.setArguments(args);
@@ -106,6 +118,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
+            mFilterSource = bundle.getString("source", "");
             mFilterCampusId = bundle.getString("campus_id", "");
             mFilterTimeType = bundle.getString("time_type", "");
             mFilterStartTime = bundle.getString("start_time", "");
@@ -114,6 +127,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             mFilterUniversityId = bundle.getString("college_id", "");
             mFilterProvinceId = bundle.getString("province_id", "");
             mFilterReferrerId = bundle.getString("referrer", "");
+            mFilterSourceName = bundle.getString("source_name", "");
             mFilterUniversityName = bundle.getString("college_name", "");
             mFilterReferrerName = bundle.getString("referrer_name", "");
         }
@@ -183,15 +197,27 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             endTimeEt.setText(sdf.format(new Date(Long.parseLong(mFilterEndTime) * 1000)));
         }
         if (!TextUtils.isEmpty(mFilterPayState)) {
-            if (mFilterPayState.equals("1")) {
-                payStateIL.setContent(AppUtil.getPayState().get(0));
-            } else if (mFilterPayState.equals("2")) {
-                payStateIL.setContent(AppUtil.getPayState().get(1));
-            } else if (mFilterPayState.equals("3")) {
-                payStateIL.setContent(AppUtil.getPayState().get(2));
-            } else if (mFilterPayState.equals("4")) {
-                payStateIL.setContent(AppUtil.getPayState().get(3));
-            }
+            payStateIL.setContent(AppUtil.getPayState().get(Integer.parseInt(mFilterPayState) - 1));
+        }
+
+        // 来源方式权限限定
+        int curPositionId = user.positionInfo.id;
+//        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+//            mFilterSource = MarketApi.TYPESOURCE_READING + "";
+//        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+//            mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+        if (curPositionId == Cons.Position.Xiaoyuanjingli.ordinal() || curPositionId == Cons.Position.Shichangzhuguan.ordinal()) {
+            sources = new ArrayList<String>(){{add("晨读");add("转介绍");add("全部来源");}};
+            sourceIL.setVisibility(View.VISIBLE);
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuguan.ordinal()) {
+            sources = new ArrayList<String>(){{add("校聊");add("转介绍");add("全部来源");}};
+            sourceIL.setVisibility(View.VISIBLE);
+        } else {
+            sources = new ArrayList<String>(){{add("晨读");add("校聊");add("转介绍");add("全部来源");}};
+            sourceIL.setVisibility(View.VISIBLE);
+        }
+        if (!TextUtils.isEmpty(mFilterSource)) {
+            sourceIL.setContent(mFilterSourceName);
         }
         if (!TextUtils.isEmpty(mFilterUniversityId)) {
             universityIL.setContent(mFilterUniversityName);
@@ -201,6 +227,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         }
         campusIL.setOnEidttextClick(this);
         payStateIL.setOnEidttextClick(this);
+        sourceIL.setOnEidttextClick(this);
         universityIL.setOnEidttextClick(this);
         referrerIL.setOnEidttextClick(this);
         mGestureDetector = new GestureDetector(new Gesturelistener());
@@ -260,7 +287,10 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         }
                     }
                     if (!TextUtils.isEmpty(mFilterPayState)) {
-                        params.put("pay_state", mFilterPayState + "");
+                        params.put("pay_state", mFilterPayState);
+                    }
+                    if (!TextUtils.isEmpty(mFilterSource)) {
+                        params.put("source", mFilterSource);
                     }
                     if (!TextUtils.isEmpty(mFilterUniversityId)) {
                         params.put("college_id", mFilterUniversityId);
@@ -269,7 +299,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                     if (!TextUtils.isEmpty(mFilterReferrerId)) {
                         params.put("referrer", mFilterReferrerId);
                     }
-                    callback.onFinishFilter(Integer.parseInt(mFilterCampusId), params, mFilterUniversityName, mFilterReferrerName);
+                    callback.onFinishFilter(Integer.parseInt(mFilterCampusId), mFilterSource, params, mFilterSourceName, mFilterUniversityName, mFilterReferrerName);
                 }
                 break;
             case R.id.commun_block_top:
@@ -286,6 +316,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         startTimeEt.setText("");
         endTimeEt.setText("");
         payStateIL.setContent("");
+        sourceIL.setContent("");
         universityIL.setContent("");
         referrerIL.setContent("");
         if (!isUserCampus) {
@@ -294,8 +325,13 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         mFilterStartTime = "";
         mFilterEndTime = "";
         mFilterPayState = "";
+        mFilterSource = "";
         mFilterUniversityId = "";
+        mFilterProvinceId = "";
         mFilterReferrerId = "";
+        mFilterSourceName = "";
+        mFilterUniversityName = "";
+        mFilterReferrerName = "";
     }
 
     @Override
@@ -311,12 +347,66 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                 });
                 break;
             case R.id.item_pay_state:
-//                showPayStatePick();
-                showPickPop(R.string.item_pay_state, 0, 1, AppUtil.getPayState(), new PickerWheelViewPop.PickCallback<int[]>() {
+//                showPickPop(R.string.item_pay_state, 0, 1, AppUtil.getPayState(), new PickerWheelViewPop.PickCallback<int[]>() {
+//                    @Override
+//                    public void onPickCallback(int[] position, String... result) {
+//                        if (result != null) payStateIL.setContent(result[0]);
+//                        if (position != null) mFilterPayState = (position[0] + 1) + "";
+//                    }
+//                });
+                PickerDialogFragment.Builder payBuilder = new PickerDialogFragment.Builder();
+                payBuilder.setBackgroundDark(true)
+                        .setDialogTitle(R.string.item_pay_state)
+                        .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
+                        .setDatas(0, 1, AppUtil.getPayState());;
+                PickerDialogFragment payFragment = payBuilder.Build();
+                payFragment.show(getChildFragmentManager(),"dialog");
+                payFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
                     @Override
-                    public void onPickCallback(int[] position, String... result) {
-                        if (result != null) payStateIL.setContent(result[0]);
-                        if (position != null) mFilterPayState = (position[0] + 1) + "";
+                    public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
+                        return null;
+                    }
+
+                    @Override
+                    public void onPickResult(Object object, String... result) {
+                        payStateIL.setContent(result[0]);
+                        mFilterPayState = (AppUtil.getPayState().indexOf(result[0]) + 1) + "";
+                    }
+                });
+                break;
+            case R.id.item_source:
+                PickerDialogFragment.Builder fromBuilder = new PickerDialogFragment.Builder();
+                fromBuilder.setBackgroundDark(true)
+                        .setDialogTitle(R.string.item_from)
+                        .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
+                        .setDatas(0, 1, sources);;
+                PickerDialogFragment fromFragment = fromBuilder.Build();
+                fromFragment.show(getChildFragmentManager(),"dialog");
+                fromFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
+                    @Override
+                    public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
+                        return null;
+                    }
+
+                    @Override
+                    public void onPickResult(Object object, String... result) {
+                        mFilterSourceName = result[0];
+                        sourceIL.setContent(mFilterSourceName);
+                        switch (mFilterSourceName) {
+                            case "晨读":
+                                mFilterSource = MarketApi.TYPESOURCE_READING + "";
+                                break;
+                            case "转介绍":
+                                mFilterSource = MarketApi.TYPESOURCE_RECOMMEND + "";
+                                break;
+                            case "校聊":
+                                mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+                                break;
+                            case "全部来源":
+                                mFilterSource = MarketApi.TYPESOURCE_ALL + "";
+                                break;
+                        }
+
                     }
                 });
                 break;
@@ -419,6 +509,14 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             }
         });
         pop.showAtLocation(universityIL, Gravity.BOTTOM, 0, 0);
+
+//        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+//        builder.setBackgroundDark(true)
+//                .setDialogTitle(-1)
+//                .setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+//        PickerDialogFragment fragment = builder.Build();
+//        dialog.show(getFragmentManager()),"dialog);
+//        dialog.addCallback(new Callback);
     }
 
     private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerWheelViewPop.PickCallback callback) {
@@ -430,7 +528,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     }
 
     public interface FilterCallback {
-        void onFinishFilter(int campusId, Map<String, String> map, String university_name, String referrer_name);
+        void onFinishFilter(int campusId, String source, Map<String, String> map, String source_name, String university_name, String referrer_name);
 
         void onCancelDilaog();
     }

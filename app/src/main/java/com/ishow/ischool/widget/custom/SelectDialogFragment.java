@@ -119,7 +119,7 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
     }
 
     public static class Builder {
-        private int buttonColor = R.color.txt_blue;//取消按钮的颜色
+        private int buttonColor = R.color.txt_red;//取消按钮的颜色
         public ArrayList<String> datas;//message btb 文本集合
         public ArrayList<Integer> colors; //为每一个message btb指定不同的颜色
 

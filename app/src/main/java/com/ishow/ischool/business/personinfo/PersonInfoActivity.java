@@ -64,7 +64,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         mToolbar = (Toolbar) findViewById(com.commonlib.R.id.toolbar);
         mToolbar.setTitle("");
         mToolbarTitle = (TextView) findViewById(com.commonlib.R.id.toolbar_title);
-
+        mToolbarTitle.setText(getString(R.string.per_info_title));
         mToolbar.setNavigationIcon(com.commonlib.R.drawable.ic_return);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -31,7 +31,6 @@ import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,9 +54,6 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public FmItemTextView fmMeNotifyMsg;
 
     private User user;
-
-    private Position selectPosition;
-    private String[] selectResult;
 
     private List<Campus> campus;
     private List<Position> positions;
@@ -104,53 +100,15 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     //PickerWheelViewPop pop;
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
-        if (user != null) {
-            PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-            builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS);
-            if (campus != null && campus.size() <= 1)
-                builder.setDatas(0,1,campus.get(0).positions);
-            else  builder.setDatas(0,2,mPresenter.getCampusArrayList(campus),campus.get(0).positions);
-            PickerDialogFragment fragment = builder.Build();
-            fragment.show(getChildFragmentManager(),"dialog");
-            fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
-                @Override
-                public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
-                    //只有一列的返回空
-                    if (campus != null && campus.size() <= 1)
-                        return null;
-                    //有2列的 但是选中的是第二列 也就是职位列表的 不需要变化
-                    if (colum == 1)
-                        return null;
-                    //更新 数据源
-                    return mPresenter.getPositionForCampus(campus, selectPosition);
-                }
-                @Override
-                public void onPickResult(Object object, String... result) {
-                    selectPosition = mPresenter.getSelectPosition(user.position, result[result.length - 1]);
-                    selectResult = result;
-                    if (selectPosition != null) {
-                        handProgressbar(true);
-                        mPresenter.change(selectPosition.campus_id, selectPosition.id);
-                    }
-                }
-            });
-        }
+        if (user==null)
+            return;
+        positions = user.position;
+        mPresenter.switchRole(getChildFragmentManager(),campus,positions);
     }
 
     /*消息通知*/
     @OnClick(R.id.fm_me_notify_msg)
     public void on_fm_me_notify_msg_click() {
-//        CommuDialogFragment pop = new CommuDialogFragment();
-//        pop.show(getChildFragmentManager(),"dialog");
-//        pop.addOnSelectResultCallback(new CommuDialogFragment.selectResultCallback() {
-//            @Override
-//            public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
-//                LogUtil.e(statePosition+"-"+confidencePosition+"-"+refusePosition);
-//            }
-//        });
-//        Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
-//        intent.putExtra(StudentDetailActivity.P_STUDENT_ID, 7);
-//        startActivity(intent);
         PickerDialogFragment dialog = new PickerDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("PICK_TITLE", R.string.choose_birthday);
@@ -183,13 +141,11 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     /*退出*/
     @OnClick(R.id.fm_me_login_out)
     public void on_fm_me_login_out_click() {
-        handProgressbar(true);
         mPresenter.logout();
     }
 
     @Override
     public void onNetSucess() {
-        handProgressbar(false);
         UserManager.getInstance().clear();
         ActivityStackManager.getInstance().clear();
         JumpManager.jumpActivity(getContext(), LoginActivity.class);
@@ -200,24 +156,25 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
     @Override
     public void onNetFailed(String msg) {
-        handProgressbar(false);
         showToast(msg);
     }
 
     @Override
-    public void onChangeSucess() {
-        handProgressbar(false);
-        if (selectResult != null) {
-            fmMeSwitchRole.setTipTxt(selectResult[selectResult.length - 1]);
+    public void onChangeSucess(String txt,Position selectPosition) {
+        fmMeSwitchRole.setTipTxt(txt);
             //更新本地 用户信息的 posiiotnInfo的 信息
-            UserManager.getInstance().updateCurrentPositionInfo(selectPosition);
-        }
+        UserManager.getInstance().updateCurrentPositionInfo(selectPosition);
+
     }
 
     @Override
     public void onChageFailed(String msg) {
-        handProgressbar(false);
         showToast(msg);
+    }
+
+    @Override
+    public void showProgressbar(boolean show) {
+        handProgressbar(show);
     }
 
     @Override

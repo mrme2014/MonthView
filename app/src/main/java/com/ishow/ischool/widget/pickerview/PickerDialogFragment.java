@@ -249,25 +249,14 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     public interface Callback<T> {
         void onPickResult(T object, String... result);
     }
-
-    /*适用于 PickerDialogfragment new 出来之后 在填充数据 且不需要wheel之间联动的*//*
-    public interface PickCallback<T> extends Callback<T> {
-        *//*object 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*//*
-        void onDialogCreatCompelete();
-    }
-*/
-    /*适用于 PickerDialogfragment new 出来之后 在填充数据 需要wheel之间联动的*/
-    public interface MultilinkPickCallback<T> extends Callback<T> {
-        ArrayList<String> endSelect(int colum, int selectPosition, String text);
-    }
-
     public void addCallback(Callback callback1) {
         this.callback = callback1;
     }
 
-    /*public void addPickCallback(PickCallback callback1) {
-        this.pickcallback = callback1;
-    }*/
+    /*适用于 PickerDialogfragment new 出来之后 在填充数据 需要wheel之间联动的*/
+    public interface MultilinkPickCallback<T> extends Callback<T> {
+        ArrayList<String> endSelect(int colum, int selectPosition, String text);
+    }
 
     public void addMultilinkPickCallback(MultilinkPickCallback callback1) {
         this.multicallback = callback1;

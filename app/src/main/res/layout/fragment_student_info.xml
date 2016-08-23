@@ -2,12 +2,12 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <com.commonlib.widget.LabelTextView
@@ -36,6 +36,17 @@
             android:id="@+id/student_qq"
             style="@style/student_info_textview"
             app:label_text_left="@string/label_student_qq" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/student_wechat"
+            style="@style/student_info_textview"
+            app:label_text_left="@string/label_student_wechat" />
 
         <View
             android:layout_width="match_parent"

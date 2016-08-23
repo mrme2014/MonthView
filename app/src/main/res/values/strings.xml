@@ -180,6 +180,9 @@
     <string name="communication_empty">暂时没有沟通记录</string>
     <string name="add_success">添加成功</string>
     <string name="str_complete">完成</string>
+    <string name="label_student_wechat">微信</string>
+    <string name="sure">确认</string>
+    <string name="choose_commun_date">请选择沟通时间</string>
     <string name="save_pic">保存图片</string>
     <string name="save_pic_complete">保存成功</string>
     <string name="save_pic_faild">保存失败,可能没有文件存储权限.</string>

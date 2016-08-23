@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.communicationadd;
+package com.ishow.ischool.business.communication.add;
 
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
@@ -22,7 +22,7 @@ public interface CommunicationAddContract {
     }
 
     interface Model extends BaseModel {
-        Observable<ApiResult<String>> addCommunication(HashMap<String, String> params);
+        Observable<ApiResult<Object>> addCommunication(HashMap<String, String> params);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

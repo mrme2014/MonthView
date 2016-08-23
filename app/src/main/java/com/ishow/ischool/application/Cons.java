@@ -46,4 +46,8 @@ public class Cons {
         Gaojixuexiguwen,
         Yingshixuexiguwen
         }
+
+    public interface Communication {
+        int source = 1;
+    }
 }

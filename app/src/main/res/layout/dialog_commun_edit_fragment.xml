@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_cancel"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@drawable/selector_btn_blue_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/commun_add" />
+
+    <TextView
+        android:id="@+id/dialog_sure"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:text="@string/sure"
+        android:textColor="@drawable/selector_btn_blue_text" />
+
+    <View
+        android:id="@+id/dialog_title_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/dialog_sure"
+        android:background="@color/comm_line" />
+
+    <EditText
+        android:id="@+id/dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_title_line"
+        android:background="@color/white"
+        android:gravity="top"
+        android:lines="5"
+        android:padding="10dp" />
+
+    <com.commonlib.widget.LabelTextView
+        android:id="@+id/dialog_date"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/dialog_content"
+        android:drawablePadding="12dp"
+        android:drawableRight="@mipmap/icon_list_next"
+        android:gravity="center_vertical|right"
+        android:hint="@string/choose_commun_date"
+        android:paddingRight="12dp"
+        app:label_padding="12dp"
+        app:label_text_left="@string/commun_date" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/dialog_content"
+        android:background="@color/comm_line" />
+
+    <TextView
+        android:id="@+id/dialog_content_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/dialog_date"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="12dp"
+
+        android:textColor="@color/txt_9" />
+
+</RelativeLayout>

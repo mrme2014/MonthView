@@ -28,11 +28,16 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private ArrayList<CommunicationItem> datas;
     private LayoutInflater inflater;
     private View.OnClickListener mListener;
+    private View.OnClickListener listener;
 
     public CommunListAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
 
+    }
+
+    public CommunicationItem getItem(int position) {
+        return datas.get(position);
     }
 
     @Override
@@ -137,7 +142,16 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public CommunLatestHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            if (listener != null) {
+                communStateTv.setOnClickListener(listener);
+                faithTv.setOnClickListener(listener);
+                opposeTv.setOnClickListener(listener);
+                sourceTv.setOnClickListener(listener);
+                backDateTv.setOnClickListener(listener);
+            }
         }
+
+
     }
 
     class CommunAddHolder extends RecyclerView.ViewHolder {
@@ -148,6 +162,9 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public CommunAddHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            if (listener != null) {
+                communAddTv.setOnClickListener(listener);
+            }
         }
     }
 
@@ -167,5 +184,9 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
     }
 }

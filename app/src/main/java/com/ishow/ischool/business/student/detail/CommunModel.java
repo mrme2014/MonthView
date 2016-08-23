@@ -22,4 +22,21 @@ public class CommunModel implements CommunContract.Model {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<ApiResult<Object>> editCommunication(HashMap<String, String> params) {
+        return ApiFactory.getInstance().getApi(CommunicationApi.class)
+                .editCommnunication(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<ApiResult<Object>> addCommunication(HashMap<String, String> params) {
+        return ApiFactory.getInstance().getApi(CommunicationApi.class)
+                .addCommnunication(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

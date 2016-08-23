@@ -51,6 +51,7 @@ public class StudentInfo implements Parcelable {
     public String password;
     public String mobile;
     public String qq;
+    public String wechat;
     public String major;
     public String idcard;
     public int create_time;
@@ -85,6 +86,7 @@ public class StudentInfo implements Parcelable {
         password = in.readString();
         mobile = in.readString();
         qq = in.readString();
+        wechat = in.readString();
         major = in.readString();
         idcard = in.readString();
         create_time = in.readInt();
@@ -120,6 +122,7 @@ public class StudentInfo implements Parcelable {
         dest.writeString(password);
         dest.writeString(mobile);
         dest.writeString(qq);
+        dest.writeString(wechat);
         dest.writeString(major);
         dest.writeString(idcard);
         dest.writeInt(create_time);

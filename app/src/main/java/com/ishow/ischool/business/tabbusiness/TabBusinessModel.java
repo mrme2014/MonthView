@@ -5,8 +5,8 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.system.CampusInfo;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
-import com.ishow.ischool.business.communicationadd.CommunicationAddActivity;
-import com.ishow.ischool.business.communicationlist.CommunicationListActivity;
+import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
+import com.ishow.ischool.business.communication.list.CommunicationListActivity;
 import com.ishow.ischool.business.statisticslist.StatisticsListActivity;
 import com.ishow.ischool.common.api.MarketApi;
 

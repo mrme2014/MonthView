@@ -8,6 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <TextView
@@ -16,8 +17,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="取消"
-            android:textSize="@dimen/sp12"
-            android:textColor="@color/txt_blue" />
+            android:textSize="@dimen/sp13"
+            android:textColor="@drawable/selector_btn_blue_text" />
 
         <TextView
             android:id="@+id/title"
@@ -25,8 +26,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="@dimen/sp14"
-            android:layout_centerInParent="true"
-            android:textColor="@color/txt_blue" />
+            android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/ok"
@@ -35,8 +35,8 @@
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:text="确定"
-            android:textSize="@dimen/sp12"
-            android:textColor="@color/txt_blue" />
+            android:textSize="@dimen/sp13"
+            android:textColor="@drawable/selector_btn_blue_text" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.view.Gravity;
+import android.view.View;
 
+import com.ishow.ischool.R;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,5 +135,13 @@ public class AppUtil {
         HashMap<String, String> params = new HashMap<>();
         params.put("resources_id", String.valueOf(resourcesId));
         return params;
+    }
+
+
+    public static void showTimePickerDialog(Context context, View parent, PickerWheelViewPop.PickCallback callback) {
+        PickerWheelViewPop pop = new PickerWheelViewPop(context);
+        pop.renderYMDPanel(R.string.choose_birthday);
+        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+        pop.addPickCallback(callback);
     }
 }

@@ -54,8 +54,8 @@
         <activity android:name=".business.kefu.KefuActivity" />
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
         <activity android:name=".business.personinfo.PersonInfoActivity" />
-        <activity android:name=".business.communicationlist.CommunicationListActivity" />
-        <activity android:name=".business.communicationadd.CommunicationAddActivity" />
+        <activity android:name=".business.communication.list.CommunicationListActivity" />
+        <activity android:name=".business.communication.add.CommunicationAddActivity" />
         <activity
             android:name=".business.addstudent.AddStudentActivity"
             android:screenOrientation="portrait"
@@ -73,7 +73,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".business.student.detail.StudentDetailActivity" />
-        <activity android:name=".business.student.edit.EditActivity"></activity>
+        <activity android:name=".business.student.edit.EditActivity" />
+        <activity android:name=".business.communication.edit.CommunicationEditActivity"></activity>
     </application>
 
 </manifest>

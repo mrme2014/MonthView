@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,7 +28,7 @@ import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.io.File;
 
@@ -137,12 +136,24 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 dialog.setOnItemSelectedListner(this);
                 break;
             case R.id.person_info_birthday:
-                PickerWheelViewPop pop = new PickerWheelViewPop(this);
+               /* PickerWheelViewPop pop = new PickerWheelViewPop(this);
                 pop.renderYMDPanel(R.string.choose_birthday);
                 pop.showAtLocation(personInfoBirthday, Gravity.BOTTOM, 0, 0);
                 pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
                     @Override
                     public void onPickCallback(Integer unix, String... result) {
+
+                    }
+                });*/
+                PickerDialogFragment dialogFragment = new PickerDialogFragment();
+                Bundle bundl= new Bundle();
+                bundl.putInt("PICK_TITLE",R.string.choose_birthday);
+                bundl.putInt("PICK_THEME",R.style.Comm_dialogfragment);
+                dialogFragment.setArguments(bundl);
+                dialogFragment.show(getSupportFragmentManager(),"dialog");
+                dialogFragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
+                    @Override
+                    public void onPickResult(Integer unix, String... result) {
                         if (submitInfo(unix)) return;
                         if (result != null) personInfoBirthday.setTipTxt(result[0]);
                     }

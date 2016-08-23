@@ -24,25 +24,20 @@ import java.util.Date;
  */
 public class PickerDialogFragment extends DialogFragment implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
     /**
-     * 年月日的选择  PickerDialogFragment dialog = new PickerDialogFragment();
-     * dialog.show(getSupportManager,"dialog);
-     * dialog.addCallback(new Callback);
+     * 年月日的选择  PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+     *             builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+     *             PickerDialogFragment fragment = builder.Build();
+     *            dialog.show(getSupportManager,"dialog);
+     *            dialog.addCallback(new Callback);
      * <p/>
      * <p/>
      * 需要多个滑轮列表或者 列与列之间需要联动的
      * <p/>
-     * final PickerDialogFragment dialog = new PickerDialogFragment();
-     * Bundle bundle = new Bundle();
-     * bundle.putInt("PICK_TITLE", R.string.fm_me_switch_role);
-     * bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_OTHERS);
-     * //PickerDialogFragment.STYLE_NO_FRAME------->背景不会变暗   //R.style.Comm_dialogfragment ----> 背景变暗   设定其他的style也可以
-     * bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);
-     * dialog.setArguments(bundle);
-     * dialog.show(getChildFragmentManager(), "dialog");
-     * dialog.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() ；------->多列表 或者列表之间需要联动的 需要设定这个回调
-     *
-     *
-     *
+     * PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+     * builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0,1,campus.get(0).positions);;
+     * PickerDialogFragment fragment = builder.Build();
+     * fragment.show(getChildFragmentManager(),"dialog");
+     * fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() );
      */
     //  @BindView(R.id.cancel)
     TextView cancel;
@@ -68,6 +63,9 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     public static int PICK_TYPE = PICK_TYPE_DATE;
 
     private View contentView;
+    private int defalut;
+    private int count;
+    private ArrayList<ArrayList<String>> data;
 
 
     @NonNull
@@ -79,6 +77,10 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             PICK_TYPE = bundle.getInt("PICK_TYPE");
             PICK_TITLE = bundle.getInt("PICK_TITLE");
             PICK_THEME = bundle.getInt("PICK_THEME");
+
+            defalut = bundle.getInt("defalut");
+            count = bundle.getInt("count");
+            data = (ArrayList<ArrayList<String>>) bundle.getSerializable("data");
         }
         dialog = new Dialog(getContext(), PICK_THEME);
         dialog.setCancelable(true);
@@ -122,14 +124,62 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         }
 
         if (linearlayout != null) {
-            linearlayout.setwheelViewSelect(this);
+            setDatas(defalut, count, data);
         }
 
         //if (callback!=null&&callback instanceof PickCallback||callback instanceof MultilinkPickCallback)callback.onDialogCreatCompelete();
-        if (pickcallback != null) pickcallback.onDialogCreatCompelete();
-        else if (multicallback != null) multicallback.onDialogCreatCompelete();
+        //if (pickcallback != null) pickcallback.onDialogCreatCompelete();
+        // else if (multicallback != null) multicallback.onDialogCreatCompelete();
 
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    public static class Builder {
+        private boolean dark;
+        private int titleResId;
+        private int defalut;
+        private int count;
+        private ArrayList<ArrayList<String>> data;
+        private int pickType;
+
+        public Builder setBackgroundDark(boolean dark) {
+            this.dark = dark;
+            return this;
+        }
+
+        public Builder setDialogTitle(int titleResId) {
+            this.titleResId = titleResId;
+            return this;
+        }
+
+        public Builder setDialogType(int pickType) {
+            this.pickType = pickType;
+            return this;
+        }
+
+        public Builder setDatas(int defalut, int count, ArrayList<String>... datas) {
+
+            this.defalut = defalut;
+            this.count = count;
+            data = new ArrayList<ArrayList<String>>();
+            for (int i = 0; i < datas.length; i++) {
+                data.add(datas[i]);
+            }
+            return this;
+        }
+
+        public PickerDialogFragment Build() {
+            Bundle bundle = new Bundle();
+            bundle.putInt("PICK_THEME", dark ? R.style.Comm_dialogfragment : DialogFragment.STYLE_NO_FRAME);
+            bundle.putInt("PICK_TITLE", titleResId);
+            bundle.putInt("defalut", defalut);
+            bundle.putInt("count", count);
+            bundle.putSerializable("data", data);
+            bundle.putInt("PICK_TYPE", pickType);
+            PickerDialogFragment fragment = new PickerDialogFragment();
+            fragment.setArguments(bundle);
+            return fragment;
+        }
     }
 
     /**
@@ -138,23 +188,24 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
      * @param count 需要有几列wheelview  最多5个
      * @param datas
      */
-    public void setDatas(int defalut, int count, ArrayList<String>... datas) {
+    private void setDatas(int defalut, int count, ArrayList<ArrayList<String>> datas) {
         if (linearlayout == null)
             return;
         //如果是 多级联动的 但是就一列  直接取消回调
         if (count == 1)
             linearlayout.setwheelViewSelect(null);
+        else linearlayout.setwheelViewSelect(this);
         //最多5列 wheelview吧
         if (count >= 5)
             throw new IndexOutOfBoundsException("the param count must less than 5.");
         //有几列 就要有几个arrylist 数据
-        if (datas == null || datas.length < count)
+        if (datas == null || datas.size() < count)
             throw new IndexOutOfBoundsException("the param datas must not be null and its length must be equal to count.");
         linearlayout.initWheelSetDatas(defalut, count, datas);
 
     }
 
-    public void resfreshData(int index, ArrayList<String> newDatas) {
+    private void resfreshData(int index, ArrayList<String> newDatas) {
         linearlayout.resfreshData(index, newDatas);
 
     }
@@ -172,7 +223,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
 
     private Callback callback;
 
-    private PickCallback pickcallback;
+    // private PickCallback pickcallback;
 
     private MultilinkPickCallback multicallback;
 
@@ -187,8 +238,6 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             } else if (linearlayout != null) {
                 String[] selectResult = linearlayout.getSelectResult();
                 if (callback != null) callback.onPickResult(null, selectResult);
-                else if (pickcallback != null)
-                    pickcallback.onPickResult(null, selectResult);
                 else if (multicallback != null)
                     multicallback.onPickResult(null, selectResult);
             }
@@ -200,14 +249,14 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         void onPickResult(T object, String... result);
     }
 
-    /*适用于 PickerDialogfragment new 出来之后 在填充数据 且不需要wheel之间联动的*/
+    /*适用于 PickerDialogfragment new 出来之后 在填充数据 且不需要wheel之间联动的*//*
     public interface PickCallback<T> extends Callback<T> {
-        /*object 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*/
+        *//*object 这个参数 在众多筛选条件中 UI界面上显示的是 string[] result  但服务器需要 int id,或者时间戳什么的.*//*
         void onDialogCreatCompelete();
     }
-
+*/
     /*适用于 PickerDialogfragment new 出来之后 在填充数据 需要wheel之间联动的*/
-    public interface MultilinkPickCallback<T> extends PickCallback<T> {
+    public interface MultilinkPickCallback<T> extends Callback<T> {
         ArrayList<String> endSelect(int colum, int selectPosition, String text);
     }
 
@@ -215,9 +264,9 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         this.callback = callback1;
     }
 
-    public void addPickCallback(PickCallback callback1) {
+    /*public void addPickCallback(PickCallback callback1) {
         this.pickcallback = callback1;
-    }
+    }*/
 
     public void addMultilinkPickCallback(MultilinkPickCallback callback1) {
         this.multicallback = callback1;

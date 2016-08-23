@@ -178,7 +178,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
             throw new IndexOutOfBoundsException("the param count must less than 5.");
         /*if (datas==null||datas.length<count)
             throw new IndexOutOfBoundsException("the param datas must not be null and its length must be equal to count.");*/
-        viewById.initWheelSetDatas(defalut, count, datas);
+      //  viewById.initWheelSetDatas(defalut, count, datas);
     }
 
     /**

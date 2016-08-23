@@ -5,7 +5,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
+import com.ishow.ischool.bean.system.CampusInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+import com.ishow.ischool.common.manager.CampusManager;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -30,9 +34,17 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs());
         mRecyclerView.setAdapter(mAdapter);
+        mPresenter.getCampusList();     //进入app获取所有校区信息
     }
 
+    @Override
+    public void getListSuccess(ArrayList<CampusInfo> campusInfos) {
+        CampusManager.getInstance().init(getActivity().getApplicationContext());
+        CampusManager.getInstance().save(campusInfos);
+    }
 
+    @Override
+    public void getListFail(String msg) {
 
-
+    }
 }

@@ -53,6 +53,10 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         recycler.setRefreshing();
     }
 
+    protected void setRefreshing() {
+        recycler.setRefreshingMainThread();
+    }
+
     protected void setUpAdapter() {
         mAdapter = new ListAdapter();
     }

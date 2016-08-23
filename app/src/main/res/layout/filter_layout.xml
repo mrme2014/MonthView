@@ -4,17 +4,20 @@
     android:id="@+id/root_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#44000000"
-    android:orientation="vertical"
-    android:visibility="gone">
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/commun_block_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"/>
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_campus"
         style="@style/input_linearLayout_style"
-        android:visibility="gone"
         input:inputLayout_texthint="学员所在校区"
         input:label_text="@string/item_campus"
-        input:next="true" />
+        input:next="true"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,7 +53,10 @@
                     android:background="@null"
                     android:focusable="false"
                     android:hint="开始时间"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/txt_2"
+                    android:textSize="@dimen/sp14"
+                    android:textColorHint="@color/txt_hint"/>
 
                 <ImageView
                     android:id="@+id/start_time_clear"
@@ -77,7 +83,10 @@
                     android:background="@null"
                     android:focusable="false"
                     android:hint="结束时间"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/txt_2"
+                    android:textSize="@dimen/sp14"
+                    android:textColorHint="@color/txt_hint"/>
 
                 <ImageView
                     android:id="@+id/end_time_clear"
@@ -95,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="10dp"
-        android:background="@color/split_line_color" />
+        android:background="@color/comm_line" />
 
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_pay_state"
@@ -132,7 +141,9 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="@string/str_reset" />
+            android:text="@string/str_reset"
+            android:textColor="@color/txt_6"
+            android:textSize="@dimen/sp15"/>
 
         <TextView
             android:id="@+id/filter_ok"
@@ -142,6 +153,15 @@
             android:background="@color/color_orange"
             android:gravity="center"
             android:text="@string/str_ok"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp15"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/commun_block_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black"
+        android:alpha="0.5" />
 </LinearLayout>

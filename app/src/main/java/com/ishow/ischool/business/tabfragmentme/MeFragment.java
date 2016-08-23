@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
@@ -104,14 +105,14 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
         if (user != null) {
-            final PickerDialogFragment dialog = new PickerDialogFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("PICK_TITLE", R.string.fm_me_switch_role);
-            bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_OTHERS);
-            bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME  //R.style.Comm_dialogfragment
-            dialog.setArguments(bundle);
-            dialog.show(getChildFragmentManager(), "dialog");
-            dialog.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
+            PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+            builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS);
+            if (campus != null && campus.size() <= 1)
+                builder.setDatas(0,1,campus.get(0).positions);
+            else  builder.setDatas(0,2,mPresenter.getCampusArrayList(campus),campus.get(0).positions);
+            PickerDialogFragment fragment = builder.Build();
+            fragment.show(getChildFragmentManager(),"dialog");
+            fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
                 @Override
                 public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
                     //只有一列的返回空
@@ -121,18 +122,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
                     if (colum == 1)
                         return null;
                     //更新 数据源
-                    return mPresenter.getPositionForCampus(user.campus, selectPosition);
+                    return mPresenter.getPositionForCampus(campus, selectPosition);
                 }
-
-                @Override
-                public void onDialogCreatCompelete() {
-                    if (campus != null && campus.size() <= 1)
-                        dialog.setDatas(0, 1, campus.get(0).positions);
-                    else
-                        dialog.setDatas(0, 2, mPresenter.getCampusArrayList(campus), campus.get(0).positions);
-                    //dialog.setDatas();
-                }
-
                 @Override
                 public void onPickResult(Object object, String... result) {
                     selectPosition = mPresenter.getSelectPosition(user.position, result[result.length - 1]);
@@ -143,25 +134,6 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
                     }
                 }
             });
-
-
-            /*if (pop == null) {
-                pop = new PickerWheelViewPop(getContext());
-                pop.initMultiSelectPanel(R.string.switch_role);
-                pop.renderPanel(user);
-                pop.addPickCallback(new PickerWheelViewPop.PickCallback<Position>() {
-                    @Override
-                    public void onPickResult(Position position, String... result) {
-                        selectPosition = position;
-                        selectResult =result;
-                        if (position != null) {
-                            handProgressbar(true);
-                            mPresenter.change(position.campus_id,position.id);
-                        }
-                    }
-                });
-            }
-            pop.showAtLocation(fmMeSwitchRole, Gravity.BOTTOM, 0, 0);*/
         }
     }
 
@@ -253,8 +225,11 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             String path = data.getStringExtra("bitmap");
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            fmMeHeaderAvart.setImageBitmap(bitmap);
+            LogUtil.e("onActivityResult"+path);
+            if (!TextUtils.equals(path,"")&&path!=null){
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                fmMeHeaderAvart.setImageBitmap(bitmap);
+            }
         }
     }
 }

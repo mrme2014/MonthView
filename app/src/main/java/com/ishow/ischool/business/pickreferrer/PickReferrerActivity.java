@@ -34,7 +34,7 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
     private ArrayList<User> originalDatas = new ArrayList<>();
     private SearchView mSearchView;
     private boolean isFirst = true;
-    private String mSearchKey;
+    private String mSearchKey = "";
 
     @Override
     protected void setUpContentView() {

@@ -44,14 +44,14 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      */
     private SparseArray<WheelView> array;
 
-    public void initWheelSetDatas(int defalut, int cloums, ArrayList<String>... datas) {
+    public void initWheelSetDatas(int defalut, int cloums, ArrayList<ArrayList<String>> datas) {
         if (array == null) array = new SparseArray<>(cloums);
 
         for (int i = 0; i < cloums; i++) {
             WheelView wheelView = (WheelView) LayoutInflater.from(getContext()).inflate(R.layout.wheelview, null);
             wheelView.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
-            if (datas != null && i < datas.length)
-                wheelView.setData(datas[i]);
+            if (datas != null && i < datas.size())
+                wheelView.setData(datas.get(i));
             else wheelView.setData(getMonthData());//这句话是测试用的
             wheelView.setId(i);
             wheelView.setDefault(defalut);

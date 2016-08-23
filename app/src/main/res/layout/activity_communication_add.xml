@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:hint="@string/commun_input_content_hint"
-        android:lines="6"
+        android:lines="8"
         android:paddingTop="13dp"
         app:label_text="@string/commun_label_content" />
 

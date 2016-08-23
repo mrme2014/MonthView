@@ -1,13 +1,21 @@
 package com.ishow.ischool.business.tabbusiness;
 
+import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.system.CampusInfo;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.list.CommunicationListActivity;
 import com.ishow.ischool.business.statisticslist.StatisticsListActivity;
+import com.ishow.ischool.common.api.MarketApi;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wqf on 16/8/14.
@@ -41,4 +49,11 @@ public class TabBusinessModel implements TabBusinessContract.Model {
         return tabSpecs;
     }
 
+
+    public Observable<ApiResult<ArrayList<CampusInfo>>> getCampusList() {
+        return ApiFactory.getInstance().getApi(MarketApi.class).getCampusList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
 }

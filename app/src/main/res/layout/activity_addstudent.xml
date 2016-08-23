@@ -20,13 +20,13 @@
                 android:id="@+id/item_name"
                 style="@style/input_linearLayout_style"
                 android:layout_marginTop="10dp"
-                input:inputLayout_texthint="请输入学员姓名（必填）"
+                input:inputLayout_texthint="请输入学员姓名(必填)"
                 input:label_text="@string/item_name" />
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_phone"
                 style="@style/input_linearLayout_style"
-                input:inputLayout_texthint="请输入学员电话（必填）"
+                input:inputLayout_texthint="请输入学员电话(必填)"
                 input:label_text="@string/item_phone" />
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
@@ -38,7 +38,7 @@
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_university"
                 style="@style/input_linearLayout_style"
-                input:inputLayout_texthint="请选择学员就读学校（必填）"
+                input:inputLayout_texthint="请选择学员就读学校(必填)"
                 input:label_text="@string/item_university"
                 input:next="true" />
 
@@ -46,7 +46,7 @@
                 android:id="@+id/item_major"
                 style="@style/input_linearLayout_style"
                 input:bottom_line="false"
-                input:inputLayout_texthint="请输入学员就读专业（必填）"
+                input:inputLayout_texthint="请输入学员就读专业(必填)"
                 input:label_text="@string/item_major" />
 
             <include layout="@layout/view_bottom_line" />
@@ -55,19 +55,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/txt_9"
+                android:textSize="@dimen/sp13"
                 android:text="@string/span_business_info" />
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_campus"
                 style="@style/input_linearLayout_style"
-                input:inputLayout_texthint="请输入学员所属校区（必填）"
+                input:inputLayout_texthint="请输入学员所属校区(必填)"
                 input:label_text="@string/item_campus"
                 input:focusable="false"/>
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_from"
                 style="@style/input_linearLayout_style"
-                input:inputLayout_texthint="请选择学员来源（必填）"
+                input:inputLayout_texthint="请选择学员来源(必填)"
                 input:label_text="@string/item_from"
                 input:next="true" />
 
@@ -81,10 +85,12 @@
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_remark"
-                style="@style/input_linearLayout_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 input:bottom_line="false"
                 input:inputLayout_texthint="请填写备注信息"
-                input:label_text="@string/item_remark" />
+                input:label_text="@string/item_remark"
+                input:text_line="7"/>
 
             <include layout="@layout/view_bottom_line" />
 

@@ -31,6 +31,7 @@ import java.util.List;
  * <p>
  * 分开来写逻辑省很多代码
  */
+@Deprecated
 public class PickerWheelViewPop extends PopupWindow implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect, PopupWindow.OnDismissListener {
 
     private PickerWheelViewLinearlayout viewById;
@@ -178,7 +179,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
             throw new IndexOutOfBoundsException("the param count must less than 5.");
         /*if (datas==null||datas.length<count)
             throw new IndexOutOfBoundsException("the param datas must not be null and its length must be equal to count.");*/
-        viewById.initWheelSetDatas(defalut, count, datas);
+      //  viewById.initWheelSetDatas(defalut, count, datas);
     }
 
     /**

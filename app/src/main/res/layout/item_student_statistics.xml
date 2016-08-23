@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="62dp"
     android:padding="10dp">
 
     <ImageView
@@ -10,23 +10,24 @@
         android:layout_height="42dp"
         android:src="@mipmap/img_header_default"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="15dp"/>
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/avatar"
-        android:text="王宝强"/>
+        android:textSize="@dimen/sp_nav"
+        android:textColor="@color/txt_2"/>
 
     <TextView
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/name"
+        android:textSize="@dimen/sp10"
+        android:textColor="@color/txt_9"
         android:layout_alignLeft="@id/name"
-        android:text="全款"/>
+        android:layout_alignParentBottom="true"/>
 
     <TextView
         android:id="@+id/university"
@@ -35,8 +36,10 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/state"
         android:layout_alignBottom="@id/state"
+        android:textSize="@dimen/sp13"
+        android:textColor="@color/txt_9"
         android:drawableLeft="@mipmap/icon_adress"
-        android:text="全款"/>
+        android:drawablePadding="4dp"/>
 
     <ImageView
         android:id="@+id/phone"

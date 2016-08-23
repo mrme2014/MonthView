@@ -16,7 +16,7 @@
     <string name="tab_me">我</string>
     <string name="submit">提交</string>
     <string name="old_pwd_hnit">请输入旧密码</string>
-    <string name="new_pwd_hnit">请输入新密码</string>
+    <string name="new_pwd_hnit">新密码密码须为6位及以上 字母加数字组合</string>
     <string name="new_pwd_hnit_again">请确认新密码</string>
     <string name="input_phone">请输入手机号</string>
     <string name="input_smscode">请输入验证码</string>
@@ -182,5 +182,8 @@
     <string name="label_student_wechat">微信</string>
     <string name="sure">确认</string>
     <string name="choose_commun_date">请选择沟通时间</string>
+    <string name="save_pic">保存图片</string>
+    <string name="save_pic_complete">保存成功</string>
+    <string name="save_pic_faild">保存失败,可能没有文件存储权限.</string>
 
 </resources>

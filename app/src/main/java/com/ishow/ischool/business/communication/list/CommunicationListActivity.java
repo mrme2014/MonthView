@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.communicationlist;
+package com.ishow.ischool.business.communication.list;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +12,7 @@ import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
-import com.ishow.ischool.business.communicationadd.CommunicationAddActivity;
+import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;

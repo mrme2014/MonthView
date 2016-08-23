@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.communicationadd;
+package com.ishow.ischool.business.communication.add;
 
 import com.ishow.ischool.common.api.ApiObserver;
 
@@ -25,9 +25,9 @@ public class CommunicationAddPresenter extends CommunicationAddContract.Presente
         params.put("campus_id", form.campus_id + "");
         params.put("resources_id", form.resources_id + "");
 
-        mModel.addCommunication(params).subscribe(new ApiObserver<String>() {
+        mModel.addCommunication(params).subscribe(new ApiObserver<Object>() {
             @Override
-            public void onSuccess(String s) {
+            public void onSuccess(Object s) {
                 mView.onAddSuccess();
             }
 

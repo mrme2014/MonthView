@@ -29,7 +29,7 @@ import butterknife.OnClick;
  * Created by abel on 16/8/18.
  */
 
-public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter, StudentDetailModel> {
+public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> implements InfoContract.View {
 
     private static final String ARG_PARAM = "param";
     private static final int REQUEST_ENGLISH_NAME = 1000;
@@ -40,6 +40,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     private static final int REQUEST_CLASS = 1005;
     private static final int REQUEST_IDCARD = 1006;
     private static final int REQUEST_CODE_PICK_UNIVERSITY = 1007;
+    private static final int REQUEST_WECHAT = 1008;
 
     private OnFragmentInteractionListener mListener;
 
@@ -53,6 +54,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     LabelTextView phoneTv;
     @BindView(R.id.student_qq)
     LabelTextView qqTv;
+    @BindView(R.id.student_wechat)
+    LabelTextView wechatTv;
     @BindView(R.id.student_birthday)
     LabelTextView birthdayTv;
     @BindView(R.id.student_school)
@@ -127,10 +130,25 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
         specialtyTv.setText(mStudent.major);
         classTv.setText(mStudent.grade);
         idcardTv.setText(mStudent.idcard);
+        wechatTv.setText(mStudent.wechat);
     }
 
     private StudentInfo getStudentInfo() {
         return ((StudentDetailActivity) getActivity()).getStudentInfo();
+    }
+
+    @Override
+    public void onEditStudentSuccess(HashMap<String, String> params) {
+        if (params.containsKey("college_id")) {
+            schoolTv.setText(params.get("college_name"));
+        } else if (params.containsKey("birthday")) {
+            birthdayTv.setText(params.get("birthday"));
+        }
+    }
+
+    @Override
+    public void onEditStudentFailed(String msg) {
+        showToast(msg);
     }
 
 
@@ -139,7 +157,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
     }
 
     @OnClick({R.id.student_english_name, R.id.student_phone, R.id.student_qq, R.id.student_birthday,
-            R.id.student_school, R.id.student_specialty,
+            R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard,})
     void onClick(View view) {
         switch (view.getId()) {
@@ -147,7 +165,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_english_name));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME);
                 break;
@@ -156,7 +174,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_phone));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_phone);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().mobile);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE);
                 break;
@@ -165,9 +183,19 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_qq));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ);
+            }
+            break;
+
+            case R.id.student_wechat: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_wechat));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_wechat);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().wechat);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT);
             }
             break;
             case R.id.student_birthday: {
@@ -190,7 +218,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_specialty));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_specialty);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().major);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY);
             }
@@ -199,7 +227,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_class));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_class);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().grade);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_CLASS);
             }
@@ -208,7 +236,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_idcard));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_idcard);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id + "");
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD);
             }
@@ -222,6 +250,15 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
         pop.renderYMDPanel(R.string.choose_birthday);
         pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
         pop.addPickCallback(callback);
+
+//        PickerDialogFragment dialog = new PickerDialogFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("PICK_TITLE", R.string.choose_birthday);
+//        bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
+//        bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
+//        dialog.setArguments(bundle);
+//        dialog.show(getChildFragmentManager(), "dialog");
+
     }
 
 
@@ -238,9 +275,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                     city_id = mUniversityInfo.city_id;
                     HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.STUDENT_EDIT);
                     params.put("college_id", university_id + "");
+                    params.put("id", getStudentInfo().student_id + "");
+                    params.put("college_name", mUniversityInfo.name);
                     mPresenter.editStudent(params);
 
-                    schoolTv.setText(mUniversityInfo.name);
                     break;
                 case REQUEST_ENGLISH_NAME:
                     englishNameTv.setText(text);
@@ -253,6 +291,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<StudentDetailPresenter
                 case REQUEST_QQ:
                     qqTv.setText(text);
                     getStudentInfo().qq = text;
+                    break;
+                case REQUEST_WECHAT:
+                    wechatTv.setText(text);
+                    getStudentInfo().wechat = text;
                     break;
                 case REQUEST_SCHOOL:
                     schoolTv.setText(text);

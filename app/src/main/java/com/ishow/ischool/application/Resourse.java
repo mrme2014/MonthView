@@ -5,6 +5,8 @@ package com.ishow.ischool.application;
  */
 public class Resourse {
 
+    public static final int COMMUNICATION_ADD = 62;
     public static final int COMMUNICATION_EDIT = 78;
+    public static final int COMMUNICATION_LIST = 7;
     public static final int STUDENT_EDIT = 11;
 }

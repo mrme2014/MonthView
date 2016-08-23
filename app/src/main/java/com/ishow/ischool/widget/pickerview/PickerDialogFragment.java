@@ -40,9 +40,6 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
      * dialog.setArguments(bundle);
      * dialog.show(getChildFragmentManager(), "dialog");
      * dialog.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() ；------->多列表 或者列表之间需要联动的 需要设定这个回调
-     *
-     *
-     *
      */
     //  @BindView(R.id.cancel)
     TextView cancel;

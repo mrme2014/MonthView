@@ -237,7 +237,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
                     callback.onPickResult(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
             } else if (linearlayout != null) {
                 String[] selectResult = linearlayout.getSelectResult();
-                if (callback != null) callback.onPickResult(null, selectResult);
+                if (callback != null) callback.onPickResult(linearlayout.getSelectResultId(), selectResult);
                 else if (multicallback != null)
                     multicallback.onPickResult(null, selectResult);
             }

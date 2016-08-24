@@ -1,14 +1,16 @@
 package com.ishow.ischool.business.addstudent;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.baoyz.actionsheet.ActionSheet;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
@@ -34,6 +36,8 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     InputLinearLayout phoneIL;
     @BindView(R.id.item_qq)
     InputLinearLayout qqIL;
+    @BindView(R.id.item_weixin)
+    InputLinearLayout weixinIL;
     @BindView(R.id.item_university)
     InputLinearLayout universityIL;
     @BindView(R.id.item_major)
@@ -48,7 +52,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     InputLinearLayout remarkIL;
 
     private MenuItem submitMenu;
-    private String nameStr, mobileStr, qqStr, universityStr, majorStr, campusStr, fromStr, referrerStr, notesStr;
+    private String nameStr, mobileStr, qqStr, weixinStr, universityStr, majorStr, campusStr, fromStr, referrerStr, notesStr;
     private int province_id, city_id, campus_id, university_id, source_id;
     private UniversityInfo mUniversityInfo;
 
@@ -79,18 +83,36 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         nameIL.getEdittext().addTextChangedListener(this);
         phoneIL.getEdittext().addTextChangedListener(this);
         qqIL.getEdittext().addTextChangedListener(this);
+        weixinIL.getEdittext().addTextChangedListener(this);
         universityIL.getEdittext().addTextChangedListener(this);
         majorIL.getEdittext().addTextChangedListener(this);
         campusIL.getEdittext().addTextChangedListener(this);
         fromIL.getEdittext().addTextChangedListener(this);
         referrerIL.getEdittext().addTextChangedListener(this);
+
+        // 来源方式权限限定
+        int curPositionId = mUser.positionInfo.id;
+        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            fromIL.setDisable();
+            fromIL.setContent("晨读");
+            source_id = MarketApi.TYPESOURCE_READING;
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            fromIL.setDisable();
+            fromIL.setContent("校聊");
+            source_id = MarketApi.TYPESOURCE_CHAT;
+        } else {
+            fromIL.setDisable();
+            fromIL.setContent("转介绍");
+            source_id = MarketApi.TYPESOURCE_RECOMMEND;
+            referrerIL.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.submit:
-                mPresenter.addStudent(nameStr, mobileStr, qqStr, province_id, city_id, campus_id, university_id, majorStr, source_id, notesStr);
+                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id, notesStr);
                 break;
         }
         return true;
@@ -100,14 +122,15 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         nameStr = nameIL.getContent();
         mobileStr = phoneIL.getContent();
         qqStr = qqIL.getContent();
+        weixinStr = weixinIL.getContent();
         universityStr = universityIL.getContent();
         majorStr = majorIL.getContent();
         campusStr = campusIL.getContent();
         fromStr = fromIL.getContent();
         referrerStr = referrerIL.getContent();
         notesStr = remarkIL.getContent();
-        if (!TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(mobileStr) && !TextUtils.isEmpty(qqStr) && !TextUtils.isEmpty(universityStr)
-                && !TextUtils.isEmpty(majorStr) && !TextUtils.isEmpty(campusStr) && !TextUtils.isEmpty(fromStr)) {
+        if (!TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(mobileStr) && (!TextUtils.isEmpty(qqStr) || !TextUtils.isEmpty(weixinStr))
+                && !TextUtils.isEmpty(universityStr) && !TextUtils.isEmpty(majorStr) && !TextUtils.isEmpty(campusStr) && !TextUtils.isEmpty(fromStr)) {
             if (referrerIL.getVisibility() == View.VISIBLE) {    // 转介绍时，推荐人必填
                 if (!TextUtils.isEmpty(referrerStr)) {
                     submitMenu.setEnabled(true);
@@ -122,6 +145,22 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         }
     }
 
+    boolean checkEmpty() {
+        nameStr = nameIL.getContent();
+        mobileStr = phoneIL.getContent();
+        qqStr = qqIL.getContent();
+        weixinStr = weixinIL.getContent();
+        universityStr = universityIL.getContent();
+        majorStr = majorIL.getContent();
+        notesStr = remarkIL.getContent();
+        if (TextUtils.isEmpty(nameStr) && TextUtils.isEmpty(mobileStr) && TextUtils.isEmpty(qqStr) && TextUtils.isEmpty(weixinStr)
+                && TextUtils.isEmpty(universityStr) && TextUtils.isEmpty(majorStr) && TextUtils.isEmpty(notesStr)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void onEdittextClick(View edittext) {
         switch (edittext.getId()) {
@@ -129,45 +168,31 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                 startActivityForResult(new Intent(AddStudentActivity.this, UniversityPickActivity.class), UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY);
                 break;
             case R.id.item_from:
-                ActionSheet.createBuilder(this, this.getSupportFragmentManager())
-                        .setCancelButtonTitle(R.string.str_cancel)
-                        .setOtherButtonTitles(getResources().getStringArray(R.array.source_strings))
-                        .setCancelableOnTouchOutside(true)
-                        .setListener(new ActionSheet.ActionSheetListener() {
-                            @Override
-                            public void onDismiss(ActionSheet actionSheet, boolean b) {
-
-                            }
-
-                            @Override
-                            public void onOtherButtonClick(ActionSheet actionSheet, int i) {
-                                switch (i) {
-                                    case 0:
-                                        fromIL.setContent("校聊");
-                                        source_id = MarketApi.TYPESOURCE3;
-                                        if (referrerIL.getVisibility() != View.GONE) {
-                                            referrerIL.setVisibility(View.GONE);
-//                                            referrerIL.setContent("");
-                                        }
-                                        break;
-                                    case 1:
-                                        fromIL.setContent("晨读");
-                                        source_id = MarketApi.TYPESOURCE1;
-                                        if (referrerIL.getVisibility() != View.GONE) {
-                                            referrerIL.setVisibility(View.GONE);
-//                                            referrerIL.setContent("");
-                                        }
-                                        break;
-                                    case 2:
-                                        fromIL.setContent("转介绍");
-                                        source_id = MarketApi.TYPESOURCE2;
-                                        if (referrerIL.getVisibility() != View.VISIBLE) {
-                                            referrerIL.setVisibility(View.VISIBLE);
-                                        }
-                                        break;
-                                }
-                            }
-                        }).show();
+//                final String[] sources;
+//                if (mUser.positionInfo.id == Cons.Position.Xiaoyuanjingli.ordinal() ||
+//                        mUser.positionInfo.id == Cons.Position.Shichangzhuguan.ordinal()) {
+//                    sources = new String[]{"晨读", "转介绍"};
+//                } else if (mUser.positionInfo.id == Cons.Position.Xiaoliaozhuguan.ordinal()) {
+//                    sources = new String[]{"校聊", "转介绍"};
+//                } else {
+//                    sources = getResources().getStringArray(R.array.source_strings);
+//                }
+//                ActionSheet.createBuilder(this, this.getSupportFragmentManager())
+//                        .setCancelButtonTitle(R.string.str_cancel)
+//                        .setOtherButtonTitles(sources)
+//                        .setCancelableOnTouchOutside(true)
+//                        .setListener(new ActionSheet.ActionSheetListener() {
+//                            @Override
+//                            public void onDismiss(ActionSheet actionSheet, boolean b) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onOtherButtonClick(ActionSheet actionSheet, int i) {
+//                                fromIL.setContent(sources[i]);
+//                                setSourceId(sources[i]);
+//                            }
+//                        }).show();
                 break;
             case R.id.item_referrer:
                 break;
@@ -223,5 +248,37 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     @Override
     public void afterTextChanged(Editable editable) {
         checkComplete();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!checkEmpty()) {
+            exitConfirm();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onNavigationBtnClicked() {
+        if (!checkEmpty()) {
+            exitConfirm();
+        } else {
+            super.onNavigationBtnClicked();
+        }
+    }
+
+    void exitConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //        builder.setTitle("Material Design Dialog");
+        builder.setMessage("返回后本次输入信息会被清空，\n确定返回？");
+        builder.setNegativeButton(R.string.str_cancel, null);
+        builder.setPositiveButton(R.string.str_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        builder.show();
     }
 }

@@ -4,6 +4,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -21,18 +22,6 @@
             app:contentScrim="@color/comm_blue"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <!--<ImageView-->
-            <!--android:id="@+id/blur_bg"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:scaleType="fitXY" />-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/trans_bg_22" />-->
-
-            <!-- 老师信息组 -->
             <RelativeLayout
                 android:id="@+id/user_group"
                 android:layout_width="match_parent"
@@ -159,14 +148,13 @@
 
     <!-- vierpager -->
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/student_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="45dp"
         android:background="@color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -34,11 +34,17 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
     private ArrayList<User> originalDatas = new ArrayList<>();
     private SearchView mSearchView;
     private boolean isFirst = true;
-    private String mSearchKey = "";
+    private String mSearchKey;
+    private boolean mSearchMode = false;
 
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_pick_referrer, R.string.pick_referrer, R.menu.menu_pickreferrer, MODE_BACK);
+    }
+
+    @Override
+    protected void setUpView() {
+        super.setUpView();
         initSearchView();
     }
 
@@ -53,23 +59,23 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                mSearchMode = true;
                 LogUtil.d("SearchView newText = " + newText);
+                mSearchKey = newText;
                 if (TextUtils.isEmpty(newText)) {
-                    loadFailed();
+                    mSearchKey = null;
                 } else {
-                    mCurrentPage = 1;
                     mSearchKey = newText;
-                    mPresenter.getReferrers(mSearchKey, mCurrentPage++);
                 }
+                setRefreshing();
                 return true;
             }
         });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                mDataList.clear();
-                mSearchKey = "";
-                loadSuccess(originalDatas);
+                mSearchMode = false;
+                mSearchKey = null;
                 return false;
             }
         });
@@ -84,19 +90,14 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        if (mSearchKey.equals("")) {
-            mPresenter.getReferrers(null, mCurrentPage++);
-        } else {
-            mPresenter.getReferrers(mSearchKey, mCurrentPage++);
-        }
+
+        mPresenter.getReferrers(mSearchKey, mCurrentPage++);
     }
 
     @Override
     public void getListSuccess(UserListResult userListResult) {
-        if (isFirst) {
-            originalDatas.clear();
-            originalDatas.addAll(userListResult.lists);
-            isFirst = false;
+        if (mSearchMode && mCurrentPage == 2) {
+            mDataList.clear();
         }
         loadSuccess(userListResult.lists);
     }

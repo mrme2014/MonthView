@@ -162,4 +162,12 @@ public class InputLinearLayout extends LinearLayout {
     public String getContent() {
         return input.getText().toString();
     }
+
+
+    /**
+     * 设置edittextview无法点击
+     */
+    public void setDisable() {
+        input.setEnabled(false);
+    }
 }

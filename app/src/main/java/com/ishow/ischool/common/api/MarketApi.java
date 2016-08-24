@@ -27,9 +27,10 @@ import rx.Observable;
  */
 public interface MarketApi {
 
-    int TYPESOURCE1 = 1;  // 晨读
-    int TYPESOURCE2 = 2;  // 转介绍
-    int TYPESOURCE3 = 3;  // 校聊
+    int TYPESOURCE_ALL = -1;        // 全部来源
+    int TYPESOURCE_READING = 1;     // 晨读
+    int TYPESOURCE_RECOMMEND = 2;   // 转介绍
+    int TYPESOURCE_CHAT = 3;        // 校聊
 
     int TYPETIME_REGISTER = 1;          // 登记时间
     int TYPETIME_MATRICULATION = 2;     // 入学时间
@@ -40,6 +41,7 @@ public interface MarketApi {
     Observable<ApiResult<StudentList>> listStudentStatistics(
             @Query("resources_id") int resources_id,
             @Query("campus_id") int campus_id,
+            @Query("source") String source,
             @QueryMap HashMap<String, String> params,
             @Query("pagesize") int pagesize,
             @Query("page") int page
@@ -53,6 +55,7 @@ public interface MarketApi {
             @Field("name") String name,
             @Field("mobile") String mobile,
             @Field("qq") String qq,
+            @Field("wechat") String wechat,
             @Field("province_id") int province_id,
             @Field("city_id") int city_id,
             @Field("campus_id") int campus_id,          //学员所在校区

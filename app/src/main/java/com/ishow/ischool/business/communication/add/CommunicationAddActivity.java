@@ -2,7 +2,6 @@ package com.ishow.ischool.business.communication.add;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,7 +15,7 @@ import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 
@@ -202,19 +201,19 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 });
                 break;
             case R.id.commun_back_date:
-                ShowTimePickerDialog(backDateTv, new PickerWheelViewPop.PickCallback<Integer>() {
+                showTimePickerDialog(new PickerDialogFragment.Callback<Integer>() {
                     @Override
-                    public void onPickCallback(Integer id, String... result) {
-                        form.callback_date = id;
+                    public void onPickResult(Integer unix, String... result) {
+                        form.callback_date = unix;
                         backDateTv.setText(result[0]);
                     }
                 });
                 break;
             case R.id.commun_date:
-                ShowTimePickerDialog(dateTv, new PickerWheelViewPop.PickCallback<Integer>() {
+                showTimePickerDialog(new PickerDialogFragment.Callback<Integer>() {
                     @Override
-                    public void onPickCallback(Integer id, String... result) {
-                        form.communication_date = id;
+                    public void onPickResult(Integer unix, String... result) {
+                        form.communication_date = unix;
                         dateTv.setText(result[0]);
                     }
                 });
@@ -222,12 +221,13 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         }
     }
 
-    private void ShowTimePickerDialog(View parent, PickerWheelViewPop.PickCallback callback) {
+    private void showTimePickerDialog(PickerDialogFragment.Callback callback) {
 
-        PickerWheelViewPop pop = new PickerWheelViewPop(this);
-        pop.renderYMDPanel(R.string.choose_birthday);
-        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        pop.addPickCallback(callback);
+        PickerDialogFragment.Builder builder1 = new PickerDialogFragment.Builder();
+        builder1.setBackgroundDark(true).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setDialogTitle(R.string.choose_birthday);
+        PickerDialogFragment dialogFragment = builder1.Build();
+        dialogFragment.show(getSupportFragmentManager(), "dialog");
+        dialogFragment.addCallback(callback);
     }
 
     private void showItemDialog(ArrayList<String> stateList, SelectDialogFragment.OnItemSelectedListner onItemselectListner) {

@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.statisticslist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -17,12 +18,14 @@ import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
+import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.StatisticsFilterFragment;
@@ -52,16 +55,19 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     // 筛选
     private HashMap<String, String> params;
     private int mFilterCampusId;
+    private String mFilterSource;
     private String mFilterCampusName;
     private int mFilterTimeType = 1;
     private long mFilterStartTime, mFilterEndTime;
     private int mFilterPayState;
     private UniversityInfo mUniversityInfo;
     private int mFilterUniversityId = -1, mFilterProvinceId;
+    private String mFilterSourceName;
     private String mFilterUniversityName;
     private int mFilterReferrerId = -1;
     private String mFilterReferrerName;
     StatisticsFilterFragment dialog = null;
+    private int curPositionId;      // 用户当前职位id
 
     @Override
     protected void setUpContentView() {
@@ -79,11 +85,20 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             mFilterCampusId = mUser.userInfo.campus_id;
             mFilterCampusName = mUser.positionInfo.campus;
         }
+
+        curPositionId = mUser.positionInfo.id;
+        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            mFilterSource = MarketApi.TYPESOURCE_READING + "";
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+        } else {
+            mFilterSource = "-1";
+        }
         params = new HashMap<>();
-        params.put("source", "-1");
 
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setQueryHint("根据姓名或手机号搜索..");
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -121,7 +136,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         switch (item.getItemId()) {
             case R.id.action_filter:
                 if (dialog == null) {
-                    dialog = StatisticsFilterFragment.newInstance(params, mFilterUniversityName, mFilterReferrerName);
+                    dialog = StatisticsFilterFragment.newInstance(params, mFilterSourceName, mFilterUniversityName, mFilterReferrerName);
                     dialog.setOnFilterCallback(StatisticsListActivity.this);
                 }
                 dialog.show(getSupportFragmentManager(), "dialog");
@@ -131,17 +146,25 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     @Override
-    public void onFinishFilter(int campusId, Map<String, String> map, String university_name, String referrer_name) {
+    public void onFinishFilter(int campusId, String source, Map<String, String> map, String source_name, String university_name, String referrer_name) {
         dialog = null;
         mFilterCampusId = campusId;
+        mFilterSource = source;
+        mFilterSourceName = source_name;
         mFilterUniversityName = university_name;
         mFilterReferrerName = referrer_name;
         params.clear();
-        params.put("source", "-1");
         params.putAll(map);
+        if (TextUtils.isEmpty(mFilterSource)) {
+            if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+                mFilterSource = MarketApi.TYPESOURCE_READING + "";
+            } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+                mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+            } else {
+                mFilterSource = "-1";
+            }
+        }
         setRefreshing();
-        //        mDataList.clear();
-//        mPresenter.getList4StudentStatistics(mFilterCampusId, params, mCurrentPage++);
     }
 
     @Override
@@ -160,7 +183,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics(mFilterCampusId, params, mCurrentPage++);
+        mPresenter.getList4StudentStatistics(mFilterCampusId, mFilterSource, params, mCurrentPage++);
     }
 
     @Override
@@ -218,9 +241,21 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                                     switch (i) {
                                         case 1:
                                             // TODO: 16/8/17  打电话
+                                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                            Uri data = Uri.parse("tel:" + phoneNumber);
+                                            callIntent.setData(data);
+                                            startActivity(callIntent);
                                             break;
                                         case 2:
                                             // TODO: 16/8/17  保存至通讯录
+                                            Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+                                            intent.setType("vnd.android.cursor.item/person");
+                                            intent.setType("vnd.android.cursor.item/contact");
+                                            intent.setType("vnd.android.cursor.item/raw_contact");
+                                            //    intent.putExtra(android.provider.ContactsContract.Intents.Insert.NAME, name);
+                                            intent.putExtra(android.provider.ContactsContract.Intents.Insert.PHONE, phoneNumber);
+                                            intent.putExtra(android.provider.ContactsContract.Intents.Insert.PHONE_TYPE, 3);
+                                            startActivity(intent);
                                             break;
                                     }
                                 }

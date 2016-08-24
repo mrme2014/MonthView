@@ -11,8 +11,8 @@ import java.util.HashMap;
 public class StatisticsListPresenter extends StatisticsListContract.Presenter {
 
     @Override
-    public void getList4StudentStatistics(int campusId, String source, HashMap<String, String> params, int page) {
-        mModel.getList4StudentStatistics(campusId, source, params, page)
+    public void getList4StudentStatistics(HashMap<String, String> params, int page) {
+        mModel.getList4StudentStatistics(params, page)
                 .subscribe(new ApiObserver<StudentList>() {
                     @Override
                     public void onSuccess(StudentList studentList) {

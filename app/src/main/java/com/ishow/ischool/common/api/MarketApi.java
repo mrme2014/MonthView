@@ -40,8 +40,6 @@ public interface MarketApi {
     @GET("/market/studentstatistics/lists")
     Observable<ApiResult<StudentList>> listStudentStatistics(
             @Query("resources_id") int resources_id,
-            @Query("campus_id") int campus_id,
-            @Query("source") String source,
             @QueryMap HashMap<String, String> params,
             @Query("pagesize") int pagesize,
             @Query("page") int page

@@ -45,6 +45,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
+        params.put("source", "-1");
         mPresenter.getStudentStatisticsList(mUser.positionInfo.campusId, params, mCurrentPage++);
     }
 

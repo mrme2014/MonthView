@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -95,7 +96,17 @@ public class CrmApplication extends BaseApplication {
         });
     }
 
+    private HashMap<String, String> statisticsFilterParam;
 
+    public HashMap<String, String> getFilerParam() {
+        if (statisticsFilterParam == null) {
+            statisticsFilterParam = new HashMap<String, String>();
+        }
+        return statisticsFilterParam;
+    }
 
+    public void setFilerParam(HashMap<String, String> filerParam) {
+        this.statisticsFilterParam = filerParam;
+    }
 
 }

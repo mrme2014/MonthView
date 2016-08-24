@@ -67,6 +67,7 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
             if (dialog == null) {
                 dialog = new ProgressDialog(this);
                 dialog.setMessage("request server...");
+                dialog.setCanceledOnTouchOutside(false);
             }
             dialog.show();
         } else if (!show && dialog != null) {

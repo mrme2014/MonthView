@@ -66,6 +66,10 @@ public interface UserApi {
     @POST("/system/sms/send")
     Observable<ApiResult<JsonElement>> sendSms(@Field("resources_id")int resources_id,@Field("mobile") String mobile,@Field("type") int type);
 
+    //用户详细(system.user.get) 接口
+    @FormUrlEncoded
+    @POST("/system/user/get")
+    Observable<ApiResult<User>> getUser(@Field("resources_id")int resources_id, @Field("user_id") int user_id, @Field("fields")String fields);
 
     @GET("/system/user/lists")
     Observable<ApiResult<UserListResult>> listUsers(

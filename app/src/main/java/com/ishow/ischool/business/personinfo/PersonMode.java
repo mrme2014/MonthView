@@ -21,4 +21,9 @@ public class PersonMode implements BaseModel {
         return ApiFactory.getInstance().getApi(UserApi.class).edit(-1,userId,birthday,QQ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable getAvatar(int user_id){
+        return ApiFactory.getInstance().getApi(UserApi.class).getUser(45,user_id,"avatar").subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

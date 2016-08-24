@@ -2,6 +2,7 @@ package com.ishow.ischool.business.personinfo;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -297,6 +298,10 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         return false;
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
     @Override
     public void onBackPressed() {

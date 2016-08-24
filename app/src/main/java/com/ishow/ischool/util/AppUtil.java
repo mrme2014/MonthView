@@ -130,6 +130,14 @@ public class AppUtil {
         return stateList;
     }
 
+    public static ArrayList<String> getFilterTimeType() {
+        ArrayList<String> timeTypeList = new ArrayList<>();
+        timeTypeList.add("登记时间");
+        timeTypeList.add("上课时间");
+
+        return timeTypeList;
+    }
+
 
     public static HashMap<String, String> getParamsHashMap(int resourcesId) {
         HashMap<String, String> params = new HashMap<>();

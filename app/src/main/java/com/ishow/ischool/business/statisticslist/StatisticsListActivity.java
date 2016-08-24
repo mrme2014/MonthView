@@ -19,9 +19,9 @@ import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
+import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
-import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
@@ -53,18 +53,10 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     private boolean mSearchMode = false;
 
     // 筛选
+    private CrmApplication app;
     private HashMap<String, String> params;
-    private int mFilterCampusId;
-    private String mFilterSource;
-    private String mFilterCampusName;
-    private int mFilterTimeType = 1;
-    private long mFilterStartTime, mFilterEndTime;
-    private int mFilterPayState;
-    private UniversityInfo mUniversityInfo;
-    private int mFilterUniversityId = -1, mFilterProvinceId;
     private String mFilterSourceName;
-    private String mFilterUniversityName;
-    private int mFilterReferrerId = -1;
+    private String mFilterCollegeName;
     private String mFilterReferrerName;
     StatisticsFilterFragment dialog = null;
     private int curPositionId;      // 用户当前职位id
@@ -78,23 +70,28 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     protected void setUpView() {
         super.setUpView();
 
-        if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {     // 总部才显示“所属校区”筛选条件
-            mFilterCampusId = Campus.HEADQUARTERS;                  // 总部获取学院统计列表campus_id传1
-            mFilterCampusName = "所有校区";
-        } else {
-            mFilterCampusId = mUser.userInfo.campus_id;
-            mFilterCampusName = mUser.positionInfo.campus;
-        }
+        app = (CrmApplication)getApplication();
+        params = app.getFilerParam();
+        if (params.get("campus_id") == null || params.get("source") == null) {
+            // 之前没有筛选过
+            if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
+                params.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
+            } else {
+                params.put("campus_id", mUser.userInfo.campus_id + "");
+            }
 
-        curPositionId = mUser.positionInfo.id;
-        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
-            mFilterSource = MarketApi.TYPESOURCE_READING + "";
-        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
-            mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
-        } else {
-            mFilterSource = "-1";
+            curPositionId = mUser.positionInfo.id;
+            if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+                params.put("source", MarketApi.TYPESOURCE_READING + "");
+            } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+                params.put("source", MarketApi.TYPESOURCE_CHAT + "");
+            } else {
+                params.put("source", "-1");
+            }
         }
-        params = new HashMap<>();
+        mFilterSourceName = params.get(new String("source_name"));
+        mFilterCollegeName = params.get(new String("college_name"));
+        mFilterReferrerName = params.get(new String("referrer_name"));
 
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -136,7 +133,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         switch (item.getItemId()) {
             case R.id.action_filter:
                 if (dialog == null) {
-                    dialog = StatisticsFilterFragment.newInstance(params, mFilterSourceName, mFilterUniversityName, mFilterReferrerName);
+                    dialog = StatisticsFilterFragment.newInstance(params, mFilterSourceName, mFilterCollegeName, mFilterReferrerName);
                     dialog.setOnFilterCallback(StatisticsListActivity.this);
                 }
                 dialog.show(getSupportFragmentManager(), "dialog");
@@ -145,26 +142,38 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         return true;
     }
 
+    /**
+     * @param map       筛选参数
+     * @param source_name       用于缓存筛选后，再次进入时填充内容（来源方式）
+     * @param university_name   用于缓存筛选后，再次进入时填充内容（就读学校）
+     * @param referrer_name     用于缓存筛选后，再次进入时填充内容 (推荐人)
+     */
     @Override
-    public void onFinishFilter(int campusId, String source, Map<String, String> map, String source_name, String university_name, String referrer_name) {
+    public void onFinishFilter(HashMap<String, String> map, String source_name, String university_name, String referrer_name) {
         dialog = null;
-        mFilterCampusId = campusId;
-        mFilterSource = source;
-        mFilterSourceName = source_name;
-        mFilterUniversityName = university_name;
-        mFilterReferrerName = referrer_name;
-        params.clear();
-        params.putAll(map);
-        if (TextUtils.isEmpty(mFilterSource)) {
-            if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
-                mFilterSource = MarketApi.TYPESOURCE_READING + "";
-            } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
-                mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
-            } else {
-                mFilterSource = "-1";
+        HashMap<String,String> hashMap = app.getFilerParam();
+        if (!hashMap.equals(map)) {
+            mFilterSourceName = source_name;
+            mFilterCollegeName = university_name;
+            mFilterReferrerName = referrer_name;
+            params.clear();
+            params.putAll(map);
+
+            // cache
+            if (!TextUtils.isEmpty(mFilterSourceName)) {
+                params.put("source_name", mFilterSourceName);
             }
+            if (!TextUtils.isEmpty(mFilterCollegeName)) {
+                params.put("college_name", mFilterCollegeName);
+            }
+            if (!TextUtils.isEmpty(mFilterReferrerName)) {
+                params.put("referrer_name", mFilterReferrerName);
+            }
+
+            app.setFilerParam(params);
+            setRefreshing();
         }
-        setRefreshing();
+
     }
 
     @Override
@@ -183,7 +192,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics(mFilterCampusId, mFilterSource, params, mCurrentPage++);
+        mPresenter.getList4StudentStatistics(params, mCurrentPage++);
     }
 
     @Override
@@ -290,5 +299,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @OnClick(R.id.fab)
     void add() {
         JumpManager.jumpActivity(this, AddStudentActivity.class);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

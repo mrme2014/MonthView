@@ -267,6 +267,11 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
+    public boolean isAlive() {
+        return !isActivityFinished();
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
@@ -292,10 +297,10 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         return false;
     }
 
+
     @Override
     public void onBackPressed() {
         finishActivity();
         super.onBackPressed();
-
     }
 }

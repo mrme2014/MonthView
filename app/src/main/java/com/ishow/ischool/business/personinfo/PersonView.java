@@ -8,4 +8,5 @@ import com.commonlib.core.BaseView;
 public interface PersonView extends BaseView {
     void onNetSucess(int strResId);
     void onNetFailed(String str);
+    boolean isAlive();
 }

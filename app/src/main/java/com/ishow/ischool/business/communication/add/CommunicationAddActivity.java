@@ -11,9 +11,6 @@ import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.business.communication.add.CommunicationAddContract;
-import com.ishow.ischool.business.communication.add.CommunicationAddModel;
-import com.ishow.ischool.business.communication.add.CommunicationAddPresenter;
 import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
@@ -58,7 +55,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     private StudentInfo studentInfo;
     private CommunicationForm form = new CommunicationForm();
-    ;
+
     private boolean isSubmitting;
 
     @Override

@@ -2,6 +2,7 @@ package com.ishow.ischool.business.universitypick;
 
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.widget.custom.RecycleViewDivider;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zaaach.citypicker.utils.LocManager;
 import com.zaaach.citypicker.utils.StringUtils;
@@ -44,8 +46,10 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
     private boolean isSearchFlag = false;       // 搜索模式
 
     @Override
-    protected void setUpContentView() {
-        super.setUpContentView();
+    protected void setUpView() {
+        super.setUpView();
+        recycler.addItemDecoration(new RecycleViewDivider(this,
+                LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.comm_line)));
         curCity = LocManager.getInstance().getCurCityName();
         mToolbarTitle.setText(curCity);
         mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_adress_down, 0);
@@ -75,13 +79,28 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
             public boolean onQueryTextChange(String newText) {
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
-                isSearchFlag = true;
                 if (TextUtils.isEmpty(mSearchKey)) {
+//                    mCurrentPage = 1;
                     loadFailed();
                 } else {
-                    recycler.setRefreshing();
+                    setRefreshing();
                 }
                 return true;
+            }
+        });
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogUtil.d("onClick");
+                isSearchFlag = true;
+//                mCurrentPage = 1;
+                loadFailed();
+            }
+        });
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -173,7 +192,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         }
 
         if (isSearchFlag) {
-            mPresenter.searchUniversity(mSearchKey);
+            mPresenter.searchUniversity(mSearchKey, mCurrentPage++);
         } else {
             mPresenter.getListUniversity(curCity);
         }

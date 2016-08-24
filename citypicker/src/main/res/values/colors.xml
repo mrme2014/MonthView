@@ -12,4 +12,6 @@
     <color name="gray_deep">#5c5c5c</color>
     <color name="alpha_gray">#CC646464</color>
     <color name="theme_gray">#646464</color>
+
+    <color name="color_hint">#b6b6b6</color>
 </resources>

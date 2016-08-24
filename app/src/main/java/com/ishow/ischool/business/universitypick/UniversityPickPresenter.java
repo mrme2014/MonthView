@@ -26,8 +26,8 @@ public class UniversityPickPresenter extends UniversityPickContract.Presenter {
     }
 
     @Override
-    public void searchUniversity(String universityName) {
-        mModel.searchUniversity(universityName)
+    public void searchUniversity(String universityName, int page) {
+        mModel.searchUniversity(universityName, page)
                 .subscribe(new ApiObserver<SearchUniversityResult>() {
                     @Override
                     public void onSuccess(SearchUniversityResult searchUniversityResult) {

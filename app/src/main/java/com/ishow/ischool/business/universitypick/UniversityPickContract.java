@@ -19,7 +19,7 @@ import rx.Observable;
 public interface UniversityPickContract {
     interface Model extends BaseModel {
         Observable<ApiResult<UniversityInfoListResult>> getListUniversity(String cityName);
-        Observable<ApiResult<SearchUniversityResult>> searchUniversity(String universityName);
+        Observable<ApiResult<SearchUniversityResult>> searchUniversity(String universityName, int page);
     }
 
 
@@ -31,6 +31,6 @@ public interface UniversityPickContract {
 
     abstract class Presenter extends BasePresenter<Model, View> {
         public abstract void getListUniversity(String cityName);
-        public abstract void searchUniversity(String universityName);
+        public abstract void searchUniversity(String universityName, int page);
     }
 }

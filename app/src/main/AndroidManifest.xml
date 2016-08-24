@@ -62,7 +62,7 @@
         <activity
             android:name=".business.addstudent.AddStudentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".business.universitypick.UniversityPickActivity"
             android:screenOrientation="portrait"

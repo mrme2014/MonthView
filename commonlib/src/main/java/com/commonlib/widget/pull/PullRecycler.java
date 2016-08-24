@@ -188,4 +188,8 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     public void resetView() {
         emptyLayout.setVisibility(GONE);
     }
+
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 }

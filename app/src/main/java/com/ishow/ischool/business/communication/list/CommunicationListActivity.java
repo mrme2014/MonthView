@@ -1,12 +1,20 @@
 package com.ishow.ischool.business.communication.list;
 
+import android.content.res.Resources;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
+import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -29,6 +37,10 @@ import butterknife.OnClick;
  */
 public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> implements CommunicationListContract.View, CommuDialogFragment.selectResultCallback {
 
+    @BindView(R.id.communication_add)
+    FloatingActionButton addFab;
+    private SearchView mSearchView;
+
     @Override
     protected void setUpContentView() {
         //super.setUpContentView();
@@ -36,8 +48,33 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     }
 
     @Override
-    protected void setUpData() {
-        super.setUpData();
+    protected void setUpView() {
+        super.setUpView();
+
+        final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setQueryHint(getString(R.string.str_search_hint));
+
+        // recycleview上滑隐藏fab,下滑显示
+        recycler.getRecyclerView().addOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                Resources resources = CommunicationListActivity.this.getResources();
+                DisplayMetrics dm = resources.getDisplayMetrics();
+                float density = dm.density;
+                int width = dm.widthPixels;
+                int height = dm.heightPixels;
+                addFab.animate()
+                        .translationY(height - addFab.getHeight())
+                        .setInterpolator(new AccelerateInterpolator(2))
+                        .start();
+            }
+
+            @Override
+            public void onShow() {
+                addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+        });
     }
 
     @Override

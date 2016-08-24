@@ -1,25 +1,30 @@
 package com.ishow.ischool.business.statisticslist;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.util.LogUtil;
+import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.activity.MainActivity;
 import com.ishow.ischool.application.Cons;
-import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.user.Campus;
@@ -32,7 +37,6 @@ import com.ishow.ischool.widget.custom.StatisticsFilterFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,11 +54,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     //  搜索
     private SearchView mSearchView;
     private String mSearchKey;
-    private boolean mSearchMode = false;
+    private boolean mSearchMode = false;    // 搜索模式
+    private HashMap<String, String> searchParams;
 
     // 筛选
-    private CrmApplication app;
-    private HashMap<String, String> params;
+    private HashMap<String, String> filterParams;
     private String mFilterSourceName;
     private String mFilterCollegeName;
     private String mFilterReferrerName;
@@ -70,32 +74,32 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     protected void setUpView() {
         super.setUpView();
 
-        app = (CrmApplication)getApplication();
-        params = app.getFilerParam();
-        if (params.get("campus_id") == null || params.get("source") == null) {
-            // 之前没有筛选过
-            if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
-                params.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
-            } else {
-                params.put("campus_id", mUser.userInfo.campus_id + "");
-            }
-
-            curPositionId = mUser.positionInfo.id;
-            if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
-                params.put("source", MarketApi.TYPESOURCE_READING + "");
-            } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
-                params.put("source", MarketApi.TYPESOURCE_CHAT + "");
-            } else {
-                params.put("source", "-1");
-            }
+        filterParams = new HashMap<String, String>();
+        searchParams = new HashMap<String, String>();
+        // 之前没有筛选过
+        if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
+            filterParams.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
+            searchParams.put("campus_id", Campus.HEADQUARTERS + "");
+        } else {
+            filterParams.put("campus_id", mUser.userInfo.campus_id + "");
+            searchParams.put("campus_id", mUser.userInfo.campus_id + "");
         }
-        mFilterSourceName = params.get(new String("source_name"));
-        mFilterCollegeName = params.get(new String("college_name"));
-        mFilterReferrerName = params.get(new String("referrer_name"));
+
+        curPositionId = mUser.positionInfo.id;
+        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            filterParams.put("source", MarketApi.TYPESOURCE_READING + "");
+            searchParams.put("source", MarketApi.TYPESOURCE_READING + "");
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            filterParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
+            searchParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
+        } else {
+            filterParams.put("source", "-1");
+            searchParams.put("source", "-1");
+        }
 
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setQueryHint("根据姓名或手机号搜索..");
+        mSearchView.setQueryHint(getString(R.string.str_search_hint));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -104,26 +108,55 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mSearchMode = true;
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
                 if (TextUtils.isEmpty(mSearchKey)) {
-                    params.remove("mobile_or_name");
+                    loadFailed();
                 } else {
-                    params.put("mobile_or_name", mSearchKey);
+                    searchParams.put("mobile_or_name", mSearchKey);
+                    setRefreshing();
                 }
-                setRefreshing();
                 return true;
+            }
+        });
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchMode = true;
+                loadFailed();
             }
         });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                mSearchMode = false;
                 mSearchKey = "";
-                params.remove("mobile_or_name");
-                // 此处拿到原始的数据，mCurrentPage置为2，即模拟刚刚刷新了一次
+                mSearchMode = false;
+                searchParams.remove("mobile_or_name");
+
+                // 重新按照之前的筛选条件，拉一下数据
+                setRefreshing();
                 return false;
+            }
+        });
+
+        // recycleview上滑隐藏fab,下滑显示
+        recycler.getRecyclerView().addOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                Resources resources = StatisticsListActivity.this.getResources();
+                DisplayMetrics dm = resources.getDisplayMetrics();
+                float density = dm.density;
+                int width = dm.widthPixels;
+                int height = dm.heightPixels;
+                addFab.animate()
+                        .translationY(height - addFab.getHeight())
+                        .setInterpolator(new AccelerateInterpolator(2))
+                        .start();
+            }
+
+            @Override
+            public void onShow() {
+                addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
     }
@@ -133,7 +166,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         switch (item.getItemId()) {
             case R.id.action_filter:
                 if (dialog == null) {
-                    dialog = StatisticsFilterFragment.newInstance(params, mFilterSourceName, mFilterCollegeName, mFilterReferrerName);
+                    dialog = StatisticsFilterFragment.newInstance(filterParams, mFilterSourceName, mFilterCollegeName, mFilterReferrerName);
                     dialog.setOnFilterCallback(StatisticsListActivity.this);
                 }
                 dialog.show(getSupportFragmentManager(), "dialog");
@@ -143,34 +176,20 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     /**
-     * @param map       筛选参数
-     * @param source_name       用于缓存筛选后，再次进入时填充内容（来源方式）
-     * @param university_name   用于缓存筛选后，再次进入时填充内容（就读学校）
-     * @param referrer_name     用于缓存筛选后，再次进入时填充内容 (推荐人)
+     * @param map             筛选参数
+     * @param source_name     用于缓存筛选后，再次进入时填充内容（来源方式）
+     * @param university_name 用于缓存筛选后，再次进入时填充内容（就读学校）
+     * @param referrer_name   用于缓存筛选后，再次进入时填充内容 (推荐人)
      */
     @Override
     public void onFinishFilter(HashMap<String, String> map, String source_name, String university_name, String referrer_name) {
         dialog = null;
-        HashMap<String,String> hashMap = app.getFilerParam();
-        if (!hashMap.equals(map)) {
+        if (!filterParams.equals(map)) {
             mFilterSourceName = source_name;
             mFilterCollegeName = university_name;
             mFilterReferrerName = referrer_name;
-            params.clear();
-            params.putAll(map);
-
-            // cache
-            if (!TextUtils.isEmpty(mFilterSourceName)) {
-                params.put("source_name", mFilterSourceName);
-            }
-            if (!TextUtils.isEmpty(mFilterCollegeName)) {
-                params.put("college_name", mFilterCollegeName);
-            }
-            if (!TextUtils.isEmpty(mFilterReferrerName)) {
-                params.put("referrer_name", mFilterReferrerName);
-            }
-
-            app.setFilerParam(params);
+            filterParams.clear();
+            filterParams.putAll(map);
             setRefreshing();
         }
 
@@ -192,7 +211,12 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        mPresenter.getList4StudentStatistics(params, mCurrentPage++);
+
+        if (mSearchMode) {
+            mPresenter.getList4StudentStatistics(searchParams, mCurrentPage++);
+        } else {
+            mPresenter.getList4StudentStatistics(filterParams, mCurrentPage++);
+        }
     }
 
     @Override

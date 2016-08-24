@@ -53,7 +53,7 @@ private static final String[] b = {"定位", "历史", "A", "B", "C", "D", "E", 
         int singleHeight = height / b.length;
         for (int i = 0; i < b.length; i++) {
             paint.setTextSize(getResources().getDimension(R.dimen.side_letter_bar_letter_size));
-            paint.setColor(getResources().getColor(R.color.gray));
+            paint.setColor(getResources().getColor(R.color.color_hint));
             paint.setAntiAlias(true);
             if (i == choose) {
                 paint.setColor(getResources().getColor(R.color.gray_deep));

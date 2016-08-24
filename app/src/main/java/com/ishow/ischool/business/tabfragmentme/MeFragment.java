@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
-import com.commonlib.util.LogUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
@@ -115,7 +114,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
         bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
         dialog.setArguments(bundle);
-        dialog.show(getChildFragmentManager(), "dialog");
+        dialog.show(getChildFragmentManager());
 
 
     }
@@ -182,7 +181,6 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             String path = data.getStringExtra("bitmap");
-            LogUtil.e("onActivityResult"+path);
             if (!TextUtils.equals(path,"")&&path!=null){
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 fmMeHeaderAvart.setImageBitmap(bitmap);

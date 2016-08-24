@@ -53,7 +53,10 @@
         <activity android:name=".business.editpwd.EditPwdActivity" />
         <activity android:name=".business.kefu.KefuActivity" />
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
-        <activity android:name=".business.personinfo.PersonInfoActivity" />
+        <activity
+            android:name=".business.personinfo.PersonInfoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
         <activity android:name=".business.communication.list.CommunicationListActivity" />
         <activity android:name=".business.communication.add.CommunicationAddActivity" />
         <activity

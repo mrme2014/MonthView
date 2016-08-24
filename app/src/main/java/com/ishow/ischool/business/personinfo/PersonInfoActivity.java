@@ -2,6 +2,7 @@ package com.ishow.ischool.business.personinfo;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -267,6 +268,11 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
+    public boolean isAlive() {
+        return !isActivityFinished();
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
@@ -293,9 +299,13 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public void onBackPressed() {
         finishActivity();
         super.onBackPressed();
-
     }
 }

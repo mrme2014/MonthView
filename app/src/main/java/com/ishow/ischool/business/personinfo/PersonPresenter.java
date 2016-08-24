@@ -39,6 +39,11 @@ public class PersonPresenter extends BasePresenter<PersonMode,PersonView> {
                     public void onError(String msg) {
                         mView.onNetFailed(msg);
                     }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView.isAlive();
+                    }
                 });
     }
 

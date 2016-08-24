@@ -6,11 +6,9 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.commonlib.application.ActivityStackManager;
 import com.ishow.ischool.R;
-import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
-import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.util.AppUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -85,10 +83,8 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
 
     @Override
     public void onNetSucess(int msg) {
-        showToast(msg);
-        ActivityStackManager.getInstance().clear();
-        JumpManager.jumpActivity(this, LoginActivity.class);
-        this.finish();
+        //showToast(msg);
+        AppUtil.reLogin(this);
     }
 
     @Override

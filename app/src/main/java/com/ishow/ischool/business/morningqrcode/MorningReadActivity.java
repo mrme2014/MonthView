@@ -33,7 +33,7 @@ import butterknife.BindView;
 /**
  * Created by MrS on 2016/8/12.
  */
-public class MorningReadActivity extends BaseActivity4Crm implements ImageLoaderUtil.loadComplete {
+public class MorningReadActivity extends BaseActivity4Crm implements ImageLoaderUtil.loadComplete, View.OnLongClickListener {
     @BindView(R.id.qrcode_name)
     TextView qrcodeName;
     @BindView(R.id.qrcode_code)
@@ -61,32 +61,25 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
         if (avatar != null)
             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, qrcodeAvart);
         Qrcode qrcode = user.qrcode;
-        if (qrcode != null&&qrcode.file_name !="")
-            ImageLoaderUtil.getInstance().loadImageWithCallback(this, qrcode.file_name, qrcodeCode,this);
+        if (qrcode != null && qrcode.file_name != "")
+            ImageLoaderUtil.getInstance().loadImageWithCallback(this, qrcode.file_name, qrcodeCode, this);
         UserInfo userInfo = user.userInfo;
         if (userInfo != null) qrcodeName.setText(userInfo.user_name);
 
-        //qrcodeCode.setOnLongClickListener(this);
+        qrcodeCode.setOnLongClickListener(this);
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId()==R.id.action_more){
+        if (item.getItemId() == R.id.action_more) {
             showSlectDialog();
         }
         return super.onMenuItemClick(item);
     }
 
     @Override
-    public void Complete(final Bitmap resource) {
-        qrcodeCode.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                bitmap = resource;
-                showSlectDialog();
-                return false;
-            }
-        });
+    public void Complete(Bitmap resource) {
+        bitmap = resource;
     }
 
     private void showSlectDialog() {
@@ -100,40 +93,41 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
                     @Override
                     public void onGrant(String grantPermission, int index) {
                         File dir = StorageUtil.getTempDir();
-                        File file = new File(dir.getPath()+"/qrcode.png");
+                        File file = new File(dir.getPath() + "/qrcode.png");
 
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.PNG,100,fos);
+                            if (bitmap != null)
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                             fos.flush();
 
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }finally {
-                            if (fos!=null) try {
+                        } finally {
+                            if (fos != null) try {
                                 fos.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
 
-                        if (file.exists()){
+                        if (file.exists()) {
                             showToast(R.string.save_pic_complete);
                             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                             Uri uri = Uri.fromFile(file);
                             intent.setData(uri);
                             sendBroadcast(intent);//这个广播的目的就是更新图库，发了这个广播进入相册就可以找到你保存的图片
-                        }else{
+                        } else {
                             showToast(R.string.save_pic_faild);
                         }
                     }
 
                     @Override
                     public void onDenied(String deniedPermission, int index) {
-                       // showToast();
+                        // showToast();
                     }
                 }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
@@ -143,6 +137,13 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionUtil.getInstance().notifyPermissionsChange(this,permissions,grantResults);
+        PermissionUtil.getInstance().notifyPermissionsChange(this, permissions, grantResults);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (bitmap == null) return false;
+        showSlectDialog();
+        return false;
     }
 }

@@ -39,6 +39,10 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
      * PickerDialogFragment fragment = builder.Build();
      * fragment.show(getChildFragmentManager(),"dialog");
      * fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() );
+     *
+     *
+     * //多个列表 之间不需要联动
+     * fragment.addCallback(new Callback); 返回值1   各列选中的position数组  返回值2 各列选中的文本数组
      */
     //  @BindView(R.id.cancel)
     TextView cancel;
@@ -252,7 +256,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
 
     /*普通单列表 或者 年月日 这样的 设置这个监听即可*/
     public interface Callback<T> {
-        void onPickResult(T object, String... result);
+        void onPickResult(T selectIds, String... result);
     }
     public void addCallback(Callback callback1) {
         this.callback = callback1;

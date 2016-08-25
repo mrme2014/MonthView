@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.commonlib.util.KeyBoardUtil;
+import com.commonlib.widget.event.RxBus;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.StudentInfo;
@@ -230,8 +231,9 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     @Override
     public void addStudentSuccess(StudentInfo studentInfo) {
-        finish();
         showToast("添加成功");
+        RxBus.getInstance().post(studentInfo);
+        finish();
     }
 
     @Override

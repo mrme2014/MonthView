@@ -230,7 +230,10 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             }
             else showToast("file not exists");
         }else if (requestCode==INPUT&&resultCode==RESULT_OK&&data!=null){
-            personInfoQQ.setTipTxt(data.getStringExtra("result"));
+            String result = data.getStringExtra("result");
+            if (TextUtils.equals(result,""))
+                return;
+            personInfoQQ.setTipTxt(result);
             int unix = DateUtil.date2UnixTime(personInfoBirthday.getTipTxt().toString());
             if (TextUtils.equals(personInfoQQ.getTipTxt(),userInfo.qq))
                 return ;

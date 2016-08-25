@@ -12,14 +12,26 @@
         android:layout_height="10dp"
         android:background="#EDEEEF" />
 
-    <TextView
+    <!--<TextView-->
+    <!--android:id="@+id/user_photo_iv"-->
+    <!--android:layout_width="38dp"-->
+    <!--android:layout_height="38dp"-->
+    <!--android:layout_below="@id/line"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:background="@drawable/shape_student_photo_bg"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="@color/white" />-->
+
+    <com.ishow.ischool.widget.custom.AvatarImageView
         android:id="@+id/user_photo_iv"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_below="@id/line"
         android:layout_margin="10dp"
-        android:background="@drawable/shape_student_photo_bg"
+        android:background="@color/green"
         android:gravity="center"
+        app:text_color="@color/white"
+
         android:textColor="@color/white" />
 
     <TextView

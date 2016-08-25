@@ -152,7 +152,6 @@
         android:id="@+id/student_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="45dp"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

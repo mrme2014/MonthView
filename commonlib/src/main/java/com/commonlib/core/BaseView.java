@@ -5,4 +5,5 @@ package com.commonlib.core;
  */
 public interface BaseView {
 
+    boolean isActivityFinished();
 }

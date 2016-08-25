@@ -46,6 +46,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
             mCurrentPage = 1;
         }
         params.put("source", "-1");
+        params.put("campus_id", mUser.positionInfo.campusId + "");
         mPresenter.getStudentStatisticsList(mUser.positionInfo.campusId, params, mCurrentPage++);
     }
 
@@ -80,7 +81,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
 
         public PickStudentHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override

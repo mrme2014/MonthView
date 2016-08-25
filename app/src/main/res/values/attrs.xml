@@ -177,6 +177,11 @@
         <!--edittext lines-->
         <attr name="text_line" format="integer" />
     </declare-styleable>
+    <declare-styleable name="AvatarImageView">
+        <attr name="text"></attr>
+        <attr name="text_color" format="color"></attr>
+        <attr name="text_size" format="dimension"></attr>
+    </declare-styleable>
 
 
 </resources>

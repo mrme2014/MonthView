@@ -22,6 +22,11 @@ public class AddStudentPresenter extends AddStudentContract.Presenter {
             public void onError(String msg) {
                 mView.getCampusFail(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 
@@ -37,6 +42,11 @@ public class AddStudentPresenter extends AddStudentContract.Presenter {
                     @Override
                     public void onError(String msg) {
                         mView.addStudentFail(msg);
+                    }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView != null && !mView.isActivityFinished();
                     }
                 });
     }

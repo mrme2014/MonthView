@@ -48,6 +48,11 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
                 mView.onNetFailed(msg);
                 mView.showProgressbar(false);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 
@@ -64,6 +69,11 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
             public void onError(String msg) {
                 mView.onChageFailed(msg);
                 mView.showProgressbar(false);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
             }
         });
     }

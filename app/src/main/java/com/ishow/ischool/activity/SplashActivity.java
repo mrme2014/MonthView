@@ -36,6 +36,7 @@ public class SplashActivity extends BaseActivity4Crm {
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_splash, MODE_NONE, MODE_NONE, MODE_NONE);
+
     }
 
     @Override

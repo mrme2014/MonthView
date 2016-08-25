@@ -2,15 +2,13 @@ package com.ishow.ischool.business.tabfragmentme;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
-import com.commonlib.util.LogUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
@@ -58,6 +56,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     private List<Campus> campus;
     private List<Position> positions;
 
+    private String avartPath;
+    private String TAG  =MeFragment.class.getSimpleName() ;
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_me;
@@ -73,8 +74,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
             return;
         Avatar avatar = user.avatar;
         if (avatar != null && !TextUtils.equals(avatar.file_name, ""))
-            // LogUtil.e(avatar.file_name+"Avatar");
-            ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
+            //PicUtils.loadUserHeader(getContext(),fmMeHeaderAvart,avatar.file_name);
+             ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
         fmMeHeaderName.setText(userInfo.user_name);
         campus = user.campus;
         fmMeHeaderJob.setText(userInfo.job);
@@ -87,6 +88,14 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         PositionInfo info = user.positionInfo;
         if (info != null) fmMeSwitchRole.setTipTxt(info.title);
 
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (avartPath!=""&&avartPath!=null&&fmMeHeaderAvart!=null){
+            ImageLoaderUtil.getInstance().loadImage(getContext(),fmMeHeaderAvart,avartPath);
+        }
     }
 
     /*头部个人信息点击事件*/
@@ -115,7 +124,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
         bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
         dialog.setArguments(bundle);
-        dialog.show(getChildFragmentManager(), "dialog");
+        dialog.show(getChildFragmentManager());
 
 
     }
@@ -181,12 +190,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            String path = data.getStringExtra("bitmap");
-            LogUtil.e("onActivityResult"+path);
-            if (!TextUtils.equals(path,"")&&path!=null){
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                fmMeHeaderAvart.setImageBitmap(bitmap);
-            }
+            avartPath = data.getStringExtra("tempath");
+            if (fmMeHeaderAvart!=null&&avartPath!=null&&avartPath!="")ImageLoaderUtil.getInstance().loadImage(getActivity(),fmMeHeaderAvart,avartPath);
         }
     }
 }

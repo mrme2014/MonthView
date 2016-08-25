@@ -20,7 +20,7 @@ public class PickStudentModel implements PickStudentContract.Model {
     @Override
     public Observable<ApiResult<StudentList>> getStudentStatisticsList(int campusId, HashMap<String, String> params, int page) {
         return ApiFactory.getInstance().getApi(MarketApi.class)
-                .listStudentStatistics(7, campusId, "-1", params, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .listStudentStatistics(7, params, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

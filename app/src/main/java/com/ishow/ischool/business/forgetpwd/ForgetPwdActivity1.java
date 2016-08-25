@@ -61,6 +61,7 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
     @OnClick(R.id.submit_tv)
     public void onSubmit() {
         btnCodeClick = true;
+        hideSoftPanel(submitTv);
         handProgressbar(true);
         mPresenter.checkRandCode(getcodePhone.getText().toString(), getcodeSmscode.getText().toString());
     }
@@ -68,6 +69,7 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
     @OnClick(R.id.getcode_btn)
     public void onGetCode() {
         btnCodeClick = false;
+        hideSoftPanel(submitTv);
         handProgressbar(true);
         mPresenter.sendSms(getcodePhone.getText().toString());
 
@@ -108,7 +110,6 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
     @Override
     public void onNetSucess(int msg) {
         handProgressbar(false);
-        hideSoftPanel(submitTv);
         if (msg!=-1)showToast(msg);
         if (!btnCodeClick) {
 
@@ -146,6 +147,7 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (subscribe != null && !subscribe.isUnsubscribed()) subscribe.unsubscribe();
+        if (subscribe != null && !subscribe.isUnsubscribed())
+            subscribe.unsubscribe();
     }
 }

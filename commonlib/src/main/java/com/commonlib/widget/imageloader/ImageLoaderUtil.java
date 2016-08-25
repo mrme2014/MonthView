@@ -2,11 +2,14 @@ package com.commonlib.widget.imageloader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+
+import java.io.File;
 
 
 /*
@@ -63,6 +66,11 @@ public class ImageLoaderUtil {
         ImageLoaderUtil.getInstance().loadImage(context, imageLoader);
     }
 
+    public void loadImage(Context context,  ImageView imageView, String filePath) {
+        Glide.with(context).load(Uri.fromFile(new File(filePath))).skipMemoryCache(true).fitCenter().skipMemoryCache(true).into(imageView);
+
+    }
+
     public void setLoadImgStrategy(BaseImageLoaderStrategy strategy) {
         mStrategy = strategy;
     }
@@ -94,6 +102,7 @@ public class ImageLoaderUtil {
     }
 
     loadComplete loadComplete;
+
     public interface loadComplete {
         void Complete(Bitmap resource);
     }

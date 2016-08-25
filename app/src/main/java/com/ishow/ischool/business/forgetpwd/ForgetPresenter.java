@@ -40,7 +40,7 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
                     }});
     }
 
-
+    //12288880009
     public void setPwd(String mobile ,String pwd){
         mModel.setpasswd(mobile,pwd).subscribe(new ApiObserver<JsonElement>() {
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
+import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
@@ -165,6 +166,14 @@ public class UserManager {
 
     private String readData() {
         return SpUtil.getInstance(context).getStringValue(USER_KEY);
+    }
+    public void upadteInfo(Avatar avatar ,int birthday,String qq){
+        if (user==null)
+            user = get();
+        if (avatar!=null)user.avatar =avatar;
+        if (birthday!=0)user.userInfo.qq =qq;
+        if (qq!=null&&qq!="")user.userInfo.birthday=birthday;
+        save(user);
     }
 
 }

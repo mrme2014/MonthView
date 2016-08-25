@@ -2,7 +2,7 @@ package com.ishow.ischool.business.personinfo;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,27 +10,30 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.PermissionUtil;
 import com.commonlib.util.StorageUtil;
+import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.UserManager;
-import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.io.File;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,12 +53,15 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     // @BindView(R.id.person_info_QQ)
     EditText personInfoQQ;
 
+    private String TAG = PersonInfoActivity.class.getSimpleName();
     private final int SELECT_SINGLE_IMAGE = 0;
     private final int CROP_IMAGE = 1;
     private final int CAPTURE = 2;
     private String tempPath;//拍照或者 选择照片裁剪时的临时存储路径
-    private Bitmap bitmap;
     private User user;
+    private UserInfo userInfo;
+
+    private long time;
 
     @Override
     protected void setUpContentView() {
@@ -72,34 +78,35 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 finishActivity();
             }
         });
+
+        time = new Date().getTime();
+
     }
 
     private void finishActivity() {
         Intent intent = new Intent();
-        intent.putExtra("bitmap",tempPath);
-        setResult(100,intent);
+        intent.putExtra("tempath",tempPath);
+        setResult(100, intent);
         this.finish();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            tempPath = savedInstanceState.getString("tempPath");
-            bitmap =savedInstanceState.getParcelable("bitmap");
-            personInfoAvart.setImageBitmap(bitmap);
-
-        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("tempPath", tempPath);
-        outState.putParcelable("bitmap",bitmap);
+        outState.putString("tempath",tempPath);
     }
 
-
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState!=null){
+            tempPath = savedInstanceState.getString("tempath");
+            if (tempPath!=null){
+                ImageLoaderUtil.getInstance().loadImage(this, personInfoAvart, tempPath);
+                LogUtil.e("onRestoreInstanceState"+tempPath);
+            }
+        }
+    }
 
     @Override
     protected void setUpView() {
@@ -110,13 +117,14 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     protected void setUpData() {
         if (user == null)
             return;
-        UserInfo userInfo = user.userInfo;
+
+        userInfo = user.userInfo;
         if (userInfo == null)
             return;
         Avatar avatar = user.avatar;
         if (avatar != null)
-            PicUtils.loadUserHeader(this,personInfoAvart,avatar.file_name);
-           // ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
+             //PicUtils.loadUserHeader(this, personInfoAvart, avatar.file_name);
+             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
         personInfoName.setTipTxt(userInfo.user_name);
         personInfoPhone.setTipTxt(userInfo.mobile);
         personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday, "yyyy-MM-dd"));
@@ -139,7 +147,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 PickerDialogFragment.Builder builder1 = new PickerDialogFragment.Builder();
                 builder1.setBackgroundDark(true).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setDialogTitle(R.string.choose_birthday);
                 PickerDialogFragment dialogFragment = builder1.Build();
-                dialogFragment.show(getSupportFragmentManager(),"dialog");
+                dialogFragment.show(getSupportFragmentManager(), "dialog");
                 dialogFragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
                     @Override
                     public void onPickResult(Integer unix, String... result) {
@@ -153,27 +161,26 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     private void cropImageUriAfterKikat(Uri uri) {
-        tempPath = StorageUtil.getTempDir() + "/avart.jpg";
+        tempPath = StorageUtil.getTempDir() +File.separator+time+".jpg";
         File file = new File(tempPath);
+
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
+        intent.putExtra("outputX", 200);
+        intent.putExtra("outputY", 200);
         intent.putExtra("scale", true);
-        intent.putExtra("return-data", true); //返回数据bitmap
+        intent.putExtra("return-data", false); //true返回数据bitmap
         intent.putExtra("noFaceDetection", true);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(intent, CROP_IMAGE);
     }
 
     private void capture() {
-        tempPath = StorageUtil.getTempDir() + "/avart.jpg";
+        tempPath = StorageUtil.getTempDir() +File.separator+time+".jpg";
         File file = new File(tempPath);
-        if (file.exists())
-            file.delete();
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         cameraIntent.putExtra("return-data", true);
@@ -199,35 +206,38 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             Uri uri = data.getData();
             cropImageUriAfterKikat(uri);
         } else if (requestCode == CROP_IMAGE && resultCode == RESULT_OK && data != null) {
-            //裁剪完成后显示头像
-            bitmap = data.getExtras().getParcelable("data");
-            personInfoAvart.setImageBitmap(bitmap);
+
             //如果文件不存在
-            if (tempPath == null || !new File(tempPath).exists())
+            if (tempPath == null||tempPath == "" || !new File(tempPath).exists())
                 showToast("file not exists");
                 //开始上传
-            else {
+            else if (userInfo!=null){
                 handProgressbar(true);
-                mPresenter.uploadImg(tempPath);
+                mPresenter.uploadImg(userInfo.user_id,tempPath);
             }
             //拍照
         } else if (requestCode == CAPTURE && resultCode == RESULT_OK) {
-            File file = new File(tempPath);
-            if (file.exists())
-                cropImageUriAfterKikat(Uri.fromFile(file));
+            if (tempPath!=""&&tempPath!=null){
+                File file = new File(tempPath);
+                if (file.exists())
+                    cropImageUriAfterKikat(Uri.fromFile(file));
+                else showToast("file not exists");
+            }
             else showToast("file not exists");
         }
+        LogUtil.e("onActivityResult"+tempPath);
     }
 
 
     @Override
-    public void onItemSelected(final int position,String txt) {
+    public void onItemSelected(final int position, String txt) {
         if (position == 0) {
             PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
                 @Override
                 public void onGrant(String grantPermission, int index) {
                     capture();
                 }
+
                 @Override
                 public void onDenied(String deniedPermission, int index) {
                     showToast(R.string.permission_camera_denid);
@@ -239,6 +249,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 public void onGrant(String grantPermission, int index) {
                     selectAlbums();
                 }
+
                 @Override
                 public void onDenied(String deniedPermission, int index) {
                     showToast(R.string.permission_storage_denid);
@@ -255,15 +266,26 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
-    public void onNetSucess(int strResId) {
+    public void onNetFailed(String strResId) {
         handProgressbar(false);
         showToast(strResId);
     }
 
     @Override
-    public void onNetFailed(String strResId) {
+    public void updateInfo(int strResId,Avatar avatar, String qq, int birthday) {
+        //裁剪完成后显示头像
+        if (avatar!=null)
+            ImageLoaderUtil.getInstance().loadImage(this, personInfoAvart, tempPath);
+        LogUtil.e("updateInfo"+tempPath);
+        //更新本地用户头像数据
+        UserManager.getInstance().upadteInfo(avatar,birthday,qq);
         handProgressbar(false);
         showToast(strResId);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return !isActivityFinished();
     }
 
     @Override
@@ -279,23 +301,27 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     @Override
     public void afterTextChanged(Editable editable) {
         int unix = DateUtil.date2UnixTime(personInfoBirthday.getText().toString());
+        if (TextUtils.equals(personInfoQQ.getText(),userInfo.qq))
+            return ;
         submitInfo(unix);
     }
-
 
 
     private boolean submitInfo(int unix) {
         if (user == null)
             return true;
-
         mPresenter.submitInfo(user.userInfo.user_id, personInfoQQ.getText().toString(), unix);
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onBackPressed() {
         finishActivity();
         super.onBackPressed();
-
     }
 }

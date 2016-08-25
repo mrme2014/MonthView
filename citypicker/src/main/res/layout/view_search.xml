@@ -27,10 +27,10 @@
         android:background="@null"
         android:gravity="center_vertical"
         android:hint="@string/hint_search_box"
-        android:textColorHint="@color/gray"
+        android:textColorHint="@color/color_hint"
         android:inputType="text"
         android:singleLine="true"
-        android:textColor="@color/gray"
+        android:textColor="@color/gray_deep"
         android:textSize="14sp"
         tools:ignore="RtlHardcoded" />
 

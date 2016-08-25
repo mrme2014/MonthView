@@ -14,12 +14,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_name"
                 style="@style/input_linearLayout_style"
-                android:layout_marginTop="10dp"
                 input:inputLayout_texthint="请输入学员姓名(必填)"
                 input:label_text="@string/item_name" />
 

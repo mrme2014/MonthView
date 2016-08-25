@@ -11,7 +11,7 @@ android {
             storePassword 'ishow888'
         }
     }
-    compileSdkVersion 24
+    compileSdkVersion 23
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.ishow.ischool"

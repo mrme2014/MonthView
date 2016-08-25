@@ -55,7 +55,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     private StudentInfo studentInfo;
     private CommunicationForm form = new CommunicationForm();
-    ;
+
     private boolean isSubmitting;
 
     @Override

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +26,7 @@ import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.activity.MainActivity;
+import com.ishow.ischool.activity.StatisticsSearchFragment;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
@@ -50,12 +53,15 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @BindView(R.id.fab)
     FloatingActionButton addFab;
+    @BindView(R.id.search_content)
+    FrameLayout frameLayout;
+
+    private String mCampusId, mSource;
+    StatisticsSearchFragment searchFragment;
 
     //  搜索
     private SearchView mSearchView;
     private String mSearchKey;
-    private boolean mSearchMode = false;    // 搜索模式
-    private HashMap<String, String> searchParams;
 
     // 筛选
     private HashMap<String, String> filterParams;
@@ -75,26 +81,24 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         super.setUpView();
 
         filterParams = new HashMap<String, String>();
-        searchParams = new HashMap<String, String>();
-        // 之前没有筛选过
         if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
+            mCampusId = Campus.HEADQUARTERS + "";
             filterParams.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
-            searchParams.put("campus_id", Campus.HEADQUARTERS + "");
         } else {
+            mCampusId = mUser.userInfo.campus_id + "";
             filterParams.put("campus_id", mUser.userInfo.campus_id + "");
-            searchParams.put("campus_id", mUser.userInfo.campus_id + "");
         }
 
         curPositionId = mUser.positionInfo.id;
         if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            mSource = MarketApi.TYPESOURCE_READING + "";
             filterParams.put("source", MarketApi.TYPESOURCE_READING + "");
-            searchParams.put("source", MarketApi.TYPESOURCE_READING + "");
         } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            mSource = MarketApi.TYPESOURCE_CHAT + "";
             filterParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
-            searchParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
         } else {
+            mSource = "-1";
             filterParams.put("source", "-1");
-            searchParams.put("source", "-1");
         }
 
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
@@ -111,10 +115,9 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
                 if (TextUtils.isEmpty(mSearchKey)) {
-                    loadFailed();
+                    searchFragment.loadFailed();
                 } else {
-                    searchParams.put("mobile_or_name", mSearchKey);
-                    setRefreshing();
+                    searchFragment.startSearch(mSearchKey);
                 }
                 return true;
             }
@@ -122,19 +125,13 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         mSearchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSearchMode = true;
-                loadFailed();
+                showSearchFragment();
             }
         });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                mSearchKey = "";
-                mSearchMode = false;
-                searchParams.remove("mobile_or_name");
-
-                // 重新按照之前的筛选条件，拉一下数据
-                setRefreshing();
+                hideSearchFragment();
                 return false;
             }
         });
@@ -159,6 +156,22 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
+    }
+
+    void showSearchFragment() {
+        frameLayout.setVisibility(View.VISIBLE);
+        searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.search_content, searchFragment);
+        ft.commit();
+    }
+
+    void hideSearchFragment() {
+        frameLayout.setVisibility(View.GONE);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.remove(searchFragment);
+        ft.commit();
+        searchFragment = null;
     }
 
     @Override
@@ -212,11 +225,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             mCurrentPage = 1;
         }
 
-        if (mSearchMode) {
-            mPresenter.getList4StudentStatistics(searchParams, mCurrentPage++);
-        } else {
-            mPresenter.getList4StudentStatistics(filterParams, mCurrentPage++);
-        }
+        mPresenter.getList4StudentStatistics(filterParams, mCurrentPage++);
     }
 
     @Override
@@ -308,9 +317,6 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @Override
     public void getListSuccess(StudentList studentList) {
-        if (mSearchMode && mCurrentPage == 2) {
-            mDataList.clear();
-        }
         loadSuccess(studentList.lists);
     }
 
@@ -325,9 +331,4 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         JumpManager.jumpActivity(this, AddStudentActivity.class);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
 }

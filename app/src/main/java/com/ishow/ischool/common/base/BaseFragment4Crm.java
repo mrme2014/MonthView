@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.commonlib.core.BaseFragment;
+import com.commonlib.core.BaseFragment4mvp;
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
 import com.ishow.ischool.application.CrmApplication;
@@ -20,7 +20,7 @@ import butterknife.Unbinder;
 /**
  * Created by mini on 16/8/14.
  */
-public abstract class BaseFragment4Crm<P extends BasePresenter, M extends BaseModel> extends BaseFragment<P, M> {
+public abstract class BaseFragment4Crm<P extends BasePresenter, M extends BaseModel> extends BaseFragment4mvp<P, M> {
 
     private Unbinder unbinder;
 

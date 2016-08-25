@@ -72,6 +72,16 @@
         />
 
     <!--app:draw_right_redPoint="false" 默认不绘制小圆点的-->
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/person_info_QQ"
+        style="@style/activity_person_info"
+        android:text="QQ"
+        android:drawableRight="@mipmap/icon_list_next"
+        app:draw_bottom_line_color="@color/comm_line"
+        app:tip_right_color="@color/txt_9"
+        app:tip_right_padding="20"
+        />
+    <!--&lt;!&ndash;app:draw_right_redPoint="false" 默认不绘制小圆点的&ndash;&gt;
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@android:color/white"
@@ -84,7 +94,7 @@
             android:textColor="@color/txt_2"
             android:gravity="center"/>
 
-        <EditText
+        <TextView
             android:id="@+id/person_info_QQ"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -93,10 +103,11 @@
             android:layout_marginRight="10dp"
             android:textColor="#999999"
             android:textSize="13sp"
-            android:focusable="true"
+            android:focusable="false"
             android:hint="@string/per_info_input_QQ"
             android:textColorHint="#999999"
+            android:clickable="true"
             android:background="@android:color/transparent"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
 </LinearLayout>

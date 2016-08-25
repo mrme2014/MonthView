@@ -11,6 +11,7 @@
             android:id="@+id/getcode_phone"
             style="@style/edit_white_bg"
             android:hint="@string/input_phone"
+            android:inputType="phone"
             />
         <Button
             android:id="@+id/getcode_btn"
@@ -35,6 +36,7 @@
         android:id="@+id/getcode_smscode"
         style="@style/edit_white_bg"
         android:hint="@string/input_smscode"
+        android:inputType="number"
         />
 
     <Button

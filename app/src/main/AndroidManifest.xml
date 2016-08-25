@@ -78,6 +78,7 @@
         <activity android:name=".business.student.detail.StudentDetailActivity" />
         <activity android:name=".business.student.edit.EditActivity" />
         <activity android:name=".business.communication.edit.CommunicationEditActivity"></activity>
+        <activity android:name=".business.Input.InputActivity"></activity>
         <activity android:name=".business.user.pick.UserPickActivity"></activity>
     </application>
 

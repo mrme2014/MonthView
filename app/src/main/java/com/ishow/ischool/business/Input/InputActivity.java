@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.Input;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 
@@ -18,14 +20,15 @@ import butterknife.BindView;
 /**
  * Created by MrS on 2016/8/25.
  */
-public class InputActivity extends BaseActivity4Crm implements TextWatcher {
+public class InputActivity extends BaseActivity4Crm implements TextWatcher, View.OnClickListener {
     @BindView(R.id.input)
     EditText input;
     private MenuItem item;
+    private LabelTextView view;
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_input, "", R.menu.menu_addstudent, MODE_NONE);
+        setContentView(R.layout.activity_input, "", R.menu.menu_submit, MODE_NONE);
     }
 
     @Override
@@ -42,8 +45,14 @@ public class InputActivity extends BaseActivity4Crm implements TextWatcher {
             }
         });
 
-        setUpMenu(R.menu.menu_addstudent);
+        mToolbar.inflateMenu(R.menu.menu_submit);
+        //setUpMenu(R.menu.menu_submit);
         item = mToolbar.getMenu().findItem(R.id.submit);
+        view = (LabelTextView) MenuItemCompat.getActionView(item);
+        view.setAboutMenuItem();
+        view.setUpMenu(false);
+        view.setOnClickListener(this);
+
         input.setHint(title);
         input.addTextChangedListener(this);
     }
@@ -58,12 +67,6 @@ public class InputActivity extends BaseActivity4Crm implements TextWatcher {
     @Override
     protected void setUpData() {
 
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        finishActivity();
-        return super.onMenuItemClick(item);
     }
 
     @Override
@@ -85,7 +88,12 @@ public class InputActivity extends BaseActivity4Crm implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (TextUtils.equals(s.toString(), ""))
-            item.setEnabled(false);
-        else item.setEnabled(true);
+            view.setUpMenu(false);
+        else  view.setUpMenu(true);
+    }
+
+    @Override
+    public void onClick(View v) {
+        finishActivity();
     }
 }

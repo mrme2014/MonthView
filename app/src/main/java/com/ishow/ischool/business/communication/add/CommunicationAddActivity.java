@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.widget.LabelEditText;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddPresenter, CommunicationAddModel> implements CommunicationAddContract.View {
 
     private static final int REQUEST_PICK_STUDENT = 100;
-    public static final String P_STUDENT = "student";
+    public static final String P_STUDENT_INFO = "student_info";
 
     @BindView(R.id.commun_student_name)
     LabelTextView studentNameTv;
@@ -61,7 +62,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     @Override
     protected void initEnv() {
         super.initEnv();
-        studentInfo = getIntent().getParcelableExtra(P_STUDENT);
+        studentInfo = getIntent().getParcelableExtra(P_STUDENT_INFO);
     }
 
     @Override
@@ -103,6 +104,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         if (isSubmitting) {
             return;
         }
+        KeyBoardUtil.closeKeybord(moneySourceTv, this);
         if (checkForm()) {
             isSubmitting = true;
             mPresenter.addCommunication(form);
@@ -143,10 +145,6 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             check = false;
         }
 
-        if (TextUtils.isEmpty(form.tuition_source)) {
-            str += "\n" + getString(R.string.check_tuition_source);
-            check = false;
-        }
         if (form.communication_date == 0) {
             str += "\n" + getString(R.string.check_communication_date);
             check = false;

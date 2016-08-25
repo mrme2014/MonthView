@@ -4,127 +4,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <include layout="@layout/widget_toolbar" />
 
-    <View
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/comm_bg" />
+        android:layout_height="match_parent">
 
-    <com.commonlib.widget.LabelTextView
-        android:id="@+id/commun_student_name"
-        style="@style/communication_textview"
-        android:hint="@string/commun_choose_hint"
-        app:label_text_left="@string/commun_label_student_name" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/comm_bg" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/commun_student_name"
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose_hint"
+                app:label_text_left="@string/commun_label_student_name" />
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelTextView
-        android:id="@+id/commun_state"
-        style="@style/communication_textview"
-        android:hint="@string/commun_choose_hint"
-        app:label_text_left="@string/commun_label_state" />
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/commun_state"
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose_hint"
+                app:label_text_left="@string/commun_label_state" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelTextView
-        android:id="@+id/commun_faith"
-        style="@style/communication_textview"
-        android:hint="@string/commun_choose_hint"
-        app:label_text_left="@string/commun_label_faith" />
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/commun_faith"
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose_hint"
+                app:label_text_left="@string/commun_label_faith" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelTextView
-        android:id="@+id/commun_oppose"
-        style="@style/communication_textview"
-        android:hint="@string/commun_choose_hint"
-        app:label_text_left="@string/commun_label_oppose" />
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/commun_oppose"
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose_hint"
+                app:label_text_left="@string/commun_label_oppose" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelEditText
-        android:id="@+id/commun_source"
-        style="@style/communication_edittext"
-        android:hint="@string/commun_input_source_hint"
-        android:maxLength="10"
-        app:label_text="@string/commun_label_source"
-        app:label_text_size="@dimen/sp14" />
+            <com.commonlib.widget.LabelEditText
+                android:id="@+id/commun_source"
+                style="@style/communication_edittext"
+                android:hint="@string/commun_input_source_hint"
+                android:maxLength="10"
+                app:label_text="@string/commun_label_source"
+                app:label_text_size="@dimen/sp14" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelTextView
-        android:id="@+id/commun_back_date"
-        style="@style/communication_textview"
-        android:hint="@string/commun_choose1_hint"
-        app:label_text_left="@string/commun_label_back_date" />
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/commun_back_date"
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose1_hint"
+                app:label_text_left="@string/commun_label_back_date" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/content_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/commun_detail" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/content_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:text="@string/commun_detail" />
 
-    <com.commonlib.widget.LabelTextView
-        android:id="@+id/commun_date"
-        style="@style/communication_textview"
-        android:hint="@string/commun_choose_hint"
-        app:label_text_left="@string/commun_label_date" />
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/commun_date"
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose_hint"
+                app:label_text_left="@string/commun_label_date" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="10dp"
-        android:background="@color/comm_line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/comm_line" />
 
-    <!--<com.commonlib.widget.LabelEditText-->
-    <!--android:id="@+id/commun_content"-->
-    <!--style="@style/communication_edittext"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:gravity="top"-->
-    <!--android:hint="@string/commun_input_content_hint"-->
-    <!--android:lines="8"-->
-    <!--android:paddingTop="13dp"-->
-    <!--app:label_text="@string/commun_label_content" />-->
+            <!--<com.commonlib.widget.LabelEditText-->
+            <!--android:id="@+id/commun_content"-->
+            <!--style="@style/communication_edittext"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="top"-->
+            <!--android:hint="@string/commun_input_content_hint"-->
+            <!--android:lines="8"-->
+            <!--android:paddingTop="13dp"-->
+            <!--app:label_text="@string/commun_label_content" />-->
 
-    <com.ishow.ischool.widget.custom.InputLinearLayout
-        android:id="@+id/commun_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:bottom_line="false"
-        app:inputLayout_texthint="@string/commun_input_content_hint"
-        app:label_text="@string/commun_label_content"
-        app:text_line="8" />
+            <com.ishow.ischool.widget.custom.InputLinearLayout
+                android:id="@+id/commun_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bottom_line="false"
+                app:inputLayout_texthint="@string/commun_input_content_hint"
+                app:label_text="@string/commun_label_content"
+                app:text_line="8" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -21,6 +21,11 @@ public class CommunPresenter extends CommunContract.Presenter {
             public void onError(String msg) {
                 mView.listCommunicationFailed(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 
@@ -34,6 +39,11 @@ public class CommunPresenter extends CommunContract.Presenter {
             @Override
             public void onError(String msg) {
                 mView.onEditCommunicationFailed(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
             }
         });
     }
@@ -49,6 +59,12 @@ public class CommunPresenter extends CommunContract.Presenter {
             public void onError(String msg) {
                 mView.onAddCommunicationFailed(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+
         });
     }
 }

@@ -25,8 +25,9 @@ public class CommunicationListPresenter extends CommunicationListContract.Presen
 
             @Override
             protected boolean isAlive() {
-                return mView.isAlive();
+                return mView != null && !mView.isActivityFinished();
             }
+
         });
     }
 }

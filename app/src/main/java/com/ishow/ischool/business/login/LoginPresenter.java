@@ -28,6 +28,11 @@ public class LoginPresenter extends LoginContract.Presenter {
                     public void onError(String msg) {
                         mView.loginError(msg);
                     }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView != null && !mView.isActivityFinished();
+                    }
                 });
     }
 

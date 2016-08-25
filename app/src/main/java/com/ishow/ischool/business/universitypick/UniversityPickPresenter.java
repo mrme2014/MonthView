@@ -22,6 +22,11 @@ public class UniversityPickPresenter extends UniversityPickContract.Presenter {
                     public void onError(String msg) {
                         mView.getListFail(msg);
                     }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView != null && !mView.isActivityFinished();
+                    }
                 });
     }
 
@@ -36,6 +41,11 @@ public class UniversityPickPresenter extends UniversityPickContract.Presenter {
 
                     @Override
                     public void onError(String msg) {
+                    }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView != null && !mView.isActivityFinished();
                     }
                 });
     }

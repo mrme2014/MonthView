@@ -26,6 +26,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     public static final String P_STUDENT = "student";
     public static final String P_STUDENT_ID = "student_id";
+    public static final String P_COMMUNICATION = "communication";
     @BindView(R.id.tabs)
     TabLayout mTabs;
 
@@ -59,6 +60,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private StudentInfoFragment studentInfoFragment;
     private CommunicationListFragment communicationListFragment;
     private FragmentAdapter mFragmentAdapter;
+    private boolean isCommun;
 
     @Override
     protected void initEnv() {
@@ -70,6 +72,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 studentId = student.student_id;
             }
         }
+        isCommun = getIntent().getBooleanExtra(P_COMMUNICATION, false);
 
     }
 
@@ -113,7 +116,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         titleList.add(getString(R.string.commun_list));
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titleList);
         mViewPaper.setAdapter(mFragmentAdapter);
-        mViewPaper.setCurrentItem(0);
+        mViewPaper.setCurrentItem(isCommun ? 1 : 0);
     }
 
     @Override

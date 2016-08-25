@@ -81,6 +81,7 @@ public class InputLinearLayout extends LinearLayout {
         if (hasNext) {
             next.setVisibility(VISIBLE);
             input.setFocusable(false);
+            input.setLongClickable(false);
         }
         if (!isFocusable) {
             input.setEnabled(false);

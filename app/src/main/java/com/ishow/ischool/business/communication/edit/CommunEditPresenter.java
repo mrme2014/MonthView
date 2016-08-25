@@ -20,6 +20,11 @@ public class CommunEditPresenter extends BasePresenter<CommunEditModel, Communic
             public void onError(String msg) {
                 mView.onEditFailed(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 }

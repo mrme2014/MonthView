@@ -4,12 +4,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.commonlib.util.KeyBoardUtil;
+import com.commonlib.widget.event.RxBus;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.StudentInfo;
@@ -49,11 +51,11 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     InputLinearLayout fromIL;
     @BindView(R.id.item_referrer)
     InputLinearLayout referrerIL;
-    @BindView(R.id.item_remark)
-    InputLinearLayout remarkIL;
+//    @BindView(R.id.item_remark)
+//    InputLinearLayout remarkIL;
 
     private MenuItem submitMenu;
-    private String nameStr, mobileStr, qqStr, weixinStr, universityStr, majorStr, campusStr, fromStr, referrerStr, notesStr;
+    private String nameStr, mobileStr, qqStr, weixinStr, universityStr, majorStr, campusStr, fromStr, referrerStr;
     private int province_id, city_id, campus_id, university_id, source_id;
     private UniversityInfo mUniversityInfo;
 
@@ -66,6 +68,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     @Override
     protected void setUpView() {
         init();
+        nameIL.getEdittext().setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
         universityIL.setOnEidttextClick(this);
         campusIL.setOnEidttextClick(this);
         fromIL.setOnEidttextClick(this);
@@ -114,7 +117,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         switch (item.getItemId()) {
             case R.id.submit:
                 KeyBoardUtil.closeKeybord(nameIL.getEdittext(), AddStudentActivity.this);
-                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id, notesStr);
+                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id);
                 break;
         }
         return true;
@@ -130,7 +133,6 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         campusStr = campusIL.getContent();
         fromStr = fromIL.getContent();
         referrerStr = referrerIL.getContent();
-        notesStr = remarkIL.getContent();
         if (!TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(mobileStr) && (!TextUtils.isEmpty(qqStr) || !TextUtils.isEmpty(weixinStr))
                 && !TextUtils.isEmpty(universityStr) && !TextUtils.isEmpty(majorStr) && !TextUtils.isEmpty(campusStr) && !TextUtils.isEmpty(fromStr)) {
             if (referrerIL.getVisibility() == View.VISIBLE) {    // 转介绍时，推荐人必填
@@ -154,9 +156,8 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         weixinStr = weixinIL.getContent();
         universityStr = universityIL.getContent();
         majorStr = majorIL.getContent();
-        notesStr = remarkIL.getContent();
-        if (TextUtils.isEmpty(nameStr) && TextUtils.isEmpty(mobileStr) && TextUtils.isEmpty(qqStr) && TextUtils.isEmpty(weixinStr)
-                && TextUtils.isEmpty(universityStr) && TextUtils.isEmpty(majorStr) && TextUtils.isEmpty(notesStr)) {
+        if (TextUtils.isEmpty(nameStr) && TextUtils.isEmpty(mobileStr) && TextUtils.isEmpty(qqStr)
+                && TextUtils.isEmpty(weixinStr) && TextUtils.isEmpty(universityStr) && TextUtils.isEmpty(majorStr)) {
             return true;
         } else {
             return false;
@@ -230,8 +231,9 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     @Override
     public void addStudentSuccess(StudentInfo studentInfo) {
-        finish();
         showToast("添加成功");
+        RxBus.getInstance().post(studentInfo);
+        finish();
     }
 
     @Override

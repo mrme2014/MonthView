@@ -21,6 +21,11 @@ public class StudentDetailPresenter extends StudentDetailContract.Presenter {
             public void onError(String msg) {
                 mView.onGetStudentFailed(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 
@@ -35,6 +40,11 @@ public class StudentDetailPresenter extends StudentDetailContract.Presenter {
             @Override
             public void onError(String msg) {
                 mView.onEditStudentFailed(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
             }
         });
     }

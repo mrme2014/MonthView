@@ -21,6 +21,11 @@ public class PickStudentPresenter extends PickStudentContract.Presenter {
             public void onError(String msg) {
                 mView.getListFail(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 }

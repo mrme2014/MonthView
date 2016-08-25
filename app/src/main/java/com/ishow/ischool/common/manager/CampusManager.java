@@ -55,26 +55,37 @@ public class CampusManager {
             campusInfos = gson.fromJson(data, new TypeToken<ArrayList<CampusInfo>>(){}.getType());
         }
         if (campusInfos == null) {
-            LogUtil.d(this, "get user is null");
+            LogUtil.d(this, "get campus is null");
         }
         return campusInfos;
     }
 
-    public ArrayList<String> getCampusName() {
+    public ArrayList<String> getCampusNames() {
         if (context == null) {
             throw new RuntimeException();
         }
         ArrayList<String> campusNames = new ArrayList<>();
         for (CampusInfo campusInfo : get()) {
-            campusNames.add(campusInfo.name);
+            if (!campusInfo.name.equals("总部") && !campusInfo.name.equals("第三校区")) {
+                campusNames.add(campusInfo.name);
+            }
         }
         return campusNames;
+    }
+
+    public String getCampusNameById(int campusId) {
+        for (CampusInfo campusInfo : get()) {
+            if (campusInfo.id == campusId) {
+                return campusInfo.name;
+            }
+        }
+        return "";
     }
 
     private void persistDate(String data) {
         LogUtil.d("campusInfos" + data);
         SpUtil.getInstance(context).setValue(CAMPUS_KEY, data);
-        campusInfos = null;
+//        campusInfos = null;
     }
 
     private String readData() {

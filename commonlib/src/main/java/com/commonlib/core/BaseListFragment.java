@@ -36,11 +36,25 @@ public abstract class BaseListFragment<T> extends BaseFragment implements PullRe
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recycler = (PullRecycler) view.findViewById(R.id.pullRecycler);
+        recycler.mPageEnable = setPageEnable();
         setUpAdapter();
         recycler.setOnRefreshListener(this);
         recycler.setLayoutManager(getLayoutManager());
 //        recycler.addItemDecoration(getItemDecoration());
         recycler.setAdapter(mAdapter);
+    }
+
+    protected void setRefreshing() {
+        recycler.setRefreshingMainThread();
+    }
+
+    /**
+     * 设置该页面不支持分页加载,默认支持分页
+     *
+     * @return
+     */
+    protected boolean setPageEnable() {
+        return true;
     }
 
     protected void setUpAdapter() {
@@ -89,23 +103,34 @@ public abstract class BaseListFragment<T> extends BaseFragment implements PullRe
     protected abstract BaseViewHolder getViewHolder(ViewGroup parent, int viewType);
 
 
-    protected void loadSuccess(int loadAction, ArrayList<T> resultList) {
-        if (loadAction == PullRecycler.ACTION_PULL_TO_REFRESH) {
+    public void loadSuccess(ArrayList<T> resultList) {
+        recycler.resetView();
+        if (!recycler.mPageEnable) {            // 如果不支持分页，第一次加载之后就关闭下拉刷新
+            recycler.enablePullToRefresh(false);
+        }
+
+        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mDataList.clear();
         }
         if (resultList == null || resultList.size() == 0) {
-            if (mCurrentPage > 2) {      // 非第一页
-                recycler.enableLoadMore(false);
-                recycler.setOnLoadMoreEnd();
-            } else {        // 当curPage=2时，其实是第一页数据。showNoDataView
+            if (recycler.mPageEnable) {     // 支持分页
+                if (mCurrentPage > 2) {      // 非第一页
+                    recycler.enableLoadMore(false);
+                    recycler.setOnLoadMoreEnd();
+                } else {        // 当curPage=2时，其实是第一页数据。showNoDataView
+                    recycler.showEmptyView();
+                }
+            } else {
                 recycler.showEmptyView();
             }
         } else {
-            if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
-                recycler.enableLoadMore(false);
-                recycler.setOnLoadMoreEnd();
-            } else {
-                recycler.enableLoadMore(true);
+            if (recycler.mPageEnable) {     // 支持分页
+                if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
+                    recycler.enableLoadMore(false);
+                    recycler.setOnLoadMoreEnd();
+                } else {
+                    recycler.enableLoadMore(true);
+                }
             }
             mDataList.addAll(resultList);
             mAdapter.notifyDataSetChanged();
@@ -113,7 +138,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements PullRe
         recycler.onRefreshCompleted();
     }
 
-    protected void loadFailed() {
+    public void loadFailed() {
         recycler.onRefreshCompleted();
         if (mCurrentPage > 1) {
             mCurrentPage--;

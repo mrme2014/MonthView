@@ -35,6 +35,11 @@ public class CommunicationAddPresenter extends CommunicationAddContract.Presente
             public void onError(String msg) {
                 mView.onAddFailed(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 

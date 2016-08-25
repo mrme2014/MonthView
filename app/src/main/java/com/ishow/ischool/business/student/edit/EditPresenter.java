@@ -21,6 +21,11 @@ public class EditPresenter extends BasePresenter<EditModel, EditActivity> {
             public void onError(String msg) {
                 mView.onEditFailed(msg);
             }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
         });
     }
 }

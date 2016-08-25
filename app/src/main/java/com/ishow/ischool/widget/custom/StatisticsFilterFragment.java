@@ -183,7 +183,11 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         isUserCampus = (mUser.userInfo.campus_id == Campus.HEADQUARTERS) ? false : true;
         if (!isUserCampus) {        // 总部才显示“所属校区”筛选条件
             campusIL.setVisibility(View.VISIBLE);
-            campusIL.setContent("所有校区");
+            if (TextUtils.isEmpty(mFilterCampusId) || mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
+                campusIL.setContent("所有校区");
+            } else {
+                campusIL.setContent(CampusManager.getInstance().getCampusNameById(Integer.parseInt(mFilterCampusId)));
+            }
         }
         if (TextUtils.isEmpty(mFilterTimeType) || mFilterTimeType.equals("1")) {
             mFilterTimeType = "1";
@@ -201,7 +205,11 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             payStateIL.setContent(AppUtil.getPayState().get(Integer.parseInt(mFilterPayState) - 1));
         }
 
-        if (mPositionId == Cons.Position.Xiaoyuanjingli.ordinal() || mPositionId == Cons.Position.Shichangzhuguan.ordinal()) {
+        if (mPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            mFilterSource = MarketApi.TYPESOURCE_READING + "";
+        } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+        } else if (mPositionId == Cons.Position.Xiaoyuanjingli.ordinal() || mPositionId == Cons.Position.Shichangzhuguan.ordinal()) {
 
             sources = new ArrayList<String>() {{
                 add("晨读");
@@ -274,7 +282,6 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         .setDialogTitle(-1)
                         .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
                         .setDatas(0, 1, AppUtil.getFilterTimeType());
-                ;
                 PickerDialogFragment timeFragment = timeBuilder.Build();
                 timeFragment.show(getChildFragmentManager(), "dialog");
                 timeFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
@@ -380,11 +387,25 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     public void onEdittextClick(View view) {
         switch (view.getId()) {
             case R.id.item_campus:
-                showPickPop(R.string.item_campus, 0, 1, CampusManager.getInstance().getCampusName(), new PickerWheelViewPop.PickCallback<int[]>() {
+                final ArrayList<String> campusList = CampusManager.getInstance().getCampusNames();
+                PickerDialogFragment.Builder campusBuilder = new PickerDialogFragment.Builder();
+                campusBuilder.setBackgroundDark(true)
+                        .setDialogTitle(R.string.item_campus)
+                        .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
+                        .setDatas(0, 1, campusList);
+                PickerDialogFragment campusFragment = campusBuilder.Build();
+                campusFragment.show(getChildFragmentManager(), "dialog");
+                campusFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
                     @Override
-                    public void onPickCallback(int[] position, String... result) {
-                        if (result != null) campusIL.setContent(result[0]);
-                        if (position != null) mFilterCampusId = (position[0] + 1) + "";
+                    public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
+                        return null;
+                    }
+
+                    @Override
+                    public void onPickResult(Object object, String... result) {
+                        campusIL.setContent(result[0]);
+                        int index = campusList.indexOf(result[0]);
+                        mFilterCampusId = (CampusManager.getInstance().get().get(index).id + "");
                     }
                 });
                 break;
@@ -394,7 +415,6 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         .setDialogTitle(R.string.item_pay_state)
                         .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
                         .setDatas(0, 1, AppUtil.getPayState());
-                ;
                 PickerDialogFragment payFragment = payBuilder.Build();
                 payFragment.show(getChildFragmentManager(), "dialog");
                 payFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {

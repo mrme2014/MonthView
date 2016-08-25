@@ -1,5 +1,10 @@
 package com.ishow.ischool.business.communication.list;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +15,7 @@ import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
@@ -29,10 +35,71 @@ import butterknife.OnClick;
  */
 public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> implements CommunicationListContract.View, CommuDialogFragment.selectResultCallback {
 
+    private static final int WATH_SEARCH = 10;
+    private SearchView mSearchView;
+    private HashMap<String, String> mParamsMap;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case WATH_SEARCH:
+                    Bundle bundle = msg.getData();
+                    String keyword = bundle.getString("keyword");
+                    if (keyword.equals(mSearchText)) {
+                        mCurrentPage = 1;
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+                        params.put("keyword", keyword);
+                        params.put("page", mCurrentPage + "");
+                        //setRefreshing();
+                        mPresenter.listCommunication(params);
+                    }
+                    break;
+            }
+        }
+    };
+    private String mSearchText;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+    }
+
     @Override
     protected void setUpContentView() {
         //super.setUpContentView();
         setContentView(R.layout.activity_communication_list, R.string.communication_list_title, R.menu.menu_communication_list, MODE_BACK);
+
+        MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setQueryHint(getString(R.string.hint_search_phone_username));
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchText = newText;
+                Message msg = new Message();
+                msg.what = WATH_SEARCH;
+                Bundle bundle = new Bundle();
+                bundle.putString("keyword", newText);
+                msg.setData(bundle);
+                mHandler.sendMessageDelayed(msg, 1000);
+                return false;
+            }
+        });
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -48,19 +115,17 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     @Override
     public void onRefresh(int action) {
-        HashMap<String, String> map = AppUtil.getParamsHashMap(12);
-
         switch (action) {
             case PullRecycler.ACTION_PULL_TO_REFRESH:
                 mCurrentPage = 1;
-                map.put("page", mCurrentPage + "");
-                mPresenter.listCommunication(map);
+                mParamsMap.put("page", mCurrentPage + "");
+                mPresenter.listCommunication(mParamsMap);
 
                 break;
             case PullRecycler.ACTION_LOAD_MORE_LOADING:
                 mCurrentPage++;
-                map.put("page", mCurrentPage + "");
-                mPresenter.listCommunication(map);
+                mParamsMap.put("page", mCurrentPage + "");
+                mPresenter.listCommunication(mParamsMap);
 
                 break;
         }
@@ -81,7 +146,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     public boolean isAlive() {
         return !isActivityFinished();
     }
-
 
 
     class CommnunicationHolder extends BaseViewHolder {
@@ -130,22 +194,23 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         JumpManager.jumpActivity(this, CommunicationAddActivity.class);
     }
 
-    CommuDialogFragment dialog=null;
+    CommuDialogFragment dialog = null;
+
     public boolean onMenuItemClick(MenuItem item) {
-       switch (item.getItemId()){
-           case R.id.action_filter:
-              if (dialog==null){
-                  dialog = new CommuDialogFragment();
-                  dialog.show(getSupportFragmentManager(),"dialog");
-                  dialog.addOnSelectResultCallback(this);
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                if (dialog == null) {
+                    dialog = new CommuDialogFragment();
+                    dialog.addOnSelectResultCallback(this);
+                }
 
-              }
+                dialog.show(getSupportFragmentManager(), "dialog");
 
-               break;
-           case R.id.action_search:
+                break;
+            case R.id.action_search:
 
-               break;
-       }
+                break;
+        }
         return false;
     }
 
@@ -153,11 +218,42 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     public void cancelDilaog() {
         getSupportFragmentManager().beginTransaction().remove(dialog).commit();
         dialog.dismiss();
-        dialog= null;
+        dialog = null;
     }
 
+    /**
+     * @param statePosition
+     * @param confidencePosition
+     * @param refusePosition
+     * @param orderPosition
+     * @param startUnix
+     * @param endUnix
+     */
     @Override
     public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
+        mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+        mCurrentPage = 1;
+        mParamsMap.put("page", mCurrentPage + "");
+        if (statePosition != 0) {
+            mParamsMap.put("student_status", statePosition + "");
+        }
+        if (refusePosition != 0) {
+            mParamsMap.put("refuse_point", refusePosition + "");
+        }
+        if (confidencePosition != 0) {
+            mParamsMap.put("study_belief", confidencePosition + "");
+        }
+        if (startUnix != 0) {
+            mParamsMap.put("begin_time", startUnix + "");
+        }
+        if (endUnix != 0) {
+            mParamsMap.put("end_time", endUnix + "");
+        }
+        if (orderPosition != 0) {
+            mParamsMap.put("incharger", orderPosition + "");
+        }
+//        mPresenter.listCommunication(mParamsMap);
+        setRefreshing();
 
     }
 }

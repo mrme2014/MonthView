@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
-import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +46,7 @@ public class CommunEditDialog extends DialogFragment {
 
     @BindView(R.id.dialog_content_count)
     TextView contentCountTv;
+    private PickerDialogFragment dateDialog;
 
     @Nullable
     @Override
@@ -82,10 +82,13 @@ public class CommunEditDialog extends DialogFragment {
     void onClickDate(View view) {
         switch (view.getId()) {
             case R.id.dialog_date:
-                AppUtil.showTimePickerDialog(getActivity(), view, new PickerWheelViewPop.PickCallback() {
-
+                PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+                builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+                dateDialog = builder.Build();
+                dateDialog.show(getActivity().getSupportFragmentManager(), "dialog");
+                dateDialog.addCallback(new PickerDialogFragment.Callback<Integer>() {
                     @Override
-                    public void onPickCallback(Object object, String... result) {
+                    public void onPickResult(Integer object, String... result) {
                         date = (int) object;
                         dateLtv.setText(result[0]);
                     }

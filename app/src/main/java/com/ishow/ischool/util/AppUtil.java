@@ -2,16 +2,16 @@ package com.ishow.ischool.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.Gravity;
-import android.view.View;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,18 +130,33 @@ public class AppUtil {
         return stateList;
     }
 
-
     public static HashMap<String, String> getParamsHashMap(int resourcesId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("resources_id", String.valueOf(resourcesId));
         return params;
     }
 
-
-    public static void showTimePickerDialog(Context context, View parent, PickerWheelViewPop.PickCallback callback) {
-        PickerWheelViewPop pop = new PickerWheelViewPop(context);
-        pop.renderYMDPanel(R.string.choose_birthday);
-        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        pop.addPickCallback(callback);
+    public static PickerDialogFragment showTimePickerDialog(FragmentManager fragmentManager, PickerDialogFragment.Callback callback) {
+        return showTimePickerDialog(fragmentManager, R.string.choose_date, callback);
     }
+
+    public static PickerDialogFragment showTimePickerDialog(FragmentManager fragmentManager, int title, PickerDialogFragment.Callback callback) {
+
+        PickerDialogFragment.Builder builder1 = new PickerDialogFragment.Builder();
+        builder1.setBackgroundDark(true).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setDialogTitle(title);
+        PickerDialogFragment dialogFragment = builder1.Build();
+        dialogFragment.show(fragmentManager, "dialog");
+        dialogFragment.addCallback(callback);
+        return dialogFragment;
+    }
+
+    public static SelectDialogFragment showItemDialog(FragmentManager fragmentManager, ArrayList<String> stateList,
+                                                      SelectDialogFragment.OnItemSelectedListner onItemselectListner) {
+        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
+        SelectDialogFragment dialog = builder.setMessage(stateList).setOnItemselectListner(onItemselectListner)
+                .Build();
+        dialog.show(fragmentManager);
+        return dialog;
+    }
+
 }

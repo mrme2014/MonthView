@@ -103,7 +103,7 @@ public class UserManager {
 
     public void initCampusPositions(User mUser) {
         if (mUser != null) {
-            this.user =mUser;
+            this.user = mUser;
             List<Campus> campus = mUser.campus;
             List<Position> position = mUser.position;
 

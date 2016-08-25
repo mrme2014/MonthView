@@ -1,6 +1,8 @@
 package com.ishow.ischool.widget.custom;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,10 +16,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.business.user.pick.UserPickActivity;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
@@ -31,6 +34,7 @@ import butterknife.OnClick;
  * Created by MrS on 2016/8/18.
  */
 public class CommuDialogFragment extends DialogFragment {
+    private static final int REQUEST_USER_PICK = 150;
     @BindView(R.id.commun_state)
     LabelTextView communState;
     @BindView(R.id.commun_date_start)
@@ -139,7 +143,8 @@ public class CommuDialogFragment extends DialogFragment {
                 });
                 break;
             case R.id.commun_order:
-                Toast.makeText(getContext(), "commun_order", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), UserPickActivity.class);
+                startActivityForResult(intent, REQUEST_USER_PICK);
                 break;
             case R.id.commu_reset:
                 resetSlectResult();
@@ -162,10 +167,10 @@ public class CommuDialogFragment extends DialogFragment {
     private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerDialogFragment.Callback callback) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
         PickerDialogFragment dialog = builder.setDialogTitle(titleResId)
-                                            .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
-                                            .setBackgroundDark(true)
-                                            .setDatas(defalut,colum,datas).Build();
-        dialog.show(getChildFragmentManager(),"dialog");
+                .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
+                .setBackgroundDark(true)
+                .setDatas(defalut, colum, datas).Build();
+        dialog.show(getChildFragmentManager(), "dialog");
         dialog.addCallback(callback);
     }
 
@@ -216,4 +221,15 @@ public class CommuDialogFragment extends DialogFragment {
         this.callback = callback1;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_USER_PICK && data != null) {
+                User user = data.getParcelableExtra(UserPickActivity.PICK_USER);
+                communOrder.setText(user.userInfo.user_name);
+                orderPosition = user.userInfo.user_id;
+            }
+        }
+    }
 }

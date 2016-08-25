@@ -109,7 +109,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
             recycler.enablePullToRefresh(false);
         }
 
-        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {
+        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH || mCurrentPage <= 1) {
             mDataList.clear();
         }
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 
 import com.commonlib.util.DateUtil;
@@ -18,7 +17,7 @@ import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.HashMap;
 
@@ -199,9 +198,9 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_birthday: {
-                ShowTimePickerDialog(view, new PickerWheelViewPop.PickCallback<Integer>() {
+                AppUtil.showTimePickerDialog(getActivity().getSupportFragmentManager(), new PickerDialogFragment.Callback() {
                     @Override
-                    public void onPickCallback(Integer object, String... result) {
+                    public void onPickResult(Object object, String... result) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
                         params.put("birthday", String.valueOf(object));
@@ -244,12 +243,12 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         }
     }
 
-    private void ShowTimePickerDialog(View parent, PickerWheelViewPop.PickCallback callback) {
-
-        PickerWheelViewPop pop = new PickerWheelViewPop(getActivity());
-        pop.renderYMDPanel(R.string.choose_birthday);
-        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        pop.addPickCallback(callback);
+//    private void ShowTimePickerDialog(View parent, PickerWheelViewPop.PickCallback callback) {
+//
+//        PickerWheelViewPop pop = new PickerWheelViewPop(getActivity());
+//        pop.renderYMDPanel(R.string.choose_birthday);
+//        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+//        pop.addPickCallback(callback);
 
 //        PickerDialogFragment dialog = new PickerDialogFragment();
 //        Bundle bundle = new Bundle();
@@ -259,7 +258,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
 //        dialog.setArguments(bundle);
 //        dialog.show(getChildFragmentManager(), "dialog");
 
-    }
+//    }
 
 
     @Override

@@ -20,7 +20,7 @@ public interface LoginContract {
         Observable<ApiResult<User>> login(String name, String pass,String fields);
     }
     interface View extends BaseView {
-        void loginSuccess();
+        void loginSuccess(User user);
         void loginError(String msg);
     }
 

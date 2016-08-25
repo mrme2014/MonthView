@@ -178,6 +178,7 @@ public final class DeviceUtils {
 
     /**
      * 手机分辨率
+     *
      * @param context
      * @return
      */

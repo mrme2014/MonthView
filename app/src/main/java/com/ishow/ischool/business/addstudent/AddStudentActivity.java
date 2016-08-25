@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.commonlib.util.KeyBoardUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.StudentInfo;
@@ -112,6 +113,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.submit:
+                KeyBoardUtil.closeKeybord(nameIL.getEdittext(), AddStudentActivity.this);
                 mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id, notesStr);
                 break;
         }

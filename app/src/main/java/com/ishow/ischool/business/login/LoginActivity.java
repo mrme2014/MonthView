@@ -4,8 +4,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.commonlib.util.LogUtil;
+import com.commonlib.util.PreferencesUtils;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.MainActivity;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.forgetpwd.ForgetPwdActivity1;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
@@ -40,7 +42,8 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @Override
     protected void setUpData() {
-
+        String lastUserName = PreferencesUtils.getString(this, "last_user");
+        usernameEt.setText(lastUserName);
     }
 
     @OnClick(R.id.forget_passwd)
@@ -56,12 +59,12 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
         handProgressbar(true);
         mPresenter.login(username, passwd);
         submitTv.setEnabled(false);
-
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(User user) {
         handProgressbar(false);
+        PreferencesUtils.put(this, "last_user", user.userInfo.mobile);
         JumpManager.jumpActivity(this, MainActivity.class);
         finish();
     }

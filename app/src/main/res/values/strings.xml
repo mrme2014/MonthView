@@ -92,6 +92,7 @@
     <string name="time_left_to_try_again">%1$s s后重试</string>
     <string name="switch_role">角色切换</string>
     <string name="kefu_title">客服</string>
+    <string name="choose_date">选择日期</string>
 
 
     <!-- 学员统计 -->
@@ -188,5 +189,8 @@
     <string name="save_pic">保存图片</string>
     <string name="save_pic_complete">保存成功</string>
     <string name="save_pic_faild">保存失败,可能没有文件存储权限.</string>
+    <string name="add_communication_check_failed">请把必选和必填信息写完整!</string>
+    <string name="hint_search_phone_username">根据姓名或手机号搜索..</string>
+    <string name="pick_user">选择用户</string>
 
 </resources>

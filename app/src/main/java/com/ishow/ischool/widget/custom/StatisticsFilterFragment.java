@@ -202,6 +202,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         }
 
         if (mPositionId == Cons.Position.Xiaoyuanjingli.ordinal() || mPositionId == Cons.Position.Shichangzhuguan.ordinal()) {
+
             sources = new ArrayList<String>() {{
                 add("晨读");
                 add("转介绍");
@@ -209,6 +210,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             }};
             sourceIL.setVisibility(View.VISIBLE);
         } else if (mPositionId == Cons.Position.Xiaoliaozhuguan.ordinal()) {
+
             sources = new ArrayList<String>() {{
                 add("校聊");
                 add("转介绍");
@@ -414,6 +416,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         .setDialogTitle(R.string.item_from)
                         .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
                         .setDatas(0, 1, sources);
+
                 PickerDialogFragment fromFragment = fromBuilder.Build();
                 fromFragment.show(getChildFragmentManager(), "dialog");
                 fromFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
@@ -526,31 +529,21 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     }
 
     private void showTimePickPop(final int type) {
-        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.renderYMDPanel(R.string.commun_date);
-        pop.addPickCallback(new PickerWheelViewPop.PickCallback<Integer>() {
+
+        AppUtil.showTimePickerDialog(getChildFragmentManager(), R.string.commun_date, new PickerDialogFragment.Callback<Integer>() {
             @Override
-            public void onPickCallback(Integer unix, String... result) {
+            public void onPickResult(Integer unix, String... result) {
                 if (type == TYPE_START_TIME) {
                     startTimeEt.setText(result[0]);
-                    mFilterStartTime = unix + "";
+                    mFilterStartTime = String.valueOf(unix);
                     startTimeIv.setVisibility(View.VISIBLE);
                 } else if (type == TYPE_END_TIME) {
                     endTimeEt.setText(result[0]);
-                    mFilterEndTime = unix + "";
+                    mFilterEndTime = String.valueOf(unix);
                     endTimeIv.setVisibility(View.VISIBLE);
                 }
             }
         });
-        pop.showAtLocation(universityIL, Gravity.BOTTOM, 0, 0);
-
-//        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-//        builder.setBackgroundDark(true)
-//                .setDialogTitle(-1)
-//                .setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
-//        PickerDialogFragment fragment = builder.Build();
-//        dialog.show(getFragmentManager()),"dialog);
-//        dialog.addCallback(new Callback);
     }
 
     private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerWheelViewPop.PickCallback callback) {

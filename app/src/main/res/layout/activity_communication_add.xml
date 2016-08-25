@@ -66,6 +66,7 @@
         android:id="@+id/commun_source"
         style="@style/communication_edittext"
         android:hint="@string/commun_input_source_hint"
+        android:maxLength="10"
         app:label_text="@string/commun_label_source"
         app:label_text_size="@dimen/sp14" />
 
@@ -107,14 +108,23 @@
         android:layout_marginLeft="10dp"
         android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelEditText
+    <!--<com.commonlib.widget.LabelEditText-->
+    <!--android:id="@+id/commun_content"-->
+    <!--style="@style/communication_edittext"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="top"-->
+    <!--android:hint="@string/commun_input_content_hint"-->
+    <!--android:lines="8"-->
+    <!--android:paddingTop="13dp"-->
+    <!--app:label_text="@string/commun_label_content" />-->
+
+    <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/commun_content"
-        style="@style/communication_edittext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
-        android:hint="@string/commun_input_content_hint"
-        android:lines="8"
-        android:paddingTop="13dp"
-        app:label_text="@string/commun_label_content" />
+        app:bottom_line="false"
+        app:inputLayout_texthint="@string/commun_input_content_hint"
+        app:label_text="@string/commun_label_content"
+        app:text_line="8" />
 
 </LinearLayout>

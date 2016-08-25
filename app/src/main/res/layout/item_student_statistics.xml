@@ -4,13 +4,15 @@
     android:layout_height="62dp"
     android:padding="10dp">
 
-    <ImageView
+
+    <TextView
         android:id="@+id/avatar"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:src="@mipmap/img_header_default"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_student_photo_bg"
+        android:gravity="center"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/name"
@@ -48,5 +50,5 @@
         android:src="@mipmap/icon_student_tel"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="10dp"/>
+        android:padding="5dp"/>
 </RelativeLayout>

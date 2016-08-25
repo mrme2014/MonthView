@@ -14,9 +14,9 @@
             android:scaleType="fitXY"
             android:src="@mipmap/img_01" />
         <TextView
+            android:id="@+id/campus"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/default_toolbar_height"
-            android:text="上海校区"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"

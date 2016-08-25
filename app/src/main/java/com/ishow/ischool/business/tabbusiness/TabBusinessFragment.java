@@ -2,12 +2,15 @@ package com.ishow.ischool.business.tabbusiness;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
 import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
 
     @BindView(R.id.business_recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.campus)
+    TextView campusTv;
     BusinessAdapter mAdapter;
 
     @Override
@@ -35,6 +40,12 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs());
         mRecyclerView.setAdapter(mAdapter);
         mPresenter.getCampusList();     //进入app获取所有校区信息
+        setCampus();
+    }
+
+    void setCampus() {
+        User user = UserManager.getInstance().get();
+        campusTv.setText(user.positionInfo.campus);
     }
 
     @Override

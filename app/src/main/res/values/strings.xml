@@ -105,6 +105,8 @@
     <string name="item_pay_state">报名情况</string>
     <string name="item_register_time">登记时间</string>
     <string name="item_matriculation_time">上课时间</string>
+    <string name="item_start_time">开始时间</string>
+    <string name="item_end_time">结束时间</string>
 
     <!-- 选择推荐人 -->
     <string name="pick_referrer">选择推荐人</string>

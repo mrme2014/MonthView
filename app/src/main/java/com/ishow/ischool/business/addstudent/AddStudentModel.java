@@ -24,9 +24,9 @@ public class AddStudentModel implements AddStudentContract.Model {
     }
 
     @Override
-    public Observable<ApiResult<StudentInfo>> addStudent(String name, String mobile, String qq, String wechat, int province_id, int city_id, int campus_id, int college_id, String major, int source_id, String notes) {
+    public Observable<ApiResult<StudentInfo>> addStudent(String name, String mobile, String qq, String wechat, int province_id, int city_id, int campus_id, int college_id, String major, int source_id) {
         return ApiFactory.getInstance().getApi(MarketApi.class).addStudent(
-                80, name, mobile, qq, wechat, province_id, city_id, campus_id, college_id, major, source_id, notes)
+                80, name, mobile, qq, wechat, province_id, city_id, campus_id, college_id, major, source_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

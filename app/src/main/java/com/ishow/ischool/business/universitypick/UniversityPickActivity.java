@@ -2,7 +2,6 @@ package com.ishow.ischool.business.universitypick;
 
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
-//import com.ishow.ischool.widget.custom.RecycleViewDivider;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zaaach.citypicker.utils.LocManager;
 import com.zaaach.citypicker.utils.StringUtils;
@@ -48,8 +46,9 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
     @Override
     protected void setUpView() {
         super.setUpView();
-//        recycler.addItemDecoration(new RecycleViewDivider(this,
-//                LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.comm_line)));
+     /*   recycler.addItemDecoration(new RecycleViewDivider(this,
+                LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.comm_line)));*/
+
         curCity = LocManager.getInstance().getCurCityName();
         mToolbarTitle.setText(curCity);
         mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_adress_down, 0);

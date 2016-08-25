@@ -39,7 +39,7 @@ public class UIUtil {
     public static int[] getDisplaySize(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
         dm = context.getResources().getDisplayMetrics();
-        int[] screen = new int[] { dm.widthPixels, dm.heightPixels };
+        int[] screen = new int[]{dm.widthPixels, dm.heightPixels};
         return screen;
     }
 
@@ -49,37 +49,40 @@ public class UIUtil {
 
     /**
      * 获取屏幕宽度
+     *
      * @param mContext
      * @return px
      */
     public static int getScreenWidthPixels(Context mContext) {
 
-        WindowManager wm =(WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm =new DisplayMetrics();
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
     }
 
     /**
      * 获取屏幕高度
+     *
      * @param mContext
-     * @return  px
+     * @return px
      */
     public static int getScreenHeightPixels(Context mContext) {
 
-        WindowManager wm =(WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm =new DisplayMetrics();
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
     }
 
     public static int getToolbarSize(Context mContext) {
 
-        return   dip2px(mContext,48);
+        return dip2px(mContext, 48);
     }
+
     /**
      * 在activity 查找View
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -92,7 +95,7 @@ public class UIUtil {
 
     /**
      * 在View中查找View
-     * 
+     *
      * @param view
      * @param id
      * @return
@@ -101,7 +104,6 @@ public class UIUtil {
     public static <T extends View> T find(View view, int id) {
         return (T) view.findViewById(id);
     }
-
 
 
 }

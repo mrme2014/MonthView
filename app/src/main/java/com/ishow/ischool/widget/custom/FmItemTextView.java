@@ -185,6 +185,9 @@ public class FmItemTextView extends TextView {
         txtWidth = rightTipPaint.measureText(tipTxt);
         invalidate();
     }
+    public String getTipTxt(){
+        return this.tipTxt;
+    }
 
     /*刷新 是否有未读消息提醒 */
     public void updateHasUnreadMsg(boolean hasUnread){

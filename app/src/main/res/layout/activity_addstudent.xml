@@ -56,7 +56,7 @@
                 input:inputLayout_texthint="请输入学员就读专业(必填)"
                 input:label_text="@string/item_major" />
 
-            <include layout="@layout/view_bottom_line" />
+            <!--<include layout="@layout/view_bottom_line" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,16 +90,16 @@
                 input:focusable="false"
                 android:visibility="gone"/>
 
-            <com.ishow.ischool.widget.custom.InputLinearLayout
-                android:id="@+id/item_remark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                input:bottom_line="false"
-                input:inputLayout_texthint="请填写备注信息"
-                input:label_text="@string/item_remark"
-                input:text_line="7"/>
+            <!--<com.ishow.ischool.widget.custom.InputLinearLayout-->
+                <!--android:id="@+id/item_remark"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--input:bottom_line="false"-->
+                <!--input:inputLayout_texthint="请填写备注信息"-->
+                <!--input:label_text="@string/item_remark"-->
+                <!--input:text_line="7"/>-->
 
-            <include layout="@layout/view_bottom_line" />
+            <!--<include layout="@layout/view_bottom_line" />-->
 
         </LinearLayout>
     </ScrollView>

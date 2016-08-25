@@ -274,7 +274,6 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         .setDialogTitle(-1)
                         .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
                         .setDatas(0, 1, AppUtil.getFilterTimeType());
-                ;
                 PickerDialogFragment timeFragment = timeBuilder.Build();
                 timeFragment.show(getChildFragmentManager(), "dialog");
                 timeFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
@@ -380,11 +379,23 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     public void onEdittextClick(View view) {
         switch (view.getId()) {
             case R.id.item_campus:
-                showPickPop(R.string.item_campus, 0, 1, CampusManager.getInstance().getCampusName(), new PickerWheelViewPop.PickCallback<int[]>() {
+                PickerDialogFragment.Builder campusBuilder = new PickerDialogFragment.Builder();
+                campusBuilder.setBackgroundDark(true)
+                        .setDialogTitle(R.string.item_pay_state)
+                        .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
+                        .setDatas(0, 1, CampusManager.getInstance().getCampusName());
+                PickerDialogFragment campusFragment = campusBuilder.Build();
+                campusFragment.show(getChildFragmentManager(), "dialog");
+                campusFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
                     @Override
-                    public void onPickCallback(int[] position, String... result) {
-                        if (result != null) campusIL.setContent(result[0]);
-                        if (position != null) mFilterCampusId = (position[0] + 1) + "";
+                    public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
+                        return null;
+                    }
+
+                    @Override
+                    public void onPickResult(Object object, String... result) {
+                        campusIL.setContent(result[0]);
+                        mFilterCampusId = (AppUtil.getPayState().indexOf(result[0]) + 1) + "";
                     }
                 });
                 break;
@@ -394,7 +405,6 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         .setDialogTitle(R.string.item_pay_state)
                         .setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS)
                         .setDatas(0, 1, AppUtil.getPayState());
-                ;
                 PickerDialogFragment payFragment = payBuilder.Build();
                 payFragment.show(getChildFragmentManager(), "dialog");
                 payFragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {

@@ -9,11 +9,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
@@ -25,7 +22,9 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
+import com.ishow.ischool.business.Input.InputActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
@@ -41,7 +40,7 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/15.
  */
-public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.OnItemSelectedListner, PersonView, TextWatcher {
+public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, PersonMode> implements SelectDialogFragment.OnItemSelectedListner, PersonView {
     @BindView(R.id.person_info_avart)
     CircleImageView personInfoAvart;
     @BindView(R.id.person_info_name)
@@ -51,12 +50,13 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     @BindView(R.id.person_info_birthday)
     FmItemTextView personInfoBirthday;
     // @BindView(R.id.person_info_QQ)
-    EditText personInfoQQ;
+    FmItemTextView personInfoQQ;
 
     private String TAG = PersonInfoActivity.class.getSimpleName();
     private final int SELECT_SINGLE_IMAGE = 0;
     private final int CROP_IMAGE = 1;
     private final int CAPTURE = 2;
+    private final int INPUT = 100;
     private String tempPath;//拍照或者 选择照片裁剪时的临时存储路径
     private User user;
     private UserInfo userInfo;
@@ -66,7 +66,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_person_info, R.string.per_info_title, MODE_NONE);
-        personInfoQQ = (EditText) findViewById(R.id.person_info_QQ);
+        personInfoQQ = (FmItemTextView) findViewById(R.id.person_info_QQ);
         mToolbar = (Toolbar) findViewById(com.commonlib.R.id.toolbar);
         mToolbar.setTitle("");
         mToolbarTitle = (TextView) findViewById(com.commonlib.R.id.toolbar_title);
@@ -127,14 +127,14 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
              ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
         personInfoName.setTipTxt(userInfo.user_name);
         personInfoPhone.setTipTxt(userInfo.mobile);
-        personInfoBirthday.setTipTxt(DateUtil.parseDate2Str((long) userInfo.birthday, "yyyy-MM-dd"));
-        personInfoQQ.setText(userInfo.qq);
+        personInfoBirthday.setTipTxt(DateUtil.parseDate2Str(Long.parseLong(userInfo.birthday+""), "yyyy-MM-dd"));
+        personInfoQQ.setTipTxt(userInfo.qq);
         //在赋值之后再设置监听
-        personInfoQQ.addTextChangedListener(this);
+        //personInfoQQ.addTextChangedListener(this);
     }
 
 
-    @OnClick({R.id.person_info_avart, R.id.person_info_birthday})
+    @OnClick({R.id.person_info_avart, R.id.person_info_birthday,R.id.person_info_QQ})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.person_info_avart:
@@ -155,6 +155,11 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                         if (result != null) personInfoBirthday.setTipTxt(result[0]);
                     }
                 });
+                break;
+            case R.id.person_info_QQ:
+                Intent intent  =new Intent(this, InputActivity.class);
+                intent.putExtra("title",getString(R.string.per_info_input_QQ));
+                JumpManager.jumpActivityForResult(this,intent,INPUT);
                 break;
 
         }
@@ -224,8 +229,13 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 else showToast("file not exists");
             }
             else showToast("file not exists");
+        }else if (requestCode==INPUT&&resultCode==RESULT_OK&&data!=null){
+            personInfoQQ.setTipTxt(data.getStringExtra("result"));
+            int unix = DateUtil.date2UnixTime(personInfoBirthday.getTipTxt().toString());
+            if (TextUtils.equals(personInfoQQ.getTipTxt(),userInfo.qq))
+                return ;
+            submitInfo(unix);
         }
-        LogUtil.e("onActivityResult"+tempPath);
     }
 
 
@@ -276,7 +286,8 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         //裁剪完成后显示头像
         if (avatar!=null)
             ImageLoaderUtil.getInstance().loadImage(this, personInfoAvart, tempPath);
-        LogUtil.e("updateInfo"+tempPath);
+
+       // LogUtil.e("updateInfo"+tempPath+"--"+birthday+"--"+qq);
         //更新本地用户头像数据
         UserManager.getInstance().upadteInfo(avatar,birthday,qq);
         handProgressbar(false);
@@ -288,29 +299,11 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         return !isActivityFinished();
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        int unix = DateUtil.date2UnixTime(personInfoBirthday.getText().toString());
-        if (TextUtils.equals(personInfoQQ.getText(),userInfo.qq))
-            return ;
-        submitInfo(unix);
-    }
-
 
     private boolean submitInfo(int unix) {
         if (user == null)
             return true;
-        mPresenter.submitInfo(user.userInfo.user_id, personInfoQQ.getText().toString(), unix);
+        mPresenter.submitInfo(user.userInfo.user_id, personInfoQQ.getTipTxt().toString(), unix);
         return false;
     }
 

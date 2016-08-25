@@ -20,8 +20,8 @@ public class TimePicker extends LinearLayout {
     private static final int UPDATE_TITLE_MSG = 0x111;
     private static final int UPDATE_WHEEL = 0x112;
     private static final int UPDATE_UpdateDay_MSG = 0x113;
-    private final int START_YEAR = 2013;
-    private final int END_YEAR = 2100;
+    private final int START_YEAR = 1970;
+    private final int END_YEAR = 2070;
    // private TextView mPickerTitle;
     private WheelView mWheelYear;
     private WheelView mWheelMonth;

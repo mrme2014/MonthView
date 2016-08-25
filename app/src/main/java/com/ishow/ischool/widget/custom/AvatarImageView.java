@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.PicUtils;
 
 /**
@@ -69,7 +70,7 @@ public class AvatarImageView extends ImageView {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = AppUtil.getLast2Text(text);
         invalidate();
     }
 

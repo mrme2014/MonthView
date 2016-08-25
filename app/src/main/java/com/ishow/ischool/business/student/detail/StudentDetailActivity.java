@@ -14,6 +14,8 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.ColorUtil;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +36,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     ViewPager mViewPaper;
 
     @BindView(R.id.student_avatar_iv)
-    TextView avatarTv;
+    AvatarImageView avatarTv;
 
     @BindView(R.id.student_user_name)
     TextView usernameTv;
@@ -142,6 +144,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     private void updateView(Student student) {
         avatarTv.setText(AppUtil.getLast2Text(student.studentInfo.name));
+        avatarTv.setBackgroundColor(ColorUtil.getColorById(student.studentInfo.id));
+
         usernameTv.setText(student.studentInfo.name);
         applyStateLtv.setText(student.studentInfo.pay_state_name);
         classHourLtv.setText(student.studentInfo.class_hour + "/" + student.studentInfo.class_hour_total);

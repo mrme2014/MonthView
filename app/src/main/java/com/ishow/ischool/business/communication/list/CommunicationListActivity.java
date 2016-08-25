@@ -3,7 +3,6 @@ package com.ishow.ischool.business.communication.list;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -283,7 +282,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      * @param endUnix
      */
     @Override
-    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
+    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
         mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
         mCurrentPage = 1;
         mParamsMap.put("page", mCurrentPage + "");

@@ -1,6 +1,8 @@
 package com.ishow.ischool.business.student.edit;
 
 import android.content.Intent;
+import android.text.Editable;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -56,6 +58,8 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
     protected void setUpData() {
         if (!TextUtils.isEmpty(mText)) {
             mEditText.setText(mText);
+            Editable etext = mEditText.getText();
+            Selection.setSelection(etext, etext.length());
         }
     }
 

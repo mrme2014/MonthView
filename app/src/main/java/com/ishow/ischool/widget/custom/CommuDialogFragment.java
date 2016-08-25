@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
@@ -61,13 +62,14 @@ public class CommuDialogFragment extends DialogFragment {
     LinearLayout root;
 
     private int statePosition;
-    private int startUnix;
-    private int endUnix;
+    private long startUnix;
+    private long endUnix;
     private int refusePosition;
     private int confidencePosition;
     private int orderPosition;
 
     private Dialog dialog;
+    private String orderName;
 
     @NonNull
     @Override
@@ -92,6 +94,8 @@ public class CommuDialogFragment extends DialogFragment {
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(contentView);
+
+        setupView();
         return dialog;
     }
 
@@ -190,6 +194,15 @@ public class CommuDialogFragment extends DialogFragment {
         orderPosition = 0;
     }
 
+    private void setupView() {
+        communState.setText(AppUtil.getStateById(statePosition));
+        communDateStart.setText(DateUtil.parseDate2Str(startUnix, "yyyy-MM-dd"));
+        communDateEnd.setText(DateUtil.parseDate2Str(endUnix, "yyyy-MM-dd"));
+        communConfidence.setText(AppUtil.getBeliefById(confidencePosition));
+        communRefuse.setText(AppUtil.getRefuseById(refusePosition));
+        communOrder.setText(orderName);
+    }
+
     private void showTimePickPop(final boolean start) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
         PickerDialogFragment dialog = builder.setDialogTitle(R.string.commun_date).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setBackgroundDark(true).Build();
@@ -214,7 +227,7 @@ public class CommuDialogFragment extends DialogFragment {
     public interface selectResultCallback {
         void cancelDilaog();
 
-        void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix);
+        void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix);
     }
 
     public void addOnSelectResultCallback(selectResultCallback callback1) {
@@ -229,6 +242,7 @@ public class CommuDialogFragment extends DialogFragment {
                 User user = data.getParcelableExtra(UserPickActivity.PICK_USER);
                 communOrder.setText(user.userInfo.user_name);
                 orderPosition = user.userInfo.user_id;
+                orderName = user.userInfo.user_name;
             }
         }
     }

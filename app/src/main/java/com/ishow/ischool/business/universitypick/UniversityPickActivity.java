@@ -68,6 +68,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         }
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setQueryHint(getString(R.string.str_search_college_hint));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 
 import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.util.LogUtil;
+import com.commonlib.widget.event.RxBus;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
@@ -29,6 +29,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.activity.StatisticsSearchFragment;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.Student;
+import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
@@ -44,6 +45,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscription;
+import rx.functions.Action1;
 
 /**
  * Created by wqf on 16/8/14.
@@ -80,27 +83,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     protected void setUpView() {
         super.setUpView();
 
-        filterParams = new HashMap<String, String>();
-        if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
-            mCampusId = Campus.HEADQUARTERS + "";
-            filterParams.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
-        } else {
-            mCampusId = mUser.userInfo.campus_id + "";
-            filterParams.put("campus_id", mUser.userInfo.campus_id + "");
-        }
-
-        curPositionId = mUser.positionInfo.id;
-        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
-            mSource = MarketApi.TYPESOURCE_READING + "";
-            filterParams.put("source", MarketApi.TYPESOURCE_READING + "");
-        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
-            mSource = MarketApi.TYPESOURCE_CHAT + "";
-            filterParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
-        } else {
-            mSource = "-1";
-            filterParams.put("source", "-1");
-        }
-
+        doSubscribe();
+        initFilter();
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         mSearchView.setQueryHint(getString(R.string.str_search_hint));
@@ -158,6 +142,29 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         });
     }
 
+    void initFilter() {
+        filterParams = new HashMap<String, String>();
+        if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
+            mCampusId = Campus.HEADQUARTERS + "";
+            filterParams.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
+        } else {
+            mCampusId = mUser.userInfo.campus_id + "";
+            filterParams.put("campus_id", mUser.userInfo.campus_id + "");
+        }
+
+        curPositionId = mUser.positionInfo.id;
+        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            mSource = MarketApi.TYPESOURCE_READING + "";
+            filterParams.put("source", MarketApi.TYPESOURCE_READING + "");
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            mSource = MarketApi.TYPESOURCE_CHAT + "";
+            filterParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
+        } else {
+            mSource = "-1";
+            filterParams.put("source", "-1");
+        }
+    }
+
     void showSearchFragment() {
         frameLayout.setVisibility(View.VISIBLE);
         searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
@@ -186,6 +193,23 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 break;
         }
         return true;
+    }
+
+    private void doSubscribe() {
+        Subscription subscription4AddSuccess = RxBus.getInstance()
+                .doSubscribe(StudentInfo.class, new Action1<StudentInfo>() {
+                    @Override
+                    public void call(StudentInfo studentInfo) {
+                        initFilter();
+                        setRefreshing();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+        RxBus.getInstance().addSubscription(this, subscription4AddSuccess);
     }
 
     /**
@@ -331,4 +355,9 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         JumpManager.jumpActivity(this, AddStudentActivity.class);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getInstance().unSubscribe(this);
+    }
 }

@@ -167,4 +167,17 @@ public class AppUtil {
         return dialog;
     }
 
+    /**
+     * @return
+     */
+    public static ArrayList<String> getGradeList() {
+        ArrayList<String> grades = new ArrayList<>();
+        grades.add("大一");
+        grades.add("大二");
+        grades.add("大三");
+        grades.add("大四");
+        grades.add("研究生");
+        grades.add("博士");
+        return grades;
+    }
 }

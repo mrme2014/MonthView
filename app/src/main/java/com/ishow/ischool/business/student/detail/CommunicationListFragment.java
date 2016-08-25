@@ -17,8 +17,10 @@ import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationItem;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CommunEditDialog;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter, CommunModel> implements CommunContract.View {
@@ -283,5 +286,12 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                 refresh();
             }
         }
+    }
+
+    @OnClick(R.id.communication_add)
+    void onClickCommunAdd(View view) {
+        Intent intent = new Intent(getActivity(), CommunicationAddActivity.class);
+        intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
+        JumpManager.jumpActivity(getActivity(), intent);
     }
 }

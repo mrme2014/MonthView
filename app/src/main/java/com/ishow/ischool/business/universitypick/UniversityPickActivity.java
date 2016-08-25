@@ -48,6 +48,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         super.setUpView();
      /*   recycler.addItemDecoration(new RecycleViewDivider(this,
                 LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.comm_line)));*/
+
         curCity = LocManager.getInstance().getCurCityName();
         mToolbarTitle.setText(curCity);
         mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_adress_down, 0);

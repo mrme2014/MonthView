@@ -1,12 +1,11 @@
 package com.ishow.ischool.business.communication.list;
 
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.content.res.Resources;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -28,9 +27,12 @@ import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
+import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.ColorUtil;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CommuDialogFragment;
 
 import java.util.HashMap;
@@ -188,7 +190,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     class CommnunicationHolder extends BaseViewHolder {
 
         @BindView(R.id.user_photo_iv)
-        TextView userPhotoIv;
+        AvatarImageView userPhotoIv;
 
         @BindView(R.id.user_name)
         TextView usernameTv;
@@ -217,12 +219,25 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         public void onBindViewHolder(int position) {
             Communication communication = mDataList.get(position);
             userPhotoIv.setText(AppUtil.getLast2Text(communication.studentInfo.name));
+            userPhotoIv.setBackgroundColor(ColorUtil.getColorById(communication.studentInfo.id));
+//            GradientDrawable myGrad = (GradientDrawable) userPhotoIv.getBackground();
+//            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));
+
             usernameTv.setText(communication.studentInfo.name);
             dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
             contentTv.setText(communication.communicationInfo.content);
             stateTv.setText(AppUtil.getStateById(communication.communicationInfo.status));
             opposePointTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));
             faithTv.setText(AppUtil.getBeliefById(communication.communicationInfo.belief));
+        }
+
+        @Override
+        public void onItemClick(View view, int position) {
+            Communication communication = mDataList.get(position);
+            Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
+            intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
+            intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
+            JumpManager.jumpActivity(CommunicationListActivity.this, intent);
         }
     }
 
@@ -267,7 +282,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      * @param endUnix
      */
     @Override
-    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, int startUnix, int endUnix) {
+    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
         mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
         mCurrentPage = 1;
         mParamsMap.put("page", mCurrentPage + "");

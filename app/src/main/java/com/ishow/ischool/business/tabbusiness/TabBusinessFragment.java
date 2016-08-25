@@ -58,4 +58,5 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     public void getListFail(String msg) {
 
     }
+
 }

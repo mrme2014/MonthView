@@ -19,7 +19,7 @@ import com.commonlib.util.UIUtil;
  * Created by abel on 16/8/15.
  */
 public class LabelTextView extends TextView {
-    private Paint labelPaint,linePaint;
+    private Paint labelPaint, linePaint;
     private float textHeight;
 
     private String labelTextTop;
@@ -66,7 +66,7 @@ public class LabelTextView extends TextView {
         labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF333333);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
 
-        draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line ,false);
+        draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line, false);
         bottom_line_color = typedArray.getColor(R.styleable.LabelTextView_bottom_line_color, 0);
 
         typedArray.recycle();
@@ -77,10 +77,10 @@ public class LabelTextView extends TextView {
         Paint.FontMetrics fontMetrics = labelPaint.getFontMetrics();
         textHeight = fontMetrics.descent - fontMetrics.ascent;
 
-        if (draw_bottom_line){
+        if (draw_bottom_line) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             linePaint.setStyle(Paint.Style.FILL);
-            if(bottom_line_color==0)bottom_line_color = Color.parseColor("#d9dadd");
+            if (bottom_line_color == 0) bottom_line_color = Color.parseColor("#d9dadd");
             linePaint.setColor(bottom_line_color);
             linePaint.setStrokeWidth(2);
 
@@ -115,14 +115,19 @@ public class LabelTextView extends TextView {
         }
 
         /*绘制下划线 */
-        if(draw_bottom_line)
-            canvas.drawLine(labelPadding,getMeasuredHeight(),getMeasuredWidth(),getMeasuredHeight(),linePaint);
+        if (draw_bottom_line)
+            canvas.drawLine(labelPadding, getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight(), linePaint);
     }
 
-
-    @Override
-    public void setInputType(int type) {
-        super.setInputType(type);
-        invalidate();
+    /*下面这两个方法 用于 设定 menuitem  属性时 设置的*/
+    public void setAboutMenuItem(){
+        this.setPadding(0,0,UIUtil.dip2px(getContext(),10),0);
+        setTextColor(Color.parseColor("#ffffff"));
+        setText("提交");
+    }
+    public void setUpMenu(boolean b){
+        this.setClickable(b);
+        this.setEnabled(b);
+        this.setAlpha(b?1.0f:0.5f);
     }
 }

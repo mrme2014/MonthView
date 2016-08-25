@@ -32,23 +32,22 @@ public class PersonPresenter extends BasePresenter<PersonMode, PersonView> {
                         try {
                             JSONObject object = new JSONObject(s.toString());
                             String token = object.getString("token");
-                            uploadImg2QiNiu(user_id,filePath, token);
+                            uploadImg2QiNiu(user_id, filePath, token);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            if (mView!=null) mView.onNetFailed(e == null ? "result error" : e.getMessage());
+                            if (mView != null)
+                                mView.onNetFailed(e == null ? "result error" : e.getMessage());
                         }
                     }
 
                     @Override
                     public void onError(String msg) {
-                        if (mView!=null)mView.onNetFailed(msg);
+                        if (mView != null) mView.onNetFailed(msg);
                     }
 
                     @Override
                     protected boolean isAlive() {
-                         if (mView!=null)
-                             return  mView.isAlive();
-                        return false;
+                        return mView != null && !mView.isActivityFinished();
                     }
                 });
     }
@@ -72,7 +71,7 @@ public class PersonPresenter extends BasePresenter<PersonMode, PersonView> {
             @Override
             public void onSuccess(User user) {
                 if (mView != null)
-                    mView.updateInfo(R.string.per_net_token_sucess,user.avatar,null,0);
+                    mView.updateInfo(R.string.per_net_token_sucess, user.avatar, null, 0);
                 //if (mView != null) mView.onNetSucess(R.string.per_net_token_sucess);
             }
 
@@ -90,8 +89,9 @@ public class PersonPresenter extends BasePresenter<PersonMode, PersonView> {
                 .subscribe(new ApiObserver<JsonElement>() {
                     @Override
                     public void onSuccess(JsonElement s) {
-                        if (mView != null) mView.updateInfo(R.string.per_net_info_suces,null,qq,birthday);
-                       // if (mView != null) mView.onNetSucess(R.string.per_net_info_suces);
+                        if (mView != null)
+                            mView.updateInfo(R.string.per_net_info_suces, null, qq, birthday);
+                        // if (mView != null) mView.onNetSucess(R.string.per_net_info_suces);
                     }
 
                     @Override

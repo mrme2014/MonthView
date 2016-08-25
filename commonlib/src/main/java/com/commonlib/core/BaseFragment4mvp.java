@@ -62,6 +62,16 @@ public abstract class BaseFragment4mvp<P extends BasePresenter, M extends BaseMo
         }
     }
 
+    public boolean isActivityFinished() {
+        Activity activity = getActivity();
+        //Activity被回收导致fragment的getActivity为null的解决办法
+        if (Build.VERSION.SDK_INT >= 17) {
+            return activity == null || activity.isFinishing() || activity.isDestroyed();
+        } else {
+            return activity == null || activity.isFinishing();
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

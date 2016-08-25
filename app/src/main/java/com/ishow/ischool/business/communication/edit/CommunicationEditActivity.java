@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.communication.edit;
 
 import android.content.Intent;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
     protected void setUpData() {
         if (!TextUtils.isEmpty(mText)) {
             mEditText.setText(mText);
+            Selection.setSelection(mEditText.getText(), mText.length());
         }
     }
 

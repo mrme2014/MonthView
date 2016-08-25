@@ -36,12 +36,19 @@
                     android:layout_marginTop="46dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <!--<TextView-->
+                    <!--android:id="@+id/student_avatar_iv"-->
+                    <!--android:layout_width="78dp"-->
+                    <!--android:layout_height="78dp"-->
+                    <!--android:background="@drawable/shape_student_photo_bg"-->
+                    <!--android:gravity="center" />-->
+                    <com.ishow.ischool.widget.custom.AvatarImageView
                         android:id="@+id/student_avatar_iv"
                         android:layout_width="78dp"
                         android:layout_height="78dp"
-                        android:background="@drawable/shape_student_photo_bg"
-                        android:gravity="center" />
+                        android:background="@color/green"
+                        android:gravity="center"
+                        app:text_color="@color/white" />
 
                     <TextView
                         android:id="@+id/student_user_name"
@@ -152,7 +159,6 @@
         android:id="@+id/student_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="45dp"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

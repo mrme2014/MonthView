@@ -17,6 +17,7 @@ import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.HashMap;
@@ -122,7 +123,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             return;
         }
         englishNameTv.setText(mStudent.english_name);
-        phoneTv.setText(mStudent.mobile + "");
+        phoneTv.setText(mStudent.mobile);
         qqTv.setText(mStudent.qq + "");
         birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
@@ -165,7 +166,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_english_name));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
-                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME);
                 break;
             }
@@ -223,12 +224,16 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_class: {
-                Intent intent = new Intent(getActivity(), EditActivity.class);
-                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_class));
-                intent.putExtra(EditActivity.P_TYPE, R.id.student_class);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
-                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().grade);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_CLASS);
+                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
+
+                    @Override
+                    public void onItemSelected(int position, String txt) {
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                        params.put("id", getStudentInfo().student_id + "");
+                        params.put("grade", String.valueOf(position + 1));
+                        mPresenter.editStudent(params);
+                    }
+                });
             }
             break;
             case R.id.student_idcard: {
@@ -242,24 +247,6 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             break;
         }
     }
-
-//    private void ShowTimePickerDialog(View parent, PickerWheelViewPop.PickCallback callback) {
-//
-//        PickerWheelViewPop pop = new PickerWheelViewPop(getActivity());
-//        pop.renderYMDPanel(R.string.choose_birthday);
-//        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-//        pop.addPickCallback(callback);
-
-//        PickerDialogFragment dialog = new PickerDialogFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("PICK_TITLE", R.string.choose_birthday);
-//        bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
-//        bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
-//        dialog.setArguments(bundle);
-//        dialog.show(getChildFragmentManager(), "dialog");
-
-//    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

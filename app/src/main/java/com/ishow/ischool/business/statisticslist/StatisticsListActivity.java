@@ -37,7 +37,8 @@ import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
-import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.ColorUtil;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.StatisticsFilterFragment;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
 import rx.functions.Action1;
+
 
 /**
  * Created by wqf on 16/8/14.
@@ -261,7 +263,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     class StatisticsListViewHolder extends BaseViewHolder {
         @BindView(R.id.avatar)
-        TextView avatar;
+        AvatarImageView avatar;
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.state)
@@ -283,7 +285,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
 //                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
-                avatar.setText(AppUtil.getLast2Text(data.studentInfo.name));
+                avatar.setText(data.studentInfo.name);
+                avatar.setBackgroundColor(ColorUtil.getColorById(data.studentInfo.id));
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
 //                state.setText(UserUtil.getUserPayState(data.applyInfo.status));

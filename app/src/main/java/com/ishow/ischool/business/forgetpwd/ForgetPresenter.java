@@ -8,26 +8,31 @@ import com.ishow.ischool.common.api.ApiObserver;
 /**
  * Created by MrS on 2016/8/15.
  */
-public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView> {
+public class ForgetPresenter extends BasePresenter<ForgetPwdModel, ForgetPwdView> {
 
-    public void sendSms(String mobile){
-      mModel.getSmsCode(mobile).subscribe(new ApiObserver<JsonElement>() {
+    public void sendSms(String mobile) {
+        mModel.getSmsCode(mobile).subscribe(new ApiObserver<JsonElement>() {
 
-          @Override
-          public void onSuccess(JsonElement s) {
-              mView.onNetSucess(R.string.send_sms_sucess);
-          }
+            @Override
+            public void onSuccess(JsonElement s) {
+                mView.onNetSucess(R.string.send_sms_sucess);
+            }
 
-          @Override
-          public void onError(String msg) {
-              mView.onNetfaield(msg);
-          }
-      });
+            @Override
+            public void onError(String msg) {
+                mView.onNetfaield(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+        });
     }
 
 
-    public void checkRandCode(String mobile ,String randCode){
-        mModel.checkrandcode(mobile,randCode)
+    public void checkRandCode(String mobile, String randCode) {
+        mModel.checkrandcode(mobile, randCode)
                 .subscribe(new ApiObserver<JsonElement>() {
                     @Override
                     public void onSuccess(JsonElement s) {
@@ -37,12 +42,18 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
                     @Override
                     public void onError(String msg) {
                         mView.onNetfaield(msg);
-                    }});
+                    }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView != null && !mView.isActivityFinished();
+                    }
+                });
     }
 
     //12288880009
-    public void setPwd(String mobile ,String pwd){
-        mModel.setpasswd(mobile,pwd).subscribe(new ApiObserver<JsonElement>() {
+    public void setPwd(String mobile, String pwd) {
+        mModel.setpasswd(mobile, pwd).subscribe(new ApiObserver<JsonElement>() {
 
             @Override
             public void onSuccess(JsonElement s) {
@@ -52,6 +63,11 @@ public class ForgetPresenter extends BasePresenter<ForgetPwdModel,ForgetPwdView>
             @Override
             public void onError(String msg) {
                 mView.onNetfaield(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
             }
         });
     }

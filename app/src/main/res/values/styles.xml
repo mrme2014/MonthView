@@ -226,7 +226,7 @@
         <item name="android:paddingLeft">98dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:textSize">@dimen/sp14</item>
-        <item name="android:textColor">@color/txt_9</item>
+        <item name="android:textColor">@color/txt_3</item>
         <item name="label_padding">10dp</item>
         <item name="label_text_color">@color/txt_2</item>
     </style>

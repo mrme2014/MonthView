@@ -29,13 +29,13 @@ public class PermissionUtil {
         return permissionUtil;
     }
 
-    public synchronized void checkPermission(Activity context, PermissionChecker checker1, String...permission) {
+    public synchronized void checkPermission(Activity context, PermissionChecker checker1, String... permission) {
         checker = checker1;
-        for (int i = 0; i <permission.length ; i++) {
+        for (int i = 0; i < permission.length; i++) {
             if (ContextCompat.checkSelfPermission(context, permission[i]) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(context, new String[]{permission[i]}, REQUEST_CODE);
             } else if (checker1 != null) {
-                checker.onGrant(permission[i],i);
+                checker.onGrant(permission[i], i);
             }
         }
     }
@@ -45,7 +45,7 @@ public class PermissionUtil {
 
 
     public interface PermissionChecker {
-        void onGrant(String grantPermission,int index);
+        void onGrant(String grantPermission, int index);
 
         /*deniedPermission  被禁止的那个权限名字  该权限在 String[] permissions 属于第几个位置 因为有可能一次申请好几个*/
         void onDenied(String deniedPermission, int index);
@@ -55,7 +55,7 @@ public class PermissionUtil {
         for (int i = 0; i < permissions.length; i++) {
             if (grantResults != null && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                 if (checker != null)
-                    checker.onGrant(permissions[i],i);
+                    checker.onGrant(permissions[i], i);
             } else {
                 boolean requestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i]);
                 if (requestPermissionRationale) {
@@ -75,7 +75,7 @@ public class PermissionUtil {
                     });
                     dialog.show();
                 }
-                if (checker != null)checker.onDenied(permissions[i], i);
+                if (checker != null) checker.onDenied(permissions[i], i);
             }
         }
     }

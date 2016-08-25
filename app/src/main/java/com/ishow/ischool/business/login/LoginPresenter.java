@@ -6,7 +6,6 @@ import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 
 
-
 /**
  * Created by wqf on 16/8/13.
  */
@@ -18,17 +17,11 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribe(new ApiObserver<User>() {
                     @Override
                     public void onSuccess(User user) {
-
                         if (user != null && user.token != null) {
-
-                            //UserManager.getInstance().save(user);
-
                             UserManager.getInstance().initCampusPositions(user);
-
                             TokenManager.init(user.token);
+                            mView.loginSuccess(user);
                         }
-                        mView.loginSuccess();
-                        TokenManager.init(user.token);
                     }
 
                     @Override

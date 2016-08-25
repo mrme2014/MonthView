@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CommunEditDialog;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,7 +184,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
                     case R.id.commun_state:
                         final ArrayList<String> datas = AppUtil.getStateList();
-                        showItemDialog(datas, new SelectDialogFragment.OnItemSelectedListner() {
+                        AppUtil.showItemDialog(getChildFragmentManager(), datas, new SelectDialogFragment.OnItemSelectedListner() {
                             @Override
                             public void onItemSelected(int position, String txt) {
                                 HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
@@ -198,7 +197,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         break;
                     case R.id.commun_faith:
                         final ArrayList<String> faiths = AppUtil.getBeliefList();
-                        showItemDialog(faiths, new SelectDialogFragment.OnItemSelectedListner() {
+                        AppUtil.showItemDialog(getChildFragmentManager(), faiths, new SelectDialogFragment.OnItemSelectedListner() {
 
                             @Override
                             public void onItemSelected(int position, String txt) {
@@ -212,7 +211,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         break;
                     case R.id.commun_oppose:
                         final ArrayList<String> opposes = AppUtil.getRefuseList();
-                        showItemDialog(opposes, new SelectDialogFragment.OnItemSelectedListner() {
+                        AppUtil.showItemDialog(getChildFragmentManager(), opposes, new SelectDialogFragment.OnItemSelectedListner() {
 
                             @Override
                             public void onItemSelected(int position, String txt) {
@@ -234,11 +233,11 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         break;
 
                     case R.id.commun_back_date:
-                        ShowTimePickerDialog(view, new PickerWheelViewPop.PickCallback<Integer>() {
+                        AppUtil.showTimePickerDialog(getChildFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
                             @Override
-                            public void onPickCallback(Integer id, String... result) {
+                            public void onPickResult(Integer object, String... result) {
                                 HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
-                                params.put("callback_date", id + "");
+                                params.put("callback_date", String.valueOf(object));
                                 params.put("callback_date_str", result[0]);
                                 params.put("id", communId + "");
                                 mPresenter.editCommunication(params);
@@ -274,21 +273,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                 mPresenter.addCommunication(params);
             }
         }).show(getChildFragmentManager(), "dialog");
-    }
-
-    private void ShowTimePickerDialog(View parent, PickerWheelViewPop.PickCallback callback) {
-
-        PickerWheelViewPop pop = new PickerWheelViewPop(getActivity());
-        pop.renderYMDPanel(R.string.choose_birthday);
-        pop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        pop.addPickCallback(callback);
-    }
-
-    private void showItemDialog(ArrayList<String> stateList, SelectDialogFragment.OnItemSelectedListner onItemselectListner) {
-        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
-        SelectDialogFragment dialog = builder.setMessage(stateList).setOnItemselectListner(onItemselectListner)
-                .Build();
-        dialog.show(getActivity().getSupportFragmentManager());
     }
 
     @Override

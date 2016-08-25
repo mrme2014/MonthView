@@ -14,6 +14,7 @@ import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.InputLinearLayout;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
@@ -49,7 +50,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     LabelEditText moneySourceTv;
 
     @BindView(R.id.commun_content)
-    LabelEditText contentTv;
+    InputLinearLayout contentTv;
 
 
     private StudentInfo studentInfo;
@@ -110,7 +111,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     private boolean checkForm() {
 
-        form.content = contentTv.getText().toString();
+        form.content = contentTv.getContent();
         form.tuition_source = moneySourceTv.getText().toString();
 
         //----
@@ -156,7 +157,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             check = false;
         }
         if (!check) {
-            showToast(str);
+            showToast(R.string.add_communication_check_failed);
         }
 
         return check;
@@ -170,7 +171,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 break;
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();
-                showItemDialog(datas, new SelectDialogFragment.OnItemSelectedListner() {
+                AppUtil.showItemDialog(getSupportFragmentManager(), datas, new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
                         stateTv.setText(datas.get(position));
@@ -180,7 +181,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 break;
             case R.id.commun_faith:
                 final ArrayList<String> faiths = AppUtil.getBeliefList();
-                showItemDialog(faiths, new SelectDialogFragment.OnItemSelectedListner() {
+                AppUtil.showItemDialog(getSupportFragmentManager(), faiths, new SelectDialogFragment.OnItemSelectedListner() {
 
                     @Override
                     public void onItemSelected(int position, String txt) {
@@ -191,7 +192,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 break;
             case R.id.commun_oppose:
                 final ArrayList<String> opposes = AppUtil.getRefuseList();
-                showItemDialog(opposes, new SelectDialogFragment.OnItemSelectedListner() {
+                AppUtil.showItemDialog(getSupportFragmentManager(), opposes, new SelectDialogFragment.OnItemSelectedListner() {
 
                     @Override
                     public void onItemSelected(int position, String txt) {
@@ -201,7 +202,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 });
                 break;
             case R.id.commun_back_date:
-                showTimePickerDialog(new PickerDialogFragment.Callback<Integer>() {
+                AppUtil.showTimePickerDialog(getSupportFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
                     @Override
                     public void onPickResult(Integer unix, String... result) {
                         form.callback_date = unix;
@@ -210,7 +211,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 });
                 break;
             case R.id.commun_date:
-                showTimePickerDialog(new PickerDialogFragment.Callback<Integer>() {
+                AppUtil.showTimePickerDialog(getSupportFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
                     @Override
                     public void onPickResult(Integer unix, String... result) {
                         form.communication_date = unix;
@@ -219,22 +220,6 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 });
                 break;
         }
-    }
-
-    private void showTimePickerDialog(PickerDialogFragment.Callback callback) {
-
-        PickerDialogFragment.Builder builder1 = new PickerDialogFragment.Builder();
-        builder1.setBackgroundDark(true).setDialogType(PickerDialogFragment.PICK_TYPE_DATE).setDialogTitle(R.string.choose_birthday);
-        PickerDialogFragment dialogFragment = builder1.Build();
-        dialogFragment.show(getSupportFragmentManager(), "dialog");
-        dialogFragment.addCallback(callback);
-    }
-
-    private void showItemDialog(ArrayList<String> stateList, SelectDialogFragment.OnItemSelectedListner onItemselectListner) {
-        SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
-        SelectDialogFragment dialog = builder.setMessage(stateList).setOnItemselectListner(onItemselectListner)
-                .Build();
-        dialog.show(getSupportFragmentManager());
     }
 
     @Override

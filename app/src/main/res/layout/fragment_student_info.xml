@@ -11,6 +11,17 @@
         android:orientation="vertical">
 
         <com.commonlib.widget.LabelTextView
+            android:id="@+id/student_user_name"
+            style="@style/student_info_textview"
+            app:label_text_left="@string/label_student_info_user_name" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
             android:id="@+id/student_english_name"
             style="@style/student_info_textview"
             app:label_text_left="@string/label_student_info_english_name" />
@@ -24,6 +35,8 @@
         <com.commonlib.widget.LabelTextView
             android:id="@+id/student_phone"
             style="@style/student_info_textview"
+            android:drawableRight="@null"
+            android:paddingRight="28dp"
             app:label_text_left="@string/label_student_phone" />
 
         <View

@@ -163,6 +163,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         super.onResume();
         if (needRefresh) {
             setRefreshing();
+            needRefresh = false;
         }
     }
 

@@ -47,27 +47,32 @@ public class AppUtil {
         return len > 2 ? name.substring(len - 2, len) : name;
     }
 
+    /**
+     * 1 => '晨读/校聊', 2 => '邀约中', 3 => '公开课', 4 => '报名中', 5 => '上课', 6 => '升学中', 7 => '停课'
+     *
+     * @return
+     */
     public static ArrayList<String> getStateList() {
         ArrayList<String> stateList = new ArrayList<>();
-        stateList.add("晨读");
+        stateList.add("晨读/校聊");
+        stateList.add("邀约中");
         stateList.add("公开课");
         stateList.add("报名中");
-        stateList.add("升学（中）");
-        stateList.add("升学（高）");
-        stateList.add("升学（影）");
-        stateList.add("其它");
+        stateList.add("上课");
+        stateList.add("升学中");
+        stateList.add("停课");
         return stateList;
     }
 
     public static String getStateById(int id) {
         SparseArray<String> stateList = new SparseArray<>();
-        stateList.put(1, "晨读");
-        stateList.put(2, "公开课");
-        stateList.put(3, "报名中");
-        stateList.put(4, "升学（中）");
-        stateList.put(5, "升学（高）");
-        stateList.put(6, "升学（影）");
-        stateList.put(7, "其它");
+        stateList.put(1, "晨读/校聊");
+        stateList.put(2, "邀约中");
+        stateList.put(3, "公开课");
+        stateList.put(4, "报名中");
+        stateList.put(5, "上课");
+        stateList.put(6, "升学中");
+        stateList.put(7, "停课");
 
         return stateList.get(id);
     }
@@ -104,18 +109,18 @@ public class AppUtil {
 
     public static ArrayList<String> getBeliefList() {
         ArrayList<String> stateList = new ArrayList<>();
-        stateList.add("低");
-        stateList.add("中");
         stateList.add("高");
+        stateList.add("中");
+        stateList.add("低");
 
         return stateList;
     }
 
     public static String getBeliefById(int id) {
         SparseArray<String> stateList = new SparseArray<>();
-        stateList.put(1, "低");
+        stateList.put(1, "高");
         stateList.put(2, "中");
-        stateList.put(3, "高");
+        stateList.put(3, "低");
 
         return stateList.get(id);
     }

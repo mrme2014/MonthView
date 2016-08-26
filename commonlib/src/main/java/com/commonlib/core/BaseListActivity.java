@@ -109,10 +109,6 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
             recycler.enablePullToRefresh(false);
         }
 
-        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH || mCurrentPage <= 1) {
-            mDataList.clear();
-        }
-
         if (resultList == null || resultList.size() == 0) {
             if (recycler.mPageEnable) {     // 支持分页
                 if (mCurrentPage > 2) {      // 非第一页
@@ -133,7 +129,11 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
                     recycler.enableLoadMore(true);
                 }
             }
-            mDataList.addAll(resultList);
+            if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH || mCurrentPage <= 1) {
+                mDataList = resultList;
+            } else {
+                mDataList.addAll(resultList);
+            }
             mAdapter.notifyDataSetChanged();
         }
         recycler.onRefreshCompleted();

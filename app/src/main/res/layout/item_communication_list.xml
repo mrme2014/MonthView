@@ -61,7 +61,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/user_photo_iv"
-        android:text="content----------"
+        android:lines="2"
         android:textColor="@color/txt_6" />
 
     <View

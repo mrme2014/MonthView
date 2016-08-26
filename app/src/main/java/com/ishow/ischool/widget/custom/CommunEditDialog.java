@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
@@ -72,12 +74,12 @@ public class CommunEditDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length()>=max_length+1){
-                    contentCountTv.setText(0+"");
+                if (editable.length() >= max_length + 1) {
+                    contentCountTv.setText(0 + "");
                     String s = editable.toString();
-                    contentEt.setText(s.substring(0,max_length));
+                    contentEt.setText(s.substring(0, max_length));
                     contentEt.setSelection(max_length);
-                }else{
+                } else {
                     contentCountTv.setText((max_length - editable.length()) + "");
                     contentEt.setSelection(editable.length());
                 }
@@ -102,10 +104,15 @@ public class CommunEditDialog extends DialogFragment {
                 });
                 break;
             case R.id.dialog_sure:
-                if (listener != null) {
-                    listener.onClick(contentEt.getText().toString(), date);
+                if (TextUtils.isEmpty(contentEt.getText().toString()) || date == 0) {
+                    Toast.makeText(getContext(), R.string.check_commun_add, Toast.LENGTH_LONG).show();
+                } else {
+                    if (listener != null) {
+                        listener.onClick(contentEt.getText().toString(), date);
+                    }
+                    dismiss();
                 }
-                dismiss();
+
                 break;
             case R.id.dialog_cancel:
                 dismiss();

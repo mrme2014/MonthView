@@ -2,6 +2,7 @@ package com.ishow.ischool.business.student.edit;
 
 import android.content.Intent;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -9,12 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.commonlib.core.BaseView;
+import com.commonlib.util.KeyBoardUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 
@@ -24,6 +28,7 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
     public static final String P_TYPE = "type";
     public static final String P_TEXT = "text";
     public static final String P_STUDENT_ID = "student_id";
+    public static final String P_LEN = "len";
     private String mTitle;
     private int mType;
 
@@ -34,6 +39,7 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
     TextView mEditHint;
     private String mText;
     private int mStudentId;
+    private int mLen;
 
     @Override
     protected void initEnv() {
@@ -42,6 +48,7 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
         mType = getIntent().getIntExtra(P_TYPE, 0);
         mStudentId = getIntent().getIntExtra(P_STUDENT_ID, 0);
         mText = getIntent().getStringExtra(P_TEXT);
+        mLen = getIntent().getIntExtra(P_LEN, 0);
     }
 
     @Override
@@ -60,15 +67,27 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
             mEditText.setText(mText);
             Editable etext = mEditText.getText();
             Selection.setSelection(etext, etext.length());
+            if (mLen != 0) {
+                InputFilter[] filters = {new InputFilter.LengthFilter(mLen)};
+                //filters = mEditText.getFilters();
+                mEditText.setFilters(filters);
+            }
         }
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        KeyBoardUtil.closeKeybord(mEditText, this);
         String text = mEditText.getText().toString();
         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.STUDENT_EDIT);
         params.put("id", mStudentId + "");
         switch (mType) {
+
+            case R.id.student_user_name: {
+                params.put("name", text);
+                break;
+            }
+
             case R.id.student_english_name: {
                 params.put("english_name", text);
                 break;
@@ -98,12 +117,23 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
                 break;
             }
             case R.id.student_idcard: {
+                if (!checkIdcard(text)) {
+                    showToast(R.string.msg_idcard_input);
+                    return false;
+                }
                 params.put("idcard", text);
                 break;
             }
         }
         mPresenter.editStudent(params, text);
         return super.onMenuItemClick(item);
+    }
+
+    private boolean checkIdcard(String text) {
+        Pattern pattern = Pattern.compile("[0-9a-zA-Z]{16,18}");
+        Matcher matcher = pattern.matcher(text);
+        boolean b = matcher.matches();
+        return b;
     }
 
     public void onEditSuccess(String text) {

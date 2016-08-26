@@ -131,8 +131,4 @@ public class LabelTextView extends TextView {
         this.setAlpha(b?1.0f:0.5f);
     }
 
-    @Override
-    public void setInputType(int type) {
-        super.setInputType(type);
-    }
 }

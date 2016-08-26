@@ -196,8 +196,8 @@ public class CommuDialogFragment extends DialogFragment {
 
     private void setupView() {
         communState.setText(AppUtil.getStateById(statePosition));
-        communDateStart.setText(DateUtil.parseSecond2Str(startUnix, "yyyy-MM-dd"));
-        communDateEnd.setText(DateUtil.parseSecond2Str(endUnix, "yyyy-MM-dd"));
+        communDateStart.setText(startUnix == 0 ? "" : DateUtil.parseSecond2Str(startUnix, "yyyy-MM-dd"));
+        communDateEnd.setText(endUnix == 0 ? "" : DateUtil.parseSecond2Str(endUnix, "yyyy-MM-dd"));
         communConfidence.setText(AppUtil.getBeliefById(confidencePosition));
         communRefuse.setText(AppUtil.getRefuseById(refusePosition));
         communOrder.setText(orderName);

@@ -88,7 +88,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         public void onBindViewHolder(int position) {
             Student ss = mDataList.get(position);
             photoIv.setText(AppUtil.getLast2Text(ss.studentInfo.name));
-            usernameTv.setText(ss.studentInfo.name);
+            usernameTv.setText(ss.studentInfo.name + "   " + ss.studentInfo.mobile);
         }
 
         @Override

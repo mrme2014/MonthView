@@ -195,5 +195,9 @@
     <string name="add_communication_check_failed">请把必选和必填信息写完整!</string>
     <string name="hint_search_phone_username">根据姓名或手机号搜索..</string>
     <string name="pick_user">选择用户</string>
+    <string name="check_commun_add">请输入必选内容</string>
+    <string name="label_student_info_user_name">用户名</string>
+    <string name="msg_idcard_input">请输入18位的身份证号</string>
+
 
 </resources>

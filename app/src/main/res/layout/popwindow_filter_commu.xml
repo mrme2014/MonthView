@@ -51,8 +51,15 @@
             android:gravity="left|center"
             android:hint="@string/commun_date_end"
             android:paddingLeft="20dp"
-            app:draw_bottom_line="true" />
+            app:draw_bottom_line="false" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/comm_line" />
     </RelativeLayout>
+
 
     <com.commonlib.widget.LabelTextView
         android:id="@+id/commun_refuse"

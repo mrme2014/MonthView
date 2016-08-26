@@ -41,7 +41,7 @@
             android:layout_toRightOf="@id/item_commun_date_icon"
             android:textColor="@color/txt_9" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/item_commun_content_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,14 +55,27 @@
             <TextView
                 android:id="@+id/item_commun_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="content" />
+
+            <com.ishow.ischool.widget.custom.CircleImageView
+                android:id="@+id/item_commun_user_avatar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/item_commun_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="12dp"
+                android:src="@mipmap/img_header_default" />
 
             <TextView
                 android:id="@+id/item_oprater_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
-        </LinearLayout>
+                android:layout_below="@id/item_commun_content"
+                android:layout_marginTop="13dp"
+                android:layout_toRightOf="@id/item_commun_user_avatar"
+                android:text="name" />
+        </RelativeLayout>
     </LinearLayout>
 
 

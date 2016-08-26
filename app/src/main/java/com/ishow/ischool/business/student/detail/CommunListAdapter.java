@@ -13,6 +13,8 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationItem;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.PicUtils;
+import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.util.ArrayList;
 
@@ -83,6 +85,7 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.communDateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
         holder.communContentTv.setText(communication.communicationInfo.content);
         holder.opraterNameTv.setText(communication.userInfo.user_name);
+        PicUtils.loadAvatarCircle(context, holder.avatarCiv, communication.avatar.file_name);
     }
 
     private void processLatest(CommunLatestHolder holder, Communication communication) {
@@ -178,6 +181,9 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @BindView(R.id.item_oprater_name)
         TextView opraterNameTv;
+
+        @BindView(R.id.item_commun_user_avatar)
+        CircleImageView avatarCiv;
 
 
         public CommunContentHolder(View itemView) {

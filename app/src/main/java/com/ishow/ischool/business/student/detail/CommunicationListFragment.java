@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -112,6 +113,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         if (getStudentInfo() != null) {
             HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
             params.put("student_id", getStudentInfo().student_id + "");
+            params.put("fields", "communicationInfo,studentInfo,userInfo,avatar");
             mPresenter.getCommunicationList(params);
         }
     }
@@ -264,19 +266,22 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         dialog.setOnClickListener(new CommunEditDialog.OnClickListener() {
             @Override
             public void onClick(String content, long date) {
-                HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
-                params.put("content", content);
-                params.put("callback_date", date + "");
-                params.put("student_id", communication.studentInfo.student_id + "");
-                params.put("status", communication.communicationInfo.status + "");
-                params.put("type", communication.communicationInfo.type + "");
-                params.put("result", communication.communicationInfo.result + "");
-                params.put("refuse", communication.communicationInfo.refuse + "");
-                params.put("belief", communication.communicationInfo.belief + "");
-                params.put("tuition_source", communication.communicationInfo.tuition_source + "");
-                params.put("communication_date", communication.communicationInfo.communication_date + "");
-                params.put("campus_id", communication.communicationInfo.campus_id + "");
-                mPresenter.addCommunication(params);
+                if (!TextUtils.isEmpty(content) && date != 0) {
+                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                    params.put("content", content);
+                    params.put("callback_date", date + "");
+                    params.put("student_id", communication.studentInfo.student_id + "");
+                    params.put("status", communication.communicationInfo.status + "");
+                    params.put("type", communication.communicationInfo.type + "");
+                    params.put("result", communication.communicationInfo.result + "");
+                    params.put("refuse", communication.communicationInfo.refuse + "");
+                    params.put("belief", communication.communicationInfo.belief + "");
+                    params.put("tuition_source", communication.communicationInfo.tuition_source + "");
+                    params.put("communication_date", communication.communicationInfo.communication_date + "");
+                    params.put("campus_id", communication.communicationInfo.campus_id + "");
+                    mPresenter.addCommunication(params);
+                }
+
             }
         }).show(getChildFragmentManager(), "dialog");
     }

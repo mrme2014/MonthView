@@ -248,13 +248,13 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(CommunicationListActivity.this, intent);
+            JumpManager.jumpActivity(CommunicationListActivity.this, intent,Resourse.PERMISSION_STU_DETAIL);
         }
     }
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        JumpManager.jumpActivity(this, CommunicationAddActivity.class);
+        JumpManager.jumpActivity(this, CommunicationAddActivity.class,Resourse.COMMUNICATION_ADD);
     }
 
 

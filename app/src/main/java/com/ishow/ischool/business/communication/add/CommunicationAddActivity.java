@@ -64,6 +64,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private CommunicationForm form = new CommunicationForm();
 
     private boolean isSubmitting;
+    private int max_length= 200;
 
     @Override
     protected void initEnv() {
@@ -91,8 +92,17 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                contentCountTv.setText(String.valueOf(200 - s.length()));
+            public void afterTextChanged(Editable editable) {
+                if (editable.length()>=max_length+1){
+                    contentCountTv.setText(0+"");
+                    String s = editable.toString();
+                    contentTv.setText(s.substring(0,max_length));
+                    contentTv.setSelection(max_length);
+                }else{
+                    contentCountTv.setText((max_length - editable.length()) + "");
+                    contentTv.setSelection(editable.length());
+                }
+                //contentCountTv.setText(String.valueOf(200 - editable.length()));
             }
         });
     }
@@ -187,7 +197,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     void onClickItem(View view) {
         switch (view.getId()) {
             case R.id.commun_student_name:
-                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT);
+                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT,Resourse.NO_NEED_CHECK);
                 break;
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();

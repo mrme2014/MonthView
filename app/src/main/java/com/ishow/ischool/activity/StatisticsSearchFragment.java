@@ -183,7 +183,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             Student data = mDataList.get(position);
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(getActivity(), intent);
+            JumpManager.jumpActivity(getActivity(), intent, Resourse.PERMISSION_STU_DETAIL);
         }
     }
 }

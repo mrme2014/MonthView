@@ -11,6 +11,7 @@ import com.commonlib.http.ApiFactory;
 import com.commonlib.util.TxtUtil;
 import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.business.login.LoginActivity;
@@ -82,6 +83,10 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
             showToast(R.string.new_pwd_hnit);
             return;
         }
+        if (newPwdAgain.getText().toString().length()<6){
+            showToast(R.string.new_pwd_hnit);
+            return;
+        }
         handProgressbar(true);
         ApiFactory.getInstance().getApi(UserApi.class).editpwd(-1,userInfo.user_id,oldPwd.getText().toString(),newPwd.getText().toString())
                 .subscribeOn(Schedulers.io())
@@ -89,7 +94,7 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
                 .subscribe(new ApiObserver<JsonElement>() {
                     @Override
                     public void onSuccess(JsonElement s) {
-                        JumpManager.jumpActivity(EditPwdActivity.this, LoginActivity.class);
+                        JumpManager.jumpActivity(EditPwdActivity.this, LoginActivity.class, Resourse.NO_NEED_CHECK);
                         ActivityStackManager.getInstance().clear();
                         EditPwdActivity.this.finish();
                         handProgressbar(false);

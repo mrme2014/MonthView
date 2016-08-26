@@ -7,6 +7,7 @@ import com.commonlib.util.LogUtil;
 import com.commonlib.util.PreferencesUtils;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.MainActivity;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.forgetpwd.ForgetPwdActivity1;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -48,7 +49,7 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @OnClick(R.id.forget_passwd)
     void forgetPwd() {
-        JumpManager.jumpActivity(this, ForgetPwdActivity1.class);
+        JumpManager.jumpActivity(this, ForgetPwdActivity1.class,Resourse.NO_NEED_CHECK);
     }
 
     @OnClick(R.id.submit_tv)
@@ -71,7 +72,7 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
     public void loginSuccess(User user) {
         handProgressbar(false);
         PreferencesUtils.put(this, "last_user", user.userInfo.mobile);
-        JumpManager.jumpActivity(this, MainActivity.class);
+        JumpManager.jumpActivity(this, MainActivity.class, Resourse.NO_NEED_CHECK);
         finish();
     }
 

@@ -25,6 +25,7 @@ public class User implements Parcelable {
     public List<Position> position;
     public PositionInfo positionInfo;
     public Qrcode qrcode;
+    public MyResources resources;
 
 
     @Override
@@ -41,6 +42,7 @@ public class User implements Parcelable {
         dest.writeTypedList(this.position);
         dest.writeParcelable(this.positionInfo, flags);
         dest.writeParcelable(this.qrcode, flags);
+        dest.writeParcelable(this.resources, flags);
     }
 
     public User() {
@@ -54,6 +56,7 @@ public class User implements Parcelable {
         this.position = in.createTypedArrayList(Position.CREATOR);
         this.positionInfo = in.readParcelable(PositionInfo.class.getClassLoader());
         this.qrcode = in.readParcelable(Qrcode.class.getClassLoader());
+        this.resources = in.readParcelable(MyResources.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

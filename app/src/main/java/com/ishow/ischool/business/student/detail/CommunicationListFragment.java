@@ -295,6 +295,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     void onClickCommunAdd(View view) {
         Intent intent = new Intent(getActivity(), CommunicationAddActivity.class);
         intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-        JumpManager.jumpActivity(getActivity(), intent);
+        JumpManager.jumpActivity(getActivity(), intent,Resourse.COMMUNICATION_ADD);
     }
 }

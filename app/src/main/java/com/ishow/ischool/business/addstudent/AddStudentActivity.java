@@ -69,6 +69,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     protected void setUpView() {
         init();
         nameIL.getEdittext().setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
+        majorIL.getEdittext().setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
         universityIL.setOnEidttextClick(this);
         campusIL.setOnEidttextClick(this);
         fromIL.setOnEidttextClick(this);

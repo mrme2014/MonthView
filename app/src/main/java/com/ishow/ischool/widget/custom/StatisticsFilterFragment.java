@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.university.UniversityInfo;
@@ -32,7 +33,6 @@ import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
-import com.ishow.ischool.widget.pickerview.PickerWheelViewPop;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -273,7 +273,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         });
     }
 
-    @OnClick({R.id.commun_block_top, R.id.time_type, R.id.start_time_clear, R.id.end_time_clear, R.id.filter_reset, R.id.filter_ok})
+    @OnClick({R.id.commun_block_top, R.id.commun_block_bottom, R.id.time_type, R.id.start_time_clear, R.id.end_time_clear, R.id.filter_reset, R.id.filter_ok})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.time_type:
@@ -549,8 +549,8 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     }
 
     private void showTimePickPop(final int type) {
-
-        AppUtil.showTimePickerDialog(getChildFragmentManager(), R.string.commun_date, new PickerDialogFragment.Callback<Integer>() {
+        AppUtil.showTimePickerDialog(getChildFragmentManager(), (type == TYPE_START_TIME ? R.string.item_start_time : R.string.item_end_time),
+                new PickerDialogFragment.Callback<Integer>() {
             @Override
             public void onPickResult(Integer unix, String... result) {
                 if (type == TYPE_START_TIME) {
@@ -558,20 +558,18 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                     mFilterStartTime = String.valueOf(unix);
                     startTimeIv.setVisibility(View.VISIBLE);
                 } else if (type == TYPE_END_TIME) {
+                    long l = DateUtil.getStartTime() / 1000;
+                    long curUnixTime = System.currentTimeMillis() / 1000;
+                    if (l == unix) {
+                        mFilterEndTime = String.valueOf(curUnixTime);
+                    } else {
+                        mFilterEndTime = String.valueOf(unix);
+                    }
                     endTimeEt.setText(result[0]);
-                    mFilterEndTime = String.valueOf(unix);
                     endTimeIv.setVisibility(View.VISIBLE);
                 }
             }
         });
-    }
-
-    private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerWheelViewPop.PickCallback callback) {
-        PickerWheelViewPop pop = new PickerWheelViewPop(getContext());
-        pop.initMultiSelectPanel(titleResId);
-        pop.setDatas(defalut, colum, datas);
-        pop.showAtLocation(universityIL, Gravity.BOTTOM, 0, 0);
-        pop.addPickCallback(callback);
     }
 
     public interface FilterCallback {

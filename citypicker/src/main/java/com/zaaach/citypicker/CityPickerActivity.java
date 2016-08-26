@@ -21,12 +21,14 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.commonlib.util.LogUtil;
+import com.commonlib.util.SpUtil;
 import com.zaaach.citypicker.adapter.CityListAdapter;
 import com.zaaach.citypicker.adapter.ResultListAdapter;
 import com.zaaach.citypicker.db.DBManager;
 import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.utils.LimitQueue;
+import com.zaaach.citypicker.utils.LocManager;
 import com.zaaach.citypicker.utils.SearchLocalHistoryUtil;
 import com.zaaach.citypicker.utils.StringUtils;
 import com.zaaach.citypicker.view.SideLetterBar;
@@ -84,6 +86,7 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
                         LogUtil.d("CityPickerActivity onLocationChanged", "district: " + district);
                         String location = StringUtils.extractLocation(city, district);
                         mCityAdapter.updateLocateState(LocateState.SUCCESS, location);
+                        SpUtil.getInstance(CityPickerActivity.this).setValue(LocManager.LOC_KEY, city);
                     } else {
                         //定位失败
                         mCityAdapter.updateLocateState(LocateState.FAILED, null);

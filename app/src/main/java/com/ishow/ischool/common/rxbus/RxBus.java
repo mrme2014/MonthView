@@ -1,9 +1,15 @@
 package com.ishow.ischool.common.rxbus;
 
+import android.support.annotation.NonNull;
+
+import java.util.HashMap;
+
 import rx.Observable;
+import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * courtesy: https://gist.github.com/benjchristensen/04eef9ca0851f3a5d7bf
@@ -12,6 +18,8 @@ public class RxBus {
 
 
     private static volatile RxBus instance;
+    private CompositeSubscription subscriptions;
+    private HashMap<String, CompositeSubscription> map;
 
     // 单例RxBus
     public static RxBus getDefault() {
@@ -40,5 +48,22 @@ public class RxBus {
 
     public boolean hasObservers() {
         return _bus.hasObservers();
+    }
+
+
+    public void addSubscribe(@NonNull String key,Action1 action1) {
+        subscriptions = new CompositeSubscription();
+        subscriptions.add(toObserverable().subscribe(action1));
+
+        if (map == null) map = new HashMap<>();
+        map.put(key, subscriptions);
+
+    }
+
+    public void removeSubscribe(String key) {
+       if (map!=null){
+           map.get(key).unsubscribe();
+           map.remove(key);
+       }
     }
 }

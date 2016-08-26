@@ -14,7 +14,7 @@ import com.commonlib.util.SpUtil;
  * Created by wqf on 16/8/16.
  */
 public class LocManager {
-    private static final String LOC_KEY = "loc_key";
+    public static final String LOC_KEY = "loc_key";
 
     private AMapLocationClient mLocationClient;
     private String curCityName;

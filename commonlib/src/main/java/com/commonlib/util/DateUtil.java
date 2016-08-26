@@ -15,7 +15,19 @@ public class DateUtil {
     public static String parseDate2Str(Long d, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
 
-        return sdf.format(new Date(d*1000));
+        return sdf.format(new Date(d));
+    }
+
+    public static String parseSecond2Str(Long d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        return sdf.format(new Date(d * 1000));
+    }
+
+    public static String parseSecond2Str(Long d, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+        return sdf.format(new Date(d * 1000));
     }
 
     public static Long parseDate2Second(String date) {

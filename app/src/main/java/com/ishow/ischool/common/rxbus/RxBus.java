@@ -28,7 +28,7 @@ public class RxBus {
 
     // If multiple threads are going to emit events to this
     // then it must be made thread-safe like this instead
-    private final Subject<Object, Object> _bus = new SerializedSubject<>(PublishSubject.create());
+    private final Subject<Object, Object> _bus = new SerializedSubject<>(PublishSubject.create()) ;
 
     public void post(Object o) {
         _bus.onNext(o);

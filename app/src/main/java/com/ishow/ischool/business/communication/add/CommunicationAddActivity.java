@@ -1,9 +1,13 @@
 package com.ishow.ischool.business.communication.add;
 
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.widget.LabelEditText;
@@ -15,7 +19,6 @@ import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.custom.InputLinearLayout;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
@@ -51,7 +54,10 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     LabelEditText moneySourceTv;
 
     @BindView(R.id.commun_content)
-    InputLinearLayout contentTv;
+    EditText contentTv;
+
+    @BindView(R.id.commun_content_count)
+    TextView contentCountTv;
 
 
     private StudentInfo studentInfo;
@@ -73,6 +79,22 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     @Override
     protected void setUpView() {
         updateStudentView();
+        contentTv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                contentCountTv.setText(String.valueOf(200 - s.length()));
+            }
+        });
     }
 
     @Override
@@ -113,7 +135,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     private boolean checkForm() {
 
-        form.content = contentTv.getContent();
+        form.content = contentTv.getText().toString();
         form.tuition_source = moneySourceTv.getText().toString();
 
         //----

@@ -28,6 +28,7 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.CampusEvent;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -181,7 +182,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         if (selectPosition.id != Resourse.ROLE_PERMISSION_CHENDU) fmMeMornigQrcode.setVisibility(View.GONE);
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
-        RxBus.getDefault().post(selectCampus);
+        RxBus.getDefault().post(new CampusEvent(selectCampus));
     }
 
     @Override

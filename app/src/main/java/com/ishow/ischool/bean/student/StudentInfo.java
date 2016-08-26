@@ -75,6 +75,8 @@ public class StudentInfo implements Parcelable {
     public int class_hour;
     public int payed;
 
+    public StudentInfo() {
+    }
 
     protected StudentInfo(Parcel in) {
         id = in.readInt();

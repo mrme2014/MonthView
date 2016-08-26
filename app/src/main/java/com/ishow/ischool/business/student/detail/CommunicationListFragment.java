@@ -21,6 +21,8 @@ import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.CommunicationRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CommunEditDialog;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
@@ -172,6 +174,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     }
 
     public void refresh() {
+        RxBus.getDefault().post(new CommunicationRefreshEvent());
         initData();
     }
 

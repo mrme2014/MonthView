@@ -1,7 +1,5 @@
 package com.ishow.ischool.common.rxbus;
 
-import android.support.annotation.NonNull;
-
 import java.util.HashMap;
 
 import rx.Observable;
@@ -36,7 +34,7 @@ public class RxBus {
 
     // If multiple threads are going to emit events to this
     // then it must be made thread-safe like this instead
-    private final Subject<Object, Object> _bus = new SerializedSubject<>(PublishSubject.create()) ;
+    private final Subject<Object, Object> _bus = new SerializedSubject<>(PublishSubject.create());
 
     public void post(Object o) {
         _bus.onNext(o);
@@ -46,24 +44,35 @@ public class RxBus {
         return _bus;
     }
 
+    /**
+     * 返回指定类型的Observable实例
+     *
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public <T> Observable<T> toObserverable(final Class<T> type) {
+        return _bus.ofType(type);
+    }
+
     public boolean hasObservers() {
         return _bus.hasObservers();
     }
 
 
-    public void addSubscribe(@NonNull String key,Action1 action1) {
+    public <T> void register(Class<T> type, Action1 action1) {
         subscriptions = new CompositeSubscription();
-        subscriptions.add(toObserverable().subscribe(action1));
+        subscriptions.add(toObserverable(type).subscribe(action1));
 
         if (map == null) map = new HashMap<>();
-        map.put(key, subscriptions);
+        map.put(type.getSimpleName(), subscriptions);
 
     }
 
-    public void removeSubscribe(String key) {
-       if (map!=null){
-           map.get(key).unsubscribe();
-           map.remove(key);
-       }
+    public <T> void unregister(Class<T> type) {
+        if (map != null) {
+            map.get(type.getSimpleName()).unsubscribe();
+            map.remove(type.getSimpleName());
+        }
     }
 }

@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.util.LogUtil;
-import com.commonlib.widget.event.RxBus;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
@@ -37,6 +36,7 @@ import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.StatisticsFilterFragment;
@@ -47,7 +47,6 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
 import rx.functions.Action1;
 
 
@@ -199,20 +198,27 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     private void doSubscribe() {
-        Subscription subscription4AddSuccess = RxBus.getInstance()
-                .doSubscribe(StudentInfo.class, new Action1<StudentInfo>() {
-                    @Override
-                    public void call(StudentInfo studentInfo) {
-                        initFilter();
-                        setRefreshing();
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-
-                    }
-                });
-        RxBus.getInstance().addSubscription(this, subscription4AddSuccess);
+//        Subscription subscription4AddSuccess = RxBus.getInstance()
+//                .doSubscribe(StudentInfo.class, new Action1<StudentInfo>() {
+//                    @Override
+//                    public void call(StudentInfo studentInfo) {
+//                        initFilter();
+//                        setRefreshing();
+//                    }
+//                }, new Action1<Throwable>() {
+//                    @Override
+//                    public void call(Throwable throwable) {
+//
+//                    }
+//                });
+//        RxBus.getInstance().addSubscription(this, subscription4AddSuccess);
+        RxBus.getDefault().register(StudentInfo.class, new Action1() {
+            @Override
+            public void call(Object o) {
+                initFilter();
+                setRefreshing();
+            }
+        });
     }
 
     /**
@@ -363,6 +369,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.getInstance().unSubscribe(this);
+        //RxBus.getInstance().unSubscribe(this);
+        RxBus.getDefault().unregister(StudentInfo.class);
     }
 }

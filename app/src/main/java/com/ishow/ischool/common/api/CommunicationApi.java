@@ -34,7 +34,9 @@ public interface CommunicationApi {
      * @return
      */
     @GET("/market/communication/lists")
-    Observable<ApiResult<CommunicationList>> listCommnunication(@QueryMap HashMap<String, String> params);
+    Observable<ApiResult<CommunicationList>> listCommnunication(@QueryMap HashMap<String, String> params,
+                                                                @Query("pagesize") int pagesize,
+                                                                @Query("page") int page);
 
 
     /**

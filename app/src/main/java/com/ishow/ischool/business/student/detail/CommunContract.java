@@ -31,7 +31,7 @@ public interface CommunContract {
     }
 
     interface Model extends BaseModel {
-        Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params);
+        Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params, int page);
 
         Observable<ApiResult<Object>> editCommunication(HashMap<String, String> params);
 
@@ -39,6 +39,6 @@ public interface CommunContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        abstract void getCommunicationList(HashMap<String, String> params);
+        abstract void getCommunicationList(HashMap<String, String> params, int page);
     }
 }

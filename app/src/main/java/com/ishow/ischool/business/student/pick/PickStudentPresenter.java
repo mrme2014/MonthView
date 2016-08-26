@@ -10,8 +10,8 @@ import java.util.HashMap;
  */
 public class PickStudentPresenter extends PickStudentContract.Presenter {
     @Override
-    public void getStudentStatisticsList(int campusId, HashMap<String, String> params, int page) {
-        mModel.getStudentStatisticsList(campusId, params, page).subscribe(new ApiObserver<StudentList>() {
+    public void getStudentStatisticsList(HashMap<String, String> params, int page) {
+        mModel.getStudentStatisticsList(params, page).subscribe(new ApiObserver<StudentList>() {
             @Override
             public void onSuccess(StudentList studentStatisticsList) {
                 mView.getListSuccess(studentStatisticsList);

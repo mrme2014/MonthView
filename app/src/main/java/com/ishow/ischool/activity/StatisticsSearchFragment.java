@@ -17,6 +17,7 @@ import com.commonlib.http.ApiFactory;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
@@ -83,7 +84,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
         }
 
         ApiFactory.getInstance().getApi(MarketApi.class)
-                .listStudentStatistics(7, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                .listStudentStatistics(Resourse.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<StudentList>() {

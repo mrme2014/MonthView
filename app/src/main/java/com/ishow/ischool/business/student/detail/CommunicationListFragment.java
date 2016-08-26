@@ -39,7 +39,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
     private static final String P_STUDENT = "student";
     private static final int REQUEST_SOURCE = 200;
-
+    private int mCurrentPage = 1;
 
     private CommunListAdapter mAdapter;
 
@@ -112,7 +112,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         if (getStudentInfo() != null) {
             HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
             params.put("student_id", getStudentInfo().student_id + "");
-            mPresenter.getCommunicationList(params);
+            mPresenter.getCommunicationList(params, mCurrentPage);
         }
     }
 

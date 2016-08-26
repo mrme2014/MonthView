@@ -12,6 +12,6 @@
         android:id="@+id/action_filter"
         android:icon="@mipmap/icon_screen_nomal"
         android:orderInCategory="100"
-        android:title="filter"
+        android:title="筛选"
         app:showAsAction="ifRoom" />
 </menu>

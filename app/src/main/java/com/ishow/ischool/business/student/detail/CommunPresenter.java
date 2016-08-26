@@ -10,8 +10,8 @@ import java.util.HashMap;
  */
 public class CommunPresenter extends CommunContract.Presenter {
     @Override
-    void getCommunicationList(HashMap<String, String> params) {
-        mModel.listCommunications(params).subscribe(new ApiObserver<CommunicationList>() {
+    void getCommunicationList(HashMap<String, String> params, int page) {
+        mModel.listCommunications(params, page).subscribe(new ApiObserver<CommunicationList>() {
             @Override
             public void onSuccess(CommunicationList communicationList) {
                 mView.listCommunicationSuccess(communicationList);

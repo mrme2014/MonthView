@@ -62,11 +62,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     FrameLayout frameLayout;
 
     private String mCampusId, mSource;
-    StatisticsSearchFragment searchFragment;
 
     //  搜索
     private SearchView mSearchView;
     private String mSearchKey;
+    StatisticsSearchFragment searchFragment;
 
     // 筛选
     private HashMap<String, String> filterParams;
@@ -359,6 +359,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     public void getListFail(String msg) {
         loadFailed();
+        showToast(msg);
     }
 
     @OnClick(R.id.fab)

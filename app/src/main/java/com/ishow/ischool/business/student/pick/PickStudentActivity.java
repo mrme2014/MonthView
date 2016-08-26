@@ -47,7 +47,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         }
         params.put("source", "-1");
         params.put("campus_id", mUser.positionInfo.campusId + "");
-        mPresenter.getStudentStatisticsList(mUser.positionInfo.campusId, params, mCurrentPage++);
+        mPresenter.getStudentStatisticsList(params, mCurrentPage++);
     }
 
     @OnTextChanged(R.id.pick_search_text_et)
@@ -57,7 +57,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         params.put("page", mCurrentPage + "");
         params.put("campus_id", mUser.positionInfo.campusId + "");
         params.put("mobile_or_name", mSearchEt.getText().toString());
-        mPresenter.getStudentStatisticsList(mUser.positionInfo.campusId, params, mCurrentPage++);
+        mPresenter.getStudentStatisticsList(params, mCurrentPage++);
     }
 
 

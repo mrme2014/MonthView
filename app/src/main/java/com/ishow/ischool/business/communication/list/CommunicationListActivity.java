@@ -3,26 +3,28 @@ package com.ishow.ischool.business.communication.list;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.activity.CommunicationSearchFragment;
 import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
@@ -37,6 +39,7 @@ import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CommuDialogFragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -49,32 +52,20 @@ import rx.functions.Action1;
  */
 public class CommunicationListActivity extends BaseListActivity4Crm<CommunicationListPresenter, CommunicationListModel, Communication> implements CommunicationListContract.View, CommuDialogFragment.selectResultCallback {
 
-    private static final int WATH_SEARCH = 10;
+    @BindView(R.id.communication_add)
+    FloatingActionButton addFab;
+    @BindView(R.id.search_content)
+    FrameLayout frameLayout;
+
+    //  搜索
     private SearchView mSearchView;
+    private String mSearchKey;
+    CommunicationSearchFragment searchFragment;
+
     private HashMap<String, String> mParamsMap;
     private boolean needRefresh;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case WATH_SEARCH:
-                    Bundle bundle = msg.getData();
-                    String keyword = bundle.getString("keyword");
-                    if (keyword.equals(mSearchText)) {
-                        mCurrentPage = 1;
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
-                        params.put("keyword", keyword);
-                        params.put("page", mCurrentPage + "");
-                        //setRefreshing();
-                        mPresenter.listCommunication(params);
-                    }
-                    break;
-            }
-        }
-    };
-    private String mSearchText;
+    CommuDialogFragment dialog = null;
 
     @Override
     protected void initEnv() {
@@ -90,13 +81,14 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         });
     }
 
-    @BindView(R.id.communication_add)
-    FloatingActionButton addFab;
-
     @Override
     protected void setUpContentView() {
-        //super.setUpContentView();
         setContentView(R.layout.activity_communication_list, R.string.communication_list_title, R.menu.menu_communication_list, MODE_BACK);
+    }
+
+    @Override
+    protected void setUpView() {
+        super.setUpView();
 
         MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -109,32 +101,29 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mSearchText = newText;
-                Message msg = new Message();
-                msg.what = WATH_SEARCH;
-                Bundle bundle = new Bundle();
-                bundle.putString("keyword", newText);
-                msg.setData(bundle);
-                mHandler.sendMessageDelayed(msg, 1000);
-                return false;
+                LogUtil.d("SearchView newText = " + newText);
+                mSearchKey = newText;
+                if (TextUtils.isEmpty(mSearchKey)) {
+                    searchFragment.loadFailed();
+                } else {
+                    searchFragment.startSearch(mSearchKey);
+                }
+                return true;
             }
         });
-
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSearchFragment();
+            }
+        });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                hideSearchFragment();
                 return false;
             }
         });
-    }
-
-    @Override
-    protected void setUpView() {
-        super.setUpView();
-
-        final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setQueryHint(getString(R.string.str_search_hint));
 
         // recycleview上滑隐藏fab,下滑显示
         recycler.getRecyclerView().addOnScrollListener(new HidingScrollListener() {
@@ -167,27 +156,30 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     }
 
     @Override
-    protected CommnunicationHolder getViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.item_communication_list, parent, false);
-        return new CommnunicationHolder(view);
-    }
-
-    @Override
     public void onRefresh(int action) {
-        switch (action) {
-            case PullRecycler.ACTION_PULL_TO_REFRESH:
-                mCurrentPage = 1;
-                mParamsMap.put("page", mCurrentPage + "");
-                mPresenter.listCommunication(mParamsMap);
-
-                break;
-            case PullRecycler.ACTION_LOAD_MORE_LOADING:
-                mCurrentPage++;
-                mParamsMap.put("page", mCurrentPage + "");
-                mPresenter.listCommunication(mParamsMap);
-
-                break;
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
         }
+
+        if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
+            mCurrentPage = 1;
+        }
+
+        mPresenter.listCommunication(mParamsMap, mCurrentPage++);
+//        switch (action) {
+//            case PullRecycler.ACTION_PULL_TO_REFRESH:
+//                mCurrentPage = 1;
+//                mParamsMap.put("page", mCurrentPage + "");
+//                mPresenter.listCommunication(mParamsMap, mCurrentPage++);
+//
+//                break;
+//            case PullRecycler.ACTION_LOAD_MORE_LOADING:
+//                mCurrentPage++;
+//                mParamsMap.put("page", mCurrentPage + "");
+//                mPresenter.listCommunication(mParamsMap, mCurrentPage++);
+//
+//                break;
+//        }
     }
 
     @Override
@@ -207,26 +199,25 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     }
 
 
-    class CommnunicationHolder extends BaseViewHolder {
+    @Override
+    protected CommnunicationHolder getViewHolder(ViewGroup parent, int viewType) {
+        View view = getLayoutInflater().inflate(R.layout.item_communication_list, parent, false);
+        return new CommnunicationHolder(view);
+    }
 
+    class CommnunicationHolder extends BaseViewHolder {
         @BindView(R.id.user_photo_iv)
         AvatarImageView userPhotoIv;
-
         @BindView(R.id.user_name)
         TextView usernameTv;
-
         @BindView(R.id.communication_date)
         TextView dateTv;
-
         @BindView(R.id.communication_content)
         TextView contentTv;
-
         @BindView(R.id.user_state)
         LabelTextView stateTv;
-
         @BindView(R.id.user_oppose_point)
         LabelTextView opposePointTv;
-
         @BindView(R.id.user_faith)
         LabelTextView faithTv;
 
@@ -266,7 +257,23 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         JumpManager.jumpActivity(this, CommunicationAddActivity.class);
     }
 
-    CommuDialogFragment dialog = null;
+
+    void showSearchFragment() {
+        frameLayout.setVisibility(View.VISIBLE);
+        searchFragment = CommunicationSearchFragment.newInstance(Resourse.COMMUNICATION_LIST + "");
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.search_content, searchFragment);
+        ft.commit();
+    }
+
+    void hideSearchFragment() {
+        frameLayout.setVisibility(View.GONE);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.remove(searchFragment);
+        ft.commit();
+        searchFragment = null;
+    }
+
 
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {

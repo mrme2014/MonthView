@@ -183,6 +183,8 @@ public class UserManager {
 
     public List<Integer>  getResurces(){
         if (user==null) user =get();
-        return user.resources.myResources;
+        MyResources resources = user.resources;
+        if (resources!=null) return resources.myResources;
+        return null;
     }
 }

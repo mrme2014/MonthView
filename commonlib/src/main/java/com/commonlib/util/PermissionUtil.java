@@ -67,7 +67,7 @@ public class PermissionUtil {
                     else if (permissions[i] == Manifest.permission.CAMERA)
                         permission = R.string.permission_camera_denid;
 
-                    builder.setMessage(permission).setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    builder.setMessage(permission).setPositiveButton(activity.getString(R.string.str_ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialog.dismiss();

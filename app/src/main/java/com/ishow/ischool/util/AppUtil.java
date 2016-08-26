@@ -184,6 +184,7 @@ public class AppUtil {
         grades.add("大四");
         grades.add("研究生");
         grades.add("博士");
+        grades.add("其他");
         return grades;
     }
 }

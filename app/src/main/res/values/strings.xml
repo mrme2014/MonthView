@@ -195,7 +195,6 @@
     <string name="label_student_info_user_name">用户名</string>
     <string name="msg_idcard_input">请输入18位的身份证号</string>
 
-    <!--<string name="pick_user">选择办理人</string>-->
     <string name="search_user">搜索姓名、手机号</string>
     <string name="no_permission">当前角色,无权进行此操作.</string>
     <string name="login_in_other_devices">当前账号可能在其他设备上登录或者</string>

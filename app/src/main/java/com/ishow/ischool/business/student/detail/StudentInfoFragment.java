@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.http.HEAD;
 
 /**
  * Created by abel on 16/8/18.
@@ -183,7 +184,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
                 intent.putExtra(EditActivity.P_LEN, 10);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME, REQUEST_USER_NAME);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME, Resource.PERMISSION_STU_EDIT);
                 break;
             }
             case R.id.student_english_name: {
@@ -193,7 +194,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME, REQUEST_ENGLISH_NAME);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME, Resource.PERMISSION_STU_EDIT);
                 break;
             }
             case R.id.student_phone: {
@@ -258,7 +259,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
-                        params.put("grade", txt);
+                        params.put("grade", String.valueOf(position + 1));
                         mPresenter.editStudent(params);
                     }
                 });

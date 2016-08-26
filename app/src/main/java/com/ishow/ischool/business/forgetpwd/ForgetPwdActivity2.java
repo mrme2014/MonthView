@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.commonlib.util.TxtUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
@@ -16,7 +17,7 @@ import butterknife.OnClick;
 /**
  * Created by MrS on 2016/8/12.
  */
-public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, ForgetPwdModel> implements TextWatcher,ForgetPwdView {
+public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, ForgetPwdModel> implements TextWatcher, ForgetPwdView {
     @BindView(R.id.new_pwd)
     EditText newPwd;
     @BindView(R.id.new_pwd_again)
@@ -34,7 +35,7 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
 
     @Override
     protected void setUpView() {
-        setBtnEnable(submitTv,false);
+        setBtnEnable(submitTv, false);
         newPwd.addTextChangedListener(this);
         newPwdAgain.addTextChangedListener(this);
     }
@@ -44,7 +45,7 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
         intentMobile = getIntent().getStringExtra("mobile");
     }
 
-    private void setBtnEnable(Button btn,boolean b) {
+    private void setBtnEnable(Button btn, boolean b) {
         btn.setEnabled(b);
         btn.setClickable(b);
         btn.setAlpha(b ? 1.0f : 0.5f);
@@ -57,11 +58,14 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
     @OnClick(R.id.submit_tv)
     public void onClick() {
         hideSoftPanel(submitTv);
-        if (!TextUtils.equals(newPwd.getText().toString(),newPwdAgain.getText().toString())){
+        if (!TextUtils.equals(newPwd.getText().toString(), newPwdAgain.getText().toString())) {
             showToast(getString(R.string.twice_pwd_not_equal));
             return;
         }
-        mPresenter.setPwd(intentMobile,newPwd.getText().toString());
+        boolean strRegularFormat = TxtUtil.isLetterDigit(newPwdAgain.getText().toString());
+
+        if (strRegularFormat)mPresenter.setPwd(intentMobile, newPwd.getText().toString());
+        else showToast(R.string.new_pwd_hnit);
     }
 
     @Override
@@ -76,9 +80,9 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (!isEmpty(newPwd)&&!isEmpty(newPwdAgain)){
-            setBtnEnable(submitTv,true);
-        }else setBtnEnable(submitTv,false);
+        if (!isEmpty(newPwd) && !isEmpty(newPwdAgain)) {
+            setBtnEnable(submitTv, true);
+        } else setBtnEnable(submitTv, false);
     }
 
     @Override
@@ -92,4 +96,6 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
         showToast(msg);
         showSoftPanel(submitTv);
     }
+
 }
+

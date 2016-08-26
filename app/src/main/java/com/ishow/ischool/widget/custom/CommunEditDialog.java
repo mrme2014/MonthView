@@ -30,7 +30,7 @@ public class CommunEditDialog extends DialogFragment {
 
     private OnClickListener listener;
     public int date;
-    public String dateStr;
+    //public String dateStr;
 
     @BindView(R.id.dialog_cancel)
     TextView cancelTv;
@@ -68,12 +68,19 @@ public class CommunEditDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                contentCountTv.setText((max_length - editable.length()) + "");
+                if (editable.length()>=max_length+1){
+                    contentCountTv.setText(0+"");
+                    String s = editable.toString();
+                    contentEt.setText(s.substring(0,max_length));
+                    contentEt.setSelection(max_length);
+                }else{
+                    contentCountTv.setText((max_length - editable.length()) + "");
+                    contentEt.setSelection(editable.length());
+                }
             }
         });
     }

@@ -16,7 +16,7 @@ import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
@@ -147,7 +147,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(getActivity(), intent, Resourse.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(getActivity(), intent, Resource.PERMISSION_STU_DETAIL);
         }
     }
 }

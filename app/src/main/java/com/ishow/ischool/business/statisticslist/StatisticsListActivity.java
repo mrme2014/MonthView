@@ -145,6 +145,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         });
     }
 
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(this, 10);
+    }
+
     void initFilter() {
         filterParams = new HashMap<String, String>();
         if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {

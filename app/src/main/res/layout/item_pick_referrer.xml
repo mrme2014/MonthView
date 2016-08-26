@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="62dp"
     android:padding="10dp">
 
-    <ImageView
+    <com.ishow.ischool.widget.custom.AvatarImageView
         android:id="@+id/referrer_avatar"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:src="@mipmap/img_header_default"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="15dp"
+        android:background="@mipmap/img_header_default"
+        app:text_color="@color/white" />
 
     <TextView
         android:id="@+id/referrer_name"
@@ -18,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/referrer_avatar"
         android:layout_centerVertical="true"
-        android:text="王宝强"/>
-
+        android:textColor="@color/txt_2"
+        android:textSize="@dimen/sp15"/>
 
     <ImageView
         android:id="@+id/phone"

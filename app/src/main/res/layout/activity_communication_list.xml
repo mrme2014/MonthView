@@ -20,15 +20,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
         android:src="@mipmap/icon_add_1"
         app:backgroundTint="@color/comm_green"
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
-        app:rippleColor="#33728dff" />
+        app:rippleColor="@color/comm_blue" />
 
     <FrameLayout
         android:id="@+id/search_content"

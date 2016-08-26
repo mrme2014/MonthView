@@ -2,21 +2,23 @@ package com.ishow.ischool.business.user.pick;
 
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commonlib.util.LogUtil;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
 
@@ -91,6 +93,11 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     }
 
     @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(this, 10);
+    }
+
+    @Override
     public void onRefresh(int action) {
         if (mDataList == null) {
             mDataList = new ArrayList<>();
@@ -126,7 +133,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     class PickReferrerHolder extends BaseViewHolder {
 
         @BindView(R.id.referrer_avatar)
-        ImageView referrerAvatar;
+        AvatarImageView referrerAvatar;
         @BindView(R.id.referrer_name)
         TextView referrerName;
 
@@ -138,7 +145,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
         @Override
         public void onBindViewHolder(int position) {
             User data = mDataList.get(position);
-//            referrerAvatar.setText(AppUtil.getLast2Text(data.getUserInfo().user_name));
+            referrerAvatar.setText(data.userInfo.user_name);
             referrerName.setText(data.userInfo.user_name);
         }
 

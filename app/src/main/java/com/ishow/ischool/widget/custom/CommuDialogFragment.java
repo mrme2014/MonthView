@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -216,6 +217,7 @@ public class CommuDialogFragment extends DialogFragment {
             public void onPickResult(Integer unix, String... result) {
                 if (start) {
                     if (endUnix > 0 && unix > endUnix) {
+                        showTimeError();
                         startUnix = 0;
                         communDateStart.setText("");
                     } else {
@@ -224,6 +226,7 @@ public class CommuDialogFragment extends DialogFragment {
                     }
                 } else {
                     if (startUnix > 0 && unix < startUnix) {
+                        showTimeError();
                         endUnix = 0;
                         communDateEnd.setText("");
                     } else {
@@ -259,5 +262,16 @@ public class CommuDialogFragment extends DialogFragment {
                 orderName = user.userInfo.user_name;
             }
         }
+    }
+
+    void showTimeError() {
+        final Snackbar snackbar = Snackbar.make(communBlockBottom, getString(R.string.time_error), Snackbar.LENGTH_LONG);
+        snackbar.setAction("朕知道了", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 }

@@ -53,12 +53,18 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @OnClick(R.id.submit_tv)
     void onLogin() {
+
+
+
         String username = usernameEt.getText().toString();
         String passwd = passwdEt.getText().toString();
+
 
         handProgressbar(true);
         mPresenter.login(username, passwd);
         submitTv.setEnabled(false);
+
+
     }
 
     @Override

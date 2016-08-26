@@ -66,6 +66,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     LabelTextView classTv;
     @BindView(R.id.student_idcard)
     LabelTextView idcardTv;
+    private boolean needRefresh;
 
     public StudentInfoFragment() {
     }
@@ -143,9 +144,15 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             schoolTv.setText(params.get("college_name"));
         } else if (params.containsKey("birthdayTv")) {
             birthdayTv.setText(params.get("birthdayTv"));
-        }else if (params.containsKey("grade")){
+        } else if (params.containsKey("grade")) {
             classTv.setText(params.get("grade"));
         }
+
+        //needRefresh = true;
+
+        Bundle b = new Bundle();
+        b.putBoolean("refresh", true);
+        mListener.onFragmentInteraction(b);
     }
 
     @Override
@@ -207,7 +214,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
                         params.put("birthday", String.valueOf(unix));
-                        params.put("birthdayTv",result[0]);
+                        params.put("birthdayTv", result[0]);
                         mPresenter.editStudent(params);
                     }
                 });
@@ -255,6 +262,11 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == Activity.RESULT_OK) {
+
+            Bundle b = new Bundle();
+            b.putBoolean("refresh", true);
+            mListener.onFragmentInteraction(b);
+
             String text = data.getStringExtra("data");
             switch (requestCode) {
                 case REQUEST_CODE_PICK_UNIVERSITY:
@@ -306,4 +318,6 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         }
 
     }
+
+
 }

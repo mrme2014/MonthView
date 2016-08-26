@@ -30,6 +30,8 @@ import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.CommunicationRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -40,6 +42,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.functions.Action1;
 
 /**
  * 沟通记录页面
@@ -49,6 +52,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     private static final int WATH_SEARCH = 10;
     private SearchView mSearchView;
     private HashMap<String, String> mParamsMap;
+    private boolean needRefresh;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -77,6 +81,13 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         super.initEnv();
         mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
         mParamsMap.put("list_type", "2");
+
+        RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
+            @Override
+            public void call(CommunicationRefreshEvent o) {
+                needRefresh = true;
+            }
+        });
     }
 
     @BindView(R.id.communication_add)
@@ -145,6 +156,14 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (needRefresh) {
+            setRefreshing();
+        }
     }
 
     @Override

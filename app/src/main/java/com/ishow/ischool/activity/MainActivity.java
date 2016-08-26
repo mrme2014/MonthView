@@ -10,6 +10,8 @@ import com.ishow.ischool.business.tabfragmentme.MeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.zaaach.citypicker.utils.LocManager;
 
+import org.lzh.framework.updatepluginlib.UpdateBuilder;
+
 public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
 
@@ -36,6 +38,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
     protected void setUpData() {
         // 进入应用获取城市名然后保存起来
         LocManager.getInstance().startLocation();
+        checkUpdate();
     }
 
     @Override
@@ -82,4 +85,11 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
         super.onActivityResult(requestCode, resultCode, data);
 
     }
+
+
+    void checkUpdate() {
+        UpdateBuilder.create().check(MainActivity.this);
+    }
 }
+
+

@@ -13,7 +13,6 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -53,6 +52,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         User user = UserManager.getInstance().get();
         campusTv.setText(user.positionInfo.campus);
         Subscription subscription = RxBus.getInstance().doSubscribe(String.class, new Action1<String>() {
+
             @Override
             public void call(String s) {
                 campusTv.setText(s);
@@ -63,7 +63,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
 
             }
         });
-        RxBus.getInstance().addSubscription(this,subscription);
+        com.commonlib.widget.event.RxBus.getInstance().addSubscription(this, subscription);
     }
 
     @Override
@@ -76,6 +76,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     public void getListFail(String msg) {
 
     }
+
 
     @Override
     public void onDestroyView() {

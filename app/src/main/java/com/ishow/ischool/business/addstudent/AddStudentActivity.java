@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.commonlib.util.KeyBoardUtil;
-import com.commonlib.widget.event.RxBus;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.student.StudentInfo;
@@ -20,6 +19,7 @@ import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
 
 import java.util.ArrayList;
@@ -233,7 +233,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     @Override
     public void addStudentSuccess(StudentInfo studentInfo) {
         showToast("添加成功");
-        RxBus.getInstance().post(studentInfo);
+        RxBus.getDefault().post(studentInfo);
         finish();
     }
 

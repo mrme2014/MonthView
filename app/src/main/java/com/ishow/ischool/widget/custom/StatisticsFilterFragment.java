@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.GestureDetector;
@@ -551,25 +552,45 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     private void showTimePickPop(final int type) {
         AppUtil.showTimePickerDialog(getChildFragmentManager(), (type == TYPE_START_TIME ? R.string.item_start_time : R.string.item_end_time),
                 new PickerDialogFragment.Callback<Integer>() {
-            @Override
-            public void onPickResult(Integer unix, String... result) {
-                if (type == TYPE_START_TIME) {
-                    startTimeEt.setText(result[0]);
-                    mFilterStartTime = String.valueOf(unix);
-                    startTimeIv.setVisibility(View.VISIBLE);
-                } else if (type == TYPE_END_TIME) {
-                    long l = DateUtil.getStartTime() / 1000;
-                    long curUnixTime = System.currentTimeMillis() / 1000;
-                    if (l == unix) {
-                        mFilterEndTime = String.valueOf(curUnixTime);
-                    } else {
-                        mFilterEndTime = String.valueOf(unix);
+                    @Override
+                    public void onPickResult(Integer unix, String... result) {
+                        if (type == TYPE_START_TIME) {
+                            if (!TextUtils.isEmpty(mFilterEndTime) && unix > Integer.parseInt(mFilterEndTime)) {
+                                showTimeError();
+                                mFilterStartTime = "";
+                                startTimeEt.setText("");
+                                startTimeIv.setVisibility(View.GONE);
+                            } else {
+                                startTimeEt.setText(result[0]);
+                                mFilterStartTime = String.valueOf(unix);
+                                startTimeIv.setVisibility(View.VISIBLE);
+                            }
+                        } else if (type == TYPE_END_TIME) {
+                            long end4Today = DateUtil.getEndTime(new Date((long)unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
+                            mFilterEndTime = String.valueOf(end4Today);
+                            if (!TextUtils.isEmpty(mFilterStartTime) && unix < Integer.parseInt(mFilterStartTime)) {
+                                showTimeError();
+                                mFilterEndTime = "";
+                                endTimeEt.setText("");
+                                endTimeIv.setVisibility(View.GONE);
+                            } else {
+                                endTimeEt.setText(result[0]);
+                                endTimeIv.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
-                    endTimeEt.setText(result[0]);
-                    endTimeIv.setVisibility(View.VISIBLE);
-                }
+                });
+    }
+
+    void showTimeError() {
+        final Snackbar snackbar = Snackbar.make(startTimeEt, getString(R.string.time_error), Snackbar.LENGTH_LONG);
+        snackbar.setAction("朕知道了", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                snackbar.dismiss();
             }
         });
+        snackbar.show();
     }
 
     public interface FilterCallback {

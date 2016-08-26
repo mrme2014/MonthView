@@ -93,32 +93,34 @@ public class DateUtil {
 
 
     /**
-     * 获取当天开始时间的毫秒数
+     * 获取指定日期开始时间的毫秒数
      *
      * @return
      */
-    public static Long getStartTime() {
-        Calendar todayStart = Calendar.getInstance();
+    public static Long getStartTime(final Date date) {
+        Calendar calendar = Calendar.getInstance();
         //  Calendar.HOUR_OF_DAY是24小时制
-        todayStart.set(Calendar.HOUR_OF_DAY, 0);
-        todayStart.set(Calendar.MINUTE, 0);
-        todayStart.set(Calendar.SECOND, 0);
-        todayStart.set(Calendar.MILLISECOND, 0);
-        return todayStart.getTime().getTime();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime().getTime();
     }
 
     /**
-     * 获取当天截止时间的毫秒数
+     * 获取指定日期截止时间的毫秒数
      *
      * @return
      */
-    public static Long getEndTime() {
-        Calendar todayEnd = Calendar.getInstance();
+    public static Long getEndTime(final Date date) {
+        Calendar calendar = Calendar.getInstance();
         //  Calendar.HOUR是12小时制
-        todayEnd.set(Calendar.HOUR, 23);
-        todayEnd.set(Calendar.MINUTE, 59);
-        todayEnd.set(Calendar.SECOND, 59);
-        todayEnd.set(Calendar.MILLISECOND, 999);
-        return todayEnd.getTime().getTime();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime().getTime();
     }
 }

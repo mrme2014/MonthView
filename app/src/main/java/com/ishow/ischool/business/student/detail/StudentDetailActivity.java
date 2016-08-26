@@ -13,6 +13,7 @@ import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -62,6 +63,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private CommunicationListFragment communicationListFragment;
     private FragmentAdapter mFragmentAdapter;
     private boolean isCommun;
+    private boolean needRefresh;
 
     @Override
     protected void initEnv() {
@@ -133,6 +135,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     @Override
     public void onFragmentInteraction(Bundle data) {
 
+        needRefresh = data.getBoolean("refresh", false);
     }
 
     @Override
@@ -175,5 +178,21 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             return student.studentInfo;
         }
         return null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (needRefresh) {
+            RxBus.getDefault().post(new StudentInfo());
+        }
+    }
+
+    @Override
+    protected void onNavigationBtnClicked() {
+        super.onNavigationBtnClicked();
+        if (needRefresh) {
+            RxBus.getDefault().post(new StudentInfo());
+        }
     }
 }

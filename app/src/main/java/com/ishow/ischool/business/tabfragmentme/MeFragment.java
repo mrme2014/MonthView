@@ -15,7 +15,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
-import com.ishow.ischool.bean.user.MyResources;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
@@ -28,7 +27,6 @@ import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
-
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -174,7 +172,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     }
 
     @Override
-    public void onChangeSucess(String selectCampus, String txt, Position selectPosition, MyResources resources) {
+    public void onChangeSucess(String selectCampus, String txt, Position selectPosition, List<Integer> resources) {
         fmMeSwitchRole.setTipTxt(txt);
         //更新本地 用户信息的 posiiotnInfo的 信息
         UserManager.getInstance().updateCurrentPositionInfo(selectPosition,resources);

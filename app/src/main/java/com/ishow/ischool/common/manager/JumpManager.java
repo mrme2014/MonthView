@@ -40,8 +40,11 @@ public class JumpManager {
         if (permission== Resourse.NO_NEED_CHECK)
             return true;
         List<Integer> resurces = UserManager.getInstance().getResurces();
-        if (resurces != null) {
-            return resurces.contains(permission);
+        if (resurces==null)
+            return false;
+        for (int i = 0; i <resurces.size() ; i++) {
+            if (resurces.get(i)==permission)
+                return true;
         }
         return false;
     }

@@ -9,7 +9,6 @@ import com.commonlib.util.LogUtil;
 import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Campus;
-import com.ishow.ischool.bean.user.MyResources;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
@@ -29,7 +28,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
         void onNetFailed(String msg);
 
-        void onChangeSucess(String selectCampus, String selectTxt, Position position, MyResources resources);
+        void onChangeSucess(String selectCampus, String selectTxt, Position position,List<Integer> resources);
 
         void onChageFailed(String msg);
 
@@ -63,7 +62,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         mModel.change(campuse_id, position_id).subscribe(new ApiObserver<User>() {
             @Override
             public void onSuccess(User user) {
-                mView.onChangeSucess(selectCampus,txt, selectPosition,user.resources);
+                mView.onChangeSucess(selectCampus,txt, selectPosition,user.myResources);
                 mView.showProgressbar(false);
             }
 

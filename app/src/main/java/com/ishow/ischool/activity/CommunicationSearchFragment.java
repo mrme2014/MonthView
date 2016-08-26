@@ -16,6 +16,7 @@ import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
@@ -133,7 +134,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
 //            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));
 
             usernameTv.setText(communication.studentInfo.name);
-            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
+            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time, "yyyy-MM-dd"));
             contentTv.setText(communication.communicationInfo.content);
             stateTv.setText(AppUtil.getStateById(communication.communicationInfo.status));
             opposePointTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));
@@ -146,7 +147,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(getActivity(), intent);
+            JumpManager.jumpActivity(getActivity(), intent, Resourse.PERMISSION_STU_DETAIL);
         }
     }
 }

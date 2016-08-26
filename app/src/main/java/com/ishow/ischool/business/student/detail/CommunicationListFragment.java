@@ -183,6 +183,9 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!JumpManager.checkUserPermision(getContext(),Resourse.COMMUNICATION_EDIT))
+                    return;
+
                 Communication communication = mAdapter.getItem(0).communication;
                 final int communId = communication.communicationInfo.id;
 
@@ -202,6 +205,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         });
                         break;
                     case R.id.commun_faith:
+
                         final ArrayList<String> faiths = AppUtil.getBeliefList();
                         AppUtil.showItemDialog(getChildFragmentManager(), faiths, new SelectDialogFragment.OnItemSelectedListner() {
 

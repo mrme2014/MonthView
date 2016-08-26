@@ -19,39 +19,39 @@ public class JumpManager {
     private List<Integer> myResources;
 
     public static void jumpActivity(Context from, Class to, int permission) {
-        if (!checkUserPermision(permission))
-        {
-            ToastUtils.showToast(from, R.string.no_permission);
+        if (!checkUserPermision(from,permission))
             return;
-        }
 
         Intent intent = new Intent(from, to);
         from.startActivity(intent);
     }
 
     public static void jumpActivity(Context from, Intent intent, int permission) {
-        if (!checkUserPermision(permission)) {
+        if (!checkUserPermision(from,permission)) {
             return;
         }
         from.startActivity(intent);
     }
 
-    private static boolean checkUserPermision(int permission) {
+    public static boolean checkUserPermision(Context context,int permission) {
         if (permission== Resourse.NO_NEED_CHECK)
             return true;
         List<Integer> resurces = UserManager.getInstance().getResurces();
-        if (resurces==null)
+        if (resurces==null){
+            ToastUtils.showToast(context, R.string.no_permission);
             return false;
+        }
         for (int i = 0; i <resurces.size() ; i++) {
             if (resurces.get(i)==permission)
                 return true;
         }
+        ToastUtils.showToast(context, R.string.no_permission);
         return false;
     }
 
 
     public static void jumpActivityForResult(Activity from, Class to, int requestCode, int permission) {
-        if (!checkUserPermision(permission)) {
+        if (!checkUserPermision(from,permission)) {
             return;
         }
         Intent intent = new Intent(from, to);
@@ -59,7 +59,7 @@ public class JumpManager {
     }
 
     public static void jumpActivityForResult(Activity from, Intent intent, int requestCode, int permission) {
-        if (!checkUserPermision(permission)) {
+        if (!checkUserPermision(from,permission)) {
             return;
         }
         from.startActivityForResult(intent, requestCode);
@@ -67,7 +67,7 @@ public class JumpManager {
 
 
     public static void jumpActivityForResult(Fragment from, Intent intent, int requestCode, int permission) {
-        if (!checkUserPermision(permission)) {
+        if (!checkUserPermision(from.getActivity(),permission)) {
             return;
         }
         from.startActivityForResult(intent, requestCode);

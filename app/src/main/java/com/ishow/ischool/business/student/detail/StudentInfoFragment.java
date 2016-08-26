@@ -169,6 +169,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard,})
     void onClick(View view) {
+        if (!JumpManager.checkUserPermision(getContext(),Resourse.PERMISSION_STU_EDIT))
+            return;
         switch (view.getId()) {
             case R.id.student_english_name: {
                 Intent intent = new Intent(getActivity(), EditActivity.class);
@@ -176,7 +178,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME,Resourse.COMMUNICATION_EDIT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME,Resourse.PERMISSION_STU_EDIT);
                 break;
             }
             case R.id.student_phone: {
@@ -221,7 +223,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_school: {
-                startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY);
+                JumpManager.jumpActivityForResult(this,new Intent(getActivity(), UniversityPickActivity.class),REQUEST_CODE_PICK_UNIVERSITY,Resourse.PERMISSION_STU_EDIT);
+                //startActivityForResult(, );
             }
             break;
             case R.id.student_specialty: {
@@ -234,8 +237,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_class: {
-                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
 
+                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);

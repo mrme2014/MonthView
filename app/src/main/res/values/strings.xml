@@ -20,7 +20,7 @@
     <string name="submit">提交</string>
     <string name="old_pwd_hnit">请输入旧密码</string>
     <string name="new_pwd_hnit">新密码须为6位及以上,字母加数字组合</string>
-    <string name="new_pwd_hnit_again">请确认新密码</string>
+    <string name="new_pwd_hnit_again">请再次输入新密码</string>
     <string name="input_phone">请输入手机号</string>
     <string name="input_smscode">请输入验证码</string>
     <string name="eidt_pwd_title_getcode">找回密码</string>

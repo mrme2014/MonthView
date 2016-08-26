@@ -101,6 +101,7 @@
         <com.commonlib.widget.LabelTextView
             android:id="@+id/student_idcard"
             style="@style/student_info_textview"
+            android:maxLength="13"
             app:label_text_left="@string/label_student_idcard" />
 
 

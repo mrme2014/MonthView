@@ -6,11 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.Position;
@@ -25,6 +27,7 @@ import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -50,6 +53,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public FmItemTextView fmMeSwitchRole;
     @BindView(R.id.fm_me_notify_msg)
     public FmItemTextView fmMeNotifyMsg;
+    @BindView(R.id.fm_me_mornig_qrcode)
+    FmItemTextView fmMeMornigQrcode;
 
     private User user;
 
@@ -57,7 +62,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     private List<Position> positions;
 
     private String avartPath;
-    private String TAG  =MeFragment.class.getSimpleName() ;
+    private String TAG = MeFragment.class.getSimpleName();
 
     @Override
     public int getLayoutId() {
@@ -75,26 +80,27 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         Avatar avatar = user.avatar;
         if (avatar != null && !TextUtils.equals(avatar.file_name, ""))
             //PicUtils.loadUserHeader(getContext(),fmMeHeaderAvart,avatar.file_name);
-             ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
+            ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
         fmMeHeaderName.setText(userInfo.user_name);
-        campus = user.campus;
         fmMeHeaderJob.setText(userInfo.job);
+
+        campus = user.campus;
         if (campus != null && campus.size() <= 1) {
             Drawable[] drawables = fmMeSwitchRole.getCompoundDrawables();
             fmMeSwitchRole.setCompoundDrawables(drawables[0], null, null, null);
         }
 
-
         PositionInfo info = user.positionInfo;
         if (info != null) fmMeSwitchRole.setTipTxt(info.title);
+        if (info.id != Resourse.ROLE_PERMISSION_CHENDU) fmMeMornigQrcode.setVisibility(View.GONE);
 
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (avartPath!=""&&avartPath!=null&&fmMeHeaderAvart!=null){
-            ImageLoaderUtil.getInstance().loadImage(getContext(),fmMeHeaderAvart,avartPath);
+        if (avartPath != "" && avartPath != null && fmMeHeaderAvart != null) {
+            ImageLoaderUtil.getInstance().loadImage(getContext(), fmMeHeaderAvart, avartPath);
         }
     }
 
@@ -109,10 +115,10 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     //PickerWheelViewPop pop;
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
-        if (user==null)
+        if (user == null)
             return;
         positions = user.position;
-        mPresenter.switchRole(getChildFragmentManager(),campus,positions);
+        mPresenter.switchRole(getChildFragmentManager(), campus, positions);
     }
 
     /*消息通知*/
@@ -159,8 +165,6 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         ActivityStackManager.getInstance().clear();
         JumpManager.jumpActivity(getContext(), LoginActivity.class);
         getActivity().finish();
-
-
     }
 
     @Override
@@ -169,11 +173,15 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     }
 
     @Override
-    public void onChangeSucess(String txt,Position selectPosition) {
+    public void onChangeSucess(String selectCampus, String txt, Position selectPosition) {
         fmMeSwitchRole.setTipTxt(txt);
-            //更新本地 用户信息的 posiiotnInfo的 信息
+        //更新本地 用户信息的 posiiotnInfo的 信息
         UserManager.getInstance().updateCurrentPositionInfo(selectPosition);
 
+        if (selectPosition.id != Resourse.ROLE_PERMISSION_CHENDU) fmMeMornigQrcode.setVisibility(View.GONE);
+        else fmMeMornigQrcode.setVisibility(View.VISIBLE);
+
+        RxBus.getDefault().post(selectCampus);
     }
 
     @Override
@@ -191,7 +199,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             avartPath = data.getStringExtra("tempath");
-            if (fmMeHeaderAvart!=null&&avartPath!=null&&avartPath!="")ImageLoaderUtil.getInstance().loadImage(getActivity(),fmMeHeaderAvart,avartPath);
+            if (fmMeHeaderAvart != null && avartPath != null && avartPath != "")
+                ImageLoaderUtil.getInstance().loadImage(getActivity(), fmMeHeaderAvart, avartPath);
         }
     }
+
 }

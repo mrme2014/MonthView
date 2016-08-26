@@ -11,10 +11,12 @@ import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.common.rxbus.RxBus;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import rx.functions.Action1;
 
 /**
  * Created by wqf on 16/8/14.
@@ -26,6 +28,8 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     @BindView(R.id.campus)
     TextView campusTv;
     BusinessAdapter mAdapter;
+
+    String TAG = TabBusinessFragment.class.getSimpleName();
 
     @Override
     public int getLayoutId() {
@@ -46,6 +50,12 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     void setCampus() {
         User user = UserManager.getInstance().get();
         campusTv.setText(user.positionInfo.campus);
+        RxBus.getDefault().addSubscribe(TAG, new Action1<String>() {
+            @Override
+            public void call(String o) {
+                campusTv.setText(o);
+            }
+        });
     }
 
     @Override
@@ -59,4 +69,9 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        RxBus.getDefault().removeSubscribe(TAG);
+    }
 }

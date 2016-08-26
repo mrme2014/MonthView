@@ -27,7 +27,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
         void onNetFailed(String msg);
 
-        void onChangeSucess(String selectTxt, Position position);
+        void onChangeSucess(String selectCampus, String selectTxt, Position position);
 
         void onChageFailed(String msg);
 
@@ -56,12 +56,12 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         });
     }
 
-    public void change(final Position selectPosition, final String txt, int campuse_id, int position_id) {
+    public void change(final String selectCampus, final Position selectPosition, final String txt, int campuse_id, int position_id) {
         mView.showProgressbar(true);
         mModel.change(campuse_id, position_id).subscribe(new ApiObserver<JsonElement>() {
             @Override
             public void onSuccess(JsonElement s) {
-                mView.onChangeSucess(txt, selectPosition);
+                mView.onChangeSucess(selectCampus,txt, selectPosition);
                 mView.showProgressbar(false);
             }
 
@@ -92,7 +92,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         else builder.setDatas(0, 2, getCampusArrayList(campus), campus.get(0).positions);
         PickerDialogFragment fragment = builder.Build();
         fragment.show(fm, "dialog");
-        fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() {
+        fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback<int[]>() {
             @Override
             public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
                 //只有一列的返回空
@@ -106,10 +106,10 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
             }
 
             @Override
-            public void onPickResult(Object object, String... result) {
+            public void onPickResult(int[] integers, String... result) {
                 Position selectPosition = getSelectPosition(positions, result[result.length - 1]);
                 if (selectPosition != null) {
-                    change(selectPosition, result[result.length - 1], selectPosition.campus_id, selectPosition.id);
+                    change(result[0],selectPosition, result[result.length - 1], selectPosition.campus_id, selectPosition.id);
                 }
             }
         });

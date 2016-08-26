@@ -141,8 +141,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     public void onEditStudentSuccess(HashMap<String, String> params) {
         if (params.containsKey("college_id")) {
             schoolTv.setText(params.get("college_name"));
-        } else if (params.containsKey("birthday")) {
-            birthdayTv.setText(params.get("birthday"));
+        } else if (params.containsKey("birthdayTv")) {
+            birthdayTv.setText(params.get("birthdayTv"));
+        }else if (params.containsKey("grade")){
+            classTv.setText(params.get("grade"));
         }
     }
 
@@ -199,12 +201,13 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_birthday: {
-                AppUtil.showTimePickerDialog(getActivity().getSupportFragmentManager(), new PickerDialogFragment.Callback() {
+                AppUtil.showTimePickerDialog(getActivity().getSupportFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
                     @Override
-                    public void onPickResult(Object object, String... result) {
+                    public void onPickResult(Integer unix, String... result) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
-                        params.put("birthday", String.valueOf(object));
+                        params.put("birthday", String.valueOf(unix));
+                        params.put("birthdayTv",result[0]);
                         mPresenter.editStudent(params);
                     }
                 });
@@ -230,7 +233,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
-                        params.put("grade", String.valueOf(position + 1));
+                        params.put("grade", txt);
                         mPresenter.editStudent(params);
                     }
                 });

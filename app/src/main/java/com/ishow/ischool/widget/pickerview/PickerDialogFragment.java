@@ -26,21 +26,21 @@ import java.util.Date;
 public class PickerDialogFragment extends DialogFragment implements View.OnClickListener, PickerWheelViewLinearlayout.wheelViewSelect {
     /**
      * 年月日的选择  PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-     *             builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
-     *             PickerDialogFragment fragment = builder.Build();
-     *            dialog.show(getSupportManager,"dialog);
-     *            dialog.addCallback(new Callback);
-     * <p/>
-     * <p/>
+     * builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+     * PickerDialogFragment fragment = builder.Build();
+     * dialog.show(getSupportManager,"dialog);
+     * dialog.addCallback(new Callback);
+     * <p>
+     * <p>
      * 需要多个滑轮列表或者 列与列之间需要联动的
-     * <p/>
+     * <p>
      * PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
      * builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0,1,campus.get(0).positions);;
      * PickerDialogFragment fragment = builder.Build();
      * fragment.show(getChildFragmentManager(),"dialog");
      * fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback() );
-     *
-     *
+     * <p>
+     * <p>
      * //多个列表 之间不需要联动
      * fragment.addCallback(new Callback); 返回值1   各列选中的position数组  返回值2 各列选中的文本数组
      */
@@ -139,8 +139,8 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public void show(FragmentManager fragmentManager){
-        show(fragmentManager,"dialog");
+    public void show(FragmentManager fragmentManager) {
+        show(fragmentManager, "dialog");
     }
 
     public static class Builder {
@@ -246,9 +246,10 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
                     callback.onPickResult(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
             } else if (linearlayout != null) {
                 String[] selectResult = linearlayout.getSelectResult();
-                if (callback != null) callback.onPickResult(linearlayout.getSelectResultId(), selectResult);
+                if (callback != null)
+                    callback.onPickResult(linearlayout.getSelectResultId(), selectResult);
                 else if (multicallback != null)
-                    multicallback.onPickResult(null, selectResult);
+                    multicallback.onPickResult(linearlayout.getSelectResultId(), selectResult);
             }
         }
 
@@ -258,6 +259,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     public interface Callback<T> {
         void onPickResult(T selectIds, String... result);
     }
+
     public void addCallback(Callback callback1) {
         this.callback = callback1;
     }

@@ -5,7 +5,7 @@
         android:id="@+id/action_search"
         android:icon="@mipmap/icon_search_02"
         android:orderInCategory="90"
-        android:title="search"
+        android:title="搜索"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
 
@@ -13,6 +13,6 @@
         android:id="@+id/action_filter"
         android:icon="@mipmap/icon_screen_nomal"
         android:orderInCategory="100"
-        android:title="filter"
+        android:title="过滤"
         app:showAsAction="ifRoom" />
 </menu>

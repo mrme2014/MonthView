@@ -12,6 +12,7 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.CampusEvent;
 
 import java.util.ArrayList;
 
@@ -50,10 +51,10 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     void setCampus() {
         User user = UserManager.getInstance().get();
         campusTv.setText(user.positionInfo.campus);
-        RxBus.getDefault().addSubscribe(TAG, new Action1<String>() {
+        RxBus.getDefault().register(CampusEvent.class, new Action1<CampusEvent>() {
             @Override
-            public void call(String o) {
-                campusTv.setText(o);
+            public void call(CampusEvent o) {
+                campusTv.setText(o.campusName);
             }
         });
     }
@@ -72,6 +73,6 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RxBus.getDefault().removeSubscribe(TAG);
+        RxBus.getDefault().unregister(CampusEvent.class);
     }
 }

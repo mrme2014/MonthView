@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.commonlib.application.ActivityStackManager;
 import com.commonlib.http.ApiFactory;
+import com.commonlib.util.TxtUtil;
 import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
@@ -65,6 +66,8 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
 
     @OnClick(R.id.submit_tv)
     public void onClick() {
+        hideSoftPanel(submitTv);
+
         if (user==null)
             return;
         UserInfo userInfo = user.userInfo;
@@ -74,8 +77,12 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
             showToast(R.string.twice_pwd_not_equal);
             return;
         }
+        boolean letterDigit = TxtUtil.isLetterDigit(newPwdAgain.getText().toString());
+        if (!letterDigit) {
+            showToast(R.string.new_pwd_hnit);
+            return;
+        }
         handProgressbar(true);
-        hideSoftPanel(submitTv);
         ApiFactory.getInstance().getApi(UserApi.class).editpwd(-1,userInfo.user_id,oldPwd.getText().toString(),newPwd.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

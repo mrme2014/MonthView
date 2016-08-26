@@ -48,6 +48,7 @@
         android:id="@+id/commun_source"
         style="@style/student_info_textview"
         android:hint="@string/commun_input_source_hint"
+        android:maxLength="10"
         android:textColorHint="@color/txt_9"
         app:label_text_left="@string/commun_label_source"
         app:label_text_size="@dimen/sp14" />

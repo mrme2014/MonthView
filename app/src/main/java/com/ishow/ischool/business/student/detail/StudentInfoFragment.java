@@ -32,6 +32,7 @@ import butterknife.OnClick;
 public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> implements InfoContract.View {
 
     private static final String ARG_PARAM = "param";
+    private static final int REQUEST_USER_NAME = 999;
     private static final int REQUEST_ENGLISH_NAME = 1000;
     private static final int REQUEST_PHONE = 1001;
     private static final int REQUEST_QQ = 1002;
@@ -50,6 +51,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
 
     @BindView(R.id.student_english_name)
     LabelTextView englishNameTv;
+    @BindView(R.id.student_user_name)
+    LabelTextView userNameTv;
     @BindView(R.id.student_phone)
     LabelTextView phoneTv;
     @BindView(R.id.student_qq)
@@ -123,6 +126,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         if (mStudent == null) {
             return;
         }
+        userNameTv.setText(mStudent.name);
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile);
         qqTv.setText(mStudent.qq + "");
@@ -169,23 +173,36 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard,})
     void onClick(View view) {
+        if (!JumpManager.checkUserPermision(getContext(),Resourse.PERMISSION_STU_EDIT))
+            return;
         switch (view.getId()) {
+            case R.id.student_user_name: {
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_user_name));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_user_name);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
+                intent.putExtra(EditActivity.P_LEN, 10);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME);
+                break;
+            }
             case R.id.student_english_name: {
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_english_name));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME,Resourse.COMMUNICATION_EDIT);
+                intent.putExtra(EditActivity.P_LEN, 20);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME);
                 break;
             }
             case R.id.student_phone: {
-                Intent intent = new Intent(getActivity(), EditActivity.class);
-                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_phone));
-                intent.putExtra(EditActivity.P_TYPE, R.id.student_phone);
-                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
-                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().mobile);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE,Resourse.PERMISSION_STU_EDIT);
+//                Intent intent = new Intent(getActivity(), EditActivity.class);
+//                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_phone));
+//                intent.putExtra(EditActivity.P_TYPE, R.id.student_phone);
+//                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
+//                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().mobile);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE);
                 break;
             }
             case R.id.student_qq: {
@@ -221,7 +238,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_school: {
-                startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY);
+                JumpManager.jumpActivityForResult(this,new Intent(getActivity(), UniversityPickActivity.class),REQUEST_CODE_PICK_UNIVERSITY,Resourse.PERMISSION_STU_EDIT);
+                //startActivityForResult(, );
             }
             break;
             case R.id.student_specialty: {
@@ -234,8 +252,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_class: {
-                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
 
+                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
@@ -284,6 +302,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 case REQUEST_ENGLISH_NAME:
                     englishNameTv.setText(text);
                     getStudentInfo().english_name = text;
+                    break;
+                case REQUEST_USER_NAME:
+                    userNameTv.setText(text);
+                    getStudentInfo().name = text;
                     break;
                 case REQUEST_PHONE:
                     phoneTv.setText(text);

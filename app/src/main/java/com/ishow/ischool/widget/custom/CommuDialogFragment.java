@@ -113,7 +113,7 @@ public class CommuDialogFragment extends DialogFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.commun_state:
-                showPickPop(R.string.comm_dialog_stu_state_title, 3, 1, AppUtil.getStateList(), new PickerDialogFragment.Callback<int[]>() {
+                showPickPop(R.string.comm_dialog_stu_state_title, 0, 1, AppUtil.getStateList(), new PickerDialogFragment.Callback<int[]>() {
 
                     @Override
                     public void onPickResult(int[] position, String... result) {

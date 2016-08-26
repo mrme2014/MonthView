@@ -134,7 +134,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
 //            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));
 
             usernameTv.setText(communication.studentInfo.name);
-            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
+            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time, "yyyy-MM-dd"));
             contentTv.setText(communication.communicationInfo.content);
             stateTv.setText(AppUtil.getStateById(communication.communicationInfo.status));
             opposePointTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));

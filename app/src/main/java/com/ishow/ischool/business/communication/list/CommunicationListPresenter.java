@@ -10,8 +10,8 @@ import java.util.HashMap;
  */
 public class CommunicationListPresenter extends CommunicationListContract.Presenter {
 
-    public void listCommunication(HashMap<String, String> params) {
-        mModel.listCommunications(params).subscribe(new ApiObserver<CommunicationList>() {
+    public void listCommunication(HashMap<String, String> params, int page) {
+        mModel.listCommunications(params, page).subscribe(new ApiObserver<CommunicationList>() {
 
             @Override
             public void onSuccess(CommunicationList data) {

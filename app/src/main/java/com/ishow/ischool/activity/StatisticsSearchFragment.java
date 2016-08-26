@@ -84,7 +84,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
         }
 
         ApiFactory.getInstance().getApi(MarketApi.class)
-                .listStudentStatistics(7, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                .listStudentStatistics(Resourse.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<StudentList>() {

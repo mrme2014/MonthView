@@ -20,7 +20,8 @@ public class Resourse {
     public static final int COMMUNICATION_ = 7;
     public static final int STUDENT_EDIT = 11;
 
-    public static  final int ROLE_PERMISSION_CHENDU = 17;//晨读讲师的角色id
+    public static final int ROLE_PERMISSION_CHENDU = 17;//晨读讲师的角色id
+    public static final int STUDENT_LIST = 7;   //学员统计
 
 
     public static final int PERMISSION_ADD_NEW_STU=80;

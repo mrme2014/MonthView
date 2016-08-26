@@ -353,7 +353,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     void resetFilter() {
         campusIL.setContent("");
         startTimeEt.setText("");
+        startTimeIv.setVisibility(View.GONE);
         endTimeEt.setText("");
+        endTimeIv.setVisibility(View.GONE);
         payStateIL.setContent("");
         sourceIL.setContent("");
         universityIL.setContent("");

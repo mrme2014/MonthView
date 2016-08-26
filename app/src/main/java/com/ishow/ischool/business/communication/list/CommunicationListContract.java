@@ -24,7 +24,7 @@ public interface CommunicationListContract {
     }
 
     interface Model extends BaseModel {
-        Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params);
+        Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params, int page);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

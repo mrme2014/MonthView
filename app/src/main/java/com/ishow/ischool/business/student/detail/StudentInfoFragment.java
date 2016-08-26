@@ -173,7 +173,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard,})
     void onClick(View view) {
-        if (!JumpManager.checkUserPermision(getContext(),Resourse.PERMISSION_STU_EDIT))
+        if (!JumpManager.checkUserPermision(getContext(), Resourse.PERMISSION_STU_EDIT))
             return;
         switch (view.getId()) {
             case R.id.student_user_name: {
@@ -183,7 +183,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
                 intent.putExtra(EditActivity.P_LEN, 10);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME, Resourse.PERMISSION_STU_EDIT);
                 break;
             }
             case R.id.student_english_name: {
@@ -193,7 +193,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME, Resourse.PERMISSION_STU_EDIT);
                 break;
             }
             case R.id.student_phone: {
@@ -211,7 +211,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ,Resourse.PERMISSION_STU_EDIT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ, Resourse.PERMISSION_STU_EDIT);
             }
             break;
 
@@ -221,7 +221,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_wechat);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().wechat);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT,Resourse.PERMISSION_STU_EDIT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT, Resourse.PERMISSION_STU_EDIT);
             }
             break;
             case R.id.student_birthday: {
@@ -238,7 +238,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_school: {
-                JumpManager.jumpActivityForResult(this,new Intent(getActivity(), UniversityPickActivity.class),REQUEST_CODE_PICK_UNIVERSITY,Resourse.PERMISSION_STU_EDIT);
+                JumpManager.jumpActivityForResult(this, new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY, Resourse.PERMISSION_STU_EDIT);
                 //startActivityForResult(, );
             }
             break;
@@ -248,7 +248,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_specialty);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().major);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY,Resourse.PERMISSION_STU_EDIT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY, Resourse.PERMISSION_STU_EDIT);
             }
             break;
             case R.id.student_class: {
@@ -258,7 +258,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
-                        params.put("grade", txt);
+                        params.put("grade", String.valueOf(position + 1));
                         mPresenter.editStudent(params);
                     }
                 });
@@ -270,7 +270,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_idcard);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD,Resourse.PERMISSION_STU_EDIT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD, Resourse.PERMISSION_STU_EDIT);
             }
             break;
         }

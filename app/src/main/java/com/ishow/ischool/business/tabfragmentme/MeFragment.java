@@ -15,6 +15,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.MyResources;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
@@ -27,7 +28,6 @@ import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
-import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -107,7 +107,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     /*头部个人信息点击事件*/
     @OnClick(R.id.fm_me_header_layout)
     public void on_fm_me_header_layout_click() {
-        JumpManager.jumpActivityForResult((Activity) getContext(), PersonInfoActivity.class, 100);
+        JumpManager.jumpActivityForResult((Activity) getContext(), PersonInfoActivity.class, 100,Resourse.NO_NEED_CHECK);
     }
 
 
@@ -138,19 +138,19 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     /*晨读二维码*/
     @OnClick(R.id.fm_me_mornig_qrcode)
     public void on_fm_me_mornig_qrcode_click() {
-        JumpManager.jumpActivity(getContext(), MorningReadActivity.class);
+        JumpManager.jumpActivity(getContext(), MorningReadActivity.class,Resourse.NO_NEED_CHECK);
     }
 
     /*修改密码*/
     @OnClick(R.id.fm_me_change_pwd)
     public void on_fm_me_change_pwd_click() {
-        JumpManager.jumpActivity(getContext(), EditPwdActivity.class);
+        JumpManager.jumpActivity(getContext(), EditPwdActivity.class,Resourse.NO_NEED_CHECK);
     }
 
     /*客服*/
     @OnClick(R.id.fm_me_kefu)
     public void on_fm_me_kefu_click() {
-        JumpManager.jumpActivity(getContext(), KefuActivity.class);
+        JumpManager.jumpActivity(getContext(), KefuActivity.class,Resourse.NO_NEED_CHECK);
     }
 
     /*退出*/
@@ -163,7 +163,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public void onNetSucess() {
         UserManager.getInstance().clear();
         ActivityStackManager.getInstance().clear();
-        JumpManager.jumpActivity(getContext(), LoginActivity.class);
+        JumpManager.jumpActivity(getContext(), LoginActivity.class,Resourse.NO_NEED_CHECK);
         getActivity().finish();
     }
 
@@ -173,15 +173,15 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     }
 
     @Override
-    public void onChangeSucess(String selectCampus, String txt, Position selectPosition) {
+    public void onChangeSucess(String selectCampus, String txt, Position selectPosition, MyResources resources) {
         fmMeSwitchRole.setTipTxt(txt);
         //更新本地 用户信息的 posiiotnInfo的 信息
-        UserManager.getInstance().updateCurrentPositionInfo(selectPosition);
+        UserManager.getInstance().updateCurrentPositionInfo(selectPosition,resources);
 
         if (selectPosition.id != Resourse.ROLE_PERMISSION_CHENDU) fmMeMornigQrcode.setVisibility(View.GONE);
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
-        RxBus.getDefault().post(selectCampus);
+        com.commonlib.widget.event.RxBus.getInstance().post(selectCampus);
     }
 
     @Override

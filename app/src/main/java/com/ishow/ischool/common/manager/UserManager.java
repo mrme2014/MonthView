@@ -7,6 +7,7 @@ import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.MyResources;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
@@ -83,7 +84,9 @@ public class UserManager {
         }
     }
 
-    public void updateCurrentPositionInfo(Position position) {
+
+
+    public void updateCurrentPositionInfo(Position position, MyResources resources) {
         if (user != null) {
             PositionInfo positionInfo = user.positionInfo;
             positionInfo.id = position.id;
@@ -98,6 +101,8 @@ public class UserManager {
                     }
                 }
             }
+
+            if (resources!=null)user.resources = resources;
             save(user);
         }
     }
@@ -142,7 +147,7 @@ public class UserManager {
 
             for (int i = 0; i < position.size(); i++) {
                 if (position.get(i).id == positionInfo.id) {
-                    updateCurrentPositionInfo(position.get(i));
+                    updateCurrentPositionInfo(position.get(i),null);
                     break;
                 }
             }
@@ -176,4 +181,8 @@ public class UserManager {
         save(user);
     }
 
+    public List<Integer>  getResurces(){
+        if (user==null) user =get();
+        return user.resources.myResources;
+    }
 }

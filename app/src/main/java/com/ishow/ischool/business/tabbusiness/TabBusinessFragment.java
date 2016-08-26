@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.commonlib.widget.event.RxBus;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
 import com.ishow.ischool.bean.system.CampusInfo;
@@ -11,11 +12,12 @@ import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
-import com.ishow.ischool.common.rxbus.RxBus;
+
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import rx.Subscription;
 import rx.functions.Action1;
 
 /**
@@ -50,12 +52,18 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     void setCampus() {
         User user = UserManager.getInstance().get();
         campusTv.setText(user.positionInfo.campus);
-        RxBus.getDefault().addSubscribe(TAG, new Action1<String>() {
+        Subscription subscription = RxBus.getInstance().doSubscribe(String.class, new Action1<String>() {
             @Override
-            public void call(String o) {
-                campusTv.setText(o);
+            public void call(String s) {
+                campusTv.setText(s);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+
             }
         });
+        RxBus.getInstance().addSubscription(this,subscription);
     }
 
     @Override
@@ -72,6 +80,6 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RxBus.getDefault().removeSubscribe(TAG);
+        RxBus.getInstance().unSubscribe(this);
     }
 }

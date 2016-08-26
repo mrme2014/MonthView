@@ -169,7 +169,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME,Resourse.COMMUNICATION_EDIT);
                 break;
             }
             case R.id.student_phone: {
@@ -178,7 +178,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_phone);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().mobile);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE,Resourse.PERMISSION_STU_EDIT);
                 break;
             }
             case R.id.student_qq: {
@@ -187,7 +187,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ,Resourse.PERMISSION_STU_EDIT);
             }
             break;
 
@@ -197,7 +197,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_wechat);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().wechat);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT,Resourse.PERMISSION_STU_EDIT);
             }
             break;
             case R.id.student_birthday: {
@@ -223,7 +223,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_specialty);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().major);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY,Resourse.PERMISSION_STU_EDIT);
             }
             break;
             case R.id.student_class: {
@@ -245,7 +245,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_idcard);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD,Resourse.PERMISSION_STU_EDIT);
             }
             break;
         }

@@ -19,6 +19,7 @@ import com.commonlib.util.PermissionUtil;
 import com.commonlib.util.StorageUtil;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
@@ -159,7 +160,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             case R.id.person_info_QQ:
                 Intent intent = new Intent(this, InputActivity.class);
                 intent.putExtra("title", getString(R.string.per_info_input_QQ));
-                JumpManager.jumpActivityForResult(this, intent, INPUT);
+                JumpManager.jumpActivityForResult(this, intent, INPUT,Resourse.NO_NEED_CHECK);
                 break;
 
         }

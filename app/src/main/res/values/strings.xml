@@ -130,7 +130,7 @@
     <string name="commun_label_student_name">学员</string>
     <string name="commun_choose_hint">请选择(必选)</string>
     <string name="commun_label_state">状态</string>
-    <string name="commun_label_faith">学习信仰</string>
+    <string name="commun_label_faith">学习信念</string>
     <string name="commun_label_oppose">抗拒点</string>
     <string name="commun_label_source">学费来源</string>
     <string name="commun_input_source_hint">请输入学员学费来源</string>

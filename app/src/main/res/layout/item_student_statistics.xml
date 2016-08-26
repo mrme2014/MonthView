@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/avatar"
         android:textColor="@color/txt_2"
-        android:textSize="@dimen/sp_nav" />
+        android:textSize="@dimen/sp15" />
 
     <TextView
         android:id="@+id/state"

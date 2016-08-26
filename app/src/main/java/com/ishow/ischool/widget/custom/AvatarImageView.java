@@ -70,7 +70,7 @@ public class AvatarImageView extends ImageView {
     }
 
     public void setText(String text) {
-        this.text = AppUtil.getLast2Text(text);
+        this.text = AppUtil.getFirstChar(text);
         invalidate();
     }
 

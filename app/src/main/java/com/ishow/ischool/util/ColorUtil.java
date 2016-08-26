@@ -7,7 +7,6 @@ public class ColorUtil {
 
     public static final int[] colors = {
               0xFFCCCC33
-            , 0xFFFFFF99
             , 0xFFCC9933
             , 0xFFCC9966
             , 0xFFCCCC66

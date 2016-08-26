@@ -48,7 +48,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         setUpAdapter();
         recycler.setOnRefreshListener(this);
         recycler.setLayoutManager(getLayoutManager());
-//        recycler.addItemDecoration(getItemDecoration());
+        recycler.addItemDecoration(getItemDecoration());
         recycler.setAdapter(mAdapter);
         recycler.setRefreshing();
     }
@@ -65,6 +65,10 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         return new MyLinearLayoutManager(getApplicationContext());
     }
 
+
+    /**
+     * @return 分隔线样式
+     */
     protected RecyclerView.ItemDecoration getItemDecoration() {
         return new DividerItemDecoration(getApplicationContext(), R.drawable.widget_list_divider);
     }

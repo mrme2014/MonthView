@@ -2,6 +2,7 @@ package com.ishow.ischool.business.universitypick;
 
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.commonlib.util.LogUtil;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -46,9 +48,6 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
     @Override
     protected void setUpView() {
         super.setUpView();
-     /*   recycler.addItemDecoration(new RecycleViewDivider(this,
-                LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.comm_line)));*/
-
         curCity = LocManager.getInstance().getCurCityName();
         mToolbarTitle.setText(curCity);
         mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_adress_down, 0);
@@ -114,6 +113,11 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
             }
         });
 
+    }
+
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(this, 16);
     }
 
     @Override

@@ -39,12 +39,11 @@ public class AppUtil {
      * @param name
      * @return
      */
-    public static String getLast2Text(String name) {
+    public static String getFirstChar(String name) {
         if (TextUtils.isEmpty(name)) {
             return "";
         }
-        int len = name.length();
-        return len > 2 ? name.substring(len - 2, len) : name;
+        return name.substring(0, 1);
     }
 
     public static ArrayList<String> getStateList() {

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -22,12 +23,13 @@ import android.widget.TextView;
 import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.StatisticsSearchFragment;
 import com.ishow.ischool.application.Cons;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentList;
@@ -352,7 +354,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             Student data = mDataList.get(position);
             Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(StatisticsListActivity.this, intent,Resourse.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(StatisticsListActivity.this, intent, Resource.PERMISSION_STU_DETAIL);
         }
     }
 
@@ -370,7 +372,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @OnClick(R.id.fab)
     void add() {
-        JumpManager.jumpActivity(this, AddStudentActivity.class, Resourse.PERMISSION_ADD_NEW_STU);
+        JumpManager.jumpActivity(this, AddStudentActivity.class, Resource.PERMISSION_ADD_NEW_STU);
     }
 
     @Override

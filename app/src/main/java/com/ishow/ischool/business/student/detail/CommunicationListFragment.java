@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationItem;
 import com.ishow.ischool.bean.market.CommunicationList;
@@ -111,7 +111,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
     private void initData() {
         if (getStudentInfo() != null) {
-            HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+            HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
             params.put("student_id", getStudentInfo().student_id + "");
             params.put("fields", "communicationInfo,studentInfo,userInfo,avatar");
             mPresenter.getCommunicationList(params, mCurrentPage);
@@ -186,7 +186,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!JumpManager.checkUserPermision(getContext(),Resourse.COMMUNICATION_EDIT))
+                if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT))
                     return;
 
                 Communication communication = mAdapter.getItem(0).communication;
@@ -199,7 +199,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         AppUtil.showItemDialog(getChildFragmentManager(), datas, new SelectDialogFragment.OnItemSelectedListner() {
                             @Override
                             public void onItemSelected(int position, String txt) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                                 params.put("status", (position + 1) + "");
                                 params.put("status_str", datas.get(position));
                                 params.put("id", communId + "");
@@ -214,7 +214,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
                             @Override
                             public void onItemSelected(int position, String txt) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                                 params.put("belief", (position + 1) + "");
                                 params.put("belief_str", faiths.get(position));
                                 params.put("id", communId + "");
@@ -228,7 +228,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
                             @Override
                             public void onItemSelected(int position, String txt) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                                 params.put("refuse", (position + 1) + "");
                                 params.put("refuse_str", opposes.get(position));
                                 params.put("id", communId + "");
@@ -249,7 +249,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         AppUtil.showTimePickerDialog(getChildFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
                             @Override
                             public void onPickResult(Integer object, String... result) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                                 params.put("callback_date", String.valueOf(object));
                                 params.put("callback_date_str", result[0]);
                                 params.put("id", communId + "");
@@ -272,7 +272,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
             @Override
             public void onClick(String content, long date) {
                 if (!TextUtils.isEmpty(content) && date != 0) {
-                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                     params.put("content", content);
                     params.put("callback_date", date + "");
                     params.put("student_id", communication.studentInfo.student_id + "");
@@ -305,6 +305,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     void onClickCommunAdd(View view) {
         Intent intent = new Intent(getActivity(), CommunicationAddActivity.class);
         intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-        JumpManager.jumpActivity(getActivity(), intent,Resourse.COMMUNICATION_ADD);
+        JumpManager.jumpActivity(getActivity(), intent, Resource.COMMUNICATION_ADD);
     }
 }

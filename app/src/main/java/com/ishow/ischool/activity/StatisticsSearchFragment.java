@@ -17,7 +17,7 @@ import com.commonlib.http.ApiFactory;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
@@ -84,7 +84,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
         }
 
         ApiFactory.getInstance().getApi(MarketApi.class)
-                .listStudentStatistics(Resourse.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                .listStudentStatistics(Resource.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<StudentList>() {
@@ -183,7 +183,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             Student data = mDataList.get(position);
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(getActivity(), intent, Resourse.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(getActivity(), intent, Resource.PERMISSION_STU_DETAIL);
         }
     }
 }

@@ -25,7 +25,7 @@ import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.CommunicationSearchFragment;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
@@ -70,7 +70,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     @Override
     protected void initEnv() {
         super.initEnv();
-        mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
         mParamsMap.put("list_type", "2");
 
         RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
@@ -249,19 +249,19 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(CommunicationListActivity.this, intent,Resourse.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.PERMISSION_STU_DETAIL);
         }
     }
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        JumpManager.jumpActivity(this, CommunicationAddActivity.class,Resourse.COMMUNICATION_ADD);
+        JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.COMMUNICATION_ADD);
     }
 
 
     void showSearchFragment() {
         frameLayout.setVisibility(View.VISIBLE);
-        searchFragment = CommunicationSearchFragment.newInstance(Resourse.COMMUNICATION_LIST + "");
+        searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
         ft.commit();
@@ -311,7 +311,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      */
     @Override
     public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
-        mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
         mCurrentPage = 1;
         mParamsMap.put("page", mCurrentPage + "");
         if (statePosition != 0) {

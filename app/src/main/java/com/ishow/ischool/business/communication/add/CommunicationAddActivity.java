@@ -16,7 +16,7 @@ import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.widget.LabelEditText;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -178,7 +178,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpData() {
-        form.resources_id = Resourse.COMMUNICATION_ADD;
+        form.resources_id = Resource.COMMUNICATION_ADD;
     }
 
     @Override
@@ -266,7 +266,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     void onClickItem(View view) {
         switch (view.getId()) {
             case R.id.commun_student_name:
-                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT, Resourse.NO_NEED_CHECK);
+                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT, Resource.NO_NEED_CHECK);
                 break;
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.commonlib.core.BaseView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
 
@@ -66,7 +66,7 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         String text = mEditText.getText().toString();
-        HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
+        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
         params.put("id", mId + "");
         switch (mType) {
             case Cons.Communication.source: {

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 
@@ -97,7 +97,7 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
         } else setBtnEnable(submitTv, false);
 
         //因为 call是用来计时的  当他为了0的时候 说明 没有在线程当中。
-        if (!isEmpty(getcodePhone)&&call==0) {
+        if (!isEmpty(getcodePhone) && call == 0) {
             setBtnEnable(getcodeBtn, true);
         } else setBtnEnable(getcodeBtn, false);
     }
@@ -111,7 +111,7 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
     @Override
     public void onNetSucess(int msg) {
         handProgressbar(false);
-        if (msg!=-1)showToast(msg);
+        if (msg != -1) showToast(msg);
         if (!btnCodeClick) {
 
             setBtnEnable(getcodeBtn, false);
@@ -133,9 +133,9 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
                         }
                     });
         } else {
-            Intent intent = new Intent(this,ForgetPwdActivity2.class);
-            intent.putExtra("mobile",getcodePhone.getText().toString());
-            JumpManager.jumpActivity(this, intent, Resourse.NO_NEED_CHECK);
+            Intent intent = new Intent(this, ForgetPwdActivity2.class);
+            intent.putExtra("mobile", getcodePhone.getText().toString());
+            JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
         }
     }
 

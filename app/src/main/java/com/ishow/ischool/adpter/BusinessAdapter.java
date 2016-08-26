@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.business.tabbusiness.TabBusinessModel;
 import com.ishow.ischool.common.manager.JumpManager;
 
@@ -58,16 +58,16 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
         holder.itemTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int resources = Resourse.NO_NEED_CHECK;
+                int resources = Resource.NO_NEED_CHECK;
                 switch (position){
 
-                    case 0:resources = Resourse.MODUL_STU_STATICS;
+                    case 0:resources = Resource.MODUL_STU_STATICS;
                         break;
-                    case 1:resources = Resourse.MODUL_CONMMLIST;
+                    case 1:resources = Resource.MODUL_CONMMLIST;
                         break;
-                    case 2:resources = Resourse.MODUL_STU_STATICS_ADD;
+                    case 2:resources = Resource.MODUL_STU_STATICS_ADD;
                         break;
-                    case 3:resources = Resourse.MODUL_CONMMLIST_ADD;
+                    case 3:resources = Resource.MODUL_CONMMLIST_ADD;
                         break;
                 }
                 JumpManager.jumpActivity(mContext, tabSpecs.get(position).intentClazz,resources);

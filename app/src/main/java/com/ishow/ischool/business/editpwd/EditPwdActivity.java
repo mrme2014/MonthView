@@ -11,7 +11,7 @@ import com.commonlib.http.ApiFactory;
 import com.commonlib.util.TxtUtil;
 import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.business.login.LoginActivity;
@@ -56,12 +56,12 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
     private void setBtnEnable(boolean b) {
         submitTv.setEnabled(b);
         submitTv.setClickable(b);
-        submitTv.setAlpha(b?1.0f:0.5f);
+        submitTv.setAlpha(b ? 1.0f : 0.5f);
     }
 
     @Override
     protected void setUpData() {
-         user = UserManager.getInstance().get();
+        user = UserManager.getInstance().get();
     }
 
 
@@ -69,12 +69,12 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
     public void onClick() {
         hideSoftPanel(submitTv);
 
-        if (user==null)
+        if (user == null)
             return;
         UserInfo userInfo = user.userInfo;
-        if (userInfo==null)
+        if (userInfo == null)
             return;
-        if (!TextUtils.equals(newPwd.getText().toString(),newPwdAgain.getText().toString())){
+        if (!TextUtils.equals(newPwd.getText().toString(), newPwdAgain.getText().toString())) {
             showToast(R.string.twice_pwd_not_equal);
             return;
         }
@@ -83,18 +83,18 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
             showToast(R.string.new_pwd_hnit);
             return;
         }
-        if (newPwdAgain.getText().toString().length()<6){
+        if (newPwdAgain.getText().toString().length() < 6) {
             showToast(R.string.new_pwd_hnit);
             return;
         }
         handProgressbar(true);
-        ApiFactory.getInstance().getApi(UserApi.class).editpwd(-1,userInfo.user_id,oldPwd.getText().toString(),newPwd.getText().toString())
+        ApiFactory.getInstance().getApi(UserApi.class).editpwd(-1, userInfo.user_id, oldPwd.getText().toString(), newPwd.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<JsonElement>() {
                     @Override
                     public void onSuccess(JsonElement s) {
-                        JumpManager.jumpActivity(EditPwdActivity.this, LoginActivity.class, Resourse.NO_NEED_CHECK);
+                        JumpManager.jumpActivity(EditPwdActivity.this, LoginActivity.class, Resource.NO_NEED_CHECK);
                         ActivityStackManager.getInstance().clear();
                         EditPwdActivity.this.finish();
                         handProgressbar(false);
@@ -120,14 +120,14 @@ public class EditPwdActivity extends BaseActivity4Crm implements TextWatcher {
     }
 
     private boolean isEmpty(EditText editext) {
-        return TextUtils.equals(editext.getText().toString().trim(),"");
+        return TextUtils.equals(editext.getText().toString().trim(), "");
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (!isEmpty(oldPwd)&&!isEmpty(newPwd)&&!isEmpty(newPwdAgain)){
+        if (!isEmpty(oldPwd) && !isEmpty(newPwd) && !isEmpty(newPwdAgain)) {
             setBtnEnable(true);
-        }else setBtnEnable(false);
+        } else setBtnEnable(false);
     }
 
 }

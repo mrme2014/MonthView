@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.commonlib.core.BaseView;
 import com.commonlib.util.KeyBoardUtil;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resourse;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
 
@@ -79,7 +79,7 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
     public boolean onMenuItemClick(MenuItem item) {
         KeyBoardUtil.closeKeybord(mEditText, this);
         String text = mEditText.getText().toString();
-        HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.STUDENT_EDIT);
+        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.STUDENT_EDIT);
         params.put("id", mStudentId + "");
         switch (mType) {
 

@@ -3,7 +3,7 @@ package com.ishow.ischool.application;
 /**
  * Created by abel on 16/8/22.
  */
-public class Resourse {
+public class Resource {
     public static final int NO_NEED_CHECK = 10000;
 
     public static final int MODUL_STU_STATICS = 7;

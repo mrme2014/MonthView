@@ -62,6 +62,11 @@ public class ForgetPwdActivity2 extends BaseActivity4Crm<ForgetPresenter, Forget
             showToast(getString(R.string.twice_pwd_not_equal));
             return;
         }
+
+        if (newPwdAgain.getText().toString().length()<6){
+            showToast(R.string.new_pwd_hnit);
+            return;
+        }
         boolean strRegularFormat = TxtUtil.isLetterDigit(newPwdAgain.getText().toString());
 
         if (strRegularFormat)mPresenter.setPwd(intentMobile, newPwd.getText().toString());

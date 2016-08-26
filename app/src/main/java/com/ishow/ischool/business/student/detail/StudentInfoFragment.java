@@ -173,6 +173,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard,})
     void onClick(View view) {
+        if (!JumpManager.checkUserPermision(getContext(),Resourse.PERMISSION_STU_EDIT))
+            return;
         switch (view.getId()) {
             case R.id.student_user_name: {
                 Intent intent = new Intent(getActivity(), EditActivity.class);
@@ -209,7 +211,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ,Resourse.PERMISSION_STU_EDIT);
             }
             break;
 
@@ -219,7 +221,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_wechat);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().wechat);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT,Resourse.PERMISSION_STU_EDIT);
             }
             break;
             case R.id.student_birthday: {
@@ -236,7 +238,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
             case R.id.student_school: {
-                startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY);
+                JumpManager.jumpActivityForResult(this,new Intent(getActivity(), UniversityPickActivity.class),REQUEST_CODE_PICK_UNIVERSITY,Resourse.PERMISSION_STU_EDIT);
+                //startActivityForResult(, );
             }
             break;
             case R.id.student_specialty: {
@@ -245,12 +248,12 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_specialty);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().major);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY,Resourse.PERMISSION_STU_EDIT);
             }
             break;
             case R.id.student_class: {
-                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
 
+                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_EDIT);
@@ -267,7 +270,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_idcard);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD,Resourse.PERMISSION_STU_EDIT);
             }
             break;
         }

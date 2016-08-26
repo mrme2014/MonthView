@@ -150,6 +150,7 @@ public class AppUtil {
     }
 
     public static PickerDialogFragment showTimePickerDialog(FragmentManager fragmentManager, PickerDialogFragment.Callback callback) {
+
         return showTimePickerDialog(fragmentManager, R.string.choose_date, callback);
     }
 
@@ -165,6 +166,7 @@ public class AppUtil {
 
     public static SelectDialogFragment showItemDialog(FragmentManager fragmentManager, ArrayList<String> stateList,
                                                       SelectDialogFragment.OnItemSelectedListner onItemselectListner) {
+
         SelectDialogFragment.Builder builder = new SelectDialogFragment.Builder();
         SelectDialogFragment dialog = builder.setMessage(stateList).setOnItemselectListner(onItemselectListner)
                 .Build();

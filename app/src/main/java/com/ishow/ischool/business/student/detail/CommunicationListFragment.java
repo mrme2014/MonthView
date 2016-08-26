@@ -40,7 +40,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
     private static final String P_STUDENT = "student";
     private static final int REQUEST_SOURCE = 200;
-
+    private int mCurrentPage = 1;
 
     private CommunListAdapter mAdapter;
 
@@ -114,7 +114,8 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
             HashMap<String, String> params = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
             params.put("student_id", getStudentInfo().student_id + "");
             params.put("fields", "communicationInfo,studentInfo,userInfo,avatar");
-            mPresenter.getCommunicationList(params);
+            mPresenter.getCommunicationList(params, mCurrentPage);
+
         }
     }
 
@@ -185,6 +186,9 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!JumpManager.checkUserPermision(getContext(),Resourse.COMMUNICATION_EDIT))
+                    return;
+
                 Communication communication = mAdapter.getItem(0).communication;
                 final int communId = communication.communicationInfo.id;
 
@@ -204,6 +208,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         });
                         break;
                     case R.id.commun_faith:
+
                         final ArrayList<String> faiths = AppUtil.getBeliefList();
                         AppUtil.showItemDialog(getChildFragmentManager(), faiths, new SelectDialogFragment.OnItemSelectedListner() {
 
@@ -300,6 +305,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     void onClickCommunAdd(View view) {
         Intent intent = new Intent(getActivity(), CommunicationAddActivity.class);
         intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-        JumpManager.jumpActivity(getActivity(), intent);
+        JumpManager.jumpActivity(getActivity(), intent,Resourse.COMMUNICATION_ADD);
     }
 }

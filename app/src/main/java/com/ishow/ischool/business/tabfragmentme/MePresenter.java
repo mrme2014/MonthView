@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.Position;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
@@ -27,7 +28,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
         void onNetFailed(String msg);
 
-        void onChangeSucess(String selectCampus, String selectTxt, Position position);
+        void onChangeSucess(String selectCampus, String selectTxt, Position position,List<Integer> resources);
 
         void onChageFailed(String msg);
 
@@ -58,10 +59,10 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
     public void change(final String selectCampus, final Position selectPosition, final String txt, int campuse_id, int position_id) {
         mView.showProgressbar(true);
-        mModel.change(campuse_id, position_id).subscribe(new ApiObserver<JsonElement>() {
+        mModel.change(campuse_id, position_id).subscribe(new ApiObserver<User>() {
             @Override
-            public void onSuccess(JsonElement s) {
-                mView.onChangeSucess(selectCampus,txt, selectPosition);
+            public void onSuccess(User user) {
+                mView.onChangeSucess(selectCampus,txt, selectPosition,user.myResources);
                 mView.showProgressbar(false);
             }
 

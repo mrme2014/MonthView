@@ -112,7 +112,7 @@ public class CommuDialogFragment extends DialogFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.commun_state:
-                showPickPop(R.string.comm_dialog_stu_state_title, 3, 1, AppUtil.getStateList(), new PickerDialogFragment.Callback<int[]>() {
+                showPickPop(R.string.comm_dialog_stu_state_title, 0, 1, AppUtil.getStateList(), new PickerDialogFragment.Callback<int[]>() {
 
                     @Override
                     public void onPickResult(int[] position, String... result) {
@@ -196,8 +196,12 @@ public class CommuDialogFragment extends DialogFragment {
 
     private void setupView() {
         communState.setText(AppUtil.getStateById(statePosition));
-        communDateStart.setText(startUnix == 0 ? "" : DateUtil.parseSecond2Str(startUnix, "yyyy-MM-dd"));
-        communDateEnd.setText(endUnix == 0 ? "" : DateUtil.parseSecond2Str(endUnix, "yyyy-MM-dd"));
+        if (startUnix > 0) {
+            communDateStart.setText(DateUtil.parseSecond2Str(startUnix, "yyyy-MM-dd"));
+        }
+        if (endUnix > 0) {
+            communDateEnd.setText(DateUtil.parseSecond2Str(endUnix, "yyyy-MM-dd"));
+        }
         communConfidence.setText(AppUtil.getBeliefById(confidencePosition));
         communRefuse.setText(AppUtil.getRefuseById(refusePosition));
         communOrder.setText(orderName);
@@ -211,11 +215,21 @@ public class CommuDialogFragment extends DialogFragment {
             @Override
             public void onPickResult(Integer unix, String... result) {
                 if (start) {
-                    startUnix = unix;
-                    if (result != null) communDateStart.setText(result[0]);
+                    if (endUnix > 0 && unix > endUnix) {
+                        startUnix = 0;
+                        communDateStart.setText("");
+                    } else {
+                        startUnix = unix;
+                        if (result != null) communDateStart.setText(result[0]);
+                    }
                 } else {
-                    endUnix = unix;
-                    if (result != null) communDateEnd.setText(result[0]);
+                    if (startUnix > 0 && unix < startUnix) {
+                        endUnix = 0;
+                        communDateEnd.setText("");
+                    } else {
+                        endUnix = unix;
+                        if (result != null) communDateEnd.setText(result[0]);
+                    }
                 }
             }
         });

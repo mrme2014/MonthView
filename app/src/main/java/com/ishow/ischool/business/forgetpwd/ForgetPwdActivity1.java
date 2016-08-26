@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 
@@ -134,7 +135,7 @@ public class ForgetPwdActivity1 extends BaseActivity4Crm<ForgetPresenter, Forget
         } else {
             Intent intent = new Intent(this,ForgetPwdActivity2.class);
             intent.putExtra("mobile",getcodePhone.getText().toString());
-            JumpManager.jumpActivity(this, intent);
+            JumpManager.jumpActivity(this, intent, Resourse.NO_NEED_CHECK);
         }
     }
 

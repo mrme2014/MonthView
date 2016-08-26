@@ -83,7 +83,9 @@ public class UserManager {
         }
     }
 
-    public void updateCurrentPositionInfo(Position position) {
+
+
+    public void updateCurrentPositionInfo(Position position, List<Integer> resources) {
         if (user != null) {
             PositionInfo positionInfo = user.positionInfo;
             positionInfo.id = position.id;
@@ -98,6 +100,8 @@ public class UserManager {
                     }
                 }
             }
+
+            if (resources!=null)user.myResources = resources;
             save(user);
         }
     }
@@ -142,7 +146,7 @@ public class UserManager {
 
             for (int i = 0; i < position.size(); i++) {
                 if (position.get(i).id == positionInfo.id) {
-                    updateCurrentPositionInfo(position.get(i));
+                    updateCurrentPositionInfo(position.get(i),null);
                     break;
                 }
             }
@@ -176,4 +180,10 @@ public class UserManager {
         save(user);
     }
 
+    public List<Integer>  getResurces(){
+        if (user==null) user =get();
+        List<Integer> myResources = user.myResources;
+        if (myResources!=null) return myResources;
+        return  null;
+    }
 }

@@ -15,7 +15,7 @@ import rx.Observable;
  */
 public interface PickStudentContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<StudentList>> getStudentStatisticsList(int campusId, HashMap<String, String> params, int page);
+        Observable<ApiResult<StudentList>> getStudentStatisticsList(HashMap<String, String> params, int page);
     }
 
     interface View extends BaseView {
@@ -25,6 +25,6 @@ public interface PickStudentContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        public abstract void getStudentStatisticsList(int campusId, HashMap<String, String> params, int page);
+        public abstract void getStudentStatisticsList(HashMap<String, String> params, int page);
     }
 }

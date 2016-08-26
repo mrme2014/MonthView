@@ -27,6 +27,7 @@ import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.StatisticsSearchFragment;
 import com.ishow.ischool.application.Cons;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentList;
@@ -62,11 +63,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     FrameLayout frameLayout;
 
     private String mCampusId, mSource;
-    StatisticsSearchFragment searchFragment;
 
     //  搜索
     private SearchView mSearchView;
     private String mSearchKey;
+    StatisticsSearchFragment searchFragment;
 
     // 筛选
     private HashMap<String, String> filterParams;
@@ -346,7 +347,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             Student data = mDataList.get(position);
             Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(StatisticsListActivity.this, intent);
+            JumpManager.jumpActivity(StatisticsListActivity.this, intent,Resourse.PERMISSION_STU_DETAIL);
         }
     }
 
@@ -359,11 +360,12 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     public void getListFail(String msg) {
         loadFailed();
+        showToast(msg);
     }
 
     @OnClick(R.id.fab)
     void add() {
-        JumpManager.jumpActivity(this, AddStudentActivity.class);
+        JumpManager.jumpActivity(this, AddStudentActivity.class, Resourse.PERMISSION_ADD_NEW_STU);
     }
 
     @Override

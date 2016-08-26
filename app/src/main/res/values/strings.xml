@@ -2,11 +2,6 @@
     <string name="app_name">ischool</string>
 
     <!-- common -->
-    <string name="str_submit">提交</string>
-    <string name="str_cancel">取消</string>
-    <string name="str_reset">重置</string>
-    <string name="str_ok">确定</string>
-
     <string name="str_search_college_hint">搜索学校名称</string>
     <string name="str_search_hint">搜索姓名、手机号</string>
 
@@ -107,6 +102,7 @@
     <string name="item_matriculation_time">上课时间</string>
     <string name="item_start_time">开始时间</string>
     <string name="item_end_time">结束时间</string>
+    <string name="time_error">结束时间不能早于起始时间</string>
 
     <!-- 选择推荐人 -->
     <string name="pick_referrer">选择推荐人</string>
@@ -199,5 +195,11 @@
     <string name="label_student_info_user_name">用户名</string>
     <string name="msg_idcard_input">请输入18位的身份证号</string>
 
-
+    <string name="pick_user">选择办理人</string>
+    <string name="search_user">搜索姓名、手机号</string>
+    <string name="no_permission">当前角色,无权进行此操作.</string>
+    <string name="login_in_other_devices">当前账号可能在其他设备上登录或者</string>
+    <string name="ready_finish_activity">返回后本次输入信息会清空，确定返回？</string>
+    <string name="ready_finish_activity_ok">确定</string>
+    <string name="ready_finish_activity_cancel">取消</string>
 </resources>

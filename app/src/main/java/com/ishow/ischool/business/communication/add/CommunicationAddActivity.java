@@ -1,6 +1,9 @@
 package com.ishow.ischool.business.communication.add;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -64,6 +67,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private CommunicationForm form = new CommunicationForm();
 
     private boolean isSubmitting;
+    private int max_length = 200;
 
     @Override
     protected void initEnv() {
@@ -73,7 +77,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_communication_add, R.string.add_communication, R.menu.menu_communication_add, MODE_BACK);
+        setContentView(R.layout.activity_communication_add, R.string.add_communication, R.menu.menu_communication_add, MODE_NONE);
     }
 
     @Override
@@ -91,10 +95,85 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                contentCountTv.setText(String.valueOf(200 - s.length()));
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() >= max_length + 1) {
+                    contentCountTv.setText(0 + "");
+                    String s = editable.toString();
+                    contentTv.setText(s.substring(0, max_length));
+                    contentTv.setSelection(max_length);
+                } else {
+                    contentCountTv.setText((max_length - editable.length()) + "");
+                    contentTv.setSelection(editable.length());
+                }
+                //contentCountTv.setText(String.valueOf(200 - editable.length()));
             }
         });
+
+        mToolbar = (Toolbar) findViewById(com.commonlib.R.id.toolbar);
+        mToolbarTitle = (TextView) findViewById(com.commonlib.R.id.toolbar_title);
+        mToolbarTitle.setText(getString(R.string.add_communication));
+        mToolbar.setNavigationIcon(com.commonlib.R.drawable.ic_return);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivity();
+            }
+        });
+
+        mToolbar.inflateMenu(R.menu.menu_communication_add);
+        mToolbar.setOnMenuItemClickListener(this);
+    }
+
+    private void finishActivity() {
+        if (!checkEmpty()) {
+            this.finish();
+
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.ready_finish_activity)).setPositiveButton(getString(R.string.ready_finish_activity_ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    CommunicationAddActivity.this.finish();
+                }
+            }).setNegativeButton(getString(R.string.ready_finish_activity_cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+    }
+
+    private boolean checkEmpty() {
+        if (!TextUtils.equals(studentNameTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(stateTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(faithTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(opposeTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(backDateTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(dateTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(moneySourceTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(contentCountTv.getText().toString(), ""))
+            return true;
+        if (!TextUtils.equals(contentTv.getText().toString(), ""))
+            return true;
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishActivity();
     }
 
     @Override
@@ -187,7 +266,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     void onClickItem(View view) {
         switch (view.getId()) {
             case R.id.commun_student_name:
-                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT);
+                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT, Resourse.NO_NEED_CHECK);
                 break;
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();

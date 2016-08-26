@@ -48,4 +48,6 @@ dependencies {
 
     compile 'com.baoyz.actionsheet:library:1.1.6'
 
+    compile 'org.lzh.nonview.updateplugin:UpdatePlugin:0.6.2'
+
 }

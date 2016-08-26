@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
@@ -20,11 +21,11 @@ public class SplashActivity extends BaseActivity4Crm {
             super.handleMessage(msg);
             switch (msg.what) {
                 case WHAT_MAIN:
-                    JumpManager.jumpActivity(SplashActivity.this, MainActivity.class);
+                    JumpManager.jumpActivity(SplashActivity.this, MainActivity.class, Resourse.NO_NEED_CHECK);
                     finish();
                     break;
                 case WHAT_LOGIN:
-                    JumpManager.jumpActivity(SplashActivity.this, LoginActivity.class);
+                    JumpManager.jumpActivity(SplashActivity.this, LoginActivity.class,Resourse.NO_NEED_CHECK);
                     finish();
                     break;
             }

@@ -44,7 +44,7 @@ public interface UserApi {
     //切换角色(system.user.change) 接口
     @FormUrlEncoded
     @POST("/system/user/change")
-    Observable<ApiResult<JsonElement>> change(@Field("resources_id")int resources_id,@Field("campus_id")int campus_id,@Field("position_id")int position_id);
+    Observable<ApiResult<User>> change(@Field("resources_id")int resources_id,@Field("campus_id")int campus_id,@Field("position_id")int position_id);
 
     //获取七年上传token(system.qiniu.token) 接口
     @FormUrlEncoded

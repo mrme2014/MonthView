@@ -59,6 +59,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     void initSearchView() {
         final MenuItem item = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        mSearchView.setQueryHint(getString(R.string.search_user));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

@@ -2,6 +2,7 @@ package com.ishow.ischool.business.student.pick;
 
 import com.commonlib.Conf;
 import com.commonlib.http.ApiFactory;
+import com.ishow.ischool.application.Resourse;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.api.MarketApi;
@@ -18,9 +19,9 @@ import rx.schedulers.Schedulers;
 public class PickStudentModel implements PickStudentContract.Model {
 
     @Override
-    public Observable<ApiResult<StudentList>> getStudentStatisticsList(int campusId, HashMap<String, String> params, int page) {
+    public Observable<ApiResult<StudentList>> getStudentStatisticsList(HashMap<String, String> params, int page) {
         return ApiFactory.getInstance().getApi(MarketApi.class)
-                .listStudentStatistics(7, params, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .listStudentStatistics(Resourse.STUDENT_LIST, params, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

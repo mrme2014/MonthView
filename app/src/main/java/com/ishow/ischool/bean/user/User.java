@@ -3,6 +3,7 @@ package com.ishow.ischool.bean.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class User implements Parcelable {
     public List<Position> position;
     public PositionInfo positionInfo;
     public Qrcode qrcode;
+  //  public MyResources myResources;
+    public List<Integer> myResources;
 
 
     @Override
@@ -41,6 +44,7 @@ public class User implements Parcelable {
         dest.writeTypedList(this.position);
         dest.writeParcelable(this.positionInfo, flags);
         dest.writeParcelable(this.qrcode, flags);
+        dest.writeList(this.myResources);
     }
 
     public User() {
@@ -54,6 +58,8 @@ public class User implements Parcelable {
         this.position = in.createTypedArrayList(Position.CREATOR);
         this.positionInfo = in.readParcelable(PositionInfo.class.getClassLoader());
         this.qrcode = in.readParcelable(Qrcode.class.getClassLoader());
+        this.myResources = new ArrayList<Integer>();
+        in.readList(this.myResources, Integer.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

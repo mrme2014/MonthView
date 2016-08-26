@@ -76,6 +76,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     protected void initEnv() {
         super.initEnv();
         mParamsMap = AppUtil.getParamsHashMap(Resourse.COMMUNICATION_LIST);
+        mParamsMap.put("list_type", "2");
     }
 
     @BindView(R.id.communication_add)
@@ -218,7 +219,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         @Override
         public void onBindViewHolder(int position) {
             Communication communication = mDataList.get(position);
-            userPhotoIv.setText(AppUtil.getLast2Text(communication.studentInfo.name));
+            userPhotoIv.setText(communication.studentInfo.name);
             userPhotoIv.setBackgroundColor(ColorUtil.getColorById(communication.studentInfo.id));
 //            GradientDrawable myGrad = (GradientDrawable) userPhotoIv.getBackground();
 //            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));

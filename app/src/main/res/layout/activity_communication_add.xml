@@ -128,14 +128,49 @@
             <!--android:paddingTop="13dp"-->
             <!--app:label_text="@string/commun_label_content" />-->
 
-            <com.ishow.ischool.widget.custom.InputLinearLayout
-                android:id="@+id/commun_content"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:bottom_line="false"
-                app:inputLayout_texthint="@string/commun_input_content_hint"
-                app:label_text="@string/commun_label_content"
-                app:text_line="8" />
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/commun_content_label"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/commun_label_content"
+                    android:textColor="@color/txt_2" />
+
+                <EditText
+                    android:id="@+id/commun_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/commun_content_label"
+                    android:background="@color/white"
+                    android:gravity="top"
+                    android:hint="@string/commun_input_content_hint"
+                    android:lines="8"
+                    android:maxLength="200"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/commun_content_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="20dp" />
+
+            </RelativeLayout>
+
+            <!--<com.ishow.ischool.widget.custom.InputLinearLayout-->
+            <!--android:id="@+id/commun_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:bottom_line="false"-->
+            <!--app:inputLayout_texthint="@string/commun_input_content_hint"-->
+            <!--app:label_text="@string/commun_label_content"-->
+            <!--app:text_line="8" />-->
         </LinearLayout>
     </ScrollView>
 

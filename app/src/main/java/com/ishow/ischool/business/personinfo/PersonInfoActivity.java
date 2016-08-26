@@ -85,7 +85,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
 
     private void finishActivity() {
         Intent intent = new Intent();
-        intent.putExtra("tempath",tempPath);
+        intent.putExtra("tempath", tempPath);
         setResult(100, intent);
         this.finish();
     }
@@ -93,17 +93,17 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("tempath",tempPath);
+        outState.putString("tempath", tempPath);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState!=null){
+        if (savedInstanceState != null) {
             tempPath = savedInstanceState.getString("tempath");
-            if (tempPath!=null){
+            if (tempPath != null) {
                 ImageLoaderUtil.getInstance().loadImage(this, personInfoAvart, tempPath);
-                LogUtil.e("onRestoreInstanceState"+tempPath);
+                LogUtil.e("onRestoreInstanceState" + tempPath);
             }
         }
     }
@@ -123,18 +123,18 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             return;
         Avatar avatar = user.avatar;
         if (avatar != null)
-             //PicUtils.loadUserHeader(this, personInfoAvart, avatar.file_name);
-             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
+            //PicUtils.loadUserHeader(this, personInfoAvart, avatar.file_name);
+            ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
         personInfoName.setTipTxt(userInfo.user_name);
         personInfoPhone.setTipTxt(userInfo.mobile);
-        personInfoBirthday.setTipTxt(DateUtil.parseDate2Str(Long.parseLong(userInfo.birthday+""), "yyyy-MM-dd"));
+        personInfoBirthday.setTipTxt(DateUtil.parseSecond2Str(Long.parseLong(userInfo.birthday + ""), "yyyy-MM-dd"));
         personInfoQQ.setTipTxt(userInfo.qq);
         //在赋值之后再设置监听
         //personInfoQQ.addTextChangedListener(this);
     }
 
 
-    @OnClick({R.id.person_info_avart, R.id.person_info_birthday,R.id.person_info_QQ})
+    @OnClick({R.id.person_info_avart, R.id.person_info_birthday, R.id.person_info_QQ})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.person_info_avart:
@@ -157,16 +157,16 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
                 });
                 break;
             case R.id.person_info_QQ:
-                Intent intent  =new Intent(this, InputActivity.class);
-                intent.putExtra("title",getString(R.string.per_info_input_QQ));
-                JumpManager.jumpActivityForResult(this,intent,INPUT);
+                Intent intent = new Intent(this, InputActivity.class);
+                intent.putExtra("title", getString(R.string.per_info_input_QQ));
+                JumpManager.jumpActivityForResult(this, intent, INPUT);
                 break;
 
         }
     }
 
     private void cropImageUriAfterKikat(Uri uri) {
-        tempPath = StorageUtil.getTempDir() +File.separator+time+".jpg";
+        tempPath = StorageUtil.getTempDir() + File.separator + time + ".jpg";
         File file = new File(tempPath);
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -184,7 +184,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     private void capture() {
-        tempPath = StorageUtil.getTempDir() +File.separator+time+".jpg";
+        tempPath = StorageUtil.getTempDir() + File.separator + time + ".jpg";
         File file = new File(tempPath);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
@@ -213,30 +213,29 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         } else if (requestCode == CROP_IMAGE && resultCode == RESULT_OK && data != null) {
 
             //如果文件不存在
-            if (tempPath == null||tempPath == "" || !new File(tempPath).exists())
+            if (tempPath == null || tempPath == "" || !new File(tempPath).exists())
                 showToast("file not exists");
                 //开始上传
-            else if (userInfo!=null){
+            else if (userInfo != null) {
                 handProgressbar(true);
-                mPresenter.uploadImg(userInfo.user_id,tempPath);
+                mPresenter.uploadImg(userInfo.user_id, tempPath);
             }
             //拍照
         } else if (requestCode == CAPTURE && resultCode == RESULT_OK) {
-            if (tempPath!=""&&tempPath!=null){
+            if (tempPath != "" && tempPath != null) {
                 File file = new File(tempPath);
                 if (file.exists())
                     cropImageUriAfterKikat(Uri.fromFile(file));
                 else showToast("file not exists");
-            }
-            else showToast("file not exists");
-        }else if (requestCode==INPUT&&resultCode==RESULT_OK&&data!=null){
+            } else showToast("file not exists");
+        } else if (requestCode == INPUT && resultCode == RESULT_OK && data != null) {
             String result = data.getStringExtra("result");
-            if (TextUtils.equals(result,""))
+            if (TextUtils.equals(result, ""))
                 return;
             personInfoQQ.setTipTxt(result);
             int unix = DateUtil.date2UnixTime(personInfoBirthday.getTipTxt().toString());
-            if (TextUtils.equals(personInfoQQ.getTipTxt(),userInfo.qq))
-                return ;
+            if (TextUtils.equals(personInfoQQ.getTipTxt(), userInfo.qq))
+                return;
             submitInfo(unix);
         }
     }
@@ -285,14 +284,14 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
     }
 
     @Override
-    public void updateInfo(int strResId,Avatar avatar, String qq, int birthday) {
+    public void updateInfo(int strResId, Avatar avatar, String qq, int birthday) {
         //裁剪完成后显示头像
-        if (avatar!=null)
+        if (avatar != null)
             ImageLoaderUtil.getInstance().loadImage(this, personInfoAvart, tempPath);
 
-       // LogUtil.e("updateInfo"+tempPath+"--"+birthday+"--"+qq);
+        // LogUtil.e("updateInfo"+tempPath+"--"+birthday+"--"+qq);
         //更新本地用户头像数据
-        UserManager.getInstance().upadteInfo(avatar,birthday,qq);
+        UserManager.getInstance().upadteInfo(avatar, birthday, qq);
         handProgressbar(false);
         showToast(strResId);
     }

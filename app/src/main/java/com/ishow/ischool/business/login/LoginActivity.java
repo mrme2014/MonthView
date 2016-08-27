@@ -1,8 +1,10 @@
 package com.ishow.ischool.business.login;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.PreferencesUtils;
@@ -40,6 +42,10 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
         //12288880009
         // usernameEt.setText("12288880009");
         //  passwdEt.setText("qq1234");
+        Intent intent = getIntent();
+        if (intent.hasExtra("invalidate_token")){
+            Toast.makeText(this,getString(R.string.login_in_other_devices),Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

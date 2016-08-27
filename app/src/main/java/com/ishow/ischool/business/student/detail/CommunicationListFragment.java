@@ -34,6 +34,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.functions.Action1;
 
 
 public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter, CommunModel> implements CommunContract.View {
@@ -83,6 +84,13 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
         setListener();
         initData();
+
+        RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
+            @Override
+            public void call(CommunicationRefreshEvent o) {
+                initData();
+            }
+        });
     }
 
 
@@ -107,6 +115,12 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        RxBus.getDefault().unregister(CommunicationRefreshEvent.class);
     }
 
     private void initData() {

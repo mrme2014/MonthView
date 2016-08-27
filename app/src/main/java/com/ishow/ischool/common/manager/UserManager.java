@@ -86,6 +86,7 @@ public class UserManager {
 
 
     public void updateCurrentPositionInfo(Position position, List<Integer> resources) {
+        if (user==null)user = get();
         if (user != null) {
             PositionInfo positionInfo = user.positionInfo;
             positionInfo.id = position.id;
@@ -165,7 +166,7 @@ public class UserManager {
     private void persistDate(String data) {
         LogUtil.e("persistDate" + data);
         SpUtil.getInstance(context).setValue(USER_KEY, data);
-        user = null;
+        user = get();
     }
 
     private String readData() {

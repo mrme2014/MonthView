@@ -81,6 +81,7 @@
         android:layout_above="@id/dialog_date"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="12dp"
+        android:text="200"
         android:textColor="@color/txt_9" />
 
 </RelativeLayout>

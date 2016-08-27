@@ -29,6 +29,16 @@ public class AppUtil {
         UserManager.getInstance().clear();
         TokenManager.clear();
         Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("invalidate_token",true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public static void reLoginShowToast(Context context) {
+        UserManager.getInstance().clear();
+        TokenManager.clear();
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("invalidate_token",true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

@@ -57,11 +57,13 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
     private User user;
 
-    private List<Campus> campus;
+   /* private List<Campus> campus;
     private List<Position> positions;
+    private PositionInfo info;*/
 
     private String avartPath;
     private String TAG = MeFragment.class.getSimpleName();
+
 
     @Override
     public int getLayoutId() {
@@ -83,7 +85,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         fmMeHeaderName.setText(userInfo.user_name);
         fmMeHeaderJob.setText(userInfo.job);
 
-        campus = user.campus;
+        List<Campus> campus = user.campus;
         if (campus != null && campus.size() <= 1) {
             Drawable[] drawables = fmMeSwitchRole.getCompoundDrawables();
             fmMeSwitchRole.setCompoundDrawables(drawables[0], null, null, null);
@@ -116,8 +118,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public void on_fm_me_switch_role_click() {
         if (user == null)
             return;
-        positions = user.position;
-        mPresenter.switchRole(getChildFragmentManager(), campus, positions);
+        mPresenter.switchRole(getChildFragmentManager(), user.campus, user.position,user.positionInfo);
     }
 
     /*消息通知*/
@@ -176,6 +177,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         fmMeSwitchRole.setTipTxt(txt);
         //更新本地 用户信息的 posiiotnInfo的 信息
         UserManager.getInstance().updateCurrentPositionInfo(selectPosition, resources);
+
+        user  =UserManager.getInstance().get();
 
         if (selectPosition.id != Resource.ROLE_PERMISSION_CHENDU)
             fmMeMornigQrcode.setVisibility(View.GONE);

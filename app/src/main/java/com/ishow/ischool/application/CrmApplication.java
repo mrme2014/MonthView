@@ -13,7 +13,6 @@ import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
 import com.zaaach.citypicker.utils.LocManager;
-import com.zaaach.citypicker.utils.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,8 +91,8 @@ public class CrmApplication extends BaseApplication {
                             String error_msg = jsonObject.optString("error_msg");
                             // 判断error_no
                             if (error_no == ApiResult.ERROR_TOKEN1 || error_no == ApiResult.ERROR_TOKEN2) {
-                                ToastUtils.showToast(getApplicationContext(),error_msg);
-                                AppUtil.reLogin(getInstance().getBaseContext());
+                                AppUtil.reLoginShowToast(getInstance().getBaseContext());
+                                //ToastUtils.showToast(getApplicationContext(),error_msg);
                             }
                         }
                     }

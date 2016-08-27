@@ -69,6 +69,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
 
     private View contentView;
     private int defalut;
+    private int[] selectDefaluts;
     private int count;
     private ArrayList<ArrayList<String>> data;
 
@@ -84,6 +85,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             PICK_THEME = bundle.getInt("PICK_THEME");
 
             defalut = bundle.getInt("defalut");
+            selectDefaluts =bundle.getIntArray("selectDefaluts");
             count = bundle.getInt("count");
             data = (ArrayList<ArrayList<String>>) bundle.getSerializable("data");
         }
@@ -129,7 +131,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         }
 
         if (linearlayout != null) {
-            setDatas(defalut, count, data);
+            setDatas(selectDefaluts,defalut, count, data);
         }
 
         //if (callback!=null&&callback instanceof PickCallback||callback instanceof MultilinkPickCallback)callback.onDialogCreatCompelete();
@@ -150,6 +152,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         private int count;
         private ArrayList<ArrayList<String>> data;
         private int pickType;
+        private int[] selectDefaluts;
 
         public Builder setBackgroundDark(boolean dark) {
             this.dark = dark;
@@ -177,11 +180,20 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             return this;
         }
 
+        //为每一列 都设置一个默认选中项  没有被设置的默认被设置为第0项选中 超过列数  无效
+
+        //设置了这个参数后 setDatas(int defalut, int count, ArrayList<String>... datas)  default 参数将无效
+        public Builder setDefalut(int...defalut){
+            selectDefaluts = defalut;
+            return this;
+        }
+
         public PickerDialogFragment Build() {
             Bundle bundle = new Bundle();
             bundle.putInt("PICK_THEME", dark ? R.style.Comm_dialogfragment : DialogFragment.STYLE_NO_FRAME);
             bundle.putInt("PICK_TITLE", titleResId);
             bundle.putInt("defalut", defalut);
+            bundle.putIntArray("selectDefaluts", selectDefaluts);
             bundle.putInt("count", count);
             bundle.putSerializable("data", data);
             bundle.putInt("PICK_TYPE", pickType);
@@ -197,7 +209,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
      * @param count 需要有几列wheelview  最多5个
      * @param datas
      */
-    private void setDatas(int defalut, int count, ArrayList<ArrayList<String>> datas) {
+    private void setDatas(int[] selectDefaluts,int defalut, int count, ArrayList<ArrayList<String>> datas) {
         if (linearlayout == null)
             return;
         //如果是 多级联动的 但是就一列  直接取消回调
@@ -210,7 +222,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         //有几列 就要有几个arrylist 数据
         if (datas == null || datas.size() < count)
             throw new IndexOutOfBoundsException("the param datas must not be null and its length must be equal to count.");
-        linearlayout.initWheelSetDatas(defalut, count, datas);
+        linearlayout.initWheelSetDatas(selectDefaluts,defalut, count, datas);
 
     }
 

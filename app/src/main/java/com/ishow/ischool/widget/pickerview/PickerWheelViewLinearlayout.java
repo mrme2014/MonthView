@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 /**
  * Created by MrS on 2016/8/12.
- * <p>
- * <p>
+ * <p/>
+ * <p/>
  * 适用于 列与列直接关联不是很密切 可以有联动，，，但像年月日样式的选择。。。。联动
  */
 public class PickerWheelViewLinearlayout extends LinearLayout implements WheelView.OnSelectListener {
@@ -44,7 +44,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      */
     private SparseArray<WheelView> array;
 
-    public void initWheelSetDatas(int defalut, int cloums, ArrayList<ArrayList<String>> datas) {
+    public void initWheelSetDatas(int[] selectDefaluts, int defalut, int cloums, ArrayList<ArrayList<String>> datas) {
         if (array == null) array = new SparseArray<>(cloums);
 
         for (int i = 0; i < cloums; i++) {
@@ -54,7 +54,12 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
                 wheelView.setData(datas.get(i));
             else wheelView.setData(getMonthData());//这句话是测试用的
             wheelView.setId(i);
-            wheelView.setDefault(defalut);
+
+            if (selectDefaluts != null && i < selectDefaluts.length) {
+                wheelView.setDefault(selectDefaluts[i]);
+            } else
+                wheelView.setDefault(defalut);
+
             wheelView.setOnSelectListener(this);
             array.put(i, wheelView);
             addView(wheelView);
@@ -68,21 +73,22 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
      * @param newDatas 新的数据源
      */
     WheelView wheelView;
+
     public void resfreshData(int index, final ArrayList<String> newDatas) {
-        if (newDatas==null)
+        if (newDatas == null)
             return;
         if (array != null) {
             if (index >= array.size())
                 index = array.size() - 1;
-                wheelView = array.get(index);
-                if (wheelView != null)
-                    wheelView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            wheelView.resetData(newDatas);
-                            wheelView.setDefault(0);
-                        }
-                    }, 10);
+            wheelView = array.get(index);
+            if (wheelView != null)
+                wheelView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        wheelView.resetData(newDatas);
+                        wheelView.setDefault(0);
+                    }
+                }, 10);
 
         }
     }
@@ -124,7 +130,7 @@ public class PickerWheelViewLinearlayout extends LinearLayout implements WheelVi
     private ArrayList<String> getMonthData() {
         ArrayList<String> list = new ArrayList<String>();
         for (int i = 1; i <= 12; i++) {
-            list.add(i + "月");
+            list.add(i + "This is just a test,no value.");
         }
         return list;
     }

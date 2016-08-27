@@ -165,8 +165,6 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             return true;
         if (!TextUtils.equals(moneySourceTv.getText().toString(), ""))
             return true;
-        if (!TextUtils.equals(contentCountTv.getText().toString(), ""))
-            return true;
         if (!TextUtils.equals(contentTv.getText().toString(), ""))
             return true;
         return false;

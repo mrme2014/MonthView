@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.Position;
+import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -28,7 +29,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
         void onNetFailed(String msg);
 
-        void onChangeSucess(String selectCampus, String selectTxt, Position position,List<Integer> resources);
+        void onChangeSucess(String selectCampus, String selectTxt, Position position, List<Integer> resources);
 
         void onChageFailed(String msg);
 
@@ -62,7 +63,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         mModel.change(campuse_id, position_id).subscribe(new ApiObserver<User>() {
             @Override
             public void onSuccess(User user) {
-                mView.onChangeSucess(selectCampus,txt, selectPosition,user.myResources);
+                mView.onChangeSucess(selectCampus, txt, selectPosition, user.myResources);
                 mView.showProgressbar(false);
             }
 
@@ -80,24 +81,58 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
     }
 
 
-    public void switchRole(final FragmentManager fm, final List<Campus> campus, final List<Position> positions) {
+    public void switchRole(final FragmentManager fm, final List<Campus> campus, final List<Position> positions, PositionInfo positionInfo) {
         if (campus == null || positions == null) {
-            mView.onChageFailed("data null");
-            mView.showProgressbar(false);
+            if (mView != null) mView.onChageFailed("data null");
+            if (mView != null) mView.showProgressbar(false);
             return;
         }
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
         builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS);
-        if (campus != null && campus.size() <= 1)
-            builder.setDatas(0, 1, campus.get(0).positions);
-        else builder.setDatas(0, 2, getCampusArrayList(campus), campus.get(0).positions);
+
+        //当 该账号只有一个校区时  由于不显示校区 而且wheelview要选中 当前角色的那个item  所要遍历positions 拿到哪一个职位的id 与当前已现实的id相符
+        final int campusSize = campus.size();
+        final int positionsSize = positions.size();
+        if (campus != null && campusSize == 1) {
+            for (int i = 0; i < positionsSize; i++) {
+                //遍历职位列表中的 id 检查 是否与 当前已现实的职位id相符
+                if (positions.get(i).id == positionInfo.id) {
+
+                    builder.setDatas(i, 1, campus.get(0).positions);
+                    break;
+                    //如果遍历完了 都没有相符的 给个默认的了
+                } else builder.setDatas(0, 1, campus.get(0).positions);
+            }
+        } else {
+            int defalutCampus = 0;
+            int defalutRole = 0;
+
+            for (int i = 0; i < campusSize; i++) {
+                if (campus.get(i).id == positionInfo.campusId) {
+                    defalutCampus = i;
+                    ArrayList<String> campPositions = campus.get(i).positions;
+                    for (int j = 0; j < campPositions.size(); j++) {
+                        if (TextUtils.equals(campPositions.get(j),positionInfo.title)) {
+                            //LogUtil.e(campus.get(i).id+"---"+positionInfo.campusId+"-----"+campPositions.get(j)+"----"+positionInfo.title);
+                            defalutRole = j;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+           // LogUtil.e(defalutCampus + "---" + defalutRole);
+            builder.setDatas(0, 2, getCampusArrayList(campus), campus.get(defalutCampus).positions).setDefalut(defalutCampus, defalutRole);
+        }
+
         PickerDialogFragment fragment = builder.Build();
-        fragment.show(fm, "dialog");
+        //fragment.show(fm, "dialog");
+        fragment.show(fm);
         fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback<int[]>() {
             @Override
             public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
                 //只有一列的返回空
-                if (campus != null && campus.size() <= 1)
+                if (campus != null && campusSize <= 1)
                     return null;
                 //有2列的 但是选中的是第二列 也就是职位列表的 不需要变化
                 if (colum == 1)
@@ -110,7 +145,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
             public void onPickResult(int[] integers, String... result) {
                 Position selectPosition = getSelectPosition(positions, result[result.length - 1]);
                 if (selectPosition != null) {
-                    change(result[0],selectPosition, result[result.length - 1], selectPosition.campus_id, selectPosition.id);
+                    change(result[0], selectPosition, result[result.length - 1], selectPosition.campus_id, selectPosition.id);
                 }
             }
         });

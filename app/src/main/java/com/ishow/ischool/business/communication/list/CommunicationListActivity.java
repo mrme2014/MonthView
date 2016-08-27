@@ -77,6 +77,11 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             @Override
             public void call(CommunicationRefreshEvent o) {
                 needRefresh = true;
+
+                mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+                mParamsMap.put("list_type", "2");
+
+                setRefreshing();
             }
         });
     }
@@ -262,6 +267,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
 
     void showSearchFragment() {
+        if (searchFragment==null) searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
         frameLayout.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);

@@ -93,7 +93,8 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.faithTv.setText(AppUtil.getBeliefById(communication.communicationInfo.belief));
         holder.opposeTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));
         holder.sourceTv.setText(communication.communicationInfo.tuition_source);
-        holder.backDateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.callback_date * 1000, "yyyy-MM-dd"));
+        holder.backDateTv.setText(communication.communicationInfo.callback_date == 0 ?
+                "" : DateUtil.parseDate2Str(communication.communicationInfo.callback_date * 1000, "yyyy-MM-dd"));
 
         if (mListener != null) {
             holder.communStateTv.setOnClickListener(mListener);

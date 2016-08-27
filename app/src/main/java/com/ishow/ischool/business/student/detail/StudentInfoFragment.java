@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import retrofit2.http.HEAD;
 
 /**
  * Created by abel on 16/8/18.
@@ -149,8 +148,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             schoolTv.setText(params.get("college_name"));
         } else if (params.containsKey("birthdayTv")) {
             birthdayTv.setText(params.get("birthdayTv"));
-        } else if (params.containsKey("grade")) {
-            classTv.setText(params.get("grade"));
+        } else if (params.containsKey("gradeText")) {
+            classTv.setText(params.get("gradeText"));
         }
 
         //needRefresh = true;
@@ -260,6 +259,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
                         params.put("grade", String.valueOf(position + 1));
+                        params.put("gradeText", txt);
                         mPresenter.editStudent(params);
                     }
                 });

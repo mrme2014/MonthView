@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.login;
 
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -55,11 +56,13 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
     @OnClick(R.id.submit_tv)
     void onLogin() {
 
-
         String username = usernameEt.getText().toString();
         String passwd = passwdEt.getText().toString();
 
-
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(passwd)) {
+            showToast(R.string.input_user_and_passwd);
+            return;
+        }
         handProgressbar(true);
         mPresenter.login(username, passwd);
         submitTv.setEnabled(false);

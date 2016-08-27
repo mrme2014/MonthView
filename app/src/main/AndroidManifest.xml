@@ -42,7 +42,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".business.login.LoginActivity" />
+        <activity
+            android:name=".business.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".business.statisticslist.StatisticsListActivity"
             android:screenOrientation="portrait"
@@ -55,8 +58,7 @@
         <activity android:name=".business.morningqrcode.MorningReadActivity" />
         <activity
             android:name=".business.personinfo.PersonInfoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".business.communication.list.CommunicationListActivity" />
         <activity android:name=".business.communication.add.CommunicationAddActivity" />
         <activity

@@ -145,6 +145,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
+
+        searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
     }
 
     @Override
@@ -261,7 +263,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     void showSearchFragment() {
         frameLayout.setVisibility(View.VISIBLE);
-        searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
         ft.commit();

@@ -11,8 +11,6 @@ public class UniversityInfo implements Parcelable {
     public String name;
     public int prov_id;
     public int city_id;
-    public int area_id;
-    public int sort;
     public int status;
     public long create_time;
     public String prov;
@@ -30,8 +28,6 @@ public class UniversityInfo implements Parcelable {
         dest.writeString(this.name);
         dest.writeInt(this.prov_id);
         dest.writeInt(this.city_id);
-        dest.writeInt(this.area_id);
-        dest.writeInt(this.sort);
         dest.writeInt(this.status);
         dest.writeLong(this.create_time);
         dest.writeString(this.prov);
@@ -46,8 +42,6 @@ public class UniversityInfo implements Parcelable {
         this.name = in.readString();
         this.prov_id = in.readInt();
         this.city_id = in.readInt();
-        this.area_id = in.readInt();
-        this.sort = in.readInt();
         this.status = in.readInt();
         this.create_time = in.readLong();
         this.prov = in.readString();

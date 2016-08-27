@@ -1,52 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:gravity="center"
-        android:scaleType="centerInside"
-        android:src="@mipmap/logo" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.commonlib.widget.LabelEditText
-        android:id="@+id/username_et"
-        style="@style/login_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/username_hint"
-        android:paddingLeft="60dp"
-        app:label_text="@string/username_label" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@mipmap/logo" />
 
-    <com.commonlib.widget.LabelEditText
-        android:id="@+id/passwd_et"
-        style="@style/login_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/passwd_hint"
-        android:inputType="textPassword"
-        app:label_text="@string/passwd_label" />
+        <com.commonlib.widget.LabelEditText
+            android:id="@+id/username_et"
+            style="@style/login_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_edittext_bg"
+            android:hint="@string/username_hint"
+            android:paddingLeft="60dp"
+            app:label_text="@string/username_label" />
 
-    <TextView
-        android:id="@+id/submit_tv"
-        style="@style/btn_blue_cor"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="22dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:gravity="center"
-        android:text="@string/login" />
+        <com.commonlib.widget.LabelEditText
+            android:id="@+id/passwd_et"
+            style="@style/login_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_edittext_bg"
+            android:hint="@string/passwd_hint"
+            android:inputType="textPassword"
+            app:label_text="@string/passwd_label" />
 
-    <TextView
-        android:id="@+id/forget_passwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/forget_passwd" />
+        <TextView
+            android:id="@+id/submit_tv"
+            style="@style/btn_blue_cor"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="22dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:gravity="center"
+            android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/forget_passwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/forget_passwd" />
 
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

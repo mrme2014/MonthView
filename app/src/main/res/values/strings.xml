@@ -201,4 +201,5 @@
     <string name="ready_finish_activity">返回后本次输入信息会清空，确定返回？</string>
     <string name="ready_finish_activity_ok">确定</string>
     <string name="ready_finish_activity_cancel">取消</string>
+    <string name="input_user_and_passwd">请输入用户名和密码</string>
 </resources>

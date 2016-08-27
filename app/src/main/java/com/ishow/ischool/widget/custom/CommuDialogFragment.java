@@ -230,7 +230,7 @@ public class CommuDialogFragment extends DialogFragment {
                         endUnix = 0;
                         communDateEnd.setText("");
                     } else {
-                        endUnix = unix;
+                        endUnix = unix + 86399;
                         if (result != null) communDateEnd.setText(result[0]);
                     }
                 }

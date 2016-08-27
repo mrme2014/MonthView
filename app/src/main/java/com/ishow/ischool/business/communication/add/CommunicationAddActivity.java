@@ -21,6 +21,8 @@ import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.CommunicationRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -128,7 +130,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         if (!checkEmpty()) {
             this.finish();
 
-        }else{
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(getString(R.string.ready_finish_activity)).setPositiveButton(getString(R.string.ready_finish_activity_ok), new DialogInterface.OnClickListener() {
                 @Override
@@ -185,6 +187,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     public void onAddSuccess() {
         isSubmitting = false;
         showToast(R.string.add_success);
+        RxBus.getDefault().post(new CommunicationRefreshEvent());
         finish();
     }
 

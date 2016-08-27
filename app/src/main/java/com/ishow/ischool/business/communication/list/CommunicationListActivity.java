@@ -238,7 +238,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 //            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));
 
             usernameTv.setText(communication.studentInfo.name);
-            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
+            dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.communication_date * 1000, "yyyy-MM-dd"));
             contentTv.setText(communication.communicationInfo.content);
             stateTv.setText(AppUtil.getStateById(communication.communicationInfo.status));
             opposePointTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));

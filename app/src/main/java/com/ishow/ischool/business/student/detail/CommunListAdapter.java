@@ -77,12 +77,11 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void processAdd(CommunAddHolder holder, Communication communication) {
         if (mListener != null) {
             holder.communAddTv.setOnClickListener(mListener);
-
         }
     }
 
     private void processContent(CommunContentHolder holder, Communication communication) {
-        holder.communDateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.update_time * 1000, "yyyy-MM-dd"));
+        holder.communDateTv.setText(DateUtil.parseSecond2Str(communication.communicationInfo.communication_date));
         holder.communContentTv.setText(communication.communicationInfo.content);
         holder.opraterNameTv.setText(communication.userInfo.user_name);
         PicUtils.loadAvatarCircle(context, holder.avatarCiv, communication.avatar.file_name);
@@ -94,7 +93,7 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.opposeTv.setText(AppUtil.getRefuseById(communication.communicationInfo.refuse));
         holder.sourceTv.setText(communication.communicationInfo.tuition_source);
         holder.backDateTv.setText(communication.communicationInfo.callback_date == 0 ?
-                "" : DateUtil.parseDate2Str(communication.communicationInfo.callback_date * 1000, "yyyy-MM-dd"));
+                "" : DateUtil.parseSecond2Str(communication.communicationInfo.callback_date));
 
         if (mListener != null) {
             holder.communStateTv.setOnClickListener(mListener);

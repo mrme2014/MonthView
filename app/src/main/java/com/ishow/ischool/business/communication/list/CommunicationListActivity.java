@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
-import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
@@ -77,10 +76,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             @Override
             public void call(CommunicationRefreshEvent o) {
                 needRefresh = true;
-
                 initParamsMap();
-
-                setRefreshing();
+               // setRefreshing();
             }
         });
     }
@@ -115,7 +112,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 if (TextUtils.isEmpty(mSearchKey)) {
                     searchFragment.loadFailed();
                 } else {
-                    KeyBoardUtil.closeKeybord(mSearchView,CommunicationListActivity.this);
                     searchFragment.startSearch(mSearchKey);
                 }
                 return true;
@@ -323,7 +319,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      */
     @Override
     public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
-        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        //mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        initParamsMap();
         mCurrentPage = 1;
         mParamsMap.put("page", mCurrentPage + "");
         if (statePosition != 0) {
@@ -344,6 +341,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         if (orderPosition != 0) {
             mParamsMap.put("incharger", orderPosition + "");
         }
+
 //        mPresenter.listCommunication(mParamsMap);
         setRefreshing();
 

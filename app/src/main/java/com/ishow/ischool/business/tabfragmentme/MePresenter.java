@@ -169,7 +169,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         for (int i = 0; i < position.size(); i++) {
 
             if (campus1.id == position.get(i).campus_id && TextUtils.equals(position.get(i).title,selectPos)){
-                LogUtil.e(campus1.id+"--"+ position.get(i).campus_id+"--"+position.get(i).title+"---"+selectPos);
+                //LogUtil.e(campus1.id+"--"+ position.get(i).campus_id+"--"+position.get(i).title+"---"+selectPos);
                 return position.get(i);
             }
 

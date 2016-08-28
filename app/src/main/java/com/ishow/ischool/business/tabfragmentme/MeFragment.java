@@ -63,7 +63,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
     private String avartPath;
     private String TAG = MeFragment.class.getSimpleName();
-    private PositionInfo info;
+
 
 
     @Override
@@ -84,7 +84,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
             //PicUtils.loadUserHeader(getContext(),fmMeHeaderAvart,avatar.file_name);
             ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
 
-        info = user.positionInfo;
+        PositionInfo info = user.positionInfo;
         if (info != null) {
             fmMeSwitchRole.setTipTxt(info.title);
             if (info.id != Resource.ROLE_PERMISSION_CHENDU)
@@ -179,13 +179,15 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
         PositionInfo positionInfo = changedUser.positionInfo;
         CampusInfo campusInfo = changedUser.campusInfo;
-        if (positionInfo==null||campusInfo==null)
+        if (positionInfo==null||campusInfo==null){
+            showToast(R.string.switch_role_failed);
             return;
+        }
         fmMeSwitchRole.setTipTxt(positionInfo.title);
         //更新本地 用户信息的 posiiotnInfo的 信息
         UserManager.getInstance().initCampusPositions(changedUser);
 
-        if (info != null) fmMeHeaderJob.setText(campusInfo.name + "  " + positionInfo.title);
+        fmMeHeaderJob.setText(campusInfo.name + "  " + positionInfo.title);
 
         if (positionInfo.id != Resource.ROLE_PERMISSION_CHENDU)
             fmMeMornigQrcode.setVisibility(View.GONE);

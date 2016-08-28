@@ -89,11 +89,13 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
                 .subscribe(new ApiObserver<CommunicationList>() {
                     @Override
                     public void onSuccess(CommunicationList communicationList) {
+                       // KeyBoardUtil.closeKeybord(recycler,getContext());
                         loadSuccess(communicationList.lists);
                     }
 
                     @Override
                     public void onError(String msg) {
+                       // KeyBoardUtil.closeKeybord(recycler,getContext());
                         loadFailed();
                     }
                 });

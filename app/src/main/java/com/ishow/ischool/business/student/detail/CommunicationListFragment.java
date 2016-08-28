@@ -314,6 +314,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_SOURCE) {
                 refresh();
+
             }
         }
     }

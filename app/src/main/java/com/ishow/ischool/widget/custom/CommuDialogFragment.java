@@ -149,6 +149,7 @@ public class CommuDialogFragment extends DialogFragment {
                 break;
             case R.id.commun_order:
                 Intent intent = new Intent(getActivity(), UserPickActivity.class);
+                intent.putExtra(UserPickActivity.P_TITLE,getString(R.string.pick_banliren));
                 startActivityForResult(intent, REQUEST_USER_PICK);
                 break;
             case R.id.commu_reset:

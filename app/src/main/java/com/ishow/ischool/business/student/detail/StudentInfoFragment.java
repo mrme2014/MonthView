@@ -130,7 +130,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile);
         qqTv.setText(mStudent.qq + "");
-        birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
+        if (mStudent.birthday!=0)birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
         classTv.setText(mStudent.grade);

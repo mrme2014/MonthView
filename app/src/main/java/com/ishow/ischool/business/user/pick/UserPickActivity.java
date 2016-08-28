@@ -41,6 +41,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     private String mSearchKey;
     private boolean mSearchMode = false;
     private String mTitle;
+    private boolean enableSelect;
 
     @Override
     protected void initEnv() {
@@ -113,10 +114,12 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
     @Override
     public void getListSuccess(UserListResult userListResult) {
+        if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         if (mSearchMode && mCurrentPage == 2) {
             mDataList.clear();
         }
         loadSuccess(userListResult.lists);
+        enableSelect= true;
     }
 
     @Override
@@ -124,6 +127,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
         if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         loadFailed();
         showToast(msg);
+        enableSelect= false;
     }
 
     @Override
@@ -153,7 +157,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
         @Override
         public void onItemClick(View view, int position) {
-            if (mSearchMode)
+            if (!enableSelect)
                 return;
             Intent intent = new Intent();
             User data = mDataList.get(position);

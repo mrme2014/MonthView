@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
@@ -120,6 +121,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
     @Override
     public void getListFail(String msg) {
+        if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         loadFailed();
         showToast(msg);
     }
@@ -151,6 +153,8 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
         @Override
         public void onItemClick(View view, int position) {
+            if (mSearchMode)
+                return;
             Intent intent = new Intent();
             User data = mDataList.get(position);
             intent.putExtra(PICK_USER, data);

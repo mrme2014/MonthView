@@ -15,7 +15,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
-import com.ishow.ischool.bean.user.Position;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
@@ -63,6 +63,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
     private String avartPath;
     private String TAG = MeFragment.class.getSimpleName();
+    private PositionInfo info;
 
 
     @Override
@@ -79,22 +80,24 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         if (userInfo == null)
             return;
         Avatar avatar = user.avatar;
-        if (avatar != null && !TextUtils.equals(avatar.file_name, ""))
+        if (avatar != null && !TextUtils.equals(avatar.file_name, "") && avatar.file_name != null)
             //PicUtils.loadUserHeader(getContext(),fmMeHeaderAvart,avatar.file_name);
             ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
-        fmMeHeaderName.setText(userInfo.user_name);
-        fmMeHeaderJob.setText(userInfo.job);
+
+        info = user.positionInfo;
+        if (info != null) {
+            fmMeSwitchRole.setTipTxt(info.title);
+            if (info.id != Resource.ROLE_PERMISSION_CHENDU)
+                fmMeMornigQrcode.setVisibility(View.GONE);
+            fmMeHeaderName.setText(userInfo.user_name);
+            fmMeHeaderJob.setText(info.campus + "  " + info.title);
+        }
 
         List<Campus> campus = user.campus;
         if (campus != null && campus.size() <= 1) {
             Drawable[] drawables = fmMeSwitchRole.getCompoundDrawables();
             fmMeSwitchRole.setCompoundDrawables(drawables[0], null, null, null);
         }
-
-        PositionInfo info = user.positionInfo;
-        if (info != null) fmMeSwitchRole.setTipTxt(info.title);
-        if (info.id != Resource.ROLE_PERMISSION_CHENDU) fmMeMornigQrcode.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -116,9 +119,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     //PickerWheelViewPop pop;
     @OnClick(R.id.fm_me_switch_role)
     public void on_fm_me_switch_role_click() {
-        if (user == null)
-            return;
-        mPresenter.switchRole(getChildFragmentManager(), user.campus, user.position,user.positionInfo);
+        user = UserManager.getInstance().get();
+        mPresenter.switchRole(getChildFragmentManager(), user.campus, user.position, user.positionInfo);
     }
 
     /*消息通知*/
@@ -173,18 +175,23 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     }
 
     @Override
-    public void onChangeSucess(String selectCampus, String txt, Position selectPosition, List<Integer> resources) {
-        fmMeSwitchRole.setTipTxt(txt);
+    public void onChangeSucess(User changedUser) {
+
+        PositionInfo positionInfo = changedUser.positionInfo;
+        CampusInfo campusInfo = changedUser.campusInfo;
+        if (positionInfo==null||campusInfo==null)
+            return;
+        fmMeSwitchRole.setTipTxt(positionInfo.title);
         //更新本地 用户信息的 posiiotnInfo的 信息
-        UserManager.getInstance().updateCurrentPositionInfo(selectPosition, resources);
+        UserManager.getInstance().initCampusPositions(changedUser);
 
-        user  =UserManager.getInstance().get();
+        if (info != null) fmMeHeaderJob.setText(campusInfo.name + "  " + positionInfo.title);
 
-        if (selectPosition.id != Resource.ROLE_PERMISSION_CHENDU)
+        if (positionInfo.id != Resource.ROLE_PERMISSION_CHENDU)
             fmMeMornigQrcode.setVisibility(View.GONE);
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
-        com.commonlib.widget.event.RxBus.getInstance().post(selectCampus);
+        com.commonlib.widget.event.RxBus.getInstance().post(campusInfo.name);
 
     }
 

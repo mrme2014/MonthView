@@ -28,7 +28,7 @@ public class User implements Parcelable {
     public Qrcode qrcode;
   //  public MyResources myResources;
     public List<Integer> myResources;
-
+    public CampusInfo campusInfo;
 
     @Override
     public int describeContents() {
@@ -45,6 +45,7 @@ public class User implements Parcelable {
         dest.writeParcelable(this.positionInfo, flags);
         dest.writeParcelable(this.qrcode, flags);
         dest.writeList(this.myResources);
+        dest.writeParcelable(this.campusInfo, flags);
     }
 
     public User() {
@@ -60,6 +61,7 @@ public class User implements Parcelable {
         this.qrcode = in.readParcelable(Qrcode.class.getClassLoader());
         this.myResources = new ArrayList<Integer>();
         in.readList(this.myResources, Integer.class.getClassLoader());
+        this.campusInfo = in.readParcelable(CampusInfo.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

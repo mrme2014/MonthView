@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
@@ -70,20 +71,23 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     @Override
     protected void initEnv() {
         super.initEnv();
-        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
-        mParamsMap.put("list_type", "2");
+        initParamsMap();
 
         RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
             @Override
             public void call(CommunicationRefreshEvent o) {
                 needRefresh = true;
 
-                mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
-                mParamsMap.put("list_type", "2");
+                initParamsMap();
 
                 setRefreshing();
             }
         });
+    }
+
+    private void initParamsMap() {
+        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        mParamsMap.put("list_type", "2");
     }
 
     @Override
@@ -111,6 +115,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 if (TextUtils.isEmpty(mSearchKey)) {
                     searchFragment.loadFailed();
                 } else {
+                    KeyBoardUtil.closeKeybord(mSearchView,CommunicationListActivity.this);
                     searchFragment.startSearch(mSearchKey);
                 }
                 return true;

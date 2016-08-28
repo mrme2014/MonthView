@@ -29,7 +29,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
         void onNetFailed(String msg);
 
-        void onChangeSucess(String selectCampus, String selectTxt, Position position, List<Integer> resources);
+        void onChangeSucess( User user);
 
         void onChageFailed(String msg);
 
@@ -58,12 +58,12 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         });
     }
 
-    public void change(final String selectCampus, final Position selectPosition, final String txt, int campuse_id, int position_id) {
+    public void change(int campuse_id, int position_id) {
         mView.showProgressbar(true);
         mModel.change(campuse_id, position_id).subscribe(new ApiObserver<User>() {
             @Override
             public void onSuccess(User user) {
-                mView.onChangeSucess(selectCampus, txt, selectPosition, user.myResources);
+                mView.onChangeSucess(user);
                 mView.showProgressbar(false);
             }
 
@@ -112,8 +112,8 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
                     defalutCampus = i;
                     ArrayList<String> campPositions = campus.get(i).positions;
                     for (int j = 0; j < campPositions.size(); j++) {
-                        if (TextUtils.equals(campPositions.get(j),positionInfo.title)) {
-                            //LogUtil.e(campus.get(i).id+"---"+positionInfo.campusId+"-----"+campPositions.get(j)+"----"+positionInfo.title);
+                        if (TextUtils.equals(campPositions.get(j), positionInfo.title)) {
+                            //LogUtil.e(campus.get(i).id + "---" + positionInfo.campusId + "-----" + campPositions.get(j) + "----" + positionInfo.title);
                             defalutRole = j;
                             break;
                         }
@@ -121,7 +121,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
                     break;
                 }
             }
-           // LogUtil.e(defalutCampus + "---" + defalutRole);
+            //LogUtil.e(defalutCampus + "---" + defalutRole);
             builder.setDatas(0, 2, getCampusArrayList(campus), campus.get(defalutCampus).positions).setDefalut(defalutCampus, defalutRole);
         }
 
@@ -143,20 +143,36 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
 
             @Override
             public void onPickResult(int[] integers, String... result) {
-                Position selectPosition = getSelectPosition(positions, result[result.length - 1]);
+                Position selectPosition = getSelectPosition(campus, positions, integers[0], result[result.length - 1]);
                 if (selectPosition != null) {
-                    change(result[0], selectPosition, result[result.length - 1], selectPosition.campus_id, selectPosition.id);
+                    change(selectPosition.campus_id, selectPosition.id);
                 }
             }
         });
     }
 
-    private Position getSelectPosition(List<Position> position, String selectTxt) {
-        if (position == null)
+    private String getSelectCampus(List<Campus> campus, int selectCmapus) {
+        if (campus == null)
             return null;
+        Campus campus1 = null;
+        if (campus.size() == 1) campus1 = campus.get(0);
+        else campus1 = campus.get(selectCmapus);
+        return campus1 == null ? null : campus1.name;
+    }
+
+    private Position getSelectPosition(List<Campus> campus, List<Position> position, int selectCmapus, String selectPos) {
+        if (position == null || campus == null)
+            return null;
+        Campus campus1 = null;
+        if (campus.size() == 1) campus1 = campus.get(0);
+        else campus1 = campus.get(selectCmapus);
         for (int i = 0; i < position.size(); i++) {
-            if (TextUtils.equals(selectTxt, position.get(i).title))
+
+            if (campus1.id == position.get(i).campus_id && TextUtils.equals(position.get(i).title,selectPos)){
+                LogUtil.e(campus1.id+"--"+ position.get(i).campus_id+"--"+position.get(i).title+"---"+selectPos);
                 return position.get(i);
+            }
+
         }
         return null;
     }

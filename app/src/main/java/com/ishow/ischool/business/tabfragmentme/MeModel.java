@@ -19,7 +19,7 @@ public class MeModel implements BaseModel {
     }
 
     public Observable change(int campus_id,int position_id){
-        return ApiFactory.getInstance().getApi(UserApi.class).change(-1,campus_id,position_id)
+        return ApiFactory.getInstance().getApi(UserApi.class).change(-1,campus_id,position_id,"*")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

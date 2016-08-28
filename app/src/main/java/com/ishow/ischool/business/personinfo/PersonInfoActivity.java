@@ -123,7 +123,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
         if (userInfo == null)
             return;
         Avatar avatar = user.avatar;
-        if (avatar != null)
+        if (avatar != null&&avatar.file_name!=null)
             //PicUtils.loadUserHeader(this, personInfoAvart, avatar.file_name);
             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, personInfoAvart);
         personInfoName.setTipTxt(userInfo.user_name);

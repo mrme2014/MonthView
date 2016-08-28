@@ -85,6 +85,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         setListener();
         initData();
 
+
         RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
             @Override
             public void call(CommunicationRefreshEvent o) {
@@ -139,6 +140,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         datas = data.lists;
         if (datas != null && !datas.isEmpty()) {
             emptyView.setVisibility(View.GONE);
+
             ArrayList<CommunicationItem> items = new ArrayList<>();
             Communication c = datas.get(0);
             items.add(new CommunicationItem(CommunicationItem.TYPE_COMMUNICSTION_LATEST, c));
@@ -154,6 +156,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
     private void showEmptyView() {
         emptyView.setVisibility(View.VISIBLE);
+        communAddTv.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -296,7 +299,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                     params.put("refuse", communication.communicationInfo.refuse + "");
                     params.put("belief", communication.communicationInfo.belief + "");
                     params.put("tuition_source", communication.communicationInfo.tuition_source + "");
-                    params.put("communication_date", communication.communicationInfo.communication_date + "");
+                    params.put("communication_date", date + "");
                     params.put("campus_id", communication.communicationInfo.campus_id + "");
                     mPresenter.addCommunication(params);
                 }

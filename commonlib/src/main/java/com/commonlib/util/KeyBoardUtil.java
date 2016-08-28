@@ -1,6 +1,7 @@
 package com.commonlib.util;
 
 import android.content.Context;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -16,7 +17,7 @@ public class KeyBoardUtil {
      * @param mEditText输入框
      * @param mContext上下文
      */
-    public static void openKeybord(EditText mEditText, Context mContext) {
+    public static void openKeybord(View mEditText, Context mContext) {
         InputMethodManager imm = (InputMethodManager) mContext
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mEditText, InputMethodManager.RESULT_SHOWN);
@@ -30,7 +31,7 @@ public class KeyBoardUtil {
      * @param mEditText输入框
      * @param mContext上下文
      */
-    public static void closeKeybord(EditText mEditText, Context mContext) {
+    public static void closeKeybord(View mEditText, Context mContext) {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }

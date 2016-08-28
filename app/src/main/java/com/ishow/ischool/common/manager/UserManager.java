@@ -7,6 +7,7 @@ import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
@@ -85,8 +86,8 @@ public class UserManager {
 
 
 
-    public void updateCurrentPositionInfo(Position position, List<Integer> resources) {
-        if (user==null)user = get();
+    /*public void updateCurrentPositionInfo(Position position, User changedUser) {
+        user = changedUser
         if (user != null) {
             PositionInfo positionInfo = user.positionInfo;
             positionInfo.id = position.id;
@@ -102,10 +103,9 @@ public class UserManager {
                 }
             }
 
-            if (resources!=null)user.myResources = resources;
             save(user);
         }
-    }
+    }*/
 
     public void initCampusPositions(User mUser) {
         if (mUser != null) {
@@ -117,7 +117,6 @@ public class UserManager {
                 return;
 
             /**Campus.class
-             *
              * id : 1
              * name : 杭州校区
              *
@@ -128,7 +127,6 @@ public class UserManager {
             for (int i = 0; i < campus.size(); i++) {
 
                 ArrayList<String> campusPosition = new ArrayList<>();
-
                 for (int j = 0; j < position.size(); j++) {
                     if (position.get(j).campus_id == campus.get(i).id) {
                         campusPosition.add(position.get(j).title);
@@ -137,20 +135,26 @@ public class UserManager {
                 }
             }
             /**
-             * public int id;
+             public int id;
              public String title;
+
              public String campus;
              public int campusId;
              每次进来 都需要对PositionInfo 值 赋值
              */
             PositionInfo positionInfo = user.positionInfo;
-
-            for (int i = 0; i < position.size(); i++) {
-                if (position.get(i).id == positionInfo.id) {
+            CampusInfo campusInfo = user.campusInfo;
+            if (campusInfo==null||position==null)
+                return;
+            positionInfo.campusId = campusInfo.id;
+            positionInfo.campus=campusInfo.name;
+            save(mUser);
+            /*for (int i = 0; i < position.size(); i++) {
+                if (position.get(i).id == positionInfo.id&&position.get(i).campus_id==campusInfo.id) {
                     updateCurrentPositionInfo(position.get(i),null);
                     break;
                 }
-            }
+            }*/
         }
 
     }

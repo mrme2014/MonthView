@@ -16,9 +16,9 @@ import rx.schedulers.Schedulers;
 public class PickReferrerModel implements PickReferrerContract.Model {
 
     @Override
-    public Observable<ApiResult<UserListResult>> getReferrers(String keyword, int page) {
+    public Observable<ApiResult<UserListResult>> getReferrers(String keyword, int page,int campusid) {
         return ApiFactory.getInstance().getApi(UserApi.class)
-                .listUsers(-1, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .listUsers(-1, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page,campusid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

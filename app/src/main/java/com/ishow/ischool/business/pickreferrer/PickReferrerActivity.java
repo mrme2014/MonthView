@@ -91,7 +91,7 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
             mCurrentPage = 1;
         }
 
-        mPresenter.getReferrers(mSearchKey, mCurrentPage++);
+        mPresenter.getReferrers(mSearchKey, mCurrentPage++,mUser.positionInfo.campusId);
     }
 
     @Override

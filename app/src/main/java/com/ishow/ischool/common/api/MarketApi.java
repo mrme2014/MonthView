@@ -3,7 +3,7 @@ package com.ishow.ischool.common.api;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;

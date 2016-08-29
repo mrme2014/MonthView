@@ -4,6 +4,6 @@
         android:id="@+id/action_more"
         android:orderInCategory="100"
         android:icon="@mipmap/icon_more_android"
-        android:title="save"
+        android:title="保存图片"
         app:showAsAction="always" />
 </menu>

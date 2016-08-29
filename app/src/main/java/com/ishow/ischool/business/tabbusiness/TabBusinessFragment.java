@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.commonlib.widget.event.RxBus;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;

@@ -325,12 +325,4 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
         JumpManager.jumpActivity(getActivity(), intent, Resource.COMMUNICATION_ADD);
     }
-
-
-    /*[1,3,6,7,8,9,10,14,20,26,28,45,46,62,78,80,81,93,98,100,110,111,112,121,122,123]
-    *
-    *[1,3,6,7,8,9,10,14,19,20,26,28,42,43,44,45,46,55,56,57,58,59,60,62,78,80,81,82,92,93,98,100,110,111,112]
-    *
-    *
-    * */
 }

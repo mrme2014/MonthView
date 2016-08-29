@@ -1,10 +1,11 @@
 package com.ishow.ischool.business.kefu;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 
@@ -31,7 +32,7 @@ public class KefuActivity extends BaseActivity4Crm {
     @Override
     protected void setUpData() {
         WebSettings settings = webview.getSettings();
-        settings.setAppCacheEnabled(true);
+        settings.setAppCacheEnabled(false);
         settings.setDisplayZoomControls(false);
         settings.setBuiltInZoomControls(false);
         settings.setJavaScriptEnabled(true);
@@ -40,8 +41,12 @@ public class KefuActivity extends BaseActivity4Crm {
         webview.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                LogUtil.e("url"+url);
-                view.loadUrl(url);
+                if( url.startsWith("http:") || url.startsWith("https:") ) {
+                    return false;
+                }
+                // Otherwise allow the OS to handle things like tel, mailto, etc.
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity( intent );
                 return true;
             }
         });

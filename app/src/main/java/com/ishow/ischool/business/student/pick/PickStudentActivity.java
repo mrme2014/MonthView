@@ -1,11 +1,13 @@
 package com.ishow.ischool.business.student.pick;
 
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -13,6 +15,8 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.ColorUtil;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.HashMap;
 
@@ -34,9 +38,8 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
     }
 
     @Override
-    protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.item_pick_student, parent, false);
-        return new PickStudentHolder(view);
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(this, 67);
     }
 
     @Override
@@ -72,12 +75,20 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         showToast(msg);
     }
 
+    @Override
+    protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
+        View view = getLayoutInflater().inflate(R.layout.item_pick_student, parent, false);
+        return new PickStudentHolder(view);
+    }
+
     class PickStudentHolder extends BaseViewHolder {
 
         @BindView(R.id.user_photo_iv)
-        TextView photoIv;
+        AvatarImageView photoIv;
         @BindView(R.id.user_name_tv)
         TextView usernameTv;
+        @BindView(R.id.user_mobile_tv)
+        TextView moblieTv;
 
         public PickStudentHolder(View itemView) {
             super(itemView);
@@ -87,8 +98,10 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         @Override
         public void onBindViewHolder(int position) {
             Student ss = mDataList.get(position);
-            photoIv.setText(AppUtil.getFirstChar(ss.studentInfo.name));
+            photoIv.setText(ss.studentInfo.name);
+            photoIv.setBackgroundColor(ColorUtil.getColorById(ss.studentInfo.id));
             usernameTv.setText(ss.studentInfo.name);
+            moblieTv.setText(ss.studentInfo.mobile);
         }
 
         @Override

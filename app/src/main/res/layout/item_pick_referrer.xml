@@ -20,15 +20,8 @@
         android:layout_toRightOf="@id/referrer_avatar"
         android:layout_centerVertical="true"
         android:textColor="@color/txt_2"
-        android:textSize="@dimen/sp15"/>
+        android:textSize="@dimen/sp15"
+        android:maxWidth="150dp"
+        android:singleLine="true" />
 
-    <ImageView
-        android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_student_tel"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:visibility="gone"/>
 </RelativeLayout>

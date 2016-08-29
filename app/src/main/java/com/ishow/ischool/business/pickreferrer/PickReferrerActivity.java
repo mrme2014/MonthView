@@ -2,21 +2,24 @@ package com.ishow.ischool.business.pickreferrer;
 
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commonlib.util.LogUtil;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.util.ColorUtil;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
 
@@ -31,15 +34,18 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
     public static final int REQUEST_CODE_PICK_REFERRER = 2002;
     public static final String PICKREFERRER = "pick_referrer";
 
-    private ArrayList<User> originalDatas = new ArrayList<>();
     private SearchView mSearchView;
-    private boolean isFirst = true;
     private String mSearchKey;
     private boolean mSearchMode = false;
 
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_pick_referrer, R.string.pick_referrer, R.menu.menu_pickreferrer, MODE_BACK);
+    }
+
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(this, 67);
     }
 
     @Override
@@ -91,7 +97,7 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
             mCurrentPage = 1;
         }
 
-        mPresenter.getReferrers(mSearchKey, mCurrentPage++);
+        mPresenter.getReferrers(mSearchKey, mCurrentPage++,mUser.positionInfo.campusId);
     }
 
     @Override
@@ -117,7 +123,7 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
     class PickReferrerHolder extends BaseViewHolder {
 
         @BindView(R.id.referrer_avatar)
-        ImageView referrerAvatar;
+        AvatarImageView referrerAvatar;
         @BindView(R.id.referrer_name)
         TextView referrerName;
 
@@ -129,7 +135,12 @@ public class PickReferrerActivity extends BaseListActivity4Crm<PickReferrerPrese
         @Override
         public void onBindViewHolder(int position) {
             User data = mDataList.get(position);
-//            referrerAvatar.setText(AppUtil.getLast2Text(data.getUserInfo().user_name));
+            if (data.avatar != null && TextUtils.isEmpty(data.avatar.file_name)) {
+                referrerAvatar.setImageUrl(data.avatar.file_name);
+            } else {
+                referrerAvatar.setText(data.userInfo.user_name);
+                referrerAvatar.setBackgroundColor(ColorUtil.getColorById(data.userInfo.user_id));
+            }
             referrerName.setText(data.userInfo.user_name);
         }
 

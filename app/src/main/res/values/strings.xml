@@ -186,7 +186,7 @@
     <string name="sure">确认</string>
     <string name="choose_commun_date">请选择沟通时间</string>
     <string name="save_pic">保存图片</string>
-    <string name="save_pic_complete">保存成功</string>
+    <string name="save_pic_complete">已保存到相册</string>
     <string name="save_pic_faild">保存失败,可能没有文件存储权限.</string>
     <string name="add_communication_check_failed">请把必选和必填信息写完整!</string>
     <string name="hint_search_phone_username">根据姓名或手机号搜索..</string>

@@ -76,5 +76,7 @@ public interface UserApi {
             @Query("resources_id") int resources_id,
             @Query("keyword") String keyword,
             @Query("pagesize") int pagesize,
-            @Query("page") int page);
+            @Query("page") int page,
+            @Query("campus_id") int campus_id,
+            @Query("fields") String fields);
 }

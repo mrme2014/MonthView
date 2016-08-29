@@ -66,7 +66,7 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
         UserInfo userInfo = user.userInfo;
         if (userInfo != null) qrcodeName.setText(userInfo.user_name);
 
-        qrcodeCode.setOnLongClickListener(this);
+        //qrcodeCode.setOnLongClickListener(this);
     }
 
     @Override

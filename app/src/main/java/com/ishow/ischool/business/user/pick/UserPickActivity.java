@@ -19,6 +19,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
@@ -31,13 +32,10 @@ import butterknife.ButterKnife;
  */
 public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, User> implements UserPickContract.View {
 
-    public static final int REQUEST_CODE_PICK_REFERRER = 2002;
     public static final String PICK_USER = "user";
     public static final String P_TITLE = "title";
 
-    private ArrayList<User> originalDatas = new ArrayList<>();
     private SearchView mSearchView;
-    private boolean isFirst = true;
     private String mSearchKey;
     private boolean mSearchMode = false;
     private String mTitle;
@@ -52,6 +50,11 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_pick_referrer, TextUtils.isEmpty(mTitle) ? getString(R.string.pick_user) : mTitle, R.menu.menu_pickreferrer, MODE_BACK);
+    }
+
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(this, 67);
     }
 
     @Override
@@ -92,11 +95,6 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
                 return false;
             }
         });
-    }
-
-    @Override
-    protected RecyclerView.ItemDecoration getItemDecoration() {
-        return new BaseItemDecor(this, 10);
     }
 
     @Override
@@ -151,7 +149,12 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
         @Override
         public void onBindViewHolder(int position) {
             User data = mDataList.get(position);
-            referrerAvatar.setText(data.userInfo.user_name);
+            if (data.avatar != null && TextUtils.isEmpty(data.avatar.file_name)) {
+                referrerAvatar.setImageUrl(data.avatar.file_name);
+            } else {
+                referrerAvatar.setText(data.userInfo.user_name);
+                referrerAvatar.setBackgroundColor(ColorUtil.getColorById(data.userInfo.user_id));
+            }
             referrerName.setText(data.userInfo.user_name);
         }
 

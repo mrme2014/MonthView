@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.business.student.edit.EditActivity;
@@ -129,12 +131,14 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         userNameTv.setText(mStudent.name);
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile);
-        qqTv.setText(mStudent.qq + "");
+        if (TextUtils.isEmpty(mStudent.qq) || "0".equals(mStudent.qq)) {
+            qqTv.setText(mStudent.qq);
+        }
         if (mStudent.birthday != 0)
             birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
-        classTv.setText(mStudent.grade);
+        classTv.setText(AppUtil.getGradeById(mStudent.grade));
         idcardTv.setText(mStudent.idcard);
         wechatTv.setText(mStudent.wechat);
     }
@@ -174,8 +178,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard, R.id.student_user_name})
     void onClick(View view) {
-        if (!JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT))
+        if (!JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT)
+                || !JumpManager.checkRelationPermision(getContext(), getStudent().studentRelationInfo)) {
             return;
+        }
         switch (view.getId()) {
             case R.id.student_user_name: {
                 Intent intent = new Intent(getActivity(), EditActivity.class);
@@ -282,6 +288,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         }
     }
 
+    private Student getStudent() {
+        return ((StudentDetailActivity) getActivity()).getStudent();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -333,10 +343,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                     specialtyTv.setText(text);
                     getStudentInfo().major = text;
                     break;
-                case REQUEST_CLASS:
-                    classTv.setText(text);
-                    getStudentInfo().grade = text;
-                    break;
+//                case REQUEST_CLASS:
+//                    classTv.setText(text);
+//                    getStudentInfo().grade = text;
+//                    break;
                 case REQUEST_IDCARD:
                     idcardTv.setText(text);
                     getStudentInfo().idcard = text;

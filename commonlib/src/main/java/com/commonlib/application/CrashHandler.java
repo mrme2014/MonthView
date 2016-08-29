@@ -1,14 +1,12 @@
 package com.commonlib.application;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -92,14 +90,28 @@ public class CrashHandler implements UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
+                e.printStackTrace();
                 Log.e(TAG, "error : ", e);
             }
 
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
+//            startAPP();
+        }
+    }
+
+
+    public void startAPP() {
+        try {
+            String pkName = mContext.getPackageName();
+            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkName);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            mContext.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(mContext, "没有安装", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -118,25 +130,27 @@ public class CrashHandler implements UncaughtExceptionHandler {
         LogUtil.e(ex.toString());
         // 保存日志文件
         saveCrashInfo2File(ex);
+
         // 使用 Toast 来显示异常信息
-        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-        dialog.setTitle("程序出现异常");
-        dialog.setMessage("请点击[提交]按钮,请此错误提交到服务器,谢谢！");
-        dialog.setPositiveButton("提交", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        Looper.prepare();
-                        Toast.makeText(mContext, "很抱歉，程序出现异常，即将退出。", Toast.LENGTH_LONG).show();
-                        Looper.loop();
-                    }
-                }.start();
-            }
-        });
-        dialog.create();
-        dialog.show();
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+//        dialog.setTitle("程序出现异常");
+//        dialog.setMessage("请点击[提交]按钮,请此错误提交到服务器,谢谢！");
+//        dialog.setPositiveButton("提交", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        Looper.prepare();
+//                        Toast.makeText(mContext, "很抱歉，程序出现异常，即将退出。", Toast.LENGTH_LONG).show();
+//                        Looper.loop();
+//                    }
+//                }.start();
+//            }
+//        });
+//        dialog.create();
+//        dialog.show();
+        ex.printStackTrace();
         return true;
     }
 

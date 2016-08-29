@@ -22,7 +22,7 @@ public class Resource {
 
     public static final int ROLE_PERMISSION_CHENDU = 17;//晨读讲师的角色id
     public static final int STUDENT_LIST = 7;   //学员统计
-    public static final int USER_LISTS = -1;   //学员统计
+    public static final int USER_LISTS = -1;    //推荐人/办理人/用户列表
 
 
     public static final int PERMISSION_ADD_NEW_STU=80;
@@ -32,6 +32,5 @@ public class Resource {
     public static final int PERMISSION_STU_PAY=92;
     public static final int PERMISSION_STU_DETAIL=93;
     public static final int PERMISSION_STU_EDIT=110;
-
 
 }

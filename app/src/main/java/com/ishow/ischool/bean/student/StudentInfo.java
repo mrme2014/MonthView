@@ -62,7 +62,7 @@ public class StudentInfo implements Parcelable {
     public int apply_state;
     public int student_id;
     public int birthday;
-    public String grade;
+    public int grade;
     public String english_name;
     public int source;
     public String notes;
@@ -99,7 +99,7 @@ public class StudentInfo implements Parcelable {
         apply_state = in.readInt();
         student_id = in.readInt();
         birthday = in.readInt();
-        grade = in.readString();
+        grade = in.readInt();
         english_name = in.readString();
         source = in.readInt();
         notes = in.readString();
@@ -111,6 +111,23 @@ public class StudentInfo implements Parcelable {
         class_hour_total = in.readInt();
         class_hour = in.readInt();
         payed = in.readInt();
+    }
+
+    public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
+        @Override
+        public StudentInfo createFromParcel(Parcel in) {
+            return new StudentInfo(in);
+        }
+
+        @Override
+        public StudentInfo[] newArray(int size) {
+            return new StudentInfo[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -135,7 +152,7 @@ public class StudentInfo implements Parcelable {
         dest.writeInt(apply_state);
         dest.writeInt(student_id);
         dest.writeInt(birthday);
-        dest.writeString(grade);
+        dest.writeInt(grade);
         dest.writeString(english_name);
         dest.writeInt(source);
         dest.writeString(notes);
@@ -148,21 +165,4 @@ public class StudentInfo implements Parcelable {
         dest.writeInt(class_hour);
         dest.writeInt(payed);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
-        @Override
-        public StudentInfo createFromParcel(Parcel in) {
-            return new StudentInfo(in);
-        }
-
-        @Override
-        public StudentInfo[] newArray(int size) {
-            return new StudentInfo[size];
-        }
-    };
 }

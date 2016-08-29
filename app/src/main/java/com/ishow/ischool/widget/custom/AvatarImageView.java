@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.util.PicUtils;
 
 /**
@@ -69,11 +70,30 @@ public class AvatarImageView extends ImageView {
         zonePaint.setColor(Color.WHITE);
     }
 
+    @Deprecated
+    /**
+     * use setText(String text, int id, String url)
+     */
     public void setText(String text) {
         this.text = AppUtil.getFirstChar(text);
         invalidate();
     }
 
+    public void setText(String text, int id, String url) {
+        if (!TextUtils.isEmpty(url)) {
+            this.text = AppUtil.getFirstChar(text);
+            setBackgroundColor(ColorUtil.getColorById(id));
+        } else {
+            PicUtils.loadpic(getContext(), this, url);
+        }
+
+        invalidate();
+    }
+
+    @Deprecated
+    /**
+     * use setText(String text, int id, String url)
+     */
     public void setImageUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
             PicUtils.loadpic(getContext(), this, url);

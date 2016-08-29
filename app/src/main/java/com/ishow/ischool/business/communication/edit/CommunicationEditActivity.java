@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.communication.edit;
 
 import android.content.Intent;
+import android.text.InputFilter;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.commonlib.core.BaseView;
+import com.commonlib.util.KeyBoardUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.application.Resource;
@@ -25,6 +27,7 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
     public static final String P_TYPE = "type";
     public static final String P_TEXT = "text";
     public static final String P_ID = "id";
+    public static final String P_LEN = "len";
     private String mTitle;
     private int mType;
 
@@ -35,6 +38,7 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
     TextView mEditHint;
     private String mText;
     private int mId;
+    private int mLen;
 
     @Override
     protected void initEnv() {
@@ -43,6 +47,7 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
         mType = getIntent().getIntExtra(P_TYPE, 0);
         mText = getIntent().getStringExtra(P_TEXT);
         mId = getIntent().getIntExtra(P_ID, 0);
+        mLen = getIntent().getIntExtra(P_LEN, 0);
     }
 
     @Override
@@ -61,10 +66,15 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
             mEditText.setText(mText);
             Selection.setSelection(mEditText.getText(), mText.length());
         }
+        if (mLen != 0) {
+            InputFilter[] filters = {new InputFilter.LengthFilter(mLen)};
+            mEditText.setFilters(filters);
+        }
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        KeyBoardUtil.closeKeybord(mEditText, this);
         String text = mEditText.getText().toString();
         HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
         params.put("id", mId + "");

@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.student.StudentRelationInfo;
+import com.ishow.ischool.bean.user.User;
 import com.zaaach.citypicker.utils.ToastUtils;
 
 import java.util.List;
@@ -33,6 +35,13 @@ public class JumpManager {
         from.startActivity(intent);
     }
 
+    /**
+     * 权限检查
+     *
+     * @param context
+     * @param permission
+     * @return
+     */
     public static boolean checkUserPermision(Context context, int permission) {
         if (permission == Resource.NO_NEED_CHECK)
             return true;
@@ -46,6 +55,16 @@ public class JumpManager {
                 return true;
         }
         ToastUtils.showToast(context, R.string.no_permission);
+        return false;
+    }
+
+    public static boolean checkUserRelation(Context context, StudentRelationInfo relation) {
+        User user = UserManager.getInstance().get();
+        int uid = user.userInfo.user_id;
+        if (uid == relation.advisor_id || uid == relation.referrer_id || uid == relation.campus_manager_id ||
+                uid == relation.charge_id || uid == relation.saler_id || uid == relation.student_id || uid == relation.saler_id) {
+            return true;
+        }
         return false;
     }
 

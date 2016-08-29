@@ -37,7 +37,7 @@ public class AppUtil {
         UserManager.getInstance().clear();
         TokenManager.clear();
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.putExtra("invalidate_token",true);
+        intent.putExtra("invalidate_token", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -195,5 +195,17 @@ public class AppUtil {
         grades.add("博士");
         grades.add("其他");
         return grades;
+    }
+
+    public static String getGradeById(int grade) {
+        SparseArray<String> grades = new SparseArray<>();
+        grades.put(1, "大一");
+        grades.put(2, "大二");
+        grades.put(3, "大三");
+        grades.put(4, "大四");
+        grades.put(5, "研究生");
+        grades.put(6, "博士");
+        grades.put(7, "其他");
+        return grades.get(grade);
     }
 }

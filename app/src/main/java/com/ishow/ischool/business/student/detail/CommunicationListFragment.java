@@ -259,6 +259,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         intent.putExtra(CommunicationEditActivity.P_TITLE, getString(R.string.commun_label_source));
                         intent.putExtra(CommunicationEditActivity.P_TYPE, Cons.Communication.source);
                         intent.putExtra(CommunicationEditActivity.P_TEXT, communication.communicationInfo.tuition_source);
+                        intent.putExtra(CommunicationEditActivity.P_LEN, 20);
                         startActivityForResult(intent, REQUEST_SOURCE);
                         break;
 
@@ -275,14 +276,15 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
                         });
                         break;
                     case R.id.item_commun_add_btn:
-                        ShowCommunEditDialog();
+                        showCommunEditDialog();
                         break;
                 }
+
             }
         });
     }
 
-    private void ShowCommunEditDialog() {
+    private void showCommunEditDialog() {
         final Communication communication = mAdapter.getItem(0).communication;
         CommunEditDialog dialog = new CommunEditDialog();
         dialog.setOnClickListener(new CommunEditDialog.OnClickListener() {

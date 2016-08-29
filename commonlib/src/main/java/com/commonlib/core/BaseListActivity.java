@@ -113,7 +113,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
             recycler.enablePullToRefresh(false);
         }
 
-        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH || mCurrentPage <= 1) {      // 下拉刷新，清除数据
+        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH || mCurrentPage <= 2) {      // 下拉刷新，清除数据
             mDataList.clear();
         }
 

@@ -182,10 +182,12 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     }
 
     public void showEmptyView() {
+        mRecyclerView.setVisibility(GONE);      // 避免在列表为空时，软键盘一直展开状态，点击空白处（靠上方），会响应onItemClick方法导致 java.lang.IndexOutOfBoundsException: Invalid index 1, size is 0
         emptyLayout.setVisibility(VISIBLE);
     }
 
     public void resetView() {
+        mRecyclerView.setVisibility(VISIBLE);
         emptyLayout.setVisibility(GONE);
     }
 

@@ -19,7 +19,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
-import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by wqf on 16/8/18.
  */
 public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, User> implements UserPickContract.View {
-
+    public static final int REQUEST_CODE_PICK_USER = 2002;
     public static final String PICK_USER = "user";
     public static final String P_TITLE = "title";
 

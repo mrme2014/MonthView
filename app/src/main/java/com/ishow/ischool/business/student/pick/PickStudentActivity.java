@@ -2,11 +2,13 @@ package com.ishow.ischool.business.student.pick;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
@@ -14,7 +16,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
-import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -29,6 +30,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
     public static final String STUDENT_ID = "sid";
     public static final String STUDENT_NAME = "sname";
     public static final String STUDENT = "student";
+    HashMap<String, String> params;
     @BindView(R.id.pick_search_text_et)
     EditText mSearchEt;
 
@@ -43,24 +45,29 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
     }
 
     @Override
+    protected void setUpData() {
+        super.setUpData();
+        params = new HashMap<>();
+    }
+
+    @Override
     public void onRefresh(int action) {
-        HashMap<String, String> params = AppUtil.getParamsHashMap(1);
         if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
             mCurrentPage = 1;
         }
-        params.put("source", "-1");
         params.put("campus_id", mUser.positionInfo.campusId + "");
         mPresenter.getStudentStatisticsList(params, mCurrentPage++);
     }
 
     @OnTextChanged(R.id.pick_search_text_et)
-    void onSearchTextChanged() {
-        HashMap<String, String> params = new HashMap<>();
-        mCurrentPage = 1;
-        params.put("page", mCurrentPage + "");
-        params.put("campus_id", mUser.positionInfo.campusId + "");
-        params.put("mobile_or_name", mSearchEt.getText().toString());
-        mPresenter.getStudentStatisticsList(params, mCurrentPage++);
+    void onSearchTextChanged(CharSequence text) {
+        LogUtil.d("onSearchTextChanged text = " + text.toString());
+        if (TextUtils.isEmpty(text)) {
+            params.remove("mobile_or_name");
+        } else {
+            params.put("mobile_or_name", text.toString());
+        }
+        setRefreshing();
     }
 
 

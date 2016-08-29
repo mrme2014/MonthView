@@ -17,6 +17,7 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationItem;
 import com.ishow.ischool.bean.market.CommunicationList;
+import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
@@ -193,6 +194,10 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         return ((StudentDetailActivity) getActivity()).getStudentInfo();
     }
 
+    private Student getStudent() {
+        return ((StudentDetailActivity) getActivity()).getStudent();
+    }
+
     public void refresh() {
         RxBus.getDefault().post(new CommunicationRefreshEvent());
         initData();
@@ -203,8 +208,9 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT))
+                if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT)) {
                     return;
+                }
 
                 Communication communication = mAdapter.getItem(0).communication;
                 final int communId = communication.communicationInfo.id;
@@ -327,12 +333,4 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
         JumpManager.jumpActivity(getActivity(), intent, Resource.COMMUNICATION_ADD);
     }
-
-
-    /*[1,3,6,7,8,9,10,14,20,26,28,45,46,62,78,80,81,93,98,100,110,111,112,121,122,123]
-    *
-    *[1,3,6,7,8,9,10,14,19,20,26,28,42,43,44,45,46,55,56,57,58,59,60,62,78,80,81,82,92,93,98,100,110,111,112]
-    *
-    *
-    * */
 }

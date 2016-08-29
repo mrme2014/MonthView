@@ -6,7 +6,7 @@ import com.commonlib.util.LogUtil;
 import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
 

@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by MrS on 2016/8/28.
+ * Created by mrs on 16/8/22.
  */
 public class CampusInfo implements Parcelable {
     public int id;
@@ -12,7 +12,9 @@ public class CampusInfo implements Parcelable {
     public int prov_id;
     public int sort;
     public int status;
-    public int create_time;
+    public long create_time;
+    public String prov;
+
 
     @Override
     public int describeContents() {
@@ -26,7 +28,8 @@ public class CampusInfo implements Parcelable {
         dest.writeInt(this.prov_id);
         dest.writeInt(this.sort);
         dest.writeInt(this.status);
-        dest.writeInt(this.create_time);
+        dest.writeLong(this.create_time);
+        dest.writeString(this.prov);
     }
 
     public CampusInfo() {
@@ -38,10 +41,11 @@ public class CampusInfo implements Parcelable {
         this.prov_id = in.readInt();
         this.sort = in.readInt();
         this.status = in.readInt();
-        this.create_time = in.readInt();
+        this.create_time = in.readLong();
+        this.prov = in.readString();
     }
 
-    public static final Parcelable.Creator<CampusInfo> CREATOR = new Parcelable.Creator<CampusInfo>() {
+    public static final Creator<CampusInfo> CREATOR = new Creator<CampusInfo>() {
         @Override
         public CampusInfo createFromParcel(Parcel source) {
             return new CampusInfo(source);

@@ -58,13 +58,24 @@ public class JumpManager {
         return false;
     }
 
-    public static boolean checkUserRelation(Context context, StudentRelationInfo relation) {
+    /**
+     * 相关的人才能操作
+     * @param context
+     * @param relation
+     * @return
+     */
+    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
+        if (relation == null) {
+            ToastUtils.showToast(context, R.string.no_permission);
+            return false;
+        }
         User user = UserManager.getInstance().get();
         int uid = user.userInfo.user_id;
         if (uid == relation.advisor_id || uid == relation.referrer_id || uid == relation.campus_manager_id ||
                 uid == relation.charge_id || uid == relation.saler_id || uid == relation.student_id || uid == relation.saler_id) {
             return true;
         }
+        ToastUtils.showToast(context, R.string.no_permission);
         return false;
     }
 

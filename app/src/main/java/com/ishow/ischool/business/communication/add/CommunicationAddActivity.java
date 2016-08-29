@@ -172,7 +172,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         finishActivity();
     }
 

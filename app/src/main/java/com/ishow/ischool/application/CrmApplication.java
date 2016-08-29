@@ -61,7 +61,6 @@ public class CrmApplication extends BaseApplication {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Token token = TokenManager.getToken();
-                LogUtil.e(token == null ? "=======" : "token" + token.token);
                 Request newRequest = chain.request();
                 if (token != null && !TextUtils.isEmpty(token.token)) {
                     HttpUrl url = newRequest.url().newBuilder().addQueryParameter("token", token == null ? "" : token.token).build();

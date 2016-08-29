@@ -23,7 +23,7 @@ public class BaseApplication extends Application {
 
         instance = this;
 
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
     }
 
     public static RefWatcher getRefWatcher() {

@@ -17,6 +17,7 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationItem;
 import com.ishow.ischool.bean.market.CommunicationList;
+import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
@@ -193,6 +194,10 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         return ((StudentDetailActivity) getActivity()).getStudentInfo();
     }
 
+    private Student getStudent() {
+        return ((StudentDetailActivity) getActivity()).getStudent();
+    }
+
     public void refresh() {
         RxBus.getDefault().post(new CommunicationRefreshEvent());
         initData();
@@ -203,8 +208,9 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT))
+                if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT)) {
                     return;
+                }
 
                 Communication communication = mAdapter.getItem(0).communication;
                 final int communId = communication.communicationInfo.id;

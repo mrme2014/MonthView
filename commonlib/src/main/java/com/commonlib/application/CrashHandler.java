@@ -90,16 +90,16 @@ public class CrashHandler implements UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
+                e.printStackTrace();
                 Log.e(TAG, "error : ", e);
             }
 
             // 退出程序
-//            android.os.Process.killProcess(android.os.Process.myPid());
-//            System.exit(1);
-
-            startAPP();
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+//            startAPP();
         }
     }
 
@@ -150,6 +150,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //        });
 //        dialog.create();
 //        dialog.show();
+        ex.printStackTrace();
         return true;
     }
 

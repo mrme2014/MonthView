@@ -128,6 +128,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             HashMap<String, String> params = new HashMap<>();
             params.put("id", studentId + "");
             params.put("resources_id", "7");
+            params.put("fields", "*");
             mPresenter.getStudent(params);
         }
     }
@@ -194,5 +195,12 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         if (needRefresh) {
             RxBus.getDefault().post(new StudentInfo());
         }
+    }
+
+    public Student getStudent() {
+        if (student != null) {
+            return student;
+        }
+        return null;
     }
 }

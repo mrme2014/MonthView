@@ -11,6 +11,7 @@ import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.business.student.edit.EditActivity;
@@ -177,8 +178,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard, R.id.student_user_name})
     void onClick(View view) {
-        if (!JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT))
+        if (!JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT)
+                || !JumpManager.checkRelationPermision(getContext(), getStudent().studentRelationInfo)) {
             return;
+        }
         switch (view.getId()) {
             case R.id.student_user_name: {
                 Intent intent = new Intent(getActivity(), EditActivity.class);
@@ -283,6 +286,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             }
             break;
         }
+    }
+
+    private Student getStudent() {
+        return ((StudentDetailActivity) getActivity()).getStudent();
     }
 
     @Override

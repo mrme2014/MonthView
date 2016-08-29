@@ -198,9 +198,11 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         }
         if (!TextUtils.isEmpty(mFilterStartTime)) {
             startTimeEt.setText(sdf.format(new Date(Long.parseLong(mFilterStartTime) * 1000)));
+            startTimeIv.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(mFilterEndTime)) {
             endTimeEt.setText(sdf.format(new Date(Long.parseLong(mFilterEndTime) * 1000)));
+            endTimeIv.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(mFilterPayState)) {
             payStateIL.setContent(AppUtil.getPayState().get(Integer.parseInt(mFilterPayState) - 1));

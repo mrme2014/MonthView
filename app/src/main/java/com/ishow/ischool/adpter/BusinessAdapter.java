@@ -39,7 +39,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
         if (layoutManager instanceof GridLayoutManager) {
             int spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
             int cloum = (getItemCount() + 1) / spanCount;
-            int height = parent.getHeight();
+            int height = parent.getHeight() - 1;    // 减去分隔线的宽度
             childHeight = height / cloum;
         }
         BusinessViewHolder holder = new BusinessViewHolder(itemView);

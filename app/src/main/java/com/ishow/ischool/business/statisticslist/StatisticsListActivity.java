@@ -92,7 +92,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         initFilter();
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setQueryHint(getString(R.string.str_search_hint));
+        mSearchView.setQueryHint(getString(R.string.hint_search_phone_username));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -103,6 +103,9 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             public boolean onQueryTextChange(String newText) {
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
+                if (searchFragment == null) {
+                    searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
+                }
                 if (TextUtils.isEmpty(mSearchKey)) {
                     searchFragment.loadFailed();
                 } else {
@@ -145,6 +148,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
+
+        searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
     }
 
     @Override
@@ -176,8 +181,10 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     void showSearchFragment() {
+        if (searchFragment == null) {
+            searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
+        }
         frameLayout.setVisibility(View.VISIBLE);
-        searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
         ft.commit();
@@ -299,8 +306,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
 //                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
-                avatar.setText(data.studentInfo.name);
-                avatar.setBackgroundColor(ColorUtil.getColorById(data.studentInfo.id));
+                avatar.setText(data.studentInfo.name, data.studentInfo.id, "");
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
                 state.setText(data.studentInfo.pay_state_name);

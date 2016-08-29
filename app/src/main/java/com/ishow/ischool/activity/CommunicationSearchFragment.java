@@ -3,6 +3,7 @@ package com.ishow.ischool.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.commonlib.core.BaseListFragment;
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -58,6 +60,11 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
         if (bundle != null) {
             mResourceId = bundle.getString("resources_id", "");
         }
+    }
+
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(getActivity(), 67);
     }
 
     @Override

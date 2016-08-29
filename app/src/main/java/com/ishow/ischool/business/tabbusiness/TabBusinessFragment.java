@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.commonlib.widget.event.RxBus;
+import com.commonlib.widget.pull.DividerGridItemDecoration;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
 import com.ishow.ischool.bean.system.CampusInfo;
@@ -30,8 +31,6 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     TextView campusTv;
     BusinessAdapter mAdapter;
 
-    String TAG = TabBusinessFragment.class.getSimpleName();
-
     @Override
     public int getLayoutId() {
         return R.layout.fragment_business;
@@ -42,6 +41,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
+        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs());
         mRecyclerView.setAdapter(mAdapter);
         mPresenter.getCampusList();     //进入app获取所有校区信息

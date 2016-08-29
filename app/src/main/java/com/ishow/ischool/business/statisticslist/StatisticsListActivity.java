@@ -149,7 +149,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @Override
     protected RecyclerView.ItemDecoration getItemDecoration() {
-        return new BaseItemDecor(this, 10);
+        return new BaseItemDecor(this, 67);
     }
 
     void initFilter() {
@@ -303,7 +303,6 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 avatar.setBackgroundColor(ColorUtil.getColorById(data.studentInfo.id));
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
-//                state.setText(UserUtil.getUserPayState(data.applyInfo.status));
                 state.setText(data.studentInfo.pay_state_name);
                 state.setBackgroundResource(R.drawable.bg_round_corner_gray);
 //                if (data.applyInfo.status == )

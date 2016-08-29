@@ -18,7 +18,7 @@ public class UserPickModel implements UserPickContract.Model {
     @Override
     public Observable<ApiResult<UserListResult>> listUser(int campusId, String keyword, int page) {
         return ApiFactory.getInstance().getApi(UserApi.class)
-                .listUsers(campusId, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .listUsers(campusId, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page, "*")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

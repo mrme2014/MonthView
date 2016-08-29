@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.commonlib.util.DateUtil;
@@ -129,12 +130,14 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         userNameTv.setText(mStudent.name);
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile);
-        qqTv.setText(mStudent.qq + "");
+        if (TextUtils.isEmpty(mStudent.qq) || "0".equals(mStudent.qq)) {
+            qqTv.setText(mStudent.qq);
+        }
         if (mStudent.birthday != 0)
             birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
-        classTv.setText(mStudent.grade);
+        classTv.setText(AppUtil.getGradeById(mStudent.grade));
         idcardTv.setText(mStudent.idcard);
         wechatTv.setText(mStudent.wechat);
     }
@@ -333,10 +336,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                     specialtyTv.setText(text);
                     getStudentInfo().major = text;
                     break;
-                case REQUEST_CLASS:
-                    classTv.setText(text);
-                    getStudentInfo().grade = text;
-                    break;
+//                case REQUEST_CLASS:
+//                    classTv.setText(text);
+//                    getStudentInfo().grade = text;
+//                    break;
                 case REQUEST_IDCARD:
                     idcardTv.setText(text);
                     getStudentInfo().idcard = text;

@@ -149,12 +149,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
         @Override
         public void onBindViewHolder(int position) {
             User data = mDataList.get(position);
-            if (data.avatar != null && TextUtils.isEmpty(data.avatar.file_name)) {
-                referrerAvatar.setImageUrl(data.avatar.file_name);
-            } else {
-                referrerAvatar.setText(data.userInfo.user_name);
-                referrerAvatar.setBackgroundColor(ColorUtil.getColorById(data.userInfo.user_id));
-            }
+            referrerAvatar.setText(data.userInfo.user_name,data.userInfo.user_id,data.avatar.file_name);
             referrerName.setText(data.userInfo.user_name);
         }
 

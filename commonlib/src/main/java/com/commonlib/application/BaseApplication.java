@@ -22,6 +22,8 @@ public class BaseApplication extends Application {
         _refWatcher = LeakCanary.install(this);
 
         instance = this;
+
+        CrashHandler.getInstance().init(this);
     }
 
     public static RefWatcher getRefWatcher() {

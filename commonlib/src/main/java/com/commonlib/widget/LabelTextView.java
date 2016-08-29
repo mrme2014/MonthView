@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.commonlib.R;
 import com.commonlib.util.UIUtil;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by abel on 16/8/15.
@@ -120,15 +123,51 @@ public class LabelTextView extends TextView {
     }
 
     /*下面这两个方法 用于 设定 menuitem  属性时 设置的*/
-    public void setAboutMenuItem(){
-        this.setPadding(0,0,UIUtil.dip2px(getContext(),10),0);
+    public void setAboutMenuItem() {
+        this.setPadding(0, 0, UIUtil.dip2px(getContext(), 10), 0);
         setTextColor(Color.parseColor("#ffffff"));
         setText("提交");
     }
-    public void setUpMenu(boolean b){
+
+    public void setUpMenu(boolean b) {
         this.setClickable(b);
         this.setEnabled(b);
-        this.setAlpha(b?1.0f:0.5f);
+        this.setAlpha(b ? 1.0f : 0.5f);
     }
 
+
+    public void setEllipsizeText(String text) {
+        if (TextUtils.isEmpty(text)) {
+            setText("");
+            return;
+        }
+        int maxLen = getMaxLength();
+        setText(ellipsizeString(text, maxLen));
+    }
+
+    private String ellipsizeString(String text, int maxLen) {
+        return text.length() > maxLen ? text.substring(0, maxLen - 3) + "..." : text;
+    }
+
+    public int getMaxLength() {
+        int length = 0;
+        try {
+            InputFilter[] inputFilters = getFilters();
+            for (InputFilter filter : inputFilters) {
+                Class<?> c = filter.getClass();
+                if (c.getName().equals("android.text.InputFilter$LengthFilter")) {
+                    Field[] f = c.getDeclaredFields();
+                    for (Field field : f) {
+                        if (field.getName().equals("mMax")) {
+                            field.setAccessible(true);
+                            length = (Integer) field.get(filter);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return length;
+    }
 }

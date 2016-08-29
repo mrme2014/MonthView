@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.commonlib.core.BaseView;
 import com.commonlib.util.KeyBoardUtil;
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -67,11 +68,10 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
             mEditText.setText(mText);
             Editable etext = mEditText.getText();
             Selection.setSelection(etext, etext.length());
-            if (mLen != 0) {
-                InputFilter[] filters = {new InputFilter.LengthFilter(mLen)};
-                //filters = mEditText.getFilters();
-                mEditText.setFilters(filters);
-            }
+        }
+        if (mLen != 0) {
+            InputFilter[] filters = {new InputFilter.LengthFilter(mLen)};
+            mEditText.setFilters(filters);
         }
     }
 

@@ -47,6 +47,7 @@
     <com.commonlib.widget.LabelTextView
         android:id="@+id/commun_source"
         style="@style/student_info_textview"
+        android:ellipsize="end"
         android:hint="@string/commun_input_source_hint"
         android:maxLength="10"
         android:textColorHint="@color/txt_9"

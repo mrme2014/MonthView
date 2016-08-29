@@ -36,7 +36,6 @@ import butterknife.OnClick;
  * Created by MrS on 2016/8/18.
  */
 public class CommuDialogFragment extends DialogFragment {
-    private static final int REQUEST_USER_PICK = 150;
     @BindView(R.id.commun_state)
     LabelTextView communState;
     @BindView(R.id.commun_date_start)
@@ -150,7 +149,7 @@ public class CommuDialogFragment extends DialogFragment {
             case R.id.commun_order:
                 Intent intent = new Intent(getActivity(), UserPickActivity.class);
                 intent.putExtra(UserPickActivity.P_TITLE,getString(R.string.pick_banliren));
-                startActivityForResult(intent, REQUEST_USER_PICK);
+                startActivityForResult(intent, UserPickActivity.REQUEST_CODE_PICK_USER);
                 break;
             case R.id.commu_reset:
                 resetSlectResult();
@@ -256,7 +255,7 @@ public class CommuDialogFragment extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_USER_PICK && data != null) {
+            if (requestCode == UserPickActivity.REQUEST_CODE_PICK_USER && data != null) {
                 User user = data.getParcelableExtra(UserPickActivity.PICK_USER);
                 communOrder.setText(user.userInfo.user_name);
                 orderPosition = user.userInfo.user_id;

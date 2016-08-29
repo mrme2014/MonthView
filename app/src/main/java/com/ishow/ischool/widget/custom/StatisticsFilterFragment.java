@@ -27,8 +27,8 @@ import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.User;
-import com.ishow.ischool.business.pickreferrer.PickReferrerActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
+import com.ishow.ischool.business.user.pick.UserPickActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -474,7 +474,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                 startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY);
                 break;
             case R.id.item_referrer:
-                startActivityForResult(new Intent(getActivity(), PickReferrerActivity.class), PickReferrerActivity.REQUEST_CODE_PICK_REFERRER);
+                startActivityForResult(new Intent(getActivity(), UserPickActivity.class), UserPickActivity.REQUEST_CODE_PICK_USER);
                 break;
             default:
                 break;
@@ -496,9 +496,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                     //                    city_id = mUniversityInfo.city_id;
                 }
                 break;
-            case PickReferrerActivity.REQUEST_CODE_PICK_REFERRER:
+            case UserPickActivity.REQUEST_CODE_PICK_USER:
                 if (data != null) {
-                    User user = data.getParcelableExtra(PickReferrerActivity.PICKREFERRER);
+                    User user = data.getParcelableExtra(UserPickActivity.PICK_USER);
                     mFilterReferrerName = user.userInfo.user_name;
                     referrerIL.setContent(mFilterReferrerName);
                     mFilterReferrerId = user.userInfo.user_id + "";

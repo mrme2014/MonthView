@@ -21,7 +21,8 @@
         android:gravity="center_vertical"
         android:hint="@string/hint_search"
         android:padding="8dp"
-        android:textSize="@dimen/sp14" />
+        android:textSize="@dimen/sp14"
+        android:singleLine="true"/>
 
     <com.commonlib.widget.pull.PullRecycler
         android:id="@id/pullRecycler"

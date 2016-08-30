@@ -27,7 +27,8 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         if (!isAlive()) {
             return;
         }
-        onError(e.getMessage());
+//        onError(e.getMessage());
+        onError("数据异常");        // 过滤retrofit错误信息，后期可以将此信息上传
         onCompleted();
     }
 

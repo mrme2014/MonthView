@@ -2,6 +2,7 @@ package com.ishow.ischool.business.tabbusiness;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.widget.event.RxBus;
@@ -50,7 +51,9 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
 
     void setCampus() {
         User user = UserManager.getInstance().get();
-        campusTv.setText(user.positionInfo.campus);
+        if (user != null && user.positionInfo != null && !TextUtils.isEmpty(user.positionInfo.campus)) {
+            campusTv.setText(user.positionInfo.campus);
+        }
         Subscription subscription = RxBus.getInstance().doSubscribe(String.class, new Action1<String>() {
 
             @Override

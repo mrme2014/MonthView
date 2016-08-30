@@ -71,6 +71,9 @@ public class RxBus {
 
     public <T> void unregister(Class<T> type) {
         if (map != null) {
+            if (!map.containsKey(type.getSimpleName())) {
+                return;
+            }
             map.get(type.getSimpleName()).unsubscribe();
             map.remove(type.getSimpleName());
         }

@@ -1,6 +1,7 @@
 package com.ishow.ischool.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.commonlib.util.LogUtil;
@@ -18,9 +19,28 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
     TabBusinessFragment businessFragment;
     MeFragment meFragment;
 
-
     android.widget.RadioGroup RadioGroup;
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {  // “内存重启”时调用,解决重叠问题
+            LogUtil.d("MainActivity savedInstanceState != null");
+            businessFragment = (TabBusinessFragment) getSupportFragmentManager().findFragmentByTag(TabBusinessFragment.class.getName());
+            meFragment = (MeFragment) getSupportFragmentManager().findFragmentByTag(MeFragment.class.getName());
+        } else {                            // 正常create
+            businessFragment = new TabBusinessFragment();
+            meFragment = new MeFragment();
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.tabcontent, businessFragment, businessFragment.getClass().getName())
+                    .add(R.id.tabcontent, meFragment, meFragment.getClass().getName())
+                    .hide(meFragment)
+                    .commitAllowingStateLoss();
+        }
+    }
 
     @Override
     protected void setUpContentView() {
@@ -30,7 +50,6 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
     @Override
     protected void setUpView() {
         RadioGroup = (android.widget.RadioGroup) findViewById(R.id.RadioGroup);
-        showFragment(R.id.tab_business);
         RadioGroup.setOnCheckedChangeListener(this);
     }
 
@@ -54,6 +73,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                 if (meFragment != null) {
                     ft.hide(meFragment);
                 }
+
                 if (businessFragment == null) {
                     businessFragment = new TabBusinessFragment();
                     ft.add(R.id.tabcontent, businessFragment).show(businessFragment);
@@ -62,7 +82,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                 }
                 break;
             case R.id.tab_me:
-                LogUtil.e(System.currentTimeMillis()+"");
+                LogUtil.e(System.currentTimeMillis() + "");
                 if (businessFragment != null) {
                     ft.hide(businessFragment);
                 }
@@ -80,8 +100,8 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (meFragment!=null)
-            meFragment.onActivityResult(requestCode,resultCode,data);
+        if (meFragment != null)
+            meFragment.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
     }

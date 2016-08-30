@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,7 +39,6 @@ import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
-import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.StatisticsFilterFragment;
 
@@ -106,11 +104,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 if (searchFragment == null) {
                     searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
                 }
-                if (TextUtils.isEmpty(mSearchKey)) {
-                    searchFragment.loadFailed();
-                } else {
-                    searchFragment.startSearch(mSearchKey);
-                }
+                searchFragment.startSearch(mSearchKey);
                 return true;
             }
         });
@@ -330,9 +324,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                                     switch (i) {
                                         case 1:
                                             // TODO: 16/8/17  打电话
-                                            Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                            Uri data = Uri.parse("tel:" + phoneNumber);
-                                            callIntent.setData(data);
+                                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+                                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(callIntent);
                                             break;
                                         case 2:

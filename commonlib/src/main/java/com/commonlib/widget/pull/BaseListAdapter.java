@@ -15,8 +15,8 @@ import com.commonlib.R;
  */
 public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    protected static final int VIEW_TYPE_LOAD_MORE_LOADING = 100;
-    protected static final int VIEW_TYPE_LOAD_MORE_END = 101;
+    protected static final int VIEW_TYPE_LOAD_MORE_LOADING = 100;       // 加载中视图type
+    protected static final int VIEW_TYPE_LOAD_MORE_END = 101;           // 已显示全部内容视图type
     protected int loadMoreFooterState = ACTION_LOADMORE_HIDE;
     public static final int ACTION_LOADMORE_HIDE = 0;
     public static final int ACTION_LOADMORE_SHOW = 1;
@@ -87,7 +87,7 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
     }
 
 
-    //  -----------  RecyclerView底部Footer  ------------  //
+    //  -----------  RecyclerView底部Footer（加载中和"已显示全部内容"）  ------------  //
     protected BaseViewHolder onCreateLoadMoreFooterViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.widget_pull_to_refresh_footer, parent, false);
         return new LoadMoreFooterViewHolder(view);

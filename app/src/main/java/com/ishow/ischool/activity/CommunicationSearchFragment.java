@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
 
     private HashMap<String, String> searchParams;
     private String mResourceId;
+    private String mSearchKey = "";
 
     public static CommunicationSearchFragment newInstance(String resources_id) {
         CommunicationSearchFragment fragment = new CommunicationSearchFragment();
@@ -75,7 +77,8 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
     }
 
     public void startSearch(String searchKey) {
-        searchParams.put("keyword", searchKey);
+        mSearchKey = searchKey;
+        searchParams.put("keyword", mSearchKey);
         setRefreshing();
     }
 
@@ -89,23 +92,25 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
             mCurrentPage = 1;
         }
 
-        ApiFactory.getInstance().getApi(CommunicationApi.class)
-                .listCommnunication(searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ApiObserver<CommunicationList>() {
-                    @Override
-                    public void onSuccess(CommunicationList communicationList) {
-                       // KeyBoardUtil.closeKeybord(recycler,getContext());
-                        loadSuccess(communicationList.lists);
-                    }
+        if (TextUtils.isEmpty(mSearchKey)) {
+            loadFailed();
+        } else {
+            ApiFactory.getInstance().getApi(CommunicationApi.class)
+                    .listCommnunication(searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new ApiObserver<CommunicationList>() {
+                        @Override
+                        public void onSuccess(CommunicationList communicationList) {
+                            loadSuccess(communicationList.lists);
+                        }
 
-                    @Override
-                    public void onError(String msg) {
-                       // KeyBoardUtil.closeKeybord(recycler,getContext());
-                        loadFailed();
-                    }
-                });
+                        @Override
+                        public void onError(String msg) {
+                            loadFailed();
+                        }
+                    });
+        }
     }
 
     @Override

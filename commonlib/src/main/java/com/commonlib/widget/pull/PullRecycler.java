@@ -149,9 +149,9 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
                 break;
             case ACTION_LOAD_MORE_LOADING:
                 adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_HIDE);
-//                if (isPullToRefreshEnabled) {
+                if (isPullToRefreshEnabled) {
                     mSwipeRefreshLayout.setEnabled(true);
-//                }
+                }
                 mCurrentState = ACTION_IDLE;
                 break;
             case ACTION_LOAD_MORE_END:
@@ -161,11 +161,24 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
                 adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_END);
                 mSwipeRefreshLayout.setEnabled(true);
                 break;
+            case ACTION_IDLE:       // 第一次有数据，经过筛选等操作后数据为空时（loadfail()）
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_HIDE);
+                break;
         }
     }
 
-    public void setOnLoadMoreEnd() {
-        mCurrentState = ACTION_LOAD_MORE_END;
+    /**
+     * 设置当前状态
+     * 0.ACTION_IDLE：               空白状态（即没有数据）
+     * 1.ACTION_PULL_TO_REFRESH：    下拉刷新中
+     * 2.ACTION_LOAD_MORE_LOADING    上滑加载中
+     * 3.ACTION_LOAD_MORE_END        没有更多（显示）状态
+     */
+    public void setLoadState(int state) {
+        mCurrentState = state;
     }
 
     public void setSelection(int position) {
@@ -182,12 +195,10 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     }
 
     public void showEmptyView() {
-        mRecyclerView.setVisibility(GONE);      // 避免在列表为空时，软键盘一直展开状态，点击空白处（靠上方），会响应onItemClick方法导致 java.lang.IndexOutOfBoundsException: Invalid index 1, size is 0
         emptyLayout.setVisibility(VISIBLE);
     }
 
     public void resetView() {
-        mRecyclerView.setVisibility(VISIBLE);
         emptyLayout.setVisibility(GONE);
     }
 

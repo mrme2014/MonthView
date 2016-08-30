@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
     private HashMap<String, String> searchParams;
     private String mCampusId;
     private String mSource;
+    private String mSearchKey = "";
 
     public static StatisticsSearchFragment newInstance(String campus_id, String source) {
         StatisticsSearchFragment fragment = new StatisticsSearchFragment();
@@ -77,7 +79,8 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
     }
 
     public void startSearch(String searchKey) {
-        searchParams.put("mobile_or_name", searchKey);
+        mSearchKey = searchKey;
+        searchParams.put("mobile_or_name", mSearchKey);
         setRefreshing();
     }
 
@@ -91,21 +94,25 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             mCurrentPage = 1;
         }
 
-        ApiFactory.getInstance().getApi(MarketApi.class)
-                .listStudentStatistics(Resource.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ApiObserver<StudentList>() {
-                    @Override
-                    public void onSuccess(StudentList studentList) {
-                        loadSuccess(studentList.lists);
-                    }
+        if (TextUtils.isEmpty(mSearchKey)) {
+            loadFailed();
+        } else {
+            ApiFactory.getInstance().getApi(MarketApi.class)
+                    .listStudentStatistics(Resource.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new ApiObserver<StudentList>() {
+                        @Override
+                        public void onSuccess(StudentList studentList) {
+                            loadSuccess(studentList.lists);
+                        }
 
-                    @Override
-                    public void onError(String msg) {
-                        loadFailed();
-                    }
-                });
+                        @Override
+                        public void onError(String msg) {
+                            loadFailed();
+                        }
+                    });
+        }
     }
 
     @Override

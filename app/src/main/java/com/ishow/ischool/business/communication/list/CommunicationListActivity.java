@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -120,11 +119,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 if (searchFragment == null) {
                     searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
                 }
-                if (TextUtils.isEmpty(mSearchKey)) {
-                    searchFragment.loadFailed();
-                } else {
-                    searchFragment.startSearch(mSearchKey);
-                }
+                searchFragment.startSearch(mSearchKey);
                 return true;
             }
         });
@@ -186,20 +181,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         }
 
         mPresenter.listCommunication(mParamsMap, mCurrentPage++);
-//        switch (action) {
-//            case PullRecycler.ACTION_PULL_TO_REFRESH:
-//                mCurrentPage = 1;
-//                mParamsMap.put("page", mCurrentPage + "");
-//                mPresenter.listCommunication(mParamsMap, mCurrentPage++);
-//
-//                break;
-//            case PullRecycler.ACTION_LOAD_MORE_LOADING:
-//                mCurrentPage++;
-//                mParamsMap.put("page", mCurrentPage + "");
-//                mPresenter.listCommunication(mParamsMap, mCurrentPage++);
-//
-//                break;
-//        }
     }
 
     @Override

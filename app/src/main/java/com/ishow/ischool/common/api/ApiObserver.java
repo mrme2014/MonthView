@@ -27,7 +27,10 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         if (!isAlive()) {
             return;
         }
-        onError(e.getMessage());
+        String message = e.getMessage();
+        if (message != null && message.contains("$"))
+            onError("server error");
+        else onError(message);
         onCompleted();
     }
 

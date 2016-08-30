@@ -47,5 +47,5 @@ dependencies {
     /*七牛SDK*/
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     compile 'com.bigkoo:pickerview:2.1.0'
-    compile files('src/libs/zxing.jar')
+
 }

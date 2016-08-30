@@ -150,6 +150,7 @@
                     android:background="@color/white"
                     android:gravity="top"
                     android:hint="@string/commun_input_content_hint"
+                    android:layout_marginTop="5dp"
                     android:lines="8"
                     android:maxLength="200"
                     android:textSize="@dimen/sp14" />

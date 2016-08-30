@@ -230,7 +230,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().wechat);
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT, Resource.PERMISSION_STU_EDIT);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT, Resource.NO_NEED_CHECK);
             }
             break;
             case R.id.student_birthday: {

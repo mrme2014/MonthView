@@ -19,7 +19,7 @@
         android:drawableLeft="@mipmap/ic_search"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
-        android:hint="@string/hint_search"
+        android:hint="@string/hint_search_phone_username"
         android:padding="8dp"
         android:textSize="@dimen/sp14"
         android:singleLine="true"/>

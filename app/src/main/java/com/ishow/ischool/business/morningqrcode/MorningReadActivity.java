@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +32,7 @@ import butterknife.BindView;
 /**
  * Created by MrS on 2016/8/12.
  */
-public class MorningReadActivity extends BaseActivity4Crm implements ImageLoaderUtil.loadComplete, View.OnLongClickListener {
+public class MorningReadActivity extends BaseActivity4Crm implements ImageLoaderUtil.loadComplete {
     @BindView(R.id.qrcode_name)
     TextView qrcodeName;
     @BindView(R.id.qrcode_code)
@@ -42,6 +41,8 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
     CircleImageView qrcodeAvart;
     private User user;
     private Bitmap bitmap;
+
+   // private int IMAGE_HALFWIDTH = 10;
 
     @Override
     protected void setUpContentView() {
@@ -61,12 +62,20 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
         if (avatar != null)
             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, qrcodeAvart);
         Qrcode qrcode = user.qrcode;
-        if (qrcode != null && qrcode.file_name != "")
+        if (qrcode != null && qrcode.file_name != "" && qrcode.file_name != null)
             ImageLoaderUtil.getInstance().loadImageWithCallback(this, qrcode.file_name, qrcodeCode, this);
         UserInfo userInfo = user.userInfo;
         if (userInfo != null) qrcodeName.setText(userInfo.user_name);
 
-        //qrcodeCode.setOnLongClickListener(this);
+
+
+        /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        try {
+            Bitmap bm=createCode("http://baidu.com",bitmap,BarcodeFormat.QR_CODE);
+            qrcodeCode.setImageBitmap(bm);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }*/
     }
 
     @Override
@@ -140,10 +149,43 @@ public class MorningReadActivity extends BaseActivity4Crm implements ImageLoader
         PermissionUtil.getInstance().notifyPermissionsChange(this, permissions, grantResults);
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        if (bitmap == null) return false;
-        showSlectDialog();
-        return false;
-    }
+    /*public Bitmap createCode(String string, Bitmap mBitmap, BarcodeFormat format)
+            throws WriterException {
+        Matrix m = new Matrix();
+        float sx = (float) 2 * IMAGE_HALFWIDTH / mBitmap.getWidth();
+        float sy = (float) 2 * IMAGE_HALFWIDTH / mBitmap.getHeight();
+        m.setScale(sx, sy);//设置缩放信息
+        //将logo图片按martix设置的信息缩放
+        mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), m, false);
+        MultiFormatWriter writer = new MultiFormatWriter();
+        Hashtable<EncodeHintType, String> hst = new Hashtable<EncodeHintType, String>();
+        hst.put(EncodeHintType.CHARACTER_SET, "UTF-8");//设置字符编码
+        BitMatrix matrix = writer.encode(string, format, 400, 400, hst);//生成二维码矩阵信息
+        int width = matrix.getWidth();//矩阵高度
+        int height = matrix.getHeight();//矩阵宽度
+        int halfW = width / 2;
+        int halfH = height / 2;
+        int[] pixels = new int[width * height];//定义数组长度为矩阵高度*矩阵宽度，用于记录矩阵中像素信息
+        for (int y = 0; y < height; y++) {//从行开始迭代矩阵
+            for (int x = 0; x < width; x++) {//迭代列
+                if (x > halfW - IMAGE_HALFWIDTH && x < halfW + IMAGE_HALFWIDTH
+                        && y > halfH - IMAGE_HALFWIDTH
+                        && y < halfH + IMAGE_HALFWIDTH) {//该位置用于存放图片信息
+//记录图片每个像素信息
+                    pixels[y * width + x] = mBitmap.getPixel(x - halfW
+                            + IMAGE_HALFWIDTH, y - halfH + IMAGE_HALFWIDTH);
+                } else {
+                    if (matrix.get(x, y)) {//如果有黑块点，记录信息
+                        pixels[y * width + x] = 0xff000000;//记录黑块信息
+                    }
+                }
+
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.ARGB_8888);
+        // 通过像素数组生成bitmap
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }*/
 }

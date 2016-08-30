@@ -117,6 +117,9 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             public boolean onQueryTextChange(String newText) {
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
+                if (searchFragment == null) {
+                    searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+                }
                 if (TextUtils.isEmpty(mSearchKey)) {
                     searchFragment.loadFailed();
                 } else {
@@ -265,7 +268,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.PERMISSION_STU_DETAIL);
+            //Resource.PERMISSION_STU_DETAIL
+            JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.NO_NEED_CHECK);
         }
     }
 

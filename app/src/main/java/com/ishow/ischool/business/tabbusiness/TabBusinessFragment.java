@@ -2,12 +2,14 @@ package com.ishow.ischool.business.tabbusiness;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.commonlib.widget.event.RxBus;
+import com.commonlib.widget.pull.DividerGridItemDecoration;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
@@ -30,8 +32,6 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     TextView campusTv;
     BusinessAdapter mAdapter;
 
-    String TAG = TabBusinessFragment.class.getSimpleName();
-
     @Override
     public int getLayoutId() {
         return R.layout.fragment_business;
@@ -42,6 +42,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
+        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs());
         mRecyclerView.setAdapter(mAdapter);
         mPresenter.getCampusList();     //进入app获取所有校区信息
@@ -50,7 +51,9 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
 
     void setCampus() {
         User user = UserManager.getInstance().get();
-        campusTv.setText(user.positionInfo.campus);
+        if (user != null && user.positionInfo != null && !TextUtils.isEmpty(user.positionInfo.campus)) {
+            campusTv.setText(user.positionInfo.campus);
+        }
         Subscription subscription = RxBus.getInstance().doSubscribe(String.class, new Action1<String>() {
 
             @Override

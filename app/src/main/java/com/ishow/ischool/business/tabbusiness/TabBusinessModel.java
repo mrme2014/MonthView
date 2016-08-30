@@ -3,7 +3,7 @@ package com.ishow.ischool.business.tabbusiness;
 import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.ApiResult;
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.business.addstudent.AddStudentActivity;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.list.CommunicationListActivity;

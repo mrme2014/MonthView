@@ -1,6 +1,6 @@
 package com.ishow.ischool.business.tabbusiness;
 
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.ArrayList;

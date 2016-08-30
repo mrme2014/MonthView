@@ -40,7 +40,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements PullRe
         setUpAdapter();
         recycler.setOnRefreshListener(this);
         recycler.setLayoutManager(getLayoutManager());
-//        recycler.addItemDecoration(getItemDecoration());
+        recycler.addItemDecoration(getItemDecoration());
         recycler.setAdapter(mAdapter);
     }
 

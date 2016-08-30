@@ -4,7 +4,7 @@ import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
 import com.commonlib.core.BaseView;
 import com.ishow.ischool.bean.ApiResult;
-import com.ishow.ischool.bean.system.CampusInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
 

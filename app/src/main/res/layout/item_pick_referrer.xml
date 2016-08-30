@@ -5,23 +5,34 @@
     android:layout_height="62dp"
     android:padding="10dp">
 
-    <com.ishow.ischool.widget.custom.AvatarImageView
-        android:id="@+id/referrer_avatar"
+    <RelativeLayout
+        android:id="@+id/avatar_layout"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_marginRight="15dp"
-        android:background="@mipmap/img_header_default"
-        app:text_color="@color/white" />
+        android:layout_marginRight="15dp">
+
+        <com.ishow.ischool.widget.custom.AvatarImageView
+            android:id="@+id/avatar_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:text_color="@color/white" />
+
+        <ImageView
+            android:id="@+id/avatar_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/referrer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/referrer_avatar"
         android:layout_centerVertical="true"
-        android:textColor="@color/txt_2"
-        android:textSize="@dimen/sp15"
+        android:layout_toRightOf="@id/avatar_layout"
         android:maxWidth="150dp"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColor="@color/txt_2"
+        android:textSize="@dimen/sp15" />
 
 </RelativeLayout>

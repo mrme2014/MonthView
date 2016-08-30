@@ -80,7 +80,7 @@ public class AvatarImageView extends ImageView {
     }
 
     public void setText(String text, int id, String url) {
-        if (!TextUtils.isEmpty(url)) {
+        if (TextUtils.isEmpty(url)) {
             this.text = AppUtil.getFirstChar(text);
             setBackgroundColor(ColorUtil.getColorById(id));
         } else {

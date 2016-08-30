@@ -476,7 +476,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                 startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY);
                 break;
             case R.id.item_referrer:
-                startActivityForResult(new Intent(getActivity(), UserPickActivity.class), UserPickActivity.REQUEST_CODE_PICK_USER);
+                Intent intent = new Intent(getActivity(), UserPickActivity.class);
+                intent.putExtra(UserPickActivity.P_TITLE,getString(R.string.pick_referrer));
+                startActivityForResult(intent, UserPickActivity.REQUEST_CODE_PICK_USER);
                 break;
             default:
                 break;

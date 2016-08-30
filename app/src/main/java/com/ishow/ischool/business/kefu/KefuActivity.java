@@ -6,6 +6,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 
@@ -43,10 +44,11 @@ public class KefuActivity extends BaseActivity4Crm {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if( url.startsWith("http:") || url.startsWith("https:") ) {
                     return false;
-                }
+                }//dat=tencent://message/?uin=3037209815&Site=qq&Menu=yes
                 // Otherwise allow the OS to handle things like tel, mailto, etc.
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity( intent );
+                LogUtil.e("shouldOverrideUrlLoading"+url);
                 return true;
             }
         });

@@ -35,6 +35,11 @@ public class JumpManager {
         from.startActivity(intent);
     }
 
+
+    public static boolean checkUserPermision(Context context, int permission) {
+        return checkUserPermision(context, permission, true);
+    }
+
     /**
      * 权限检查
      *
@@ -42,20 +47,29 @@ public class JumpManager {
      * @param permission
      * @return
      */
-    public static boolean checkUserPermision(Context context, int permission) {
+    public static boolean checkUserPermision(Context context, int permission, boolean showToast) {
         if (permission == Resource.NO_NEED_CHECK)
             return true;
         List<Integer> resurces = UserManager.getInstance().getResurces();
         if (resurces == null) {
-            ToastUtils.showToast(context, R.string.no_permission);
+            if (showToast) {
+                ToastUtils.showToast(context, R.string.no_permission);
+            }
             return false;
         }
         for (int i = 0; i < resurces.size(); i++) {
             if (resurces.get(i) == permission)
                 return true;
         }
-        ToastUtils.showToast(context, R.string.no_permission);
+        if (showToast) {
+            ToastUtils.showToast(context, R.string.no_permission);
+        }
         return false;
+    }
+
+
+    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
+        return checkRelationPermision(context, relation, false);
     }
 
     /**
@@ -65,9 +79,11 @@ public class JumpManager {
      * @param relation
      * @return
      */
-    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
+    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation, boolean showToast) {
         if (relation == null) {
-            ToastUtils.showToast(context, R.string.no_permission);
+            if (showToast) {
+                ToastUtils.showToast(context, R.string.no_permission);
+            }
             return false;
         }
         User user = UserManager.getInstance().get();
@@ -77,7 +93,9 @@ public class JumpManager {
                 || uid == relation.guider_id || uid == relation.school_chat_attache_id || uid == relation.school_chat_charge_id) {
             return true;
         }
-        ToastUtils.showToast(context, R.string.no_permission);
+        if (showToast) {
+            ToastUtils.showToast(context, R.string.no_permission);
+        }
         return false;
     }
 

@@ -20,10 +20,12 @@ import com.ishow.ischool.bean.market.CommunicationItem;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
 import com.ishow.ischool.event.CommunicationEditRefreshEvent;
@@ -31,6 +33,7 @@ import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CommunEditDialog;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
+import com.zaaach.citypicker.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,7 +131,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     }
 
     private void initData() {
-        Log.d("mylog", "initData", new Exception());
         if (getStudentInfo() != null) {
             HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
             params.put("student_id", getStudentInfo().student_id + "");
@@ -211,83 +213,98 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT)) {
-                    return;
-                }
-
                 Communication communication = mAdapter.getItem(0).communication;
-                final int communId = communication.communicationInfo.id;
 
-                switch (view.getId()) {
+                if (R.id.item_commun_add_btn == view.getId()) {
 
-                    case R.id.commun_state:
-                        final ArrayList<String> datas = AppUtil.getStateList();
-                        AppUtil.showItemDialog(getChildFragmentManager(), datas, new SelectDialogFragment.OnItemSelectedListner() {
-                            @Override
-                            public void onItemSelected(int position, String txt) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
-                                params.put("status", (position + 1) + "");
-                                params.put("status_str", datas.get(position));
-                                params.put("id", communId + "");
-                                mPresenter.editCommunication(params);
-                            }
-                        });
-                        break;
-                    case R.id.commun_faith:
+                    if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT, false)) {
+                        ToastUtils.showToast(getContext(), R.string.no_permission);
+                        return;
+                    }
+                    Intent intent1 = new Intent(getActivity(), CommunicationAddActivity.class);
+                    intent1.putExtra(CommunicationAddActivity.P_COMMUNICATION_OLD, communication);
+                    intent1.putExtra(CommunicationAddActivity.P_STUDENT_INFO, communication.studentInfo);
+                    JumpManager.jumpActivity(getActivity(), intent1, Resource.COMMUNICATION_ADD);
 
-                        final ArrayList<String> faiths = AppUtil.getBeliefList();
-                        AppUtil.showItemDialog(getChildFragmentManager(), faiths, new SelectDialogFragment.OnItemSelectedListner() {
+                } else {
+                    User user = UserManager.getInstance().get();
 
-                            @Override
-                            public void onItemSelected(int position, String txt) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
-                                params.put("belief", (position + 1) + "");
-                                params.put("belief_str", faiths.get(position));
-                                params.put("id", communId + "");
-                                mPresenter.editCommunication(params);
-                            }
-                        });
-                        break;
-                    case R.id.commun_oppose:
-                        final ArrayList<String> opposes = AppUtil.getRefuseList();
-                        AppUtil.showItemDialog(getChildFragmentManager(), opposes, new SelectDialogFragment.OnItemSelectedListner() {
+                    if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT, false) || communication.userInfo.user_id != user.userInfo.user_id) {
+                        ToastUtils.showToast(getContext(), R.string.no_permission);
+                        return;
+                    }
 
-                            @Override
-                            public void onItemSelected(int position, String txt) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
-                                params.put("refuse", (position + 1) + "");
-                                params.put("refuse_str", opposes.get(position));
-                                params.put("id", communId + "");
-                                mPresenter.editCommunication(params);
-                            }
-                        });
-                        break;
-                    case R.id.commun_source:
-                        Intent intent = new Intent(getActivity(), CommunicationEditActivity.class);
-                        intent.putExtra(CommunicationEditActivity.P_ID, communId);
-                        intent.putExtra(CommunicationEditActivity.P_TITLE, getString(R.string.commun_label_source));
-                        intent.putExtra(CommunicationEditActivity.P_TYPE, Cons.Communication.source);
-                        intent.putExtra(CommunicationEditActivity.P_TEXT, communication.communicationInfo.tuition_source);
-                        intent.putExtra(CommunicationEditActivity.P_LEN, 20);
-                        startActivityForResult(intent, REQUEST_SOURCE);
-                        break;
+                    final int communId = communication.communicationInfo.id;
 
-                    case R.id.commun_back_date:
-                        AppUtil.showTimePickerDialog(getChildFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
-                            @Override
-                            public void onPickResult(Integer object, String... result) {
-                                HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
-                                params.put("callback_date", String.valueOf(object));
-                                params.put("callback_date_str", result[0]);
-                                params.put("id", communId + "");
-                                mPresenter.editCommunication(params);
-                            }
-                        });
-                        break;
-                    case R.id.item_commun_add_btn:
-                        showCommunEditDialog();
-                        break;
+                    switch (view.getId()) {
+
+                        case R.id.commun_state:
+                            final ArrayList<String> datas = AppUtil.getStateList();
+                            AppUtil.showItemDialog(getChildFragmentManager(), datas, new SelectDialogFragment.OnItemSelectedListner() {
+                                @Override
+                                public void onItemSelected(int position, String txt) {
+                                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                                    params.put("status", (position + 1) + "");
+                                    params.put("status_str", datas.get(position));
+                                    params.put("id", communId + "");
+                                    mPresenter.editCommunication(params);
+                                }
+                            });
+                            break;
+                        case R.id.commun_faith:
+
+                            final ArrayList<String> faiths = AppUtil.getBeliefList();
+                            AppUtil.showItemDialog(getChildFragmentManager(), faiths, new SelectDialogFragment.OnItemSelectedListner() {
+
+                                @Override
+                                public void onItemSelected(int position, String txt) {
+                                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                                    params.put("belief", (position + 1) + "");
+                                    params.put("belief_str", faiths.get(position));
+                                    params.put("id", communId + "");
+                                    mPresenter.editCommunication(params);
+                                }
+                            });
+                            break;
+                        case R.id.commun_oppose:
+                            final ArrayList<String> opposes = AppUtil.getRefuseList();
+                            AppUtil.showItemDialog(getChildFragmentManager(), opposes, new SelectDialogFragment.OnItemSelectedListner() {
+
+                                @Override
+                                public void onItemSelected(int position, String txt) {
+                                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                                    params.put("refuse", (position + 1) + "");
+                                    params.put("refuse_str", opposes.get(position));
+                                    params.put("id", communId + "");
+                                    mPresenter.editCommunication(params);
+                                }
+                            });
+                            break;
+                        case R.id.commun_source:
+                            Intent intent = new Intent(getActivity(), CommunicationEditActivity.class);
+                            intent.putExtra(CommunicationEditActivity.P_ID, communId);
+                            intent.putExtra(CommunicationEditActivity.P_TITLE, getString(R.string.commun_label_source));
+                            intent.putExtra(CommunicationEditActivity.P_TYPE, Cons.Communication.source);
+                            intent.putExtra(CommunicationEditActivity.P_TEXT, communication.communicationInfo.tuition_source);
+                            intent.putExtra(CommunicationEditActivity.P_LEN, 20);
+                            startActivityForResult(intent, REQUEST_SOURCE);
+                            break;
+
+                        case R.id.commun_back_date:
+                            AppUtil.showTimePickerDialog(getChildFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
+                                @Override
+                                public void onPickResult(Integer object, String... result) {
+                                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                                    params.put("callback_date", String.valueOf(object));
+                                    params.put("callback_date_str", result[0]);
+                                    params.put("id", communId + "");
+                                    mPresenter.editCommunication(params);
+                                }
+                            });
+                            break;
+                    }
                 }
+
 
             }
         });

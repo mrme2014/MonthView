@@ -12,11 +12,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.widget.LabelEditText;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.business.student.pick.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -28,6 +30,7 @@ import com.ishow.ischool.widget.custom.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,6 +39,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     private static final int REQUEST_PICK_STUDENT = 100;
     public static final String P_STUDENT_INFO = "student_info";
+    public static final String P_COMMUNICATION_OLD = "communication";
 
     @BindView(R.id.commun_student_name)
     LabelTextView studentNameTv;
@@ -70,11 +74,13 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     private boolean isSubmitting;
     private int max_length = 200;
+    private Communication oldCommunication;
 
     @Override
     protected void initEnv() {
         super.initEnv();
         studentInfo = getIntent().getParcelableExtra(P_STUDENT_INFO);
+        oldCommunication = getIntent().getParcelableExtra(P_COMMUNICATION_OLD);
     }
 
     @Override
@@ -84,7 +90,11 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpView() {
+        updateDateView();
         updateStudentView();
+        updateOldView();
+
+
         contentTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -124,6 +134,27 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
         mToolbar.inflateMenu(R.menu.menu_communication_add);
         mToolbar.setOnMenuItemClickListener(this);
+    }
+
+    private void updateDateView() {
+        form.communication_date = new Date().getTime() / 1000;
+        dateTv.setText(DateUtil.parseSecond2Str(form.communication_date));
+    }
+
+    private void updateOldView() {
+        if (oldCommunication != null) {
+            stateTv.setText(AppUtil.getStateById(oldCommunication.communicationInfo.status));
+            faithTv.setText(AppUtil.getBeliefById(oldCommunication.communicationInfo.belief));
+            opposeTv.setText(AppUtil.getRefuseById(oldCommunication.communicationInfo.refuse));
+            backDateTv.setText(DateUtil.parseSecond2Str(oldCommunication.communicationInfo.callback_date));
+            moneySourceTv.setText(oldCommunication.communicationInfo.tuition_source);
+
+            form.status = oldCommunication.communicationInfo.status;
+            form.belief = oldCommunication.communicationInfo.belief;
+            form.refuse = oldCommunication.communicationInfo.refuse;
+            form.callback_date = oldCommunication.communicationInfo.callback_date;
+            form.tuition_source = oldCommunication.communicationInfo.tuition_source;
+        }
     }
 
     private void finishActivity() {

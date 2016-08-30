@@ -71,6 +71,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     LabelTextView classTv;
     @BindView(R.id.student_idcard)
     LabelTextView idcardTv;
+
+    @BindView(R.id.net_empty_view_group)
+    View emptyViewGroup;
+
     private boolean needRefresh;
 
     public StudentInfoFragment() {
@@ -128,6 +132,13 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         if (mStudent == null) {
             return;
         }
+        if (JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT, false)
+                && JumpManager.checkRelationPermision(getContext(), getStudent().studentRelationInfo, false)) {
+            emptyViewGroup.setVisibility(View.GONE);
+        } else {
+            emptyViewGroup.setVisibility(View.VISIBLE);
+        }
+
         userNameTv.setText(mStudent.name);
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile);
@@ -162,6 +173,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         Bundle b = new Bundle();
         b.putBoolean("refresh", true);
         mListener.onFragmentInteraction(b);
+
     }
 
     @Override

@@ -39,6 +39,7 @@
         android:layout_below="@id/line"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/user_photo_iv"
+        android:maxEms="10"
         android:singleLine="true"
         android:text="wangxiao"
         android:textSize="15sp" />
@@ -61,8 +62,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/user_photo_iv"
-        android:lines="2"
         android:ellipsize="end"
+        android:lines="2"
         android:textColor="@color/txt_6" />
 
     <View

@@ -48,6 +48,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
     protected void setUpData() {
         super.setUpData();
         params = new HashMap<>();
+        params.put("source", "-1");
     }
 
     @Override

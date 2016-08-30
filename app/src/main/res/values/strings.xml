@@ -3,7 +3,6 @@
 
     <!-- common -->
     <string name="str_search_college_hint">搜索学校名称</string>
-    <string name="str_search_hint">搜索姓名、手机号</string>
 
     <string name="permisson_quanxian_ok">确定</string>
     <string name="permisson_quanxian_call">该功能需要赋予访问电话的权限，否则该功能可能不能正常工作！</string>
@@ -11,7 +10,7 @@
     <string name="permisson_quanxian_connact">该功能需要赋予访问并修改联系人的权限，否则该功能可能不能正常工作！</string>
     <string name="title_complete">完成</string>
     <string name="tab_business">业务</string>
-    <string name="tab_me">我</string>
+    <string name="tab_me">我的</string>
     <string name="submit">提交</string>
     <string name="old_pwd_hnit">请输入旧密码</string>
     <string name="new_pwd_hnit">新密码须为6位及以上,字母加数字组合</string>

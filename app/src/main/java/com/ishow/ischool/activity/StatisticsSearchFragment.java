@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.Conf;
 import com.commonlib.core.BaseListFragment;
 import com.commonlib.http.ApiFactory;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -24,6 +26,7 @@ import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +62,11 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             mCampusId = bundle.getString("campus_id", "");
             mSource = bundle.getString("source", "");
         }
+    }
+
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new BaseItemDecor(getActivity(), 67);
     }
 
     @Override
@@ -108,7 +116,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
 
     class StatisticsListViewHolder extends BaseViewHolder {
         @BindView(R.id.avatar)
-        ImageView avatar;
+        AvatarImageView avatar;
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.state)
@@ -130,12 +138,11 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
 //                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
+                avatar.setText(data.studentInfo.name, data.studentInfo.id, "");
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
-//                state.setText(UserUtil.getUserPayState(data.applyInfo.status));
                 state.setText(data.studentInfo.pay_state_name);
                 state.setBackgroundResource(R.drawable.bg_round_corner_gray);
-//                if (data.applyInfo.status == )
             }
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override

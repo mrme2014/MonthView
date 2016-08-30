@@ -27,10 +27,13 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         if (!isAlive()) {
             return;
         }
-        String message = e.getMessage();
+/*        String message = e.getMessage();
         if (message != null && message.contains("$"))
             onError("server error");
         else onError(message);
+=======
+//        onError(e.getMessage());*/
+        onError("数据异常");        // 过滤retrofit错误信息，后期可以将此信息上传
         onCompleted();
     }
 

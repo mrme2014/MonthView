@@ -109,6 +109,9 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             public boolean onQueryTextChange(String newText) {
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
+                if (searchFragment == null) {
+                    searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+                }
                 if (TextUtils.isEmpty(mSearchKey)) {
                     searchFragment.loadFailed();
                 } else {

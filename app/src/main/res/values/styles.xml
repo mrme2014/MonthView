@@ -24,6 +24,7 @@
         <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
         <!--<item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>-->
         <!--<item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>-->
+        <!--<item name="android:listDivider">@color/comm_line</item>-->
     </style>
 
     <style name="MenuTextStyle">
@@ -34,11 +35,10 @@
 
     <style name="radioButton_main" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:button">@null</item>
-        <item name="android:drawablePadding">3dp</item>
-        <item name="android:layout_marginTop">3dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">2dp</item>
         <item name="android:textColor">@color/selector_main_radiobutton_text</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:height">48dp</item>

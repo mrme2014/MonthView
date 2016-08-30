@@ -229,7 +229,9 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_qq));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
-                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
+                if (!TextUtils.isEmpty(getStudentInfo().qq) && !"0".equals(getStudentInfo().qq)) {
+                    intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
+                }
                 intent.putExtra(EditActivity.P_LEN, 20);
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ, Resource.PERMISSION_STU_EDIT);
             }

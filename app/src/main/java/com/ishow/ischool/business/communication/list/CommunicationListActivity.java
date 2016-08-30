@@ -33,7 +33,8 @@ import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
-import com.ishow.ischool.event.CommunicationRefreshEvent;
+import com.ishow.ischool.event.CommunicationAddRefreshEvent;
+import com.ishow.ischool.event.CommunicationEditRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -72,12 +73,19 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         super.initEnv();
         initParamsMap();
 
-        RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
+        RxBus.getDefault().register(CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
             @Override
-            public void call(CommunicationRefreshEvent o) {
+            public void call(CommunicationAddRefreshEvent o) {
                 needRefresh = true;
                 initParamsMap();
-               // setRefreshing();
+            }
+        });
+
+        RxBus.getDefault().register(CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
+            @Override
+            public void call(CommunicationEditRefreshEvent o) {
+                needRefresh = true;
+                initParamsMap();
             }
         });
     }
@@ -268,7 +276,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
 
     void showSearchFragment() {
-        if (searchFragment==null) searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+        if (searchFragment == null)
+            searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
         frameLayout.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
@@ -345,5 +354,12 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 //        mPresenter.listCommunication(mParamsMap);
         setRefreshing();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getDefault().unregister(CommunicationAddRefreshEvent.class);
+        RxBus.getDefault().unregister(CommunicationEditRefreshEvent.class);
     }
 }

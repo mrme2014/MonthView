@@ -131,7 +131,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         userNameTv.setText(mStudent.name);
         englishNameTv.setText(mStudent.english_name);
         phoneTv.setText(mStudent.mobile);
-        if (TextUtils.isEmpty(mStudent.qq) || "0".equals(mStudent.qq)) {
+        if (!TextUtils.isEmpty(mStudent.qq) && !"0".equals(mStudent.qq)) {
             qqTv.setText(mStudent.qq);
         }
         if (mStudent.birthday != 0)

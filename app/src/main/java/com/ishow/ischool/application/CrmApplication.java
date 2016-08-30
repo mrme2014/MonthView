@@ -61,7 +61,7 @@ public class CrmApplication extends BaseApplication {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Token token = TokenManager.getToken();
-                LogUtil.e(token == null ? "=======" : "token" + token.token);
+                LogUtil.d(token == null ? "=======" : "token" + token.token);
                 Request newRequest = chain.request();
                 if (token != null && !TextUtils.isEmpty(token.token)) {
                     HttpUrl url = newRequest.url().newBuilder().addQueryParameter("token", token == null ? "" : token.token).build();
@@ -203,11 +203,11 @@ public class CrmApplication extends BaseApplication {
 //                .updateDialogCreator(new DialogCreator() {
 //                    @Override
 //                    public Dialog create(final Update update, final Activity context) {
-                        // 此处为检查出有新版本需要更新时的回调。运行于主线程，在此进行更新Dialog的创建
-                        // 对于用户自定义的Dialog。用户可自行在此更新update中的数据对Dialog进行展示。
-                        // 在用户需要立即更新时。调用此类中的sendDownloadRequest(update,activity);
-                        // 在用户需要取消更新时。调用此类中的sendUserCancel();
-                        // 在用户需要忽略此版本更新时。调用此类中的sendCheckIgnore(update);
+        // 此处为检查出有新版本需要更新时的回调。运行于主线程，在此进行更新Dialog的创建
+        // 对于用户自定义的Dialog。用户可自行在此更新update中的数据对Dialog进行展示。
+        // 在用户需要立即更新时。调用此类中的sendDownloadRequest(update,activity);
+        // 在用户需要取消更新时。调用此类中的sendUserCancel();
+        // 在用户需要忽略此版本更新时。调用此类中的sendCheckIgnore(update);
 //                        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 //                        builder.setTitle(com.commonlib.R.string.str_update_title);
 //                        builder.setMessage(update.getUpdateContent());

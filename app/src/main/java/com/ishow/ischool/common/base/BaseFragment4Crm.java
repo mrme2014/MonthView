@@ -42,6 +42,7 @@ public abstract class BaseFragment4Crm<P extends BasePresenter, M extends BaseMo
     }
 
     Snackbar snackbar = null;
+
     public void showToast(String s) {
         if (getView() != null) {
             snackbar = Snackbar.make(getView(), s, Snackbar.LENGTH_LONG);
@@ -58,12 +59,14 @@ public abstract class BaseFragment4Crm<P extends BasePresenter, M extends BaseMo
     public void showToast(int stringId) {
         showToast(getString(stringId));
     }
+
     private ProgressDialog dialog;
+
     public void handProgressbar(boolean show) {
         if (show) {
             if (dialog == null) {
                 dialog = new ProgressDialog(getContext());
-                dialog.setMessage("request server...");
+                dialog.setMessage("Loading...");
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.setCancelable(false);
             }

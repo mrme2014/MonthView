@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +25,8 @@ import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
-import com.ishow.ischool.event.CommunicationRefreshEvent;
+import com.ishow.ischool.event.CommunicationAddRefreshEvent;
+import com.ishow.ischool.event.CommunicationEditRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CommunEditDialog;
 import com.ishow.ischool.widget.custom.SelectDialogFragment;
@@ -87,9 +89,9 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         initData();
 
 
-        RxBus.getDefault().register(CommunicationRefreshEvent.class, new Action1<CommunicationRefreshEvent>() {
+        RxBus.getDefault().register(CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
             @Override
-            public void call(CommunicationRefreshEvent o) {
+            public void call(CommunicationAddRefreshEvent o) {
                 initData();
             }
         });
@@ -122,10 +124,11 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RxBus.getDefault().unregister(CommunicationRefreshEvent.class);
+        RxBus.getDefault().unregister(CommunicationAddRefreshEvent.class);
     }
 
     private void initData() {
+        Log.d("mylog", "initData", new Exception());
         if (getStudentInfo() != null) {
             HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
             params.put("student_id", getStudentInfo().student_id + "");
@@ -199,7 +202,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     }
 
     public void refresh() {
-        RxBus.getDefault().post(new CommunicationRefreshEvent());
+        RxBus.getDefault().post(new CommunicationEditRefreshEvent());
         initData();
     }
 

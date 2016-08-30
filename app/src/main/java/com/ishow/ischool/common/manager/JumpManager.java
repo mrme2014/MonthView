@@ -60,6 +60,7 @@ public class JumpManager {
 
     /**
      * 相关的人才能操作
+     *
      * @param context
      * @param relation
      * @return
@@ -71,8 +72,9 @@ public class JumpManager {
         }
         User user = UserManager.getInstance().get();
         int uid = user.userInfo.user_id;
-        if (uid == relation.advisor_id || uid == relation.referrer_id || uid == relation.campus_manager_id ||
-                uid == relation.charge_id || uid == relation.saler_id || uid == relation.student_id || uid == relation.saler_id) {
+        if (uid == relation.advisor_id || uid == relation.referrer_id || uid == relation.campus_manager_id
+                || uid == relation.charge_id || uid == relation.saler_id || uid == relation.student_id
+                || uid == relation.guider_id || uid == relation.school_chat_attache_id || uid == relation.school_chat_charge_id) {
             return true;
         }
         ToastUtils.showToast(context, R.string.no_permission);

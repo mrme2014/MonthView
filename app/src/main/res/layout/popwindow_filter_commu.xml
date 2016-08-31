@@ -26,10 +26,11 @@
 
         <TextView
             android:id="@+id/commun_date_label"
-            android:layout_width="80dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:gravity="center"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:text="@string/commun_date"
             android:textColor="@color/txt_2"
             android:textSize="@dimen/sp14" />
@@ -40,7 +41,7 @@
             android:layout_toRightOf="@+id/commun_date_label"
             android:gravity="left|center"
             android:hint="@string/commun_date_start"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             app:draw_bottom_line="true" />
 
         <com.commonlib.widget.LabelTextView
@@ -50,13 +51,14 @@
             android:layout_toRightOf="@+id/commun_date_label"
             android:gravity="left|center"
             android:hint="@string/commun_date_end"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             app:draw_bottom_line="false" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
             android:background="@color/comm_line" />
     </RelativeLayout>
 

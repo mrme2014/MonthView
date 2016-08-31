@@ -3,7 +3,6 @@ package com.ishow.ischool.business.communication.add;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -85,7 +84,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_communication_add, R.string.add_communication, R.menu.menu_communication_add, MODE_NONE);
+        setContentView(R.layout.activity_communication_add, R.string.add_communication, R.menu.menu_communication_add, MODE_BACK);
     }
 
     @Override
@@ -120,20 +119,6 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                 //contentCountTv.setText(String.valueOf(200 - editable.length()));
             }
         });
-
-        mToolbar = (Toolbar) findViewById(com.commonlib.R.id.toolbar);
-        mToolbarTitle = (TextView) findViewById(com.commonlib.R.id.toolbar_title);
-        mToolbarTitle.setText(getString(R.string.add_communication));
-        mToolbar.setNavigationIcon(com.commonlib.R.drawable.ic_return);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishActivity();
-            }
-        });
-
-        mToolbar.inflateMenu(R.menu.menu_communication_add);
-        mToolbar.setOnMenuItemClickListener(this);
     }
 
     private void updateDateView() {
@@ -192,13 +177,18 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             return true;
         if (!TextUtils.equals(backDateTv.getText().toString(), ""))
             return true;
-        if (!TextUtils.equals(dateTv.getText().toString(), ""))
-            return true;
+//        if (!TextUtils.equals(dateTv.getText().toString(), ""))
+//            return true;
         if (!TextUtils.equals(moneySourceTv.getText().toString(), ""))
             return true;
         if (!TextUtils.equals(contentTv.getText().toString(), ""))
             return true;
         return false;
+    }
+
+    @Override
+    protected void onNavigationBtnClicked() {
+        finishActivity();
     }
 
     @Override

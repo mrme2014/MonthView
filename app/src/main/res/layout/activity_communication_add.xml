@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
             <View
                 android:layout_width="match_parent"
@@ -28,7 +29,6 @@
                 style="@style/communication_textview"
                 android:hint="@string/commun_choose_hint"
                 app:label_text_left="@string/commun_label_student_name" />
-
 
             <View
                 android:layout_width="match_parent"

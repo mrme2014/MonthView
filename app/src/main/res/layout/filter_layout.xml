@@ -32,7 +32,9 @@
             android:drawablePadding="5dp"
             android:drawableRight="@mipmap/icon_time_down"
             android:paddingLeft="10dp"
-            android:text="@string/item_register_time" />
+            android:text="@string/item_register_time"
+            android:textColor="@color/txt_2"
+            android:textSize="@dimen/sp14"/>
 
         <LinearLayout
             android:layout_width="match_parent"

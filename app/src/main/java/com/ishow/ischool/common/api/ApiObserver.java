@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.net.ConnectException;
+import java.net.UnknownHostException;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
@@ -78,6 +79,8 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         } else if (e instanceof ConnectException) {
             //均视为网络错误
             onError("连接失败");
+        } else if (e instanceof UnknownHostException) {
+            onError("网络连接异常");
         } else {
             //未知错误
             onError("发生未知错误");

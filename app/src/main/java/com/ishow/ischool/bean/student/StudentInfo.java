@@ -3,6 +3,8 @@ package com.ishow.ischool.bean.student;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by MrS on 2016/7/24.
  */
@@ -74,9 +76,11 @@ public class StudentInfo implements Parcelable {
     public int class_hour_total;
     public int class_hour;
     public int payed;
+    public ArrayList<Integer> all_user_ids;
 
     public StudentInfo() {
     }
+
 
     protected StudentInfo(Parcel in) {
         id = in.readInt();
@@ -111,23 +115,6 @@ public class StudentInfo implements Parcelable {
         class_hour_total = in.readInt();
         class_hour = in.readInt();
         payed = in.readInt();
-    }
-
-    public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
-        @Override
-        public StudentInfo createFromParcel(Parcel in) {
-            return new StudentInfo(in);
-        }
-
-        @Override
-        public StudentInfo[] newArray(int size) {
-            return new StudentInfo[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override
@@ -165,4 +152,21 @@ public class StudentInfo implements Parcelable {
         dest.writeInt(class_hour);
         dest.writeInt(payed);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
+        @Override
+        public StudentInfo createFromParcel(Parcel in) {
+            return new StudentInfo(in);
+        }
+
+        @Override
+        public StudentInfo[] newArray(int size) {
+            return new StudentInfo[size];
+        }
+    };
 }

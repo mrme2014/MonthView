@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.StudentRelationInfo;
 import com.ishow.ischool.bean.user.User;
 import com.zaaach.citypicker.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +70,7 @@ public class JumpManager {
     }
 
 
+    @Deprecated
     public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
         return checkRelationPermision(context, relation, false);
     }
@@ -123,4 +126,14 @@ public class JumpManager {
         from.startActivityForResult(intent, requestCode);
     }
 
+    public static boolean checkRelationPermision(Context context, ArrayList<Integer> all_user_ids) {
+        int uid = UserManager.getInstance().get().userInfo.user_id;
+        LogUtil.d("JumpManager", "uid=" + uid + " all_user_ids=" + all_user_ids.toString());
+        for (int id : all_user_ids) {
+            if (id == uid) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

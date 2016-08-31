@@ -66,11 +66,11 @@ public class CrmApplication extends BaseApplication {
                     HttpUrl url = newRequest.url().newBuilder().addQueryParameter("token", token == null ? "" : token.token).build();
                     newRequest = newRequest.newBuilder().url(url).build();
                 }
-                newRequest.newBuilder().addHeader("app_version_small", "1")
-                        .addHeader("api_version", "1.1")
-                        .addHeader("app_version", "1.1")
-                        .addHeader("app_os", "android")
-                        .addHeader("app_type", "huawei")
+                newRequest.newBuilder().addHeader("app_version_small", "0")
+                        .addHeader("api_version", "V2.0")
+                        .addHeader("app_version", DeviceUtils.getAppVersionCode(getBaseContext()) + "")
+                        .addHeader("app_os", "Android")
+                        .addHeader("app_type", "1")
                         .build();
                 okhttp3.Response response = chain.proceed(newRequest);
 
@@ -132,8 +132,7 @@ public class CrmApplication extends BaseApplication {
 //                                update.setUpdateUrl(testApkFile);       // 测试用
                                 update.setUpdateUrl(obj.optString("url"));
                                 // 此apk包的版本号
-//                                update.setVersionCode(2);     // 测试用
-                                obj.optInt("code");
+                                update.setVersionCode(obj.optInt("code"));
                                 // 此apk包的版本名称
                                 update.setVersionName(obj.optString("new_version"));
                                 // 此apk包的更新内容

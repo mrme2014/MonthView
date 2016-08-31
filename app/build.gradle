@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd_HHmm')
+    return formattedDate
+}
 
 android {
     signingConfigs {
@@ -25,14 +30,35 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            buildConfigField "boolean", "release", "true"
         }
         debug {
             signingConfig signingConfigs.config
+            buildConfigField "boolean", "release", "false"
         }
     }
     productFlavors {
+
+    }
+
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+//                println(variant.productFlavors)
+                def releaseApkName = 'ischool-' + variant.buildType.name + '-' + variant.getVersionName() + '-' + getDate() + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+            if (variant.buildType.name.equals('debug')) {
+                def debugApkName = 'ischool-' + variant.buildType.name + '-' + variant.getVersionName() + '-' + getDate() + '.apk'
+                output.outputFile = new File(oldFile.parent, debugApkName)
+            }
+        }
     }
 }
 

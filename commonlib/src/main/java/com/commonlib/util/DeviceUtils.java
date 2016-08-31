@@ -137,19 +137,6 @@ public final class DeviceUtils {
         return versionName;
     }
 
-    public static int getVersionCode(Context context) {
-        int versioncode = 1;
-        try {
-            // ---get the package info---
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versioncode = pi.versionCode;
-        } catch (Exception e) {
-            // Log.e("VersionInfo", "Exception", e);
-        }
-        return versioncode;
-    }
-
     private static String getHandSetInfo() {
         String handSetInfo =
                 "手机型号:" + Build.MODEL +

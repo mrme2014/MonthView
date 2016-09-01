@@ -18,6 +18,8 @@ public class ApplyInfo implements Parcelable {
     public long cheap;
     public long practical;
     public long arrearage;
+    public long create_time;
+    public long update_time;
     public int is_use;
 
     public static final int PAYSTATE_UNENROL = 1;   // 未报名
@@ -43,6 +45,8 @@ public class ApplyInfo implements Parcelable {
         dest.writeLong(this.cheap);
         dest.writeLong(this.practical);
         dest.writeLong(this.arrearage);
+        dest.writeLong(this.create_time);
+        dest.writeLong(this.update_time);
         dest.writeInt(this.is_use);
     }
 
@@ -61,6 +65,8 @@ public class ApplyInfo implements Parcelable {
         this.cheap = in.readLong();
         this.practical = in.readLong();
         this.arrearage = in.readLong();
+        this.create_time = in.readLong();
+        this.update_time = in.readLong();
         this.is_use = in.readInt();
     }
 

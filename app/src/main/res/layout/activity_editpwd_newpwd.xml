@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/widget_toolbar"></include>
+    <include layout="@layout/widget_toolbar" />
 
     <EditText
         android:id="@+id/new_pwd"
         style="@style/edit_white_bg"
         android:layout_marginTop="15dp"
-        android:inputType="textPassword"
-        android:hint="@string/new_pwd_hnit" />
+        android:hint="@string/new_pwd_hnit"
+        android:inputType="textPassword" />
 
     <View
         android:layout_width="match_parent"
@@ -23,8 +23,7 @@
         android:id="@+id/new_pwd_again"
         style="@style/edit_white_bg"
         android:hint="@string/new_pwd_hnit_again"
-        android:inputType="textPassword"
-         />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/submit_tv"
@@ -35,6 +34,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:textSize="15sp"
-        android:text="@string/submit" />
+        android:text="@string/submit"
+        android:textSize="15sp" />
 </LinearLayout>

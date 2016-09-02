@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/commun_state"
+            style="@style/student_info_textview"
+            android:textColorHint="@color/txt_9"
+            app:label_text_left="@string/commun_label_state" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/commun_faith"
+            style="@style/student_info_textview"
+            android:textColorHint="@color/txt_9"
+            app:label_text_left="@string/commun_label_faith" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/commun_oppose"
+            style="@style/student_info_textview"
+            android:textColorHint="@color/txt_9"
+            app:label_text_left="@string/commun_label_oppose" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/commun_source"
+            style="@style/student_info_textview"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:textColorHint="@color/txt_9"
+            app:label_text_left="@string/commun_label_source"
+            app:label_text_size="@dimen/sp14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.LabelTextView
+            android:id="@+id/commun_back_date"
+            style="@style/student_info_textview"
+            android:textColorHint="@color/txt_9"
+            app:label_text_left="@string/commun_label_back_date" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/commun_content_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/commun_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:textColor="@color/txt_3" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/commun_content"
+            android:layout_marginTop="15dp">
+
+            <com.ishow.ischool.widget.custom.CircleImageView
+                android:id="@+id/commun_user_avatar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:src="@mipmap/img_header_default" />
+
+            <TextView
+                android:id="@+id/oprater_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/commun_user_avatar"
+                android:textColor="@color/txt_9"
+                android:textSize="@dimen/sp12"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/oprater_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="time"
+                android:textColor="@color/txt_9"
+                android:textSize="@dimen/sp12"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

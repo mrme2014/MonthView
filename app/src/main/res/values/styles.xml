@@ -281,5 +281,33 @@
         <item name="android:background">@drawable/selector_btn_blue_bg</item>
         <item name="android:padding">10dp</item>
     </style>
+    
+
+    <!-- color=#222222 size=15sp -->
+    <style name="name_font_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/txt_2</item>
+        <item name="android:textSize">@dimen/sp15</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- color=#666666 size=13sp -->
+    <style name="normal_font_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/txt_6</item>
+        <item name="android:textSize">@dimen/sp13</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- color=#999999 size=11sp -->
+    <style name="small_font_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/txt_9</item>
+        <item name="android:textSize">@dimen/sp11</item>
+        <item name="android:gravity">center</item>
+    </style>
 
 </resources>

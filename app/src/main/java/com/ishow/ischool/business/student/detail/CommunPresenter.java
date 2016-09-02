@@ -29,25 +29,6 @@ public class CommunPresenter extends CommunContract.Presenter {
         });
     }
 
-    public void editCommunication(final HashMap<String, String> params) {
-        mModel.editCommunication(params).subscribe(new ApiObserver<Object>() {
-            @Override
-            public void onSuccess(Object o) {
-                mView.onEditCommunicationSuccedd(params);
-            }
-
-            @Override
-            public void onError(String msg) {
-                mView.onEditCommunicationFailed(msg);
-            }
-
-            @Override
-            protected boolean isAlive() {
-                return mView != null && !mView.isActivityFinished();
-            }
-        });
-    }
-
     public void addCommunication(HashMap<String, String> params) {
         mModel.addCommunication(params).subscribe(new ApiObserver<Object>() {
             @Override

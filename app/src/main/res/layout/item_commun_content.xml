@@ -17,7 +17,6 @@
             android:id="@+id/item_commun_date_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="8dp"
             android:src="@mipmap/icon_student_date" />
 
@@ -31,50 +30,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/item_commun_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/item_commun_date_icon"
-            android:textColor="@color/txt_9" />
+            style="@style/small_font_style"
+            android:layout_marginTop="8dp" />
 
         <RelativeLayout
             android:id="@+id/item_commun_content_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_commun_date"
             android:layout_marginTop="6dp"
-            android:layout_toRightOf="@id/item_commun_date_icon"
             android:background="@color/white"
-            android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
                 android:id="@+id/item_commun_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="content" />
+                android:textColor="@color/txt_3"/>
 
-            <com.ishow.ischool.widget.custom.CircleImageView
-                android:id="@+id/item_commun_user_avatar"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/item_commun_content"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="12dp"
-                android:src="@mipmap/img_header_default" />
-
-            <TextView
-                android:id="@+id/item_oprater_name"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_commun_content"
-                android:layout_marginTop="13dp"
-                android:layout_toRightOf="@id/item_commun_user_avatar"
-                android:text="name" />
+                android:layout_marginTop="15dp">
+
+                <com.ishow.ischool.widget.custom.CircleImageView
+                    android:id="@+id/item_commun_user_avatar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/img_header_default" />
+
+                <TextView
+                    android:id="@+id/item_oprater_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/item_commun_user_avatar"
+                    android:textColor="@color/txt_9"
+                    android:textSize="@dimen/sp12"/>
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 

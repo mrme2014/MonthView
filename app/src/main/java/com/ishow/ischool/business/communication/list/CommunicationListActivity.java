@@ -76,7 +76,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             @Override
             public void call(CommunicationAddRefreshEvent o) {
                 needRefresh = true;
-                initParamsMap();
             }
         });
 
@@ -84,7 +83,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             @Override
             public void call(CommunicationEditRefreshEvent o) {
                 needRefresh = true;
-                initParamsMap();
             }
         });
     }
@@ -165,6 +163,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     protected void onResume() {
         super.onResume();
         if (needRefresh) {
+            initParamsMap();
             setRefreshing();
             needRefresh = false;
         }

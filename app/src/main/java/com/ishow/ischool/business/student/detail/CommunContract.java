@@ -21,10 +21,6 @@ public interface CommunContract {
 
         void listCommunicationFailed(String msg);
 
-        void onEditCommunicationFailed(String msg);
-
-        void onEditCommunicationSuccedd(HashMap<String, String> params);
-
         void onAddCommunicationSuccess();
 
         void onAddCommunicationFailed(String msg);
@@ -32,8 +28,6 @@ public interface CommunContract {
 
     interface Model extends BaseModel {
         Observable<ApiResult<CommunicationList>> listCommunications(HashMap<String, String> params, int page);
-
-        Observable<ApiResult<Object>> editCommunication(HashMap<String, String> params);
 
         Observable<ApiResult<Object>> addCommunication(HashMap<String, String> params);
     }

@@ -84,6 +84,7 @@
             android:name=".business.user.pick.UserPickActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".business.communication.detail.CommunicationDetailActivity" />
     </application>
 
 </manifest>

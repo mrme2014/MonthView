@@ -15,21 +15,16 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/name_font_style"
         android:layout_toRightOf="@id/avatar"
-        android:textColor="@color/txt_2"
-        android:textSize="@dimen/sp15"
         android:singleLine="true"
         android:maxWidth="200dp"/>
 
     <TextView
         android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/small_font_style"
         android:layout_alignLeft="@id/name"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/txt_9"
         android:textSize="@dimen/sp10" />
 
     <TextView

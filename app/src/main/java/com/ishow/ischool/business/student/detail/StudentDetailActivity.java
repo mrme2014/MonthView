@@ -156,7 +156,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         titlebarTitleTv.setText(student.studentInfo.name);
 
         studentInfoFragment.refresh();
-        communicationListFragment.refresh();
+        communicationListFragment.initData();
     }
 
     @Override

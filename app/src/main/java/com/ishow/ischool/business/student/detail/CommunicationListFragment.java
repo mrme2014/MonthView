@@ -1,7 +1,6 @@
 package com.ishow.ischool.business.student.detail;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +15,7 @@ import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
-import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
 import com.ishow.ischool.event.CommunicationEditRefreshEvent;
@@ -29,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import rx.functions.Action1;
 
 
@@ -44,10 +40,8 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
     @BindView(R.id.empty_layout)
     LinearLayout emptyView;
-
     @BindView(R.id.communication_add)
     TextView communAddTv;
 
@@ -81,7 +75,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
             @Override
             public void call(CommunicationAddRefreshEvent o) {
                 needRefresh = true;
-                initData();
+//                initData();
             }
         });
 
@@ -89,7 +83,7 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
             @Override
             public void call(CommunicationEditRefreshEvent o) {
                 needRefresh = true;
-                initData();
+//                initData();
             }
         });
     }
@@ -192,20 +186,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         initData();
     }
 
-//                Communication communication = mAdapter.getItem(0);
-//
-//                if (R.id.item_commun_add_btn == view.getId()) {
-//
-//                    if (!JumpManager.checkUserPermision(getContext(), Resource.COMMUNICATION_EDIT, false)) {
-//                        ToastUtils.showToast(getContext(), R.string.no_permission);
-//                        return;
-//                    }
-//                    Intent intent1 = new Intent(getActivity(), CommunicationAddActivity.class);
-//                    intent1.putExtra(CommunicationAddActivity.P_COMMUNICATION_OLD, communication);
-//                    intent1.putExtra(CommunicationAddActivity.P_STUDENT_INFO, communication.studentInfo);
-//                    JumpManager.jumpActivity(getActivity(), intent1, Resource.COMMUNICATION_ADD);
-
-
     private void showCommunEditDialog() {
         final Communication communication = mAdapter.getItem(0);
         CommunEditDialog dialog = new CommunEditDialog();
@@ -232,10 +212,4 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
         }).show(getChildFragmentManager(), "dialog");
     }
 
-    @OnClick(R.id.communication_add)
-    void onClickCommunAdd(View view) {
-        Intent intent = new Intent(getActivity(), CommunicationAddActivity.class);
-        intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-        JumpManager.jumpActivity(getActivity(), intent, Resource.COMMUNICATION_ADD);
-    }
 }

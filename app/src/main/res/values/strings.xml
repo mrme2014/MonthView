@@ -50,6 +50,7 @@
     <string name="fm_me_mornig_qrcode">晨读二维码</string>
     <string name="fm_me_change_pwd">修改密码</string>
     <string name="fm_me_kefu">客服</string>
+    <string name="fm_me_version">当前版本号</string>
     <string name="fm_me_login_out">退出</string>
     <!--======================个人资料===================================-->
     <string name="per_info_title">个人资料</string>

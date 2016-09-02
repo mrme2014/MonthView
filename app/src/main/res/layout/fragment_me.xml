@@ -99,6 +99,14 @@
             android:text="@string/fm_me_kefu"
             />
 
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/fm_me_version"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_switch"
+            android:text="@string/fm_me_version"
+            app:tip_right_color="#999"
+            app:tip_right_padding="24"/>
+
         <Button
             android:id="@+id/fm_me_login_out"
             style="@style/fragment_textview_Wmatch_45height"
@@ -106,7 +114,6 @@
             android:textColor="@color/text_tuichu"
             android:gravity="center"
             android:drawableRight="@null"
-            android:background="@drawable/bg_item_text_ripple"
-            />
+            android:background="@drawable/bg_item_text_ripple" />
     </LinearLayout>
 </ScrollView>

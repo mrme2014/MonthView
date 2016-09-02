@@ -1,18 +1,26 @@
 package com.ishow.ischool.business.student.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -21,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresenter, StudentDetailModel> implements
         CommunicationListFragment.OnFragmentInteractionListener, StudentInfoFragment.OnFragmentInteractionListener,
@@ -34,27 +43,22 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     @BindView(R.id.student_viewpager)
     ViewPager mViewPaper;
-
     @BindView(R.id.student_avatar_iv)
     AvatarImageView avatarTv;
-
     @BindView(R.id.student_user_name)
     TextView usernameTv;
-
     @BindView(R.id.student_apply_state)
     LabelTextView applyStateLtv;
-
     @BindView(R.id.student_class_hour)
     LabelTextView classHourLtv;
-
     @BindView(R.id.student_tuition)
     LabelTextView tuitionLtv;
-
     @BindView(R.id.titlebar_title)
     TextView titlebarTitleTv;
-
     @BindView(R.id.appbar)
     AppBarLayout mAppBar;
+    @BindView(R.id.fab)
+    FloatingActionButton addFab;
 
     public Student student;
     public int studentId;
@@ -120,6 +124,30 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titleList);
         mViewPaper.setAdapter(mFragmentAdapter);
         mViewPaper.setCurrentItem(isCommun ? 1 : 0);
+        final int screenHeight = getResources().getDisplayMetrics().heightPixels;
+        mViewPaper.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 0) {
+                    addFab.animate()
+                            .translationY(screenHeight - addFab.getHeight())
+                            .setInterpolator(new AccelerateInterpolator(2))
+                            .start();
+                } else {
+                    addFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -202,5 +230,12 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             return student;
         }
         return null;
+    }
+
+    @OnClick(R.id.fab)
+    void onClickCommunAdd(View view) {
+        Intent intent = new Intent(this, CommunicationAddActivity.class);
+        intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
+        JumpManager.jumpActivity(this, intent, Resource.COMMUNICATION_ADD);
     }
 }

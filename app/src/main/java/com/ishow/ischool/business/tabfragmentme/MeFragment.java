@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
+import com.commonlib.util.DeviceUtils;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
@@ -54,6 +55,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     public FmItemTextView fmMeNotifyMsg;
     @BindView(R.id.fm_me_mornig_qrcode)
     FmItemTextView fmMeMornigQrcode;
+    @BindView(R.id.fm_me_version)
+    FmItemTextView fmMeVersion;
 
     private User user;
 
@@ -98,6 +101,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
             Drawable[] drawables = fmMeSwitchRole.getCompoundDrawables();
             fmMeSwitchRole.setCompoundDrawables(drawables[0], null, null, null);
         }
+        Drawable[] drawables = fmMeVersion.getCompoundDrawables();
+        fmMeVersion.setCompoundDrawables(drawables[0], null, null, null);
+        fmMeVersion.setTipTxt(DeviceUtils.getVersionName(getActivity()));
     }
 
     @Override
@@ -109,56 +115,42 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     }
 
     /*头部个人信息点击事件*/
-    @OnClick(R.id.fm_me_header_layout)
-    public void on_fm_me_header_layout_click() {
-        JumpManager.jumpActivityForResult((Activity) getContext(), PersonInfoActivity.class, 100, Resource.NO_NEED_CHECK);
-    }
-
-
-    /*角色切换*/
-    //PickerWheelViewPop pop;
-    @OnClick(R.id.fm_me_switch_role)
-    public void on_fm_me_switch_role_click() {
-        user = UserManager.getInstance().get();
-        mPresenter.switchRole(getChildFragmentManager(), user.campus, user.position, user.positionInfo);
-    }
-
-    /*消息通知*/
-    @OnClick(R.id.fm_me_notify_msg)
-    public void on_fm_me_notify_msg_click() {
-        PickerDialogFragment dialog = new PickerDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("PICK_TITLE", R.string.choose_birthday);
-        bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
-        bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
-        dialog.setArguments(bundle);
-        dialog.show(getChildFragmentManager());
-
-
-    }
-
-    /*晨读二维码*/
-    @OnClick(R.id.fm_me_mornig_qrcode)
-    public void on_fm_me_mornig_qrcode_click() {
-        JumpManager.jumpActivity(getContext(), MorningReadActivity.class, Resource.NO_NEED_CHECK);
-    }
-
-    /*修改密码*/
-    @OnClick(R.id.fm_me_change_pwd)
-    public void on_fm_me_change_pwd_click() {
-        JumpManager.jumpActivity(getContext(), EditPwdActivity.class, Resource.NO_NEED_CHECK);
-    }
-
-    /*客服*/
-    @OnClick(R.id.fm_me_kefu)
-    public void on_fm_me_kefu_click() {
-        JumpManager.jumpActivity(getContext(), KefuActivity.class, Resource.NO_NEED_CHECK);
-    }
-
-    /*退出*/
-    @OnClick(R.id.fm_me_login_out)
-    public void on_fm_me_login_out_click() {
-        mPresenter.logout();
+    @OnClick({R.id.fm_me_header_layout, R.id.fm_me_switch_role, R.id.fm_me_notify_msg, R.id.fm_me_mornig_qrcode, R.id.fm_me_change_pwd,
+            R.id.fm_me_kefu, R.id.fm_me_version, R.id.fm_me_login_out})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fm_me_header_layout:
+                JumpManager.jumpActivityForResult((Activity) getContext(), PersonInfoActivity.class, 100, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.fm_me_switch_role:
+                user = UserManager.getInstance().get();
+                mPresenter.switchRole(getChildFragmentManager(), user.campus, user.position, user.positionInfo);
+                break;
+            case R.id.fm_me_notify_msg:
+                PickerDialogFragment dialog = new PickerDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("PICK_TITLE", R.string.choose_birthday);
+                bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
+                bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
+                dialog.setArguments(bundle);
+                dialog.show(getChildFragmentManager());
+                break;
+            case R.id.fm_me_mornig_qrcode:
+                JumpManager.jumpActivity(getContext(), MorningReadActivity.class, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.fm_me_change_pwd:
+                JumpManager.jumpActivity(getContext(), EditPwdActivity.class, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.fm_me_kefu:
+                JumpManager.jumpActivity(getContext(), KefuActivity.class, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.fm_me_login_out:
+                mPresenter.logout();
+                break;
+            case R.id.fm_me_version:
+//                UpdateBuilder.create().check(getActivity());
+                break;
+        }
     }
 
     @Override

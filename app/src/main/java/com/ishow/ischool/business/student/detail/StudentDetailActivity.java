@@ -156,7 +156,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             HashMap<String, String> params = new HashMap<>();
             params.put("id", studentId + "");
             params.put("resources_id", "7");
-            params.put("fields", "*");
+            params.put("fields", "studentInfo");
             mPresenter.getStudent(params);
         }
     }

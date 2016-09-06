@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ischool</string>
+    <string name="app_name">爱校</string>
 
     <!-- common -->
     <string name="str_search_college_hint">搜索学校名称</string>

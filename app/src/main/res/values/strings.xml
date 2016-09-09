@@ -9,6 +9,7 @@
     <string name="permisson_quanxian_storage">该功能需要赋予访问存储的权限，否则该功能可能不能正常工作！</string>
     <string name="permisson_quanxian_connact">该功能需要赋予访问并修改联系人的权限，否则该功能可能不能正常工作！</string>
     <string name="title_complete">完成</string>
+    <string name="tab_data">数据</string>
     <string name="tab_business">业务</string>
     <string name="tab_me">我的</string>
     <string name="submit">提交</string>
@@ -205,4 +206,11 @@
     <string name="input_user_and_passwd">请输入用户名和密码</string>
     <string name="switch_role_failed">角色切换失败.可能是服务器问题。</string>
     <string name="no_date">暂无数据</string>
+
+
+    <!-- 销售流程分析 -->
+    <string name="sale_process">销售流程分析</string>
+
+    <!-- 校区业绩对比 -->
+    <string name="campus_performance">校区业绩对比</string>
 </resources>

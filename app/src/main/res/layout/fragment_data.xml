@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/comm_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toolbar" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/sale_process"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_service"
+            android:text="销售流程分析" />
+
+        <com.ishow.ischool.widget.custom.FmItemTextView
+            android:id="@+id/campus_performance"
+            style="@style/fragment_textview_Wmatch_45height"
+            android:drawableLeft="@mipmap/icon_mine_service"
+            android:text="校区业绩对比" />
+    </LinearLayout>
+
+</LinearLayout>

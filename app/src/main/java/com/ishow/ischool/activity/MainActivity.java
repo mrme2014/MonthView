@@ -2,11 +2,13 @@ package com.ishow.ischool.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
+import com.ishow.ischool.business.tabdata.TabDataFragment;
 import com.ishow.ischool.business.tabfragmentme.MeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.zaaach.citypicker.utils.LocManager;
@@ -15,9 +17,12 @@ import org.lzh.framework.updatepluginlib.UpdateBuilder;
 
 public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
-
+    TabDataFragment dataFragment;
     TabBusinessFragment businessFragment;
     MeFragment meFragment;
+    Fragment curFragment;
+    private int curIndex = 0;
+    private String KEY_INDEX = "key_index";
 
     android.widget.RadioGroup RadioGroup;
 
@@ -27,19 +32,57 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {  // “内存重启”时调用,解决重叠问题
-            LogUtil.d("MainActivity savedInstanceState != null");
+            dataFragment = (TabDataFragment) getSupportFragmentManager().findFragmentByTag(TabDataFragment.class.getName());
             businessFragment = (TabBusinessFragment) getSupportFragmentManager().findFragmentByTag(TabBusinessFragment.class.getName());
             meFragment = (MeFragment) getSupportFragmentManager().findFragmentByTag(MeFragment.class.getName());
+            curIndex = savedInstanceState.getInt(KEY_INDEX);
+            switch (curIndex) {
+                case 0:
+                    getSupportFragmentManager().beginTransaction()
+                            .show(dataFragment)
+                            .hide(businessFragment)
+                            .hide(meFragment)
+                            .commitAllowingStateLoss();
+                    curFragment = dataFragment;
+                    break;
+                case 1:
+                    getSupportFragmentManager().beginTransaction()
+                            .hide(dataFragment)
+                            .show(businessFragment)
+                            .hide(meFragment)
+                            .commitAllowingStateLoss();
+                    curFragment = businessFragment;
+                    break;
+                case 2:
+                    getSupportFragmentManager().beginTransaction()
+                            .hide(dataFragment)
+                            .hide(businessFragment)
+                            .show(meFragment)
+                            .commitAllowingStateLoss();
+                    curFragment = meFragment;
+                    break;
+            }
         } else {                            // 正常create
+            dataFragment = new TabDataFragment();
             businessFragment = new TabBusinessFragment();
             meFragment = new MeFragment();
+            curFragment = dataFragment;
 
             getSupportFragmentManager().beginTransaction()
+                    .add(R.id.tabcontent, dataFragment, dataFragment.getClass().getName())
                     .add(R.id.tabcontent, businessFragment, businessFragment.getClass().getName())
                     .add(R.id.tabcontent, meFragment, meFragment.getClass().getName())
+                    .hide(businessFragment)
                     .hide(meFragment)
                     .commitAllowingStateLoss();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 保存当前Fragment的下标
+        outState.putInt(KEY_INDEX, curIndex);
     }
 
     @Override
@@ -67,35 +110,35 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
 
     private void showFragment(int checkedId) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
+        ft.hide(curFragment);
         switch (checkedId) {
-            case R.id.tab_business:
-                if (meFragment != null) {
-                    ft.hide(meFragment);
+            case R.id.tab_data:
+                curIndex = 0;
+                if (dataFragment == null) {
+                    dataFragment = new TabDataFragment();
+                    ft.add(R.id.tabcontent, dataFragment).show(dataFragment);
                 }
-
+                curFragment = dataFragment;
+                break;
+            case R.id.tab_business:
+                curIndex = 1;
                 if (businessFragment == null) {
                     businessFragment = new TabBusinessFragment();
                     ft.add(R.id.tabcontent, businessFragment).show(businessFragment);
-                } else {
-                    ft.show(businessFragment);
                 }
+                curFragment = businessFragment;
                 break;
             case R.id.tab_me:
+                curIndex = 2;
                 LogUtil.e(System.currentTimeMillis() + "");
-                if (businessFragment != null) {
-                    ft.hide(businessFragment);
-                }
                 if (meFragment == null) {
                     meFragment = new MeFragment();
                     ft.add(R.id.tabcontent, meFragment).show(meFragment);
-                } else {
-                    ft.show(meFragment);
                 }
+                curFragment = meFragment;
                 break;
         }
-
-        ft.commitAllowingStateLoss();
+        ft.show(curFragment).commitAllowingStateLoss();
     }
 
     @Override

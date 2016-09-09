@@ -22,21 +22,21 @@
         android:layout_height="48dp"
         android:background="@android:color/white"
         android:orientation="horizontal">
-        <!--<RadioButton-->
-        <!--android:id="@+id/main_data"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="@string/tabbar_title_main"-->
-        <!--android:checked="true"-->
-        <!--android:drawableTop="@drawable/main_radiobutton_shuju"-->
-        <!--style="@style/radioButton_main" />-->
+
+        <RadioButton
+            android:id="@+id/tab_data"
+            style="@style/radioButton_main"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_business"
+            android:text="@string/tab_data" />
 
         <RadioButton
             android:id="@+id/tab_business"
             style="@style/radioButton_main"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:checked="true"
             android:drawableTop="@drawable/tab_business"
             android:text="@string/tab_business" />
 

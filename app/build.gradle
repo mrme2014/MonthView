@@ -3,7 +3,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 def getDate() {
     def date = new Date()
-    def formattedDate = date.format('yyyyMMdd_HHmm')
+    def formattedDate = date.format('yyyyMMdd')
     return formattedDate
 }
 

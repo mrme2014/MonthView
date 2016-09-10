@@ -30,7 +30,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     @BindView(R.id.combinedChart)
     CombinedChart mCombinedChart;
-    private final int itemcount = 12;
+    private final int itemcount = 8;
 
     @Override
     protected void setUpContentView() {
@@ -70,17 +70,27 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 //        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         mCombinedChart.getAxisRight().setEnabled(false);    // 隐藏右边的坐标轴
-
         XAxis xAxis = mCombinedChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-//        xAxis.setAxisMinValue(itemcount);
-//        xAxis.setAxisMaxValue(itemcount + 2);
-//        xAxis.setAxisMinimum(0f);
+       /* xAxis.setAxisMinValue(itemcount);
+        xAxis.setAxisMaxValue(itemcount + 2);*/
+
         xAxis.setGranularity(0f);           // 设置轴最小间隔
+
+
+
+        CombinedData data = new CombinedData();
+
+        data.setData(generateLineData());
+        data.setData(generateBarData());
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setAxisMaxValue(data.getXMax()+0.5f);
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+                if (value==-1)
+                    return "null";
                 return mMonths[(int) value % mMonths.length];
             }
 
@@ -89,13 +99,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                 return 0;
             }
         });
-
-        CombinedData data = new CombinedData();
-
-        data.setData(generateLineData());
-        data.setData(generateBarData());
-
-//        xAxis.setAxisMaximum(data.getXMax() + 0.25f);
 
         mCombinedChart.setData(data);
         mCombinedChart.invalidate();
@@ -108,7 +111,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
         for (int index = 0; index < itemcount; index++)
-            entries.add(new Entry(index, getRandom(15, 5)));
+            entries.add(new Entry(index+0.25f, getRandom(15, 5)));
 
         LineDataSet set = new LineDataSet(entries, "Line DataSet");
         set.setColor(Color.rgb(240, 238, 70));
@@ -129,13 +132,13 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     private BarData generateBarData() {
         ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
-//        ArrayList<BarEntry> entries2 = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> entries2 = new ArrayList<BarEntry>();
 
         for (int index = 0; index < itemcount; index++) {
             entries1.add(new BarEntry(index, getRandom(25, 25)));
 
             // stacked
-//            entries2.add(new BarEntry(0, new float[]{getRandom(13, 12), getRandom(13, 12)}));
+           // entries2.add(new BarEntry(0, new float[]{getRandom(13, 12), getRandom(13, 12)}));
         }
 
         BarDataSet set1 = new BarDataSet(entries1, "Bar 1");
@@ -144,23 +147,23 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         set1.setValueTextSize(10f);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
 
-//        BarDataSet set2 = new BarDataSet(entries2, "");
-//        set2.setStackLabels(new String[]{"Stack 1", "Stack 2"});
-//        set2.setColors(new int[]{Color.rgb(61, 165, 255), Color.rgb(23, 197, 255)});
-//        set2.setValueTextColor(Color.rgb(61, 165, 255));
-//        set2.setValueTextSize(10f);
-//        set2.setAxisDependency(YAxis.AxisDependency.LEFT);
+        BarDataSet set2 = new BarDataSet(entries2, "");
+        set2.setStackLabels(new String[]{"Stack 1", "Stack 2"});
+        set2.setColors(new int[]{Color.rgb(61, 165, 255), Color.rgb(23, 197, 255)});
+        set2.setValueTextColor(Color.rgb(61, 165, 255));
+        set2.setValueTextSize(10f);
+        set2.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         float groupSpace = 0.06f;
         float barSpace = 0.02f; // x2 dataset
         float barWidth = 0.45f; // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
 
-        BarData d = new BarData(set1);
+        BarData d = new BarData(set1,set2);
         d.setBarWidth(barWidth);
 
         // make this BarData object grouped
-//        d.groupBars(0, groupSpace, barSpace); // start at x = 0
+        d.groupBars(0, groupSpace, barSpace); // start at x = 0
 
         return d;
     }
@@ -184,6 +187,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 //    }
 
     protected String[] mMonths = new String[] {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"
     };
 }

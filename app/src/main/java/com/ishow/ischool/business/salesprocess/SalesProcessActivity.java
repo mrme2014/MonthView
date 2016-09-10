@@ -1,31 +1,45 @@
 package com.ishow.ischool.business.salesprocess;
 
 import android.graphics.Color;
+import android.view.MenuItem;
+import android.view.View;
 
+import com.commonlib.widget.TopBottomTextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-
+import butterknife.OnClick;
 
 /**
  * Created by wqf on 16/8/14.
  */
-public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter, SalesProcessModel> implements SalesProcessContract.View {
+public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter, SalesProcessModel> implements SalesProcessContract.View, OnChartValueSelectedListener {
 
     @BindView(R.id.lineChart)
-    LineChart mLineChart;
+    LineChart mChart;
+    @BindView(R.id.sales_avart)
+    CircleImageView salesAvart;
+    @BindView(R.id.sales_job)
+    TopBottomTextView salesJob;
+    @BindView(R.id.sales_table1)
+    TopBottomTextView salesTable1;
+    @BindView(R.id.sales_table2)
+    TopBottomTextView salesTable2;
 
 
     @Override
@@ -36,6 +50,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @Override
     protected void setUpView() {
         initChart();
+
     }
 
     @Override
@@ -49,168 +64,186 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
      * 3.刷新图表
      */
     void initChart() {
+
+        mChart.setOnChartValueSelectedListener(this);
+
         // no description text
-        mLineChart.setDescription("");
-        mLineChart.setNoDataTextDescription("You need to provide data for the chart.");
+        mChart.setDescription("");
+        mChart.setNoDataTextDescription("You need to provide data for the chart.");
 
         // enable touch gestures
-        mLineChart.setTouchEnabled(true);
+        mChart.setTouchEnabled(true);
+
+        mChart.setDragDecelerationFrictionCoef(0.9f);
 
         // enable scaling and dragging
-        mLineChart.setDragEnabled(true);
-        mLineChart.setScaleEnabled(true);
-        // mLineChart.setScaleXEnabled(true);
-        // mLineChart.setScaleYEnabled(true);
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
+        mChart.setDrawGridBackground(false);
+        mChart.setHighlightPerDragEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        mLineChart.setPinchZoom(true);
+        mChart.setPinchZoom(true);
 
         // set an alternative background color
-        // mLineChart.setBackgroundColor(Color.GRAY);
+        mChart.setBackgroundColor(Color.WHITE);
 
-        // create a custom MarkerView (extend MarkerView) and specify the layout
-        // to use for it
-//        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-//        mv.setChartView(mLineChart); // For bounds control
-//        mLineChart.setMarker(mv); // Set the marker to the chart
-
-        // x-axis limit line
-        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-        llXAxis.setLineWidth(4f);
-        llXAxis.enableDashedLine(10f, 10f, 0f);
-        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        llXAxis.setTextSize(10f);
-
-        XAxis xAxis = mLineChart.getXAxis();
-        xAxis.enableGridDashedLine(10f, 10f, 0f);
-        //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
-        //xAxis.addLimitLine(llXAxis); // add x-axis limit line
-
-
-//        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-//        LimitLine ll1 = new LimitLine(150f, "Upper Limit");
-//        ll1.setLineWidth(4f);
-//        ll1.enableDashedLine(10f, 10f, 0f);
-//        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-//        ll1.setTextSize(10f);
-//        ll1.setTypeface(tf);
-//
-//        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-//        ll2.setLineWidth(4f);
-//        ll2.enableDashedLine(10f, 10f, 0f);
-//        ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-//        ll2.setTextSize(10f);
-//        ll2.setTypeface(tf);
-
-        YAxis leftAxis = mLineChart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-//        leftAxis.addLimitLine(ll1);
-//        leftAxis.addLimitLine(ll2);
-//        leftAxis.setAxisMaximum(200f);
-//        leftAxis.setAxisMinimum(-50f);
-        //leftAxis.setYOffset(20f);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(false);
-
-        // limit lines are drawn behind data (and not on top)
-        leftAxis.setDrawLimitLinesBehindData(true);
-
-        mLineChart.getAxisRight().setEnabled(false);
-
-        //mLineChart.getViewPortHandler().setMaximumScaleY(2f);
-        //mLineChart.getViewPortHandler().setMaximumScaleX(2f);
 
         // add data
-        setData(45, 100);
+        setData(20, 30);
 
-//        mLineChart.setVisibleXRange(20);
-//        mLineChart.setVisibleYRange(20f, AxisDependency.LEFT);
-//        mLineChart.centerViewTo(20, 50, AxisDependency.LEFT);
-
-        mLineChart.animateX(2500);
-        //mLineChart.invalidate();
+        mChart.animateX(2500);
 
         // get the legend (only possible after setting data)
-        Legend l = mLineChart.getLegend();
+        Legend l = mChart.getLegend();
 
+        //l.setEnabled(false);
         // modify the legend ...
-        // l.setPosition(LegendPosition.LEFT_OF_CHART);
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         l.setForm(Legend.LegendForm.LINE);
+        // l.setTypeface(mTfLight);
+        l.setTextSize(11f);
+        l.setTextColor(Color.WHITE);
+        l.setYOffset(11f);
 
-        // // dont forget to refresh the drawing
-        // mLineChart.invalidate();
+
+        XAxis xAxis = mChart.getXAxis();
+        //xAxis.setTypeface(mTfLight);
+        xAxis.setTextSize(11f);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setDrawGridLines(true);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        //leftAxis.setTypeface(mTfLight);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+
+        leftAxis.setAxisMaxValue(200f);
+        leftAxis.setAxisMinValue(0f);
+
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
+
+        YAxis rightAxis = mChart.getAxisRight();
+        //  rightAxis.setTypeface(mTfLight);
+        rightAxis.setTextColor(Color.RED);
+        rightAxis.setAxisMaxValue(900);
+        rightAxis.setAxisMinValue(-200);
+
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setDrawZeroLine(false);
+        rightAxis.setGranularityEnabled(false);
+        rightAxis.setEnabled(false);
     }
 
     private void setData(int count, float range) {
 
-        ArrayList<Entry> values = new ArrayList<Entry>();
+        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
         for (int i = 0; i < count; i++) {
-
-            float val = (float) (Math.random() * range) + 3;
-            values.add(new Entry(i, val));
+            float mult = range / 2f;
+            float val = (float) (Math.random() * mult) + 50;// + (float)
+            // ((mult *
+            // 0.1) / 10);
+            yVals1.add(new Entry(i, val));
         }
 
-        LineDataSet set1;
+        ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 
-        if (mLineChart.getData() != null &&
-                mLineChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet)mLineChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            mLineChart.getData().notifyDataChanged();
-            mLineChart.notifyDataSetChanged();
+        for (int i = 0; i < count; i++) {
+            float mult = range;
+            float val = (float) (Math.random() * mult) + 450;// + (float)
+            // ((mult *
+            // 0.1) / 10);` 32wq
+            yVals2.add(new Entry(i, val));
+        }
+
+        LineDataSet set1, set2;
+
+        if (mChart.getData() != null &&
+                mChart.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
+            set2 = (LineDataSet) mChart.getData().getDataSetByIndex(1);
+            set1.setValues(yVals1);
+            set2.setValues(yVals2);
+            mChart.getData().notifyDataChanged();
+            mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet 1");
+            set1 = new LineDataSet(yVals1, "DataSet 1");
+            set1.removeFirst();
 
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
-            set1.setLineWidth(1f);
+            set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+            set1.setColor(ColorTemplate.getHoloBlue());
+            set1.setCircleColor(Color.WHITE);
+            set1.setLineWidth(2f);
             set1.setCircleRadius(3f);
+            set1.setFillAlpha(65);
+            set1.setFillColor(ColorTemplate.getHoloBlue());
+            set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setDrawCircleHole(false);
-            set1.setValueTextSize(9f);
-            set1.setDrawFilled(true);
-//            set1.setFormLineWidth(1f);
-//            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-//            set1.setFormSize(15.f);
+            //set1.setFillFormatter(new MyFillFormatter(0f));
+            //set1.setDrawHorizontalHighlightIndicator(false);
+            //set1.setVisible(false);
+            //set1.setCircleHoleColor(Color.WHITE);
 
-//            if (Utils.getSDKInt() >= 18) {
-//                // fill drawable only supported on api level 18 and above
-//                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
-//                set1.setFillDrawable(drawable);
-//            }
-//            else {
-//                set1.setFillColor(Color.BLACK);
-//            }
+            // create a dataset and give it a type
+            set2 = new LineDataSet(yVals2, "DataSet 2");
+            set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            set2.setColor(Color.RED);
+            set2.setCircleColor(Color.WHITE);
+            set2.setLineWidth(2f);
+            set2.setCircleRadius(3f);
+            set2.setFillAlpha(65);
+            set2.setFillColor(Color.RED);
+            set2.setDrawCircleHole(false);
+            set2.setHighLightColor(Color.rgb(244, 117, 117));
+            //set2.setFillFormatter(new MyFillFormatter(900f));
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
+            dataSets.add(set2);
 
             // create a data object with the datasets
             LineData data = new LineData(dataSets);
+            data.setValueTextColor(Color.WHITE);
+            data.setValueTextSize(9f);
 
             // set data
-            mLineChart.setData(data);
+            mChart.setData(data);
         }
     }
 
-    //    @Override
-//    public boolean onMenuItemClick(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_filter:
-//                if (dialog == null) {
-//                    dialog = StatisticsFilterFragment.newInstance(filterParams, mFilterSourceName, mFilterCollegeName, mFilterReferrerName);
-//                    dialog.setOnFilterCallback(CampusPerformanceActivity.this);
-//                }
-//                dialog.show(getSupportFragmentManager(), "dialog");
-//                break;
-//        }
-//        return true;
-//    }
+    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.sales_table1:
+                break;
+            case R.id.sales_table2:
+                break;
+            case R.id.sales_job:
+                break;
+        }
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        // ILineDataSet dataSetByIndex = mChart.getLineData().getDataSetByIndex(0);
+        mChart.getLineData().removeDataSet(0);
+        mChart.invalidate();
+        return true;
+    }
 
 
 }

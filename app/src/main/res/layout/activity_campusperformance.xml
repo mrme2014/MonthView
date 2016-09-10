@@ -6,16 +6,39 @@
 
     <include layout="@layout/widget_toolbar" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="20dp">
-    </RelativeLayout>
+        android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+        <TextView
+            android:id="@+id/filter1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="业绩对比"/>
+        <TextView
+            android:id="@+id/filter2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="选择校区"/>
+        <TextView
+            android:id="@+id/filter3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="时间选择"/>
+    </LinearLayout>
 
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/combinedChart"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="360dp"/>
 
 </LinearLayout>

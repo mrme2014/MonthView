@@ -37,7 +37,7 @@ import com.ishow.ischool.event.CommunicationEditRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
-import com.ishow.ischool.widget.custom.CommuDialogFragment;
+import com.ishow.ischool.fragment.CommuDialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;

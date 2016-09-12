@@ -213,4 +213,5 @@
 
     <!-- 校区业绩对比 -->
     <string name="campus_performance">校区业绩对比</string>
+    <string name="student_number_detail">各校区招生人数明细表</string>
 </resources>

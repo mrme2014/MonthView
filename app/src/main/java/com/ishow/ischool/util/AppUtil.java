@@ -10,7 +10,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
-import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;

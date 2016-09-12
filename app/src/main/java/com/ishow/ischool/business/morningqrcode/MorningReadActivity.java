@@ -20,7 +20,7 @@ import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
-import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.fragment.SelectDialogFragment;
 
 import java.io.File;
 import java.io.FileNotFoundException;

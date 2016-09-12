@@ -40,7 +40,7 @@ import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.widget.custom.AvatarImageView;
-import com.ishow.ischool.widget.custom.StatisticsFilterFragment;
+import com.ishow.ischool.fragment.StatisticsFilterFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;

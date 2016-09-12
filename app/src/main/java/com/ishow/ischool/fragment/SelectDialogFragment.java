@@ -1,4 +1,4 @@
-package com.ishow.ischool.widget.custom;
+package com.ishow.ischool.fragment;
 
 import android.app.Dialog;
 import android.content.Context;

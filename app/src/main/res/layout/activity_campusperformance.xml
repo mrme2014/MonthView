@@ -7,38 +7,78 @@
     <include layout="@layout/widget_toolbar" />
 
     <LinearLayout
+        android:id="@+id/filter_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        android:background="@android:color/white">
-        <TextView
-            android:id="@+id/filter1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="业绩对比"/>
-        <TextView
-            android:id="@+id/filter2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="选择校区"/>
-        <TextView
-            android:id="@+id/filter3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="时间选择"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/filter_type"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="业绩对比" />
+
+            <TextView
+                android:id="@+id/filter_campus"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="选择校区" />
+
+            <TextView
+                android:id="@+id/filter_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="时间选择" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/view_bottom_line" />
+    </LinearLayout>
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/combinedChart"
         android:layout_width="match_parent"
-        android:layout_height="360dp"/>
+        android:layout_height="360dp"
+        android:layout_marginTop="20dp" />
+
+    <RelativeLayout
+        android:id="@+id/detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_number_detail" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail"
+            android:text="查看各校区招生数据" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_list_next" />
+    </RelativeLayout>
 
 </LinearLayout>

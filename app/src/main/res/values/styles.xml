@@ -26,6 +26,7 @@
         <!--<item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>-->
         <!--<item name="android:listDivider">@color/comm_line</item>-->
     </style>
+
     <style name="MenuTextStyle">
         <item name="android:textSize">13sp</item>
         <item name="android:textAllCaps">false</item>
@@ -281,7 +282,7 @@
         <item name="android:background">@drawable/selector_btn_blue_bg</item>
         <item name="android:padding">10dp</item>
     </style>
-    
+
 
     <!-- color=#222222 size=15sp -->
     <style name="name_font_style">
@@ -308,6 +309,22 @@
         <item name="android:textColor">@color/txt_9</item>
         <item name="android:textSize">@dimen/sp11</item>
         <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="statistics_index_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:drawableRight">@mipmap/icon_list_next</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="label_TB_padding">7</item>
+        <item name="label_left_padding">70</item>
+        <item name="label_text_bottom_color">@color/txt_9</item>
+        <item name="label_text_bottom_size">12</item>
+        <item name="label_text_top_color">@color/txt_2</item>
+        <item name="label_text_top_size">14</item>
+        <item name="label_top_padding">20</item>
     </style>
 
 </resources>

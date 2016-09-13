@@ -213,5 +213,14 @@
 
     <!-- 校区业绩对比 -->
     <string name="campus_performance">校区业绩对比</string>
+    <string name="data_market">市场业务</string>
+    <string name="data_teach">教务教学</string>
+    <string name="data_market_title">销售流程分析</string>
+    <string name="data_market_subtitle">要请一个好友送300积分,100个加粉名额</string>
+    <string name="data_campus_title">各校区业绩对比</string>
+    <string name="data_campus_subtitle">加粉无限制,超光速加粉</string>
+    <string name="data_other_title">其他统计</string>
+    <string name="data_other_subtitle">已获得3600积分</string>
+    <string name="data_campus">教务教学</string>
     <string name="student_number_detail">各校区招生人数明细表</string>
 </resources>

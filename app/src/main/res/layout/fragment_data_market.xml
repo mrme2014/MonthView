@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/comm_bg"
+    android:orientation="vertical"
+    tools:context="com.ishow.ischool.business.tabdata.DataMarketFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <com.commonlib.widget.TopBottomTextView
+            android:id="@+id/data_market"
+            style="@style/statistics_index_item"
+            android:drawableLeft="@mipmap/ic_launcher"
+            app:label_text_bottom="@string/data_market_subtitle"
+            app:label_text_top_str="@string/data_market_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.TopBottomTextView
+            android:id="@+id/data_campus"
+            style="@style/statistics_index_item"
+            android:drawableLeft="@mipmap/ic_launcher"
+            app:label_text_bottom="@string/data_campus_subtitle"
+            app:label_text_top_str="@string/data_campus_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/comm_line" />
+
+        <com.commonlib.widget.TopBottomTextView
+            android:id="@+id/data_other"
+            style="@style/statistics_index_item"
+            android:drawableLeft="@mipmap/ic_launcher"
+            app:label_text_bottom="@string/data_other_subtitle"
+            app:label_text_top_str="@string/data_other_title" />
+    </LinearLayout>
+</LinearLayout>

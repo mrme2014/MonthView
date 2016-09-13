@@ -105,7 +105,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         xAxis.setGranularity(0f);           // 设置轴最小间隔
 
 
-
         CombinedData data = new CombinedData();
 
         data.setData(generateLineData());
@@ -132,7 +131,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                 return 0;
             }
         });
-
 
         mCombinedChart.setData(data);
         mCombinedChart.invalidate();
@@ -193,6 +191,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         float barWidth = 0.45f; // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
 
+
         BarData d = new BarData(set1);
         d.setBarWidth(barWidth);
 
@@ -219,6 +218,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 //        }
 //        return true;
 //    }
+
 
     protected String[] mMonths = new String[] {
             "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"

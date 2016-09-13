@@ -1,27 +1,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/comm_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/widget_toolbar" />
-    
-    <LinearLayout
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        style="@style/ToolBarStyle">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/title_radio"
+            android:layout_width="164dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/title_radio_1"
+                android:layout_width="82dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/radio_left"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/data_market"
+                android:textColor="@drawable/selector_btn_blue_white_text"
+                android:textSize="@dimen/sp12" />
+
+            <RadioButton
+                android:id="@+id/title_radio_2"
+                android:layout_width="82dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/radio_right"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/data_campus"
+                android:textSize="@dimen/sp12" />
+        </RadioGroup>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.ishow.ischool.widget.custom.FmItemTextView
-            android:id="@+id/sale_process"
-            style="@style/fragment_textview_Wmatch_45height"
-            android:drawableLeft="@mipmap/icon_mine_service"
-            android:text="销售流程分析" />
-
-        <com.ishow.ischool.widget.custom.FmItemTextView
-            android:id="@+id/campus_performance"
-            style="@style/fragment_textview_Wmatch_45height"
-            android:drawableLeft="@mipmap/icon_mine_service"
-            android:text="校区业绩对比" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </LinearLayout>

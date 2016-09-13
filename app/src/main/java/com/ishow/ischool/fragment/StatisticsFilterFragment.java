@@ -1,4 +1,4 @@
-package com.ishow.ischool.widget.custom;
+package com.ishow.ischool.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.InputLinearLayout;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.text.SimpleDateFormat;

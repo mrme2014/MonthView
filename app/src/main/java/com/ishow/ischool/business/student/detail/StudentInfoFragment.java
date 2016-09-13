@@ -19,7 +19,7 @@ import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.HashMap;

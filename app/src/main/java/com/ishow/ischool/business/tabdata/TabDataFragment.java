@@ -1,27 +1,38 @@
 package com.ishow.ischool.business.tabdata;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.TextView;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
-import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
+import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
-import com.ishow.ischool.widget.custom.FmItemTextView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by wqf on 16/9/6.
  */
-public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataModel> implements TabDataContract.View {
+public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataModel> implements TabDataContract.View,
+        DataTeachFragment.OnFragmentInteractionListener, DataMarketFragment.OnFragmentInteractionListener {
 
-    @BindView(R.id.toolbar_title)
-    TextView mToolbarTitle;
-    @BindView(R.id.sale_process)
-    FmItemTextView saleProcessTv;
+    //    @BindView(R.id.tabs)
+//    TabLayout mTabs;
+    @BindView(R.id.title_radio)
+    RadioGroup mTitleRadioGroup;
+    @BindView(R.id.title_radio_1)
+    RadioButton titleRadioButton1;
+    @BindView(R.id.title_radio_2)
+    RadioButton titleRadioButton2;
+    @BindView(R.id.viewpager)
+    ViewPager mViewPaper;
+    private FragmentAdapter mFragmentAdapter;
+    private DataMarketFragment dataMarketFragment;
+    private DataTeachFragment dataTeachFragment;
 
     @Override
     public int getLayoutId() {
@@ -30,20 +41,56 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void init() {
-        mToolbarTitle.setText(getString(R.string.tab_data));
-    }
+
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        dataMarketFragment = DataMarketFragment.newInstance();
+        dataTeachFragment = DataTeachFragment.newInstance();
+        fragments.add(dataMarketFragment);
+        fragments.add(dataTeachFragment);
+
+        ArrayList<String> titleList = new ArrayList<>();
+        titleList.add(getString(R.string.data_market));
+        titleList.add(getString(R.string.data_teach));
+        mFragmentAdapter = new FragmentAdapter(getFragmentManager(), fragments, titleList);
+        mViewPaper.setAdapter(mFragmentAdapter);
+        mViewPaper.setCurrentItem(0);
 
 
-    @OnClick({R.id.sale_process, R.id.campus_performance})
-    void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.sale_process:
-                startActivity(new Intent(getActivity(), SalesProcessActivity.class));
-                break;
-            case R.id.campus_performance:
-                startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
-                break;
-        }
+        mTitleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                for (int i = 0; i < group.getChildCount(); i++) {
+                    if (group.getChildAt(i).getId() == checkedId) {
+                        mViewPaper.setCurrentItem(i);
+                        return;
+                    }
+                }
+            }
+        });
+
+        mViewPaper.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mTitleRadioGroup.check(mTitleRadioGroup.getChildAt(position).getId());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        titleRadioButton1.setChecked(true);
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
 
 }

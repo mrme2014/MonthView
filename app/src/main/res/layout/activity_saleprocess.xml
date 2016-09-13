@@ -1,87 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
-    <include layout="@layout/widget_toolbar" />
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/widget_toolbar" />
 
-        <com.ishow.ischool.widget.custom.CircleImageView
-            android:id="@+id/sales_avart"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@mipmap/img_header_default"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:layout_marginBottom="10dp">
+
+            <com.ishow.ischool.widget.custom.CircleImageView
+                android:id="@+id/sales_avart"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@mipmap/img_header_default"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"/>
+
+            <com.commonlib.widget.TopBottomTextView
+                android:id="@+id/sales_job"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:label_left_padding="10"
+                app:label_TB_padding="7"
+                app:label_text_bottom="晨读讲师"
+                app:label_text_bottom_color="@color/txt_9"
+                app:label_text_bottom_size="12"
+                app:label_text_top_str="哈哈哈"
+                app:label_text_top_size="14"
+                app:label_text_top_color="@color/txt_2"
+                app:label_top_padding="30"
+                android:layout_toRightOf="@+id/sales_avart"
+                android:drawableRight="@mipmap/icon_list_next"
+                android:paddingRight="16dp"
+
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <com.commonlib.widget.TopBottomTextView
+                android:id="@+id/sales_trends"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                app:label_left_padding="16"
+                app:label_TB_padding="1"
+                app:label_text_bottom="2016-09-10-2016-12-30"
+                app:label_text_bottom_color="@color/txt_9"
+                app:label_text_bottom_size="12"
+                app:label_text_top_str="晨读明细表"
+                app:label_text_top_size="14"
+                app:label_text_top_color="@color/txt_2"
+                app:label_top_padding="25"
+                android:layout_toRightOf="@+id/sales_avart"
+                android:background="@color/white"
+                android:paddingRight="16dp"
+
+                />
+
+           <Spinner
+               android:id="@+id/sales_spinner"
+               android:layout_width="80dp"
+               android:layout_height="30dp"
+               android:background="@color/white"
+               android:gravity="center"
+               style="@style/Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+               ></Spinner>
+        </LinearLayout>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="240dp" />
+
 
         <com.commonlib.widget.TopBottomTextView
-            android:id="@+id/sales_job"
+            android:id="@+id/sales_table1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:label_left_padding="10"
+            android:layout_height="60dp"
+            app:label_left_padding="16"
+            android:layout_marginTop="10dp"
             app:label_TB_padding="7"
             app:label_text_bottom="晨读讲师"
-            app:label_text_bottom_color="@color/txt_red"
+            app:label_text_bottom_color="@color/txt_9"
             app:label_text_bottom_size="12"
-            app:label_text_top_str="哈哈哈"
+            app:label_text_top_str="晨读明细表"
             app:label_text_top_size="14"
-            app:label_text_top_color="@color/txt_red"
-            app:label_top_padding="30"
+            app:label_text_top_color="@color/txt_2"
+            app:label_top_padding="20"
             android:layout_toRightOf="@+id/sales_avart"
             android:drawableRight="@mipmap/icon_list_next"
+            android:background="@color/white"
             android:paddingRight="16dp"
 
             />
-    </RelativeLayout>
 
+        <com.commonlib.widget.TopBottomTextView
+            android:id="@+id/sales_table2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:label_left_padding="16"
+            android:layout_marginTop="10dp"
+            app:label_TB_padding="7"
+            app:label_text_bottom="晨读讲师"
+            app:label_text_bottom_color="@color/txt_9"
+            app:label_text_bottom_size="12"
+            app:label_text_top_str="转介绍"
+            app:label_text_top_size="14"
+            app:label_text_top_color="@color/txt_2"
+            app:label_top_padding="20"
+            android:layout_toRightOf="@+id/sales_avart"
+            android:drawableRight="@mipmap/icon_list_next"
+            android:background="@color/white"
+            android:paddingRight="16dp"
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
-
-
-    <com.commonlib.widget.TopBottomTextView
-        android:id="@+id/sales_table1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:label_left_padding="16"
-        app:label_TB_padding="7"
-        app:label_text_bottom="晨读讲师"
-        app:label_text_bottom_color="@color/txt_red"
-        app:label_text_bottom_size="12"
-        app:label_text_top_str="晨读明细表"
-        app:label_text_top_size="14"
-        app:label_text_top_color="@color/txt_2"
-        app:label_top_padding="20"
-        android:layout_toRightOf="@+id/sales_avart"
-        android:drawableRight="@mipmap/icon_list_next"
-        android:paddingRight="16dp"
-
-        />
-
-    <com.commonlib.widget.TopBottomTextView
-        android:id="@+id/sales_table2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:label_left_padding="16"
-        app:label_TB_padding="7"
-        app:label_text_bottom="晨读讲师"
-        app:label_text_bottom_color="@color/txt_red"
-        app:label_text_bottom_size="12"
-        app:label_text_top_str="转介绍"
-        app:label_text_top_size="14"
-        app:label_text_top_color="@color/txt_2"
-        app:label_top_padding="20"
-        android:layout_toRightOf="@+id/sales_avart"
-        android:drawableRight="@mipmap/icon_list_next"
-        android:paddingRight="16dp"
-
-        />
-</LinearLayout>
+            />
+    </LinearLayout>
+</ScrollView>

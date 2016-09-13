@@ -89,13 +89,12 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         xAxis.setGranularity(0f);           // 设置轴最小间隔
 
 
-
         CombinedData data = new CombinedData();
 
         data.setData(generateLineData());
         data.setData(generateBarData());
         xAxis.setCenterAxisLabels(true);
-        xAxis.setAxisMaxValue(data.getXMax()+0.5f);
+        xAxis.setAxisMaxValue(data.getXMax() + 0.5f);
 
         xAxis.setLabelCount(13);
         xAxis.setLabelRotationAngle(-80);       //设置x轴字体显示角度
@@ -105,7 +104,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                if (value==-1)
+                if (value == -1)
                     return "null";
                 return mMonths[(int) value % mMonths.length];
             }
@@ -115,7 +114,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                 return 0;
             }
         });
-        
+
         mCombinedChart.setData(data);
         mCombinedChart.invalidate();
     }
@@ -127,10 +126,10 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             ArrayList<Entry> entries = new ArrayList<Entry>();
 
 
-        //ArrayList<Entry> entries = new ArrayList<Entry>();
+            //ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < itemcount; index++)
-            entries.add(new Entry(index+0.25f, getRandom(15, 5)));
+            for (int index = 0; index < itemcount; index++)
+                entries.add(new Entry(index + 0.25f, getRandom(15, 5)));
 
             for (int index = 0; index < mStart + mItemCount; index++) {
                 entries.add(new Entry(index + 1f, getRandom(15, 20)));
@@ -169,20 +168,12 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         for (int index = 0; index < itemcount; index++) {
             entries1.add(new BarEntry(index, getRandom(25, 25)));
         }
-            // stacked
-           // entries2.add(new BarEntry(0, new float[]{getRandom(13, 12), getRandom(13, 12)}));
-
-
-
-        for (int index = 0; index < mStart + mItemCount; index++) {
-            entries1.add(new BarEntry(index + 1f, getRandom(25, 25)));
-
-
-        }
+        // stacked
+        // entries2.add(new BarEntry(0, new float[]{getRandom(13, 12), getRandom(13, 12)}));
 
         BarDataSet set1 = new BarDataSet(entries1, "Bar 1");
-        set1.setColor(Color.rgb(135,206,250));
-        set1.setValueTextColor(Color.rgb(135,206,250));
+        set1.setColor(Color.rgb(135, 206, 250));
+        set1.setValueTextColor(Color.rgb(135, 206, 250));
         set1.setValueTextSize(10f);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);      //以左边坐标轴为准 还是以右边坐标轴为基准
 
@@ -202,7 +193,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         float barWidth = 0.45f; // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
 
-        BarData d = new BarData(set1,set2);
+        BarData d = new BarData(set1, set2);
         d.setBarWidth(barWidth);
 
         // make this BarData object grouped
@@ -229,7 +220,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 //        return true;
 //    }
 
-    protected String[] mMonths = new String[] {
+    protected String[] mMonths = new String[]{
 
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
     };
@@ -239,6 +230,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.filter1:
+
                 break;
             case R.id.filter2:
                 break;

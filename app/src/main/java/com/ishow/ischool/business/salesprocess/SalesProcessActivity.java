@@ -3,6 +3,9 @@ package com.ishow.ischool.business.salesprocess;
 import android.graphics.Color;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.commonlib.widget.TopBottomTextView;
 import com.github.mikephil.charting.charts.LineChart;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 /**
  * Created by wqf on 16/8/14.
@@ -40,6 +44,10 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     TopBottomTextView salesTable1;
     @BindView(R.id.sales_table2)
     TopBottomTextView salesTable2;
+    @BindView(R.id.sales_trends)
+    TopBottomTextView salesTrends;
+    @BindView(R.id.sales_spinner)
+    Spinner salesSpinner;
 
 
     @Override
@@ -50,7 +58,12 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @Override
     protected void setUpView() {
         initChart();
-
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+                list.add((i+1)*10+"天");
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,list);
+        salesSpinner.setAdapter(adapter);
     }
 
     @Override
@@ -58,6 +71,10 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     }
 
+    @OnItemSelected(R.id.sales_spinner)
+    void OnSpinnerItemSelected(AdapterView<?> parent, View view, int position, long id){
+
+    }
     /**
      * 1.初始化LineChart
      * 2.添加数据x，y轴数据
@@ -244,6 +261,4 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         mChart.invalidate();
         return true;
     }
-
-
 }

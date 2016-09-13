@@ -107,9 +107,9 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
 
         // add data
-        setData(20, 30);
+        setData(10, 30);
 
-        mChart.animateX(2500);
+        mChart.animateX(1500);
 
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
@@ -117,67 +117,64 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         //l.setEnabled(false);
         // modify the legend ...
         l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
-        l.setForm(Legend.LegendForm.LINE);
+        l.setForm(Legend.LegendForm.SQUARE);
         // l.setTypeface(mTfLight);
         l.setTextSize(11f);
-        l.setTextColor(Color.WHITE);
-        l.setYOffset(11f);
+        l.setTextColor(ColorTemplate.getHoloBlue());
+        l.setYOffset(20f);
 
 
         XAxis xAxis = mChart.getXAxis();
         //xAxis.setTypeface(mTfLight);
         xAxis.setTextSize(11f);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setDrawGridLines(true);
+        xAxis.setTextColor(ColorTemplate.getHoloBlue());
+        xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
+        xAxis.setAxisMinValue(1);
+        //xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = mChart.getAxisLeft();
-        //leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
 
-        leftAxis.setAxisMaxValue(200f);
-        leftAxis.setAxisMinValue(0f);
+        //leftAxis.setAxisMaxValue(200f);
+        leftAxis.setAxisMinValue(0);
 
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
 
         YAxis rightAxis = mChart.getAxisRight();
-        //  rightAxis.setTypeface(mTfLight);
+        rightAxis.setEnabled(false);
+        /*  rightAxis.setTypeface(mTfLight);
         rightAxis.setTextColor(Color.RED);
         rightAxis.setAxisMaxValue(900);
         rightAxis.setAxisMinValue(-200);
 
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawZeroLine(false);
-        rightAxis.setGranularityEnabled(false);
-        rightAxis.setEnabled(false);
+        rightAxis.setGranularityEnabled(false);*/
+
     }
 
     private void setData(int count, float range) {
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count+1; i++) {
             float mult = range / 2f;
             float val = (float) (Math.random() * mult) + 50;// + (float)
-            // ((mult *
-            // 0.1) / 10);
+            // ((mult *0.1) / 10);
             yVals1.add(new Entry(i, val));
         }
 
         ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count+1; i++) {
             float mult = range;
             float val = (float) (Math.random() * mult) + 450;// + (float)
-            // ((mult *
-            // 0.1) / 10);` 32wq
+            // ((mult *0.1) / 10);` 32wq
             yVals2.add(new Entry(i, val));
         }
 
         LineDataSet set1, set2;
-
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
@@ -189,33 +186,29 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         } else {
             // create a dataset and give it a type
             set1 = new LineDataSet(yVals1, "DataSet 1");
-            set1.removeFirst();
-
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-            set1.setColor(ColorTemplate.getHoloBlue());
-            set1.setCircleColor(Color.WHITE);
+
+            set1.setColor(Color.BLUE);
+            set1.setCircleColor(ColorTemplate.getHoloBlue());
             set1.setLineWidth(2f);
             set1.setCircleRadius(3f);
             set1.setFillAlpha(65);
-            set1.setFillColor(ColorTemplate.getHoloBlue());
+            set1.setFillColor(R.color.colorPrimary);
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setDrawCircleHole(false);
-            //set1.setFillFormatter(new MyFillFormatter(0f));
-            //set1.setDrawHorizontalHighlightIndicator(false);
-            //set1.setVisible(false);
-            //set1.setCircleHoleColor(Color.WHITE);
+            set1.setDrawValues(set1.isDrawValuesEnabled());
 
             // create a dataset and give it a type
             set2 = new LineDataSet(yVals2, "DataSet 2");
             set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
             set2.setColor(Color.RED);
-            set2.setCircleColor(Color.WHITE);
+            set2.setCircleColor(R.color.colorAccent);
             set2.setLineWidth(2f);
             set2.setCircleRadius(3f);
             set2.setFillAlpha(65);
             set2.setFillColor(Color.RED);
             set2.setDrawCircleHole(false);
-            set2.setHighLightColor(Color.rgb(244, 117, 117));
+            set2.setDrawValues(set2.isDrawValuesEnabled());
             //set2.setFillFormatter(new MyFillFormatter(900f));
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
@@ -224,7 +217,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
             // create a data object with the datasets
             LineData data = new LineData(dataSets);
-            data.setValueTextColor(Color.WHITE);
+            data.setValueTextColor(Color.GRAY);
             data.setValueTextSize(9f);
 
             // set data

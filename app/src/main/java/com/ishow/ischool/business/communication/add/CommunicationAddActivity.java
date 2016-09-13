@@ -25,7 +25,7 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.custom.SelectDialogFragment;
+import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;

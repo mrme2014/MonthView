@@ -38,5 +38,6 @@
     <color name="fragment_me_bg">#4391f0</color>
     <color name="trans_bg_22">#22000000</color>
     <color name="trans_txt_55">#55FFFFFF</color>
+    <color name="fill_color">#289FCD</color>
 
 </resources>

@@ -150,8 +150,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         rightAxis.setAxisMaxValue(900);
         rightAxis.setAxisMinValue(-200);
 
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawZeroLine(false);
+
         rightAxis.setGranularityEnabled(false);*/
 
     }

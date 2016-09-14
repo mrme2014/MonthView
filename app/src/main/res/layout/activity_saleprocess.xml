@@ -73,7 +73,7 @@
 
            <Spinner
                android:id="@+id/sales_spinner"
-               android:layout_width="80dp"
+               android:layout_width="70dp"
                android:layout_height="30dp"
                android:background="@color/white"
                android:gravity="center"
@@ -84,7 +84,41 @@
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="240dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/sale_legend_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/selector_sale_legend_full_amount_color"
+                android:button="@null"
+                android:drawableLeft="@drawable/selector_sale_full_amount"
+                android:layout_marginRight="20dp"
+                android:text="@string/full_amount"
+                android:drawablePadding="5dp"
+                android:textSize="10sp"
+                android:background="@color/transparent"
+                />
 
+            <Button
+                android:id="@+id/sale_legend_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/selector_sale_legend_apply_acount_color"
+                android:drawableLeft="@drawable/selector_sale_apply_acount"
+                android:button="@null"
+                android:textSize="10sp"
+                android:drawablePadding="5dp"
+                android:text="@string/apply_count"
+                android:background="@color/transparent"
+                />
+        </LinearLayout>
 
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/sales_table1"

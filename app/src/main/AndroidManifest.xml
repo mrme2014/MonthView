@@ -89,6 +89,10 @@
 
         <activity android:name=".business.salesprocess.SalesProcessActivity" />
         <activity android:name=".business.campusperformance.CampusPerformanceActivity" />
+        <activity android:name=".business.salesprocess.SaleStatementTableActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize|navigation">
+        </activity>
     </application>
 
 </manifest>

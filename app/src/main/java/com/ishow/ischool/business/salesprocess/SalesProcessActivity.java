@@ -5,25 +5,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.commonlib.widget.TopBottomTextView;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.saleprocess.ChartBean;
+import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,6 +54,13 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     TopBottomTextView salesTrends;
     @BindView(R.id.sales_spinner)
     Spinner salesSpinner;
+    @BindView(R.id.sale_legend_apply)
+    Button saleLegendApply;
+    @BindView(R.id.sale_legend_full)
+    Button saleLegendFull;
+
+    private SaleProcess process;
+    private ChartBean chartBean;
 
 
     @Override
@@ -57,24 +70,29 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     protected void setUpView() {
-        initChart();
+
+
         ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-                list.add((i+1)*10+"天");
-        }
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,list);
+        list.add("7天");
+        list.add("15天");
+        list.add("30天");
+        list.add("180天");
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, list);
         salesSpinner.setAdapter(adapter);
     }
 
     @Override
     protected void setUpData() {
-
+        process = new SaleProcess();
+        chartBean = process.chartBean;
+        initChart();
     }
 
     @OnItemSelected(R.id.sales_spinner)
-    void OnSpinnerItemSelected(AdapterView<?> parent, View view, int position, long id){
+    void OnSpinnerItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
     }
+
     /**
      * 1.初始化LineChart
      * 2.添加数据x，y轴数据
@@ -86,7 +104,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
         // no description text
         mChart.setDescription("");
-        mChart.setNoDataTextDescription("You need to provide data for the chart.");
+        mChart.setNoDataTextDescription("No Data To Show.");
 
         // enable touch gestures
         mChart.setTouchEnabled(true);
@@ -107,22 +125,13 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
 
         // add data
-        setData(10, 30);
+        setData();
 
         mChart.animateX(1500);
 
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
-
-        //l.setEnabled(false);
-        // modify the legend ...
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
-        l.setForm(Legend.LegendForm.SQUARE);
-        // l.setTypeface(mTfLight);
-        l.setTextSize(11f);
-        l.setTextColor(ColorTemplate.getHoloBlue());
-        l.setYOffset(20f);
-
+        l.setEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
         //xAxis.setTypeface(mTfLight);
@@ -130,48 +139,59 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
-        xAxis.setAxisMinValue(1);
+        xAxis.setAxisMinValue(0);
         //xAxis.setCenterAxisLabels(true);
+        xAxis.setLabelRotationAngle(145);
+        xAxis.setValueFormatter(new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+             /*   LogUtil.e(value + "getFormattedValue");
+                if (value == 0) return "";*/
+                return chartBean.date.get((int) value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-
-        //leftAxis.setAxisMaxValue(200f);
+        // leftAxis.setAxisMaxValue(200f);
         leftAxis.setAxisMinValue(0);
-
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGranularityEnabled(true);
+        leftAxis.setGranularityEnabled(false);
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
-        /*  rightAxis.setTypeface(mTfLight);
-        rightAxis.setTextColor(Color.RED);
-        rightAxis.setAxisMaxValue(900);
-        rightAxis.setAxisMinValue(-200);
-
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawZeroLine(false);
-        rightAxis.setGranularityEnabled(false);*/
 
     }
 
-    private void setData(int count, float range) {
+    private void setData() {
+        if (chartBean == null)
+            return;
 
-        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-        for (int i = 0; i < count+1; i++) {
-            float mult = range / 2f;
-            float val = (float) (Math.random() * mult) + 50;// + (float)
-            // ((mult *0.1) / 10);
-            yVals1.add(new Entry(i, val));
+        List<String> full_amount = chartBean.full_amount;
+        List<String> apply_number = chartBean.apply_number;
+
+        ArrayList<Entry> point1 = null;
+        if (apply_number != null) {
+            int aplply_size = apply_number.size();
+            point1 = new ArrayList<Entry>();
+            for (int i = 0; i < aplply_size; i++) {
+                point1.add(new Entry(i, Float.valueOf(apply_number.get(i))));
+            }
         }
 
-        ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-        for (int i = 0; i < count+1; i++) {
-            float mult = range;
-            float val = (float) (Math.random() * mult) + 450;// + (float)
-            // ((mult *0.1) / 10);` 32wq
-            yVals2.add(new Entry(i, val));
+        ArrayList<Entry> point2 = null;
+        if (full_amount != null) {
+            int full_size = full_amount.size();
+            point2 = new ArrayList<Entry>();
+            for (int i = 0; i < full_size; i++) {
+                point2.add(new Entry(i, Float.valueOf(full_amount.get(i))));
+            }
         }
 
         LineDataSet set1, set2;
@@ -179,42 +199,47 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set2 = (LineDataSet) mChart.getData().getDataSetByIndex(1);
-            set1.setValues(yVals1);
-            set2.setValues(yVals2);
+
+            set1.setValues(point1);
+            set2.setValues(point2);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(yVals1, "DataSet 1");
+            set1 = new LineDataSet(point1, getString(R.string.apply_count));
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-
-            set1.setColor(Color.BLUE);
+            set1.setColor(getResources().getColor(R.color.colorPrimary));
             set1.setCircleColor(ColorTemplate.getHoloBlue());
             set1.setLineWidth(2f);
             set1.setCircleRadius(3f);
             set1.setFillAlpha(65);
-            set1.setFillColor(R.color.colorPrimary);
-            set1.setHighLightColor(Color.rgb(244, 117, 117));
+            set1.setFillColor(ColorTemplate.getHoloBlue());
+            set1.setHighLightColor(getResources().getColor(R.color.colorPrimary));
             set1.setDrawCircleHole(false);
             set1.setDrawValues(set1.isDrawValuesEnabled());
 
             // create a dataset and give it a type
-            set2 = new LineDataSet(yVals2, "DataSet 2");
-            set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            set2 = new LineDataSet(point2, getString(R.string.full_amount));
+            set2.setAxisDependency(YAxis.AxisDependency.LEFT);
             set2.setColor(Color.RED);
-            set2.setCircleColor(R.color.colorAccent);
+            set2.setCircleColor(getResources().getColor(R.color.colorAccent));
             set2.setLineWidth(2f);
             set2.setCircleRadius(3f);
             set2.setFillAlpha(65);
             set2.setFillColor(Color.RED);
             set2.setDrawCircleHole(false);
+            set1.setHighLightColor(getResources().getColor(R.color.colorAccent));
             set2.setDrawValues(set2.isDrawValuesEnabled());
             //set2.setFillFormatter(new MyFillFormatter(900f));
+            //set1.removeFirst();
+            // set2.removeFirst();
+            // set1.removeLast();
+            // set2.removeLast();
+
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
             dataSets.add(set2);
-
             // create a data object with the datasets
             LineData data = new LineData(dataSets);
             data.setValueTextColor(Color.GRAY);
@@ -225,14 +250,45 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }
     }
 
-    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job})
+    private ILineDataSet apply_data_set;
+    private ILineDataSet full_data_set;
+    private LineData lineData;
+    //private boolean apply,full;
+    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job, R.id.sale_legend_apply, R.id.sale_legend_full})
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.sales_table1:
                 break;
             case R.id.sales_table2:
                 break;
             case R.id.sales_job:
+                break;
+            case R.id.sale_legend_apply:
+                if (lineData == null) lineData = mChart.getLineData();
+                if (saleLegendApply.isClickable()) {
+                    apply_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.apply_count), true);
+                    lineData.removeDataSet(apply_data_set);
+                    saleLegendApply.setClickable(false);
+
+                } else {
+                    lineData.addDataSet(apply_data_set);
+                    saleLegendApply.setClickable(true);
+                }
+                //apply =!apply;
+                mChart.invalidate();
+                break;
+            case R.id.sale_legend_full:
+                if (lineData == null) lineData = mChart.getLineData();
+                if (saleLegendFull.isClickable()) {
+                    full_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.full_amount), true);
+                    lineData.removeDataSet(full_data_set);
+                    saleLegendFull.setClickable(false);
+                } else {
+                    lineData.addDataSet(full_data_set);
+                    saleLegendFull.setClickable(true);
+                }
+                mChart.invalidate();
                 break;
         }
     }
@@ -249,9 +305,6 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        // ILineDataSet dataSetByIndex = mChart.getLineData().getDataSetByIndex(0);
-        mChart.getLineData().removeDataSet(0);
-        mChart.invalidate();
         return true;
     }
 }

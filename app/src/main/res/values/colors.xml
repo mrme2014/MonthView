@@ -40,4 +40,9 @@
     <color name="trans_txt_55">#55FFFFFF</color>
     <color name="fill_color">#289FCD</color>
 
+
+    <color name="chart_blue">#61cdfd</color>
+    <color name="chart_red">#f69087</color>
+    <color name="chart_green">#7fe385</color>
+
 </resources>

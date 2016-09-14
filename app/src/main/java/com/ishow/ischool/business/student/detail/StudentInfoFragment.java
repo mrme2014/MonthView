@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
@@ -71,7 +72,8 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     LabelTextView classTv;
     @BindView(R.id.student_idcard)
     LabelTextView idcardTv;
-
+    @BindView(R.id.content)
+    LinearLayout contentLayout;
     @BindView(R.id.net_empty_view_group)
     View emptyViewGroup;
 
@@ -132,8 +134,10 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         }
         if (JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT, false)
                 && JumpManager.checkRelationPermision(getContext(), getStudentInfo().all_user_ids)) {
+            contentLayout.setVisibility(View.VISIBLE);
             emptyViewGroup.setVisibility(View.GONE);
         } else {
+            contentLayout.setVisibility(View.GONE);
             emptyViewGroup.setVisibility(View.VISIBLE);
         }
 

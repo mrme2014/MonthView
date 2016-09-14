@@ -55,7 +55,7 @@ android {
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('debug')) {
-                def debugApkName = 'ischool-' + variant.buildType.name + '-' + variant.getVersionName() + '-' + getDate() + '.apk'
+                def debugApkName = 'ischool-' + variant.buildType.name + '-' + variant.getVersionName() + '.apk'
                 output.outputFile = new File(oldFile.parent, debugApkName)
             }
         }

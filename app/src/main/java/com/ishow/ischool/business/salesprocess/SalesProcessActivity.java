@@ -167,6 +167,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
 
+
     }
 
     private void setData() {

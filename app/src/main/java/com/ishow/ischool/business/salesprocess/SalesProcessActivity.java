@@ -1,14 +1,24 @@
 package com.ishow.ischool.business.salesprocess;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.TopBottomTextView;
+import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -23,9 +33,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.ChartBean;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.saleprocess.Table;
+import com.ishow.ischool.bean.user.Avatar;
+import com.ishow.ischool.bean.user.PositionInfo;
+import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.util.ArrayList;
@@ -55,9 +71,9 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @BindView(R.id.sales_spinner)
     Spinner salesSpinner;
     @BindView(R.id.sale_legend_apply)
-    Button saleLegendApply;
+    CheckedTextView saleLegendApply;
     @BindView(R.id.sale_legend_full)
-    Button saleLegendFull;
+    CheckedTextView saleLegendFull;
 
     private SaleProcess process;
     private ChartBean chartBean;
@@ -79,12 +95,68 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         list.add("180天");
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, list);
         salesSpinner.setAdapter(adapter);
+
+       // saleLegendApply.setOnCheckedChangeListener(this);
+       // saleLegendFull.setOnCheckedChangeListener(this);
     }
 
     @Override
     protected void setUpData() {
         process = new SaleProcess();
         chartBean = process.chartBean;
+
+        if (process.saleTable1!=null){
+            Table table = process.saleTable1.table;
+            List<String> tablehead = process.saleTable1.tablehead;
+            salesTable1.setStrongSectxt(tablehead.get(6),table.apply_numbers+"",tablehead.get(8),table.full_amount+"",tablehead.get(9),table.full_amount_rate+"");
+           /* *//*salesTable1.setText(Html.fromHtml(tablehead.get(6)+  "<font color=#61cdfd>"+table.apply_numbers+"</font>")+
+                    tablehead.get(8)+  "<font color=#61cdfd>"+table.full_amount+"</font>"+
+                    tablehead.get(9)+  "<font color=#61cdfd>"+table.full_amount_rate+"</font>");*//*
+
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
+
+            SpannableStringBuilder apply_numbers = new SpannableStringBuilder(table.apply_numbers+"");
+            apply_numbers.setSpan(colorSpan,0,apply_numbers.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            SpannableStringBuilder full_amount = new SpannableStringBuilder(table.full_amount+"");
+            full_amount.setSpan(colorSpan,0,full_amount.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            SpannableStringBuilder full_amount_rate = new SpannableStringBuilder(table.full_amount_rate*100+"%");
+            full_amount_rate.setSpan(colorSpan,0,full_amount.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);*/
+            //salesTable1.setText(tablehead.get(6)+" "+apply_numbers+"   "+tablehead.get(8)+" "+full_amount+"  "+tablehead.get(9)+" "+full_amount_rate);
+
+        }
+
+        if (process.saleTable2!=null){
+            Table table = process.saleTable2.table;
+            List<String> tablehead = process.saleTable2.tablehead;
+
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
+
+            SpannableStringBuilder apply_numbers = new SpannableStringBuilder(table.apply_numbers+"");
+            apply_numbers.setSpan(colorSpan,0,table.apply_numbers+"".length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            SpannableStringBuilder full_amount = new SpannableStringBuilder (table.full_amount+"");
+            full_amount.setSpan(colorSpan,0,table.full_amount+"".length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            SpannableStringBuilder full_amount_rate = new SpannableStringBuilder(table.full_amount_rate*100+"%");
+            full_amount_rate.setSpan(colorSpan,0,table.full_amount+"".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            salesTable2.setText(tablehead.get(6)+" "+apply_numbers+"   "+tablehead.get(8)+" "+full_amount+"  "+tablehead.get(9)+" "+full_amount_rate);
+
+        }
+
+
+        Avatar avatar = mUser.avatar;
+        if (avatar != null && !TextUtils.equals(avatar.file_name, "") && avatar.file_name != null)
+            ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, salesAvart);
+        UserInfo userInfo = mUser.userInfo;
+        PositionInfo positionInfo = mUser.positionInfo;
+        if (userInfo!=null&&positionInfo!=null){
+            //salesJob.setSecondTxt(positionInfo.title);
+            salesJob.setFirstTxt(userInfo.user_name);
+        }
+
         initChart();
     }
 
@@ -136,12 +208,12 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         XAxis xAxis = mChart.getXAxis();
         //xAxis.setTypeface(mTfLight);
         xAxis.setTextSize(11f);
-        xAxis.setTextColor(ColorTemplate.getHoloBlue());
+        xAxis.setTextColor(ContextCompat.getColor(this,R.color.sale_gray_txt_color_));
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
         xAxis.setAxisMinValue(0);
         //xAxis.setCenterAxisLabels(true);
-        xAxis.setLabelRotationAngle(145);
+        //xAxis.setLabelRotationAngle(145);
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -158,7 +230,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setTextColor(ContextCompat.getColor(this,R.color.sale_gray_txt_color_));
         // leftAxis.setAxisMaxValue(200f);
         leftAxis.setAxisMinValue(0);
         leftAxis.setDrawGridLines(true);
@@ -209,27 +281,29 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             // create a dataset and give it a type
             set1 = new LineDataSet(point1, getString(R.string.apply_count));
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-            set1.setColor(getResources().getColor(R.color.colorPrimary));
-            set1.setCircleColor(ColorTemplate.getHoloBlue());
+            set1.setColor(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
+            set1.setCircleColor(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
             set1.setLineWidth(2f);
             set1.setCircleRadius(3f);
-            set1.setFillAlpha(65);
+            set1.setFillAlpha(255);
             set1.setFillColor(ColorTemplate.getHoloBlue());
-            set1.setHighLightColor(getResources().getColor(R.color.colorPrimary));
+            set1.setHighlightEnabled(true);
+            set1.setHighLightColor(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
             set1.setDrawCircleHole(false);
             set1.setDrawValues(set1.isDrawValuesEnabled());
 
             // create a dataset and give it a type
             set2 = new LineDataSet(point2, getString(R.string.full_amount));
             set2.setAxisDependency(YAxis.AxisDependency.LEFT);
-            set2.setColor(Color.RED);
-            set2.setCircleColor(getResources().getColor(R.color.colorAccent));
+            set2.setColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
+            set2.setCircleColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
             set2.setLineWidth(2f);
             set2.setCircleRadius(3f);
-            set2.setFillAlpha(65);
-            set2.setFillColor(Color.RED);
+            set2.setFillAlpha(255);
+            set2.setFillColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
             set2.setDrawCircleHole(false);
-            set1.setHighLightColor(getResources().getColor(R.color.colorAccent));
+            set2.setDrawHighlightIndicators(true);
+            set2.setHighLightColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
             set2.setDrawValues(set2.isDrawValuesEnabled());
             //set2.setFillFormatter(new MyFillFormatter(900f));
             //set1.removeFirst();
@@ -251,52 +325,37 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }
     }
 
-    private ILineDataSet apply_data_set;
-    private ILineDataSet full_data_set;
-    private LineData lineData;
-    //private boolean apply,full;
-    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job, R.id.sale_legend_apply, R.id.sale_legend_full})
-    public void onClick(View view) {
 
+    //private boolean apply,full;
+    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job,R.id.sale_legend_apply,R.id.sale_legend_full})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
+                Intent intent = new Intent(this,SaleStatementTableActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.saleTable1.tablehead);
+                bundle.putParcelableArrayList(SaleStatementTableActivity.TABLE_BODY, (ArrayList<? extends Parcelable>) process.saleTable1.tablebody);
+                intent.putExtras(bundle);
+                JumpManager.jumpActivity(this,intent, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sales_table2:
                 break;
             case R.id.sales_job:
                 break;
             case R.id.sale_legend_apply:
-                if (lineData == null) lineData = mChart.getLineData();
-                if (saleLegendApply.isClickable()) {
-                    apply_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.apply_count), true);
-                    lineData.removeDataSet(apply_data_set);
-                    saleLegendApply.setClickable(false);
-
-                } else {
-                    lineData.addDataSet(apply_data_set);
-                    saleLegendApply.setClickable(true);
-                }
-                //apply =!apply;
-                mChart.invalidate();
+                invalidateApplyCount();
                 break;
             case R.id.sale_legend_full:
-                if (lineData == null) lineData = mChart.getLineData();
-                if (saleLegendFull.isClickable()) {
-                    full_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.full_amount), true);
-                    lineData.removeDataSet(full_data_set);
-                    saleLegendFull.setClickable(false);
-                } else {
-                    lineData.addDataSet(full_data_set);
-                    saleLegendFull.setClickable(true);
-                }
-                mChart.invalidate();
+                invalidateFullAmount();
                 break;
         }
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
+        if (lineData == null) lineData = mChart.getLineData();
+        LogUtil.e(e.toString()+"----"+h.toString());
+        //ToastUtils.showToast(this,h.);
     }
 
     @Override
@@ -307,5 +366,35 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return true;
+    }
+
+    private ILineDataSet apply_data_set;
+    private ILineDataSet full_data_set;
+    private LineData lineData;
+    private void invalidateFullAmount() {
+        if (lineData == null) lineData = mChart.getLineData();
+        if (!saleLegendFull.isChecked()) {
+            full_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.full_amount), true);
+            lineData.removeDataSet(full_data_set);
+            saleLegendFull.setChecked(true);
+        } else {
+            lineData.addDataSet(full_data_set);
+            saleLegendFull.setChecked(false);
+        }
+        mChart.invalidate();
+    }
+
+    private void invalidateApplyCount() {
+        if (lineData == null) lineData = mChart.getLineData();
+        if (!saleLegendApply.isChecked()) {
+            apply_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.apply_count), true);
+            lineData.removeDataSet(apply_data_set);
+            saleLegendApply.setChecked(true);
+
+        } else {
+            lineData.addDataSet(apply_data_set);
+            saleLegendApply.setChecked(false);
+        }
+        mChart.invalidate();
     }
 }

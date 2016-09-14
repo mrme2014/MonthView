@@ -39,5 +39,8 @@
     <color name="trans_bg_22">#22000000</color>
     <color name="trans_txt_55">#55FFFFFF</color>
     <color name="fill_color">#289FCD</color>
+    <color name="sale_apply_fill_color_">#61cdfd</color>
+    <color name="sale_full_fill_color_">#a98de7</color>
+    <color name="sale_gray_txt_color_">#999</color>
 
 </resources>

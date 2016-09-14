@@ -10,29 +10,9 @@
         </shape>
     </item>
 
-    <item android:state_checkable="true">
+    <item android:state_checked="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorAccent">
-            </solid>
-            <size android:width="8dp"
-                android:height="8dp">
-            </size>
-        </shape>
-    </item>
-
-    <item android:state_checkable="false">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/comm_line">
-            </solid>
-            <size android:width="8dp"
-                android:height="8dp">
-            </size>
-        </shape>
-    </item>
-
-    <item android:state_enabled="true">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/colorAccent">
+            <solid android:color="@color/sale_full_fill_color_">
             </solid>
             <size android:width="8dp"
                 android:height="8dp">
@@ -43,7 +23,7 @@
 
     <item >
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorAccent">
+            <solid android:color="@color/sale_full_fill_color_">
             </solid>
             <size android:width="8dp"
                 android:height="8dp">

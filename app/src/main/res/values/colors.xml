@@ -43,4 +43,9 @@
     <color name="sale_full_fill_color_">#a98de7</color>
     <color name="sale_gray_txt_color_">#999</color>
 
+
+    <color name="chart_blue">#61cdfd</color>
+    <color name="chart_red">#f69087</color>
+    <color name="chart_green">#7fe385</color>
+
 </resources>

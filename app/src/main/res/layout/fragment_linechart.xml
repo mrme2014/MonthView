@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/selector_campus_legend_performance_color"
-            android:drawableLeft="@drawable/selector_sale_full_amount"
+            android:drawableLeft="@drawable/selector_campus_legend_performance_drawable"
             android:layout_marginRight="20dp"
             android:text="@string/performance"
             android:drawablePadding="5dp"

@@ -3,8 +3,6 @@ package com.ishow.ischool.bean.saleprocess;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.commonlib.util.LogUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,6 @@ public class SaleProcess implements Parcelable {
             TableBody body = new TableBody();;
             for (int j = 0; j < test_count; j++) {
                 body.add("row"+i+"--"+"col"+j);
-                if (j>=test_count-1) LogUtil.e(body.logString()+"-----"+saleTable1.tablebody.size());
             }
             saleTable1.tablebody.add(body);
         }

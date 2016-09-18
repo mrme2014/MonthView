@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.TableBody;
@@ -47,7 +46,6 @@ public class SaleStatementTableAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        LogUtil.e("getItemCount"+list.size());
         return list==null?0:list.size();
     }
 

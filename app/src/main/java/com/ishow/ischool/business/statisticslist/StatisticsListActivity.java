@@ -39,8 +39,8 @@ import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
-import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.fragment.StatisticsFilterFragment;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,6 +121,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 return false;
             }
         });
+
 
         // recycleview上滑隐藏fab,下滑显示
         recycler.getRecyclerView().addOnScrollListener(new HidingScrollListener() {

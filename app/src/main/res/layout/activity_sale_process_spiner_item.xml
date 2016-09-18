@@ -3,10 +3,9 @@
     android:id="@android:id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
     android:singleLine="true"
-    android:layout_width="70dp"
+    android:layout_width="match_parent"
     android:layout_height="?attr/dropdownListPreferredItemHeight"
     android:text="111"
     android:gravity="center"
     android:textColor="@color/txt_6"
-    android:background="@drawable/bg_sale_spinner"
     android:ellipsize="marquee"/>

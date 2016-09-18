@@ -14,7 +14,6 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.commonlib.R;
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 
 /**
@@ -36,6 +35,7 @@ public class TopBottomTextView extends TextView {
     private int labelleftPadding;
     private String[] strongSectxt;
 
+    private int right_eclipse_padding = UIUtil.dip2px(getContext(),30);
     public TopBottomTextView(Context context) {
         super(context);
         init(null);
@@ -112,11 +112,14 @@ public class TopBottomTextView extends TextView {
             int strLeft = labelleftPadding;
             for (int i = 0; i <strongSectxt.length ; i++) {
                 if (i>0) {
-                     strLeft = (int) (labelleftPadding + btmPaint.measureText(strongSectxt[i]))+(i%2==1?10:20);
+                     strLeft = (int) (strLeft+ btmPaint.measureText(strongSectxt[i-1])+(i%2==1?10:20));
                 }
-                canvas.drawText(strongSectxt[i], strLeft, labelTopPadding + topTxtHei + labelTBPadding, i%2==1?btmPaint:strongPaint);
-
-
+                if (strLeft+btmPaint.measureText(strongSectxt[i])<getWidth()-right_eclipse_padding)
+                    canvas.drawText(strongSectxt[i], strLeft, labelTopPadding + topTxtHei + labelTBPadding, i%2==1?strongPaint:btmPaint);
+                else if (strLeft+btmPaint.measureText("...")<getWidth()-right_eclipse_padding) {
+                    canvas.drawText("...", strLeft, labelTopPadding + topTxtHei + labelTBPadding, i%2==1?strongPaint:btmPaint);
+                    break;
+                }
             }
         }
     }
@@ -163,13 +166,12 @@ public class TopBottomTextView extends TextView {
         invalidate();
     }
 
-    public void setStrongSectxt(String...strongSectxt){
+    public void setSpanedStr(String...strongSectxt){
         this.strongSectxt = strongSectxt;
         strongPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         strongPaint.setColor(Color.parseColor("#61cdfd"));
         strongPaint.setTextSize(labelTextBottomSize);
         labelTextBottom = null;
-        LogUtil.e(strongSectxt.toString());
         invalidate();
     }
 

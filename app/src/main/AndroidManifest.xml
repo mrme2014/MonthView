@@ -93,6 +93,7 @@
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
+        <activity android:name=".business.salesprocess.SelectSubordinatesActivity" />
     </application>
 
 </manifest>

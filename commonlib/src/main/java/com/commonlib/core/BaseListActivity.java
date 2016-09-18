@@ -82,7 +82,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 
         @Override
         protected int getDataCount() {
-            return mDataList != null ? mDataList.size() : 0;
+            return getDataCounts();
         }
 
         @Override
@@ -96,12 +96,14 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         }
     }
 
-    protected boolean isSectionHeader(int position) {
-        return false;
+    protected int getDataCounts() {
+        return mDataList != null ? mDataList.size() : 0;
     }
-
     protected int getItemType(int position) {
         return 0;
+    }
+    protected boolean isSectionHeader(int position) {
+        return false;
     }
 
     protected abstract BaseViewHolder getViewHolder(ViewGroup parent, int viewType);

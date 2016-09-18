@@ -5,10 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
+import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +15,8 @@ import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
 import com.commonlib.util.LogUtil;
+import com.commonlib.util.UIUtil;
+import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.github.mikephil.charting.charts.LineChart;
@@ -77,16 +77,21 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private SaleProcess process;
     private ChartBean chartBean;
+    private LabelTextView ltv;
+    public static final int REQUEST_CODE = 10001;
 
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_saleprocess, R.string.sale_process, R.menu.menu_statisticslist, MODE_BACK);
+        setContentView(R.layout.activity_saleprocess, R.string.sale_process, R.menu.menu_sale, MODE_BACK);
     }
 
     @Override
     protected void setUpView() {
 
+        MenuItem item = mToolbar.getMenu().findItem(R.id.submit);
+        ltv = (LabelTextView) MenuItemCompat.getActionView(item);
+        ltv.setPadding(0, 0, UIUtil.dip2px(this, 10), 0);
 
         ArrayList<String> list = new ArrayList<>();
         list.add("7天");
@@ -96,8 +101,6 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, list);
         salesSpinner.setAdapter(adapter);
 
-       // saleLegendApply.setOnCheckedChangeListener(this);
-       // saleLegendFull.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -105,44 +108,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         process = new SaleProcess();
         chartBean = process.chartBean;
 
-        if (process.saleTable1!=null){
+        if (process.saleTable1 != null) {
             Table table = process.saleTable1.table;
             List<String> tablehead = process.saleTable1.tablehead;
-            salesTable1.setStrongSectxt(tablehead.get(6),table.apply_numbers+"",tablehead.get(8),table.full_amount+"",tablehead.get(9),table.full_amount_rate+"");
-           /* *//*salesTable1.setText(Html.fromHtml(tablehead.get(6)+  "<font color=#61cdfd>"+table.apply_numbers+"</font>")+
-                    tablehead.get(8)+  "<font color=#61cdfd>"+table.full_amount+"</font>"+
-                    tablehead.get(9)+  "<font color=#61cdfd>"+table.full_amount_rate+"</font>");*//*
-
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
-
-            SpannableStringBuilder apply_numbers = new SpannableStringBuilder(table.apply_numbers+"");
-            apply_numbers.setSpan(colorSpan,0,apply_numbers.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            SpannableStringBuilder full_amount = new SpannableStringBuilder(table.full_amount+"");
-            full_amount.setSpan(colorSpan,0,full_amount.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            SpannableStringBuilder full_amount_rate = new SpannableStringBuilder(table.full_amount_rate*100+"%");
-            full_amount_rate.setSpan(colorSpan,0,full_amount.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);*/
-            //salesTable1.setText(tablehead.get(6)+" "+apply_numbers+"   "+tablehead.get(8)+" "+full_amount+"  "+tablehead.get(9)+" "+full_amount_rate);
+            if (table == null) return;
+            salesTable1.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate + "");
 
         }
 
-        if (process.saleTable2!=null){
+        if (process.saleTable2 != null) {
             Table table = process.saleTable2.table;
+            if (table == null) return;
             List<String> tablehead = process.saleTable2.tablehead;
-
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
-
-            SpannableStringBuilder apply_numbers = new SpannableStringBuilder(table.apply_numbers+"");
-            apply_numbers.setSpan(colorSpan,0,table.apply_numbers+"".length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            SpannableStringBuilder full_amount = new SpannableStringBuilder (table.full_amount+"");
-            full_amount.setSpan(colorSpan,0,table.full_amount+"".length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            SpannableStringBuilder full_amount_rate = new SpannableStringBuilder(table.full_amount_rate*100+"%");
-            full_amount_rate.setSpan(colorSpan,0,table.full_amount+"".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            salesTable2.setText(tablehead.get(6)+" "+apply_numbers+"   "+tablehead.get(8)+" "+full_amount+"  "+tablehead.get(9)+" "+full_amount_rate);
 
         }
 
@@ -152,11 +129,10 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, salesAvart);
         UserInfo userInfo = mUser.userInfo;
         PositionInfo positionInfo = mUser.positionInfo;
-        if (userInfo!=null&&positionInfo!=null){
-            //salesJob.setSecondTxt(positionInfo.title);
+        if (userInfo != null && positionInfo != null) {
             salesJob.setFirstTxt(userInfo.user_name);
         }
-
+        ltv.setText(positionInfo.campus);
         initChart();
     }
 
@@ -208,7 +184,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         XAxis xAxis = mChart.getXAxis();
         //xAxis.setTypeface(mTfLight);
         xAxis.setTextSize(11f);
-        xAxis.setTextColor(ContextCompat.getColor(this,R.color.sale_gray_txt_color_));
+        xAxis.setTextColor(ContextCompat.getColor(this, R.color.sale_gray_txt_color_));
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
         xAxis.setAxisMinValue(0);
@@ -230,7 +206,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTextColor(ContextCompat.getColor(this,R.color.sale_gray_txt_color_));
+        leftAxis.setTextColor(ContextCompat.getColor(this, R.color.sale_gray_txt_color_));
         // leftAxis.setAxisMaxValue(200f);
         leftAxis.setAxisMinValue(0);
         leftAxis.setDrawGridLines(true);
@@ -281,29 +257,29 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             // create a dataset and give it a type
             set1 = new LineDataSet(point1, getString(R.string.apply_count));
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-            set1.setColor(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
-            set1.setCircleColor(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
+            set1.setColor(ContextCompat.getColor(this, R.color.sale_apply_fill_color_));
+            set1.setCircleColor(ContextCompat.getColor(this, R.color.sale_apply_fill_color_));
             set1.setLineWidth(2f);
             set1.setCircleRadius(3f);
             set1.setFillAlpha(255);
             set1.setFillColor(ColorTemplate.getHoloBlue());
             set1.setHighlightEnabled(true);
-            set1.setHighLightColor(ContextCompat.getColor(this,R.color.sale_apply_fill_color_));
+            set1.setHighLightColor(ContextCompat.getColor(this, R.color.sale_apply_fill_color_));
             set1.setDrawCircleHole(false);
             set1.setDrawValues(set1.isDrawValuesEnabled());
 
             // create a dataset and give it a type
             set2 = new LineDataSet(point2, getString(R.string.full_amount));
             set2.setAxisDependency(YAxis.AxisDependency.LEFT);
-            set2.setColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
-            set2.setCircleColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
+            set2.setColor(ContextCompat.getColor(this, R.color.sale_full_fill_color_));
+            set2.setCircleColor(ContextCompat.getColor(this, R.color.sale_full_fill_color_));
             set2.setLineWidth(2f);
             set2.setCircleRadius(3f);
             set2.setFillAlpha(255);
-            set2.setFillColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
+            set2.setFillColor(ContextCompat.getColor(this, R.color.sale_full_fill_color_));
             set2.setDrawCircleHole(false);
             set2.setDrawHighlightIndicators(true);
-            set2.setHighLightColor(ContextCompat.getColor(this,R.color.sale_full_fill_color_));
+            set2.setHighLightColor(ContextCompat.getColor(this, R.color.sale_full_fill_color_));
             set2.setDrawValues(set2.isDrawValuesEnabled());
             //set2.setFillFormatter(new MyFillFormatter(900f));
             //set1.removeFirst();
@@ -327,20 +303,21 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
 
     //private boolean apply,full;
-    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job,R.id.sale_legend_apply,R.id.sale_legend_full})
+    @OnClick({R.id.sales_table1, R.id.sales_table2, R.id.sales_job, R.id.sale_legend_apply, R.id.sale_legend_full})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
-                Intent intent = new Intent(this,SaleStatementTableActivity.class);
+                Intent intent = new Intent(this, SaleStatementTableActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.saleTable1.tablehead);
                 bundle.putParcelableArrayList(SaleStatementTableActivity.TABLE_BODY, (ArrayList<? extends Parcelable>) process.saleTable1.tablebody);
                 intent.putExtras(bundle);
-                JumpManager.jumpActivity(this,intent, Resource.NO_NEED_CHECK);
+                JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sales_table2:
                 break;
             case R.id.sales_job:
+                JumpManager.jumpActivityForResult(this, SelectSubordinatesActivity.class, REQUEST_CODE, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sale_legend_apply:
                 invalidateApplyCount();
@@ -352,9 +329,14 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onValueSelected(Entry e, Highlight h) {
         if (lineData == null) lineData = mChart.getLineData();
-        LogUtil.e(e.toString()+"----"+h.toString());
+        LogUtil.e(e.toString() + "----" + h.toString());
         //ToastUtils.showToast(this,h.);
     }
 
@@ -371,6 +353,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private ILineDataSet apply_data_set;
     private ILineDataSet full_data_set;
     private LineData lineData;
+
     private void invalidateFullAmount() {
         if (lineData == null) lineData = mChart.getLineData();
         if (!saleLegendFull.isChecked()) {

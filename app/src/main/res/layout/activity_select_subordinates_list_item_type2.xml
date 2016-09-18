@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ishow.ischool.widget.custom.FmItemTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_type2"
+    style="@style/fragment_textview_Wmatch_45height"
+    android:text="@string/fm_me_switch_role"
+    app:tip_right_color="#999"
+    app:tip_right_padding="24">
+</com.ishow.ischool.widget.custom.FmItemTextView>

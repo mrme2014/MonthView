@@ -125,8 +125,8 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         }
         mCampusPopup.showAsDropDown(filertLayout);
         isCampusShow = true;
-//        isTypeShow = false;
-//        isDateShow = false;
+        isTypeShow = false;
+        isDateShow = false;
 
         mCampusPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -155,8 +155,8 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         }
         mTypePopup.showAsDropDown(filertLayout);
         isTypeShow = true;
-//        isCampusShow = false;
-//        isDateShow = false;
+        isCampusShow = false;
+        isDateShow = false;
 
         mTypePopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -185,8 +185,8 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         }
         mDatePopup.showAsDropDown(filertLayout);
         isDateShow = true;
-//        isCampusShow = false;
-//        isTypeShow = false;
+        isCampusShow = false;
+        isTypeShow = false;
 
         mDatePopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

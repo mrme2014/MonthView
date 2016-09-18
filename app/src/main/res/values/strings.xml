@@ -218,6 +218,19 @@
 
     <!-- 校区业绩对比 -->
     <string name="campus_performance">校区业绩对比</string>
+    <string name="performance">业绩</string>
+    <string name="base_performance">红线目标</string>
+    <string name="sprint_performance">冲刺目标</string>
+
+    <string name="attend_amount">总现场</string>
+    <string name="registration_amount">总报名</string>
+    <string name="full_payment_amount">总全款</string>
+
+    <string name="registration_rate">总报名率</string>
+    <string name="full_payment_rate">总报名率</string>
+    <string name="full_payment_registration_rate">总全款报名率</string>
+
+
     <string name="data_market">市场业务</string>
     <string name="data_teach">教务教学</string>
     <string name="data_market_title">销售流程分析</string>
@@ -230,4 +243,8 @@
     <string name="student_number_detail">各校区招生人数明细表</string>
     <string name="select_subordinates">选择下属</string>
     <string name="select_subordinates_searchview">搜索名字或电话号码</string>
+
+    <string name="other_statistic">其他类别统计</string>
+    <string name="cake_chart">饼图</string>
+    <string name="bar_chart">柱状图</string>
 </resources>

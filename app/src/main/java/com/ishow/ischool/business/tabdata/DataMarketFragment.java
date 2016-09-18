@@ -23,6 +23,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
+import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 
 import java.util.ArrayList;
@@ -230,7 +231,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
                 startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
                 break;
             case R.id.data_other:
-
+                startActivity(new Intent(getActivity(), OtherStatisticActivity.class));
                 break;
         }
     }

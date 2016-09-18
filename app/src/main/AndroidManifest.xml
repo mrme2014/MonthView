@@ -50,8 +50,9 @@
             android:name=".business.statisticslist.StatisticsListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.MainActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity1" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity2" />
         <activity android:name=".business.editpwd.EditPwdActivity" />
@@ -79,21 +80,23 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".business.student.detail.StudentDetailActivity" />
         <activity android:name=".business.student.edit.EditActivity" />
-        <activity android:name=".business.communication.edit.CommunicationEditActivity"></activity>
-        <activity android:name=".business.Input.InputActivity"></activity>
+        <activity android:name=".business.communication.edit.CommunicationEditActivity" />
+        <activity android:name=".business.Input.InputActivity" />
         <activity
             android:name=".business.user.pick.UserPickActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".business.communication.detail.CommunicationDetailActivity" />
-
         <activity android:name=".business.salesprocess.SalesProcessActivity" />
         <activity android:name=".business.campusperformance.CampusPerformanceActivity" />
-        <activity android:name=".business.salesprocess.SaleStatementTableActivity"
-            android:screenOrientation="landscape"
-            android:configChanges="keyboardHidden|orientation|screenSize">
-        </activity>
+
         <activity android:name=".business.salesprocess.SelectSubordinatesActivity" />
+
+        <activity android:name=".business.statistic.other.OtherStatisticActivity" />
+        <activity
+            android:name=".business.salesprocess.SaleStatementTableActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

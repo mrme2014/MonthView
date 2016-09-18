@@ -21,7 +21,7 @@
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/data_market"
             style="@style/statistics_index_item"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@mipmap/icon_date_sale"
             app:label_text_bottom="@string/data_market_subtitle"
             app:label_text_top_str="@string/data_market_title" />
 
@@ -34,7 +34,7 @@
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/data_campus"
             style="@style/statistics_index_item"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@mipmap/icon_date_contrast"
             app:label_text_bottom="@string/data_campus_subtitle"
             app:label_text_top_str="@string/data_campus_title" />
 
@@ -47,7 +47,7 @@
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/data_other"
             style="@style/statistics_index_item"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@mipmap/icon_date_others"
             app:label_text_bottom="@string/data_other_subtitle"
             app:label_text_top_str="@string/data_other_title" />
     </LinearLayout>

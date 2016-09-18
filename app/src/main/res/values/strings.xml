@@ -227,4 +227,7 @@
     <string name="data_other_subtitle">已获得3600积分</string>
     <string name="data_campus">教务教学</string>
     <string name="student_number_detail">各校区招生人数明细表</string>
+    <string name="other_statistic">其他类别统计</string>
+    <string name="cake_chart">饼图</string>
+    <string name="bar_chart">柱状图</string>
 </resources>

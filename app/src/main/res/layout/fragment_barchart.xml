@@ -35,18 +35,132 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="wrap_content">
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/chart1"
+        <LinearLayout
+            android:id="@+id/chart1_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/chart2"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <CheckedTextView
+                    android:id="@+id/legend_attend_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_sale_full_amount"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/attend_amount"
+                    android:textColor="@color/selector_campus_legend_performance_color"
+                    android:textSize="14sp"
+                    android:padding="5dp"/>
+
+                <CheckedTextView
+                    android:id="@+id/legend_registration_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_base_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/registration_amount"
+                    android:textColor="@color/selector_campus_legend_base_performance_color"
+                    android:textSize="14sp"
+                    android:padding="5dp"/>
+
+                <CheckedTextView
+                    android:id="@+id/legend_full_payment_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_sprint_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/full_payment_amount"
+                    android:textColor="@color/selector_campus_legend_sprint_performance_color"
+                    android:textSize="14sp"
+                    android:padding="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/chart2_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart2"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <CheckedTextView
+                    android:id="@+id/legend_registration_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_sale_full_amount"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/registration_rate"
+                    android:textColor="@color/selector_campus_legend_performance_color"
+                    android:textSize="14sp"
+                    android:padding="5dp"/>
+
+                <CheckedTextView
+                    android:id="@+id/legend_full_payment_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_base_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/full_payment_rate"
+                    android:textColor="@color/selector_campus_legend_base_performance_color"
+                    android:textSize="14sp"
+                    android:padding="5dp"/>
+
+                <CheckedTextView
+                    android:id="@+id/legend_full_payment_registration_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_sprint_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/full_payment_registration_rate"
+                    android:textColor="@color/selector_campus_legend_sprint_performance_color"
+                    android:textSize="14sp"
+                    android:padding="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

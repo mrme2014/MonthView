@@ -49,4 +49,52 @@
             android:layout_height="match_parent"
             android:visibility="gone"/>
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/legend_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <CheckedTextView
+            android:id="@+id/legend_performance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/selector_campus_legend_performance_color"
+            android:drawableLeft="@drawable/selector_sale_full_amount"
+            android:layout_marginRight="20dp"
+            android:text="@string/performance"
+            android:drawablePadding="5dp"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:background="@color/transparent"
+            android:padding="5dp"/>
+        <CheckedTextView
+            android:id="@+id/legend_base_performance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/selector_campus_legend_base_performance_color"
+            android:drawableLeft="@drawable/selector_campus_legend_base_performance_drawable"
+            android:layout_marginRight="20dp"
+            android:text="@string/base_performance"
+            android:drawablePadding="5dp"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:background="@color/transparent"
+            android:padding="5dp"/>
+        <CheckedTextView
+            android:id="@+id/legend_sprint_performance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/selector_campus_legend_sprint_performance_color"
+            android:drawableLeft="@drawable/selector_campus_legend_sprint_performance_drawable"
+            android:textSize="14sp"
+            android:drawablePadding="5dp"
+            android:text="@string/sprint_performance"
+            android:gravity="center"
+            android:background="@color/transparent"
+            android:padding="5dp"/>
+    </LinearLayout>
 </LinearLayout>

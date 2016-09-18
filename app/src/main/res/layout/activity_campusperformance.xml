@@ -24,7 +24,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="业绩对比" />
+                android:text="业绩对比"
+                android:textColor="@color/txt_6"/>
 
             <TextView
                 android:id="@+id/filter_campus"
@@ -32,7 +33,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="选择校区" />
+                android:text="选择校区"
+                android:textColor="@color/txt_6"/>
 
             <TextView
                 android:id="@+id/filter_date"
@@ -40,24 +42,26 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="时间选择" />
+                android:text="时间选择"
+                android:textColor="@color/txt_6"/>
         </LinearLayout>
 
-        <include
-            layout="@layout/view_bottom_line" />
+        <include layout="@layout/view_bottom_line" />
     </LinearLayout>
 
-    <com.github.mikephil.charting.charts.CombinedChart
-        android:id="@+id/combinedChart"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:layout_marginTop="20dp" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/white"/>
 
     <RelativeLayout
         android:id="@+id/detail_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/white"
         android:padding="10dp">
 

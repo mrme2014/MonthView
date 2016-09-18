@@ -2,8 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:color="@color/comm_line" android:state_checked="true" />
-    <item android:color="@color/comm_line" android:state_enabled="false" />
-    <item android:color="@color/colorAccent" android:state_checked="false" />
-    <item android:color="@color/colorAccent" android:state_enabled="true" />
-    <item android:color="@color/colorAccent" />
+    <item android:color="@color/sale_full_fill_color_" android:state_checked="false" />
+    <item android:color="@color/sale_full_fill_color_" />
 </selector>

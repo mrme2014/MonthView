@@ -9,10 +9,12 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.commonlib.R;
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 
 /**
@@ -27,11 +29,12 @@ public class TopBottomTextView extends TextView {
     private int labelTextBottomColor = Color.parseColor("#999999");
     private int labelTextBottomSize;
 
-    private Paint topPaint, btmPaint;
+    private Paint topPaint, btmPaint,strongPaint;
     private float labelTBPadding;
     private float topTxtHei;
     private float botTxtHei;
     private int labelleftPadding;
+    private String[] strongSectxt;
 
     public TopBottomTextView(Context context) {
         super(context);
@@ -101,9 +104,21 @@ public class TopBottomTextView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawText(labelTextTop, labelleftPadding, labelTopPadding, topPaint);
+        if (labelTextTop!=null)canvas.drawText(labelTextTop, labelleftPadding, labelTopPadding, topPaint);
 
-        canvas.drawText(labelTextBottom, labelleftPadding, labelTopPadding + topTxtHei + labelTBPadding, btmPaint);
+        if (labelTextBottom!=null)canvas.drawText(labelTextBottom, labelleftPadding, labelTopPadding + topTxtHei + labelTBPadding, btmPaint);
+
+        if (strongSectxt!=null){
+            int strLeft = labelleftPadding;
+            for (int i = 0; i <strongSectxt.length ; i++) {
+                if (i>0) {
+                     strLeft = (int) (labelleftPadding + btmPaint.measureText(strongSectxt[i]))+(i%2==1?10:20);
+                }
+                canvas.drawText(strongSectxt[i], strLeft, labelTopPadding + topTxtHei + labelTBPadding, i%2==1?btmPaint:strongPaint);
+
+
+            }
+        }
     }
 
     @Override
@@ -141,5 +156,30 @@ public class TopBottomTextView extends TextView {
         labelTextBottom = bundle.getString("labelTextBottom");
 
         super.onRestoreInstanceState(superData);
+    }
+
+    public void setSecondTxt(Spanned secondTxt){
+        this.labelTextBottom = secondTxt.toString();
+        invalidate();
+    }
+
+    public void setStrongSectxt(String...strongSectxt){
+        this.strongSectxt = strongSectxt;
+        strongPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        strongPaint.setColor(Color.parseColor("#61cdfd"));
+        strongPaint.setTextSize(labelTextBottomSize);
+        labelTextBottom = null;
+        LogUtil.e(strongSectxt.toString());
+        invalidate();
+    }
+
+
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+    }
+
+    public void setFirstTxt(String firstTxt){
+        this.labelTextTop = firstTxt;
+        invalidate();
     }
 }

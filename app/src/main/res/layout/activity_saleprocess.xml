@@ -14,22 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@color/white"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="15dp">
 
             <com.ishow.ischool.widget.custom.CircleImageView
                 android:id="@+id/sales_avart"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:src="@mipmap/img_header_default"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="10dp"/>
 
             <com.commonlib.widget.TopBottomTextView
                 android:id="@+id/sales_job"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:label_left_padding="10"
-                app:label_TB_padding="7"
+                app:label_TB_padding="6"
                 app:label_text_bottom="晨读讲师"
                 app:label_text_bottom_color="@color/txt_9"
                 app:label_text_bottom_size="12"
@@ -56,18 +56,18 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="60dp"
-                app:label_left_padding="16"
+                app:label_left_padding="10"
                 app:label_TB_padding="1"
-                app:label_text_bottom="2016-09-10-2016-12-30"
                 app:label_text_bottom_color="@color/txt_9"
                 app:label_text_bottom_size="12"
-                app:label_text_top_str="晨读明细表"
-                app:label_text_top_size="14"
+                app:label_text_top_size="16"
                 app:label_text_top_color="@color/txt_2"
                 app:label_top_padding="25"
                 android:layout_toRightOf="@+id/sales_avart"
                 android:background="@color/white"
                 android:paddingRight="16dp"
+                app:label_text_top_str="业绩趋势"
+                app:label_text_bottom="2016-09-06-2016-09-13"
 
                 />
 
@@ -75,7 +75,7 @@
                android:id="@+id/sales_spinner"
                android:layout_width="70dp"
                android:layout_height="30dp"
-               android:background="@color/white"
+               android:background="@drawable/bg_sale_spinner"
                android:gravity="center"
                style="@style/Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                ></Spinner>
@@ -84,56 +84,136 @@
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="240dp" />
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="20dp"
+            android:paddingTop="16dp"
             android:paddingBottom="10dp"
             android:background="@color/white"
             android:orientation="horizontal">
-            <Button
+            <CheckedTextView
                 android:id="@+id/sale_legend_apply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
                 android:textColor="@color/selector_sale_legend_full_amount_color"
-                android:button="@null"
                 android:drawableLeft="@drawable/selector_sale_full_amount"
-                android:layout_marginRight="20dp"
-                android:text="@string/full_amount"
+                android:layout_marginRight="40dp"
+                android:text="@string/apply_count"
                 android:drawablePadding="5dp"
                 android:textSize="10sp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:background="@color/transparent"
                 />
 
-            <Button
+            <CheckedTextView
                 android:id="@+id/sale_legend_full"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
                 android:textColor="@color/selector_sale_legend_apply_acount_color"
                 android:drawableLeft="@drawable/selector_sale_apply_acount"
-                android:button="@null"
                 android:textSize="10sp"
                 android:drawablePadding="5dp"
-                android:text="@string/apply_count"
+                android:text="@string/full_amount"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:background="@color/transparent"
                 />
-        </LinearLayout>
+        </FrameLayout>
+
+  <!--      <RelativeLayout
+            android:id="@+id/sales_table_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="15dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="晨读明细表"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="13dp"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/txt_2"
+                />
+            <TextView
+                android:id="@+id/sales_table1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/txt_9"
+                android:paddingTop="38dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="13dp"
+                android:textSize="@dimen/sp13"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/icon_list_next"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/sales_table_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="15dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="转介绍"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="13dp"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/txt_2"
+                />
+            <TextView
+                android:id="@+id/sales_table2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/txt_9"
+                android:paddingTop="38dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="13dp"
+                android:textSize="@dimen/sp13"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/icon_list_next"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>-->
 
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/sales_table1"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:label_left_padding="16"
-            android:layout_marginTop="10dp"
-            app:label_TB_padding="7"
+            android:layout_height="62dp"
+            app:label_left_padding="10"
+            android:layout_marginTop="15dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            app:label_TB_padding="5"
             app:label_text_bottom="晨读讲师"
             app:label_text_bottom_color="@color/txt_9"
             app:label_text_bottom_size="12"
             app:label_text_top_str="晨读明细表"
             app:label_text_top_size="14"
             app:label_text_top_color="@color/txt_2"
-            app:label_top_padding="20"
+            app:label_top_padding="22"
             android:layout_toRightOf="@+id/sales_avart"
             android:drawableRight="@mipmap/icon_list_next"
             android:background="@color/white"
@@ -144,17 +224,18 @@
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/sales_table2"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:label_left_padding="16"
-            android:layout_marginTop="10dp"
-            app:label_TB_padding="7"
+            android:layout_height="62dp"
+            app:label_left_padding="10"
+            app:label_TB_padding="5"
+            android:layout_marginTop="15dp"
             app:label_text_bottom="晨读讲师"
             app:label_text_bottom_color="@color/txt_9"
             app:label_text_bottom_size="12"
             app:label_text_top_str="转介绍"
             app:label_text_top_size="14"
             app:label_text_top_color="@color/txt_2"
-            app:label_top_padding="20"
+            app:label_top_padding="23"
+
             android:layout_toRightOf="@+id/sales_avart"
             android:drawableRight="@mipmap/icon_list_next"
             android:background="@color/white"

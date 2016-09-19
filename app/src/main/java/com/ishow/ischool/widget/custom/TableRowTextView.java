@@ -67,12 +67,12 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
 
         if (linePaint == null) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            linePaint.setColor(ContextCompat.getColor(getContext(), R.color.comm_line));
+            linePaint.setColor(ContextCompat.getColor(getContext(), R.color.chart_line));
             //linePaint.setStrokeWidth(1);
 
             txtPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             txtPaint.setTextSize(UIUtil.sp2px(getContext(), 13));
-            txtPaint.setColor(ContextCompat.getColor(getContext(), R.color.txt_hint));
+            txtPaint.setColor(ContextCompat.getColor(getContext(), R.color.chart_gray_txt));
 
             Paint.FontMetrics fontMetrics = txtPaint.getFontMetrics();
             txtHeight = fontMetrics.descent - fontMetrics.ascent;

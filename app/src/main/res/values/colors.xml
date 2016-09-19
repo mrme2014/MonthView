@@ -8,6 +8,7 @@
     <color name="comm_line">#d9dadd</color>
 
 
+
     <color name="txt_2">#222222</color>
     <color name="txt_3">#333333</color>
     <color name="txt_6">#666666</color>
@@ -42,10 +43,13 @@
     <color name="sale_apply_fill_color_">#61cdfd</color>
     <color name="sale_full_fill_color_">#a98de7</color>
     <color name="sale_gray_txt_color_">#999</color>
-
-
+    <color name="chart_gray_txt">#959595</color>
+    <color name="chart_head_gray_bg">#e7e8ea</color>
+    <color name="chart_head_gray_txt">#eaeaec</color>
+    <color name="chart_line">#dadadc</color>
     <color name="chart_blue">#61cdfd</color>
     <color name="chart_red">#f69087</color>
     <color name="chart_green">#7fe385</color>
+
 
 </resources>

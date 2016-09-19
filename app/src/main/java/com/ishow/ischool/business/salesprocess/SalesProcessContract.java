@@ -4,6 +4,10 @@ package com.ishow.ischool.business.salesprocess;
 import com.commonlib.core.BaseModel;
 import com.commonlib.core.BasePresenter;
 import com.commonlib.core.BaseView;
+import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.saleprocess.SaleProcess;
+
+import rx.Observable;
 
 
 /**
@@ -11,15 +15,15 @@ import com.commonlib.core.BaseView;
  */
 public interface SalesProcessContract {
     interface Model extends BaseModel {
-//        Observable<ApiResult<StudentList>> getList4StudentStatistics(HashMap<String, String> params, int page);
+        Observable<ApiResult<SaleProcess>> getSaleProcessData(int campus_id, int position_id, int user_id, int type);
     }
 
     interface View extends BaseView {
-//        void getListSuccess(StudentList studentList);
-//        void getListFail(String msg);
+        void getListSuccess(SaleProcess saleProcess);
+        void getListFail(String msg);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-//        public abstract void getList4StudentStatistics(HashMap<String, String> params, int page);
+        public abstract void getSaleProcessData(int campus_id, int position_id, int user_id, int type);
     }
 }

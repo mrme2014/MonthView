@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,6 +101,16 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         list.add("180天");
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, list);
         salesSpinner.setAdapter(adapter);
+
+        mChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (mChart.getScaleX() > 1f || mChart.getScaleY() > 1f)
+                    mChart.requestDisallowInterceptTouchEvent(true);
+                    //mChart.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
     }
 
@@ -379,5 +390,15 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             saleLegendApply.setChecked(false);
         }
         mChart.invalidate();
+    }
+
+    @Override
+    public void getListSuccess(SaleProcess saleProcess) {
+
+    }
+
+    @Override
+    public void getListFail(String msg) {
+
     }
 }

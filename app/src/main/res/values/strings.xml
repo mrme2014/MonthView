@@ -220,7 +220,7 @@
     <string name="campus_performance">校区业绩对比</string>
     <string name="performance">业绩</string>
     <string name="base_performance">红线目标</string>
-    <string name="sprint_performance">冲刺目标</string>
+    <string name="challenge_performance">冲刺目标</string>
 
     <string name="attend_amount">总现场</string>
     <string name="registration_amount">总报名</string>

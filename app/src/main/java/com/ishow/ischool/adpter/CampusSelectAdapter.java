@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by wqf on 16/9/12.
  */
-public class CampusSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapter.ListItemViewHolder> {
     private ArrayList<String> mList = new ArrayList<>();
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
@@ -50,7 +50,7 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ListItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.filter_campus_item, viewGroup, false);
         return new ListItemViewHolder(itemView);
     }
@@ -77,13 +77,14 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     //绑定界面，设置监听
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int i) {
+    public void onBindViewHolder(final ListItemViewHolder holder, final int i) {
         //设置条目状态
-        ((ListItemViewHolder) holder).mainTitle.setText(mList.get(i));
-        ((ListItemViewHolder) holder).checkBox.setChecked(isItemChecked(i));
+        holder.mainTitle.setText(mList.get(i));
+        holder.checkBox.setChecked(true);
+        holder.checkBox.setChecked(isItemChecked(i));
 
         //checkBox的监听
-        ((ListItemViewHolder) holder).checkBox.setOnClickListener(new View.OnClickListener() {
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isItemChecked(i)) {
@@ -95,7 +96,7 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
 
         //条目view的监听
-        ((ListItemViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isItemChecked(i)) {

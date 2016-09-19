@@ -12,8 +12,8 @@
         android:id="@+id/sale_table_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:textColor="@color/white"
-        android:background="@color/comm_line" />
+        android:textColor="@color/chart_head_gray_txt"
+        android:background="@color/chart_head_gray_bg" />
 
     <com.ishow.ischool.widget.custom.DispatchHScrollView
         android:id="@+id/DispatchHScrollView"

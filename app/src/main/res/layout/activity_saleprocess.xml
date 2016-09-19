@@ -41,7 +41,7 @@
                     app:label_text_top_str="哈哈哈"
                     app:label_text_top_size="14"
                     app:label_text_top_color="@color/txt_2"
-                    app:label_top_padding="30"
+                    app:label_top_padding="32"
                     android:layout_toRightOf="@+id/sales_avart"
                     android:drawableRight="@mipmap/icon_list_next"
                     android:paddingRight="10dp"

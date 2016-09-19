@@ -9,6 +9,8 @@ import com.google.gson.reflect.TypeToken;
 import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by wqf on 16/8/22.
@@ -56,6 +58,18 @@ public class CampusManager {
         }
         if (campusInfos == null) {
             LogUtil.d(this, "get campus is null");
+        }
+
+        Collections.sort(campusInfos, new Comparator<CampusInfo>(){
+            public int compare(CampusInfo arg0, CampusInfo arg1) {
+                return (arg0.id).compareTo(arg1.id);
+            }
+        });
+
+        for (CampusInfo campusInfo : campusInfos) {
+            if (campusInfo.name.equals("总部") || campusInfo.name.equals("第三校区")) {
+                campusInfos.remove(campusInfo);
+            }
         }
         return campusInfos;
     }

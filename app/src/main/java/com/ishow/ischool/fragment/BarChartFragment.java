@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.commonlib.core.BaseFragment;
+import com.commonlib.http.ApiFactory;
 import com.commonlib.util.LogUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -21,14 +22,20 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.campusperformance.SignAmount;
+import com.ishow.ischool.bean.campusperformance.SignAmountResult;
+import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wqf on 16/9/13.
@@ -64,28 +71,33 @@ public class BarChartFragment extends BaseFragment {
     private boolean curAmountMode = true;
     private BarData amountBarData, percentageBarData;
     private ArrayList<String> mCampusDatas;
+    private ArrayList<CampusInfo> mCampusInfos;
+    private ArrayList<SignAmount> mSignAmount;
     private String label1, label2, label3;
-    private Random random = new Random();      //用于产生随机数字
     private boolean isFirst = true;
-
-    //    public static BarChartFragment newInstance(String campus_id, String source) {
-    public static BarChartFragment newInstance() {
-        BarChartFragment fragment = new BarChartFragment();
-        Bundle args = new Bundle();
-//        args.putString("campus_id", campus_id);
-//        args.putString("source", source);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-//            mCampusId = bundle.getString("campus_id", "");
-//            mSource = bundle.getString("source", "");
-        }
+        mCampusInfos = CampusManager.getInstance().get();
+        mCampusDatas = new ArrayList<>();
+        mCampusDatas.addAll(CampusManager.getInstance().getCampusNames());
+        ApiFactory.getInstance().getApi(DataApi.class).getSignAmount(1, "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                201605, null, null, "signTotal")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ApiObserver<SignAmountResult>() {
+                    @Override
+                    public void onSuccess(SignAmountResult result) {
+                        mSignAmount = result.signTotal;
+                        mSignAmount.add(new SignAmount());
+                        initAmountChart();
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                    }
+                });
     }
 
     @Override
@@ -97,9 +109,7 @@ public class BarChartFragment extends BaseFragment {
 
     @Override
     public void init() {
-        mCampusDatas = new ArrayList<>();
-        mCampusDatas.addAll(CampusManager.getInstance().getCampusNames());
-        initAmountChart();
+
     }
 
     private void initAmountChart() {
@@ -142,7 +152,7 @@ public class BarChartFragment extends BaseFragment {
             }
         });
 
-        setAmountData(mCampusDatas, null);
+        setAmountData(mCampusDatas, mSignAmount);
     }
 
 
@@ -201,10 +211,10 @@ public class BarChartFragment extends BaseFragment {
             }
         });
 
-        setPercentageData(mCampusDatas, null);
+        setPercentageData(mCampusDatas, mSignAmount);
     }
 
-    public void setAmountData(ArrayList<String> xData, ArrayList<String> yData) {
+    public void setAmountData(ArrayList<String> xData, ArrayList<SignAmount> yData) {
         label1 = getString(R.string.attend_amount);
         label2 = getString(R.string.registration_amount);
         label3 = getString(R.string.full_payment_amount);
@@ -213,9 +223,9 @@ public class BarChartFragment extends BaseFragment {
         ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
 
         for (int i = 0; i < xData.size() + 1; i++) {
-            yVals1.add(new BarEntry(i, random.nextInt(15) + 1));
-            yVals2.add(new BarEntry(i, random.nextInt(20) + 2));
-            yVals3.add(new BarEntry(i, random.nextInt(25) + 3));
+            yVals1.add(new BarEntry(i, yData.get(i).scene));
+            yVals2.add(new BarEntry(i, yData.get(i).sign));
+            yVals3.add(new BarEntry(i, yData.get(i).fullPay));
         }
 
         // create 3 datasets with different types
@@ -258,12 +268,10 @@ public class BarChartFragment extends BaseFragment {
         //        mChart.getXAxis().setAxisMaxValue(6);
         mChartAmount.setVisibleXRangeMaximum(6);  //设置屏幕显示条数
         mChartAmount.invalidate();
-
-        mChartAmount.getXAxis().setGranularity(0f);
     }
 
 
-    public void setPercentageData(ArrayList<String> xData, ArrayList<String> yData) {
+    public void setPercentageData(ArrayList<String> xData, ArrayList<SignAmount> yData) {
         label1 = getString(R.string.registration_rate);
         label2 = getString(R.string.full_payment_rate);
         label3 = getString(R.string.full_payment_registration_rate);
@@ -272,9 +280,9 @@ public class BarChartFragment extends BaseFragment {
         ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
 
         for (int i = 0; i < xData.size() + 1; i++) {
-            yVals1.add(new BarEntry(i, random.nextInt(15) + 1));
-            yVals2.add(new BarEntry(i, random.nextInt(20) + 2));
-            yVals3.add(new BarEntry(i, random.nextInt(25) + 3));
+            yVals1.add(new BarEntry(i, yData.get(i).signRate));
+            yVals2.add(new BarEntry(i, yData.get(i).fullRate));
+            yVals3.add(new BarEntry(i, yData.get(i).fullSignRate));
         }
 
         // create 3 datasets with different types
@@ -317,8 +325,6 @@ public class BarChartFragment extends BaseFragment {
         //        mChart.getXAxis().setAxisMaxValue(6);
         mChartPercentage.setVisibleXRangeMaximum(6);  //设置屏幕显示条数
         mChartPercentage.invalidate();
-
-        mChartPercentage.getXAxis().setGranularity(0f);
     }
 
 

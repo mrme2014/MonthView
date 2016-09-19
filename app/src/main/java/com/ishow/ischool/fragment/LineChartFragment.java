@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.commonlib.core.BaseFragment;
+import com.commonlib.http.ApiFactory;
 import com.commonlib.util.LogUtil;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -34,6 +35,11 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.campusperformance.SignPerformance;
+import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
+import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
 
 import java.util.ArrayList;
@@ -41,6 +47,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wqf on 16/9/13.
@@ -61,13 +69,16 @@ public class LineChartFragment extends BaseFragment {
     LinearLayout legendLayout;
     @BindView(R.id.legend_base_performance)
     CheckedTextView baseCtv;
-    @BindView(R.id.legend_sprint_performance)
-    CheckedTextView sprintCtv;
+    @BindView(R.id.legend_challenge_performance)
+    CheckedTextView challengeCtv;
+
     private boolean curPieMode = false;
     private ArrayList<String> mCampusDatas;
+    private ArrayList<CampusInfo> mCampusInfos;
+    private ArrayList<SignPerformance> mCampusPerformances;
     private int mCount = 0;
     private LineData lineData = new LineData();
-    private LineDataSet baseLineDataSet, sprintLineDataSet;
+    private LineDataSet baseLineDataSet, challengeLineDataSet;
 
     protected String[] mParties = new String[]{
             "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
@@ -76,24 +87,25 @@ public class LineChartFragment extends BaseFragment {
             "Party Y", "Party Z"
     };
 
-    //    public static LineChartFragment newInstance(String campus_id, String source) {
-    public static LineChartFragment newInstance() {
-        LineChartFragment fragment = new LineChartFragment();
-        Bundle args = new Bundle();
-//        args.putString("campus_id", campus_id);
-//        args.putString("source", source);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-//            mCampusId = bundle.getString("campus_id", "");
-//            mSource = bundle.getString("source", "");
-        }
+        setData();
+        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(1, "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                201605, null, null, "campusTotal")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ApiObserver<SignPerformanceResult>() {
+                    @Override
+                    public void onSuccess(SignPerformanceResult result) {
+                        mCampusPerformances = result.campusTotal;
+                        initCombinedChart();
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                    }
+                });
     }
 
     @Override
@@ -105,15 +117,16 @@ public class LineChartFragment extends BaseFragment {
 
     @Override
     public void init() {
-        setData();
-        initCombinedChart();
         initPieChart();
     }
 
     public void setData() {
+        mCampusInfos = CampusManager.getInstance().get();
         mCampusDatas = new ArrayList<>();
         mCampusDatas.add("");
-        mCampusDatas.addAll(CampusManager.getInstance().getCampusNames());
+        for (CampusInfo campusInfo : mCampusInfos) {
+            mCampusDatas.add(campusInfo.name);
+        }
         mCount = mCampusDatas.size();
     }
 
@@ -167,12 +180,12 @@ public class LineChartFragment extends BaseFragment {
 
         CombinedData data = new CombinedData();
         lineData.addDataSet(generateBaseLineData());
-        lineData.addDataSet(generateSprintLineData());
+        lineData.addDataSet(generateChallengeLineData());
         data.setData(lineData);
         data.setData(generateBarData());
         mCombinedChart.setData(data);
 
-        mCombinedChart.setVisibleXRangeMaximum(8);//设置屏幕显示条数
+        mCombinedChart.setVisibleXRangeMaximum(7);//设置屏幕显示条数
         mCombinedChart.invalidate();
     }
 
@@ -200,7 +213,7 @@ public class LineChartFragment extends BaseFragment {
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
         for (int index = 0; index < mCount - 1; index++) {
-            entries.add(new Entry(index + 1f, getRandom(10, 20)));
+            entries.add(new Entry(index + 1f, Float.parseFloat(mCampusPerformances.get(index).perweek_full_base)));
         }
 
         int color = getResources().getColor(R.color.chart_red);
@@ -220,28 +233,28 @@ public class LineChartFragment extends BaseFragment {
         return baseLineDataSet;
     }
 
-    private LineDataSet generateSprintLineData() {
+    private LineDataSet generateChallengeLineData() {
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
         for (int index = 0; index < mCount - 1; index++) {
-            entries.add(new Entry(index + 1f, getRandom(10, 20)));
+            entries.add(new Entry(index + 1f, Float.parseFloat(mCampusPerformances.get(index).perweek_full_challenge)));
         }
 
         int color = getResources().getColor(R.color.chart_green);
 
-        sprintLineDataSet = new LineDataSet(entries, getString(R.string.sprint_performance));
-        sprintLineDataSet.setColor(color);
-        sprintLineDataSet.setLineWidth(1f);
-        sprintLineDataSet.setCircleColor(color);
-        sprintLineDataSet.setCircleRadius(3f);
-        sprintLineDataSet.setFillColor(color);
-        sprintLineDataSet.setMode(LineDataSet.Mode.LINEAR);
-        sprintLineDataSet.setValueTextSize(10f);
-        sprintLineDataSet.setValueTextColor(color);
-        sprintLineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);     //以左边坐标轴为准 还是以右边坐标轴
-        sprintLineDataSet.setDrawValues(false);
+        challengeLineDataSet = new LineDataSet(entries, getString(R.string.challenge_performance));
+        challengeLineDataSet.setColor(color);
+        challengeLineDataSet.setLineWidth(1f);
+        challengeLineDataSet.setCircleColor(color);
+        challengeLineDataSet.setCircleRadius(3f);
+        challengeLineDataSet.setFillColor(color);
+        challengeLineDataSet.setMode(LineDataSet.Mode.LINEAR);
+        challengeLineDataSet.setValueTextSize(10f);
+        challengeLineDataSet.setValueTextColor(color);
+        challengeLineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);     //以左边坐标轴为准 还是以右边坐标轴
+        challengeLineDataSet.setDrawValues(false);
 
-        return sprintLineDataSet;
+        return challengeLineDataSet;
     }
 
     private BarData generateBarData() {
@@ -252,7 +265,7 @@ public class LineChartFragment extends BaseFragment {
                 entries.add(new BarEntry(index + 1f, 0));
                 continue;
             }
-            entries.add(new BarEntry(index + 1f, getRandom(15, 25)));
+            entries.add(new BarEntry(index + 1f, Float.parseFloat(mCampusPerformances.get(index).perweek_real)));
         }
 
         BarDataSet set = new BarDataSet(entries, getString(R.string.performance));
@@ -326,7 +339,7 @@ public class LineChartFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.chart_switch, R.id.legend_base_performance, R.id.legend_sprint_performance})
+    @OnClick({R.id.chart_switch, R.id.legend_base_performance, R.id.legend_challenge_performance})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.chart_switch:
@@ -347,13 +360,13 @@ public class LineChartFragment extends BaseFragment {
             case R.id.legend_base_performance:
                 invalidateBasePerformance();
                 break;
-            case R.id.legend_sprint_performance:
-                invalidateSprintPerformance();
+            case R.id.legend_challenge_performance:
+                invalidateChallengePerformance();
                 break;
         }
     }
 
-    private ILineDataSet baseDataSet, sprintDataSet;
+    private ILineDataSet baseDataSet, challengeDataSet;
     private LineData tempLineData;
     private void invalidateBasePerformance() {
         if (tempLineData == null) {
@@ -370,16 +383,16 @@ public class LineChartFragment extends BaseFragment {
         mCombinedChart.invalidate();
     }
 
-    private void invalidateSprintPerformance() {
+    private void invalidateChallengePerformance() {
         if (lineData == null) lineData = mCombinedChart.getLineData();
-        if (!sprintCtv.isChecked()) {
-            sprintDataSet = lineData.getDataSetByLabel(getString(R.string.sprint_performance), true);
-            lineData.removeDataSet(sprintDataSet);
-            sprintCtv.setChecked(true);
+        if (!challengeCtv.isChecked()) {
+            challengeDataSet = lineData.getDataSetByLabel(getString(R.string.challenge_performance), true);
+            lineData.removeDataSet(challengeDataSet);
+            challengeCtv.setChecked(true);
 
         } else {
-            lineData.addDataSet(sprintDataSet);
-            sprintCtv.setChecked(false);
+            lineData.addDataSet(challengeDataSet);
+            challengeCtv.setChecked(false);
         }
         mCombinedChart.invalidate();
     }

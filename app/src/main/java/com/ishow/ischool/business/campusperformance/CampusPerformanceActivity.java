@@ -68,7 +68,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     @Override
     protected void setUpData() {
-        lineChartFragment = LineChartFragment.newInstance();
+        lineChartFragment = new LineChartFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.content, lineChartFragment);
         ft.commit();
@@ -234,7 +234,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     if (curFragment != lineChartFragment) {
                         ft.hide(curFragment);
                         if (lineChartFragment == null) {
-                            lineChartFragment = LineChartFragment.newInstance();
+                            lineChartFragment = new LineChartFragment();
                             ft.add(R.id.content, lineChartFragment);
                         }
                         curFragment = lineChartFragment;
@@ -247,7 +247,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     if (curFragment != barChartFragment) {
                         ft.hide(curFragment);
                         if (barChartFragment == null) {
-                            barChartFragment = BarChartFragment.newInstance();
+                            barChartFragment = new BarChartFragment();
                             ft.add(R.id.content, barChartFragment);
                         }
                         curFragment = barChartFragment;
@@ -293,7 +293,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                                 mFilterStartTime = String.valueOf(unix);
                             }
                         } else if (type == TYPE_END_TIME) {
-                            long end4Today = DateUtil.getEndTime(new Date((long)unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
+                            long end4Today = DateUtil.getEndTime(new Date((long) unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
                             mFilterEndTime = String.valueOf(end4Today);
                             if (!TextUtils.isEmpty(mFilterStartTime) && unix < Integer.parseInt(mFilterStartTime)) {
                                 showTimeError();

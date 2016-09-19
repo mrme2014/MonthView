@@ -9,13 +9,9 @@ import com.commonlib.widget.event.RxBus;
 import com.commonlib.widget.pull.DividerGridItemDecoration;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BusinessAdapter;
-import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
-import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.Subscription;
@@ -45,7 +41,6 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs());
         mRecyclerView.setAdapter(mAdapter);
-        mPresenter.getCampusList();     //进入app获取所有校区信息
         setCampus();
     }
 
@@ -69,16 +64,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         com.commonlib.widget.event.RxBus.getInstance().addSubscription(this, subscription);
     }
 
-    @Override
-    public void getListSuccess(ArrayList<CampusInfo> campusInfos) {
-        CampusManager.getInstance().init(getActivity().getApplicationContext());
-        CampusManager.getInstance().save(campusInfos);
-    }
 
-    @Override
-    public void getListFail(String msg) {
-
-    }
 
 
     @Override

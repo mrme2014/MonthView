@@ -8,7 +8,9 @@ import android.widget.RadioGroup;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+import com.ishow.ischool.common.manager.CampusManager;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void init() {
-
+        mPresenter.getCampusList();     //进入app获取所有校区信息
         ArrayList<Fragment> fragments = new ArrayList<>();
         dataMarketFragment = DataMarketFragment.newInstance();
         dataTeachFragment = DataTeachFragment.newInstance();
@@ -92,5 +94,15 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     }
 
+    @Override
+    public void getListSuccess(ArrayList<CampusInfo> campusInfos) {
+        CampusManager.getInstance().init(getActivity().getApplicationContext());
+        CampusManager.getInstance().save(campusInfos);
+    }
+
+    @Override
+    public void getListFail(String msg) {
+
+    }
 
 }

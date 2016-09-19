@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.commonlib.core.BaseView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -28,15 +29,19 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
+import com.ishow.ischool.bean.statistics.OtherStatistics;
+import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.widget.custom.ListViewForScrollView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class OtherStatisticActivity extends BaseActivity4Crm {
+public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, OtherModel> implements BaseView {
 
     private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
     private boolean isTypeShow, isCampusShow, isDateShow;
@@ -60,14 +65,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
 
     @BindView(R.id.chart_change)
     TextView chartChangeTv;
+    @BindView(R.id.chart_table)
+    ListViewForScrollView mTableListView;
 
-
-    protected String[] mParties = new String[]{
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
+    private TableAdaper mTableAdaper;
+    private OtherStatisticsTable mTableData;
 
 
     @Override
@@ -80,15 +82,20 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
 
 //        initBarChart();
 //        initPieChar();
-        showLineChar();
+//        showTable();
     }
 
     @Override
     protected void setUpData() {
-
+        HashMap<String, String> params = new HashMap<>();
+        params.put("campus", "2");
+        params.put("type", "1");
+        params.put("start_time", "201605");
+        params.put("end_time", "201705");
+        mPresenter.getOtherStatistics(params);
     }
 
-    public void showLineChar() {
+    public void showBarChar() {
         mPieChart.setVisibility(View.GONE);
         mBarChart.setVisibility(View.VISIBLE);
         chartChangeTv.setText(R.string.cake_chart);
@@ -100,6 +107,20 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
         mBarChart.setVisibility(View.GONE);
         chartChangeTv.setText(R.string.bar_chart);
         initPieChar();
+    }
+
+    private void showTable(OtherStatisticsTable other) {
+        mTableAdaper = new TableAdaper(this);
+        View view = getLayoutInflater().inflate(R.layout.table_item, null, false);
+        TextView noTv = (TextView) view.findViewById(R.id.item_table_no);
+        TextView nameTv = (TextView) view.findViewById(R.id.item_table_name);
+        TextView numTv = (TextView) view.findViewById(R.id.item_table_num);
+        String[] alias = other.alias;
+        noTv.setText(alias[0]);
+        nameTv.setText(alias[1]);
+        numTv.setText(alias[2]);
+        mTableListView.addHeaderView(view);
+        mTableListView.setAdapter(mTableAdaper);
     }
 
     @OnClick({R.id.filter_type, R.id.filter_campus, R.id.filter_date, R.id.chart_change})
@@ -131,7 +152,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
                 break;
             case R.id.chart_change:
                 if (mPieChart.getVisibility() == View.VISIBLE) {
-                    showLineChar();
+                    showBarChar();
                 } else {
                     showPieChar();
                 }
@@ -319,7 +340,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
 
 
         // add data
-        setBarData(13, 100);
+        setBarData(mTableData);
 
         mBarChart.animateX(2500);
 
@@ -334,9 +355,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
         // mBarChart.invalidate();
     }
 
-    private void setBarData(int count, float range) {
+    private void setBarData(OtherStatisticsTable table) {
+        if (table == null) {
+            return;
+        }
+
+        ArrayList<OtherStatistics> others = table.data;
 
         float start = 0f;
+        int count = others.size();
 
         mBarChart.getXAxis().setAxisMinValue(start);
         mBarChart.getXAxis().setAxisMaxValue(start + count + 2);
@@ -344,9 +371,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
         for (int i = (int) start; i < start + count + 1; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(i + 1f, val));
+            yVals1.add(new BarEntry(i + 1f, others.get(i).value));
         }
 
         BarDataSet set1;
@@ -358,7 +383,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
             mBarChart.getData().notifyDataChanged();
             mBarChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "The year 2017");
+            set1 = new BarDataSet(yVals1, "");
             set1.setColors(ColorTemplate.MATERIAL_COLORS);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
@@ -407,7 +432,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
         // add a selection listener
 //        mPieChart.setOnChartValueSelectedListener(this);
 
-        setPieData(6, 100);
+        setPieData(mTableData);
 
         mBarChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mBarChart.spin(2000, 0, 360);
@@ -427,16 +452,24 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
         mPieChart.setEntryLabelTextSize(12f);
     }
 
-    private void setPieData(int count, float range) {
-
-        float mult = range;
+    private void setPieData(OtherStatisticsTable table) {
+        if (table == null) {
+            return;
+        }
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
+        ArrayList<OtherStatistics> others = table.data;
+
+        int value = 0;
+        for (int i = 0; i < others.size(); i++) {
+            value += others.get(i).value;
+        }
+
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5), mParties[i % mParties.length]));
+        for (int i = 0; i < others.size(); i++) {
+            entries.add(new PieEntry(((float) others.get(i).value) / value, others.get(i).name));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
@@ -480,4 +513,22 @@ public class OtherStatisticActivity extends BaseActivity4Crm {
         mPieChart.invalidate();
     }
 
+
+    public void onGetSuccess(OtherStatisticsTable table) {
+        mTableData = table;
+        showTable(table);
+        showBarChar();
+        //showPieChar();
+    }
+
+    public void onGetFailed(String msg) {
+        showToast(msg);
+
+//        Gson gson = new Gson();
+//        String m = "{ \"title\": \"各学校报名量统计\", \"alias\": [ \"北京大学\", \"南开大学\", \"厦门大学\" ], \"data\": [ { \"value\": 30, \"name\": \"北京大学\", \"color\": \"#a3bc56\" }, { \"value\": 12, \"name\": \"南开大学\", \"color\": \"#fd9d9e\" }, { \"value\": 23, \"name\": \"厦门大学\", \"color\": \"#60c0dd\" } ] }";
+//        OtherStatisticsTable table = gson.fromJson(m, OtherStatisticsTable.class);
+//        mTableData = table;
+//        showBarChar();
+//        showTable(table);
+    }
 }

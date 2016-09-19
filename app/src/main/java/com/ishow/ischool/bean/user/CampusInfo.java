@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by mrs on 16/8/22.
  */
 public class CampusInfo implements Parcelable {
-    public int id;
+    public Integer id;
     public String name;
     public int prov_id;
     public int sort;

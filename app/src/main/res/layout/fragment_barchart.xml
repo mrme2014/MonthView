@@ -89,11 +89,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:drawableLeft="@drawable/selector_campus_legend_sprint_performance_drawable"
+                    android:drawableLeft="@drawable/selector_campus_legend_challenge_performance_drawable"
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/full_payment_amount"
-                    android:textColor="@color/selector_campus_legend_sprint_performance_color"
+                    android:textColor="@color/selector_campus_legend_challenge_performance_color"
                     android:textSize="14sp"
                     android:padding="5dp"/>
             </LinearLayout>
@@ -152,11 +152,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:drawableLeft="@drawable/selector_campus_legend_sprint_performance_drawable"
+                    android:drawableLeft="@drawable/selector_campus_legend_challenge_performance_drawable"
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/full_payment_registration_rate"
-                    android:textColor="@color/selector_campus_legend_sprint_performance_color"
+                    android:textColor="@color/selector_campus_legend_challenge_performance_color"
                     android:textSize="14sp"
                     android:padding="5dp"/>
             </LinearLayout>

@@ -5,21 +5,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.fragment.BarChartFragment;
 import com.ishow.ischool.fragment.LineChartFragment;
+import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,6 +35,9 @@ import butterknife.OnClick;
  * Created by wqf on 16/9/8.
  */
 public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformancePresenter, CampusPerformanceModel> implements CampusPerformanceContract.View {
+
+    private final int TYPE_START_TIME = 1;
+    private final int TYPE_END_TIME = 2;
 
     @BindView(R.id.filter_layout)
     LinearLayout filertLayout;
@@ -43,6 +52,10 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
     BarChartFragment barChartFragment;
     Fragment curFragment;
 
+    private TextView startDateTv, endDateTv;
+    private String mFilterStartTime;
+    private String mFilterEndTime;
+
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_campusperformance, R.string.campus_performance, -1, MODE_BACK);
@@ -55,7 +68,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     @Override
     protected void setUpData() {
-        lineChartFragment = LineChartFragment.newInstance();
+        lineChartFragment = new LineChartFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.content, lineChartFragment);
         ft.commit();
@@ -110,8 +123,8 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             mCampusPopup.setOutsideTouchable(true);
 
             RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recyclerview);
-            TextView resetTv = (TextView) contentView.findViewById(R.id.filter_reset);
-            TextView okTv = (TextView) contentView.findViewById(R.id.filter_ok);
+            TextView resetTv = (TextView) contentView.findViewById(R.id.campus_reset);
+            TextView okTv = (TextView) contentView.findViewById(R.id.campus_ok);
             View blankView = contentView.findViewById(R.id.blank_view_campus);
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
@@ -176,11 +189,15 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             mDatePopup.setBackgroundDrawable(new BitmapDrawable());
             mDatePopup.setOutsideTouchable(true);
 
-            TextView startDateTv = (TextView) contentView.findViewById(R.id.start_date);
-            TextView endDateTv = (TextView) contentView.findViewById(R.id.end_date);
+            startDateTv = (TextView) contentView.findViewById(R.id.start_date);
+            endDateTv = (TextView) contentView.findViewById(R.id.end_date);
+            TextView resetTv = (TextView) contentView.findViewById(R.id.date_reset);
+            TextView okTv = (TextView) contentView.findViewById(R.id.date_ok);
             View blankView = contentView.findViewById(R.id.blank_view_date);
             startDateTv.setOnClickListener(onClickListener);
             endDateTv.setOnClickListener(onClickListener);
+            resetTv.setOnClickListener(onClickListener);
+            okTv.setOnClickListener(onClickListener);
             blankView.setOnClickListener(onClickListener);
         }
         mDatePopup.showAsDropDown(filertLayout);
@@ -201,10 +218,10 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         public void onClick(View view) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (view.getId()) {
-                case R.id.filter_reset:
+                case R.id.campus_reset:
                     mCampusPopup.dismiss();
                     break;
-                case R.id.filter_ok:
+                case R.id.campus_ok:
 //                    mAdapter.updateDataSet(mAdapter.getSelectedItem());
 //                    mAdapter.notifyDataSetChanged();
                     mCampusPopup.dismiss();
@@ -217,7 +234,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     if (curFragment != lineChartFragment) {
                         ft.hide(curFragment);
                         if (lineChartFragment == null) {
-                            lineChartFragment = LineChartFragment.newInstance();
+                            lineChartFragment = new LineChartFragment();
                             ft.add(R.id.content, lineChartFragment);
                         }
                         curFragment = lineChartFragment;
@@ -230,7 +247,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     if (curFragment != barChartFragment) {
                         ft.hide(curFragment);
                         if (barChartFragment == null) {
-                            barChartFragment = BarChartFragment.newInstance();
+                            barChartFragment = new BarChartFragment();
                             ft.add(R.id.content, barChartFragment);
                         }
                         curFragment = barChartFragment;
@@ -242,9 +259,15 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     mTypePopup.dismiss();
                     break;
                 case R.id.start_date:
-                    mDatePopup.dismiss();
+                    showTimePickPop(TYPE_START_TIME);
                     break;
                 case R.id.end_date:
+                    showTimePickPop(TYPE_END_TIME);
+                    break;
+                case R.id.date_reset:
+                    mDatePopup.dismiss();
+                    break;
+                case R.id.date_ok:
                     mDatePopup.dismiss();
                     break;
                 case R.id.blank_view_date:
@@ -253,4 +276,38 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             }
         }
     };
+
+
+    private void showTimePickPop(final int type) {
+        AppUtil.showTimePickerDialog(getSupportFragmentManager(), (type == TYPE_START_TIME ? R.string.item_start_time : R.string.item_end_time),
+                new PickerDialogFragment.Callback<Integer>() {
+                    @Override
+                    public void onPickResult(Integer unix, String... result) {
+                        if (type == TYPE_START_TIME) {
+                            if (!TextUtils.isEmpty(mFilterEndTime) && unix > Integer.parseInt(mFilterEndTime)) {
+                                showTimeError();
+                                mFilterStartTime = "";
+                                startDateTv.setText("");
+                            } else {
+                                startDateTv.setText(result[0]);
+                                mFilterStartTime = String.valueOf(unix);
+                            }
+                        } else if (type == TYPE_END_TIME) {
+                            long end4Today = DateUtil.getEndTime(new Date((long) unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
+                            mFilterEndTime = String.valueOf(end4Today);
+                            if (!TextUtils.isEmpty(mFilterStartTime) && unix < Integer.parseInt(mFilterStartTime)) {
+                                showTimeError();
+                                mFilterEndTime = "";
+                                endDateTv.setText("");
+                            } else {
+                                endDateTv.setText(result[0]);
+                            }
+                        }
+                    }
+                });
+    }
+
+    void showTimeError() {
+        Toast.makeText(this, getString(R.string.time_error), Toast.LENGTH_SHORT).show();
+    }
 }

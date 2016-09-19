@@ -22,7 +22,7 @@
             android:layout_height="50dp">
 
             <TextView
-                android:id="@+id/filter_reset"
+                android:id="@+id/campus_reset"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -33,7 +33,7 @@
                 android:textSize="@dimen/sp15"/>
 
             <TextView
-                android:id="@+id/filter_ok"
+                android:id="@+id/campus_ok"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

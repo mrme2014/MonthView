@@ -382,7 +382,6 @@ public class BarChartFragment extends BaseFragment {
             amountBarData.addDataSet(attendAmountDataSet);
             attendAmountCtv.setChecked(false);
         }
-        mChartAmount.setData(amountBarData);
         mChartAmount.invalidate();
     }
 
@@ -394,7 +393,6 @@ public class BarChartFragment extends BaseFragment {
             registrationAmountDataSet = tempBarDataAmount.getDataSetByLabel(getString(R.string.registration_amount), true);
             amountBarData.removeDataSet(registrationAmountDataSet);
             registrationAmountCtv.setChecked(true);
-
         } else {
             amountBarData.addDataSet(registrationAmountDataSet);
             registrationAmountCtv.setChecked(false);

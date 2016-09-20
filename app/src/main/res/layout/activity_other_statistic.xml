@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context="com.ishow.ischool.business.statistic.other.OtherStatisticActivity">
 
     <LinearLayout
@@ -30,23 +29,43 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:drawableRight="@mipmap/icon_screen_down"
                     android:gravity="center"
+                    android:paddingRight="20dp"
                     android:text="业绩对比" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/comm_line" />
 
                 <TextView
                     android:id="@+id/filter_campus"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:drawableRight="@mipmap/icon_screen_down"
                     android:gravity="center"
+                    android:paddingRight="20dp"
                     android:text="选择校区" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/comm_line" />
 
                 <TextView
                     android:id="@+id/filter_date"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:drawableRight="@mipmap/icon_screen_down"
                     android:gravity="center"
+                    android:paddingRight="20dp"
                     android:text="时间选择" />
             </LinearLayout>
 
@@ -64,7 +83,7 @@
                 android:id="@+id/chart_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="报名凉统计" />
+                android:text="报名量统计" />
 
             <TextView
                 android:id="@+id/chart_date"
@@ -106,7 +125,9 @@
         <com.ishow.ischool.widget.custom.ListViewForScrollView
             android:id="@+id/chart_table"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_table_bg" />
 
     </LinearLayout>
 </ScrollView>

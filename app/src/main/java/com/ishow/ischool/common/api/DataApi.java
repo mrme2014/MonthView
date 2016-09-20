@@ -1,24 +1,22 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
-
-import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
-
-import java.util.HashMap;
-
-import retrofit2.http.QueryMap;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
+
+import java.util.HashMap;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
-
+/*
  * Created by MrS on 2016/9/19.
  */
 public interface DataApi {
@@ -65,6 +63,7 @@ public interface DataApi {
     );
 
     //数据分析.市场.其他类别统计(statistics.market.other)
+//    @GET("/statistics/market/other")
     @GET("/statistics/market/other")
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(@QueryMap HashMap<String, String> params);
 }

@@ -34,12 +34,13 @@ public class TableAdaper extends BaseListAdapter<OtherStatistics> {
         if (convertView == null) {
             convertView = getInflater().inflate(R.layout.table_item, parent, false);
             holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         OtherStatistics otherStatistics = getItem(position);
-        holder.tableNo.setText(position + "");
+        holder.tableNo.setText(String.valueOf(position + 1));
         holder.tableName.setText(otherStatistics.name);
         holder.tableNum.setText(otherStatistics.value + "");
 

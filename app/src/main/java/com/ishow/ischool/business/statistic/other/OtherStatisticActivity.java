@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.Gson;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.statistics.OtherStatistics;
@@ -67,6 +68,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     TextView chartChangeTv;
     @BindView(R.id.chart_table)
     ListViewForScrollView mTableListView;
+
+    @BindView(R.id.chart_name)
+    TextView chartNameTv;
+
+    @BindView(R.id.chart_date)
+    TextView chartDateTv;
 
     private TableAdaper mTableAdaper;
     private OtherStatisticsTable mTableData;
@@ -111,16 +118,17 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     private void showTable(OtherStatisticsTable other) {
         mTableAdaper = new TableAdaper(this);
-        View view = getLayoutInflater().inflate(R.layout.table_item, null, false);
-        TextView noTv = (TextView) view.findViewById(R.id.item_table_no);
-        TextView nameTv = (TextView) view.findViewById(R.id.item_table_name);
-        TextView numTv = (TextView) view.findViewById(R.id.item_table_num);
+        View view = getLayoutInflater().inflate(R.layout.table_item_head, null, false);
+        TextView noTv = (TextView) view.findViewById(R.id.item_table_head_1);
+        TextView nameTv = (TextView) view.findViewById(R.id.item_table_head_2);
+        TextView numTv = (TextView) view.findViewById(R.id.item_table_head_3);
         String[] alias = other.alias;
         noTv.setText(alias[0]);
         nameTv.setText(alias[1]);
         numTv.setText(alias[2]);
         mTableListView.addHeaderView(view);
         mTableListView.setAdapter(mTableAdaper);
+        mTableAdaper.setDatas(other.data);
     }
 
     @OnClick({R.id.filter_type, R.id.filter_campus, R.id.filter_date, R.id.chart_change})
@@ -171,8 +179,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             mCampusPopup.setOutsideTouchable(true);
 
             RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recyclerview);
-            TextView resetTv = (TextView) contentView.findViewById(R.id.filter_reset);
-            TextView okTv = (TextView) contentView.findViewById(R.id.filter_ok);
+            TextView resetTv = (TextView) contentView.findViewById(R.id.campus_reset);
+            TextView okTv = (TextView) contentView.findViewById(R.id.campus_ok);
             View blankView = contentView.findViewById(R.id.blank_view_campus);
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
@@ -317,13 +325,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
 
-        CampusIAxisValueFormatter formatter = new CampusIAxisValueFormatter();
         XAxis xAxis = mBarChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(13);
-        xAxis.setValueFormatter(formatter);
         xAxis.setLabelRotationAngle(-45);
 
 
@@ -366,12 +372,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         int count = others.size();
 
         mBarChart.getXAxis().setAxisMinValue(start);
-        mBarChart.getXAxis().setAxisMaxValue(start + count + 2);
+        mBarChart.getXAxis().setAxisMaxValue(start + count + 1);
+
+        CampusIAxisValueFormatter formatter = new CampusIAxisValueFormatter(others);
+        mBarChart.getXAxis().setValueFormatter(formatter);
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        for (int i = (int) start; i < start + count + 1; i++) {
-            yVals1.add(new BarEntry(i + 1f, others.get(i).value));
+        for (int i = 0; i < count; i++) {
+            yVals1.add(new BarEntry(i + 1, others.get(i).value));
         }
 
         BarDataSet set1;
@@ -391,7 +400,6 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
-//            data.setValueTypeface(mTfLight);
             data.setBarWidth(0.9f);
 
             mBarChart.setData(data);
@@ -522,13 +530,16 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     }
 
     public void onGetFailed(String msg) {
-        showToast(msg);
+//        showToast(msg);
+        testOtherData();
+    }
 
-//        Gson gson = new Gson();
-//        String m = "{ \"title\": \"各学校报名量统计\", \"alias\": [ \"北京大学\", \"南开大学\", \"厦门大学\" ], \"data\": [ { \"value\": 30, \"name\": \"北京大学\", \"color\": \"#a3bc56\" }, { \"value\": 12, \"name\": \"南开大学\", \"color\": \"#fd9d9e\" }, { \"value\": 23, \"name\": \"厦门大学\", \"color\": \"#60c0dd\" } ] }";
-//        OtherStatisticsTable table = gson.fromJson(m, OtherStatisticsTable.class);
-//        mTableData = table;
-//        showBarChar();
-//        showTable(table);
+    public void testOtherData() {
+        Gson gson = new Gson();
+        String m = "{ \"title\": \"各学校报名量统计\", \"alias\": [ \"序号\", \"学校\", \"报名量 \" ], \"data\": [ { \"value\": 30, \"name\": \"北京大学\", \"color\": \"#a3bc56\" }, { \"value\": 12, \"name\": \"南开大学\", \"color\": \"#fd9d9e\" }, { \"value\": 23, \"name\": \"厦门大学\", \"color\": \"#60c0dd\" } ] }";
+        OtherStatisticsTable table = gson.fromJson(m, OtherStatisticsTable.class);
+        mTableData = table;
+        showBarChar();
+        showTable(table);
     }
 }

@@ -7,10 +7,11 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/item_table_no"
+        android:id="@+id/item_table_head_1"
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/txt_9" />
 
     <View
         android:layout_width="1dp"
@@ -18,11 +19,12 @@
         android:background="@color/comm_line" />
 
     <TextView
-        android:id="@+id/item_table_name"
+        android:id="@+id/item_table_head_2"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/txt_9" />
 
     <View
         android:layout_width="1dp"
@@ -30,8 +32,9 @@
         android:background="@color/comm_line" />
 
     <TextView
-        android:id="@+id/item_table_num"
+        android:id="@+id/item_table_head_3"
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/txt_9" />
 </LinearLayout>

@@ -16,9 +16,11 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
+
 /*
  * Created by MrS on 2016/9/19.
  */
+
 public interface DataApi {
     /**
      * 名称	类型	是否必须	示例值	默认值	描述	排序
@@ -34,11 +36,12 @@ public interface DataApi {
     //数据分析.市场.销售流程分析(statistics.market.process) 接口
     @FormUrlEncoded
     @POST("/statistics/market/process")
-    Observable<ApiResult<SaleProcess>> getSaleProcessData(@Field("resources_id") int resources_id,
-                                                          @Field("campus_id") int campus_id,
-                                                          @Field("position_id") int position_id,
-                                                          @Field("user_id") int user_id,
-                                                          @Field("type") int type);
+    Observable<ApiResult<SaleProcess>> getSaleProcessData(
+            @Field("resources_id") int resources_id,
+            @Field("campus_id") int campus_id,
+            @Field("position_id") int position_id,
+            @Field("user_id") int user_id,
+            @Field("type") int type);
 
     //数据分析.市场.各校区业绩对比(statistics.market.bazaarcontrast) 接口
     @GET("/statistics/market/bazaarcontrast")

@@ -198,14 +198,15 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         xAxis.setTextColor(ContextCompat.getColor(this, R.color.sale_gray_txt_color_));
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
+        xAxis.setAxisMaxValue(10);
         xAxis.setAxisMinValue(0);
         //xAxis.setCenterAxisLabels(true);
         //xAxis.setLabelRotationAngle(145);
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-             /*   LogUtil.e(value + "getFormattedValue");
-                if (value == 0) return "";*/
+                if (value>=chartBean.date.size())
+                    return "";
                 return chartBean.date.get((int) value);
             }
 

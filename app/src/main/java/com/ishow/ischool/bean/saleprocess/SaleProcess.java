@@ -22,8 +22,7 @@ public class SaleProcess implements Parcelable {
     public SaleTable1 saleTable1;
     public SaleTabel2 saleTable2;
 
-    public SaleProcess() {
-        int test_count = 10;
+    public SaleProcess( int test_count) {
         chartBean = new ChartBean();
         chartBean.date = new ArrayList<>();
         chartBean.full_amount = new ArrayList<>();
@@ -56,6 +55,7 @@ public class SaleProcess implements Parcelable {
         }
 
     }
+
 
     @Override
     public int describeContents() {

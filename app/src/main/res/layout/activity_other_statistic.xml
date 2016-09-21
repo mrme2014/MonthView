@@ -1,133 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.ishow.ischool.business.statistic.other.OtherStatisticActivity">
-
-    <LinearLayout
+    <include layout="@layout/widget_toolbar" />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/widget_toolbar" />
-
+        android:scrollbars="none">
         <LinearLayout
-            android:id="@+id/filter_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@android:color/white"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/filter_type"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@mipmap/icon_screen_down"
-                    android:gravity="center"
-                    android:paddingRight="20dp"
-                    android:text="业绩对比" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@android:color/white"
+                        android:orientation="horizontal">
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/comm_line" />
+                        <TextView
+                            android:id="@+id/filter_type"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawableRight="@mipmap/icon_screen_down"
+                            android:gravity="center"
+                            android:paddingRight="20dp"
+                            android:text="业绩对比" />
 
-                <TextView
-                    android:id="@+id/filter_campus"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@mipmap/icon_screen_down"
-                    android:gravity="center"
-                    android:paddingRight="20dp"
-                    android:text="选择校区" />
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/comm_line" />
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/comm_line" />
+                        <TextView
+                            android:id="@+id/filter_campus"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawableRight="@mipmap/icon_screen_down"
+                            android:gravity="center"
+                            android:paddingRight="20dp"
+                            android:text="选择校区" />
 
-                <TextView
-                    android:id="@+id/filter_date"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@mipmap/icon_screen_down"
-                    android:gravity="center"
-                    android:paddingRight="20dp"
-                    android:text="时间选择" />
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/comm_line" />
+
+                        <TextView
+                            android:id="@+id/filter_date"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:drawableRight="@mipmap/icon_screen_down"
+                            android:gravity="center"
+                            android:paddingRight="20dp"
+                            android:text="时间选择" />
+                    </LinearLayout>
+
+                    <include layout="@layout/view_bottom_line" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/chart_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="报名量统计" />
+
+                    <TextView
+                        android:id="@+id/chart_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/chart_name"
+                        android:layout_marginTop="5dp"
+                        android:text="2016-4-13 2017-2-2"
+                        android:textColor="@color/txt_9"
+                        android:textSize="@dimen/sp11" />
+
+                    <TextView
+                        android:id="@+id/chart_change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/shape_chart_change_bg"
+                        android:drawableLeft="@mipmap/icon_chars_switch"
+                        android:drawablePadding="5dp"
+                        android:padding="7dp"
+                        android:text="@string/cake_chart" />
+                </RelativeLayout>
+
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    android:layout_marginTop="20dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone" />
+
+                <com.ishow.ischool.widget.custom.ListViewForScrollView
+                    android:id="@+id/chart_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_table_bg" />
+
             </LinearLayout>
 
-            <include layout="@layout/view_bottom_line" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp">
+    </ScrollView>
 
-            <TextView
-                android:id="@+id/chart_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="报名量统计" />
-
-            <TextView
-                android:id="@+id/chart_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/chart_name"
-                android:layout_marginTop="5dp"
-                android:text="2016-4-13 2017-2-2"
-                android:textColor="@color/txt_9"
-                android:textSize="@dimen/sp11" />
-
-            <TextView
-                android:id="@+id/chart_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_chart_change_bg"
-                android:drawableLeft="@mipmap/icon_chars_switch"
-                android:drawablePadding="5dp"
-                android:padding="7dp"
-                android:text="@string/cake_chart" />
-        </RelativeLayout>
-
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/line_chart"
-            android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:layout_marginTop="20dp" />
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone" />
-
-        <com.ishow.ischool.widget.custom.ListViewForScrollView
-            android:id="@+id/chart_table"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/shape_table_bg" />
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

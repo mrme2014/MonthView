@@ -29,7 +29,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     private float cellWidth;
     private boolean shouldDrawBotLine;
 
-    private int widget_width = UIUtil.dip2px(getContext(), 1000);
     private int min_cell_width = UIUtil.dip2px(getContext(), 100);
 
 
@@ -58,9 +57,12 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int wid = MeasureSpec.makeMeasureSpec(widget_width, MeasureSpec.AT_MOST);
-        setMeasuredDimension(wid, heightMeasureSpec);
-
+        int width = 0;
+        if (list!=null) {
+             width = list.size() * min_cell_width;
+        }
+        width= Math.max(width,getMeasuredWidth());
+       setMeasuredDimension(width, getMeasuredHeight());
     }
 
     private void init() {
@@ -93,7 +95,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
             cellWidth = width / list.size();
             if (cellWidth < min_cell_width)
                 cellWidth = min_cell_width;
-
         }
         for (int i = 0; i < list.size(); i++) {
             canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtPaint.measureText(list.get(i)) / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
@@ -105,8 +106,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
         canvas.drawLine(width - 1, 0, width - 1, height, linePaint);//右边的线
 
         if (shouldDrawBotLine) canvas.drawLine(0, height, width, height, linePaint);//下面的线
-
-      //  LogUtil.e(width + "-----" + height + "---" + cellWidth);
 
     }
 

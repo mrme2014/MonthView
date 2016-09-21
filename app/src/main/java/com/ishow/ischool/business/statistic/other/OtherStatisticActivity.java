@@ -2,6 +2,7 @@ package com.ishow.ischool.business.statistic.other;
 
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, OtherModel> implements BaseView {
@@ -90,10 +92,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 //        initBarChart();
 //        initPieChar();
 //        showTable();
+        mBarChart.setFocusable(true);
+        mBarChart.setFocusableInTouchMode(true);
+        mBarChart.requestFocus();
     }
 
     @Override
     protected void setUpData() {
+
+
         HashMap<String, String> params = new HashMap<>();
         params.put("campus", "2");
         params.put("type", "1");
@@ -541,5 +548,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mTableData = table;
         showBarChar();
         showTable(table);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

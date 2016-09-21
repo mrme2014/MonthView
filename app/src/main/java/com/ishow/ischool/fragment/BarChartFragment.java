@@ -68,9 +68,10 @@ public class BarChartFragment extends BaseFragment {
     CheckedTextView fullPaymentRateCtv;
     @BindView(R.id.legend_full_payment_registration_rate)
     CheckedTextView fullPaymentRegistrationRateCtv;
-    private boolean curAmountMode = true;
+    public boolean curAmountMode = true;
     private BarData amountBarData, percentageBarData;
     private ArrayList<String> mCampusDatas;
+    private int mCount = 0;
     private ArrayList<CampusInfo> mCampusInfos;
     private ArrayList<SignAmount> mSignAmount;
     private String label1, label2, label3;
@@ -121,8 +122,8 @@ public class BarChartFragment extends BaseFragment {
 
         YAxis leftAxis = mChartAmount.getAxisLeft();
         leftAxis.setDrawAxisLine(false);       //是否绘制坐标轴的线，即含有坐标的那条线，默认是true
-        leftAxis.setSpaceBottom(0f);
         leftAxis.setAxisMinValue(0f);
+        leftAxis.setSpaceBottom(20f);
         mChartAmount.getAxisRight().setEnabled(false);    // 隐藏右边的坐标轴
 
         XAxis xAxis = mChartAmount.getXAxis();
@@ -152,7 +153,10 @@ public class BarChartFragment extends BaseFragment {
             }
         });
 
-        setAmountData(mCampusDatas, mSignAmount);
+        label1 = getString(R.string.attend_amount);
+        label2 = getString(R.string.registration_amount);
+        label3 = getString(R.string.full_payment_amount);
+        setAmountData(null);
     }
 
 
@@ -169,6 +173,7 @@ public class BarChartFragment extends BaseFragment {
         leftAxis.setAxisMinValue(0f);
         leftAxis.setAxisMaxValue(100f);
         leftAxis.setGranularity(20);
+        leftAxis.setSpaceBottom(20f);
         mChartPercentage.getAxisRight().setEnabled(false);    // 隐藏右边的坐标轴
         leftAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
@@ -214,18 +219,32 @@ public class BarChartFragment extends BaseFragment {
         setPercentageData(mCampusDatas, mSignAmount);
     }
 
-    public void setAmountData(ArrayList<String> xData, ArrayList<SignAmount> yData) {
-        label1 = getString(R.string.attend_amount);
-        label2 = getString(R.string.registration_amount);
-        label3 = getString(R.string.full_payment_amount);
+    public void setAmountData(ArrayList<Integer> showPosition) {
+        ArrayList<SignAmount> datas = new ArrayList<>();
+        if (showPosition != null) {
+            mCampusDatas.clear();
+            for (int i : showPosition) {
+                mCampusDatas.add(mCampusInfos.get(i).name);
+                datas.add(mSignAmount.get(i));
+            }
+            datas.add(new SignAmount());  // 填充最后一个
+            amountBarData.removeDataSet(mChartAmount.getBarData().getDataSetByLabel(getString(R.string.attend_amount), true));
+            amountBarData.removeDataSet(mChartAmount.getBarData().getDataSetByLabel(getString(R.string.registration_amount), true));
+            amountBarData.removeDataSet(mChartAmount.getBarData().getDataSetByLabel(getString(R.string.full_payment_amount), true));
+            mChartAmount.clearValues();
+        } else {
+            datas.addAll(mSignAmount);
+        }
+        mCount = datas.size();
+
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
         ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
 
-        for (int i = 0; i < xData.size() + 1; i++) {
-            yVals1.add(new BarEntry(i, yData.get(i).scene));
-            yVals2.add(new BarEntry(i, yData.get(i).sign));
-            yVals3.add(new BarEntry(i, yData.get(i).fullPay));
+        for (int i = 0; i < mCampusDatas.size() + 1; i++) {
+            yVals1.add(new BarEntry(i, datas.get(i).scene));
+            yVals2.add(new BarEntry(i, datas.get(i).sign));
+            yVals3.add(new BarEntry(i, datas.get(i).fullPay));
         }
 
         // create 3 datasets with different types
@@ -265,8 +284,13 @@ public class BarChartFragment extends BaseFragment {
         mChartAmount.getBarData().setDrawValues(false);
         mChartAmount.groupBars(0, groupSpace, barSpace);
         mChartAmount.animateXY(800, 800);//图表数据显示动画
-        //        mChart.getXAxis().setAxisMaxValue(6);
-        mChartAmount.setVisibleXRangeMaximum(6);  //设置屏幕显示条数
+        //        mChart.getXAxis().setAisMaxValue(6);
+
+        mChartAmount.fitScreen();
+        if (mCount < 6) {
+            mChartAmount.getXAxis().setLabelCount(mCount);
+        }
+        mChartAmount.setVisibleXRangeMaximum(mCount > 6 ? 6 : mCount);      //设置屏幕显示条数
         mChartAmount.invalidate();
     }
 
@@ -376,6 +400,7 @@ public class BarChartFragment extends BaseFragment {
 
     private IBarDataSet attendAmountDataSet, registrationAmountDataSet, fullPaymentAmountDataSet;
     private BarData tempBarDataAmount;
+
     private void invalidateAttendAmount() {
         if (tempBarDataAmount == null) {
             tempBarDataAmount = mChartAmount.getBarData();
@@ -425,6 +450,7 @@ public class BarChartFragment extends BaseFragment {
 
     private IBarDataSet registrationRateDataSet, fullPaymentRateDataSet, fullPaymentRegistrationRateDataSet;
     private BarData tempBarDataRate;
+
     private void invalidateRegistrationRate() {
         if (tempBarDataRate == null) {
             tempBarDataRate = mChartPercentage.getBarData();

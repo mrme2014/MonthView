@@ -75,4 +75,5 @@ dependencies {
     compile 'com.bigkoo:pickerview:2.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'cn.qqtheme.framework:WheelPicker:latest.release'
 }

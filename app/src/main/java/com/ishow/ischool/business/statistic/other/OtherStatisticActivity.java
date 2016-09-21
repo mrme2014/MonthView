@@ -188,10 +188,10 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recyclerview);
             TextView resetTv = (TextView) contentView.findViewById(R.id.campus_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.campus_ok);
-            View blankView = contentView.findViewById(R.id.blank_view_campus);
+//            View blankView = contentView.findViewById(R.id.blank_view_campus);
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
-            blankView.setOnClickListener(onClickListener);
+//            blankView.setOnClickListener(onClickListener);
 
             mList.addAll(CampusManager.getInstance().getCampusNames());
             layoutManager = new LinearLayoutManager(this);
@@ -276,9 +276,9 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                 case R.id.filter_ok:
                     dismissCampusPopup();
                     break;
-                case R.id.blank_view_campus:
-                    dismissCampusPopup();
-                    break;
+//                case R.id.blank_view_campus:
+//                    dismissCampusPopup();
+//                    break;
                 case R.id.performance_tv:
                     filertType.setText("业绩对比");
                     dismissTypePopup();

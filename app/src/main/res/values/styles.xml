@@ -44,8 +44,6 @@
         <item name="android:height">48dp</item>
     </style>
 
-    <color name="color_app_bg">#f1f1f1</color>
-
 
     <!--popwindow  从下到上弹出 从上到下 滑出去-->
     <style name="PopupAnimation" parent="android:Animation">

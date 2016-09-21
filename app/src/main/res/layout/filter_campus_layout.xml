@@ -2,18 +2,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#66000000">
+    android:background="@color/color_app_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:id="@+id/inverse_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@android:color/white"
+            android:layout_marginBottom="2dp">
+
+            <TextView
+                android:id="@+id/inverse_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="全选/全不选"/>
+
+            <CheckBox
+                android:id="@+id/inverse_checkbox"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:checked="true"/>
+        </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@android:color/white" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:overScrollMode="never" />
 
         <include layout="@layout/view_bottom_line" />
 
@@ -44,10 +70,10 @@
                 android:textSize="@dimen/sp15"/>
         </LinearLayout>
 
-        <View
-            android:id="@+id/blank_view_campus"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+        <!--<View-->
+            <!--android:id="@+id/blank_view_campus"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"/>-->
     </LinearLayout>
 </RelativeLayout>

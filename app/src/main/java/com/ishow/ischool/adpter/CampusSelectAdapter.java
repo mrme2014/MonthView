@@ -36,13 +36,34 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapte
         mSelectedPositions = new SparseBooleanArray();
     }
 
+    /**
+     * 清除所有选中item的标记
+     */
+    public void clearAllItems() {
+        mSelectedPositions.clear();
+        for (int i = 0; i < getItemCount(); i++) {
+            mSelectedPositions.put(i, false);
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 全选
+     */
+    public void selectAllItems() {
+        clearAllItems();
+        for (int i = 0; i < getItemCount(); i++) {
+            mSelectedPositions.put(i, true);
+        }
+        notifyDataSetChanged();
+    }
 
     //获得选中条目的结果
-    public ArrayList<String> getSelectedItem() {
-        ArrayList<String> selectList = new ArrayList<>();
+    public ArrayList<Integer> getSelectedItem() {
+        ArrayList<Integer> selectList = new ArrayList<>();
         for (int i = 0; i < mList.size(); i++) {
             if (isItemChecked(i)) {
-                selectList.add(mList.get(i));
+                selectList.add(i);
             }
         }
         return selectList;
@@ -80,7 +101,6 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapte
     public void onBindViewHolder(final ListItemViewHolder holder, final int i) {
         //设置条目状态
         holder.mainTitle.setText(mList.get(i));
-        holder.checkBox.setChecked(true);
         holder.checkBox.setChecked(isItemChecked(i));
 
         //checkBox的监听

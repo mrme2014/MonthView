@@ -1,34 +1,33 @@
 package com.ishow.ischool.business.campusperformance;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.commonlib.util.DateUtil;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.fragment.BarChartFragment;
 import com.ishow.ischool.fragment.LineChartFragment;
-import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DatePicker;
 
 
 /**
@@ -52,9 +51,14 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
     BarChartFragment barChartFragment;
     Fragment curFragment;
 
+    private RelativeLayout inverseLayout;
+    private TextView inverseTv;
+    private CheckBox inverseCb;
+    private boolean isAllSelected = true;
     private TextView startDateTv, endDateTv;
     private String mFilterStartTime;
     private String mFilterEndTime;
+    private Calendar calendar;
 
     @Override
     protected void setUpContentView() {
@@ -63,7 +67,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     @Override
     protected void setUpView() {
-
+        calendar = Calendar.getInstance();//使用日历类
     }
 
     @Override
@@ -79,23 +83,26 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.filter_type:
-                if (mTypePopup != null && isTypeShow) {
+                if (mTypePopup != null && mTypePopup.isShowing()) {
                     mTypePopup.dismiss();
                 } else {
+                    closePop();
                     showTypePopup();
                 }
                 break;
             case R.id.filter_campus:
-                if (mCampusPopup != null && isCampusShow) {
+                if (mCampusPopup != null && mCampusPopup.isShowing()) {
                     mCampusPopup.dismiss();
                 } else {
+                    closePop();
                     showCampusPopup();
                 }
                 break;
             case R.id.filter_date:
-                if (mDatePopup != null && isDateShow) {
+                if (mDatePopup != null && mDatePopup.isShowing()) {
                     mDatePopup.dismiss();
                 } else {
+                    closePop();
                     showDatePopup();
                 }
                 break;
@@ -105,9 +112,18 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         }
     }
 
+    void closePop() {
+        if (mTypePopup != null && mTypePopup.isShowing()) {
+            mTypePopup.dismiss();
+        } else if (mCampusPopup != null && mCampusPopup.isShowing()) {
+            mCampusPopup.dismiss();
+        } else if (mDatePopup != null && mDatePopup.isShowing()) {
+            mDatePopup.dismiss();
+        }
+    }
+
 
     private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
-    private boolean isTypeShow, isCampusShow, isDateShow;
     private ArrayList<String> mList = new ArrayList<>();
     LinearLayoutManager layoutManager;
     CampusSelectAdapter mAdapter;
@@ -119,34 +135,29 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             mCampusPopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mCampusPopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
             //外部是否可以点击
-            mCampusPopup.setBackgroundDrawable(new BitmapDrawable());
-            mCampusPopup.setOutsideTouchable(true);
+//            mCampusPopup.setBackgroundDrawable(new BitmapDrawable());
+//            mCampusPopup.setOutsideTouchable(true);
 
+            inverseLayout = (RelativeLayout) contentView.findViewById(R.id.inverse_layout);
+            inverseTv = (TextView) contentView.findViewById(R.id.inverse_tv);
+            inverseCb = (CheckBox) contentView.findViewById(R.id.inverse_checkbox);
             RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recyclerview);
             TextView resetTv = (TextView) contentView.findViewById(R.id.campus_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.campus_ok);
-            View blankView = contentView.findViewById(R.id.blank_view_campus);
+            inverseLayout.setOnClickListener(onClickListener);
+            inverseCb.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
-            blankView.setOnClickListener(onClickListener);
 
             mList.addAll(CampusManager.getInstance().getCampusNames());
             layoutManager = new LinearLayoutManager(CampusPerformanceActivity.this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(CampusPerformanceActivity.this, mList);
+            recyclerView.addItemDecoration(new BaseItemDecor(this, 10));
             recyclerView.setAdapter(mAdapter);
+            mAdapter.selectAllItems();
         }
         mCampusPopup.showAsDropDown(filertLayout);
-        isCampusShow = true;
-        isTypeShow = false;
-        isDateShow = false;
-
-        mCampusPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                isCampusShow = false;
-            }
-        });
     }
 
     void showTypePopup() {
@@ -155,9 +166,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             mTypePopup = new PopupWindow(contentView);
             mTypePopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mTypePopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            //外部是否可以点击
-            mTypePopup.setBackgroundDrawable(new BitmapDrawable());
-            mTypePopup.setOutsideTouchable(true);
 
             TextView performanceTv = (TextView) contentView.findViewById(R.id.performance_tv);
             TextView numberTv = (TextView) contentView.findViewById(R.id.number_tv);
@@ -167,16 +175,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             blankView.setOnClickListener(onClickListener);
         }
         mTypePopup.showAsDropDown(filertLayout);
-        isTypeShow = true;
-        isCampusShow = false;
-        isDateShow = false;
-
-        mTypePopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                isTypeShow = false;
-            }
-        });
     }
 
     void showDatePopup() {
@@ -185,9 +183,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             mDatePopup = new PopupWindow(contentView);
             mDatePopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mDatePopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            //外部是否可以点击
-            mDatePopup.setBackgroundDrawable(new BitmapDrawable());
-            mDatePopup.setOutsideTouchable(true);
 
             startDateTv = (TextView) contentView.findViewById(R.id.start_date);
             endDateTv = (TextView) contentView.findViewById(R.id.end_date);
@@ -201,16 +196,6 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             blankView.setOnClickListener(onClickListener);
         }
         mDatePopup.showAsDropDown(filertLayout);
-        isDateShow = true;
-        isCampusShow = false;
-        isTypeShow = false;
-
-        mDatePopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                isDateShow = false;
-            }
-        });
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -218,16 +203,44 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
         public void onClick(View view) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (view.getId()) {
+                case R.id.inverse_layout:
+                    if (isAllSelected) {
+                        inverseCb.setChecked(false);
+                        mAdapter.clearAllItems();
+                    } else {
+                        inverseCb.setChecked(true);
+                        mAdapter.selectAllItems();
+                    }
+                    isAllSelected = !isAllSelected;
+                    break;
+                case R.id.inverse_checkbox:
+                    if (isAllSelected) {
+                        mAdapter.clearAllItems();
+                    } else {
+                        mAdapter.selectAllItems();
+                    }
+                    isAllSelected = !isAllSelected;
+                    break;
                 case R.id.campus_reset:
                     mCampusPopup.dismiss();
                     break;
                 case R.id.campus_ok:
-//                    mAdapter.updateDataSet(mAdapter.getSelectedItem());
-//                    mAdapter.notifyDataSetChanged();
-                    mCampusPopup.dismiss();
-                    break;
-                case R.id.blank_view_campus:
-                    mCampusPopup.dismiss();
+                    ArrayList<Integer> i = mAdapter.getSelectedItem();
+                    if (curFragment == lineChartFragment) {
+                        if (!lineChartFragment.curPieMode) {
+                            lineChartFragment.setLineChartData(mAdapter.getSelectedItem());
+                            mCampusPopup.dismiss();
+                        } else {
+                            mCampusPopup.dismiss();
+                        }
+                    } else {
+                        if (barChartFragment.curAmountMode) {
+                            barChartFragment.setAmountData(mAdapter.getSelectedItem());
+                            mCampusPopup.dismiss();
+                        } else {
+                            mCampusPopup.dismiss();
+                        }
+                    }
                     break;
                 case R.id.performance_tv:
                     filertType.setText("业绩对比");
@@ -259,10 +272,30 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     mTypePopup.dismiss();
                     break;
                 case R.id.start_date:
-                    showTimePickPop(TYPE_START_TIME);
+                    DatePicker startPicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
+                    startPicker.setRangeStart(1970, 1, 1);       //开始范围
+                    startPicker.setRangeEnd(2099, 12, 31);       //结束范围
+                    startPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+                        @Override
+                        public void onDatePicked(String year, String month) {
+                            startDateTv.setText(year + "-" + month);
+                        }
+                    });
+                    startPicker.show();
                     break;
                 case R.id.end_date:
-                    showTimePickPop(TYPE_END_TIME);
+                    DatePicker endPicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
+                    endPicker.setRangeStart(1970, 1, 1);       //开始范围
+                    endPicker.setRangeEnd(2099, 12, 31);       //结束范围
+                    endPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    endPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+                        @Override
+                        public void onDatePicked(String year, String month) {
+                            endDateTv.setText(year + "-" + month);
+                        }
+                    });
+                    endPicker.show();
                     break;
                 case R.id.date_reset:
                     mDatePopup.dismiss();
@@ -276,38 +309,5 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             }
         }
     };
-
-
-    private void showTimePickPop(final int type) {
-        AppUtil.showTimePickerDialog(getSupportFragmentManager(), (type == TYPE_START_TIME ? R.string.item_start_time : R.string.item_end_time),
-                new PickerDialogFragment.Callback<Integer>() {
-                    @Override
-                    public void onPickResult(Integer unix, String... result) {
-                        if (type == TYPE_START_TIME) {
-                            if (!TextUtils.isEmpty(mFilterEndTime) && unix > Integer.parseInt(mFilterEndTime)) {
-                                showTimeError();
-                                mFilterStartTime = "";
-                                startDateTv.setText("");
-                            } else {
-                                startDateTv.setText(result[0]);
-                                mFilterStartTime = String.valueOf(unix);
-                            }
-                        } else if (type == TYPE_END_TIME) {
-                            long end4Today = DateUtil.getEndTime(new Date((long) unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
-                            mFilterEndTime = String.valueOf(end4Today);
-                            if (!TextUtils.isEmpty(mFilterStartTime) && unix < Integer.parseInt(mFilterStartTime)) {
-                                showTimeError();
-                                mFilterEndTime = "";
-                                endDateTv.setText("");
-                            } else {
-                                endDateTv.setText(result[0]);
-                            }
-                        }
-                    }
-                });
-    }
-
-    void showTimeError() {
-        Toast.makeText(this, getString(R.string.time_error), Toast.LENGTH_SHORT).show();
-    }
+    
 }

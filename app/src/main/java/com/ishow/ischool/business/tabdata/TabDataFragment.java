@@ -3,16 +3,19 @@ package com.ishow.ischool.business.tabdata;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
+import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -87,6 +90,13 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
             }
         });
         titleRadioButton1.setChecked(true);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("campus_id", "2");
+        params.put("position_id", "0");
+        params.put("user_id", "2");
+        params.put("type", "2");
+        mPresenter.getSales(params);
     }
 
     @Override
@@ -103,6 +113,19 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     @Override
     public void getListFail(String msg) {
 
+    }
+
+    @Override
+    public void getSaleSuccess(SaleProcess saleProcess) {
+        dataMarketFragment.setData(saleProcess);
+        Log.d("xbin", "getSaleSuccess ------");
+    }
+
+    @Override
+    public void getSaleFail(String msg) {
+        showToast(msg);
+        Log.d("xbin", "getSaleFail ------msg");
+        dataMarketFragment.setData(null);
     }
 
 }

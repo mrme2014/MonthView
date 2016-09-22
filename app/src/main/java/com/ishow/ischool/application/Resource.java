@@ -12,8 +12,6 @@ public class Resource {
     public static final int MODUL_CONMMLIST_ADD = 62;
 
 
-
-
     public static final int COMMUNICATION_ADD = 62;
     public static final int COMMUNICATION_EDIT = 78;
     public static final int COMMUNICATION_LIST = 7;
@@ -25,12 +23,14 @@ public class Resource {
     public static final int USER_LISTS = -1;    //推荐人/办理人/用户列表
 
 
-    public static final int PERMISSION_ADD_NEW_STU=80;
-    public static final int PERMISSION_SEND_MSG=81;
-    public static final int PERMISSION_OPEN_POWER=82;
+    public static final int PERMISSION_ADD_NEW_STU = 80;
+    public static final int PERMISSION_SEND_MSG = 81;
+    public static final int PERMISSION_OPEN_POWER = 82;
 
-    public static final int PERMISSION_STU_PAY=92;
-    public static final int PERMISSION_STU_DETAIL=93;
-    public static final int PERMISSION_STU_EDIT=110;
+    public static final int PERMISSION_STU_PAY = 92;
+    public static final int PERMISSION_STU_DETAIL = 93;
+    public static final int PERMISSION_STU_EDIT = 110;
+
+    public static final int MARKET_PROCESS = -1;
 
 }

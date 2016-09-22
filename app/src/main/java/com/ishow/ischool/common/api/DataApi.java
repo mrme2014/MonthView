@@ -66,7 +66,7 @@ public interface DataApi {
     );
 
     //数据分析.市场.其他类别统计(statistics.market.other)
-//    @GET("/statistics/market/other")
     @GET("/statistics/market/other")
+//    @GET("/statistics/education/teachingprocessanalysis")
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(@QueryMap HashMap<String, String> params);
 }

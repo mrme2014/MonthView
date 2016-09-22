@@ -91,6 +91,18 @@ public class DateUtil {
         return unix;
     }
 
+    public static int date2UnixTime(String time, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        int unix = 0;
+        try {
+            Date date = sdf.parse(String.valueOf(time));
+            unix = (int) (date.getTime() / 1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return unix;
+    }
+
 
     /**
      * 获取指定日期开始时间的毫秒数

@@ -1,18 +1,21 @@
 package com.ishow.ischool.business.statistic.other;
 
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.commonlib.core.BaseView;
+import com.commonlib.util.DateUtil;
+import com.commonlib.util.StringUtils;
+import com.commonlib.widget.pull.BaseItemDecor;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,19 +41,16 @@ import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.custom.ListViewForScrollView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DatePicker;
+
+import static com.ishow.ischool.R.id.chart_date;
 
 public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, OtherModel> implements BaseView {
-
-    private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
-    private boolean isTypeShow, isCampusShow, isDateShow;
-    private ArrayList<String> mList = new ArrayList<>();
-    LinearLayoutManager layoutManager;
-    CampusSelectAdapter mAdapter;
 
     @BindView(R.id.filter_type)
     TextView filertType;
@@ -74,11 +74,14 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     @BindView(R.id.chart_name)
     TextView chartNameTv;
 
-    @BindView(R.id.chart_date)
+    @BindView(chart_date)
     TextView chartDateTv;
 
     private TableAdaper mTableAdaper;
     private OtherStatisticsTable mTableData;
+
+    private HashMap<String, String> params;
+    private Calendar calendar;
 
 
     @Override
@@ -89,9 +92,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     @Override
     protected void setUpView() {
 
-//        initBarChart();
-//        initPieChar();
-//        showTable();
+        calendar = Calendar.getInstance();
+
         mBarChart.setFocusable(true);
         mBarChart.setFocusableInTouchMode(true);
         mBarChart.requestFocus();
@@ -101,7 +103,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     protected void setUpData() {
 
 
-        HashMap<String, String> params = new HashMap<>();
+        params = new HashMap<>();
         params.put("campus", "2");
         params.put("type", "1");
         params.put("start_time", "201605");
@@ -123,6 +125,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         initPieChar();
     }
 
+    public void updateChartTitle() {
+        chartNameTv.setText(getString(R.string.chart_name, filertType.getText()));
+        chartDateTv.setText(startDateTv.getText() + " - " + endDateTv.getText());
+    }
+
+
     private void showTable(OtherStatisticsTable other) {
         mTableAdaper = new TableAdaper(this);
         View view = getLayoutInflater().inflate(R.layout.table_item_head, null, false);
@@ -142,23 +150,26 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.filter_type:
-                if (mTypePopup != null && isTypeShow) {
-                    dismissTypePopup();
+                if (mTypePopup != null && mTypePopup.isShowing()) {
+                    mTypePopup.dismiss();
                 } else {
+                    closePop();
                     showTypePopup();
                 }
                 break;
             case R.id.filter_campus:
-                if (mCampusPopup != null && isCampusShow) {
-                    dismissCampusPopup();
+                if (mCampusPopup != null && mCampusPopup.isShowing()) {
+                    mCampusPopup.dismiss();
                 } else {
+                    closePop();
                     showCampusPopup();
                 }
                 break;
             case R.id.filter_date:
-                if (mDatePopup != null && isDateShow) {
-                    dismissDatePopup();
+                if (mDatePopup != null && mDatePopup.isShowing()) {
+                    mDatePopup.dismiss();
                 } else {
+                    closePop();
                     showDatePopup();
                 }
                 break;
@@ -175,6 +186,29 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         }
     }
 
+    void closePop() {
+        if (mTypePopup != null && mTypePopup.isShowing()) {
+            mTypePopup.dismiss();
+        } else if (mCampusPopup != null && mCampusPopup.isShowing()) {
+            mCampusPopup.dismiss();
+        } else if (mDatePopup != null && mDatePopup.isShowing()) {
+            mDatePopup.dismiss();
+        }
+    }
+
+
+    private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
+    private ArrayList<String> mList = new ArrayList<>();
+    private LinearLayoutManager layoutManager;
+    private CampusSelectAdapter mAdapter;
+    private RelativeLayout inverseLayout;
+    private TextView inverseTv;
+    private CheckBox inverseCb;
+    private boolean isAllSelected = true;
+    private TextView startDateTv, endDateTv;
+    private String mFilterStartTime;
+    private String mFilterEndTime;
+
     void showCampusPopup() {
         if (mCampusPopup == null) {
             View contentView = LayoutInflater.from(this).inflate(R.layout.filter_campus_layout, null);
@@ -182,60 +216,48 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             mCampusPopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mCampusPopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
             //外部是否可以点击
-            mCampusPopup.setBackgroundDrawable(new BitmapDrawable());
-            mCampusPopup.setOutsideTouchable(true);
+//            mCampusPopup.setBackgroundDrawable(new BitmapDrawable());
+//            mCampusPopup.setOutsideTouchable(true);
 
+            inverseLayout = (RelativeLayout) contentView.findViewById(R.id.inverse_layout);
+            inverseTv = (TextView) contentView.findViewById(R.id.inverse_tv);
+            inverseCb = (CheckBox) contentView.findViewById(R.id.inverse_checkbox);
             RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recyclerview);
             TextView resetTv = (TextView) contentView.findViewById(R.id.campus_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.campus_ok);
-//            View blankView = contentView.findViewById(R.id.blank_view_campus);
+            inverseLayout.setOnClickListener(onClickListener);
+            inverseCb.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
-//            blankView.setOnClickListener(onClickListener);
 
             mList.addAll(CampusManager.getInstance().getCampusNames());
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(this, mList);
+            recyclerView.addItemDecoration(new BaseItemDecor(this, 10));
             recyclerView.setAdapter(mAdapter);
+            mAdapter.selectAllItems();
         }
         mCampusPopup.showAsDropDown(filertLayout);
-        isCampusShow = true;
-        isTypeShow = false;
-        isDateShow = false;
-    }
-
-    void dismissCampusPopup() {
-        mCampusPopup.dismiss();
-        isCampusShow = false;
     }
 
     void showTypePopup() {
         if (mTypePopup == null) {
-            View contentView = LayoutInflater.from(this).inflate(R.layout.filter_type_layout, null);
+            View contentView = LayoutInflater.from(this).inflate(R.layout.filter_type_other_layout, null);
             mTypePopup = new PopupWindow(contentView);
             mTypePopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mTypePopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            //外部是否可以点击
-            mTypePopup.setBackgroundDrawable(new BitmapDrawable());
-            mTypePopup.setOutsideTouchable(true);
 
-            TextView performanceTv = (TextView) contentView.findViewById(R.id.performance_tv);
-            TextView numberTv = (TextView) contentView.findViewById(R.id.number_tv);
+            TextView applyTv = (TextView) contentView.findViewById(R.id.apply_tv);
+            TextView refusePointTv = (TextView) contentView.findViewById(R.id.refuse_point_tv);
+            TextView sourceTv = (TextView) contentView.findViewById(R.id.source_tv);
             View blankView = contentView.findViewById(R.id.blank_view_type);
-            performanceTv.setOnClickListener(onClickListener);
-            numberTv.setOnClickListener(onClickListener);
+            applyTv.setOnClickListener(onClickListener);
+            refusePointTv.setOnClickListener(onClickListener);
+            sourceTv.setOnClickListener(onClickListener);
             blankView.setOnClickListener(onClickListener);
         }
         mTypePopup.showAsDropDown(filertLayout);
-        isTypeShow = true;
-        isCampusShow = false;
-        isDateShow = false;
-    }
-
-    void dismissTypePopup() {
-        mTypePopup.dismiss();
-        isTypeShow = false;
     }
 
     void showDatePopup() {
@@ -244,60 +266,116 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             mDatePopup = new PopupWindow(contentView);
             mDatePopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mDatePopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            //外部是否可以点击
-            mDatePopup.setBackgroundDrawable(new BitmapDrawable());
-            mDatePopup.setOutsideTouchable(true);
 
-            TextView startDateTv = (TextView) contentView.findViewById(R.id.start_date);
-            TextView endDateTv = (TextView) contentView.findViewById(R.id.end_date);
+            startDateTv = (TextView) contentView.findViewById(R.id.start_date);
+            endDateTv = (TextView) contentView.findViewById(R.id.end_date);
+            TextView resetTv = (TextView) contentView.findViewById(R.id.date_reset);
+            TextView okTv = (TextView) contentView.findViewById(R.id.date_ok);
             View blankView = contentView.findViewById(R.id.blank_view_date);
             startDateTv.setOnClickListener(onClickListener);
             endDateTv.setOnClickListener(onClickListener);
+            resetTv.setOnClickListener(onClickListener);
+            okTv.setOnClickListener(onClickListener);
             blankView.setOnClickListener(onClickListener);
         }
         mDatePopup.showAsDropDown(filertLayout);
-        isDateShow = true;
-        isCampusShow = false;
-        isTypeShow = false;
-    }
-
-    void dismissDatePopup() {
-        mDatePopup.dismiss();
-        isDateShow = false;
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.filter_reset:
-                    dismissCampusPopup();
+                case R.id.inverse_layout:
+                    if (isAllSelected) {
+                        inverseCb.setChecked(false);
+                        mAdapter.clearAllItems();
+                    } else {
+                        inverseCb.setChecked(true);
+                        mAdapter.selectAllItems();
+                    }
+                    isAllSelected = !isAllSelected;
                     break;
-                case R.id.filter_ok:
-                    dismissCampusPopup();
+                case R.id.inverse_checkbox:
+                    if (isAllSelected) {
+                        mAdapter.clearAllItems();
+                    } else {
+                        mAdapter.selectAllItems();
+                    }
+                    isAllSelected = !isAllSelected;
                     break;
-//                case R.id.blank_view_campus:
-//                    dismissCampusPopup();
-//                    break;
-                case R.id.performance_tv:
-                    filertType.setText("业绩对比");
-                    dismissTypePopup();
+                case R.id.campus_reset:
+                    mCampusPopup.dismiss();
                     break;
-                case R.id.number_tv:
-                    filertType.setText("人数对比");
-                    dismissTypePopup();
+                case R.id.campus_ok:
+                    ArrayList<Integer> i = mAdapter.getSelectedItem();
+                    params.put("campus", StringUtils.split(i, ","));
+                    mPresenter.getOtherStatistics(params);
+                    updateChartTitle();
+                    mCampusPopup.dismiss();
+                    break;
+                case R.id.apply_tv:
+                    filertType.setText(R.string.type_apply);
+                    mTypePopup.dismiss();
+                    params.put("type", "1");
+                    mPresenter.getOtherStatistics(params);
+                    updateChartTitle();
+                    break;
+                case R.id.refuse_point_tv:
+                    filertType.setText(R.string.type_refuse_point);
+                    updateChartTitle();
+                    mTypePopup.dismiss();
+                    params.put("type", "2");
+                    mPresenter.getOtherStatistics(params);
+                    updateChartTitle();
+                    break;
+                case R.id.source_tv:
+                    filertType.setText(R.string.type_source);
+                    mTypePopup.dismiss();
+                    params.put("type", "3");
+                    mPresenter.getOtherStatistics(params);
+                    updateChartTitle();
                     break;
                 case R.id.blank_view_type:
-                    dismissTypePopup();
+                    mTypePopup.dismiss();
                     break;
                 case R.id.start_date:
-                    dismissDatePopup();
+                    DatePicker startPicker = new DatePicker(OtherStatisticActivity.this, DatePicker.YEAR_MONTH);
+                    startPicker.setRangeStart(1970, 1, 1);       //开始范围
+                    startPicker.setRangeEnd(2099, 12, 31);       //结束范围
+                    startPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+                        @Override
+                        public void onDatePicked(String year, String month) {
+                            startDateTv.setText(year + "-" + month);
+                        }
+                    });
+                    startPicker.show();
                     break;
                 case R.id.end_date:
-                    dismissDatePopup();
+                    DatePicker endPicker = new DatePicker(OtherStatisticActivity.this, DatePicker.YEAR_MONTH);
+                    endPicker.setRangeStart(1970, 1, 1);       //开始范围
+                    endPicker.setRangeEnd(2099, 12, 31);       //结束范围
+                    endPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    endPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+                        @Override
+                        public void onDatePicked(String year, String month) {
+                            endDateTv.setText(year + "-" + month);
+                        }
+                    });
+                    endPicker.show();
+                    break;
+                case R.id.date_reset:
+                    mDatePopup.dismiss();
+                    break;
+                case R.id.date_ok:
+                    mDatePopup.dismiss();
+                    updateChartTitle();
+                    params.put("start_time", DateUtil.date2UnixTime(startDateTv.getText().toString(), "yyyy-MM") + "");
+                    params.put("end_time", DateUtil.date2UnixTime(endDateTv.getText().toString(), "yyyy-MM") + "");
+                    mPresenter.getOtherStatistics(params);
                     break;
                 case R.id.blank_view_date:
-                    dismissDatePopup();
+                    mDatePopup.dismiss();
                     break;
             }
         }
@@ -441,6 +519,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mPieChart.setRotationEnabled(true);
         mPieChart.setHighlightPerTapEnabled(true);
 
+        mPieChart.setBackgroundColor(Color.WHITE);
+
         // mBarChart.setUnit(" €");
         // mBarChart.setDrawUnitsInChart(true);
 
@@ -449,13 +529,13 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
         setPieData(mTableData);
 
-        mBarChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mBarChart.spin(2000, 0, 360);
 
 //        mSeekBarX.setOnSeekBarChangeListener(this);
 //        mSeekBarY.setOnSeekBarChangeListener(this);
 
-        Legend l = mBarChart.getLegend();
+        Legend l = mPieChart.getLegend();
         l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
@@ -550,10 +630,4 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         showTable(table);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

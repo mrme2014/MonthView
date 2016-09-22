@@ -247,4 +247,8 @@
     <string name="other_statistic">其他类别统计</string>
     <string name="cake_chart">饼图</string>
     <string name="bar_chart">柱状图</string>
+    <string name="type_apply">报名量</string>
+    <string name="type_refuse_point">抗拒点</string>
+    <string name="type_source">来源方式</string>
+    <string name="chart_name">%s统计</string>
 </resources>

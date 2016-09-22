@@ -21,6 +21,7 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
@@ -44,12 +45,6 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment DataMarketFragment.
-     */
     public static DataMarketFragment newInstance() {
         DataMarketFragment fragment = new DataMarketFragment();
         Bundle args = new Bundle();
@@ -146,7 +141,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         //mChart.getViewPortHandler().setMaximumScaleX(2f);
 
         // add data
-        setData(15, 100);
+        //setData(15, 100);
 
 //        mChart.setVisibleXRange(20);
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
@@ -236,13 +231,13 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         }
     }
 
-    private void setData(int count, float range) {
+    public void setData(SaleProcess saleProcess) {
 
         ArrayList<Entry> values = new ArrayList<Entry>();
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < 5; i++) {
 
-            float val = (float) (Math.random() * range) + 3;
+            float val = (float) (Math.random() * 40) + 3;
             values.add(new Entry(i, val));
         }
 
@@ -255,12 +250,8 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            // create a dataset and give it a type
             set1 = new LineDataSet(values, "DataSet 1");
 
-            // set the line to be drawn like this "- - - - - -"
-//            set1.enableDashedLine(10f, 5f, 0f);
-//            set1.enableDashedHighlightLine(10f, 5f, 0f);
             set1.setColor(Color.WHITE);
             set1.setCircleColor(Color.WHITE);
             set1.setLineWidth(0f);
@@ -269,18 +260,6 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
             set1.setValueTextSize(9f);
             set1.setDrawFilled(true);
             set1.setValueTextColor(Color.WHITE);
-//            set1.setFormLineWidth(1f);
-//            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-//            set1.setFormSize(15.f);
-
-//            if (Utils.getSDKInt() >= 18) {
-//                // fill drawable only supported on api level 18 and above
-//                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
-//                set1.setFillDrawable(drawable);
-//            }
-//            else {
-//                set1.setFillColor(Color.BLACK);
-//            }
 
             set1.setFillColor(getResources().getColor(R.color.fill_color));
 

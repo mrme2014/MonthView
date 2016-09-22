@@ -5,19 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ishow.ischool.business.statistic.other.OtherStatisticActivity">
+
     <include layout="@layout/widget_toolbar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/filter_layout"
                     android:layout_width="match_parent"
@@ -38,7 +43,7 @@
                             android:drawableRight="@mipmap/icon_screen_down"
                             android:gravity="center"
                             android:paddingRight="20dp"
-                            android:text="业绩对比" />
+                            android:text="@string/type_apply" />
 
                         <View
                             android:layout_width="1px"
@@ -97,7 +102,6 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/chart_name"
                         android:layout_marginTop="5dp"
-                        android:text="2016-4-13 2017-2-2"
                         android:textColor="@color/txt_9"
                         android:textSize="@dimen/sp11" />
 
@@ -126,6 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="360dp"
                     android:layout_marginTop="20dp"
+                    android:background="@color/white"
                     android:visibility="gone" />
 
                 <com.ishow.ischool.widget.custom.ListViewForScrollView

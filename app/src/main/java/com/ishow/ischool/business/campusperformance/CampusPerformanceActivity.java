@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.fragment.BarChartFragment;
@@ -37,6 +37,9 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     private final int TYPE_START_TIME = 1;
     private final int TYPE_END_TIME = 2;
+    private boolean startDateFinished = false;
+    private boolean endDateFinished = false;
+    DatePicker startDatePicker, endDatePicker;
 
     @BindView(R.id.filter_layout)
     LinearLayout filertLayout;
@@ -56,8 +59,9 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
     private CheckBox inverseCb;
     private boolean isAllSelected = true;
     private TextView startDateTv, endDateTv;
-    private String mFilterStartTime;
-    private String mFilterEndTime;
+    private String mFilterStartTime, mFilterEndTime;
+    private String mLastStartTime, mLastEndTime;
+    private ArrayList<CampusInfo> mLastSelectedItem;
     private Calendar calendar;
 
     @Override
@@ -67,14 +71,19 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     @Override
     protected void setUpView() {
-        calendar = Calendar.getInstance();//使用日历类
+        calendar = Calendar.getInstance();//初始化日历类
+        mLastSelectedItem = new ArrayList<>();
+        mLastSelectedItem.addAll(CampusManager.getInstance().get());
+        mFilterStartTime = mLastStartTime = "201607";
+        mFilterEndTime = mLastEndTime = "201609";
     }
 
     @Override
     protected void setUpData() {
         lineChartFragment = new LineChartFragment();
+        barChartFragment = new BarChartFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.content, lineChartFragment);
+        ft.add(R.id.content, lineChartFragment).add(R.id.content, barChartFragment).hide(barChartFragment);
         ft.commit();
         curFragment = lineChartFragment;
     }
@@ -124,7 +133,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
 
     private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
-    private ArrayList<String> mList = new ArrayList<>();
+    private ArrayList<CampusInfo> mList = new ArrayList<>();
     LinearLayoutManager layoutManager;
     CampusSelectAdapter mAdapter;
 
@@ -149,7 +158,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
 
-            mList.addAll(CampusManager.getInstance().getCampusNames());
+            mList.addAll(CampusManager.getInstance().get());
             layoutManager = new LinearLayoutManager(CampusPerformanceActivity.this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(CampusPerformanceActivity.this, mList);
@@ -189,6 +198,8 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             TextView resetTv = (TextView) contentView.findViewById(R.id.date_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.date_ok);
             View blankView = contentView.findViewById(R.id.blank_view_date);
+            startDateTv.setText(getString(R.string.item_start_time) + " :        2016-07");
+            endDateTv.setText(getString(R.string.item_end_time) + " :        2016-09");
             startDateTv.setOnClickListener(onClickListener);
             endDateTv.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);
@@ -225,22 +236,34 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     mCampusPopup.dismiss();
                     break;
                 case R.id.campus_ok:
-                    ArrayList<Integer> i = mAdapter.getSelectedItem();
-                    if (curFragment == lineChartFragment) {
-                        if (!lineChartFragment.curPieMode) {
-                            lineChartFragment.setLineChartData(mAdapter.getSelectedItem());
-                            mCampusPopup.dismiss();
-                        } else {
-                            mCampusPopup.dismiss();
-                        }
-                    } else {
-                        if (barChartFragment.curAmountMode) {
-                            barChartFragment.setAmountData(mAdapter.getSelectedItem());
-                            mCampusPopup.dismiss();
-                        } else {
-                            mCampusPopup.dismiss();
+                    int j = 0;
+                    if (mLastSelectedItem.size() == mAdapter.getSelectedItem().size()) {        // 判断数据是否变化,否则就不用刷新
+                        for (int i = 0; i < mLastSelectedItem.size(); i++) {
+                            if (mLastSelectedItem.get(i).id == mAdapter.getSelectedItem().get(i).id) {
+                                j = i;
+                            } else {
+                                break;
+                            }
                         }
                     }
+                    if (j == mLastSelectedItem.size() - 1) {
+                        mCampusPopup.dismiss();
+                        break;
+                    }
+                    mLastSelectedItem.clear();
+                    mLastSelectedItem.addAll(mAdapter.getSelectedItem());
+
+                    ArrayList<CampusInfo> selectedItem = mAdapter.getSelectedItem();
+                    if (selectedItem.size() == 0) {
+                        showToast("校区选项必须选择一个");
+                    } else {
+                        lineChartFragment.setLineChartData(selectedItem);
+                        lineChartFragment.setPieChartData(selectedItem);
+
+                        barChartFragment.setBarChartData(selectedItem, barChartFragment.mChartAmount, barChartFragment.mBarDataAmount);
+                        barChartFragment.setBarChartData(selectedItem, barChartFragment.mChartPercentage, barChartFragment.mBarDataPercentage);
+                    }
+                    mCampusPopup.dismiss();
                     break;
                 case R.id.performance_tv:
                     filertType.setText("业绩对比");
@@ -272,35 +295,91 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     mTypePopup.dismiss();
                     break;
                 case R.id.start_date:
-                    DatePicker startPicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
-                    startPicker.setRangeStart(1970, 1, 1);       //开始范围
-                    startPicker.setRangeEnd(2099, 12, 31);       //结束范围
-                    startPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
-                    startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+                    startDatePicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
+                    startDatePicker.setRangeStart(1970, 1);         //开始范围
+                    startDatePicker.setRangeEnd(2099, 12);          //结束范围
+                    startDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    startDatePicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            startDateTv.setText(year + "-" + month);
+                            if (endDateFinished) {
+                                String endDateYear = endDatePicker.getSelectedYear();
+                                String endDateMonth = endDatePicker.getSelectedMonth();
+                                if (!year.equals(endDateYear)) {
+                                    year = endDateYear;
+                                }
+                                if (Integer.parseInt(endDateMonth) <= 6) {      //当end<=6(上半年)
+                                    if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
+                                        month = endDateMonth;
+                                    }
+                                } else {                                        //当end>6(下半年)
+                                    if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
+                                        month = endDateMonth;
+                                    } else if (Integer.parseInt(month) <= 6) {                      //若start<=6,则start=7
+                                        month = "07";
+                                    }
+                                }
+                            }
+                            startDateTv.setText(getString(R.string.item_start_time) + " :        " + year + "-" + month);
+                            mFilterStartTime = year + month;
+                            startDateFinished = true;
                         }
                     });
-                    startPicker.show();
+                    startDatePicker.show();
                     break;
                 case R.id.end_date:
-                    DatePicker endPicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
-                    endPicker.setRangeStart(1970, 1, 1);       //开始范围
-                    endPicker.setRangeEnd(2099, 12, 31);       //结束范围
-                    endPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
-                    endPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+                    endDatePicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
+                    endDatePicker.setRangeStart(1970, 1);           //开始范围
+                    endDatePicker.setRangeEnd(2099, 12);            //结束范围
+                    endDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    endDatePicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            endDateTv.setText(year + "-" + month);
+                            if (startDateFinished) {
+                                String startDateYear = startDatePicker.getSelectedYear();
+                                String startDateMonth = startDatePicker.getSelectedMonth();
+                                if (!year.equals(startDateYear)) {
+                                    year = startDateYear;
+                                }
+                                if (Integer.parseInt(startDateMonth) <= 6) {    //当start<=6(上半年)
+                                    if (Integer.parseInt(month) > Integer.parseInt(startDateMonth)) {   //若end>start
+                                        if (Integer.parseInt(month) > 6) {
+                                            month = "06";                              //若end>6,则end=6
+                                        }
+                                    } else {                                                            //若end<start(不合理情况)
+                                        month = startDateMonth;
+                                    }
+                                } else {                                        //当start>6(下半年)
+                                    if (Integer.parseInt(month) < Integer.parseInt(startDateMonth)) {   //若end<start
+                                        month = startDateMonth;
+                                    }
+                                }
+                            }
+                            endDateTv.setText(getString(R.string.item_end_time) + " :        " + year + "-" + month);
+                            mFilterEndTime = year + month;
+                            endDateFinished = true;
                         }
                     });
-                    endPicker.show();
+                    endDatePicker.show();
                     break;
                 case R.id.date_reset:
-                    mDatePopup.dismiss();
+                    startDateFinished = false;
+                    endDateFinished = false;
+                    mFilterStartTime = "";
+                    mFilterEndTime = "";
+                    startDateTv.setText(getString(R.string.item_start_time) + " :        ");
+                    endDateTv.setText(getString(R.string.item_end_time) + " :        ");
                     break;
                 case R.id.date_ok:
+                    if (mLastStartTime.equals(mFilterStartTime) && mLastEndTime.equals(mFilterEndTime)) {
+                        mDatePopup.dismiss();
+                        break;
+                    }
+
+                    lineChartFragment.pullData(lineChartFragment.lastShowCampus, Integer.parseInt(mFilterStartTime), Integer.parseInt(mFilterEndTime));
+                    barChartFragment.pullData(lineChartFragment.lastShowCampus, Integer.parseInt(mFilterStartTime), Integer.parseInt(mFilterEndTime));
+                    mLastStartTime = mFilterStartTime;
+                    mLastEndTime = mFilterEndTime;
                     mDatePopup.dismiss();
                     break;
                 case R.id.blank_view_date:
@@ -309,5 +388,5 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             }
         }
     };
-    
+
 }

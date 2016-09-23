@@ -11,6 +11,7 @@ import com.ishow.ischool.bean.user.CampusInfo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Created by wqf on 16/8/22.
@@ -66,9 +67,10 @@ public class CampusManager {
             }
         });
 
-        for (CampusInfo campusInfo : campusInfos) {
+        for (Iterator it = campusInfos.iterator(); it.hasNext();) {
+            CampusInfo campusInfo = (CampusInfo) it.next();
             if (campusInfo.name.equals("总部") || campusInfo.name.equals("第三校区")) {
-                campusInfos.remove(campusInfo);
+                it.remove();
             }
         }
         return campusInfos;

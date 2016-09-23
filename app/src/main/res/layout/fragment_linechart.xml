@@ -20,7 +20,8 @@
             style="@style/small_font_style"
             android:layout_below="@id/title"
             android:text="2016.05-2016.12"
-            android:textSize="@dimen/sp12" />
+            android:textSize="@dimen/sp12"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/chart_switch"

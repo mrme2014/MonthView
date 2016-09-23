@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
 
@@ -17,12 +18,12 @@ import java.util.ArrayList;
  * Created by wqf on 16/9/12.
  */
 public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapter.ListItemViewHolder> {
-    private ArrayList<String> mList = new ArrayList<>();
+    private ArrayList<CampusInfo> mList = new ArrayList<>();
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
     private Context mContext;
 
-    public CampusSelectAdapter(Context ctx, ArrayList<String> list) {
+    public CampusSelectAdapter(Context ctx, ArrayList<CampusInfo> list) {
         this.mContext = ctx;
         if (list == null) {
             throw new IllegalArgumentException("model Data must not be null");
@@ -31,7 +32,7 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapte
     }
 
     //更新adpter的数据和选择状态
-    public void updateDataSet(ArrayList<String> list) {
+    public void updateDataSet(ArrayList<CampusInfo> list) {
         this.mList = list;
         mSelectedPositions = new SparseBooleanArray();
     }
@@ -58,12 +59,12 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapte
         notifyDataSetChanged();
     }
 
-    //获得选中条目的结果
-    public ArrayList<Integer> getSelectedItem() {
-        ArrayList<Integer> selectList = new ArrayList<>();
+    //获得选中条目的结果(校区id)
+    public ArrayList<CampusInfo> getSelectedItem() {
+        ArrayList<CampusInfo> selectList = new ArrayList<>();
         for (int i = 0; i < mList.size(); i++) {
             if (isItemChecked(i)) {
-                selectList.add(i);
+                selectList.add(mList.get(i));
             }
         }
         return selectList;
@@ -100,7 +101,7 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapte
     @Override
     public void onBindViewHolder(final ListItemViewHolder holder, final int i) {
         //设置条目状态
-        holder.mainTitle.setText(mList.get(i));
+        holder.mainTitle.setText(mList.get(i).name);
         holder.checkBox.setChecked(isItemChecked(i));
 
         //checkBox的监听

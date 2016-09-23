@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:gravity="center_vertical"
-                android:text="开始时间"
+                android:text="开始时间 :"
                 android:paddingLeft="10dp"/>
 
             <View
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:gravity="center_vertical"
-                android:text="结束时间"
+                android:text="结束时间 :"
                 android:paddingLeft="10dp"/>
         </LinearLayout>
 

@@ -89,6 +89,10 @@
         <activity android:name=".business.communication.detail.CommunicationDetailActivity" />
         <activity android:name=".business.salesprocess.SalesProcessActivity" />
         <activity android:name=".business.campusperformance.CampusPerformanceActivity" />
+        <activity
+            android:name=".business.campusperformance.CampusPerformanceTableActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
 
         <activity android:name=".business.salesprocess.SelectPositionActivity" />
 

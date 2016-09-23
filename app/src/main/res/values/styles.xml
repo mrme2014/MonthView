@@ -325,4 +325,26 @@
         <item name="label_top_padding">20</item>
     </style>
 
+
+    <style name="table_head_style">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/txt_3</item>
+        <item name="android:textSize">@dimen/sp13</item>
+    </style>
+
+    <style name="table_content_style">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/txt_6</item>
+        <item name="android:textSize">@dimen/sp13</item>
+    </style>
+    
+    <style name="table_vertical_divider_line">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/comm_line</item>
+    </style>
 </resources>

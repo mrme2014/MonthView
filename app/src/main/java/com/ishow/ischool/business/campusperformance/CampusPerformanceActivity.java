@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.campusperformance;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +17,11 @@ import android.widget.TextView;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.fragment.BarChartFragment;
 import com.ishow.ischool.fragment.LineChartFragment;
 
@@ -116,7 +119,8 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                 }
                 break;
             case R.id.detail_layout:
-
+                Intent intent = new Intent(this, CampusPerformanceTableActivity.class);
+                JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.salesprocess;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -24,6 +24,7 @@ import com.commonlib.widget.pull.layoutmanager.MyLinearLayoutManager;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
+import com.ishow.ischool.business.user.pick.UserPickActivity;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleTransform;
 
@@ -36,14 +37,14 @@ import butterknife.ButterKnife;
  * Created by MrS on 2016/9/23.
  */
 
-public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPresenter,SalesProcessModel> implements SalesProcessContract.View<Subordinate>, PullRecycler.OnRecyclerRefreshListener {
+public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPresenter, SalesProcessModel> implements SalesProcessContract.View<Subordinate>, PullRecycler.OnRecyclerRefreshListener {
 
-    public static SearchSubordinatesFragment newInstance(int campus_id,int position_id, String keywords){
+    public static SearchSubordinatesFragment newInstance(int campus_id, int position_id, String keywords) {
         SearchSubordinatesFragment fragment = new SearchSubordinatesFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("campus_id",campus_id);
-        bundle.putString("keywords",keywords);
-        bundle.putInt("position_id",position_id);
+        bundle.putInt("campus_id", campus_id);
+        bundle.putString("keywords", keywords);
+        bundle.putInt("position_id", position_id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -55,6 +56,22 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
     int position_id;
 
     ArrayList<SubordinateObject> lists;
+    @Override
+    public void init() {
+        //search(campus_id,position_id,keywords);
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            campus_id = arguments.getInt("campus_id");
+            keywords = arguments.getString("keywords");
+            position_id = arguments.getInt("position_id");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,24 +83,19 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         pullRecycler.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT));
         adapter = new Adapter();
         pullRecycler.setAdapter(adapter);
-
-        Bundle arguments = getArguments();
-        if (arguments!=null){
-            campus_id = arguments.getInt("campus_id");
-            keywords = arguments.getString("keywords");
-            position_id = arguments.getInt("position_id");
-        }
         return pullRecycler;
     }
-
-    @Override
-    public void init() {
+    public void search(int campus_id,int position_id,String keywords) {
+        if (pullRecycler==null)
+            return;
         pullRecycler.setRefreshing();
-        mPresenter.getOptionSubordinateKeyWords("Subordinate",campus_id,position_id ,keywords);
+        if (keywords != null && keywords != "")
+            mPresenter.getOptionSubordinateKeyWords("Subordinate", campus_id, position_id, keywords);
+        else mPresenter.getOptionSubordinate("Subordinate", campus_id, position_id);
     }
     @Override
     public void getListSuccess(Subordinate subordinate) {
-        if (subordinate!=null)
+        if (subordinate != null)
             lists = subordinate.Subordinate;
         pullRecycler.onRefreshCompleted();
         adapter.notifyDataSetChanged();
@@ -97,14 +109,17 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
 
     @Override
     public void onRefresh(int action) {
-
+        if (keywords == null || keywords == "")
+            mPresenter.getOptionSubordinate("Subordinate", campus_id, position_id);
+        else
+            mPresenter.getOptionSubordinateKeyWords("Subordinate", campus_id, position_id, keywords);
     }
 
     private class Adapter extends BaseListAdapter {
 
         @Override
         protected int getDataCount() {
-            return lists==null?0:lists.size();
+            return lists == null ? 0 : lists.size();
         }
 
         @Override
@@ -114,13 +129,14 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         }
     }
 
-    public class ViewHolder extends BaseViewHolder{
+    public class ViewHolder extends BaseViewHolder {
         @BindView(R.id.avatar_text)
         AvatarImageView avatarTv;
         @BindView(R.id.avatar_iv)
         ImageView avatarIv;
         @BindView(R.id.referrer_name)
         TextView referrerName;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -129,7 +145,7 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         @Override
         public void onBindViewHolder(final int position) {
             SubordinateObject data = lists.get(position);
-             if (data.file_name != null && !TextUtils.isEmpty(data.file_name)) {
+            if (data.file_name != null && !TextUtils.isEmpty(data.file_name)) {
                 avatarTv.setVisibility(View.GONE);
                 avatarIv.setVisibility(View.VISIBLE);
                 Glide.with(getContext().getApplicationContext()).load(data.user_name).fitCenter().placeholder(R.mipmap.img_header_default)
@@ -138,10 +154,11 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
                     protected void setResource(GlideDrawable resource) {
                         avatarIv.setImageDrawable(resource);
                     }
+
                     @Override
                     public void setRequest(Request request) {
                         avatarIv.setTag(position);
-                        avatarIv.setTag(R.id.glide_tag_id,request);
+                        avatarIv.setTag(R.id.glide_tag_id, request);
                     }
 
                     @Override
@@ -160,7 +177,10 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         @Override
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
-            Toast.makeText(getContext(),position+"",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), UserPickActivity.class);
+            intent.putExtra(SelectSubordinateActivity.PICK_USER, lists.get(position));
+            getActivity().setResult(getActivity().RESULT_OK, intent);
+            getActivity().finish();
         }
     }
 }

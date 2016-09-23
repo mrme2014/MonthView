@@ -17,17 +17,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.ImageViewTarget;
-import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
-import com.ishow.ischool.bean.user.Avatar;
-import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.business.user.pick.UserPickActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.widget.custom.AvatarImageView;
-import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.CircleTransform;
 
 import butterknife.BindView;
@@ -85,17 +81,24 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
                 return false;
             }
         });
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ft = getSupportFragmentManager().beginTransaction();
+                if (fragment==null) {
+                    fragment = new SearchSubordinatesFragment();
+                    ft.add(R.id.pullContent, fragment);
+                    ft.show(fragment).commit();
+                }
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ft = getSupportFragmentManager().beginTransaction();
-                if (fragment == null) {
-                    fragment = SearchSubordinatesFragment.newInstance(campus_id,position_id, query);
-                }
-                if (!fragment.isAdded()) {
-                    ft.add(R.id.pullContent, fragment);
-                }
-                ft.show(fragment).commitAllowingStateLoss();
+
+              //  if (fragment!=null)fragment = SearchSubordinatesFragment.newInstance(campus_id,position_id,query);
+                fragment.search(campus_id,position_id,query);
+
                 return true;
 
             }
@@ -117,8 +120,6 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
 
     @Override
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0)
-            return new selectHeadHolder(LayoutInflater.from(this).inflate(R.layout.activity_select_subordinates_list_item_type1, parent, false));
         return new selectBodyHolder(LayoutInflater.from(this).inflate(R.layout.item_pick_referrer, parent, false));
     }
 
@@ -127,15 +128,11 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
 
     }
 
-    @Override
-    protected int getItemType(int position) {
-        if (position == 0) return 0;
-        return 1;
-    }
+
 
     @Override
     protected int getDataCounts() {
-        return subordinate == null ? 1 : subordinate.Subordinate.size() + 1;
+        return subordinate == null ? 0 : subordinate.Subordinate.size() ;
     }
 
 
@@ -150,32 +147,6 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
         showToast(msg);
         loadFailed();
     }
-
-    class selectHeadHolder extends BaseViewHolder {
-
-        CircleImageView imageAvart;
-        TextView name;
-
-        public selectHeadHolder(View itemView) {
-            super(itemView);
-            imageAvart = (CircleImageView) itemView.findViewById(R.id.item_type1_avart);
-            name = (TextView) itemView.findViewById(R.id.item_type1_name);
-        }
-
-        @Override
-        public void onBindViewHolder(int position) {
-            if (mUser == null)
-                return;
-            UserInfo userInfo = mUser.userInfo;
-            Avatar avatar = mUser.avatar;
-            if (imageAvart != null && avatar != null && avatar.file_name != null && avatar.file_name != "")
-                ImageLoaderUtil.getInstance().loadImage(SelectSubordinateActivity.this, avatar.file_name, imageAvart);
-            name.setText(userInfo == null ? "" : userInfo.user_name);
-
-        }
-
-    }
-
     class selectBodyHolder extends BaseViewHolder {
         @BindView(R.id.avatar_text)
         AvatarImageView avatarTv;
@@ -224,11 +195,9 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
         @Override
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
-            campus_id = subordinate.Subordinate.get(position - 1).id;
             Intent intent = new Intent(SelectSubordinateActivity.this, UserPickActivity.class);
-            intent.putExtra(PICK_POSITION_ID,position_id);
-            intent.putExtra(PICK_USER,subordinate.Subordinate.get(position - 1));
-            setResult(PICK_REQUEST_CODE,intent);
+            intent.putExtra(PICK_USER,subordinate.Subordinate.get(position));
+            setResult(RESULT_OK,intent);
             SelectSubordinateActivity.this.finish();
 
         }

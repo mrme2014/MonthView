@@ -51,42 +51,6 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         recycler.enablePullToRefresh(false);
 
         setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
-  /*      MenuItem item = mToolbar.getMenu().findItem(R.id.action_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setSubmitButtonEnabled(true);
-        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-        searchView.setQueryHint(getString(R.string.select_subordinates_searchview));
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-
-                if (fragment != null) {
-                    getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
-                    fragment = null;
-                }
-                return false;
-            }
-        });
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                ft = getSupportFragmentManager().beginTransaction();
-                if (fragment == null) {
-                    fragment = SearchSubordinatesFragment.newInstance(campus_id, query);
-                }
-                if (!fragment.isAdded()) {
-                    ft.add(R.id.pullContent, fragment);
-                }
-                ft.show(fragment).commitAllowingStateLoss();
-                return true;
-
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });*/
 
         mPresenter.getOption("Marketposition", campus_id);
 
@@ -171,14 +135,14 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         public void onBindViewHolder(int position) {
 
             if (textView != null)
-                textView.setText(marketpositions.Marketposition.get(position - 1).name);
+                textView.setText(marketpositions.Marketposition.get(position-1).name);
         }
 
         @Override
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
-            position_id = marketpositions.Marketposition.get(position - 1).id;
-            pick_position = marketpositions.Marketposition.get(position - 1).name;
+            position_id = marketpositions.Marketposition.get(position-1).id;
+            pick_position = marketpositions.Marketposition.get(position-1).name;
             Intent intent = new Intent(SelectPositionActivity.this, SelectSubordinateActivity.class);
             intent.putExtra(SelectSubordinateActivity.PICK_CAMPUS_ID, campus_id);
             intent.putExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
@@ -192,6 +156,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelectSubordinateActivity.PICK_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             data.putExtra(PICK_POSITION,pick_position);
+            data.putExtra(SelectSubordinateActivity.PICK_POSITION_ID,position_id);
             setResult(REQUEST_CODE, data);
             this.finish();
         }

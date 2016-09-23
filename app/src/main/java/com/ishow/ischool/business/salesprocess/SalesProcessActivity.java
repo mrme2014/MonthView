@@ -142,7 +142,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }*/
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setLabelRotationAngle(135);
+        xAxis.setLabelRotationAngle(-45);
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {

@@ -25,9 +25,11 @@ import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
+import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,6 +42,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
     private OnFragmentInteractionListener mListener;
     @BindView(R.id.line_chart)
     LineChart mChart;
+    private SaleProcess mSaleProcess;
 
     public DataMarketFragment() {
         // Required empty public constructor
@@ -122,6 +125,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         xAxis.setTextColor(Color.WHITE);
         xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelRotationAngle(-45);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
@@ -159,6 +163,9 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
         // // dont forget to refresh the drawing
         // mChart.invalidate();
+        if (mSaleProcess != null && mChart.getData() == null) {
+            setData(mSaleProcess);
+        }
     }
 
     @Override
@@ -234,31 +241,54 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
     public void setData(SaleProcess saleProcess) {
 
         if (mChart == null) {
+            this.mSaleProcess = saleProcess;
             return;
         }
 
-        ArrayList<Entry> values = new ArrayList<Entry>();
+        List<String> apply_number = saleProcess.chart.apply_number;
+        List<String> full_amount = saleProcess.chart.full_amount;
 
-        for (int i = 0; i < 5; i++) {
-
-            float val = (float) (Math.random() * 40) + 3;
-            values.add(new Entry(i, val));
+        ArrayList<Entry> point1 = null;
+        if (apply_number != null) {
+            int aplply_size = apply_number.size();
+            point1 = new ArrayList<Entry>();
+            for (int i = 0; i < aplply_size; i++) {
+                point1.add(new Entry(i, Float.valueOf(apply_number.get(i))));
+            }
         }
 
-        LineDataSet set1;
+        ArrayList<Entry> point2 = null;
+        if (full_amount != null) {
+            int full_size = full_amount.size();
+            point2 = new ArrayList<Entry>();
+            for (int i = 0; i < full_size; i++) {
+                point2.add(new Entry(i, Float.valueOf(full_amount.get(i))));
+            }
+        }
 
-        if (mChart==null)
+        SaleProcessIAxisValueFormatter formatter = new SaleProcessIAxisValueFormatter(saleProcess.chart.date);
+        mChart.getXAxis().setValueFormatter(formatter);
+
+
+        LineDataSet set1;
+        LineDataSet set2;
+
+        if (mChart == null)
             return;
 
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
+            set1.setValues(point1);
+            set2 = (LineDataSet) mChart.getData().getDataSetByIndex(1);
+            set2.setValues(point2);
+
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            if (values==null)
+            if (point1 == null || point2 == null)
                 return;
-            set1 = new LineDataSet(values, "DataSet 1");
+
+            set1 = new LineDataSet(point1, getString(R.string.apply_count));
 
             set1.setColor(Color.WHITE);
             set1.setCircleColor(Color.WHITE);
@@ -271,8 +301,23 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
             set1.setFillColor(getResources().getColor(R.color.fill_color));
 
+            set2 = new LineDataSet(point2, getString(R.string.full_amount));
+
+            set2.setColor(Color.WHITE);
+            set2.setCircleColor(Color.WHITE);
+            set2.setLineWidth(0f);
+            set2.setCircleRadius(3f);
+            set2.setDrawCircleHole(false);
+            set2.setValueTextSize(9f);
+            set2.setDrawFilled(true);
+            set2.setValueTextColor(Color.WHITE);
+
+            set2.setFillColor(getResources().getColor(R.color.fill_color));
+
+
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
+            dataSets.add(set2); // add the datasets
 
             // create a data object with the datasets
             LineData data = new LineData(dataSets);

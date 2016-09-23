@@ -2,7 +2,6 @@ package com.ishow.ischool.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -50,6 +48,8 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.ishow.ischool.R.string.performance;
+
 /**
  * Created by wqf on 16/9/13.
  */
@@ -73,36 +73,39 @@ public class LineChartFragment extends BaseFragment {
     CheckedTextView challengeCtv;
 
     public boolean curPieMode = false;
-    private ArrayList<String> mCampusDatas;
+    private ArrayList<String> mXDatas;      // 横坐标数据,需要显示的校区name
+    private int mCount = 0;                 // 横坐标个数,即数据个数
     private ArrayList<CampusInfo> mCampusInfos;
-    private ArrayList<SignPerformance> mOrignData;
-    private int mCount = 0;
+    public ArrayList<CampusInfo> lastShowCampus;      // 上次显示的校区
+    public ArrayList<SignPerformance> mYDatas;      // 纵坐标数据,即每个校区的数据
+    public int lastBeginDate, lastEndDate;
+
     private LineData lineData = new LineData();
     private LineDataSet baseLineDataSet, challengeLineDataSet;
     private BarData barData = new BarData();
     private BarDataSet barDataSet;
     private CombinedData combinedData = new CombinedData();
 
-    protected String[] mParties = new String[]{
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setData();
-        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(1, "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
-                201605, null, null, "campusTotal")
+    public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth) {
+        lastBeginDate = beginMonth;
+        lastEndDate = endMonth;
+        String campusParam = "";     // 默认所有
+        ArrayList<CampusInfo> allCampus = new ArrayList<>();
+        allCampus.addAll(CampusManager.getInstance().get());
+        for (CampusInfo info : allCampus) {
+            campusParam = campusParam + info.id + ",";
+        }
+        campusParam = campusParam.substring(0, campusParam.length() - 1);
+        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(1, campusParam,
+                beginMonth, endMonth, null, "campusTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<SignPerformanceResult>() {
                     @Override
                     public void onSuccess(SignPerformanceResult result) {
-                        mOrignData = result.campusTotal;
-                        initCombinedChart();
+                        mYDatas = result.campusTotal;
+                        setLineChartData(showCampus);
+                        setPieChartData(lastShowCampus);
                     }
 
                     @Override
@@ -120,17 +123,19 @@ public class LineChartFragment extends BaseFragment {
 
     @Override
     public void init() {
+        setData();
         initPieChart();
+        initCombinedChart();
+        pullData(mCampusInfos, 201607, 201609);
     }
 
     public void setData() {
+        lastShowCampus = new ArrayList<>();
         mCampusInfos = CampusManager.getInstance().get();
-        mCampusDatas = new ArrayList<>();
-        mCampusDatas.add("");
-        for (CampusInfo campusInfo : mCampusInfos) {
-            mCampusDatas.add(campusInfo.name);
-        }
-        mCount = mCampusDatas.size();
+        mXDatas = new ArrayList<>();
+        mXDatas.add("");
+        mXDatas.addAll(CampusManager.getInstance().getCampusNames());
+        mCount = mXDatas.size();
     }
 
     void initCombinedChart() {
@@ -168,7 +173,7 @@ public class LineChartFragment extends BaseFragment {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("LineChartFragment value = " + value);
-                return mCampusDatas.get((int) value % mCampusDatas.size());
+                return mXDatas.get((int) value % mXDatas.size());
             }
 
             @Override
@@ -176,27 +181,33 @@ public class LineChartFragment extends BaseFragment {
                 return 0;
             }
         });
-
-        setLineChartData(null);
     }
 
-    public void setLineChartData(ArrayList<Integer> showPosition) {
+    /**
+     * @param campusInfos       // 本次需要显示的校区
+     */
+    public void setLineChartData(ArrayList<CampusInfo> campusInfos) {
+        ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
+        tempCampusInfos.addAll(campusInfos);
         ArrayList<SignPerformance> datas = new ArrayList<>();
-        if (showPosition != null) {
-            mCampusDatas.clear();
-            mCampusDatas.add("");
-            for (int i : showPosition) {
-                mCampusDatas.add(mCampusInfos.get(i).name);
-                datas.add(mOrignData.get(i));
+        if (lastShowCampus != null && lastShowCampus.size() > 0) {      // 即不是第一次
+            mXDatas.clear();
+            mXDatas.add("");
+            ArrayList<CampusInfo> allCampusInfos = CampusManager.getInstance().get();
+            for (CampusInfo campusInfo : tempCampusInfos) {
+                mXDatas.add(campusInfo.name);
+                datas.add(mYDatas.get(allCampusInfos.indexOf(campusInfo)));
             }
-            mCount = mCampusDatas.size();
+            mCount = mXDatas.size();
             lineData.removeDataSet(mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.base_performance), true));
             lineData.removeDataSet(mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.challenge_performance), true));
-            barData.removeDataSet(mCombinedChart.getBarData().getDataSetByLabel(getString(R.string.performance), true));
+            barData.removeDataSet(mCombinedChart.getBarData().getDataSetByLabel(getString(performance), true));
             mCombinedChart.clearValues();
         } else {
-            datas.addAll(mOrignData);
+            datas.addAll(mYDatas);
         }
+        lastShowCampus.clear();         // 更新上一次显示的校区
+        lastShowCampus.addAll(tempCampusInfos);
 
         lineData.addDataSet(generateBaseLineData(datas));
         lineData.addDataSet(generateChallengeLineData(datas));
@@ -209,10 +220,13 @@ public class LineChartFragment extends BaseFragment {
         mCombinedChart.fitScreen();
         //  避免小数,原理不清
         mCombinedChart.animateXY(1000, 1000);
+
         if (mCount < 7) {
             mCombinedChart.getXAxis().setLabelCount(mCount);
         }
-        mCombinedChart.setVisibleXRangeMaximum(mCount > 7 ? 7 : mCount);      //设置屏幕显示条数
+        if (mCount != 1) {
+            mCombinedChart.setVisibleXRangeMaximum(mCount > 7 ? 7 : mCount);      //设置屏幕显示条数
+        }
         mCombinedChart.invalidate();
     }
 
@@ -221,15 +235,13 @@ public class LineChartFragment extends BaseFragment {
         mPieChart.setDescription("");
 //        mPieChart.setExtraOffsets(5, 10, 5, 5);     //设置图表外，布局内显示的偏移量
 
-        setData(4, 100);
-
         mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
-        Legend l = mPieChart.getLegend();
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
+//        Legend l = mPieChart.getLegend();
+//        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+//        l.setXEntrySpace(7f);
+//        l.setYEntrySpace(0f);
+//        l.setYOffset(0f);
 
         // entry label styling
         mPieChart.setEntryLabelColor(Color.WHITE);
@@ -295,7 +307,7 @@ public class LineChartFragment extends BaseFragment {
             entries.add(new BarEntry(index + 1f, Float.parseFloat(campusPerformances.get(index).perweek_real)));
         }
 
-        barDataSet = new BarDataSet(entries, getString(R.string.performance));
+        barDataSet = new BarDataSet(entries, getString(performance));
         barDataSet.setColor(getResources().getColor(R.color.chart_blue));
 //        set.setValueTextColor(R.color.chart_blue);
 //        set.setValueTextSize(10f);
@@ -305,19 +317,23 @@ public class LineChartFragment extends BaseFragment {
         return barDataSet;
     }
 
-    private void setData(int count, float range) {
-
-        float mult = range;
+    public void setPieChartData(ArrayList<CampusInfo> campusInfos) {
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5), mParties[i % mParties.length]));
+        float total = 0;
+        for (int i = 0; i < campusInfos.size(); i++) {
+            int position = mCampusInfos.indexOf(campusInfos.get(i));
+            total = total + Integer.parseInt(mYDatas.get(position).perweek_real);
+        }
+        for (int j = 0; j < campusInfos.size(); j++) {
+            int position = mCampusInfos.indexOf(campusInfos.get(j));
+            entries.add(new PieEntry((float) (Integer.parseInt(mYDatas.get(position).perweek_real) / total), campusInfos.get(j).name));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        PieDataSet dataSet = new PieDataSet(entries, "piechart");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
@@ -340,14 +356,14 @@ public class LineChartFragment extends BaseFragment {
         for (int c : ColorTemplate.PASTEL_COLORS)
             colors.add(c);
 
-        colors.add(ColorTemplate.getHoloBlue());
+//        colors.add(ColorTemplate.getHoloBlue());
 
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
+        data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);
         mPieChart.setData(data);
 
@@ -367,12 +383,17 @@ public class LineChartFragment extends BaseFragment {
                     mCombinedChart.setVisibility(View.VISIBLE);
                     legendLayout.setVisibility(View.VISIBLE);
                     mPieChart.setVisibility(View.GONE);
+                    titleTv.setText("业绩趋势");
+//                    subtitleTv.setVisibility(View.VISIBLE);
+//                    subtitleTv.setText(lastBeginDate);
                     switcTv.setText("饼图");
                 } else {
                     curPieMode = true;
                     mPieChart.setVisibility(View.VISIBLE);
                     mCombinedChart.setVisibility(View.GONE);
                     legendLayout.setVisibility(View.GONE);
+                    titleTv.setText("业绩对比");
+//                    subtitleTv.setVisibility(View.GONE);
                     switcTv.setText("折线图");
                 }
                 break;
@@ -387,6 +408,7 @@ public class LineChartFragment extends BaseFragment {
 
     private ILineDataSet baseDataSet, challengeDataSet;
     private LineData tempLineData;
+
     private void invalidateBasePerformance() {
         if (tempLineData == null) {
             tempLineData = mCombinedChart.getLineData();

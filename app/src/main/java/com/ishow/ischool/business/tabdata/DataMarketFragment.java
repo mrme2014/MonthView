@@ -233,6 +233,10 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
     public void setData(SaleProcess saleProcess) {
 
+        if (mChart == null) {
+            return;
+        }
+
         ArrayList<Entry> values = new ArrayList<Entry>();
 
         for (int i = 0; i < 5; i++) {

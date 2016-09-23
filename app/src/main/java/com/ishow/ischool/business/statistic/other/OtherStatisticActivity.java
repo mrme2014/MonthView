@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.commonlib.core.BaseView;
 import com.commonlib.util.DateUtil;
-import com.commonlib.util.StringUtils;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -36,6 +35,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.statistics.OtherStatistics;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.custom.ListViewForScrollView;
@@ -198,7 +198,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
 
     private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
-    private ArrayList<String> mList = new ArrayList<>();
+    private ArrayList<CampusInfo> mList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private CampusSelectAdapter mAdapter;
     private RelativeLayout inverseLayout;
@@ -230,7 +230,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
 
-            mList.addAll(CampusManager.getInstance().getCampusNames());
+            mList.addAll(CampusManager.getInstance().get());
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(this, mList);
@@ -307,8 +307,13 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     mCampusPopup.dismiss();
                     break;
                 case R.id.campus_ok:
-                    ArrayList<Integer> i = mAdapter.getSelectedItem();
-                    params.put("campus", StringUtils.split(i, ","));
+                    ArrayList<CampusInfo> CampusInfo = mAdapter.getSelectedItem();
+                    StringBuffer sb = new StringBuffer();
+                    for (int i = 0; i < CampusInfo.size(); i++) {
+                        sb.append(CampusInfo.get(i).id).append(",");
+                    }
+                    String str = sb.toString();
+                    params.put("campus", str.substring(0, str.length() - 1));
                     mPresenter.getOtherStatistics(params);
                     updateChartTitle();
                     mCampusPopup.dismiss();
@@ -613,12 +618,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mTableData = table;
         showTable(table);
         showBarChar();
-        //showPieChar();
     }
 
     public void onGetFailed(String msg) {
-//        showToast(msg);
-        testOtherData();
+        showToast(msg);
+//        testOtherData();
     }
 
     public void testOtherData() {

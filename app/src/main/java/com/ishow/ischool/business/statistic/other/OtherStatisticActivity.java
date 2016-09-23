@@ -36,6 +36,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.statistics.OtherStatistics;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.custom.ListViewForScrollView;
@@ -198,7 +199,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
 
     private PopupWindow mTypePopup, mCampusPopup, mDatePopup;
-    private ArrayList<String> mList = new ArrayList<>();
+    private ArrayList<CampusInfo> mList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private CampusSelectAdapter mAdapter;
     private RelativeLayout inverseLayout;
@@ -230,7 +231,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
 
-            mList.addAll(CampusManager.getInstance().getCampusNames());
+            mList.addAll(CampusManager.getInstance().get());
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(this, mList);
@@ -307,7 +308,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     mCampusPopup.dismiss();
                     break;
                 case R.id.campus_ok:
-                    ArrayList<Integer> i = mAdapter.getSelectedItem();
+                    ArrayList<Integer> i = mAdapter.getSelectedPosition();
                     params.put("campus", StringUtils.split(i, ","));
                     mPresenter.getOtherStatistics(params);
                     updateChartTitle();

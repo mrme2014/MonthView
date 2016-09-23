@@ -70,6 +70,17 @@ public class CampusSelectAdapter extends RecyclerView.Adapter<CampusSelectAdapte
         return selectList;
     }
 
+    //获得选中的条目
+    public ArrayList<Integer> getSelectedPosition() {
+        ArrayList<Integer> selectList = new ArrayList<>();
+        for (int i = 0; i < mList.size(); i++) {
+            if (isItemChecked(i)) {
+                selectList.add(i);
+            }
+        }
+        return selectList;
+    }
+
 
     @Override
     public ListItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

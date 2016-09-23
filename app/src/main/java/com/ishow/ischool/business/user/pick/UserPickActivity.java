@@ -39,6 +39,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     public static final int REQUEST_CODE_PICK_USER = 2002;
     public static final String PICK_USER = "user";
     public static final String P_TITLE = "title";
+    public static final String PICK_CAMPUS_ID = "campus_id";
 
     private SearchView mSearchView;
     private String mSearchKey;
@@ -46,10 +47,13 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     private String mTitle;
     private boolean enableSelect;
 
+
+
     @Override
     protected void initEnv() {
         super.initEnv();
         mTitle = getIntent().getStringExtra(P_TITLE);
+
     }
 
     @Override
@@ -112,7 +116,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
             mCurrentPage = 1;
         }
 
-        mPresenter.listUser(mUser.positionInfo.campusId, mSearchKey, mCurrentPage++);
+        mPresenter.listUser(  mUser.positionInfo.campusId, mSearchKey, mCurrentPage++);
     }
 
     @Override

@@ -3,7 +3,9 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:gravity="center_vertical"
-    android:layout_height="wrap_content">
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:layout_height="60dp">
 
     <com.ishow.ischool.widget.custom.CircleImageView
         android:id="@+id/item_type1_avart"
@@ -14,9 +16,10 @@
 
     <TextView
         android:id="@+id/item_type1_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:textSize="@dimen/sp15"
+        android:gravity="center|left"
         android:textColor="@color/txt_2"
         />
 </LinearLayout>

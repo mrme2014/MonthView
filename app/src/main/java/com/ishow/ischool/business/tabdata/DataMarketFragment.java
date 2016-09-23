@@ -243,13 +243,17 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
         LineDataSet set1;
 
-        if (mChart.getData() != null &&
-                mChart.getData().getDataSetCount() > 0) {
+        if (mChart==null)
+            return;
+
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
+            if (values==null)
+                return;
             set1 = new LineDataSet(values, "DataSet 1");
 
             set1.setColor(Color.WHITE);

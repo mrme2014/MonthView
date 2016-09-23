@@ -5,20 +5,20 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.ArrayList;
@@ -45,31 +45,93 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
             @Override
             protected boolean isAlive() {
-                return mView == null ? false : mView.isActivityFinished();
+                return mView != null && !mView.isActivityFinished();
             }
         });
     }
 
+    @Override
+    public void getOption(String option, int position_id) {
+        mModel.getOption(option, position_id).subscribe(new ApiObserver<Marketposition>() {
+            @Override
+            public void onSuccess(Marketposition marketpositions) {
+                mView.getListSuccess(marketpositions);
+            }
 
-    public ArrayList<String> getSpinnerData(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add("7天");
-        list.add("30天");
-        list.add("180天");
-        list.add("365天");
+            @Override
+            public void onError(String msg) {
+                mView.getListFail(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+        });
+    }
+
+    @Override
+    public void getOptionSubordinate(String option, int campus_id, int position_id) {
+        mModel.getOptionSubordinate(option,campus_id,position_id).subscribe(new ApiObserver<Subordinate>() {
+            @Override
+            public void onSuccess(Subordinate subordinate) {
+                mView.getListSuccess(subordinate);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.getListFail(msg);
+            }
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+        });
+    }
+
+    @Override
+    public void getOptionSubordinateKeyWords(String option, int campus_id, int position_id, String keywords) {
+        mModel.getOptionSubordinateKeyWords(option,campus_id,position_id,keywords).subscribe(new ApiObserver<Subordinate>() {
+            @Override
+            public void onSuccess(Subordinate subordinate) {
+                mView.getListSuccess(subordinate);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.getListFail(msg);
+            }
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+        });
+    }
+
+    ArrayList<String> list = null;
+
+    public ArrayList<String> getSpinnerData() {
+        if (list == null) {
+            list = new ArrayList<>();
+            list.add("7天");
+            list.add("30天");
+            list.add("180天");
+            list.add("365天");
+        }
         return list;
     }
+
     /**
      * 1.初始化LineChart
      * 2.添加数据x，y轴数据
      * 3.刷新图表
      */
-    public void initChart(Context context, LineChart mChart, final List<String> date) {
+    public void initChart(Context context, LineChart mChart) {
 
         mChart.setOnChartValueSelectedListener(this);
         // no description text
         mChart.setDescription("");
-        mChart.setNoDataTextDescription("No Data To Show.");
+        mChart.setNoDataTextDescription("");
 
         // enable touch gestures
         mChart.setTouchEnabled(true);
@@ -104,24 +166,12 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         xAxis.setTextColor(ContextCompat.getColor(context, R.color.sale_gray_txt_color_));
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
-       // xAxis.setAxisMaxValue(10);
+        // xAxis.setAxisMaxValue(10);
         xAxis.setAxisMinValue(0);
         xAxis.setGranularity(1);
         //xAxis.setCenterAxisLabels(true);
         //xAxis.setLabelRotationAngle(145);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                if (value >= date.size())
-                    return "";
-                return date.get((int) value);
-            }
 
-            @Override
-            public int getDecimalDigits() {
-                return 0;
-            }
-        });
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = mChart.getAxisLeft();

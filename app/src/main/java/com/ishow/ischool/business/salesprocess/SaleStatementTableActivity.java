@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.SaleStatementTableAdapter;
-import com.ishow.ischool.bean.saleprocess.TableBody;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.custom.TableRowTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -28,7 +28,7 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
     @BindView(R.id.DispatchHScrollView)
     com.ishow.ischool.widget.custom.DispatchHScrollView DispatchHScrollView;
 
-    private ArrayList<TableBody> tableBodys;
+    private ArrayList<List<String>> tableBodys;
     private ArrayList<String> tableHead;
     private SaleStatementTableAdapter adapter;
 
@@ -47,7 +47,7 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpData() {
-        tableBodys = getIntent().getExtras().getParcelableArrayList(TABLE_BODY);
+        tableBodys = (ArrayList<List<String>>) getIntent().getExtras().getSerializable(TABLE_BODY);
         tableHead = getIntent().getExtras().getStringArrayList(TABLE_HEAD);
 
         saleTableHead.setTxtList(tableHead);

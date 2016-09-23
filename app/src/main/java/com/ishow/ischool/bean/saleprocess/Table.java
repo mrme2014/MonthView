@@ -3,10 +3,12 @@ package com.ishow.ischool.bean.saleprocess;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by MrS on 2016/9/14.
  */
-public class Table implements Parcelable {
+public class Table implements Parcelable,Serializable {
     public int apply_numbers;
     public int full_amount;
     public double full_amount_rate;

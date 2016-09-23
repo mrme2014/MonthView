@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.saleprocess.TableBody;
 import com.ishow.ischool.widget.custom.TableRowTextView;
 
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  */
 public class SaleStatementTableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<TableBody> list;
+    private List<List<String>> list;
 
-    public SaleStatementTableAdapter(Context context, List<TableBody> list){
+    public SaleStatementTableAdapter(Context context, List<List<String>> list){
         this.context = context;
 
         this.list = list;
@@ -32,8 +31,8 @@ public class SaleStatementTableAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SaleHolder saleHolder = (SaleHolder)holder;
-        saleHolder.rowTextView.setTxtList(list.get(position).tablebody);
-        if (position>=getItemCount()) saleHolder.rowTextView.setShouldDrawBotLine(true);
+        saleHolder.rowTextView.setTxtList(list.get(position));
+        if (position>=getItemCount()-1) saleHolder.rowTextView.setShouldDrawBotLine(true);
     }
 
     @Override

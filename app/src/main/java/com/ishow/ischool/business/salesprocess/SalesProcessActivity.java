@@ -1,8 +1,9 @@
 package com.ishow.ischool.business.salesprocess;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -13,36 +14,39 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
-import com.commonlib.util.UIUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
-import com.ishow.ischool.bean.saleprocess.ChartBean;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.saleprocess.Table;
 import com.ishow.ischool.bean.user.Avatar;
-import com.ishow.ischool.bean.user.PositionInfo;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.OnItemSelected;
 
 /**
  * Created by wqf on 16/8/14.
  */
-public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter, SalesProcessModel> implements SalesProcessContract.View {
+public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter, SalesProcessModel> implements SalesProcessContract.View<SaleProcess>, AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.lineChart)
     LineChart mChart;
@@ -63,10 +67,14 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @BindView(R.id.sale_legend_full)
     CheckedTextView saleLegendFull;
 
-    private SaleProcess process;
-    private ChartBean chartBean;
     private LabelTextView ltv;
-    public static final int REQUEST_CODE = 10001;
+    private SaleProcess process;
+    private int type_time = 7;
+    private int campus_id;
+    private int position_id;
+    private int user_id;
+
+    public static final int REQUEST_CODE = 1001;
 
 
     @Override
@@ -76,14 +84,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     protected void setUpView() {
-
         MenuItem item = mToolbar.getMenu().findItem(R.id.submit);
         ltv = (LabelTextView) MenuItemCompat.getActionView(item);
-        ltv.setPadding(0, 0, UIUtil.dip2px(this, 10), 0);
+        ltv.setAboutMenuItem();
+        Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.icon_screen_down_white);
+        ltv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        ltv.setUpMenu(true);
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, mPresenter.getSpinnerData());
         salesSpinner.setAdapter(adapter);
+        salesSpinner.setOnItemSelectedListener(this);
 
+        mPresenter.initChart(this, mChart);
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -92,46 +104,79 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 return false;
             }
         });
+
+        setUpData();
     }
 
     @Override
     protected void setUpData() {
-        process = new SaleProcess(30);
-        chartBean = process.chartBean;
-
-        if (process.saleTable1 != null) {
-            Table table = process.saleTable1.table;
-            List<String> tablehead = process.saleTable1.tablehead;
-            if (table == null) return;
-            salesTable1.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate + "");
-
-        }
-
-        if (process.saleTable2 != null) {
-            Table table = process.saleTable2.table;
-            if (table == null) return;
-            List<String> tablehead = process.saleTable2.tablehead;
-
-        }
-
-
         Avatar avatar = mUser.avatar;
         if (avatar != null && !TextUtils.equals(avatar.file_name, "") && avatar.file_name != null)
             ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, salesAvart);
+        else salesAvart.setImageResource(R.mipmap.img_header_default);
+
         UserInfo userInfo = mUser.userInfo;
-        PositionInfo positionInfo = mUser.positionInfo;
+        CampusInfo positionInfo = mUser.campusInfo;
+        campus_id = positionInfo.id;
+        position_id = positionInfo.id;
+        user_id = userInfo.user_id;
         if (userInfo != null && positionInfo != null) {
             salesJob.setFirstTxt(userInfo.user_name);
         }
-        ltv.setText(positionInfo.campus);
-        //initChart();
-        mPresenter.initChart(this,mChart,chartBean.date);
-        mPresenter.setData(this,mChart,chartBean.full_amount,chartBean.apply_number);
-        mChart.setVisibleXRangeMaximum(15);
+
+        ltv.setEllipsizeText(positionInfo.name, 7);
     }
 
-    @OnItemSelected(R.id.sales_spinner)
-    void OnSpinnerItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    private void setUpLable() {
+        if (process.table1 != null) {
+            Table table = process.table1.table;
+            List<String> tablehead = process.table1.tablehead;
+            if (table == null) return;
+            salesTable1.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate * 100 + "%");
+        }
+        /*if (process.table2 != null) {
+            Table table = process.table2.table;
+            if (table == null) return;
+            List<String> tablehead = process.table2.tablehead;
+        }*/
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setLabelRotationAngle(135);
+        xAxis.setValueFormatter(new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                if (value >= process.chart.date.size())
+                    return "";
+                String s = process.chart.date.get((int) value);
+                return s.substring(5, s.length());
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
+        mPresenter.setData(this, mChart, process.chart.full_amount, process.chart.apply_number);
+        mChart.setVisibleXRangeMaximum(type_time == 7 ? type_time : 15);
+        if (type_time == 7) mChart.fitScreen();
+    }
+
+    private void getSaleProcessData() {
+        handProgressbar(true);
+        mPresenter.getSaleProcessData(campus_id, position_id, user_id, type_time);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String selectTxt = mPresenter.getSpinnerData().get(position);
+        String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
+        type_time = Integer.parseInt(selectNum);
+        getSaleProcessData();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -139,28 +184,36 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
+                if (process.table1 == null)
+                    return;
                 Intent intent = new Intent(this, SaleStatementTableActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.saleTable1.tablehead);
-                bundle.putParcelableArrayList(SaleStatementTableActivity.TABLE_BODY, (ArrayList<? extends Parcelable>) process.saleTable1.tablebody);
+                bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.table1.tablehead);
+                bundle.putSerializable(SaleStatementTableActivity.TABLE_BODY, process.table1.tablebody);
                 intent.putExtras(bundle);
                 JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sales_table2:
+                if (process.table2 == null)
+                    return;
+                Intent intent2 = new Intent(this, SaleStatementTableActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.table2.tablehead);
+                bundle2.putSerializable(SaleStatementTableActivity.TABLE_BODY, process.table2.tablebody);
+                intent2.putExtras(bundle2);
+                JumpManager.jumpActivity(this, intent2, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sales_job:
-                JumpManager.jumpActivityForResult(this, SelectSubordinatesActivity.class, REQUEST_CODE, Resource.NO_NEED_CHECK);
+                Intent intent1 = new Intent(this, SelectPositionActivity.class);
+                intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
+                intent1.putExtra("CAMPUS_ID",campus_id);
+                JumpManager.jumpActivityForResult(this, intent1, REQUEST_CODE, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sale_legend_apply:
                 invalidateApplyCount();
                 break;
             case R.id.sale_legend_full:
-                //invalidateFullAmount();
-                process = new SaleProcess(10);
-                mPresenter.setData(this,mChart,process.chartBean.full_amount,process.chartBean.apply_number);
-                mChart.setVisibleXRangeMaximum(7);
-                mChart.invalidate();
-                mChart.fitScreen();
+                invalidateFullAmount();
                 break;
         }
     }
@@ -168,12 +221,24 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && requestCode == REQUEST_CODE && data != null) {
+            SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
+            position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
+            user_id = extra.id;
+            salesJob.setFirstTxt(extra.user_name);
+            salesJob.setSecondTxt(data.getStringExtra(SelectPositionActivity.PICK_POSITION));
+            salesAvart.setImageResource(R.mipmap.img_header_default);
+            getSaleProcessData();
+        }
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    private ArrayList<CampusInfo> campusInfos;
 
-        return true;
+    @OnClick(R.id.submit)
+    void onMenuClick() {
+        if (campusInfos == null) {
+            campusInfos = CampusManager.getInstance().get();
+        } else getCampusSucess(campusInfos);
     }
 
     private ILineDataSet apply_data_set;
@@ -182,6 +247,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private void invalidateFullAmount() {
         if (lineData == null) lineData = mChart.getLineData();
+        if (lineData == null) return;
         if (!saleLegendFull.isChecked()) {
             full_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.full_amount), true);
             lineData.removeDataSet(full_data_set);
@@ -195,6 +261,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private void invalidateApplyCount() {
         if (lineData == null) lineData = mChart.getLineData();
+        if (lineData == null) return;
         if (!saleLegendApply.isChecked()) {
             apply_data_set = lineData.getDataSetByLabel(getResources().getString(R.string.apply_count), true);
             lineData.removeDataSet(apply_data_set);
@@ -209,11 +276,35 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     public void getListSuccess(SaleProcess saleProcess) {
-
+        this.process = saleProcess;
+        handProgressbar(false);
+        setUpLable();
+        mChart.invalidate();
     }
 
     @Override
     public void getListFail(String msg) {
+        handProgressbar(false);
+        showToast(msg);
+    }
 
+    private void getCampusSucess(final ArrayList<CampusInfo> campusInfos) {
+        if (campusInfos == null || campusInfos.size() == 0) return;
+        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
+        ArrayList<String> campus = new ArrayList();
+        for (int i = 0; i < campusInfos.size(); i++) {
+            campus.add(campusInfos.get(i).name);
+        }
+        builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0, 1, campus);
+        PickerDialogFragment fragment = builder.Build();
+        fragment.show(getSupportFragmentManager(), "dialog");
+        fragment.addCallback(new PickerDialogFragment.Callback<int[]>() {
+            @Override
+            public void onPickResult(int[] selectIds, String... result) {
+                ltv.setText(result[0]);
+                campus_id = campusInfos.get(selectIds[0]).id;
+                getSaleProcessData();
+            }
+        });
     }
 }

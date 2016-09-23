@@ -1,14 +1,16 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.saleprocess.Marketposition;
+import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.university.UniversityInfoListResult;
 import com.ishow.ischool.bean.user.Campus;
+import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +92,6 @@ public interface MarketApi {
             @Query("resources_id") int resources_id,
             @Query("campus_id") int campus_id);
 
-
     @GET("/market/student/get")
     Observable<ApiResult<Student>> getStudent(@QueryMap HashMap<String, String> params);
 
@@ -100,4 +101,19 @@ public interface MarketApi {
 
     @GET("/system/campus/lists")
     Observable<ApiResult<ArrayList<CampusInfo>>> getCampusList();
+
+    /*属性.选择项.查询(attribute.option.get) 接口*/
+    @FormUrlEncoded
+    @POST("/attribute/option/get")
+    Observable<ApiResult<Marketposition>> getOption(@Field("option") String option,@Field("campus_id") int campus_id);
+
+    /*属性.选择项.查询(attribute.option.get) 接口*/
+    @FormUrlEncoded
+    @POST("/attribute/option/get")
+    Observable<ApiResult<Subordinate>> getOptionSubordinate(@Field("option") String option, @Field("campus_id") int campus_id, @Field("position_id") int position_id);
+
+    /*属性.选择项.查询(attribute.option.get) 接口*/
+    @FormUrlEncoded
+    @POST("/attribute/option/get")
+    Observable<ApiResult<Subordinate>> getOptionSubordinateKeywords(@Field("option") String option, @Field("campus_id") int campus_id, @Field("position_id") int position_id,@Field("keyword")String keyword);
 }

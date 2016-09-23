@@ -3,12 +3,13 @@ package com.ishow.ischool.bean.saleprocess;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by MrS on 2016/9/13.
  */
-public class ChartBean implements Parcelable {
+public class ChartBean implements Parcelable ,Serializable{
 
     public List<String> date;
     public List<String> full_amount;

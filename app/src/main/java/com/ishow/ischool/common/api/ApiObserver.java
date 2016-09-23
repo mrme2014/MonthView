@@ -44,7 +44,6 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         if (!isAlive()) {
             return;
         }
-
         Throwable throwable = e;
         //获取最根源的异常
         while (throwable.getCause() != null) {

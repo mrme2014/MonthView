@@ -1,15 +1,11 @@
 package com.ishow.ischool.bean.saleprocess;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by MrS on 2016/9/13.
  */
-public class SaleProcess implements Parcelable {
+public class SaleProcess implements Serializable {
 
 
     /**
@@ -18,72 +14,8 @@ public class SaleProcess implements Parcelable {
      * tablebody : [["吴家俊","100","120","30","13","0.5","50","30","20","0.3"],["吴家俊","100","120","30","13","0.5","50","30","20","0.3"],["吴家俊","100","120","30","13","0.5","50","30","20","0.3"],["吴家俊","100","120","30","13","0.5","50","30","20","0.3"],["吴家俊","100","120","30","13","0.5","50","30","20","0.3"]]
      */
 
-    public ChartBean chartBean;
-    public SaleTable1 saleTable1;
-    public SaleTabel2 saleTable2;
+    public ChartBean chart;
+    public SaleTable1 table1;
+    public SaleTabel2 table2;
 
-    public SaleProcess( int test_count) {
-        chartBean = new ChartBean();
-        chartBean.date = new ArrayList<>();
-        chartBean.full_amount = new ArrayList<>();
-        chartBean.apply_number = new ArrayList<>();
-
-        saleTable1 = new SaleTable1();
-        saleTable1.table = new Table();
-        saleTable1.table.apply_numbers = 100;
-        saleTable1.table.apply_rate = 0.4;
-        saleTable1.table.full_amount = 1000;
-        saleTable1.table.full_amount_rate = 0.7;
-
-        //saleTabel2 = new SaleTabel2();
-
-        saleTable1.tablehead = new ArrayList<>();
-        saleTable1.tablebody = new ArrayList<>();
-        List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < test_count; i++) {
-            chartBean.date.add("09-06");
-            chartBean.full_amount.add(i * 11 + 11 + "");
-            chartBean.apply_number.add(i * 5 + 5 + "");
-            saleTable1.tablehead.add("table_head" + i);
-            list.add("table_body" + i);
-            TableBody body = new TableBody();;
-            for (int j = 0; j < test_count; j++) {
-                body.add("row"+i+"--"+"col"+j);
-            }
-            saleTable1.tablebody.add(body);
-        }
-
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.chartBean, flags);
-        dest.writeParcelable(this.saleTable1, flags);
-        dest.writeParcelable(this.saleTable2, flags);
-    }
-
-    protected SaleProcess(Parcel in) {
-        this.chartBean = in.readParcelable(ChartBean.class.getClassLoader());
-        this.saleTable1 = in.readParcelable(SaleTable1.class.getClassLoader());
-        this.saleTable2 = in.readParcelable(SaleTabel2.class.getClassLoader());
-    }
-
-    public static final Creator<SaleProcess> CREATOR = new Creator<SaleProcess>() {
-        @Override
-        public SaleProcess createFromParcel(Parcel source) {
-            return new SaleProcess(source);
-        }
-
-        @Override
-        public SaleProcess[] newArray(int size) {
-            return new SaleProcess[size];
-        }
-    };
 }

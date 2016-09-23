@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -125,6 +126,8 @@ public class LabelTextView extends TextView {
     /*下面这两个方法 用于 设定 menuitem  属性时 设置的*/
     public void setAboutMenuItem() {
         this.setPadding(0, 0, UIUtil.dip2px(getContext(), 10), 0);
+        //setHeight(UIUtil.dip2px(getContext(),45));
+        setGravity(Gravity.CENTER);
         setTextColor(Color.parseColor("#ffffff"));
         setText("提交");
     }
@@ -133,6 +136,14 @@ public class LabelTextView extends TextView {
         this.setClickable(b);
         this.setEnabled(b);
         this.setAlpha(b ? 1.0f : 0.5f);
+    }
+
+    public void setEllipsizeText(String text,int maxLength){
+        if (TextUtils.isEmpty(text)) {
+            setText("");
+            return;
+        }
+        setText(ellipsizeString(text, maxLength));
     }
 
 
@@ -146,7 +157,7 @@ public class LabelTextView extends TextView {
     }
 
     private String ellipsizeString(String text, int maxLen) {
-        return text.length() > maxLen ? text.substring(0, maxLen - 3) + "..." : text;
+        return text.length() >=maxLen ? text.substring(0, maxLen - 3) + "..." : text;
     }
 
     public int getMaxLength() {

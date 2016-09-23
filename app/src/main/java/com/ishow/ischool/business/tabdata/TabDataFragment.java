@@ -56,7 +56,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
         ArrayList<String> titleList = new ArrayList<>();
         titleList.add(getString(R.string.data_market));
         titleList.add(getString(R.string.data_teach));
-        mFragmentAdapter = new FragmentAdapter(getFragmentManager(), fragments, titleList);
+        mFragmentAdapter = new FragmentAdapter(getChildFragmentManager(), fragments, titleList);
         mViewPaper.setAdapter(mFragmentAdapter);
         mViewPaper.setCurrentItem(0);
 

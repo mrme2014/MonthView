@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_type2"
     style="@style/fragment_textview_Wmatch_45height"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
     android:text="@string/fm_me_switch_role"
     app:tip_right_color="#999"
     app:tip_right_padding="24">

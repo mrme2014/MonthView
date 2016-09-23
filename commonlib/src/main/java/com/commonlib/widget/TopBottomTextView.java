@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.text.Spanned;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -161,7 +160,7 @@ public class TopBottomTextView extends TextView {
         super.onRestoreInstanceState(superData);
     }
 
-    public void setSecondTxt(Spanned secondTxt){
+    public void setSecondTxt(String secondTxt){
         this.labelTextBottom = secondTxt.toString();
         invalidate();
     }

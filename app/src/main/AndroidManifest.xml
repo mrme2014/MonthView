@@ -90,13 +90,18 @@
         <activity android:name=".business.salesprocess.SalesProcessActivity" />
         <activity android:name=".business.campusperformance.CampusPerformanceActivity" />
 
-        <activity android:name=".business.salesprocess.SelectSubordinatesActivity" />
+        <activity android:name=".business.salesprocess.SelectPositionActivity" />
 
         <activity android:name=".business.statistic.other.OtherStatisticActivity" />
         <activity
             android:name=".business.salesprocess.SaleStatementTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"></activity>
+
+        <activity
+            android:name=".business.salesprocess.SelectSubordinateActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+
     </application>
 
 </manifest>

@@ -11,8 +11,11 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +41,8 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     private FragmentAdapter mFragmentAdapter;
     private DataMarketFragment dataMarketFragment;
     private DataTeachFragment dataTeachFragment;
+    private User mUser;
+    private int type_time = 7;
 
     @Override
     public int getLayoutId() {
@@ -46,6 +51,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void init() {
+        mUser = UserManager.getInstance().get();
         mPresenter.getCampusList();     //进入app获取所有校区信息
         ArrayList<Fragment> fragments = new ArrayList<>();
         dataMarketFragment = DataMarketFragment.newInstance();
@@ -91,11 +97,15 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
         });
         titleRadioButton1.setChecked(true);
 
+
+        UserInfo userInfo = mUser.userInfo;
+        CampusInfo positionInfo = mUser.campusInfo;
+
         HashMap<String, String> params = new HashMap<>();
-        params.put("campus_id", "2");
-        params.put("position_id", "0");
-        params.put("user_id", "2");
-        params.put("type", "2");
+        params.put("campus_id", positionInfo.id + "");
+        params.put("position_id", positionInfo.id + "");
+        params.put("user_id", userInfo.user_id + "");
+        params.put("type", type_time + "");
         mPresenter.getSales(params);
     }
 

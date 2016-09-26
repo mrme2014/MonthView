@@ -6,80 +6,88 @@
     <include layout="@layout/widget_toolbar" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@id/toolbar">
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
             android:textSize="@dimen/sp13"
             android:textColor="@color/txt_3"
             android:gravity="center"
             android:text="校区" />
 
+        <ListView
+            android:id="@+id/lv_left"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:listSelector="#00000000"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tv_name"/>
+
         <View
+            android:id="@+id/line1"
             style="@style/table_vertical_divider_line"
-            android:layout_toRightOf="@id/tv_name"/>
+            android:layout_toRightOf="@id/lv_left"/>
 
         <com.ishow.ischool.widget.table.HeadHorizontalScrollView
             android:id="@+id/sv_title"
-            android:layout_width="1406px"
-            android:layout_height="60dp"
-            android:layout_toRightOf="@id/tv_name"
+            android:layout_width="600dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/line1"
             android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="1406px"
-                android:layout_height="60dp"
+                android:layout_width="600dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
 
                 <TextView
                     style="@style/table_head_style"
-                    android:text="晨读总储备" />
+                    android:text="总现场" />
 
-                <View
-                    style="@style/table_vertical_divider_line" />
-
-                <TextView
-                    style="@style/table_head_style"
-                    android:text="7月" />
-
-                <View
-                    style="@style/table_vertical_divider_line" />
+                <!--<View-->
+                    <!--style="@style/table_vertical_divider_line" />-->
 
                 <TextView
                     style="@style/table_head_style"
-                    android:text="8月" />
+                    android:text="总报名" />
 
-                <View
-                    style="@style/table_vertical_divider_line" />
-
-                <TextView
-                    style="@style/table_head_style"
-                    android:text="9月" />
-
-                <View
-                    style="@style/table_vertical_divider_line" />
+                <!--<View-->
+                    <!--style="@style/table_vertical_divider_line" />-->
 
                 <TextView
                     style="@style/table_head_style"
-                    android:text="10月" />
+                    android:text="总全款" />
 
-                <View
-                    style="@style/table_vertical_divider_line" />
-
-                <TextView
-                    style="@style/table_head_style"
-                    android:text="11月" />
-
-                <View
-                    style="@style/table_vertical_divider_line" />
+                <!--<View-->
+                    <!--style="@style/table_vertical_divider_line" />-->
 
                 <TextView
                     style="@style/table_head_style"
-                    android:text="12月" />
+                    android:text="总报名率" />
+
+                <!--<View-->
+                    <!--style="@style/table_vertical_divider_line" />-->
+
+                <TextView
+                    style="@style/table_head_style"
+                    android:text="总全款率" />
+
+                <!--<View-->
+                    <!--style="@style/table_vertical_divider_line" />-->
+
+                <TextView
+                    style="@style/table_head_style"
+                    android:text="全款报名率" />
             </LinearLayout>
         </com.ishow.ischool.widget.table.HeadHorizontalScrollView>
 
@@ -90,26 +98,12 @@
             android:layout_below="@id/tv_name"
             android:background="@color/comm_line" />
 
-        <ListView
-            android:id="@+id/lv_left"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:layout_below="@id/divider_line"
-            android:scrollbars="none"
-            android:listSelector="#00000000"/>
-
-        <View
-            style="@style/table_vertical_divider_line"
-            android:layout_toRightOf="@id/lv_left"
-            android:layout_below="@id/divider_line"/>
-
-
         <com.ishow.ischool.widget.table.BodyHorizontalScrollView
             android:id="@+id/sv_detail"
-            android:layout_width="750dp"
+            android:layout_width="600dp"
             android:layout_height="match_parent"
             android:layout_below="@id/divider_line"
-            android:layout_toRightOf="@id/lv_left"
+            android:layout_toRightOf="@id/line1"
             android:scrollbars="none"
             android:overScrollMode="never">
 
@@ -117,8 +111,10 @@
                 android:id="@+id/lv_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:listSelector="#00000000"/>
+                android:listSelector="#00000000"
+                android:scrollbars="none"/>
         </com.ishow.ischool.widget.table.BodyHorizontalScrollView>
+
     </RelativeLayout>
 
 </RelativeLayout>

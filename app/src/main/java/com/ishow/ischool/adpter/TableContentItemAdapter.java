@@ -47,7 +47,6 @@ public class TableContentItemAdapter extends BaseAdapter {
             holder.tv_column4 = (TextView) convertView.findViewById(R.id.column4);
             holder.tv_column5 = (TextView) convertView.findViewById(R.id.column5);
             holder.tv_column6 = (TextView) convertView.findViewById(R.id.column6);
-            holder.tv_column7 = (TextView) convertView.findViewById(R.id.column7);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -59,7 +58,6 @@ public class TableContentItemAdapter extends BaseAdapter {
         holder.tv_column4.setText("column4测试" + position);
         holder.tv_column5.setText("column5测试" + position);
         holder.tv_column6.setText("column6测试" + position);
-        holder.tv_column7.setText("column7测试" + position);
 
         return convertView;
     }
@@ -72,6 +70,5 @@ public class TableContentItemAdapter extends BaseAdapter {
         TextView tv_column4;
         TextView tv_column5;
         TextView tv_column6;
-        TextView tv_column7;
     }
 }

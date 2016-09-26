@@ -21,7 +21,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
@@ -143,7 +143,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 if (value >= process.chart.date.size())

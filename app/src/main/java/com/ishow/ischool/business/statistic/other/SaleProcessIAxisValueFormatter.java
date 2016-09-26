@@ -1,14 +1,14 @@
 package com.ishow.ischool.business.statistic.other;
 
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.List;
 
 /**
  * Created by abel on 16/9/23.
  */
-public class SaleProcessIAxisValueFormatter implements AxisValueFormatter {
+public class SaleProcessIAxisValueFormatter implements IAxisValueFormatter {
     private List<String> mdate;
 
     public SaleProcessIAxisValueFormatter(List<String> mdate) {

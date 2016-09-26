@@ -18,7 +18,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.campusperformance.SignAmount;
@@ -147,7 +147,7 @@ public class BarChartFragment extends BaseFragment {
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setCenterAxisLabels(true);
 //        xAxis.setAxisMaxValue(mCount + 2);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("BarChartFragment value = " + value);
@@ -181,7 +181,7 @@ public class BarChartFragment extends BaseFragment {
         leftAxis.setGranularity(20);
         leftAxis.setSpaceBottom(20f);
         mChartPercentage.getAxisRight().setEnabled(false);    // 隐藏右边的坐标轴
-        leftAxis.setValueFormatter(new AxisValueFormatter() {
+        leftAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("BarChartFragment leftAxis value = " + value);
@@ -205,7 +205,7 @@ public class BarChartFragment extends BaseFragment {
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setCenterAxisLabels(true);
 //        xAxis.setAxisMaxValue(mCount + 2);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("BarChartFragment value = " + value);

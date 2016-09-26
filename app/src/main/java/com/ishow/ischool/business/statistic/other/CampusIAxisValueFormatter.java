@@ -2,7 +2,7 @@ package com.ishow.ischool.business.statistic.other;
 
 
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.ishow.ischool.bean.statistics.OtherStatistics;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by abel on 16/9/14.
  */
-public class CampusIAxisValueFormatter implements AxisValueFormatter {
+public class CampusIAxisValueFormatter implements IAxisValueFormatter {
 
     private ArrayList<OtherStatistics> others;
 

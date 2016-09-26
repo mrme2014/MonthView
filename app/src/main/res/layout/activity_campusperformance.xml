@@ -77,32 +77,4 @@
         android:layout_marginTop="15dp"
         android:background="@android:color/white"/>
 
-    <RelativeLayout
-        android:id="@+id/detail_layout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="15dp"
-        android:background="@android:color/white"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/student_number_detail" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail"
-            android:text="查看各校区招生数据" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_list_next" />
-    </RelativeLayout>
-
 </LinearLayout>

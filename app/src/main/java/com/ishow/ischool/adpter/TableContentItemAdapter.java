@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.campusperformance.SignAmount;
+
+import java.util.ArrayList;
 
 /**
  * Created by wqf on 16/9/23.
@@ -15,14 +18,16 @@ import com.ishow.ischool.R;
 
 public class TableContentItemAdapter extends BaseAdapter {
     private Context context;
+    private ArrayList<SignAmount> datas;
 
-    public TableContentItemAdapter(Context context) {
+    public TableContentItemAdapter(Context context, ArrayList<SignAmount> datas) {
         this.context = context;
+        this.datas = datas;
     }
 
     @Override
     public int getCount() {
-        return 16;
+        return datas.size();
     }
 
     @Override
@@ -52,12 +57,13 @@ public class TableContentItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tv_column1.setText("column1测试" + position);
-        holder.tv_column2.setText("column2测试" + position);
-        holder.tv_column3.setText("column3测试" + position);
-        holder.tv_column4.setText("column4测试" + position);
-        holder.tv_column5.setText("column5测试" + position);
-        holder.tv_column6.setText("column6测试" + position);
+        SignAmount data = datas.get(position);
+        holder.tv_column1.setText(data.scene + "");
+        holder.tv_column2.setText(data.sign + "");
+        holder.tv_column3.setText(data.fullPay + "");
+        holder.tv_column4.setText(data.signRate + "");
+        holder.tv_column5.setText(data.signRate + "");
+        holder.tv_column6.setText(data.fullSignRate + "");
 
         return convertView;
     }

@@ -374,7 +374,7 @@ public class LineChartFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.chart_switch, R.id.legend_base_performance, R.id.legend_challenge_performance})
+    @OnClick({R.id.chart_switch, R.id.legend_base_performance, R.id.legend_challenge_performance, R.id.table_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.chart_switch:
@@ -402,6 +402,9 @@ public class LineChartFragment extends BaseFragment {
                 break;
             case R.id.legend_challenge_performance:
                 invalidateChallengePerformance();
+                break;
+            case R.id.table_layout:
+
                 break;
         }
     }

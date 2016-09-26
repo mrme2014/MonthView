@@ -1,22 +1,27 @@
 package com.ishow.ischool.business.campusperformance;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 
-import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.TableContentItemAdapter;
 import com.ishow.ischool.adpter.TableLeftItemAdapter;
+import com.ishow.ischool.bean.campusperformance.SignAmount;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.table.BodyHorizontalScrollView;
 import com.ishow.ischool.widget.table.HeadHorizontalScrollView;
+
+import java.util.ArrayList;
 
 /**
  * Created by wqf on 2016/9/23.
  */
 public class CampusPerformanceTableActivity extends BaseActivity4Crm {
+    private ArrayList<String> campus;
+    private ArrayList<SignAmount> datas;
 
     @Override
     protected void setUpContentView() {
@@ -25,7 +30,9 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpView() {
-
+        Bundle bundle = getIntent().getExtras();
+        campus = bundle.getStringArrayList("campus");
+        datas = bundle.getParcelableArrayList("data");
     }
 
     @Override
@@ -55,8 +62,8 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
     }
 
     private void initAdapter() {
-        tableLeftItemAdapter = new TableLeftItemAdapter(this);
-        tableContentItemAdapter = new TableContentItemAdapter(this);
+        tableLeftItemAdapter = new TableLeftItemAdapter(this, campus);
+        tableContentItemAdapter = new TableContentItemAdapter(this, datas);
         lv_left.setAdapter(tableLeftItemAdapter);
         lv_detail.setAdapter(tableContentItemAdapter);
     }

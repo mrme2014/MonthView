@@ -9,20 +9,24 @@ import android.widget.TextView;
 
 import com.ishow.ischool.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by wqf on 16/9/23.
  */
 
 public class TableLeftItemAdapter extends BaseAdapter {
     private Context context;
+    private ArrayList<String> datas;
 
-    public TableLeftItemAdapter(Context context) {
+    public TableLeftItemAdapter(Context context, ArrayList<String> datas) {
         this.context = context;
+        this.datas = datas;
     }
 
     @Override
     public int getCount() {
-        return 16;
+        return datas.size();
     }
 
     @Override
@@ -46,7 +50,7 @@ public class TableLeftItemAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv_name.setText("iShow校区" + position);
+        holder.tv_name.setText(datas.get(position));
         return convertView;
     }
 

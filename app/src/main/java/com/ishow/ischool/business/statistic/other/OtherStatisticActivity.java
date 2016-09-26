@@ -173,9 +173,6 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     showDatePopup();
                 }
                 break;
-            case R.id.detail_layout:
-
-                break;
             case R.id.chart_change:
                 if (mPieChart.getVisibility() == View.VISIBLE) {
                     showBarChar();

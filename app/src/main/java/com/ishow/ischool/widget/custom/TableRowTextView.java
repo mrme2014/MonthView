@@ -30,7 +30,7 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     //private float cellWidth;
     private boolean shouldDrawBotLine;
 
-    private int cellWidth = UIUtil.dip2px(getContext(), 100);
+    private int cellWidth = UIUtil.dip2px(getContext(), 120);
     private int minCellWidth = cellWidth;
 
 
@@ -66,7 +66,7 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
         width = list.size() * cellWidth;
         width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()));
         cellWidth = width/list.size();
-        int measureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST);
+        int measureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         setMeasuredDimension(measureSpec, getMeasuredHeight());
 
         LogUtil.e("onMeasure"+width+"---"+cellWidth);
@@ -125,7 +125,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
             return;
         this.list = lists;
         invalidate();
-        cellWidth = getWidth()/lists.size();
     }
 
     @Override

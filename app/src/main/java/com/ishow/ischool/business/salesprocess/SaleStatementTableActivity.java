@@ -92,11 +92,6 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
         saleTableHead.requestLayout();
         if (adapter2 == null) {
             adapter2 = new SaleStatementTableAdapter(this, tableBodys2);
-            List<String> strings = tableBodys2.get(0);
-            strings.remove(0);
-            strings.remove(1);
-            tableHead2.remove(0);
-            tableHead2.remove(0);
         }
         saleTableRecyleview.setAdapter(adapter2);
 

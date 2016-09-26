@@ -1,1 +1,1 @@
-include ':app', ':commonlib', ":citypicker"
+include ':app', ':commonlib', ":citypicker", ':MPChartLib'

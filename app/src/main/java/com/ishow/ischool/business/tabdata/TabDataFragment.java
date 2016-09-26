@@ -99,11 +99,11 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
 
         UserInfo userInfo = mUser.userInfo;
-        CampusInfo positionInfo = mUser.campusInfo;
+        CampusInfo capusInfo = mUser.campusInfo;
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("campus_id", positionInfo.id + "");
-        params.put("position_id", positionInfo.id + "");
+        params.put("campus_id", capusInfo.id + "");
+        params.put("position_id", mUser.positionInfo.id + "");
         params.put("user_id", userInfo.user_id + "");
         params.put("type", type_time + "");
         mPresenter.getSales(params);

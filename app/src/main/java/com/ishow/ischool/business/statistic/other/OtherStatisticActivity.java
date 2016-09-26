@@ -91,29 +91,31 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     @Override
     protected void setUpView() {
-
         calendar = Calendar.getInstance();
-
-        mBarChart.setFocusable(true);
-        mBarChart.setFocusableInTouchMode(true);
-        mBarChart.requestFocus();
     }
 
     @Override
     protected void setUpData() {
-
-
         params = new HashMap<>();
         params.put("campus", "2");
         params.put("type", "1");
-        params.put("start_time", "201605");
-        params.put("end_time", "201705");
         mPresenter.getOtherStatistics(params);
+    }
+
+    public void showChar() {
+        if (mBarChart.getVisibility() == View.VISIBLE) {
+            showBarChar();
+        } else {
+            showPieChar();
+        }
     }
 
     public void showBarChar() {
         mPieChart.setVisibility(View.GONE);
         mBarChart.setVisibility(View.VISIBLE);
+        mBarChart.setFocusable(true);
+        mBarChart.setFocusableInTouchMode(true);
+        mBarChart.requestFocus();
         chartChangeTv.setText(R.string.cake_chart);
         initBarChart();
     }
@@ -122,7 +124,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mPieChart.setVisibility(View.VISIBLE);
         mBarChart.setVisibility(View.GONE);
         chartChangeTv.setText(R.string.bar_chart);
+        mPieChart.setFocusable(true);
+        mPieChart.setFocusableInTouchMode(true);
+        mPieChart.requestFocus();
         initPieChar();
+
     }
 
     public void updateChartTitle() {
@@ -132,18 +138,23 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
 
     private void showTable(OtherStatisticsTable other) {
+        mTableListView.setVisibility(View.VISIBLE);
         mTableAdaper = new TableAdaper(this);
         View view = getLayoutInflater().inflate(R.layout.table_item_head, null, false);
         TextView noTv = (TextView) view.findViewById(R.id.item_table_head_1);
         TextView nameTv = (TextView) view.findViewById(R.id.item_table_head_2);
         TextView numTv = (TextView) view.findViewById(R.id.item_table_head_3);
-        String[] alias = other.alias;
-        noTv.setText(alias[0]);
-        nameTv.setText(alias[1]);
-        numTv.setText(alias[2]);
+        String[] headers = other.header;
+        noTv.setText(headers[0]);
+        nameTv.setText(headers[1]);
+        numTv.setText(headers[2]);
         mTableListView.addHeaderView(view);
         mTableListView.setAdapter(mTableAdaper);
         mTableAdaper.setDatas(other.data);
+    }
+
+    private void dismissTable() {
+        mTableListView.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.filter_type, R.id.filter_campus, R.id.filter_date, R.id.chart_change})
@@ -172,9 +183,6 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     closePop();
                     showDatePopup();
                 }
-                break;
-            case R.id.detail_layout:
-
                 break;
             case R.id.chart_change:
                 if (mPieChart.getVisibility() == View.VISIBLE) {
@@ -407,10 +415,13 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         // mBarChart.setScaleYEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        mBarChart.setPinchZoom(true);
+        //mBarChart.setPinchZoom(true);
 
         // set an alternative background color
         mBarChart.setBackgroundColor(Color.WHITE);
+
+        mBarChart.setFitBars(true);
+        mBarChart.setDrawValueAboveBar(false);
 
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
@@ -420,14 +431,16 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(13);
-        xAxis.setLabelRotationAngle(-45);
-
+        xAxis.setLabelRotationAngle(-90);
+        xAxis.mLabelHeight = 0;
+        xAxis.mLabelRotatedHeight = 0;
+        xAxis.setAvoidFirstLastClipping(true);
 
         YAxis leftAxis = mBarChart.getAxisLeft();
         leftAxis.setLabelCount(8, false);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
-        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
@@ -461,8 +474,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         float start = 0f;
         int count = others.size();
 
-        mBarChart.getXAxis().setAxisMinValue(start);
-        mBarChart.getXAxis().setAxisMaxValue(start + count + 1);
+        mBarChart.getXAxis().setAxisMinimum(start);
+        mBarChart.getXAxis().setAxisMaximum(start + count + 1);
 
         CampusIAxisValueFormatter formatter = new CampusIAxisValueFormatter(others);
         mBarChart.getXAxis().setValueFormatter(formatter);
@@ -499,6 +512,60 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     public void initPieChar() {
         mPieChart = (PieChart) findViewById(R.id.pie_chart);
+//        mPieChart.setUsePercentValues(true);
+//        mPieChart.setDescription("");
+//        mPieChart.setExtraOffsets(5, 10, 5, 5);
+//
+//        mPieChart.setDragDecelerationFrictionCoef(0.95f);
+//
+////        mPieChart.setCenterTextTypeface(mTfLight);
+////        mPieChart.setCenterText(generateCenterSpannableText());
+//
+//        mPieChart.setDrawHoleEnabled(true);
+//        mPieChart.setHoleColor(Color.WHITE);
+//
+//        mPieChart.setTransparentCircleColor(Color.WHITE);
+//        mPieChart.setTransparentCircleAlpha(110);
+//
+//        mPieChart.setHoleRadius(58f);
+//        mPieChart.setTransparentCircleRadius(61f);
+//
+//        mPieChart.setDrawCenterText(true);
+//
+//        mPieChart.setRotationAngle(0);
+//        // enable rotation of the chart by touch
+//        mPieChart.setRotationEnabled(true);
+//        mPieChart.setHighlightPerTapEnabled(true);
+//
+//        mPieChart.setBackgroundColor(Color.WHITE);
+//
+//        // mBarChart.setUnit(" €");
+//        // mBarChart.setDrawUnitsInChart(true);
+//
+//        // add a selection listener
+////        mPieChart.setOnChartValueSelectedListener(this);
+//
+//        setPieData(mTableData);
+//
+//        mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+//        // mBarChart.spin(2000, 0, 360);
+//
+////        mSeekBarX.setOnSeekBarChangeListener(this);
+////        mSeekBarY.setOnSeekBarChangeListener(this);
+//
+////        Legend l = mPieChart.getLegend();
+////        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+////        l.setXEntrySpace(7f);
+////        l.setYEntrySpace(0f);
+////        l.setYOffset(0f);
+//
+//        // entry label styling
+//        mPieChart.setEntryLabelColor(Color.WHITE);
+////        mPieChart.setEntryLabelTypeface(mTfRegular);
+//        mPieChart.setEntryLabelTextSize(12f);
+
+
+        mPieChart = (PieChart) findViewById(R.id.pie_chart);
         mPieChart.setUsePercentValues(true);
         mPieChart.setDescription("");
         mPieChart.setExtraOffsets(5, 10, 5, 5);
@@ -524,52 +591,51 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mPieChart.setRotationEnabled(true);
         mPieChart.setHighlightPerTapEnabled(true);
 
-        mPieChart.setBackgroundColor(Color.WHITE);
-
-        // mBarChart.setUnit(" €");
-        // mBarChart.setDrawUnitsInChart(true);
+        // mChart.setUnit(" €");
+        // mChart.setDrawUnitsInChart(true);
 
         // add a selection listener
 //        mPieChart.setOnChartValueSelectedListener(this);
 
+//        setData(4, 100);
         setPieData(mTableData);
 
         mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        // mBarChart.spin(2000, 0, 360);
+        // mChart.spin(2000, 0, 360);
 
-//        mSeekBarX.setOnSeekBarChangeListener(this);
-//        mSeekBarY.setOnSeekBarChangeListener(this);
 
         Legend l = mPieChart.getLegend();
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
+        l.setWordWrapEnabled(true);
 
         // entry label styling
         mPieChart.setEntryLabelColor(Color.WHITE);
-//        mPieChart.setEntryLabelTypeface(mTfRegular);
+//        mChart.setEntryLabelTypeface(mTfRegular);
         mPieChart.setEntryLabelTextSize(12f);
+
+
     }
 
-    private void setPieData(OtherStatisticsTable table) {
-        if (table == null) {
-            return;
-        }
+    protected String[] mParties = new String[]{
+            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
+            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
+            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
+            "Party Y", "Party Z"
+    };
+
+    private void setData(int count, float range) {
+
+        float mult = range;
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
-        ArrayList<OtherStatistics> others = table.data;
-
-        int value = 0;
-        for (int i = 0; i < others.size(); i++) {
-            value += others.get(i).value;
-        }
-
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < others.size(); i++) {
-            entries.add(new PieEntry(((float) others.get(i).value) / value, others.get(i).name));
+        for (int i = 0; i < count; i++) {
+            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5), mParties[i % mParties.length]));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
@@ -614,10 +680,77 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     }
 
 
+    private void setPieData(OtherStatisticsTable table) {
+        if (table == null) {
+            return;
+        }
+
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+        ArrayList<OtherStatistics> others = table.data;
+
+        int value = 0;
+        for (int i = 0; i < others.size(); i++) {
+            value += others.get(i).value;
+        }
+
+        // NOTE: The order of the entries when being added to the entries array determines their position around the center of
+        // the chart.
+        for (int i = 0; i < others.size(); i++) {
+            entries.add(new PieEntry(((float) others.get(i).value) / value * 100, others.get(i).name));
+        }
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+        // add a lot of colors
+
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
+
+        dataSet.setColors(colors);
+        //dataSet.setSelectionShift(0f);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.WHITE);
+//        data.setValueTypeface(mTfLight);
+        mPieChart.setData(data);
+
+        // undo all highlights
+        mPieChart.highlightValues(null);
+
+        mPieChart.invalidate();
+    }
+
+
     public void onGetSuccess(OtherStatisticsTable table) {
         mTableData = table;
-        showTable(table);
-        showBarChar();
+        if (!params.get("type").equals("3")) {
+            showTable(table);
+        } else {
+            dismissTable();
+        }
+
+        showChar();
     }
 
     public void onGetFailed(String msg) {

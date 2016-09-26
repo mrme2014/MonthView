@@ -7,7 +7,8 @@ import java.util.ArrayList;
  */
 public class OtherStatisticsTable {
     public String title;
-    public String[] alias;
+    public ArrayList<Alias> alias;
     public ArrayList<OtherStatistics> data;
+    public String[] header;
 
 }

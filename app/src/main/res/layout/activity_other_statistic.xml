@@ -122,15 +122,17 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/line_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="360dp"
-                    android:layout_marginTop="20dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:minHeight="360dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="360dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@color/white"
+                    android:minHeight="360dp"
                     android:visibility="gone" />
 
                 <com.ishow.ischool.widget.custom.ListViewForScrollView

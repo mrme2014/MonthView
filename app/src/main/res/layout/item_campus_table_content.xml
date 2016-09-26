@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="1406px"
-    android:layout_height="50dp"
+    android:layout_width="600dp"
+    android:layout_height="40dp"
     android:orientation="horizontal">
 
     <TextView
@@ -9,51 +9,44 @@
         style="@style/table_content_style"
         android:text="2000" />
 
-    <View
-        style="@style/table_vertical_divider_line" />
+    <!--<View-->
+        <!--style="@style/table_vertical_divider_line" />-->
 
     <TextView
         android:id="@+id/column2"
         style="@style/table_content_style"
         android:text="2000" />
 
-    <View
-        style="@style/table_vertical_divider_line" />
+    <!--<View-->
+        <!--style="@style/table_vertical_divider_line" />-->
 
     <TextView
         android:id="@+id/column3"
         style="@style/table_content_style"
         android:text="2000" />
 
-    <View
-        style="@style/table_vertical_divider_line" />
+    <!--<View-->
+        <!--style="@style/table_vertical_divider_line" />-->
 
     <TextView
         android:id="@+id/column4"
         style="@style/table_content_style"
         android:text="2000" />
 
-    <View
-        style="@style/table_vertical_divider_line" />
+    <!--<View-->
+        <!--style="@style/table_vertical_divider_line" />-->
 
     <TextView
         android:id="@+id/column5"
         style="@style/table_content_style"
         android:text="2000" />
 
-    <View
-        style="@style/table_vertical_divider_line" />
+    <!--<View-->
+        <!--style="@style/table_vertical_divider_line" />-->
 
     <TextView
         android:id="@+id/column6"
         style="@style/table_content_style"
         android:text="2000" />
 
-    <View
-        style="@style/table_vertical_divider_line" />
-
-    <TextView
-        android:id="@+id/column7"
-        style="@style/table_content_style"
-        android:text="2000" />
 </LinearLayout>

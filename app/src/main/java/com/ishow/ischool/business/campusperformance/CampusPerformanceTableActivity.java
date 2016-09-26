@@ -5,6 +5,7 @@ import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.TableContentItemAdapter;
 import com.ishow.ischool.adpter.TableLeftItemAdapter;
@@ -19,7 +20,7 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_performance_table, R.string.campus_performance_target, MODE_BACK);
+        setContentView(R.layout.activity_campus_performance_table, R.string.campus_performance_amount, MODE_BACK);
     }
 
     @Override

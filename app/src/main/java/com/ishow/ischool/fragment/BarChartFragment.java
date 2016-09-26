@@ -1,5 +1,6 @@
 package com.ishow.ischool.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,18 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.campusperformance.SignAmount;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.business.campusperformance.CampusPerformanceTableActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.common.manager.JumpManager;
 
 import java.util.ArrayList;
 
@@ -147,7 +151,7 @@ public class BarChartFragment extends BaseFragment {
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setCenterAxisLabels(true);
 //        xAxis.setAxisMaxValue(mCount + 2);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("BarChartFragment value = " + value);
@@ -181,7 +185,7 @@ public class BarChartFragment extends BaseFragment {
         leftAxis.setGranularity(20);
         leftAxis.setSpaceBottom(20f);
         mChartPercentage.getAxisRight().setEnabled(false);    // 隐藏右边的坐标轴
-        leftAxis.setValueFormatter(new AxisValueFormatter() {
+        leftAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("BarChartFragment leftAxis value = " + value);
@@ -205,7 +209,7 @@ public class BarChartFragment extends BaseFragment {
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setCenterAxisLabels(true);
 //        xAxis.setAxisMaxValue(mCount + 2);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("BarChartFragment value = " + value);
@@ -329,7 +333,7 @@ public class BarChartFragment extends BaseFragment {
 
 
     @OnClick({R.id.chart_switch, R.id.legend_attend_amount, R.id.legend_registration_amount, R.id.legend_full_payment_amount,
-            R.id.legend_registration_rate, R.id.legend_full_payment_rate, R.id.legend_full_payment_registration_rate})
+            R.id.legend_registration_rate, R.id.legend_full_payment_rate, R.id.legend_full_payment_registration_rate, R.id.table_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.chart_switch:
@@ -367,6 +371,10 @@ public class BarChartFragment extends BaseFragment {
                 break;
             case R.id.legend_full_payment_registration_rate:
                 invalidateFullPaymentRegistrationRate();
+                break;
+            case R.id.table_layout:
+                Intent intent = new Intent(getActivity(), CampusPerformanceTableActivity.class);
+                JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
         }
     }

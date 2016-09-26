@@ -17,13 +17,13 @@
 
     <com.ishow.ischool.widget.custom.DispatchHScrollView
         android:id="@+id/DispatchHScrollView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sale_table_recyleview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/activity_salestatement_list_item">
         </android.support.v7.widget.RecyclerView>

@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -26,10 +27,11 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     private Paint linePaint, txtPaint;
 
     private float txtHeight;
-    private float cellWidth;
+    //private float cellWidth;
     private boolean shouldDrawBotLine;
 
-    private int min_cell_width = UIUtil.dip2px(getContext(), 100);
+    private int cellWidth = UIUtil.dip2px(getContext(), 100);
+    private int minCellWidth = cellWidth;
 
 
     public TableRowTextView(Context context) {
@@ -57,20 +59,25 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (list == null)
+            return;
+
         int width = 0;
-        if (list!=null) {
-             width = list.size() * min_cell_width;
-        }
-        width= Math.max(width,getMeasuredWidth());
-       setMeasuredDimension(width, getMeasuredHeight());
+        width = list.size() * cellWidth;
+        width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()));
+        cellWidth = width/list.size();
+        int measureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST);
+        setMeasuredDimension(measureSpec, getMeasuredHeight());
+
+        LogUtil.e("onMeasure"+width+"---"+cellWidth);
     }
+
 
     private void init() {
 
         if (linePaint == null) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             linePaint.setColor(ContextCompat.getColor(getContext(), R.color.chart_line));
-            //linePaint.setStrokeWidth(1);
 
             txtPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             txtPaint.setTextSize(UIUtil.sp2px(getContext(), 13));
@@ -79,7 +86,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
             Paint.FontMetrics fontMetrics = txtPaint.getFontMetrics();
             txtHeight = fontMetrics.descent - fontMetrics.ascent;
         }
-
         this.setOnTouchListener(this);
     }
 
@@ -87,18 +93,18 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int width = getMeasuredWidth();
+        if (list == null || list.size() <= 0)
+            return;
+
+        int width = getWidth();
         int height = getMeasuredHeight();
 
-
-        if (cellWidth == 0 && list != null && list.size() != 0) {
-            cellWidth = width / list.size();
-            if (cellWidth < min_cell_width)
-                cellWidth = min_cell_width;
-        }
         for (int i = 0; i < list.size(); i++) {
-            canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtPaint.measureText(list.get(i)) / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
+            int txtWidth = (int) txtPaint.measureText(list.get(i));
+            if (cellWidth<txtWidth)cellWidth =txtWidth;
+            canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
             canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);//右边的线
+
         }
 
         canvas.drawLine(0, 0, width, 0, linePaint);//上面的线
@@ -107,16 +113,19 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
 
         if (shouldDrawBotLine) canvas.drawLine(0, height, width, height, linePaint);//下面的线
 
+       LogUtil.e("onDraw" + cellWidth + "--" + width + "---");
     }
 
     public void setShouldDrawBotLine(boolean shouldDrawBotLine) {
-
         this.shouldDrawBotLine = shouldDrawBotLine;
     }
 
-    public void setTxtList(List<String> list) {
-        this.list = list;
+    public void setTxtList(List<String> lists) {
+        if (lists==null)
+            return;
+        this.list = lists;
         invalidate();
+        cellWidth = getWidth()/lists.size();
     }
 
     @Override

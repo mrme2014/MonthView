@@ -18,31 +18,37 @@ public class SaleStatementTableAdapter extends RecyclerView.Adapter<RecyclerView
     private Context context;
     private List<List<String>> list;
 
-    public SaleStatementTableAdapter(Context context, List<List<String>> list){
+    public SaleStatementTableAdapter(Context context, List<List<String>> list) {
         this.context = context;
 
         this.list = list;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SaleHolder(LayoutInflater.from(context).inflate(R.layout.activity_salestatement_list_item,parent,false));
+        return new SaleHolder(LayoutInflater.from(context).inflate(R.layout.activity_salestatement_list_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SaleHolder saleHolder = (SaleHolder)holder;
+        SaleHolder saleHolder = (SaleHolder) holder;
         saleHolder.rowTextView.setTxtList(list.get(position));
-        if (position>=getItemCount()-1) saleHolder.rowTextView.setShouldDrawBotLine(true);
+        if (position >= getItemCount() - 1) saleHolder.rowTextView.setShouldDrawBotLine(true);
     }
 
     @Override
     public int getItemCount() {
-        return list==null?0:list.size();
+        return list == null ? 0 : list.size();
     }
 
+    public void updateTableBodys(List<List<String>> list) {
+        this.list = list;
+        this.notifyDataSetChanged();
+    }
 
-    class SaleHolder extends RecyclerView.ViewHolder{
+    class SaleHolder extends RecyclerView.ViewHolder {
         TableRowTextView rowTextView;
+
         public SaleHolder(View itemView) {
             super(itemView);
             rowTextView = (TableRowTextView) itemView.findViewById(R.id.sale_table_row);

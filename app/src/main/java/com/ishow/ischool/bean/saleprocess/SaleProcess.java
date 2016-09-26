@@ -15,7 +15,8 @@ public class SaleProcess implements Serializable {
      */
 
     public ChartBean chart;
-    public SaleTable1 table1;
-    public SaleTabel2 table2;
+    public Table table;
+    /*public SaleTable1 table1;
+    public SaleTabel2 table2;*/
 
 }

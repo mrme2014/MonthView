@@ -1,12 +1,8 @@
 package com.ishow.ischool.business.salesprocess;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
-import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.github.mikephil.charting.charts.LineChart;
@@ -27,16 +22,15 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
-import com.ishow.ischool.bean.saleprocess.Table;
+import com.ishow.ischool.bean.saleprocess.TableTotal;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
-import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.CircleImageView;
-import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +61,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @BindView(R.id.sale_legend_full)
     CheckedTextView saleLegendFull;
 
-    private LabelTextView ltv;
+
     private SaleProcess process;
     private int type_time = 7;
     private int campus_id;
@@ -76,20 +70,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     public static final int REQUEST_CODE = 1001;
 
+    private final int HIDE_TABLE_PERMISSION1 = 17;
+    private final int HIDE_TABLE_PERMISSION2 = 20;
+
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_saleprocess, R.string.sale_process, R.menu.menu_sale, MODE_BACK);
+        setContentView(R.layout.activity_saleprocess, R.string.sale_process, MODE_BACK);
     }
 
     @Override
     protected void setUpView() {
-        MenuItem item = mToolbar.getMenu().findItem(R.id.submit);
-        ltv = (LabelTextView) MenuItemCompat.getActionView(item);
-        ltv.setAboutMenuItem();
-        Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.icon_screen_down_white);
-        ltv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
-        ltv.setUpMenu(true);
+
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, mPresenter.getSpinnerData());
         salesSpinner.setAdapter(adapter);
@@ -123,22 +115,24 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         if (userInfo != null && positionInfo != null) {
             salesJob.setFirstTxt(userInfo.user_name);
         }
-
-        ltv.setEllipsizeText(positionInfo.name, 7);
+        //销讲师 或者 晨读讲师 就不能显示 第二个表格了
+        if (position_id == HIDE_TABLE_PERMISSION1 || position_id == HIDE_TABLE_PERMISSION2)
+            salesTable2.setVisibility(View.GONE);
     }
 
 
     private void setUpLable() {
-        if (process.table1 != null) {
-            Table table = process.table1.table;
-            List<String> tablehead = process.table1.tablehead;
+        if (process.table != null&&process.table.table1!=null) {
+            TableTotal table = process.table.table1.tabletotal;
+            List<String> tablehead = process.table.table1.tablehead;
             if (table == null) return;
             salesTable1.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate * 100 + "%");
         }
-        /*if (process.table2 != null) {
-            Table table = process.table2.table;
+       /* if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
+            TableTotal table = process.table.table2.tabletotal;
             if (table == null) return;
-            List<String> tablehead = process.table2.tablehead;
+            List<String> tablehead = process.table.table2.tablehead;
+            salesTable2.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate * 100 + "%");
         }*/
 
         XAxis xAxis = mChart.getXAxis();
@@ -157,8 +151,10 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 return 0;
             }
         });
+        xAxis.setGranularity(type_time == 7 ? 1 : 7);
         mPresenter.setData(this, mChart, process.chart.full_amount, process.chart.apply_number);
         mChart.setVisibleXRangeMaximum(type_time == 7 ? type_time : 15);
+
         if (type_time == 7) mChart.fitScreen();
     }
 
@@ -184,29 +180,19 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
-                if (process.table1 == null)
+                if (process!=null&&process.table!=null&&process.table.table1 == null)
                     return;
-                Intent intent = new Intent(this, SaleStatementTableActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.table1.tablehead);
-                bundle.putSerializable(SaleStatementTableActivity.TABLE_BODY, process.table1.tablebody);
-                intent.putExtras(bundle);
-                JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
+                startActivity2SaleTable(true);
                 break;
             case R.id.sales_table2:
-                if (process.table2 == null)
+                if (process!=null&&process.table!=null&&process.table.table2 == null)
                     return;
-                Intent intent2 = new Intent(this, SaleStatementTableActivity.class);
-                Bundle bundle2 = new Bundle();
-                bundle2.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.table2.tablehead);
-                bundle2.putSerializable(SaleStatementTableActivity.TABLE_BODY, process.table2.tablebody);
-                intent2.putExtras(bundle2);
-                JumpManager.jumpActivity(this, intent2, Resource.NO_NEED_CHECK);
+                startActivity2SaleTable(false);
                 break;
             case R.id.sales_job:
                 Intent intent1 = new Intent(this, SelectPositionActivity.class);
                 intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
-                intent1.putExtra("CAMPUS_ID",campus_id);
+                intent1.putExtra("CAMPUS_ID", campus_id);
                 JumpManager.jumpActivityForResult(this, intent1, REQUEST_CODE, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sale_legend_apply:
@@ -216,6 +202,21 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 invalidateFullAmount();
                 break;
         }
+    }
+
+    private void startActivity2SaleTable(boolean showTable1) {
+
+        Intent intent = new Intent(this, SaleStatementTableActivity.class);
+        intent.putExtra(SaleStatementTableActivity.SHOW_TABLE1, showTable1);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.table.table1.tablehead);
+        bundle.putSerializable(SaleStatementTableActivity.TABLE_BODY, (Serializable) process.table.table1.tablebody);
+        if (View.VISIBLE == salesTable2.getVisibility()) {
+            bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD_TABLE2, (ArrayList<String>) process.table.table2.tablehead);
+            bundle.putSerializable(SaleStatementTableActivity.TABLE_BODY_BODY2, (Serializable) process.table.table2.tablebody);
+        }
+        intent.putExtras(bundle);
+        JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
     }
 
     @Override
@@ -232,14 +233,6 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }
     }
 
-    private ArrayList<CampusInfo> campusInfos;
-
-    @OnClick(R.id.submit)
-    void onMenuClick() {
-        if (campusInfos == null) {
-            campusInfos = CampusManager.getInstance().get();
-        } else getCampusSucess(campusInfos);
-    }
 
     private ILineDataSet apply_data_set;
     private ILineDataSet full_data_set;
@@ -286,25 +279,5 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public void getListFail(String msg) {
         handProgressbar(false);
         showToast(msg);
-    }
-
-    private void getCampusSucess(final ArrayList<CampusInfo> campusInfos) {
-        if (campusInfos == null || campusInfos.size() == 0) return;
-        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-        ArrayList<String> campus = new ArrayList();
-        for (int i = 0; i < campusInfos.size(); i++) {
-            campus.add(campusInfos.get(i).name);
-        }
-        builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0, 1, campus);
-        PickerDialogFragment fragment = builder.Build();
-        fragment.show(getSupportFragmentManager(), "dialog");
-        fragment.addCallback(new PickerDialogFragment.Callback<int[]>() {
-            @Override
-            public void onPickResult(int[] selectIds, String... result) {
-                ltv.setText(result[0]);
-                campus_id = campusInfos.get(selectIds[0]).id;
-                getSaleProcessData();
-            }
-        });
     }
 }

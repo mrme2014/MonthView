@@ -420,7 +420,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(13);
-        xAxis.setLabelRotationAngle(-45);
+        xAxis.setLabelRotationAngle(-90);
 
 
         YAxis leftAxis = mBarChart.getAxisLeft();

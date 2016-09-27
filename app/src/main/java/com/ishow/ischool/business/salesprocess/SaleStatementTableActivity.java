@@ -69,10 +69,10 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
         if (bundle.containsKey(TABLE_HEAD_TABLE2) && bundle.containsKey(TABLE_BODY_BODY2)) {
             tableHead2 = bundle.getStringArrayList(TABLE_HEAD_TABLE2);
             tableBodys2 = (ArrayList<List<String>>) bundle.getSerializable(TABLE_BODY_BODY2);
-
             setUpToolbar(R.string.sale_process_statement, R.menu.menu_sale_table, MODE_BACK);
 
         }
+
         if (show_table1) {
             setTable1Adapter();
         } else {
@@ -82,14 +82,14 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
 
     private void setTable1Adapter() {
         saleTableHead.setTxtList(tableHead);
-        if (adapter == null)
+        if (adapter == null) {
             adapter = new SaleStatementTableAdapter(this, tableBodys);
+        }
         saleTableRecyleview.setAdapter(adapter);
     }
 
     private void setTable2Adapter() {
         saleTableHead.setTxtList(tableHead2);
-        saleTableHead.requestLayout();
         if (adapter2 == null) {
             adapter2 = new SaleStatementTableAdapter(this, tableBodys2);
         }
@@ -115,5 +115,4 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
         super.onConfigurationChanged(newConfig);
 
     }
-
 }

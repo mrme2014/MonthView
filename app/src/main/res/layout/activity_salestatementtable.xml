@@ -8,6 +8,7 @@
 
     <include layout="@layout/widget_toolbar"></include>
 
+
     <com.ishow.ischool.widget.custom.TableRowTextView
         android:id="@+id/sale_table_head"
         android:layout_width="match_parent"

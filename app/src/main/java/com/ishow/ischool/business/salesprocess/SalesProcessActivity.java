@@ -32,7 +32,6 @@ import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -123,17 +122,15 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private void setUpLable() {
         if (process.table != null&&process.table.table1!=null) {
-            TableTotal table = process.table.table1.tabletotal;
-            List<String> tablehead = process.table.table1.tablehead;
-            if (table == null) return;
-            salesTable1.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate * 100 + "%");
+            TableTotal total = process.table.table1.tabletotal;
+            if (total == null) return;
+            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate * 100 + "%");
         }
-       /* if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
-            TableTotal table = process.table.table2.tabletotal;
-            if (table == null) return;
-            List<String> tablehead = process.table.table2.tablehead;
-            salesTable2.setSpanedStr(tablehead.get(6), table.apply_numbers + "", tablehead.get(8), table.full_amount + "", tablehead.get(9), table.full_amount_rate * 100 + "%");
-        }*/
+        if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
+            TableTotal total = process.table.table2.tabletotal;
+            if (total == null) return;
+            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate * 100 + "%");
+        }
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);

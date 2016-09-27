@@ -18,6 +18,7 @@ import com.ishow.ischool.bean.saleprocess.MarketPositionObject;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by MrS on 2016/9/18.
  */
-public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition> {
+public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition>, View.OnClickListener {
 
     private Marketposition marketpositions;
     private LabelTextView ltv;
@@ -62,20 +63,18 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.icon_screen_down_white);
             ltv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
             ltv.setUpMenu(true);
+            PositionInfo positionInfo = mUser.positionInfo;
+            ltv.setEllipsizeText(positionInfo.campus,7);
+            ltv.setOnClickListener(this);
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
         mPresenter.getOption("Marketposition", campus_id);
     }
 
-
-    private ArrayList<CampusInfo> campusInfos;
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (campusInfos == null) {
-            campusInfos = CampusManager.getInstance().get();
-        } else getCampusSucess(campusInfos);
+
         return super.onMenuItemClick(item);
     }
 
@@ -137,6 +136,14 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     public void getListFail(String msg) {
         showToast(msg);
         loadFailed();
+    }
+    
+    private ArrayList<CampusInfo> campusInfos;
+    @Override
+    public void onClick(View v) {
+        if (campusInfos == null) {
+            campusInfos = CampusManager.getInstance().get();
+        } else getCampusSucess(campusInfos);
     }
 
     class selectHeadHolder extends BaseViewHolder {

@@ -216,6 +216,8 @@
     <string name="sale_process_zhuanjieshao">转介绍表</string>
     <string name="full_amount">全款人数</string>
     <string name="apply_count">报名人数</string>
+    <string name="apply_count_rate">报名率</string>
+    <string name="full_amount_rate">全款率</string>
 
     <!-- 校区业绩对比 -->
     <string name="campus_performance">校区业绩对比</string>

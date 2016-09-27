@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -31,8 +30,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     private boolean shouldDrawBotLine;
 
     private int cellWidth = UIUtil.dip2px(getContext(), 120);
-    private int minCellWidth = cellWidth;
-
 
     public TableRowTextView(Context context) {
         super(context);
@@ -61,15 +58,13 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (list == null)
             return;
+        cellWidth = UIUtil.dip2px(getContext(), 120);
 
-        int width = 0;
-        width = list.size() * cellWidth;
+        int width = list.size() * cellWidth;
         width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()));
-        cellWidth = width/list.size();
+        cellWidth = width / list.size();
         int measureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         setMeasuredDimension(measureSpec, getMeasuredHeight());
-
-        LogUtil.e("onMeasure"+width+"---"+cellWidth);
     }
 
 
@@ -101,7 +96,7 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
 
         for (int i = 0; i < list.size(); i++) {
             int txtWidth = (int) txtPaint.measureText(list.get(i));
-            if (cellWidth<txtWidth)cellWidth =txtWidth;
+            if (cellWidth < txtWidth) cellWidth = txtWidth;
             canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
             canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);//右边的线
 
@@ -113,7 +108,7 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
 
         if (shouldDrawBotLine) canvas.drawLine(0, height, width, height, linePaint);//下面的线
 
-       LogUtil.e("onDraw" + cellWidth + "--" + width + "---");
+        //LogUtil.e("onDraw" + width + "--" + cellWidth+"id="+getId());
     }
 
     public void setShouldDrawBotLine(boolean shouldDrawBotLine) {
@@ -121,9 +116,10 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
     }
 
     public void setTxtList(List<String> lists) {
-        if (lists==null)
+        if (lists == null)
             return;
         this.list = lists;
+        measure(getMeasuredWidth(), getMeasuredHeight());
         invalidate();
     }
 

@@ -21,12 +21,14 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -227,13 +229,19 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_market:
-                startActivity(new Intent(getActivity(), SalesProcessActivity.class));
+                if(JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)){
+                    startActivity(new Intent(getActivity(), SalesProcessActivity.class));
+                }
                 break;
             case R.id.data_campus:
-                startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
+                if(JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
+                    startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
+                }
                 break;
             case R.id.data_other:
-                startActivity(new Intent(getActivity(), OtherStatisticActivity.class));
+                if(JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_OTHER)) {
+                    startActivity(new Intent(getActivity(), OtherStatisticActivity.class));
+                }
                 break;
         }
     }

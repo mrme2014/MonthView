@@ -128,8 +128,8 @@
     <string name="commun_label_student_name">学员</string>
     <string name="commun_choose_hint">请选择(必选)</string>
     <string name="commun_label_state">状态</string>
-    <string name="commun_label_faith">学习信念</string>
-    <string name="commun_label_oppose">抗拒点</string>
+    <string name="commun_label_faith">学习渴望度</string>
+    <string name="commun_label_oppose">目前困惑点</string>
     <string name="commun_label_source">学费来源</string>
     <string name="commun_input_source_hint">请输入学员学费来源</string>
     <string name="commun_label_back_date">回访时间</string>
@@ -144,12 +144,12 @@
     <string name="commun_date">沟通时间</string>
     <string name="commun_date_start">开始时间</string>
     <string name="commun_date_end">结束时间</string>
-    <string name="commun_refuse">抗拒点</string>
-    <string name="commun_confidence">学习信念</string>
+    <string name="commun_refuse">目前困惑点</string>
+    <string name="commun_confidence">学习渴望度</string>
     <string name="commun_order">办理人</string>
     <string name="commun_state_hnit">学员学习状态</string>
-    <string name="commun_confidence_hnit">学员学习信念</string>
-    <string name="commun_refuse_hnit">报名抗拒点</string>
+    <string name="commun_confidence_hnit">学员学习渴望度</string>
+    <string name="commun_refuse_hnit">报名目前困惑点</string>
     <string name="commun_order_hnit">报名办理人</string>
     <string name="commun_rest">重置</string>
     <string name="commun_ok">确定</string>
@@ -159,8 +159,8 @@
     <string name="check_student">请选择学生</string>
     <string name="check_tuition_source">请填写学费来源</string>
     <string name="check_status">请选择状态</string>
-    <string name="check_belief">请选择学习信念</string>
-    <string name="check_refuse">请选择抗拒点</string>
+    <string name="check_belief">请选择学习渴望度</string>
+    <string name="check_refuse">请选择目前困惑点</string>
     <string name="check_communication_date">请选择沟通时间</string>
     <string name="check_content">请填写沟通内容</string>
     <string name="apply_status">报名状态</string>
@@ -253,7 +253,9 @@
     <string name="cake_chart">饼图</string>
     <string name="bar_chart">柱状图</string>
     <string name="type_apply">报名量</string>
-    <string name="type_refuse_point">抗拒点</string>
+    <string name="type_refuse_point">目前困惑点</string>
     <string name="type_source">来源方式</string>
     <string name="chart_name">%s统计</string>
+    <string name="item_start_school_year">入学年份</string>
+    <string name="buiding">正在建设中...</string>
 </resources>

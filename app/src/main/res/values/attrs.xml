@@ -184,4 +184,16 @@
     </declare-styleable>
 
 
+    <declare-styleable name="mutilTextViewHead">
+        <attr name="mutiltv_top_text" format="string" />
+        <attr name="mutiltv_bottom1_text" format="string" />
+        <attr name="mutiltv_bottom2_text" format="string" />
+        <attr name="mutiltv_bottom3_text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="mutilTextViewBody">
+        <attr name="mutiltv_left_text" format="string" />
+        <attr name="mutiltv_center_text" format="string" />
+        <attr name="mutiltv_right_text" format="string" />
+    </declare-styleable>
 </resources>

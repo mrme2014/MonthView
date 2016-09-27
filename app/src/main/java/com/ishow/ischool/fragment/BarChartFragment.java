@@ -374,6 +374,11 @@ public class BarChartFragment extends BaseFragment {
                 break;
             case R.id.table_layout:
                 Intent intent = new Intent(getActivity(), CampusPerformanceTableActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("campus", mXDatas);
+                ArrayList<SignAmount> temp = new ArrayList<SignAmount>(mYDatas.subList(0, mYDatas.size()-1));
+                bundle.putParcelableArrayList("data", temp);
+                intent.putExtras(bundle);
                 JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
         }

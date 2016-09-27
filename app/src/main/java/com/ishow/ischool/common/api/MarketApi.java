@@ -61,9 +61,10 @@ public interface MarketApi {
             @Field("campus_id") int campus_id,          //学员所在校区
             @Field("college_id") int college_id,        //学员所上的大学
             @Field("major") String major,
-            @Field("source") int source_id               //来源。1.晨读；2.转介绍；3.校聊
+            @Field("source") int source_id,               //来源。1.晨读；2.转介绍；3.校聊
 //            @Field("referrer") int referrer_id,            //晨读讲师id或推荐人id或校聊专员id
-            );
+            @Field("grade") int grade
+    );
 
     //获取所有大学
     @GET("/system/university/getall")
@@ -105,7 +106,7 @@ public interface MarketApi {
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded
     @POST("/attribute/option/get")
-    Observable<ApiResult<Marketposition>> getOption(@Field("option") String option,@Field("campus_id") int campus_id);
+    Observable<ApiResult<Marketposition>> getOption(@Field("option") String option, @Field("campus_id") int campus_id);
 
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded
@@ -115,5 +116,5 @@ public interface MarketApi {
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded
     @POST("/attribute/option/get")
-    Observable<ApiResult<Subordinate>> getOptionSubordinateKeywords(@Field("option") String option, @Field("campus_id") int campus_id, @Field("position_id") int position_id,@Field("keyword")String keyword);
+    Observable<ApiResult<Subordinate>> getOptionSubordinateKeywords(@Field("option") String option, @Field("campus_id") int campus_id, @Field("position_id") int position_id, @Field("keyword") String keyword);
 }

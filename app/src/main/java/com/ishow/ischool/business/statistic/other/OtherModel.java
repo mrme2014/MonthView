@@ -2,6 +2,7 @@ package com.ishow.ischool.business.statistic.other;
 
 import com.commonlib.core.BaseModel;
 import com.commonlib.http.ApiFactory;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 import com.ishow.ischool.common.api.DataApi;
@@ -18,6 +19,7 @@ import rx.schedulers.Schedulers;
 public class OtherModel implements BaseModel {
 
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(HashMap<String, String> params) {
+        params.put("resources_id", Resource.PERMISSION_DATA_OTHER + "");
         return ApiFactory.getInstance().getApi(DataApi.class).getOtherStatistics(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

@@ -33,4 +33,8 @@ public class Resource {
 
     public static final int MARKET_PROCESS = -1;
 
+    public static final int PERMISSION_DATA_SALE_PROCESS = 26;
+    public static final int PERMISSION_DATA_CAMPUS = 27;
+    public static final int PERMISSION_DATA_OTHER = 28;
+
 }

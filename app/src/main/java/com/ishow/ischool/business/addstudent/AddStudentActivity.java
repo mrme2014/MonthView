@@ -20,6 +20,8 @@ import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.fragment.SelectDialogFragment;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
 
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     InputLinearLayout universityIL;
     @BindView(R.id.item_major)
     InputLinearLayout majorIL;
+    @BindView(R.id.item_start_school_year)
+    InputLinearLayout startSchoolYearIL;
     @BindView(R.id.item_campus)
     InputLinearLayout campusIL;
     @BindView(R.id.item_from)
@@ -56,7 +60,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     private MenuItem submitMenu;
     private String nameStr, mobileStr, qqStr, weixinStr, universityStr, majorStr, campusStr, fromStr, referrerStr;
-    private int province_id, city_id, campus_id, university_id, source_id;
+    private int province_id, city_id, campus_id, university_id, source_id, grade;
     private UniversityInfo mUniversityInfo;
 
 
@@ -68,12 +72,13 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
     @Override
     protected void setUpView() {
         init();
-        nameIL.getEdittext().setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
-        majorIL.getEdittext().setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
+        nameIL.getEdittext().setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+        majorIL.getEdittext().setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
         universityIL.setOnEidttextClick(this);
         campusIL.setOnEidttextClick(this);
         fromIL.setOnEidttextClick(this);
         referrerIL.setOnEidttextClick(this);
+        startSchoolYearIL.setOnEidttextClick(this);
         referrerIL.setContent(mUser.userInfo.user_name);
     }
 
@@ -113,12 +118,13 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         }
     }
 
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.submit:
                 KeyBoardUtil.closeKeybord(nameIL.getEdittext(), AddStudentActivity.this);
-                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id);
+                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id, grade);
                 break;
         }
         return true;
@@ -199,6 +205,16 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 //                        }).show();
                 break;
             case R.id.item_referrer:
+                break;
+            case R.id.item_start_school_year:
+                ArrayList<String> years = AppUtil.getB10Year();
+                AppUtil.showItemDialog(getSupportFragmentManager(), years, new SelectDialogFragment.OnItemSelectedListner() {
+                    @Override
+                    public void onItemSelected(int position, String txt) {
+                        grade = Integer.valueOf(txt);
+                        startSchoolYearIL.setContent(txt);
+                    }
+                });
                 break;
         }
     }

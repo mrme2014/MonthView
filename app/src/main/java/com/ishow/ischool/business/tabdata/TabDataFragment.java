@@ -127,7 +127,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void getSaleSuccess(SaleProcess saleProcess) {
-        dataMarketFragment.setData(saleProcess);
+        dataMarketFragment.refreshData(saleProcess);
         Log.d("xbin", "getSaleSuccess ------");
     }
 
@@ -135,7 +135,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     public void getSaleFail(String msg) {
         showToast(msg);
         Log.d("xbin", "getSaleFail ------msg");
-        dataMarketFragment.setData(null);
+        dataMarketFragment.refreshData(null);
     }
 
 }

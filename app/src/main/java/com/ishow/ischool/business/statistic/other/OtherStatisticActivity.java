@@ -32,7 +32,6 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.ishow.ischool.R;
-import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.statistics.OtherStatistics;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 import com.ishow.ischool.bean.user.CampusInfo;
@@ -82,6 +81,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     private HashMap<String, String> params;
     private Calendar calendar;
+    private View headerView;
 
 
     @Override
@@ -97,9 +97,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     @Override
     protected void setUpData() {
         params = new HashMap<>();
-        params.put("campus", "2");
+        params.put("campus", mUser.positionInfo.campusId + "");
         params.put("type", "1");
         mPresenter.getOtherStatistics(params);
+
+        //默认值
+        filertCampus.setText(mUser.positionInfo.campus);
     }
 
     public void showChar() {
@@ -133,22 +136,27 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     public void updateChartTitle() {
         chartNameTv.setText(getString(R.string.chart_name, filertType.getText()));
-        chartDateTv.setText(startDateTv.getText() + " - " + endDateTv.getText());
+        if (startDateTv != null && endDateTv != null) {
+            chartDateTv.setText(startDateTv.getText() + " - " + endDateTv.getText());
+        }
     }
 
 
     private void showTable(OtherStatisticsTable other) {
         mTableListView.setVisibility(View.VISIBLE);
         mTableAdaper = new TableAdaper(this);
-        View view = getLayoutInflater().inflate(R.layout.table_item_head, null, false);
-        TextView noTv = (TextView) view.findViewById(R.id.item_table_head_1);
-        TextView nameTv = (TextView) view.findViewById(R.id.item_table_head_2);
-        TextView numTv = (TextView) view.findViewById(R.id.item_table_head_3);
+        if (headerView == null) {
+            headerView = getLayoutInflater().inflate(R.layout.table_item_head, null, false);
+            mTableListView.addHeaderView(headerView);
+        }
+        TextView noTv = (TextView) headerView.findViewById(R.id.item_table_head_1);
+        TextView nameTv = (TextView) headerView.findViewById(R.id.item_table_head_2);
+        TextView numTv = (TextView) headerView.findViewById(R.id.item_table_head_3);
         String[] headers = other.header;
         noTv.setText(headers[0]);
         nameTv.setText(headers[1]);
         numTv.setText(headers[2]);
-        mTableListView.addHeaderView(view);
+
         mTableListView.setAdapter(mTableAdaper);
         mTableAdaper.setDatas(other.data);
     }
@@ -219,7 +227,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     void showCampusPopup() {
         if (mCampusPopup == null) {
-            View contentView = LayoutInflater.from(this).inflate(R.layout.filter_campus_layout, null);
+            View contentView = LayoutInflater.from(this).inflate(R.layout.filter_campus_layout_other, null);
             mCampusPopup = new PopupWindow(contentView);
             mCampusPopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mCampusPopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -244,7 +252,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             mAdapter = new CampusSelectAdapter(this, mList);
             recyclerView.addItemDecoration(new BaseItemDecor(this, 10));
             recyclerView.setAdapter(mAdapter);
-            mAdapter.selectAllItems();
+//            mAdapter.selectAllItems();
+            mAdapter.setCurCampusInfo(mUser.positionInfo.campusId);
         }
         mCampusPopup.showAsDropDown(filertLayout);
     }
@@ -293,37 +302,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.inverse_layout:
-                    if (isAllSelected) {
-                        inverseCb.setChecked(false);
-                        mAdapter.clearAllItems();
-                    } else {
-                        inverseCb.setChecked(true);
-                        mAdapter.selectAllItems();
-                    }
-                    isAllSelected = !isAllSelected;
-                    break;
-                case R.id.inverse_checkbox:
-                    if (isAllSelected) {
-                        mAdapter.clearAllItems();
-                    } else {
-                        mAdapter.selectAllItems();
-                    }
-                    isAllSelected = !isAllSelected;
-                    break;
                 case R.id.campus_reset:
                     mCampusPopup.dismiss();
                     break;
                 case R.id.campus_ok:
-                    ArrayList<CampusInfo> CampusInfo = mAdapter.getSelectedItem();
-                    StringBuffer sb = new StringBuffer();
-                    for (int i = 0; i < CampusInfo.size(); i++) {
-                        sb.append(CampusInfo.get(i).id).append(",");
-                    }
-                    String str = sb.toString();
-                    params.put("campus", str.substring(0, str.length() - 1));
+                    CampusInfo campusInfo = mAdapter.getCurCampusInfo();
+                    params.put("campus", campusInfo.id + "");
                     mPresenter.getOtherStatistics(params);
-                    updateChartTitle();
+//                    updateChartTitle();
+                    filertCampus.setText(campusInfo.name);
                     mCampusPopup.dismiss();
                     break;
                 case R.id.apply_tv:
@@ -512,58 +499,6 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     public void initPieChar() {
         mPieChart = (PieChart) findViewById(R.id.pie_chart);
-//        mPieChart.setUsePercentValues(true);
-//        mPieChart.setDescription("");
-//        mPieChart.setExtraOffsets(5, 10, 5, 5);
-//
-//        mPieChart.setDragDecelerationFrictionCoef(0.95f);
-//
-////        mPieChart.setCenterTextTypeface(mTfLight);
-////        mPieChart.setCenterText(generateCenterSpannableText());
-//
-//        mPieChart.setDrawHoleEnabled(true);
-//        mPieChart.setHoleColor(Color.WHITE);
-//
-//        mPieChart.setTransparentCircleColor(Color.WHITE);
-//        mPieChart.setTransparentCircleAlpha(110);
-//
-//        mPieChart.setHoleRadius(58f);
-//        mPieChart.setTransparentCircleRadius(61f);
-//
-//        mPieChart.setDrawCenterText(true);
-//
-//        mPieChart.setRotationAngle(0);
-//        // enable rotation of the chart by touch
-//        mPieChart.setRotationEnabled(true);
-//        mPieChart.setHighlightPerTapEnabled(true);
-//
-//        mPieChart.setBackgroundColor(Color.WHITE);
-//
-//        // mBarChart.setUnit(" €");
-//        // mBarChart.setDrawUnitsInChart(true);
-//
-//        // add a selection listener
-////        mPieChart.setOnChartValueSelectedListener(this);
-//
-//        setPieData(mTableData);
-//
-//        mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-//        // mBarChart.spin(2000, 0, 360);
-//
-////        mSeekBarX.setOnSeekBarChangeListener(this);
-////        mSeekBarY.setOnSeekBarChangeListener(this);
-//
-////        Legend l = mPieChart.getLegend();
-////        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
-////        l.setXEntrySpace(7f);
-////        l.setYEntrySpace(0f);
-////        l.setYOffset(0f);
-//
-//        // entry label styling
-//        mPieChart.setEntryLabelColor(Color.WHITE);
-////        mPieChart.setEntryLabelTypeface(mTfRegular);
-//        mPieChart.setEntryLabelTextSize(12f);
-
 
         mPieChart = (PieChart) findViewById(R.id.pie_chart);
         mPieChart.setUsePercentValues(true);

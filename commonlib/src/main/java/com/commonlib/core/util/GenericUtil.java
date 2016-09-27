@@ -17,9 +17,12 @@ public class GenericUtil {
      */
     public static <T> T getType(Object o, int i) {
         try {
-            return ((Class<T>) ((ParameterizedType) (o.getClass()
-                    .getGenericSuperclass())).getActualTypeArguments()[i])
-                    .newInstance();
+            Type[] arguments = ((ParameterizedType) (o.getClass()
+                    .getGenericSuperclass())).getActualTypeArguments();
+
+            if (arguments.length != 0 && arguments.length > i) {
+                return ((Class<T>) arguments[i]).newInstance();
+            }
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

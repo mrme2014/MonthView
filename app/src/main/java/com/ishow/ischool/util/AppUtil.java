@@ -14,6 +14,7 @@ import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -207,5 +208,14 @@ public class AppUtil {
         grades.put(6, "博士");
         grades.put(7, "其他");
         return grades.get(grade);
+    }
+
+    public static ArrayList<String> getB10Year() {
+        ArrayList<String> years = new ArrayList<>();
+        int curYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 0; i < 10; i++) {
+            years.add(String.valueOf(curYear - i));
+        }
+        return years;
     }
 }

@@ -82,6 +82,7 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
             onError("网络连接异常");
         } else {
             //未知错误
+//            Log.d("xbin", "", new Exception());
             onError("发生未知错误");
         }
 
@@ -104,10 +105,18 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
                     if (result == null) {
                         onError("data error");
                     } else {
-                        onSuccess(result);
+                        try {
+                            onSuccess(result);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 } else {
-                    onSuccess(null);
+                    try {
+                        onSuccess(null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
             } else {

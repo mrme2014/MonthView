@@ -100,8 +100,7 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                 int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 View child = view.getChildAt(0);
                 if (child != null && isLeftListEnabled) {
                     lvDetail.setSelectionFromTop(firstVisibleItem, child.getTop());

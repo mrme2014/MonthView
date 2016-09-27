@@ -126,12 +126,12 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         if (process.table != null&&process.table.table1!=null) {
             TableTotal total = process.table.table1.tabletotal;
             if (total == null) return;
-            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
+            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers ==null? "0":total.apply_numbers+"" , getString(R.string.full_amount), total.full_amount ==null? "0":total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
         }
         if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
             TableTotal total = process.table.table2.tabletotal;
             if (total == null) return;
-            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate );
+            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers ==null? "0":total.apply_numbers+"", getString(R.string.full_amount), total.full_amount ==null? "0":total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate );
         }
         final List<String> date = process.chart.date;
         salesTrends.setSecondTxt(date.get(0)+"-"+date.get(date.size()-1));

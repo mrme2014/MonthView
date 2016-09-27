@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class ChartBean implements Parcelable ,Serializable{
 
-    public int total_apply_number;
-    public int total_full_amount;
-    public int full_amount_rate;
+    public String total_apply_number;
+    public String total_full_amount;
+    public String full_amount_rate;
 
     public List<String> date;
     public List<String> full_amount;
@@ -27,9 +27,9 @@ public class ChartBean implements Parcelable ,Serializable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.total_apply_number);
-        dest.writeInt(this.total_full_amount);
-        dest.writeInt(this.full_amount_rate);
+        dest.writeString(this.total_apply_number);
+        dest.writeString(this.total_full_amount);
+        dest.writeString(this.full_amount_rate);
         dest.writeStringList(this.date);
         dest.writeList(this.full_amount);
         dest.writeList(this.apply_number);
@@ -39,9 +39,9 @@ public class ChartBean implements Parcelable ,Serializable{
     }
 
     protected ChartBean(Parcel in) {
-        this.total_apply_number = in.readInt();
-        this.total_full_amount = in.readInt();
-        this.full_amount_rate = in.readInt();
+        this.total_apply_number = in.readString();
+        this.total_full_amount = in.readString();
+        this.full_amount_rate = in.readString();
         this.date = in.createStringArrayList();
         this.full_amount = new ArrayList<String>();
         in.readList(this.full_amount, Integer.class.getClassLoader());

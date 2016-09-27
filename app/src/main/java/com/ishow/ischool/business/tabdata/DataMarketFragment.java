@@ -162,6 +162,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         // modify the legend ...
         // l.setPosition(LegendPosition.LEFT_OF_CHART);
         l.setForm(Legend.LegendForm.LINE);
+        l.setTextColor(Color.WHITE);
 
         // // dont forget to refresh the drawing
         // mChart.invalidate();
@@ -229,17 +230,17 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_market:
-                if(JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)){
+                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)) {
                     startActivity(new Intent(getActivity(), SalesProcessActivity.class));
                 }
                 break;
             case R.id.data_campus:
-                if(JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
                     startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
                 }
                 break;
             case R.id.data_other:
-                if(JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_OTHER)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_OTHER)) {
                     startActivity(new Intent(getActivity(), OtherStatisticActivity.class));
                 }
                 break;
@@ -247,11 +248,12 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
     }
 
     public void setData(SaleProcess saleProcess) {
-
-        if (mChart == null||saleProcess==null||saleProcess.chart==null) {
+        if (saleProcess != null && saleProcess.chart != null) {
+            this.mSaleProcess = saleProcess;
+        }
+        if (mChart == null) {
             return;
         }
-        this.mSaleProcess = saleProcess;
         List<String> apply_number = saleProcess.chart.apply_number;
         List<String> full_amount = saleProcess.chart.full_amount;
 
@@ -280,8 +282,6 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         LineDataSet set1;
         LineDataSet set2;
 
-        if (mChart == null)
-            return;
 
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
@@ -331,6 +331,12 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
             // set data
             mChart.setData(data);
+            mChart.invalidate();
         }
+    }
+
+    public void refreshData(SaleProcess saleProcess) {
+        setData(saleProcess);
+//        mChart.notifyDataSetChanged();
     }
 }

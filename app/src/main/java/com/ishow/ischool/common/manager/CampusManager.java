@@ -23,7 +23,7 @@ public class CampusManager {
 
     private Context context;
 
-    private Gson gson;
+    private Gson gson = new Gson();
     private ArrayList<CampusInfo> campusInfos;
 
     public static synchronized CampusManager getInstance() {
@@ -55,19 +55,20 @@ public class CampusManager {
         }
         if (campusInfos == null) {
             String data = readData();
-            campusInfos = gson.fromJson(data, new TypeToken<ArrayList<CampusInfo>>(){}.getType());
+            campusInfos = gson.fromJson(data, new TypeToken<ArrayList<CampusInfo>>() {
+            }.getType());
         }
         if (campusInfos == null) {
             LogUtil.d(this, "get campus is null");
         }
 
-        Collections.sort(campusInfos, new Comparator<CampusInfo>(){
+        Collections.sort(campusInfos, new Comparator<CampusInfo>() {
             public int compare(CampusInfo arg0, CampusInfo arg1) {
                 return (arg0.id).compareTo(arg1.id);
             }
         });
 
-        for (Iterator it = campusInfos.iterator(); it.hasNext();) {
+        for (Iterator it = campusInfos.iterator(); it.hasNext(); ) {
             CampusInfo campusInfo = (CampusInfo) it.next();
             if (campusInfo.name.equals("总部") || campusInfo.name.equals("第三校区")) {
                 it.remove();

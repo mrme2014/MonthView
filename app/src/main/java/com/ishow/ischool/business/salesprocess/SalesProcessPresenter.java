@@ -194,13 +194,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
     }
 
-    public void setData(Context context, LineChart mChart, List<Integer> full_amount, List<Integer> apply_number) {
-
-       /* if (chartBean == null)
-            return;
-
-        List<String> full_amount = chartBean.full_amount;
-        List<String> apply_number = chartBean.apply_number;*/
+    public void setData(Context context, LineChart mChart, List<String> full_amount, List<String> apply_number) {
 
         ArrayList<Entry> point1 = null;
         if (apply_number != null) {

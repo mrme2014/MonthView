@@ -17,8 +17,8 @@ public class ChartBean implements Parcelable ,Serializable{
     public int full_amount_rate;
 
     public List<String> date;
-    public List<Integer> full_amount;
-    public List<Integer> apply_number;
+    public List<String> full_amount;
+    public List<String> apply_number;
 
     @Override
     public int describeContents() {
@@ -43,9 +43,9 @@ public class ChartBean implements Parcelable ,Serializable{
         this.total_full_amount = in.readInt();
         this.full_amount_rate = in.readInt();
         this.date = in.createStringArrayList();
-        this.full_amount = new ArrayList<Integer>();
+        this.full_amount = new ArrayList<String>();
         in.readList(this.full_amount, Integer.class.getClassLoader());
-        this.apply_number = new ArrayList<Integer>();
+        this.apply_number = new ArrayList<String>();
         in.readList(this.apply_number, Integer.class.getClassLoader());
     }
 

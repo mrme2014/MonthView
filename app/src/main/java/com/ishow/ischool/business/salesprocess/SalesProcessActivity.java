@@ -32,6 +32,7 @@ import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -124,22 +125,23 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         if (process.table != null&&process.table.table1!=null) {
             TableTotal total = process.table.table1.tabletotal;
             if (total == null) return;
-            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate * 100 + "%");
+            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
         }
         if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
             TableTotal total = process.table.table2.tabletotal;
             if (total == null) return;
-            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate * 100 + "%");
+            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate );
         }
-
+        final List<String> date = process.chart.date;
+        salesTrends.setSecondTxt(date.get(0)+"-"+date.get(date.size()-1));
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                if (value >= process.chart.date.size())
+                if (value >= date.size())
                     return "";
-                String s = process.chart.date.get((int) value);
+                String s = date.get((int) value);
                 return s.substring(5, s.length());
             }
 

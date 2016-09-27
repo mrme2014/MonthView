@@ -184,7 +184,7 @@ public class LineChartFragment extends BaseFragment {
     }
 
     /**
-     * @param campusInfos       // 本次需要显示的校区
+     * @param campusInfos // 本次需要显示的校区
      */
     public void setLineChartData(ArrayList<CampusInfo> campusInfos) {
         ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
@@ -330,7 +330,7 @@ public class LineChartFragment extends BaseFragment {
         }
         for (int j = 0; j < campusInfos.size(); j++) {
             int position = mCampusInfos.indexOf(campusInfos.get(j));
-            entries.add(new PieEntry((float) (Integer.parseInt(mYDatas.get(position).perweek_real) / total), campusInfos.get(j).name));
+            entries.add(new PieEntry((float) (Integer.parseInt(mYDatas.get(position).perweek_real) / total) * 100, campusInfos.get(j).name));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "piechart");

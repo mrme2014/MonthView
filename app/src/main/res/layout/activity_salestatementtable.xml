@@ -9,12 +9,17 @@
     <include layout="@layout/widget_toolbar"></include>
 
 
-    <com.ishow.ischool.widget.custom.TableRowTextView
-        android:id="@+id/sale_table_head"
+    <com.ishow.ischool.widget.custom.DispatchHScrollView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/chart_head_gray_bg"
-        android:textColor="@color/chart_head_gray_txt" />
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <com.ishow.ischool.widget.custom.TableRowTextView
+            android:id="@+id/sale_table_head"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/chart_head_gray_bg"
+            android:textColor="@color/chart_head_gray_txt" />
+    </com.ishow.ischool.widget.custom.DispatchHScrollView>
 
     <com.ishow.ischool.widget.custom.DispatchHScrollView
         android:id="@+id/DispatchHScrollView"

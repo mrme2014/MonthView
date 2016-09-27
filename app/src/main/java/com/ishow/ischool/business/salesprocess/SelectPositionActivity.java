@@ -45,6 +45,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     @Override
     protected void initEnv() {
         super.initEnv();
+
         REQUEST_CODE = getIntent().getIntExtra("REQUEST_CODE", 0);
         campus_id = getIntent().getIntExtra("CAMPUS_ID", campus_id);
 
@@ -55,6 +56,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         super.setUpView();
         recycler.enableLoadMore(false);
         recycler.enablePullToRefresh(false);
+        recycler.setOnRefreshListener(this);
         if (campus_id == 1) {
             setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
             MenuItem item = mToolbar.getMenu().findItem(R.id.submit);
@@ -111,7 +113,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
     @Override
     public void onRefresh(int action) {
-
+        recycler.onRefreshCompleted();
     }
 
     @Override
@@ -137,7 +139,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         showToast(msg);
         loadFailed();
     }
-    
+
     private ArrayList<CampusInfo> campusInfos;
     @Override
     public void onClick(View v) {

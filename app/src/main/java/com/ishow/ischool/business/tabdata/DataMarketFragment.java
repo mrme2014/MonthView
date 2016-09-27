@@ -252,8 +252,8 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
             return;
         }
         this.mSaleProcess = saleProcess;
-        List<Integer> apply_number = saleProcess.chart.apply_number;
-        List<Integer> full_amount = saleProcess.chart.full_amount;
+        List<String> apply_number = saleProcess.chart.apply_number;
+        List<String> full_amount = saleProcess.chart.full_amount;
 
         ArrayList<Entry> point1 = null;
         if (apply_number != null) {

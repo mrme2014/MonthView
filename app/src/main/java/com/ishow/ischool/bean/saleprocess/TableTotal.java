@@ -9,10 +9,10 @@ import java.io.Serializable;
  * Created by MrS on 2016/9/14.
  */
 public class TableTotal implements Parcelable,Serializable {
-    public int apply_numbers;
-    public int full_amount;
-    public int full_amount_rate;
-    public int apply_rate;
+    public String apply_numbers;
+    public String full_amount;
+    public String full_amount_rate;
+    public String apply_rate;
 
     @Override
     public int describeContents() {
@@ -21,20 +21,20 @@ public class TableTotal implements Parcelable,Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.apply_numbers);
-        dest.writeInt(this.full_amount);
-        dest.writeInt(this.full_amount_rate);
-        dest.writeInt(this.apply_rate);
+        dest.writeString(this.apply_numbers);
+        dest.writeString(this.full_amount);
+        dest.writeString(this.full_amount_rate);
+        dest.writeString(this.apply_rate);
     }
 
     public TableTotal() {
     }
 
     protected TableTotal(Parcel in) {
-        this.apply_numbers = in.readInt();
-        this.full_amount = in.readInt();
-        this.full_amount_rate = in.readInt();
-        this.apply_rate = in.readInt();
+        this.apply_numbers = in.readString();
+        this.full_amount = in.readString();
+        this.full_amount_rate = in.readString();
+        this.apply_rate = in.readString();
     }
 
     public static final Parcelable.Creator<TableTotal> CREATOR = new Parcelable.Creator<TableTotal>() {

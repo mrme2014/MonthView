@@ -114,6 +114,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         user_id = userInfo.user_id;
         if (userInfo != null && positionInfo != null) {
             salesJob.setFirstTxt(userInfo.user_name);
+            salesJob.setSecondTxt(mUser.positionInfo.title);
         }
         //销讲师 或者 晨读讲师 就不能显示 第二个表格了
         if (position_id == HIDE_TABLE_PERMISSION1 || position_id == HIDE_TABLE_PERMISSION2)

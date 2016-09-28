@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -108,7 +109,6 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
             }
         });
 
-        mToolbarTitle.setText(show_table1 ? getString(R.string.sale_process_statement) : getString(R.string.sale_process_zhuanjieshao));
     }
 
     @Override
@@ -124,10 +124,13 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
             tableHead2 = bundle.getStringArrayList(TABLE_HEAD_TABLE2);
             tableBodys2 = (ArrayList<List<String>>) bundle.getSerializable(TABLE_BODY_BODY2);
             setUpToolbar(R.string.sale_process_statement, R.menu.menu_sale_table, MODE_BACK);
-
         }
-
-
+        Menu menu = mToolbar.getMenu();
+        if (menu!=null){
+            MenuItem item = menu.getItem(0);
+            item.setTitle(show_table1 ? getString(R.string.sale_process_zhuanjieshao) : getString(R.string.sale_process_statement));
+        }
+        mToolbarTitle.setText(show_table1 ? getString(R.string.sale_process_statement) : getString(R.string.sale_process_zhuanjieshao));
         if (show_table1) {
             setTable1Adapter();
         } else {

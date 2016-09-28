@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.Scroller;
 
+import com.commonlib.util.LogUtil;
+
 
 /**
  * Created by Administrator on 2016/6/14.
@@ -65,6 +67,18 @@ public class DispatchHScrollView extends HorizontalScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         tableHead.scrollTo( l,0);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        LogUtil.e("onLayout"+changed+"--"+l+"--"+t+"--"+r+"--"+b);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        LogUtil.e("onSizeChanged"+w+"--"+h+"--"+oldw+"--"+oldh);
     }
 
     @Override

@@ -199,7 +199,7 @@ public class PickerWheelViewPop extends PopupWindow implements View.OnClickListe
             if (callback != null) {
                 if (timePicker != null) {//1这个1  可以直接转换成时间戳
                     String[] pickedTimeExt = timePicker.getPickedTimeExt();
-                    callback.onPickCallback(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
+                    callback.onPickCallback(DateUtil.date2Second(pickedTimeExt[0]), pickedTimeExt);
                 }
                 //这个1  就不一定了  可以是时间戳 或者是 列表中 position等等。
 

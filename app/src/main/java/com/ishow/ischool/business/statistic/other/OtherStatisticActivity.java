@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.commonlib.core.BaseView;
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.StringUtils;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -24,19 +25,25 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
+import com.ishow.ischool.bean.statistics.Alias;
 import com.ishow.ischool.bean.statistics.OtherStatistics;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.ListViewForScrollView;
 
 import java.util.ArrayList;
@@ -48,6 +55,8 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 
 import static com.ishow.ischool.R.id.chart_date;
+import static com.ishow.ischool.util.AppUtil.getMonthEnd;
+import static com.ishow.ischool.util.AppUtil.getMonthStart;
 
 public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, OtherModel> implements BaseView {
 
@@ -99,10 +108,16 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         params = new HashMap<>();
         params.put("campus", mUser.positionInfo.campusId + "");
         params.put("type", "1");
+        params.put("type_name", getString(R.string.type_apply));
+        params.put("start_time", AppUtil.getLastMonthStart() + "");
+//        params.put("start_time_txt", DateUtil.parseSecond2Str(AppUtil.getLastMonthStart()));
+        params.put("end_time", AppUtil.getLastMonthEnd() + "");
+//        params.put("end_time_txt", DateUtil.parseSecond2Str(AppUtil.getLastMonthEnd()));
         mPresenter.getOtherStatistics(params);
 
         //默认值
         filertCampus.setText(mUser.positionInfo.campus);
+        updateChartTitle();
     }
 
     public void showChar() {
@@ -135,10 +150,10 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     }
 
     public void updateChartTitle() {
-        chartNameTv.setText(getString(R.string.chart_name, filertType.getText()));
-        if (startDateTv != null && endDateTv != null) {
-            chartDateTv.setText(startDateTv.getText() + " - " + endDateTv.getText());
-        }
+        chartNameTv.setText(getString(R.string.chart_name, params.get("type_name")));
+        if (!StringUtils.isEmpty(params.get("start_time")) && !StringUtils.isEmpty(params.get("end_time")))
+            chartDateTv.setText(DateUtil.parseSecond2Str(Long.parseLong(params.get("start_time"))) + " - "
+                    + DateUtil.parseSecond2Str(Long.parseLong(params.get("end_time"))));
     }
 
 
@@ -153,9 +168,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         TextView nameTv = (TextView) headerView.findViewById(R.id.item_table_head_2);
         TextView numTv = (TextView) headerView.findViewById(R.id.item_table_head_3);
         String[] headers = other.header;
-        noTv.setText(headers[0]);
-        nameTv.setText(headers[1]);
-        numTv.setText(headers[2]);
+
+        if (headers != null) {
+            noTv.setText(headers[0]);
+            nameTv.setText(headers[1]);
+            numTv.setText(headers[2]);
+        }
 
         mTableListView.setAdapter(mTableAdaper);
         mTableAdaper.setDatas(other.data);
@@ -177,11 +195,13 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                 }
                 break;
             case R.id.filter_campus:
-                if (mCampusPopup != null && mCampusPopup.isShowing()) {
-                    mCampusPopup.dismiss();
-                } else {
-                    closePop();
-                    showCampusPopup();
+                if (mUser.positionInfo.campusId == Constants.CAMPUS_HEADQUARTERS) {
+                    if (mCampusPopup != null && mCampusPopup.isShowing()) {
+                        mCampusPopup.dismiss();
+                    } else {
+                        closePop();
+                        showCampusPopup();
+                    }
                 }
                 break;
             case R.id.filter_date:
@@ -245,8 +265,9 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             inverseCb.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
+            resetTv.setText(R.string.cancel);
 
-            mList.addAll(CampusManager.getInstance().get());
+            mList.addAll(CampusManager.getInstance().getAll());
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(this, mList);
@@ -294,10 +315,17 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             resetTv.setOnClickListener(onClickListener);
             okTv.setOnClickListener(onClickListener);
             blankView.setOnClickListener(onClickListener);
+            resetTv.setText(R.string.cancel);
+            startDateTv.setText(getString(R.string.filter_start_date, DateUtil.parseSecond2Str(Long.parseLong(params.get("start_time")))));
+            endDateTv.setText(getString(R.string.filter_end_date, DateUtil.parseSecond2Str(Long.parseLong(params.get("end_time")))));
+            startTime = DateUtil.parseSecond2Str(Long.parseLong(params.get("start_time")));
+            endTime = DateUtil.parseSecond2Str(Long.parseLong(params.get("end_time")));
         }
         mDatePopup.showAsDropDown(filertLayout);
     }
 
+    private String startTime;
+    private String endTime;
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -317,6 +345,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     filertType.setText(R.string.type_apply);
                     mTypePopup.dismiss();
                     params.put("type", "1");
+                    params.put("type_name", getString(R.string.type_apply));
                     mPresenter.getOtherStatistics(params);
                     updateChartTitle();
                     break;
@@ -325,6 +354,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     updateChartTitle();
                     mTypePopup.dismiss();
                     params.put("type", "2");
+                    params.put("type_name", getString(R.string.type_refuse_point));
                     mPresenter.getOtherStatistics(params);
                     updateChartTitle();
                     break;
@@ -332,6 +362,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     filertType.setText(R.string.type_source);
                     mTypePopup.dismiss();
                     params.put("type", "3");
+                    params.put("type_name", getString(R.string.type_source));
                     mPresenter.getOtherStatistics(params);
                     updateChartTitle();
                     break;
@@ -346,7 +377,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            startDateTv.setText(year + "-" + month);
+                            startDateTv.setText(getString(R.string.filter_start_date, year + "-" + month));
+                            startTime = year + "-" + month;
                         }
                     });
                     startPicker.show();
@@ -359,7 +391,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     endPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            endDateTv.setText(year + "-" + month);
+                            if (DateUtil.date2Second(year + "-" + month, "yyyy-MM") < DateUtil.date2Second(startTime, "yyyy-MM")) {
+                                showToast(R.string.end_le_start);
+                                return;
+                            }
+                            endDateTv.setText(getString(R.string.filter_end_date, year + "-" + month));
+                            endTime = year + "-" + month;
                         }
                     });
                     endPicker.show();
@@ -370,9 +407,10 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                 case R.id.date_ok:
                     mDatePopup.dismiss();
                     updateChartTitle();
-                    params.put("start_time", DateUtil.date2UnixTime(startDateTv.getText().toString(), "yyyy-MM") + "");
-                    params.put("end_time", DateUtil.date2UnixTime(endDateTv.getText().toString(), "yyyy-MM") + "");
+                    params.put("start_time", getMonthStart(startTime) + "");
+                    params.put("end_time", getMonthEnd(endTime) + "");
                     mPresenter.getOtherStatistics(params);
+                    updateChartTitle();
                     break;
                 case R.id.blank_view_date:
                     mDatePopup.dismiss();
@@ -418,7 +456,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(13);
-        xAxis.setLabelRotationAngle(-90);
+        xAxis.setLabelRotationAngle(-75);
         xAxis.mLabelHeight = 0;
         xAxis.mLabelRotatedHeight = 0;
         xAxis.setAvoidFirstLastClipping(true);
@@ -428,6 +466,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        leftAxis.setGranularity(1);
 
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
@@ -459,7 +498,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         ArrayList<OtherStatistics> others = table.data;
 
         float start = 0f;
-        int count = others.size();
+        int count = others.size() > 8 ? 8 : others.size();
 
         mBarChart.getXAxis().setAxisMinimum(start);
         mBarChart.getXAxis().setAxisMaximum(start + count + 1);
@@ -479,14 +518,36 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                 mBarChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mBarChart.getData().getDataSetByIndex(0);
             set1.setValues(yVals1);
+            ArrayList<Integer> colors = new ArrayList<>();
+            for (Alias alias : table.alias) {
+                colors.add(ColorTemplate.rgb(alias.color));
+            }
+            set1.setColors(colors);
+
             mBarChart.getData().notifyDataChanged();
             mBarChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "");
-            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+            ArrayList<Integer> colors = new ArrayList<>();
+            for (Alias alias : table.alias) {
+                colors.add(ColorTemplate.rgb(alias.color));
+            }
+            set1.setColors(colors);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
+
+            set1.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    if (value == 0) {
+                        return "";
+                    } else {
+                        return String.valueOf((int) value);
+                    }
+                }
+            });
 
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
@@ -554,67 +615,6 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
     }
 
-    protected String[] mParties = new String[]{
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
-
-    private void setData(int count, float range) {
-
-        float mult = range;
-
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-
-        // NOTE: The order of the entries when being added to the entries array determines their position around the center of
-        // the chart.
-        for (int i = 0; i < count; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5), mParties[i % mParties.length]));
-        }
-
-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-
-        // add a lot of colors
-
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
-
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
-//        data.setValueTypeface(mTfLight);
-        mPieChart.setData(data);
-
-        // undo all highlights
-        mPieChart.highlightValues(null);
-
-        mPieChart.invalidate();
-    }
-
-
     private void setPieData(OtherStatisticsTable table) {
         if (table == null) {
             return;
@@ -624,14 +624,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
         ArrayList<OtherStatistics> others = table.data;
 
+        int count = others.size() > 8 ? 8 : others.size();
         int value = 0;
-        for (int i = 0; i < others.size(); i++) {
+        for (int i = 0; i < count; i++) {
             value += others.get(i).value;
         }
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < others.size(); i++) {
+        for (int i = 0; i < count; i++) {
             entries.add(new PieEntry(((float) others.get(i).value) / value * 100, others.get(i).name));
         }
 
@@ -641,27 +642,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
         // add a lot of colors
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
+        ArrayList<Integer> colors = new ArrayList<>();
+        for (Alias alias : table.alias) {
+            colors.add(ColorTemplate.rgb(alias.color));
+        }
         dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());

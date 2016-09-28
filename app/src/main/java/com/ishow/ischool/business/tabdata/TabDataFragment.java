@@ -135,7 +135,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     public void getSaleFail(String msg) {
         showToast(msg);
         Log.d("xbin", "getSaleFail ------msg");
-        dataMarketFragment.refreshData(null);
+//        dataMarketFragment.refreshData(null);
     }
 
 }

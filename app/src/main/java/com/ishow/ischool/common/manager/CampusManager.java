@@ -77,6 +77,31 @@ public class CampusManager {
         return campusInfos;
     }
 
+    public ArrayList<CampusInfo> getAll() {
+        if (context == null) {
+            throw new RuntimeException();
+        }
+        if (campusInfos == null) {
+            String data = readData();
+            campusInfos = gson.fromJson(data, new TypeToken<ArrayList<CampusInfo>>() {
+            }.getType());
+        }
+        if (campusInfos == null) {
+            LogUtil.d(this, "get campus is null");
+            return null;
+        }
+
+        campusInfos.add(new CampusInfo(1, "总部"));
+        Collections.sort(campusInfos, new Comparator<CampusInfo>() {
+            public int compare(CampusInfo arg0, CampusInfo arg1) {
+                return (arg0.id).compareTo(arg1.id);
+            }
+        });
+
+
+        return campusInfos;
+    }
+
     public ArrayList<String> getCampusNames() {
         if (context == null) {
             throw new RuntimeException();

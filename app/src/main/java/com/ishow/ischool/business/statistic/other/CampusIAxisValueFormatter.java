@@ -20,9 +20,12 @@ public class CampusIAxisValueFormatter implements IAxisValueFormatter {
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-
         try {
-            return others.get((int) value - 1).name;
+            if (value <= 8) {
+                return others.get((int) value - 1).name;
+            } else {
+                return "";
+            }
         } catch (Exception e) {
             return "";
         }

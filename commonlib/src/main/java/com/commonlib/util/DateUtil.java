@@ -79,7 +79,7 @@ public class DateUtil {
     }
 
 
-    public static int date2UnixTime(String time) {
+    public static int date2Second(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         int unix = 0;
         try {
@@ -91,7 +91,7 @@ public class DateUtil {
         return unix;
     }
 
-    public static int date2UnixTime(String time, String format) {
+    public static int date2Second(String time, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         int unix = 0;
         try {

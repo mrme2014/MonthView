@@ -16,6 +16,11 @@ public class CampusInfo implements Parcelable {
     public String prov;
 
 
+    public CampusInfo(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public int describeContents() {
         return 0;

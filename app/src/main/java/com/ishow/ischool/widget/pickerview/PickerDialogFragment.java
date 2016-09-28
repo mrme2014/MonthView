@@ -255,7 +255,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             if (picker != null) {//1这个1  可以直接转换成时间戳
                 String[] pickedTimeExt = picker.getPickedTimeExt();
                 if (callback != null)
-                    callback.onPickResult(DateUtil.date2UnixTime(pickedTimeExt[0]), pickedTimeExt);
+                    callback.onPickResult(DateUtil.date2Second(pickedTimeExt[0]), pickedTimeExt);
             } else if (linearlayout != null) {
                 String[] selectResult = linearlayout.getSelectResult();
                 if (callback != null)

@@ -234,7 +234,7 @@ public class PersonInfoActivity extends BaseActivity4Crm<PersonPresenter, Person
             if (TextUtils.equals(result, ""))
                 return;
             personInfoQQ.setTipTxt(result);
-            int unix = DateUtil.date2UnixTime(personInfoBirthday.getTipTxt().toString());
+            int unix = DateUtil.date2Second(personInfoBirthday.getTipTxt().toString());
             if (TextUtils.equals(personInfoQQ.getTipTxt(), userInfo.qq))
                 return;
             submitInfo(unix);

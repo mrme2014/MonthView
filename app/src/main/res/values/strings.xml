@@ -259,4 +259,7 @@
     <string name="item_start_school_year">入学年份</string>
     <string name="buiding">正在建设中...</string>
     <string name="year">%s年</string>
+    <string name="filter_start_date">开始时间 : %s</string>
+    <string name="filter_end_date">结束时间 : %s</string>
+    <string name="end_le_start">结束时间必须大于开始时间</string>
 </resources>

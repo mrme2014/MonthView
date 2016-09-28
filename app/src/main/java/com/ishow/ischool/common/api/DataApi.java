@@ -50,7 +50,7 @@ public interface DataApi {
             @Query("campus_id") String campus_id,           //多个校区用逗号连接
             @Query("begin_month") Integer begin_month,      //开始月份201604
             @Query("end_month") Integer end_month,
-            @Query("data_type") Integer data_type,          //数据类型 1:晨读 2:校聊
+            @Query("data_type") Integer data_type,          //数据类型 1:晨读 3:校聊
             @Query("option") String option                  //campusTotal:业绩对比,campusMonth:表格显示,signTotal:人员对比
     );
 
@@ -61,7 +61,7 @@ public interface DataApi {
             @Query("campus_id") String campus_id,           //多个校区用逗号连接
             @Query("begin_month") Integer begin_month,      //开始月份201604
             @Query("end_month") Integer end_month,
-            @Query("data_type") Integer data_type,          //数据类型 1:晨读 2:校聊
+            @Query("data_type") Integer data_type,          //数据类型 1:晨读 3:校聊
             @Query("option") String option                  //campusTotal:业绩对比,campusMonth:表格显示,signTotal:人员对比
     );
 

@@ -108,7 +108,7 @@
             <com.commonlib.widget.LabelTextView
                 android:id="@+id/student_class"
                 style="@style/student_info_textview"
-                app:label_text_left="@string/label_student_class" />
+                app:label_text_left="@string/item_start_school_year" />
 
             <View
                 android:layout_width="match_parent"

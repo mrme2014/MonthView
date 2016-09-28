@@ -19,10 +19,11 @@ import com.ishow.ischool.business.student.edit.EditActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
-import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.fragment.SelectDialogFragment;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -69,7 +70,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     @BindView(R.id.student_specialty)
     LabelTextView specialtyTv;
     @BindView(R.id.student_class)
-    LabelTextView classTv;
+    LabelTextView enterSchoolYear;
     @BindView(R.id.student_idcard)
     LabelTextView idcardTv;
     @BindView(R.id.content)
@@ -151,7 +152,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
-        classTv.setText(AppUtil.getGradeById(mStudent.grade));
+        enterSchoolYear.setText(getString(R.string.year, mStudent.entering_school_year));
         idcardTv.setText(mStudent.idcard);
         wechatTv.setText(mStudent.wechat);
     }
@@ -167,7 +168,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
         } else if (params.containsKey("birthdayTv")) {
             birthdayTv.setText(params.get("birthdayTv"));
         } else if (params.containsKey("gradeText")) {
-            classTv.setText(params.get("gradeText"));
+            enterSchoolYear.setText(params.get("gradeText"));
         }
 
         Bundle b = new Bundle();
@@ -273,13 +274,14 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
             break;
             case R.id.student_class: {
 
-                AppUtil.showItemDialog(getChildFragmentManager(), AppUtil.getGradeList(), new SelectDialogFragment.OnItemSelectedListner() {
+                ArrayList<String> years = AppUtil.getB10Year();
+                AppUtil.showItemDialog(getChildFragmentManager(), years, new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
                         HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
                         params.put("id", getStudentInfo().student_id + "");
-                        params.put("grade", String.valueOf(position + 1));
-                        params.put("gradeText", txt);
+                        params.put("entering_school_year", txt);
+                        params.put("gradeText", getString(R.string.year, txt));
                         mPresenter.editStudent(params);
                     }
                 });
@@ -354,7 +356,7 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
                     getStudentInfo().major = text;
                     break;
 //                case REQUEST_CLASS:
-//                    classTv.setText(text);
+//                    enterSchoolYear.setText(text);
 //                    getStudentInfo().grade = text;
 //                    break;
                 case REQUEST_IDCARD:

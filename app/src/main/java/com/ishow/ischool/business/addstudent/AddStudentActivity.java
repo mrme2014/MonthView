@@ -60,7 +60,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
     private MenuItem submitMenu;
     private String nameStr, mobileStr, qqStr, weixinStr, universityStr, majorStr, campusStr, fromStr, referrerStr;
-    private int province_id, city_id, campus_id, university_id, source_id, grade;
+    private int province_id, city_id, campus_id, university_id, source_id, enteringSchoolYear;
     private UniversityInfo mUniversityInfo;
 
 
@@ -124,7 +124,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         switch (item.getItemId()) {
             case R.id.submit:
                 KeyBoardUtil.closeKeybord(nameIL.getEdittext(), AddStudentActivity.this);
-                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id, grade);
+                mPresenter.addStudent(nameStr, mobileStr, qqStr, weixinStr, province_id, city_id, campus_id, university_id, majorStr, source_id, enteringSchoolYear);
                 break;
         }
         return true;
@@ -211,7 +211,7 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
                 AppUtil.showItemDialog(getSupportFragmentManager(), years, new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
-                        grade = Integer.valueOf(txt);
+                        enteringSchoolYear = Integer.valueOf(txt);
                         startSchoolYearIL.setContent(txt);
                     }
                 });

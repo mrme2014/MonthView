@@ -76,11 +76,12 @@ public class StudentInfo implements Parcelable {
     public int class_hour_total;
     public int class_hour;
     public int payed;
+    public int entering_school_year;
     public ArrayList<Integer> all_user_ids;
+
 
     public StudentInfo() {
     }
-
 
     protected StudentInfo(Parcel in) {
         id = in.readInt();
@@ -115,6 +116,7 @@ public class StudentInfo implements Parcelable {
         class_hour_total = in.readInt();
         class_hour = in.readInt();
         payed = in.readInt();
+        entering_school_year = in.readInt();
     }
 
     @Override
@@ -151,6 +153,7 @@ public class StudentInfo implements Parcelable {
         dest.writeInt(class_hour_total);
         dest.writeInt(class_hour);
         dest.writeInt(payed);
+        dest.writeInt(entering_school_year);
     }
 
     @Override

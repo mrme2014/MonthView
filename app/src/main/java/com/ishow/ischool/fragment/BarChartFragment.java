@@ -31,6 +31,8 @@ import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.widget.table.MyMarkerView2;
+import com.ishow.ischool.widget.table.MyMarkerView3;
 
 import java.util.ArrayList;
 
@@ -89,7 +91,7 @@ public class BarChartFragment extends BaseFragment {
             campusParam = campusParam + info.id + ",";
         }
         ApiFactory.getInstance().getApi(DataApi.class).getSignAmount(1, campusParam,
-                beginMonth, endMonth, null, "signTotal")
+                beginMonth==-1 ? null : beginMonth, endMonth==-1? null : endMonth, null, "signTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<SignAmountResult>() {
@@ -329,8 +331,27 @@ public class BarChartFragment extends BaseFragment {
         }
         barChart.setVisibleXRangeMaximum(mCount > 6 ? 6 : mCount);      //设置屏幕显示条数
         barChart.invalidate();
+
+        setAmountChartMarkView();
+        setPercentageChartMarkView();
     }
 
+
+    void setAmountChartMarkView() {
+        MyMarkerView2 mv = new MyMarkerView2(getContext(), !attendAmountCtv.isChecked(), !registrationAmountCtv.isChecked(),
+                !fullPaymentAmountCtv.isChecked(), mYDatas);
+        mv.setChartView(mChartAmount); // For bounds control
+        mChartAmount.setMarker(mv);
+        mChartAmount.invalidate();
+    }
+
+    void setPercentageChartMarkView() {
+        MyMarkerView3 mv = new MyMarkerView3(getContext(), !registrationRateCtv.isChecked(), !fullPaymentRateCtv.isChecked(),
+                !fullPaymentRegistrationRateCtv.isChecked(), mYDatas);
+        mv.setChartView(mChartPercentage); // For bounds control
+        mChartPercentage.setMarker(mv);
+        mChartPercentage.invalidate();
+    }
 
     @OnClick({R.id.chart_switch, R.id.legend_attend_amount, R.id.legend_registration_amount, R.id.legend_full_payment_amount,
             R.id.legend_registration_rate, R.id.legend_full_payment_rate, R.id.legend_full_payment_registration_rate, R.id.table_layout})
@@ -356,21 +377,27 @@ public class BarChartFragment extends BaseFragment {
                 break;
             case R.id.legend_attend_amount:
                 invalidateAttendAmount();
+                setAmountChartMarkView();
                 break;
             case R.id.legend_registration_amount:
                 invalidateRegistrationAmount();
+                setAmountChartMarkView();
                 break;
             case R.id.legend_full_payment_amount:
                 invalidatefullPaymentAmount();
+                setAmountChartMarkView();
                 break;
             case R.id.legend_registration_rate:
                 invalidateRegistrationRate();
+                setPercentageChartMarkView();
                 break;
             case R.id.legend_full_payment_rate:
                 invalidateFullPaymentRate();
+                setPercentageChartMarkView();
                 break;
             case R.id.legend_full_payment_registration_rate:
                 invalidateFullPaymentRegistrationRate();
+                setPercentageChartMarkView();
                 break;
             case R.id.table_layout:
                 Intent intent = new Intent(getActivity(), CampusPerformanceTableActivity.class);

@@ -8,6 +8,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.Scroller;
+
+import com.commonlib.util.LogUtil;
 
 
 /**
@@ -16,6 +19,7 @@ import android.widget.HorizontalScrollView;
 public class DispatchHScrollView extends HorizontalScrollView {
     private GestureDetector mGestureDetector;
     private View tableHead;
+    private Scroller scroller;
 
     public DispatchHScrollView(Context context) {
         super(context);
@@ -23,22 +27,27 @@ public class DispatchHScrollView extends HorizontalScrollView {
     }
 
     public DispatchHScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr); init(context);
+        super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     public DispatchHScrollView(Context context, AttributeSet attrs) {
-        super(context, attrs); init(context);
+        super(context, attrs);
+        init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DispatchHScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes); init(context);
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context);
     }
 
     private void init(Context context) {
-        mGestureDetector = new GestureDetector(context,new HScrollDetector());
+        mGestureDetector = new GestureDetector(context, new HScrollDetector());
         setFadingEdgeLength(0);
+        scroller = new Scroller(getContext());
     }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return super.onInterceptTouchEvent(ev) && mGestureDetector.onTouchEvent(ev);
@@ -47,24 +56,43 @@ public class DispatchHScrollView extends HorizontalScrollView {
     class HScrollDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            //LogUtil.e(distanceX+"***"+distanceY);
-            if(Math.abs(distanceX) > Math.abs(distanceY)) {
+            if (Math.abs(distanceX) > Math.abs(distanceY)) {
                 return true;
             }
             return false;
         }
-
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-       // LogUtil.e(l+"-*--"+t+"---"+tableHead.getLeft()+"---"+tableHead.getRight()+"---"+tableHead.getTop()+"---"+tableHead.getBottom());
-        tableHead.layout(-l,tableHead.getTop(),tableHead.getRight(),tableHead.getBottom());
+        tableHead.scrollTo( l,0);
     }
 
-    public void setTableHead(View tableHead){
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        LogUtil.e("onLayout"+changed+"--"+l+"--"+t+"--"+r+"--"+b);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        LogUtil.e("onSizeChanged"+w+"--"+h+"--"+oldw+"--"+oldh);
+    }
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if (tableHead == null)
+            return;
+        if (scroller.computeScrollOffset()) {
+            tableHead.scrollTo(scroller.getCurrX(), 0);
+            tableHead.invalidate();
+        }
+    }
+
+    public void setTableHead(View tableHead) {
 
         this.tableHead = tableHead;
     }
@@ -72,6 +100,6 @@ public class DispatchHScrollView extends HorizontalScrollView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        tableHead=null;
+        tableHead = null;
     }
 }

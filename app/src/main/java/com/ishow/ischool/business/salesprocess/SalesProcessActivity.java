@@ -126,15 +126,16 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         if (process.table != null&&process.table.table1!=null) {
             TableTotal total = process.table.table1.tabletotal;
             if (total == null) return;
-            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
+            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers ==null? "0":total.apply_numbers+"" , getString(R.string.full_amount), total.full_amount ==null? "0":total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
         }
         if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
             TableTotal total = process.table.table2.tabletotal;
             if (total == null) return;
-            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers + "", getString(R.string.full_amount), total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate );
+            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers ==null? "0":total.apply_numbers+"", getString(R.string.full_amount), total.full_amount ==null? "0":total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate );
         }
         final List<String> date = process.chart.date;
-        salesTrends.setSecondTxt(date.get(0)+"-"+date.get(date.size()-1));
+        salesTrends.setSecondTxt(date.get(0)+"--"+date.get(date.size()-1));
+
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
@@ -151,7 +152,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 return 0;
             }
         });
-        xAxis.setGranularity(type_time == 7 ? 1 : 7);
+        xAxis.setGranularity(type_time == 7 ? 1 : 5);
         mPresenter.setData(this, mChart, process.chart.full_amount, process.chart.apply_number);
         mChart.setVisibleXRangeMaximum(type_time == 7 ? type_time : 15);
 

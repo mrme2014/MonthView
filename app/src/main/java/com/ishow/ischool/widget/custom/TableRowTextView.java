@@ -7,8 +7,6 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.commonlib.util.UIUtil;
@@ -19,17 +17,17 @@ import java.util.List;
 /**
  * Created by MrS on 2016/9/13.
  */
-public class TableRowTextView extends TextView implements View.OnTouchListener {
+public class TableRowTextView extends TextView {
 
     private List<String> list;
 
     private Paint linePaint, txtPaint;
 
     private float txtHeight;
-    //private float cellWidth;
+
     private boolean shouldDrawBotLine;
 
-    private int cellWidth = UIUtil.dip2px(getContext(), 120);
+    private int cellWidth;
 
     public TableRowTextView(Context context) {
         super(context);
@@ -58,7 +56,7 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (list == null)
             return;
-        cellWidth = UIUtil.dip2px(getContext(), 120);
+        cellWidth = UIUtil.dip2px(getContext(), 100);
 
         int width = list.size() * cellWidth;
         width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()));
@@ -81,7 +79,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
             Paint.FontMetrics fontMetrics = txtPaint.getFontMetrics();
             txtHeight = fontMetrics.descent - fontMetrics.ascent;
         }
-        this.setOnTouchListener(this);
     }
 
     @Override
@@ -108,7 +105,6 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
 
         if (shouldDrawBotLine) canvas.drawLine(0, height, width, height, linePaint);//下面的线
 
-        //LogUtil.e("onDraw" + width + "--" + cellWidth+"id="+getId());
     }
 
     public void setShouldDrawBotLine(boolean shouldDrawBotLine) {
@@ -119,12 +115,7 @@ public class TableRowTextView extends TextView implements View.OnTouchListener {
         if (lists == null)
             return;
         this.list = lists;
-        measure(getMeasuredWidth(), getMeasuredHeight());
+        measure(getMeasuredWidth(), MeasureSpec.makeMeasureSpec(UIUtil.dip2px(getContext(),45),MeasureSpec.EXACTLY));
         invalidate();
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
     }
 }

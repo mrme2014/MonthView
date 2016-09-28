@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.commonlib.core.BaseFragment;
@@ -39,8 +43,12 @@ import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.widget.table.MyMarkerView1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +71,8 @@ public class LineChartFragment extends BaseFragment {
     TextView titleTv;
     @BindView(R.id.subtitle)
     TextView subtitleTv;
+    @BindView(R.id.from_switch)
+    TextView fromTv;
     @BindView(R.id.chart_switch)
     TextView switcTv;
     @BindView(R.id.legend_layout)
@@ -76,9 +86,10 @@ public class LineChartFragment extends BaseFragment {
     private ArrayList<String> mXDatas;      // 横坐标数据,需要显示的校区name
     private int mCount = 0;                 // 横坐标个数,即数据个数
     private ArrayList<CampusInfo> mCampusInfos;
-    public ArrayList<CampusInfo> lastShowCampus;      // 上次显示的校区
+    public ArrayList<CampusInfo> mParamCampus;      // 上次显示的校区
     public ArrayList<SignPerformance> mYDatas;      // 纵坐标数据,即每个校区的数据
-    public int lastBeginDate, lastEndDate;
+    public int mParamBeginDate = 201607, mParamEndDate = 201609;
+    public Integer mParamDataType = -1;       //数据类型 1:晨读 3:校聊
 
     private LineData lineData = new LineData();
     private LineDataSet baseLineDataSet, challengeLineDataSet;
@@ -86,9 +97,9 @@ public class LineChartFragment extends BaseFragment {
     private BarDataSet barDataSet;
     private CombinedData combinedData = new CombinedData();
 
-    public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth) {
-        lastBeginDate = beginMonth;
-        lastEndDate = endMonth;
+    public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth, int dataType) {
+        mParamBeginDate = beginMonth;
+        mParamEndDate = endMonth;
         String campusParam = "";     // 默认所有
         ArrayList<CampusInfo> allCampus = new ArrayList<>();
         allCampus.addAll(CampusManager.getInstance().get());
@@ -97,7 +108,7 @@ public class LineChartFragment extends BaseFragment {
         }
         campusParam = campusParam.substring(0, campusParam.length() - 1);
         ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(1, campusParam,
-                beginMonth, endMonth, null, "campusTotal")
+                beginMonth, endMonth, dataType == -1? null : dataType, "campusTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<SignPerformanceResult>() {
@@ -105,7 +116,7 @@ public class LineChartFragment extends BaseFragment {
                     public void onSuccess(SignPerformanceResult result) {
                         mYDatas = result.campusTotal;
                         setLineChartData(showCampus);
-                        setPieChartData(lastShowCampus);
+                        setPieChartData(mParamCampus);
                     }
 
                     @Override
@@ -126,11 +137,11 @@ public class LineChartFragment extends BaseFragment {
         setData();
         initPieChart();
         initCombinedChart();
-        pullData(mCampusInfos, 201607, 201609);
+        pullData(mCampusInfos, mParamBeginDate, mParamEndDate, mParamDataType);
     }
 
     public void setData() {
-        lastShowCampus = new ArrayList<>();
+        mParamCampus = new ArrayList<>();
         mCampusInfos = CampusManager.getInstance().get();
         mXDatas = new ArrayList<>();
         mXDatas.add("");
@@ -190,7 +201,7 @@ public class LineChartFragment extends BaseFragment {
         ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
         tempCampusInfos.addAll(campusInfos);
         ArrayList<SignPerformance> datas = new ArrayList<>();
-        if (lastShowCampus != null && lastShowCampus.size() > 0) {      // 即不是第一次
+        if (mParamCampus != null && mParamCampus.size() > 0) {      // 即不是第一次
             mXDatas.clear();
             mXDatas.add("");
             ArrayList<CampusInfo> allCampusInfos = CampusManager.getInstance().get();
@@ -206,8 +217,8 @@ public class LineChartFragment extends BaseFragment {
         } else {
             datas.addAll(mYDatas);
         }
-        lastShowCampus.clear();         // 更新上一次显示的校区
-        lastShowCampus.addAll(tempCampusInfos);
+        mParamCampus.clear();         // 更新上一次显示的校区
+        mParamCampus.addAll(tempCampusInfos);
 
         lineData.addDataSet(generateBaseLineData(datas));
         lineData.addDataSet(generateChallengeLineData(datas));
@@ -228,6 +239,13 @@ public class LineChartFragment extends BaseFragment {
             mCombinedChart.setVisibleXRangeMaximum(mCount > 7 ? 7 : mCount);      //设置屏幕显示条数
         }
         mCombinedChart.invalidate();
+        setChartMarkView();
+    }
+
+    void setChartMarkView() {
+        MyMarkerView1 mv = new MyMarkerView1(getContext(), !baseCtv.isChecked(), !challengeCtv.isChecked(), mYDatas);
+        mv.setChartView(mCombinedChart); // For bounds control
+        mCombinedChart.setMarker(mv);
     }
 
     private void initPieChart() {
@@ -374,9 +392,16 @@ public class LineChartFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.chart_switch, R.id.legend_base_performance, R.id.legend_challenge_performance, R.id.table_layout})
+    @OnClick({R.id.from_switch, R.id.chart_switch, R.id.legend_base_performance, R.id.legend_challenge_performance, R.id.table_layout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.from_switch:
+                if (mFromPopup != null && mFromPopup.isShowing()) {
+                    mFromPopup.dismiss();
+                } else {
+                    showFromPopup();
+                }
+                break;
             case R.id.chart_switch:
                 if (curPieMode) {
                     curPieMode = false;
@@ -399,14 +424,68 @@ public class LineChartFragment extends BaseFragment {
                 break;
             case R.id.legend_base_performance:
                 invalidateBasePerformance();
+                setChartMarkView();
                 break;
             case R.id.legend_challenge_performance:
                 invalidateChallengePerformance();
+                setChartMarkView();
                 break;
             case R.id.table_layout:
 
                 break;
         }
+    }
+
+    private PopupWindow mFromPopup;
+    private ListView from_lv;
+    private ArrayList<String> fromList;
+    void showFromPopup() {
+        if (mFromPopup == null) {
+            View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.filter_chart_from_popup, null);
+            mFromPopup = new PopupWindow(contentView);
+            mFromPopup.setWidth(fromTv.getWidth());
+            mFromPopup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            //外部是否可以点击
+//            mFromPopup.setBackgroundDrawable(new BitmapDrawable());
+//            mFromPopup.setOutsideTouchable(true);
+
+            from_lv = (ListView) contentView.findViewById(R.id.from_lv);
+            final ViewGroup.LayoutParams params = from_lv.getLayoutParams();
+            params.width = fromTv.getWidth();
+            from_lv.setLayoutParams(params);
+            fromList = new ArrayList<>();
+            fromList.add("全部");
+            fromList.add("晨读");
+            fromList.add("校聊");
+            List<Map<String, Object>> listitems = new ArrayList<Map<String, Object>>();
+            for (int i = 0; i < fromList.size(); i++) {
+                Map<String, Object> listitem = new HashMap<String, Object>();
+                listitem.put("from", fromList.get(i));
+                listitems.add(listitem);
+            }
+            SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), listitems, R.layout.item_performance_simple_list,
+                    new String[] { "from"}, new int[] {R.id.from_tv});
+            from_lv.setAdapter(simpleAdapter);
+            from_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Integer type = null;
+                    if (i == 0) {
+                        type = -1;
+                    } else if (i == 1) {
+                        type = 1;
+                    } else if (i == 2) {
+                        type = 3;
+                    }
+                    if (type != mParamDataType) {
+                        mParamDataType = type;
+                        pullData(mParamCampus, mParamBeginDate, mParamBeginDate, mParamDataType);
+                    }
+                    mFromPopup.dismiss();
+                }
+            });
+        }
+        mFromPopup.showAsDropDown(fromTv);
     }
 
     private ILineDataSet baseDataSet, challengeDataSet;
@@ -424,6 +503,7 @@ public class LineChartFragment extends BaseFragment {
             lineData.addDataSet(baseDataSet);
             baseCtv.setChecked(false);
         }
+
         mCombinedChart.invalidate();
     }
 
@@ -438,6 +518,7 @@ public class LineChartFragment extends BaseFragment {
             lineData.addDataSet(challengeDataSet);
             challengeCtv.setChecked(false);
         }
+
         mCombinedChart.invalidate();
     }
 

@@ -373,8 +373,10 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                         break;
                     }
 
-                    lineChartFragment.pullData(lineChartFragment.lastShowCampus, Integer.parseInt(mFilterStartTime), Integer.parseInt(mFilterEndTime));
-                    barChartFragment.pullData(lineChartFragment.lastShowCampus, Integer.parseInt(mFilterStartTime), Integer.parseInt(mFilterEndTime));
+                    lineChartFragment.pullData(lineChartFragment.mParamCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
+                                mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1, lineChartFragment.mParamDataType);
+                    barChartFragment.pullData(barChartFragment.lastShowCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
+                                mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1);
                     mLastStartTime = mFilterStartTime;
                     mLastEndTime = mFilterEndTime;
                     mDatePopup.dismiss();

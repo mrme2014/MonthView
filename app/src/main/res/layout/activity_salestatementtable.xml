@@ -9,29 +9,78 @@
     <include layout="@layout/widget_toolbar"></include>
 
 
-    <com.ishow.ischool.widget.custom.DispatchHScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-        <com.ishow.ischool.widget.custom.TableRowTextView
-            android:id="@+id/sale_table_head"
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.commonlib.widget.LabelTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/head_cell"
+            style="@style/table_head_style"
             android:layout_height="45dp"
             android:background="@color/chart_head_gray_bg"
-            android:textColor="@color/chart_head_gray_txt" />
-    </com.ishow.ischool.widget.custom.DispatchHScrollView>
+            android:text="员工"
+            android:textColor="@color/chart_gray_txt"
+            app:bottom_line_color="@color/chart_line"
+            app:draw_bottom_line="true" />
 
-    <com.ishow.ischool.widget.custom.DispatchHScrollView
-        android:id="@+id/DispatchHScrollView"
+        <com.ishow.ischool.widget.custom.DispatchHScrollView
+            android:id="@+id/sale_table_headScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <com.ishow.ischool.widget.custom.TableRowTextView
+                android:id="@+id/sale_table_head"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="@color/chart_head_gray_bg"
+                android:textColor="@color/chart_head_gray_txt" />
+        </com.ishow.ischool.widget.custom.DispatchHScrollView>
+
+        <com.ishow.ischool.widget.custom.DispatchHScrollView
+            android:id="@+id/sale_table_headScrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:overScrollMode="never"
+            android:visibility="gone"
+            android:scrollbars="none">
+
+            <com.ishow.ischool.widget.custom.TableRowTextView
+                android:id="@+id/sale_table_head2"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/chart_head_gray_bg"
+                android:textColor="@color/chart_head_gray_txt" />
+        </com.ishow.ischool.widget.custom.DispatchHScrollView>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="horizontal">
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/sale_table_recyleview"
+            android:id="@+id/sale_table_recyleview_left"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@color/chart_head_gray_bg"
+            tools:listitem="@layout/activity_salestatement_list_item"></android.support.v7.widget.RecyclerView>
+
+        <com.ishow.ischool.widget.custom.DispatchHScrollView
+            android:id="@+id/DispatchHScrollView_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/activity_salestatement_list_item">
-        </android.support.v7.widget.RecyclerView>
-    </com.ishow.ischool.widget.custom.DispatchHScrollView>
+            android:overScrollMode="never"
+
+            android:scrollbars="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sale_table_recyleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/activity_salestatement_list_item"></android.support.v7.widget.RecyclerView>
+        </com.ishow.ischool.widget.custom.DispatchHScrollView>
+    </LinearLayout>
 </LinearLayout>

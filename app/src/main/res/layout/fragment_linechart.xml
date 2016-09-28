@@ -32,6 +32,17 @@
             android:drawableLeft="@mipmap/icon_chars_switch"
             android:drawablePadding="4dp"
             android:text="饼图" />
+
+        <TextView
+            android:id="@+id/from_switch"
+            style="@style/normal_font_style"
+            android:layout_toLeftOf="@id/chart_switch"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/switch_bg_round_corner"
+            android:drawableRight="@mipmap/icon_screen_down"
+            android:drawablePadding="4dp"
+            android:text="全部" />
     </RelativeLayout>
 
 

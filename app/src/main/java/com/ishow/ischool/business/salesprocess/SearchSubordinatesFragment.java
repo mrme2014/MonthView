@@ -29,6 +29,7 @@ import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleTransform;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,15 +91,41 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
             return;
         pullRecycler.setRefreshing();
         if (keywords != null && keywords != "")
-            mPresenter.getOptionSubordinateKeyWords("Subordinate", campus_id, position_id, keywords);
-        else mPresenter.getOptionSubordinate("Subordinate", campus_id, position_id);
+            getOptionSubordinateKeyWords(campus_id, position_id, keywords);
+        else getOptionSubdinate(campus_id, position_id);
     }
+
+    private void getOptionSubdinate(int campus_id, int position_id) {
+        TreeMap<String,Integer> map = new TreeMap<>();
+        if (campus_id!=1){
+            map.put("campus_id",campus_id);
+            map.put("position_id",position_id);
+        }
+        mPresenter.getOptionSubordinate("Subordinate",map);
+    }
+
+    private void getOptionSubordinateKeyWords(int campus_id, int position_id, String keywords) {
+        TreeMap<String,Integer> map = new TreeMap<>();
+        if (campus_id!=1){
+            map.put("campus_id",campus_id);
+            map.put("position_id",position_id);
+        }
+        mPresenter.getOptionSubordinateKeyWords("Subordinate", map, keywords);
+    }
+
     @Override
     public void getListSuccess(Subordinate subordinate) {
+        pullRecycler.onRefreshCompleted();
         if (subordinate != null)
             lists = subordinate.Subordinate;
-        pullRecycler.onRefreshCompleted();
-        adapter.notifyDataSetChanged();
+        if (lists.size()==0){
+            pullRecycler.showEmptyView();
+        }else{
+            pullRecycler.resetView();
+            adapter.notifyDataSetChanged();
+        }
+
+
     }
 
     @Override
@@ -110,9 +137,9 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
     @Override
     public void onRefresh(int action) {
         if (keywords == null || keywords == "")
-            mPresenter.getOptionSubordinate("Subordinate", campus_id, position_id);
+            getOptionSubdinate(campus_id,position_id);
         else
-            mPresenter.getOptionSubordinateKeyWords("Subordinate", campus_id, position_id, keywords);
+            getOptionSubordinateKeyWords(campus_id, position_id, keywords);
     }
 
     private class Adapter extends BaseListAdapter {

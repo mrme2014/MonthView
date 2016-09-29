@@ -14,6 +14,7 @@ import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -105,16 +106,16 @@ public interface MarketApi {
 
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded
-    @POST("/attribute/option/get")
-    Observable<ApiResult<Marketposition>> getOption(@Field("option") String option, @Field("campus_id") int campus_id);
+    @POST("/attribute/option/get")//@Field("campus_id") int campus_id
+    Observable<ApiResult<Marketposition>> getOption(@Field("option") String option,@FieldMap TreeMap<String,Integer> map);
 
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded
-    @POST("/attribute/option/get")
-    Observable<ApiResult<Subordinate>> getOptionSubordinate(@Field("option") String option, @Field("campus_id") int campus_id, @Field("position_id") int position_id);
+    @POST("/attribute/option/get")//@Field("campus_id") int campus_id, @Field("position_id") int position_id
+    Observable<ApiResult<Subordinate>> getOptionSubordinate(@Field("option") String option,@FieldMap TreeMap<String,Integer> map);
 
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded
-    @POST("/attribute/option/get")
-    Observable<ApiResult<Subordinate>> getOptionSubordinateKeywords(@Field("option") String option, @Field("campus_id") int campus_id, @Field("position_id") int position_id, @Field("keyword") String keyword);
+    @POST("/attribute/option/get")//@Field("campus_id") int campus_id, @Field("position_id") int position_id,
+    Observable<ApiResult<Subordinate>> getOptionSubordinateKeywords(@Field("option") String option, @FieldMap TreeMap<String,Integer> map, @Field("keyword") String keyword);
 }

@@ -8,7 +8,7 @@ import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import rx.Observable;
 
@@ -19,7 +19,7 @@ public interface TabDataContract {
     interface Model extends BaseModel {
         Observable<ApiResult<ArrayList<CampusInfo>>> getCampusList();
 
-        Observable<ApiResult<SaleProcess>> getSaleProcessData(HashMap<String, String> params);
+        Observable<ApiResult<SaleProcess>> getSaleProcessData(TreeMap<String, Integer> params);
     }
 
     interface View extends BaseView {
@@ -35,6 +35,6 @@ public interface TabDataContract {
     abstract class Presenter extends BasePresenter<Model, View> {
         abstract void getCampusList();
 
-        abstract void getSales(HashMap<String,String> params);
+        abstract void getSales(TreeMap<String,Integer> params);
     }
 }

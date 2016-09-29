@@ -26,6 +26,8 @@ import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleTransform;
 
+import java.util.TreeMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -108,8 +110,12 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
                 return false;
             }
         });
-
-        mPresenter.getOptionSubordinate("Subordinate", campus_id,position_id);
+        TreeMap<String,Integer> map= new TreeMap<>();
+        if (campus_id!=1){
+            map.put("campus_id",campus_id);
+            map.put("position_id",position_id);
+        }
+        mPresenter.getOptionSubordinate("Subordinate",map);
 
     }
 

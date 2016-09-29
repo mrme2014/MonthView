@@ -36,6 +36,7 @@ import com.ishow.ischool.widget.custom.CircleImageView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -77,6 +78,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private final int HIDE_TABLE_PERMISSION1 = 17;
     private final int HIDE_TABLE_PERMISSION2 = 18;
+    private final int HIDE_TABLE_PERMISSION3 = 19;
+    private final int HIDE_TABLE_PERMISSION4 = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,13 +141,16 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         user_id = userInfo.user_id;
         if (userInfo != null && positionInfo != null) {
             salesJob.setFirstTxt(userInfo.user_name);
-            salesJob.setSecondTxt(mUser.positionInfo.title);
+            salesJob.setSecondTxt(mUser.positionInfo.title + " |" + campusInfo.name);
         }
         if (position_id == HIDE_TABLE_PERMISSION1) {
             salesJob.setCompoundDrawables(null, null, null, null);
         }
         //销讲师 或者 晨读讲师 就不能显示 第二个表格了
-        if (position_id == HIDE_TABLE_PERMISSION1 || position_id == HIDE_TABLE_PERMISSION2)
+        if (position_id == HIDE_TABLE_PERMISSION1
+                || position_id == HIDE_TABLE_PERMISSION2
+                || HIDE_TABLE_PERMISSION3 == position_id
+                || HIDE_TABLE_PERMISSION4 == position_id)
             salesTable2.setVisibility(View.GONE);
 
     }
@@ -159,11 +165,10 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 salesTable1.setSpanedStr(getString(R.string.apply_count), "0", getString(R.string.full_amount), "0", getString(R.string.full_amount_rate), "0");
         }
         if (salesTable2.getVisibility() == View.VISIBLE) {
-            if (process.table.table2 != null&&process.table.table2.tabletotal!=null){
+            if (process.table.table2 != null && process.table.table2.tabletotal != null) {
                 TableTotal total = process.table.table2.tabletotal;
                 salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_number == null ? "0" : total.apply_number + "", getString(R.string.full_amount), total.full_amount_number == null ? "0" : total.full_amount_number + "", getString(R.string.full_amount_rate), total.full_amount_rate);
-            }
-            else
+            } else
                 salesTable2.setSpanedStr(getString(R.string.apply_count), "0", getString(R.string.full_amount), "0", getString(R.string.full_amount_rate), "0");
         }
         final List<String> date = process.chart.date;
@@ -194,9 +199,19 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }
     }
 
+    /*campus_id	Int	0			校区ID 总部身份选择校区时，需要传	0
+position_id	Int	0			职位ID	0
+user_id	Int	0			指定看某个员工的	*/
     private void getSaleProcessData() {
         handProgressbar(true);
-        mPresenter.getSaleProcessData(campus_id, position_id, user_id, type_time);
+        TreeMap map = new TreeMap();
+        if (campus_id!=1){
+            map.put("campus_id",campus_id);
+            map.put("position_id",position_id);
+            map.put("user_id",user_id);
+        }
+        map.put("type",type_time);
+        mPresenter.getSaleProcessData(map, type_time);
     }
 
     @Override
@@ -221,13 +236,15 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
-                if (process != null && process.table != null && process.table.table1 == null)
+                if (process != null && process.table != null && process.table.table1 == null) {
+                    showToast(getString(R.string.no_value_show));
                     return;
+                }
                 startActivity2SaleTable(true);
                 break;
             case R.id.sales_table2:
                 if (process != null && process.table != null && process.table.table2 == null) {
-                    showToast(getString(R.string.no_permission));
+                    showToast(getString(R.string.no_value_show));
                     return;
                 }
                 startActivity2SaleTable(false);

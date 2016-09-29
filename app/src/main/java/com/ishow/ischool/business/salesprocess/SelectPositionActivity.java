@@ -29,6 +29,7 @@ import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 /**
  * Created by MrS on 2016/9/18.
@@ -75,8 +76,16 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
+        getPositionData();
+    }
+
+    private void getPositionData() {
         handProgressbar(true);
-        mPresenter.getOption("Marketposition", campus_id);
+        TreeMap<String,Integer> map= new TreeMap<>();
+        if (campus_id!=1){
+            map.put("campus_id",campus_id);
+        }
+        mPresenter.getOption("Marketposition", map);
     }
 
     @Override
@@ -100,8 +109,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             public void onPickResult(int[] selectIds, String... result) {
                 ltv.setText(result[0]);
                 campus_id = campusInfos.get(selectIds[0]).id;
-                handProgressbar(true);
-                mPresenter.getOption("Marketposition", campus_id);
+                getPositionData();
             }
         });
     }

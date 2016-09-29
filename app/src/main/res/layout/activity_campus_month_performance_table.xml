@@ -65,7 +65,7 @@
         <com.ishow.ischool.widget.table.HeadHorizontalScrollView
             android:id="@+id/sv_title"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
@@ -75,8 +75,9 @@
             <com.ishow.ischool.widget.table.MyLinearLayout4ListView
                 android:id="@+id/head_lv"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:orientation="horizontal" />
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:background="@color/txt_9"/>
 
         </com.ishow.ischool.widget.table.HeadHorizontalScrollView>
 

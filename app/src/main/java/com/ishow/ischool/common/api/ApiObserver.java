@@ -54,16 +54,17 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         if (e instanceof HttpException) {             //HTTP错误
             HttpException httpException = (HttpException) e;
             switch (httpException.code()) {
-                case UNAUTHORIZED:
-                case FORBIDDEN:
-                    //权限错误，需要实现
-                    break;
-                case NOT_FOUND:
-                case REQUEST_TIMEOUT:
+
                 case GATEWAY_TIMEOUT:
                 case INTERNAL_SERVER_ERROR:
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
+                    onError("服务端开小差了");
+                    break;
+                case UNAUTHORIZED:
+                case FORBIDDEN:
+                case NOT_FOUND:
+                case REQUEST_TIMEOUT:
                 default:
                     //均视为网络错误
                     onError("网络异常");

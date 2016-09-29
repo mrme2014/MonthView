@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:text="@string/str_reset"
+                android:text="@string/str_cancel"
                 android:textColor="@color/txt_6"
                 android:textSize="@dimen/sp15"/>
 

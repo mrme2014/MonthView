@@ -42,7 +42,7 @@ public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_week_performance_table, getString(R.string.campus_performance_amount) + "(" + monthStr + ")");
+        setContentView(R.layout.activity_campus_week_performance_table, getString(R.string.campus_performance_target) + "(" + monthStr + ")");
     }
 
     @Override

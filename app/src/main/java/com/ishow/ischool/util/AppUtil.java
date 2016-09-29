@@ -249,4 +249,32 @@ public class AppUtil {
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
         return c.getTimeInMillis() / 1000;
     }
+
+    public static long getMonthStart(String year, String month) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, Integer.parseInt(year));
+        c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        return c.getTimeInMillis() / 1000;
+    }
+
+    public static long getMonthEnd(String year, String month) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, Integer.parseInt(year));
+        c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return c.getTimeInMillis() / 1000;
+    }
+
+    public static int getYear(long second) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(second * 1000);
+        return c.get(Calendar.YEAR);
+    }
+
+    public static int getMonth(long second) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(second * 1000);
+        return c.get(Calendar.MONTH) + 1;
+    }
 }

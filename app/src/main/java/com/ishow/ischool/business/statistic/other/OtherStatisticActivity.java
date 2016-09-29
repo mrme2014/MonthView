@@ -55,8 +55,6 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 
 import static com.ishow.ischool.R.id.chart_date;
-import static com.ishow.ischool.util.AppUtil.getMonthEnd;
-import static com.ishow.ischool.util.AppUtil.getMonthStart;
 
 public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, OtherModel> implements BaseView {
 
@@ -110,13 +108,14 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         params.put("type", "1");
         params.put("type_name", getString(R.string.type_apply));
         params.put("start_time", AppUtil.getLastMonthStart() + "");
-//        params.put("start_time_txt", DateUtil.parseSecond2Str(AppUtil.getLastMonthStart()));
         params.put("end_time", AppUtil.getLastMonthEnd() + "");
-//        params.put("end_time_txt", DateUtil.parseSecond2Str(AppUtil.getLastMonthEnd()));
         mPresenter.getOtherStatistics(params);
 
         //默认值
         filertCampus.setText(mUser.positionInfo.campus);
+        if (mUser.positionInfo.campusId != Constants.CAMPUS_HEADQUARTERS) {
+            filertCampus.setCompoundDrawables(null, null, null, null);
+        }
         updateChartTitle();
     }
 
@@ -318,14 +317,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             resetTv.setText(R.string.cancel);
             startDateTv.setText(getString(R.string.filter_start_date, DateUtil.parseSecond2Str(Long.parseLong(params.get("start_time")))));
             endDateTv.setText(getString(R.string.filter_end_date, DateUtil.parseSecond2Str(Long.parseLong(params.get("end_time")))));
-            startTime = DateUtil.parseSecond2Str(Long.parseLong(params.get("start_time")));
-            endTime = DateUtil.parseSecond2Str(Long.parseLong(params.get("end_time")));
+            //默认时间
+            startTime = Long.parseLong(params.get("start_time"));
+            endTime = Long.parseLong(params.get("end_time"));
         }
         mDatePopup.showAsDropDown(filertLayout);
     }
 
-    private String startTime;
-    private String endTime;
+    private long startTime;
+    private long endTime;
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -373,12 +373,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     DatePicker startPicker = new DatePicker(OtherStatisticActivity.this, DatePicker.YEAR_MONTH);
                     startPicker.setRangeStart(1970, 1, 1);       //开始范围
                     startPicker.setRangeEnd(2099, 12, 31);       //结束范围
-                    startPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    startPicker.setSelectedItem(AppUtil.getYear(startTime), AppUtil.getMonth(startTime));  //得到月，因为从0开始的，所以要加1
                     startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            startDateTv.setText(getString(R.string.filter_start_date, year + "-" + month));
-                            startTime = year + "-" + month;
+                            startTime = AppUtil.getMonthStart(year, month);
+                            startDateTv.setText(getString(R.string.filter_start_date, DateUtil.parseSecond2Str(startTime)));
                         }
                     });
                     startPicker.show();
@@ -387,16 +387,16 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     DatePicker endPicker = new DatePicker(OtherStatisticActivity.this, DatePicker.YEAR_MONTH);
                     endPicker.setRangeStart(1970, 1, 1);       //开始范围
                     endPicker.setRangeEnd(2099, 12, 31);       //结束范围
-                    endPicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    endPicker.setSelectedItem(AppUtil.getYear(endTime), AppUtil.getMonth(endTime));  //得到月，因为从0开始的，所以要加1
                     endPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            if (DateUtil.date2Second(year + "-" + month, "yyyy-MM") < DateUtil.date2Second(startTime, "yyyy-MM")) {
+                            if (AppUtil.getMonthEnd(year, month) < startTime) {
                                 showToast(R.string.end_le_start);
                                 return;
                             }
-                            endDateTv.setText(getString(R.string.filter_end_date, year + "-" + month));
-                            endTime = year + "-" + month;
+                            endTime = AppUtil.getMonthEnd(year, month);
+                            endDateTv.setText(getString(R.string.filter_end_date, DateUtil.parseSecond2Str(endTime)));
                         }
                     });
                     endPicker.show();
@@ -407,8 +407,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                 case R.id.date_ok:
                     mDatePopup.dismiss();
                     updateChartTitle();
-                    params.put("start_time", getMonthStart(startTime) + "");
-                    params.put("end_time", getMonthEnd(endTime) + "");
+                    params.put("start_time", startTime + "");
+                    params.put("end_time", endTime + "");
                     mPresenter.getOtherStatistics(params);
                     updateChartTitle();
                     break;
@@ -491,7 +491,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     }
 
     private void setBarData(OtherStatisticsTable table) {
-        if (table == null) {
+        if (table == null || table.data == null || table.data.isEmpty()) {
+            mBarChart.clear();
             return;
         }
 
@@ -616,7 +617,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     }
 
     private void setPieData(OtherStatisticsTable table) {
-        if (table == null) {
+        if (table == null || table.data == null || table.data.isEmpty()) {
+            mPieChart.clear();
             return;
         }
 

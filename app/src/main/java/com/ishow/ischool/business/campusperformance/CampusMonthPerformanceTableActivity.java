@@ -42,7 +42,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpView() {
-        mCampusIds = getIntent().getStringExtra("campus");
+        mCampusIds = getIntent().getStringExtra("campusParam");
     }
 
     @Override

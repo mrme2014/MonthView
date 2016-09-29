@@ -234,8 +234,8 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
                     startActivity(new Intent(getActivity(), SalesProcessActivity.class));
                 }
                 break;
-            case R.id.data_campus:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
+            case R.id.data_campus://PERMISSION_DATA_CAMPUS
+                if (JumpManager.checkUserPermision(getActivity(), Resource.NO_NEED_CHECK)) {
                     startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
                 }
                 break;

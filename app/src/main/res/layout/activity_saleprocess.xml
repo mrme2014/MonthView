@@ -17,10 +17,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@color/white"
+                android:orientation="horizontal"
                 android:layout_marginBottom="15dp">
 
                 <com.ishow.ischool.widget.custom.CircleImageView
@@ -28,7 +29,16 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:src="@mipmap/img_header_default"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"/>
+
+                <com.ishow.ischool.widget.custom.AvatarImageView
+                    android:id="@+id/sales_avart_txt"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    app:text_color="@color/colorPrimary"
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"/>
 
                 <com.commonlib.widget.TopBottomTextView
@@ -49,7 +59,7 @@
                     android:paddingRight="10dp"
 
                     />
-            </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,6 +109,7 @@
            <FrameLayout
                android:layout_width="match_parent"
                android:layout_height="240dp">
+
                <com.github.mikephil.charting.charts.LineChart
                    android:id="@+id/lineChart"
                    android:layout_width="match_parent"
@@ -230,7 +241,7 @@
                 app:label_text_bottom="晨读讲师"
                 app:label_text_bottom_color="@color/txt_9"
                 app:label_text_bottom_size="12"
-                app:label_text_top_str="晨读明细表"
+                app:label_text_top_str="业绩明细表"
                 app:label_text_top_size="14"
                 app:label_text_top_color="@color/txt_2"
                 app:label_top_padding="22"

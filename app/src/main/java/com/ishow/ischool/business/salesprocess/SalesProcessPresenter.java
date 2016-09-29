@@ -156,9 +156,9 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         // set an alternative background color
         mChart.setBackgroundColor(Color.WHITE);
 
-
-        // add data
-        //setData();
+      /*  SaleMarkView saleMarkView = new SaleMarkView(context);
+        saleMarkView.setChartView(mChart); // For bounds control
+        mChart.setMarker(saleMarkView); // Set the marker to the chart*/
 
         mChart.animateX(1500);
 
@@ -184,6 +184,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         leftAxis.setTextColor(ContextCompat.getColor(context, R.color.sale_gray_txt_color_));
         // leftAxis.setAxisMaxValue(200f);
         leftAxis.setAxisMinValue(0);
+        leftAxis.setGranularity(1);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(false);
         YAxis rightAxis = mChart.getAxisRight();

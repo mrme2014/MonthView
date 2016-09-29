@@ -25,6 +25,7 @@ import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Created by wqf on 16/8/14.
@@ -33,8 +34,8 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
 
     @Override
-    public void getSaleProcessData(int campus_id, int position_id, int user_id, int type) {
-        mModel.getSaleProcessData(campus_id, position_id, user_id, type).subscribe(new ApiObserver<SaleProcess>() {
+    public void getSaleProcessData(TreeMap<String,Integer> map, int type) {
+        mModel.getSaleProcessData(map, type).subscribe(new ApiObserver<SaleProcess>() {
             @Override
             public void onSuccess(SaleProcess saleProcess) {
                 mView.getListSuccess(saleProcess);
@@ -53,8 +54,8 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
     }
 
     @Override
-    public void getOption(String option, int position_id) {
-        mModel.getOption(option, position_id).subscribe(new ApiObserver<Marketposition>() {
+    public void getOption(String option, TreeMap<String,Integer> map) {
+        mModel.getOption(option, map).subscribe(new ApiObserver<Marketposition>() {
             @Override
             public void onSuccess(Marketposition marketpositions) {
                 mView.getListSuccess(marketpositions);
@@ -73,8 +74,8 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
     }
 
     @Override
-    public void getOptionSubordinate(String option, int campus_id, int position_id) {
-        mModel.getOptionSubordinate(option, campus_id, position_id).subscribe(new ApiObserver<Subordinate>() {
+    public void getOptionSubordinate(String option, TreeMap<String,Integer> map) {
+        mModel.getOptionSubordinate(option, map).subscribe(new ApiObserver<Subordinate>() {
             @Override
             public void onSuccess(Subordinate subordinate) {
                 mView.getListSuccess(subordinate);
@@ -93,8 +94,8 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
     }
 
     @Override
-    public void getOptionSubordinateKeyWords(String option, int campus_id, int position_id, String keywords) {
-        mModel.getOptionSubordinateKeyWords(option, campus_id, position_id, keywords).subscribe(new ApiObserver<Subordinate>() {
+    public void getOptionSubordinateKeyWords(String option,TreeMap<String,Integer> map, String keywords) {
+        mModel.getOptionSubordinateKeyWords(option,map, keywords).subscribe(new ApiObserver<Subordinate>() {
             @Override
             public void onSuccess(Subordinate subordinate) {
                 mView.getListSuccess(subordinate);
@@ -152,7 +153,6 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
-
         // set an alternative background color
         mChart.setBackgroundColor(Color.WHITE);
 
@@ -186,7 +186,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         leftAxis.setAxisMinValue(0);
         leftAxis.setGranularity(1);
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGranularityEnabled(false);
+       // leftAxis.setGranularityEnabled(false);
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
     }

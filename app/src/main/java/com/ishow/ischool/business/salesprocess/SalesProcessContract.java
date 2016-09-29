@@ -9,6 +9,8 @@ import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 
+import java.util.TreeMap;
+
 import rx.Observable;
 
 
@@ -17,13 +19,13 @@ import rx.Observable;
  */
 public interface SalesProcessContract {
     interface Model extends BaseModel {
-        Observable<ApiResult<SaleProcess>> getSaleProcessData(int campus_id, int position_id, int user_id, int type);
+        Observable<ApiResult<SaleProcess>> getSaleProcessData(TreeMap<String,Integer> map, int type);
 
-        Observable<ApiResult<Marketposition>> getOption(String option, int position_id);
+        Observable<ApiResult<Marketposition>> getOption(String option, TreeMap<String,Integer> map);
 
-        Observable<ApiResult<Subordinate>> getOptionSubordinate(String option, int campus_id, int position_id);
+        Observable<ApiResult<Subordinate>> getOptionSubordinate(String option, TreeMap<String,Integer> map);
 
-        Observable<ApiResult<Subordinate>> getOptionSubordinateKeyWords(String option, int campus_id, int position_id,String keywords);
+        Observable<ApiResult<Subordinate>> getOptionSubordinateKeyWords(String option,TreeMap<String,Integer> map,String keywords);
     }
 
     interface View<T> extends BaseView {
@@ -32,13 +34,13 @@ public interface SalesProcessContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        public abstract void getSaleProcessData(int campus_id, int position_id, int user_id, int type);
+        public abstract void getSaleProcessData(TreeMap<String,Integer> map, int type);
 
-        public abstract void getOption(String option,int position_id);
+        public abstract void getOption(String option,TreeMap<String,Integer> map);
 
-        public abstract void getOptionSubordinate(String option, int campus_id, int position_id);
+        public abstract void getOptionSubordinate(String option, TreeMap<String,Integer> map);
 
-        public abstract void getOptionSubordinateKeyWords(String option, int campus_id, int position_id,String keywords);
+        public abstract void getOptionSubordinateKeyWords(String option, TreeMap<String,Integer> map,String keywords);
     }
 
 

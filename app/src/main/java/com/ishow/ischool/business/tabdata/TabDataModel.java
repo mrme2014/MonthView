@@ -8,7 +8,7 @@ import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.api.MarketApi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,11 +26,10 @@ public class TabDataModel implements TabDataContract.Model {
     }
 
     @Override
+
     public Observable<ApiResult<SaleProcess>> getSaleProcessData(HashMap<String, String> params) {
         params.put("resources_id", "-1");
         return ApiFactory.getInstance().getApi(DataApi.class).getSaleProcessData(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }

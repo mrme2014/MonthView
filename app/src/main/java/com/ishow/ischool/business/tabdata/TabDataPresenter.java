@@ -5,7 +5,7 @@ import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by wqf on 16/9/6.
@@ -34,7 +34,7 @@ public class TabDataPresenter extends TabDataContract.Presenter {
     }
 
     @Override
-    void getSales(HashMap<String, String> params) {
+    void getSales(TreeMap<String, Integer> params) {
         mModel.getSaleProcessData(params).subscribe(new ApiObserver<SaleProcess>() {
             @Override
             public void onSuccess(SaleProcess saleProcess) {

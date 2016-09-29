@@ -8,6 +8,7 @@ import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -38,12 +39,7 @@ public interface DataApi {
     //数据分析.市场.销售流程分析(statistics.market.process) 接口
     @FormUrlEncoded
     @POST("/statistics/market/process")
-    Observable<ApiResult<SaleProcess>> getSaleProcessData(
-            @Field("resources_id") int resources_id,
-            @Field("campus_id") int campus_id,
-            @Field("position_id") int position_id,
-            @Field("user_id") int user_id,
-            @Field("type") int type);
+    Observable<ApiResult<SaleProcess>> getSaleProcessData(@Field("resources_id")int resources_id,@FieldMap TreeMap<String,Integer> map);
 
     @FormUrlEncoded
     @POST("/statistics/market/process")

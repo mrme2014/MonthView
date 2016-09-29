@@ -19,7 +19,7 @@ import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 
@@ -101,7 +101,6 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
         UserInfo userInfo = mUser.userInfo;
         CampusInfo capusInfo = mUser.campusInfo;
-
         HashMap<String, String> params = new HashMap<>();
         if (capusInfo.id == Constants.CAMPUS_HEADQUARTERS) {
             params.put("campus_id", capusInfo.id + "");

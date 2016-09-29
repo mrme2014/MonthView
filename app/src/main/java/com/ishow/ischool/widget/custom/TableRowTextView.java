@@ -27,9 +27,9 @@ public class TableRowTextView extends TextView {
 
     private boolean shouldDrawBotLine;
 
-    private static int cellWidth;
-
-    private int fixedCellWidth ;
+    private int cellWidth;
+    private int fixedCellWidth;
+    private int txtWidth;
 
     public TableRowTextView(Context context) {
         super(context);
@@ -61,7 +61,7 @@ public class TableRowTextView extends TextView {
         cellWidth = UIUtil.dip2px(getContext(), 100);
 
         int width = list.size() * cellWidth;
-        width = Math.max(width, UIUtil.getScreenWidthPixels(getContext())-fixedCellWidth);
+        width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()) - fixedCellWidth);
         cellWidth = width / list.size();
         int measureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         setMeasuredDimension(measureSpec, getMeasuredHeight());
@@ -69,7 +69,7 @@ public class TableRowTextView extends TextView {
 
 
     private void init() {
-        fixedCellWidth = UIUtil.dip2px(getContext(),100);
+        fixedCellWidth = UIUtil.dip2px(getContext(), 100);
         if (linePaint == null) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             linePaint.setColor(ContextCompat.getColor(getContext(), R.color.chart_line));
@@ -94,11 +94,21 @@ public class TableRowTextView extends TextView {
         int height = getMeasuredHeight();
 
         for (int i = 0; i < list.size(); i++) {
-            int txtWidth = (int) txtPaint.measureText(list.get(i));
-            if (cellWidth < txtWidth) cellWidth = txtWidth;
-            canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
+            txtWidth = (int) txtPaint.measureText(list.get(i));
+            if (cellWidth >= txtWidth) {
+                canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
+            } else {
+                String needDraw = list.get(i);
+                int overLength = getCellFixLength(needDraw);
+                String needTop = needDraw.substring(0, overLength);
+                String needBottom = needDraw.substring(overLength, needDraw.length());
+                float txtTopWidth = txtPaint.measureText(needTop);
+                float txtBottWidth = txtPaint.measureText(needBottom);
+                canvas.drawText(needTop, i * cellWidth + cellWidth / 2 - txtTopWidth / 2, (float) (height / 2)-2 , txtPaint);
+                canvas.drawText(needBottom, i * cellWidth + cellWidth / 2 - txtBottWidth / 2, (float) (height / 2) + txtHeight, txtPaint);
+                //canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
+            }
             canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);//右边的线
-
         }
 
         canvas.drawLine(0, 0, width, 0, linePaint);//上面的线
@@ -117,8 +127,18 @@ public class TableRowTextView extends TextView {
         if (lists == null)
             return;
         this.list = lists;
-        measure(getMeasuredWidth(), MeasureSpec.makeMeasureSpec(UIUtil.dip2px(getContext(),45),MeasureSpec.EXACTLY));
+        measure(getMeasuredWidth(), MeasureSpec.makeMeasureSpec(UIUtil.dip2px(getContext(), 45), MeasureSpec.EXACTLY));
         invalidate();
+    }
+
+    private int getCellFixLength(String txt) {
+        int overLength = txtWidth - cellWidth;//15
+        int byteLength = txtWidth / txt.length();//10
+        if (overLength <= byteLength)
+            return 1;
+        int i = overLength / byteLength + 1;
+        i = txt.length()-i;
+        return i;
     }
 
     @Override

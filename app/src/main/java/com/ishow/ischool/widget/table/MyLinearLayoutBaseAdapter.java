@@ -50,5 +50,6 @@ public abstract class MyLinearLayoutBaseAdapter<T> {
      * @return
      */
     abstract View getView(int position);
+
 }
 

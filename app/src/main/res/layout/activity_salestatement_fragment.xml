@@ -14,6 +14,7 @@
             android:id="@+id/head_cell"
             style="@style/table_head_style"
             android:layout_height="45dp"
+            android:layout_width="100dp"
             android:background="@color/chart_head_gray_bg"
             android:text="员工"
             android:textColor="@color/chart_gray_txt"
@@ -59,7 +60,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sale_table_recyleview_left"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@color/chart_head_gray_bg"
             tools:listitem="@layout/activity_salestatement_list_item"></android.support.v7.widget.RecyclerView>

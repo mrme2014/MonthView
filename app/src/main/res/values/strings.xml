@@ -256,6 +256,7 @@
     <string name="type_refuse_point">目前困惑点</string>
     <string name="type_source">来源方式</string>
     <string name="chart_name">%s统计</string>
+    <string name="chart_name_1">%s统计(登记人数)</string>
     <string name="item_start_school_year">入学年份</string>
     <string name="buiding">正在建设中...</string>
     <string name="year">%s年</string>

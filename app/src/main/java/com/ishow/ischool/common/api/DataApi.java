@@ -10,6 +10,7 @@ import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 import java.util.HashMap;
 
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -43,6 +44,11 @@ public interface DataApi {
             @Field("position_id") int position_id,
             @Field("user_id") int user_id,
             @Field("type") int type);
+
+    @FormUrlEncoded
+    @POST("/statistics/market/process")
+    Observable<ApiResult<SaleProcess>> getSaleProcessData(
+            @FieldMap HashMap<String, String> params);
 
     //数据分析.市场.各校区业绩对比(statistics.market.bazaarcontrast) 接口
     @GET("/statistics/market/bazaarcontrast")

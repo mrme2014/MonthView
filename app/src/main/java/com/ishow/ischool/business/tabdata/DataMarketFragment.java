@@ -15,11 +15,13 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
@@ -128,6 +130,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelRotationAngle(-45);
+        xAxis.setAxisMinimum(0);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
@@ -137,6 +140,8 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         leftAxis.setGridColor(Color.WHITE);
         leftAxis.setAxisLineColor(Color.WHITE);
         leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setGranularity(1);
+        leftAxis.setAxisMinimum(0);
 
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
@@ -321,6 +326,19 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
             set2.setFillColor(getResources().getColor(R.color.fill_color));
 
+            set1.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    return String.valueOf((int) value);
+                }
+            });
+
+            set2.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    return String.valueOf((int) value);
+                }
+            });
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets

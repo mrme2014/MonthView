@@ -73,6 +73,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private int campus_id;
     private int position_id;
     private int user_id;
+    private String campus_name;
+    private String position_name;
 
     public static final int REQUEST_CODE = 1001;
 
@@ -127,22 +129,29 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         UserInfo userInfo = mUser.userInfo;
         CampusInfo campusInfo = mUser.campusInfo;
         PositionInfo positionInfo = mUser.positionInfo;
-
-        if (avatar != null && !TextUtils.equals(avatar.file_name, "") && avatar.file_name != null)
-            ImageLoaderUtil.getInstance().loadImage(this, avatar.file_name, salesAvart);
-        else {
-            salesAvart.setImageResource(R.mipmap.img_header_default);
-            salesAvartTxt.setText(userInfo.user_name, userInfo.user_id, "");
-            salesAvartTxt.setVisibility(View.VISIBLE);
-            salesAvart.setVisibility(View.GONE);
-        }
         campus_id = campusInfo.id;
         position_id = positionInfo.id;
         user_id = userInfo.user_id;
-        if (userInfo != null && positionInfo != null) {
-            salesJob.setFirstTxt(userInfo.user_name);
-            salesJob.setSecondTxt(mUser.positionInfo.title + " |" + campusInfo.name);
+        campus_name = campusInfo.name;
+        position_name = positionInfo.title;
+
+        setUpPersonInfo(avatar.file_name, user_id, userInfo.user_name, position_name, campusInfo.name, position_id);
+
+    }
+
+    private void setUpPersonInfo(String file_name, int user_id, String user_name, String position_name, String campus_name, int position_id) {
+        if (file_name != null && !TextUtils.equals(file_name, "") && file_name != null && file_name != "[]")
+            ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
+        else {
+            ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
+            salesAvart.setImageResource(R.mipmap.img_header_default);
+            salesAvartTxt.setText(user_name, user_id, "");
+            salesAvartTxt.setVisibility(View.VISIBLE);
+            salesAvart.setVisibility(View.GONE);
         }
+        salesJob.setFirstTxt(user_name);
+        salesJob.setSecondTxt(position_name + " | " + campus_name);
+
         if (position_id == HIDE_TABLE_PERMISSION1) {
             salesJob.setCompoundDrawables(null, null, null, null);
         }
@@ -152,7 +161,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 || HIDE_TABLE_PERMISSION3 == position_id
                 || HIDE_TABLE_PERMISSION4 == position_id)
             salesTable2.setVisibility(View.GONE);
-
+        else salesTable2.setVisibility(View.VISIBLE);
     }
 
 
@@ -205,12 +214,12 @@ user_id	Int	0			指定看某个员工的	*/
     private void getSaleProcessData() {
         handProgressbar(true);
         TreeMap map = new TreeMap();
-        if (campus_id!=1){
-            map.put("campus_id",campus_id);
-            map.put("position_id",position_id);
-            map.put("user_id",user_id);
+        if (campus_id != 1) {
+            map.put("campus_id", campus_id);
+            map.put("position_id", position_id);
+            map.put("user_id", user_id);
         }
-        map.put("type",type_time);
+        map.put("type", type_time);
         mPresenter.getSaleProcessData(map, type_time);
     }
 
@@ -291,10 +300,20 @@ user_id	Int	0			指定看某个员工的	*/
         if (requestCode == REQUEST_CODE && requestCode == REQUEST_CODE && data != null) {
             SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
             position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
+            position_name = data.getStringExtra(SelectPositionActivity.PICK_POSITION);
             user_id = extra.id;
-            salesJob.setFirstTxt(extra.user_name);
-            salesJob.setSecondTxt(data.getStringExtra(SelectPositionActivity.PICK_POSITION));
-            salesAvart.setImageResource(R.mipmap.img_header_default);
+            setUpPersonInfo(extra.file_name, user_id, extra.user_name, position_name, campus_name, position_id);
+//            salesJob.setFirstTxt(extra.user_name);
+//            salesJob.setSecondTxt(data.getStringExtra(SelectPositionActivity.PICK_POSITION));
+//            if (extra.file_name==null||extra.file_name==""||extra.file_name=="[]") {
+//                salesAvart.setImageResource(R.mipmap.img_header_default);
+//                salesAvartTxt.setText(extra.user_name, extra.id, "");
+//                salesAvartTxt.setVisibility(View.VISIBLE);
+//                salesAvart.setVisibility(View.GONE);
+//            }else{
+//                ImageLoaderUtil.getInstance().loadImage(this, extra.file_name, salesAvart);
+//            }
+
             getSaleProcessData();
         }
     }

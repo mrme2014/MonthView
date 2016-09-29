@@ -19,6 +19,7 @@ public class SubordinateObject implements Parcelable {
 
     public String user_name;
     public String file_name;
+   // public String avatar;
     public int id;
     @SerializedName("default")
     public int defaultX;
@@ -31,6 +32,8 @@ public class SubordinateObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.user_name);
+        dest.writeString(this.file_name);
+       // dest.writeString(this.avatar);
         dest.writeInt(this.id);
         dest.writeInt(this.defaultX);
     }
@@ -40,11 +43,13 @@ public class SubordinateObject implements Parcelable {
 
     protected SubordinateObject(Parcel in) {
         this.user_name = in.readString();
+        this.file_name = in.readString();
+      //  this.avatar = in.readString();
         this.id = in.readInt();
         this.defaultX = in.readInt();
     }
 
-    public static final Parcelable.Creator<SubordinateObject> CREATOR = new Parcelable.Creator<SubordinateObject>() {
+    public static final Creator<SubordinateObject> CREATOR = new Creator<SubordinateObject>() {
         @Override
         public SubordinateObject createFromParcel(Parcel source) {
             return new SubordinateObject(source);

@@ -24,7 +24,6 @@ import com.commonlib.widget.pull.layoutmanager.MyLinearLayoutManager;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
-import com.ishow.ischool.business.user.pick.UserPickActivity;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleTransform;
 
@@ -57,10 +56,13 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
     int position_id;
 
     ArrayList<SubordinateObject> lists;
+
     @Override
     public void init() {
-        //search(campus_id,position_id,keywords);
+        if (campus_id != 0 && position_id != 0)
+            search(campus_id, position_id, keywords);
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +88,9 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         pullRecycler.setAdapter(adapter);
         return pullRecycler;
     }
-    public void search(int campus_id,int position_id,String keywords) {
-        if (pullRecycler==null)
+
+    public void search(int campus_id, int position_id, String keywords) {
+        if (pullRecycler == null)
             return;
         pullRecycler.setRefreshing();
         if (keywords != null && keywords != "")
@@ -96,19 +99,19 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
     }
 
     private void getOptionSubdinate(int campus_id, int position_id) {
-        TreeMap<String,Integer> map = new TreeMap<>();
-        if (campus_id!=1){
-            map.put("campus_id",campus_id);
-            map.put("position_id",position_id);
+        TreeMap<String, Integer> map = new TreeMap<>();
+        if (campus_id != 1) {
+            map.put("campus_id", campus_id);
+            map.put("position_id", position_id);
         }
-        mPresenter.getOptionSubordinate("Subordinate",map);
+        mPresenter.getOptionSubordinate("Subordinate", map);
     }
 
     private void getOptionSubordinateKeyWords(int campus_id, int position_id, String keywords) {
-        TreeMap<String,Integer> map = new TreeMap<>();
-        if (campus_id!=1){
-            map.put("campus_id",campus_id);
-            map.put("position_id",position_id);
+        TreeMap<String, Integer> map = new TreeMap<>();
+        if (campus_id != 1) {
+            map.put("campus_id", campus_id);
+            map.put("position_id", position_id);
         }
         mPresenter.getOptionSubordinateKeyWords("Subordinate", map, keywords);
     }
@@ -118,9 +121,9 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         pullRecycler.onRefreshCompleted();
         if (subordinate != null)
             lists = subordinate.Subordinate;
-        if (lists.size()==0){
+        if (lists.size() == 0) {
             pullRecycler.showEmptyView();
-        }else{
+        } else {
             pullRecycler.resetView();
             adapter.notifyDataSetChanged();
         }
@@ -137,7 +140,7 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
     @Override
     public void onRefresh(int action) {
         if (keywords == null || keywords == "")
-            getOptionSubdinate(campus_id,position_id);
+            getOptionSubdinate(campus_id, position_id);
         else
             getOptionSubordinateKeyWords(campus_id, position_id, keywords);
     }
@@ -204,7 +207,8 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         @Override
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
-            Intent intent = new Intent(getActivity(), UserPickActivity.class);
+            Intent intent = new Intent();
+
             intent.putExtra(SelectSubordinateActivity.PICK_USER, lists.get(position));
             getActivity().setResult(getActivity().RESULT_OK, intent);
             getActivity().finish();

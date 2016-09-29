@@ -28,7 +28,7 @@ import java.util.List;
 public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
     private MonthTableData mDatas;
     private String monthStr;
-    private int mMonthId = 1;
+    private int mMonthId = 0;
     private ArrayList<WeekTableHead> mWeek4MonthHeadData;
     private ArrayList<WeekTableBodyRow> mWeek4MonthData;
 
@@ -37,7 +37,7 @@ public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
         Bundle bundle = getIntent().getExtras();
         mDatas = bundle.getParcelable("data");
         monthStr = bundle.getString("month");
-        mMonthId = bundle.getInt("monthPosition");
+        mMonthId = bundle.getInt("monthPosition") - 1;
     }
 
     @Override

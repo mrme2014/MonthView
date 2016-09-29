@@ -64,6 +64,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
     private ArrayList<CampusInfo> mLastSelectedItem;
     private Calendar calendar;
 
+
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_campusperformance, R.string.campus_performance, -1, MODE_BACK);
@@ -360,12 +361,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     endDatePicker.show();
                     break;
                 case R.id.date_reset:
-                    startDateFinished = false;
-                    endDateFinished = false;
-                    mFilterStartTime = "";
-                    mFilterEndTime = "";
-                    startDateTv.setText(getString(R.string.item_start_time) + " :        ");
-                    endDateTv.setText(getString(R.string.item_end_time) + " :        ");
+                    mDatePopup.dismiss();
                     break;
                 case R.id.date_ok:
                     if (mLastStartTime.equals(mFilterStartTime) && mLastEndTime.equals(mFilterEndTime)) {

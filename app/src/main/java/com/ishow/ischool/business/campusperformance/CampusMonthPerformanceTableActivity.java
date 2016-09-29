@@ -105,7 +105,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
         MonthPerformanceTableHeadAdapter adapter = new MonthPerformanceTableHeadAdapter(CampusMonthPerformanceTableActivity.this, titles);
         myLinearLayout4ListView.setAdapter(adapter);
 
-        int flag = -1, count = 0;
+        int flag = -1, count = 1;
         for (int i = 0; i < mDatas._title.size(); i++) {
             if (mDatas._title.get(i).subtitle != null && mDatas._title.get(i).subtitle.size() == 3) {
                 flag = i;
@@ -113,7 +113,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
             }
         }
         for (int j = flag; j < mDatas._title.size(); j++) {
-            if (count >= 6) {
+            if (count >= 7) {           // 只取连续有subtitle的6个对象
                 break;
             }
             mDatas._title.get(j).monthPosition = count;
@@ -125,7 +125,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
             public void onItemClicked(View v, Object obj, int position) {
                 MonthTableHead info = (MonthTableHead) obj;
                 if (info != null) {
-                    if (info.subtitle != null && info.subtitle.size() > 0) {
+                    if (info.monthPosition > 0) {
                         Intent intent = new Intent(CampusMonthPerformanceTableActivity.this, CampusWeekPerformanceTableActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("data", mDatas);

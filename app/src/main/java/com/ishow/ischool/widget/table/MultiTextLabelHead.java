@@ -66,8 +66,8 @@ public class MultiTextLabelHead extends TextView {
 //        if (centerTextStr != null && !centerTextStr.equals("")) {
 //            minWidth = UIUtil.dip2px(getContext(), 100);
 //        }
-        // 在wrap_content的情况下默认长度为150dp,高度为80dp
-        int minHeight = UIUtil.dip2px(getContext(), 70);
+        // 在wrap_content的情况下默认长度为120dp,高度为60dp
+        int minHeight = UIUtil.dip2px(getContext(), 60);
         int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);

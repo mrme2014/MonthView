@@ -82,6 +82,7 @@ public class BarChartFragment extends BaseFragment {
     public ArrayList<CampusInfo> lastShowCampus;      // 上次显示的校区
     private ArrayList<SignAmount> mYDatas;
     private String label1, label2, label3;
+    public boolean isFirst = true;
 
     public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth) {
         String campusParam = "";     // 默认所有
@@ -114,6 +115,16 @@ public class BarChartFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_barchart, null);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isFirst) {
+            mChartAmount.moveViewToX(0);
+            mChartPercentage.moveViewToX(0);
+            isFirst = false;
+        }
     }
 
     @Override

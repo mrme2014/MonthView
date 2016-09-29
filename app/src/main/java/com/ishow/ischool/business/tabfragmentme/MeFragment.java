@@ -6,11 +6,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
 import com.commonlib.util.DeviceUtils;
+import com.commonlib.widget.event.RxBus;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
@@ -28,6 +31,7 @@ import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -35,6 +39,7 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -57,6 +62,8 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     FmItemTextView fmMeMornigQrcode;
     @BindView(R.id.fm_me_version)
     FmItemTextView fmMeVersion;
+    @BindView(R.id.fm_avart_txt)
+    AvatarImageView fmAvartTxt;
 
     private User user;
 
@@ -66,7 +73,6 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
     private String avartPath;
     private String TAG = MeFragment.class.getSimpleName();
-
 
 
     @Override
@@ -84,8 +90,12 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
             return;
         Avatar avatar = user.avatar;
         if (avatar != null && !TextUtils.equals(avatar.file_name, "") && avatar.file_name != null)
-            //PicUtils.loadUserHeader(getContext(),fmMeHeaderAvart,avatar.file_name);
             ImageLoaderUtil.getInstance().loadImage(getContext(), avatar.file_name, fmMeHeaderAvart);
+        else {
+            fmMeHeaderAvart.setVisibility(View.INVISIBLE);
+            fmAvartTxt.setVisibility(View.VISIBLE);
+            fmAvartTxt.setText(userInfo.user_name,userInfo.user_id,"");
+        }
 
         PositionInfo info = user.positionInfo;
         if (info != null) {
@@ -171,7 +181,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
         PositionInfo positionInfo = changedUser.positionInfo;
         CampusInfo campusInfo = changedUser.campusInfo;
-        if (positionInfo==null||campusInfo==null){
+        if (positionInfo == null || campusInfo == null) {
             showToast(R.string.switch_role_failed);
             return;
         }
@@ -185,7 +195,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
             fmMeMornigQrcode.setVisibility(View.GONE);
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
-        com.commonlib.widget.event.RxBus.getInstance().post(campusInfo.name);
+        RxBus.getInstance().post(campusInfo.name);
 
     }
 
@@ -209,4 +219,11 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
 }

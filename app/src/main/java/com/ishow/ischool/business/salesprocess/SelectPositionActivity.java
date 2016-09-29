@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
@@ -57,9 +59,10 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         recycler.enableLoadMore(false);
         recycler.enablePullToRefresh(false);
         recycler.setOnRefreshListener(this);
-      if (campus_id == 1) {
+        if (campus_id == 1) {
             setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
-            MenuItem item = mToolbar.getMenu().findItem(R.id.submit);
+            Menu menu = mToolbar.getMenu();
+            MenuItem item = menu.getItem(0);
             item.setIcon(R.mipmap.icon_screen_down_white);
             ltv = (LabelTextView) MenuItemCompat.getActionView(item);
             ltv.setAboutMenuItem();
@@ -67,7 +70,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             ltv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
             ltv.setUpMenu(true);
             PositionInfo positionInfo = mUser.positionInfo;
-            ltv.setEllipsizeText(positionInfo.campus,7);
+            ltv.setEllipsizeText(positionInfo.campus, 7);
             ltv.setOnClickListener(this);
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
@@ -147,6 +150,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     }
 
     private ArrayList<CampusInfo> campusInfos;
+
     @Override
     public void onClick(View v) {
         if (campusInfos == null) {
@@ -158,11 +162,13 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
         CircleImageView imageAvart;
         TextView name;
+        AvatarImageView avatarImageView;
 
         public selectHeadHolder(View itemView) {
             super(itemView);
             imageAvart = (CircleImageView) itemView.findViewById(R.id.item_type1_avart);
             name = (TextView) itemView.findViewById(R.id.item_type1_name);
+            avatarImageView = (AvatarImageView) itemView.findViewById(R.id.sales_avart_txt);
         }
 
         @Override
@@ -173,10 +179,21 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             Avatar avatar = mUser.avatar;
             if (imageAvart != null && avatar != null && avatar.file_name != null && avatar.file_name != "")
                 ImageLoaderUtil.getInstance().loadImage(SelectPositionActivity.this, avatar.file_name, imageAvart);
+            else {
+                imageAvart.setVisibility(View.GONE);
+                avatarImageView.setVisibility(View.VISIBLE);
+                avatarImageView.setText(userInfo.user_name, userInfo.user_id, "");
+            }
             name.setText(userInfo == null ? "" : userInfo.user_name);
-
         }
 
+        @Override
+        public void onItemClick(View view, int position) {
+            super.onItemClick(view, position);
+            //加个 if判断 是因为 如果数据为空的时候  显示了空界面 但还是 点击可响应
+            if (marketpositions != null && marketpositions.Marketposition != null && marketpositions.Marketposition.size() > 0)
+                SelectPositionActivity.this.finish();
+        }
     }
 
     class selectBodyHolder extends BaseViewHolder {

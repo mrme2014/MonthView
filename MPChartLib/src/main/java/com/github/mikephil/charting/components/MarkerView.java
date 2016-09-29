@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.utils.FSize;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.lang.ref.WeakReference;
@@ -25,6 +24,7 @@ public class MarkerView extends RelativeLayout implements IMarker {
     private MPPointF mOffset = new MPPointF();
     private MPPointF mOffset2 = new MPPointF();
     private WeakReference<Chart> mWeakChart;
+    private Chart chart;
 
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
@@ -66,6 +66,14 @@ public class MarkerView extends RelativeLayout implements IMarker {
         mOffset.y = offsetY;
     }
 
+    public String getSelectValueByIndex(int dataSetIndex, int entryIndex) {
+        if (chart == null)
+            chart = getChartView();
+        float y = chart.getData().getDataSetByIndex(dataSetIndex).getEntryForIndex(entryIndex).getY();
+        if (y == 0) return "0";
+        return (int)y + "";
+    }
+
     @Override
     public MPPointF getOffset() {
         return mOffset;
@@ -86,19 +94,20 @@ public class MarkerView extends RelativeLayout implements IMarker {
         mOffset2.x = offset.x;
         mOffset2.y = offset.y;
 
-        Chart chart = getChartView();
+        if (chart == null)
+            chart = getChartView();
 
         float width = getWidth();
         float height = getHeight();
 
         if (posX + mOffset2.x < 0) {
-            mOffset2.x = - posX;
+            mOffset2.x = -posX;
         } else if (chart != null && posX + width + mOffset2.x > chart.getWidth()) {
             mOffset2.x = chart.getWidth() - posX - width;
         }
 
         if (posY + mOffset2.y < 0) {
-            mOffset2.y = - posY;
+            mOffset2.y = -posY;
         } else if (chart != null && posY + height + mOffset2.y > chart.getHeight()) {
             mOffset2.y = chart.getHeight() - posY - height;
         }

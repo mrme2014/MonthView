@@ -149,7 +149,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     }
 
     public void updateChartTitle() {
-        chartNameTv.setText(getString(R.string.chart_name, params.get("type_name")));
+        if ("3".equals(params.get("type"))) {
+            chartNameTv.setText(getString(R.string.chart_name_1, params.get("type_name")));
+        } else {
+            chartNameTv.setText(getString(R.string.chart_name, params.get("type_name")));
+        }
         if (!StringUtils.isEmpty(params.get("start_time")) && !StringUtils.isEmpty(params.get("end_time")))
             chartDateTv.setText(DateUtil.parseSecond2Str(Long.parseLong(params.get("start_time"))) + " - "
                     + DateUtil.parseSecond2Str(Long.parseLong(params.get("end_time"))));
@@ -588,6 +592,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mPieChart.setRotationEnabled(true);
         mPieChart.setHighlightPerTapEnabled(true);
 
+
         // mChart.setUnit(" €");
         // mChart.setDrawUnitsInChart(true);
 
@@ -605,12 +610,11 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
-        l.setYOffset(0f);
+        l.setYOffset(5f);
         l.setWordWrapEnabled(true);
 
         // entry label styling
-        mPieChart.setEntryLabelColor(Color.WHITE);
-//        mChart.setEntryLabelTypeface(mTfRegular);
+        mPieChart.setEntryLabelColor(Color.BLACK);
         mPieChart.setEntryLabelTextSize(12f);
 
 
@@ -650,10 +654,16 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         }
         dataSet.setColors(colors);
 
+        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        dataSet.setValueLinePart1OffsetPercentage(80.f);
+        dataSet.setValueLinePart1Length(0.2f);
+        dataSet.setValueLinePart2Length(0.4f);
+        dataSet.setValueTextColor(Color.WHITE);
+
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
+
 //        data.setValueTypeface(mTfLight);
         mPieChart.setData(data);
 

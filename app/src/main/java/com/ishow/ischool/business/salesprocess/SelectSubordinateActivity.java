@@ -41,6 +41,7 @@ public class SelectSubordinateActivity extends AppCompatActivity {
     public static final String PICK_QEQUEST_CODE = "request_code";
     public static final int PICK_REQUEST_CODE = 1000;
 
+
     private int campus_id = -1;
     private int position_id = -1;
     private FragmentTransaction ft;

@@ -9,6 +9,7 @@ import android.widget.RadioGroup;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
@@ -18,6 +19,7 @@ import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -100,13 +102,13 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
         UserInfo userInfo = mUser.userInfo;
         CampusInfo capusInfo = mUser.campusInfo;
-        TreeMap<String, Integer> params = new TreeMap<>();
-        if (capusInfo.id!=1){
-            params.put("campus_id", capusInfo.id );
-            params.put("position_id", mUser.positionInfo.id );
-            params.put("user_id", userInfo.user_id );
+        HashMap<String, String> params = new HashMap<>();
+        if (capusInfo.id == Constants.CAMPUS_HEADQUARTERS) {
+            params.put("campus_id", capusInfo.id + "");
+            params.put("position_id", mUser.positionInfo.id + "");
+            params.put("user_id", userInfo.user_id + "");
         }
-        params.put("type", type_time );
+        params.put("type", type_time + "");
         mPresenter.getSales(params);
     }
 

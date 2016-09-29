@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.salesprocess;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.saleprocess.TableTotal;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
@@ -71,8 +73,12 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public static final int REQUEST_CODE = 1001;
 
     private final int HIDE_TABLE_PERMISSION1 = 17;
-    private final int HIDE_TABLE_PERMISSION2 = 20;
+    private final int HIDE_TABLE_PERMISSION2 = 18;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected void setUpContentView() {
@@ -85,6 +91,17 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, mPresenter.getSpinnerData());
         salesSpinner.setAdapter(adapter);
+        salesSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                showToast("==================");
+                mChart.onTouchEvent(event);
+                mChart.clearAnimation();
+                mChart.disableScroll();
+                mChart.clearFocus();
+                return false;
+            }
+        });
         salesSpinner.setOnItemSelectedListener(this);
 
         mPresenter.initChart(this, mChart);
@@ -108,8 +125,9 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         else salesAvart.setImageResource(R.mipmap.img_header_default);
 
         UserInfo userInfo = mUser.userInfo;
-        CampusInfo positionInfo = mUser.campusInfo;
-        campus_id = positionInfo.id;
+        CampusInfo campusInfo = mUser.campusInfo;
+        PositionInfo positionInfo = mUser.positionInfo;
+        campus_id = campusInfo.id;
         position_id = positionInfo.id;
         user_id = userInfo.user_id;
         if (userInfo != null && positionInfo != null) {
@@ -123,18 +141,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
 
     private void setUpLable() {
-        if (process.table != null&&process.table.table1!=null) {
+        if (process.table != null && process.table.table1 != null) {
             TableTotal total = process.table.table1.tabletotal;
             if (total == null) return;
-            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers ==null? "0":total.apply_numbers+"" , getString(R.string.full_amount), total.full_amount ==null? "0":total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
+            salesTable1.setSpanedStr(getString(R.string.apply_count), total.apply_numbers == null ? "0" : total.apply_numbers + "", getString(R.string.full_amount), total.full_amount == null ? "0" : total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
         }
         if (salesTable2.getVisibility() == View.VISIBLE && process.table.table2 != null) {
             TableTotal total = process.table.table2.tabletotal;
             if (total == null) return;
-            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers ==null? "0":total.apply_numbers+"", getString(R.string.full_amount), total.full_amount ==null? "0":total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate );
+            salesTable2.setSpanedStr(getString(R.string.apply_count), total.apply_numbers == null ? "0" : total.apply_numbers + "", getString(R.string.full_amount), total.full_amount == null ? "0" : total.full_amount + "", getString(R.string.full_amount_rate), total.full_amount_rate);
         }
         final List<String> date = process.chart.date;
-        salesTrends.setSecondTxt(date.get(0)+"--"+date.get(date.size()-1));
+        salesTrends.setSecondTxt(date.get(0) + "--" + date.get(date.size() - 1));
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
@@ -152,11 +170,13 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 return 0;
             }
         });
-        xAxis.setGranularity(type_time == 7 ? 1 : 5);
-        mPresenter.setData(this, mChart, process.chart.full_amount, process.chart.apply_number);
-        mChart.setVisibleXRangeMaximum(type_time == 7 ? type_time : 15);
 
-        if (type_time == 7) mChart.fitScreen();
+        xAxis.setGranularity(type_time == 7 ? 1 : 15);
+        mPresenter.setData(this, mChart, process.chart.full_amount, process.chart.apply_number);
+        mChart.setVisibleXRangeMaximum(type_time == 7 ? 7 : 15);
+        if (type_time == 7){
+            mChart.fitScreen();
+        }
     }
 
     private void getSaleProcessData() {
@@ -166,9 +186,14 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if (position!=mPresenter.getSpinnerData().size()-1){
         String selectTxt = mPresenter.getSpinnerData().get(position);
         String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
         type_time = Integer.parseInt(selectNum);
+        }else{
+            type_time=999;
+        }
         getSaleProcessData();
     }
 
@@ -181,13 +206,15 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
-                if (process!=null&&process.table!=null&&process.table.table1 == null)
+                if (process != null && process.table != null && process.table.table1 == null)
                     return;
                 startActivity2SaleTable(true);
                 break;
             case R.id.sales_table2:
-                if (process!=null&&process.table!=null&&process.table.table2 == null)
+                if (process != null && process.table != null && process.table.table2 == null) {
+                    showToast(getString(R.string.no_permission));
                     return;
+                }
                 startActivity2SaleTable(false);
                 break;
             case R.id.sales_job:
@@ -207,12 +234,14 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private void startActivity2SaleTable(boolean showTable1) {
 
+        if (process == null || process.table == null || process.table.table1 == null)
+            return;
         Intent intent = new Intent(this, SaleStatementTableActivity.class);
         intent.putExtra(SaleStatementTableActivity.SHOW_TABLE1, showTable1);
         Bundle bundle = new Bundle();
         bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD, (ArrayList<String>) process.table.table1.tablehead);
         bundle.putSerializable(SaleStatementTableActivity.TABLE_BODY, (Serializable) process.table.table1.tablebody);
-        if (View.VISIBLE == salesTable2.getVisibility()) {
+        if (View.VISIBLE == salesTable2.getVisibility() && process.table.table2 != null) {
             bundle.putStringArrayList(SaleStatementTableActivity.TABLE_HEAD_TABLE2, (ArrayList<String>) process.table.table2.tablehead);
             bundle.putSerializable(SaleStatementTableActivity.TABLE_BODY_BODY2, (Serializable) process.table.table2.tablebody);
         }
@@ -280,5 +309,16 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public void getListFail(String msg) {
         handProgressbar(false);
         showToast(msg);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handProgressbar(false);
     }
 }

@@ -56,7 +56,7 @@ public abstract class BaseListActivity4Crm<P extends BasePresenter, M extends Ba
         if (show) {
             if (dialog == null) {
                 dialog = new ProgressDialog(this);
-                dialog.setMessage("request server...");
+                dialog.setMessage("Loading...");
             }
             dialog.show();
         } else if (!show && dialog != null) dialog.dismiss();

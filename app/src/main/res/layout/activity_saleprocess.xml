@@ -96,10 +96,14 @@
 
 
             </LinearLayout>
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lineChart"
-                android:layout_width="match_parent"
-                android:layout_height="240dp" />
+           <FrameLayout
+               android:layout_width="match_parent"
+               android:layout_height="240dp">
+               <com.github.mikephil.charting.charts.LineChart
+                   android:id="@+id/lineChart"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent" />
+           </FrameLayout>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -57,9 +57,10 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         recycler.enableLoadMore(false);
         recycler.enablePullToRefresh(false);
         recycler.setOnRefreshListener(this);
-        if (campus_id == 1) {
+      if (campus_id == 1) {
             setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
             MenuItem item = mToolbar.getMenu().findItem(R.id.submit);
+            item.setIcon(R.mipmap.icon_screen_down_white);
             ltv = (LabelTextView) MenuItemCompat.getActionView(item);
             ltv.setAboutMenuItem();
             Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.icon_screen_down_white);
@@ -71,6 +72,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
+        handProgressbar(true);
         mPresenter.getOption("Marketposition", campus_id);
     }
 
@@ -95,6 +97,8 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             public void onPickResult(int[] selectIds, String... result) {
                 ltv.setText(result[0]);
                 campus_id = campusInfos.get(selectIds[0]).id;
+                handProgressbar(true);
+                mPresenter.getOption("Marketposition", campus_id);
             }
         });
     }
@@ -130,12 +134,14 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
     @Override
     public void getListSuccess(Marketposition marketpositions) {
+        handProgressbar(false);
         this.marketpositions = marketpositions;
         loadSuccess(marketpositions.Marketposition);
     }
 
     @Override
     public void getListFail(String msg) {
+        handProgressbar(false);
         showToast(msg);
         loadFailed();
     }

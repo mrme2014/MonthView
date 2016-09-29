@@ -41,7 +41,7 @@
 
         <com.ishow.ischool.widget.custom.DispatchHScrollView
             android:id="@+id/sale_table_headScrollView2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:overScrollMode="never"
             android:visibility="gone"
@@ -49,7 +49,7 @@
 
             <com.ishow.ischool.widget.custom.TableRowTextView
                 android:id="@+id/sale_table_head2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:background="@color/chart_head_gray_bg"
                 android:textColor="@color/chart_head_gray_txt" />

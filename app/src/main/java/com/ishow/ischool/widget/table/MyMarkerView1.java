@@ -41,9 +41,9 @@ public class MyMarkerView1 extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        tvContent1.setText("业绩:" + datas.get((int)e.getX()).perweek_full_base);
-        tvContent2.setText("红线目标:" + datas.get((int)e.getX()).perweek_full_challenge);
-        tvContent3.setText("冲刺目标:" + datas.get((int)e.getX()).perweek_real);
+        tvContent1.setText("业绩:" + datas.get((int) e.getX()).perweek_full_base);
+        tvContent2.setText("红线目标:" + datas.get((int) e.getX()).perweek_full_challenge);
+        tvContent3.setText("冲刺目标:" + datas.get((int) e.getX()).perweek_real);
 
         super.refreshContent(e, highlight);
     }

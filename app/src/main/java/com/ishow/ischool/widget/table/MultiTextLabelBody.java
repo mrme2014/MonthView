@@ -43,7 +43,7 @@ public class MultiTextLabelBody extends TextView {
 
         linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         linePaint.setColor(getContext().getResources().getColor(R.color.comm_line));
-        linePaint.setStrokeWidth(1);
+        linePaint.setStrokeWidth(2);
 
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextSize(UIUtil.dip2px(getContext(), 13));
@@ -56,7 +56,7 @@ public class MultiTextLabelBody extends TextView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 在wrap_content的情况下默认长度为100dp,高度为80dp
-        int minWidth = UIUtil.dip2px(getContext(), 150);
+        int minWidth = UIUtil.dip2px(getContext(), 120);
         int minHeight = UIUtil.dip2px(getContext(), 40);
         int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -77,11 +77,30 @@ public class MultiTextLabelBody extends TextView {
         super.onDraw(canvas);
         float height = getMeasuredHeight();
         canvas.drawLine(0, 0, 0, height, linePaint);
-        float textMargin = ((getMeasuredWidth() - getPaddingLeft() - getPaddingRight())/3 - textPaint.measureText(leftextStr))/2;
-        float w1 = (getMeasuredWidth() - getPaddingLeft() - getPaddingRight())/3;
-        float textY = height/2 + (Math.abs(textPaint.ascent())- Math.abs(textPaint.descent()))/2;
-        canvas.drawText(leftextStr, getPaddingLeft() + textMargin, textY, textPaint);
-        canvas.drawText(centerTextStr, getPaddingLeft() + textMargin + w1, textY, textPaint);
-        canvas.drawText(rightTextStr, getPaddingLeft() + textMargin + w1 * 2, textY, textPaint);
+
+        float oneThird = (getMeasuredWidth() - getPaddingLeft() - getPaddingRight()) / 3;
+        float baselineHeight = height / 2 + (Math.abs(textPaint.ascent()) - Math.abs(textPaint.descent())) / 2;
+        if (leftextStr != null && !leftextStr.equals("")) {
+            canvas.drawText(leftextStr, getPaddingLeft() + (oneThird - textPaint.measureText(leftextStr)) / 2, baselineHeight, textPaint);
+            canvas.drawText(centerTextStr, getPaddingLeft() + (oneThird - textPaint.measureText(centerTextStr)) / 2 + oneThird, baselineHeight, textPaint);
+            canvas.drawText(rightTextStr, getPaddingLeft() + (oneThird - textPaint.measureText(rightTextStr)) / 2 + oneThird * 2, baselineHeight, textPaint);
+        } else {
+            canvas.drawText(centerTextStr, getMeasuredWidth() / 2 - textPaint.measureText(centerTextStr) / 2, baselineHeight, textPaint);
+        }
+    }
+
+    void setLeftextStr(String str) {
+        leftextStr = str;
+        invalidate();
+    }
+
+    void setCenterTextStr(String str) {
+        centerTextStr = str;
+        invalidate();
+    }
+
+    void setRightTextStr(String str) {
+        rightTextStr = str;
+        invalidate();
     }
 }

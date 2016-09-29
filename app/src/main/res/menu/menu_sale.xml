@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/submit"
-        android:orderInCategory="80"
+        android:orderInCategory="100"
         android:title="@string/str_campus"
-        app:actionViewClass="com.commonlib.widget.LabelTextView"
         app:showAsAction="always" />
+    <!--app:actionViewClass="com.commonlib.widget.LabelTextView"-->
 </menu>

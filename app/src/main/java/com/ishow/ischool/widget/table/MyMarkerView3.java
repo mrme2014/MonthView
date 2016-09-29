@@ -44,9 +44,9 @@ public class MyMarkerView3 extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        tvContent1.setText("总报名率:" + datas.get((int)e.getX()).signRate);
-        tvContent2.setText("总全款率:" + datas.get((int)e.getX()).fullRate);
-        tvContent3.setText("总全款报名率:" + datas.get((int)e.getX()).fullSignRate);
+        tvContent1.setText("总报名率:" + datas.get((int) e.getX()).signRate);
+        tvContent2.setText("总全款率:" + datas.get((int) e.getX()).fullRate);
+        tvContent3.setText("总全款报名率:" + datas.get((int) e.getX()).fullSignRate);
 
         super.refreshContent(e, highlight);
     }

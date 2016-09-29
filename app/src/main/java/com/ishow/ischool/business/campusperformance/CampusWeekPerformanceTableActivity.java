@@ -7,32 +7,48 @@ import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.adpter.TableContentItemAdapter;
 import com.ishow.ischool.adpter.TableLeftItemAdapter;
-import com.ishow.ischool.bean.campusperformance.SignAmount;
+import com.ishow.ischool.bean.campusperformance.MonthTableData;
+import com.ishow.ischool.bean.campusperformance.WeekTableBodyItem;
+import com.ishow.ischool.bean.campusperformance.WeekTableBodyRow;
+import com.ishow.ischool.bean.campusperformance.WeekTableHead;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.table.BodyHorizontalScrollView;
 import com.ishow.ischool.widget.table.HeadHorizontalScrollView;
+import com.ishow.ischool.widget.table.MyLinearLayout4ListView;
+import com.ishow.ischool.widget.table.WeekPerformanceTableHeadAdapter;
+import com.ishow.ischool.widget.table.WeekPerformanceTableRowAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wqf on 2016/9/23.
  */
-public class CampusPerformanceTableActivity extends BaseActivity4Crm {
-    private ArrayList<String> campus;
-    private ArrayList<SignAmount> datas;
+public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
+    private MonthTableData mDatas;
+    private String monthStr;
+    private int mMonthId = 1;
+    private ArrayList<WeekTableHead> mWeek4MonthHeadData;
+    private ArrayList<WeekTableBodyRow> mWeek4MonthData;
+
+    @Override
+    protected void initEnv() {
+        Bundle bundle = getIntent().getExtras();
+        mDatas = bundle.getParcelable("data");
+        monthStr = bundle.getString("month");
+        mMonthId = bundle.getInt("monthPosition");
+    }
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_performance_table, R.string.campus_performance_amount, MODE_BACK);
+        setContentView(R.layout.activity_campus_week_performance_table, getString(R.string.campus_performance_target) + "(" + monthStr + ")");
     }
 
     @Override
     protected void setUpView() {
-        Bundle bundle = getIntent().getExtras();
-        campus = bundle.getStringArrayList("campus");
-        datas = bundle.getParcelableArrayList("data");
+        mWeek4MonthHeadData = mDatas._week_title.get(mMonthId);
+        mWeek4MonthData = (ArrayList<WeekTableBodyRow>) mDatas._week_data.get(mMonthId);
     }
 
     @Override
@@ -50,22 +66,44 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
     boolean isRightListEnabled = false;
 
     private TableLeftItemAdapter tableLeftItemAdapter;
-    private TableContentItemAdapter tableContentItemAdapter;
+    private WeekPerformanceTableRowAdapter tableContentItemAdapter;
+    private MyLinearLayout4ListView myLinearLayout4ListView;
 
 
     private void initView() {
-        sv_head = (HeadHorizontalScrollView)findViewById(R.id.sv_title);
-        sv_content = (BodyHorizontalScrollView)findViewById(R.id.sv_detail);
+        sv_head = (HeadHorizontalScrollView) findViewById(R.id.sv_title);
+        sv_content = (BodyHorizontalScrollView) findViewById(R.id.sv_detail);
         lv_left = (ListView) findViewById(R.id.lv_left);
-        lv_detail = (ListView)findViewById(R.id.lv_detail);
+        lv_detail = (ListView) findViewById(R.id.lv_detail);
+        myLinearLayout4ListView = (MyLinearLayout4ListView) findViewById(R.id.head_lv);
         combination(lv_left, lv_detail, sv_head, sv_content);
     }
 
     private void initAdapter() {
-        tableLeftItemAdapter = new TableLeftItemAdapter(this, campus);
-        tableContentItemAdapter = new TableContentItemAdapter(this, datas);
+        ArrayList<String> campusDatas = new ArrayList<>();
+        for (int i = 0; i < mWeek4MonthData.size(); i++) {
+            ArrayList<WeekTableBodyItem> items = (ArrayList<WeekTableBodyItem>) mWeek4MonthData.get(i);
+            ArrayList<String> item = (ArrayList<String>) items.get(0);
+            campusDatas.add(item.get(0));
+        }
+        tableLeftItemAdapter = new TableLeftItemAdapter(this, campusDatas);
         lv_left.setAdapter(tableLeftItemAdapter);
+        tableContentItemAdapter = new WeekPerformanceTableRowAdapter(this, mDatas._week_data.get(mMonthId));
         lv_detail.setAdapter(tableContentItemAdapter);
+
+        List<WeekTableHead> titles = new ArrayList<>();
+        titles.addAll(mWeek4MonthHeadData.subList(1, mWeek4MonthHeadData.size()));        // 去掉第一个"校区"(已固定存在于左上角)
+        WeekPerformanceTableHeadAdapter adapter = new WeekPerformanceTableHeadAdapter(CampusWeekPerformanceTableActivity.this, titles);
+        myLinearLayout4ListView.setAdapter(adapter);
+
+        myLinearLayout4ListView.setOnItemClickListener(new MyLinearLayout4ListView.OnItemClickListener() {
+            @Override
+            public void onItemClicked(View v, Object obj, int position) {
+//                MonthTableHead info = (MonthTableHead) obj;
+//                if (info != null) {
+//                }
+            }
+        });
     }
 
     private void combination(final ListView lvName, final ListView lvDetail, final HorizontalScrollView title, BodyHorizontalScrollView content) {
@@ -82,7 +120,7 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
         /**
          * 上下滑动同步
          */
-        // 禁止快速滑动
+        // 禁止快速滑动,回弹效果
         lvName.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         lvDetail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 

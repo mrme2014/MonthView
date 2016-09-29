@@ -27,7 +27,9 @@ public class TableRowTextView extends TextView {
 
     private boolean shouldDrawBotLine;
 
-    private int cellWidth;
+    private static int cellWidth;
+
+    private int fixedCellWidth ;
 
     public TableRowTextView(Context context) {
         super(context);
@@ -59,7 +61,7 @@ public class TableRowTextView extends TextView {
         cellWidth = UIUtil.dip2px(getContext(), 100);
 
         int width = list.size() * cellWidth;
-        width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()));
+        width = Math.max(width, UIUtil.getScreenWidthPixels(getContext())-fixedCellWidth);
         cellWidth = width / list.size();
         int measureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         setMeasuredDimension(measureSpec, getMeasuredHeight());
@@ -67,7 +69,7 @@ public class TableRowTextView extends TextView {
 
 
     private void init() {
-
+        fixedCellWidth = UIUtil.dip2px(getContext(),100);
         if (linePaint == null) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             linePaint.setColor(ContextCompat.getColor(getContext(), R.color.chart_line));
@@ -117,5 +119,11 @@ public class TableRowTextView extends TextView {
         this.list = lists;
         measure(getMeasuredWidth(), MeasureSpec.makeMeasureSpec(UIUtil.dip2px(getContext(),45),MeasureSpec.EXACTLY));
         invalidate();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        cellWidth = 0;
     }
 }

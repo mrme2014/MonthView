@@ -45,7 +45,7 @@ public class SelectSubordinateActivity extends BaseListActivity4Crm<SalesProcess
     public static final String PICK_USER = "data";
     public static final String P_TITLE = "title";
     public static final String PICK_CAMPUS_ID = "campus_id";
-    public static final String PICK_POSITION_ID = "campus_id";
+    public static final String PICK_POSITION_ID = "position_id";
     public static final String  PICK_QEQUEST_CODE = "request_code";
     public static final int PICK_REQUEST_CODE=1000;
 

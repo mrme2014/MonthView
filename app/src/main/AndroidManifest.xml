@@ -90,7 +90,15 @@
         <activity android:name=".business.salesprocess.SalesProcessActivity" />
         <activity android:name=".business.campusperformance.CampusPerformanceActivity" />
         <activity
-            android:name=".business.campusperformance.CampusPerformanceTableActivity"
+            android:name=".business.campusperformance.CampusAmountTableActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".business.campusperformance.CampusMonthPerformanceTableActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".business.campusperformance.CampusWeekPerformanceTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
 

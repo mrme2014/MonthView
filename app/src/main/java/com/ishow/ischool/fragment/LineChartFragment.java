@@ -1,5 +1,6 @@
 package com.ishow.ischool.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.campusperformance.SignPerformance;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.business.campusperformance.CampusMonthPerformanceTableActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
@@ -87,6 +89,7 @@ public class LineChartFragment extends BaseFragment {
     private int mCount = 0;                 // 横坐标个数,即数据个数
     private ArrayList<CampusInfo> mCampusInfos;
     public ArrayList<CampusInfo> mParamCampus;      // 上次显示的校区
+    public String campusParam = "";                 // 默认所有
     public ArrayList<SignPerformance> mYDatas;      // 纵坐标数据,即每个校区的数据
     public int mParamBeginDate = 201607, mParamEndDate = 201609;
     public Integer mParamDataType = -1;       //数据类型 1:晨读 3:校聊
@@ -100,7 +103,6 @@ public class LineChartFragment extends BaseFragment {
     public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth, int dataType) {
         mParamBeginDate = beginMonth;
         mParamEndDate = endMonth;
-        String campusParam = "";     // 默认所有
         ArrayList<CampusInfo> allCampus = new ArrayList<>();
         allCampus.addAll(CampusManager.getInstance().get());
         for (CampusInfo info : allCampus) {
@@ -431,7 +433,9 @@ public class LineChartFragment extends BaseFragment {
                 setChartMarkView();
                 break;
             case R.id.table_layout:
-
+                Intent intent = new Intent(getActivity(), CampusMonthPerformanceTableActivity.class);
+                intent.putExtra("campusParam", campusParam);
+                startActivity(intent);
                 break;
         }
     }

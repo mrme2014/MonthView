@@ -13,19 +13,34 @@ import com.ishow.ischool.bean.campusperformance.SignAmount;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.table.BodyHorizontalScrollView;
 import com.ishow.ischool.widget.table.HeadHorizontalScrollView;
+import com.ishow.ischool.widget.table.MyLinearLayout4ListView;
+import com.ishow.ischool.widget.table.AmountTableHeadAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wqf on 2016/9/23.
  */
-public class CampusPerformanceTableActivity extends BaseActivity4Crm {
+public class CampusAmountTableActivity extends BaseActivity4Crm {
     private ArrayList<String> campus;
     private ArrayList<SignAmount> datas;
 
+    private HeadHorizontalScrollView sv_head; //不可滑动的顶部左侧的ScrollView
+    private MyLinearLayout4ListView myLinearLayout4ListView;
+    private BodyHorizontalScrollView sv_content; //底部右侧的ScrollView
+    private ListView lv_left;             //底部左侧的ListView
+    private ListView lv_detail;        //底部右侧的ListView
+
+    boolean isLeftListEnabled = false;
+    boolean isRightListEnabled = false;
+
+    private TableLeftItemAdapter tableLeftItemAdapter;
+    private TableContentItemAdapter tableContentItemAdapter;
+
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_performance_table, R.string.campus_performance_amount, MODE_BACK);
+        setContentView(R.layout.activity_campus_amount_table, R.string.campus_performance_amount, MODE_BACK);
     }
 
     @Override
@@ -41,24 +56,24 @@ public class CampusPerformanceTableActivity extends BaseActivity4Crm {
         initAdapter();
     }
 
-    private HeadHorizontalScrollView sv_head; //不可滑动的顶部左侧的ScrollView
-    private BodyHorizontalScrollView sv_content; //底部右侧的ScrollView
-    private ListView lv_left;             //底部左侧的ListView
-    private ListView lv_detail;        //底部右侧的ListView
-
-    boolean isLeftListEnabled = false;
-    boolean isRightListEnabled = false;
-
-    private TableLeftItemAdapter tableLeftItemAdapter;
-    private TableContentItemAdapter tableContentItemAdapter;
-
 
     private void initView() {
-        sv_head = (HeadHorizontalScrollView)findViewById(R.id.sv_title);
-        sv_content = (BodyHorizontalScrollView)findViewById(R.id.sv_detail);
+        myLinearLayout4ListView = (MyLinearLayout4ListView) findViewById(R.id.head_lv);
+        sv_head = (HeadHorizontalScrollView) findViewById(R.id.sv_title);
+        sv_content = (BodyHorizontalScrollView) findViewById(R.id.sv_detail);
         lv_left = (ListView) findViewById(R.id.lv_left);
-        lv_detail = (ListView)findViewById(R.id.lv_detail);
+        lv_detail = (ListView) findViewById(R.id.lv_detail);
         combination(lv_left, lv_detail, sv_head, sv_content);
+
+        List<String> list = new ArrayList<>();
+        list.add("总现场");
+        list.add("总报名");
+        list.add("总全款");
+        list.add("总报名率");
+        list.add("总全款率");
+        list.add("总报名全款率");
+        AmountTableHeadAdapter adapter = new AmountTableHeadAdapter(CampusAmountTableActivity.this, list);
+        myLinearLayout4ListView.setAdapter(adapter);
     }
 
     private void initAdapter() {

@@ -94,7 +94,6 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         salesSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                showToast("==================");
                 mChart.onTouchEvent(event);
                 mChart.clearAnimation();
                 mChart.disableScroll();

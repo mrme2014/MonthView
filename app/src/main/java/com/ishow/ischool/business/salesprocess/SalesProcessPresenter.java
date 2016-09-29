@@ -11,10 +11,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
@@ -72,7 +74,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
     @Override
     public void getOptionSubordinate(String option, int campus_id, int position_id) {
-        mModel.getOptionSubordinate(option,campus_id,position_id).subscribe(new ApiObserver<Subordinate>() {
+        mModel.getOptionSubordinate(option, campus_id, position_id).subscribe(new ApiObserver<Subordinate>() {
             @Override
             public void onSuccess(Subordinate subordinate) {
                 mView.getListSuccess(subordinate);
@@ -82,6 +84,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             public void onError(String msg) {
                 mView.getListFail(msg);
             }
+
             @Override
             protected boolean isAlive() {
                 return mView != null && !mView.isActivityFinished();
@@ -91,7 +94,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
     @Override
     public void getOptionSubordinateKeyWords(String option, int campus_id, int position_id, String keywords) {
-        mModel.getOptionSubordinateKeyWords(option,campus_id,position_id,keywords).subscribe(new ApiObserver<Subordinate>() {
+        mModel.getOptionSubordinateKeyWords(option, campus_id, position_id, keywords).subscribe(new ApiObserver<Subordinate>() {
             @Override
             public void onSuccess(Subordinate subordinate) {
                 mView.getListSuccess(subordinate);
@@ -101,6 +104,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             public void onError(String msg) {
                 mView.getListFail(msg);
             }
+
             @Override
             protected boolean isAlive() {
                 return mView != null && !mView.isActivityFinished();
@@ -115,8 +119,10 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             list = new ArrayList<>();
             list.add("7天");
             list.add("30天");
+            list.add("90天");
             list.add("180天");
             list.add("365天");
+            list.add("全部");
         }
         return list;
     }
@@ -261,8 +267,17 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             dataSets.add(set2);
             // create a data object with the datasets
             LineData data = new LineData(dataSets);
+            // data.setDrawValues(false);
             data.setValueTextColor(Color.GRAY);
             data.setValueTextSize(9f);
+            data.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    if (entry.getY() > 0)
+                        return (int) entry.getY() + "";
+                    return "";
+                }
+            });
             // set data
             mChart.setData(data);
             //mChart.setVisibleXRangeMaximum(15);

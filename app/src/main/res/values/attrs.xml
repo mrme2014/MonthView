@@ -189,6 +189,7 @@
         <attr name="mutiltv_bottom1_text" format="string" />
         <attr name="mutiltv_bottom2_text" format="string" />
         <attr name="mutiltv_bottom3_text" format="string" />
+        <attr name="mutiltv_only_center_text" format="string" />
     </declare-styleable>
 
     <declare-styleable name="mutilTextViewBody">

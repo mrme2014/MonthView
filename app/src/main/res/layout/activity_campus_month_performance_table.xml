@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/widget_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/toolbar">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="校区"
+            android:textColor="@color/txt_3"
+            android:textSize="@dimen/sp13" />
+
+        <ListView
+            android:id="@+id/lv_left"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tv_name"
+            android:listSelector="#00000000"
+            android:scrollbars="none" />
+
+        <View
+            android:id="@+id/line1"
+            style="@style/table_vertical_divider_line"
+            android:layout_toRightOf="@id/lv_left" />
+
+        <View
+            android:id="@+id/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/tv_name"
+            android:background="@color/comm_line" />
+
+        <com.ishow.ischool.widget.table.BodyHorizontalScrollView
+            android:id="@+id/sv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/divider_line"
+            android:layout_toRightOf="@id/line1"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <ListView
+                android:id="@+id/lv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:listSelector="#00000000"
+                android:scrollbars="none" />
+        </com.ishow.ischool.widget.table.BodyHorizontalScrollView>
+
+        <com.ishow.ischool.widget.table.HeadHorizontalScrollView
+            android:id="@+id/sv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/line1"
+            android:scrollbars="none">
+
+            <com.ishow.ischool.widget.table.MyLinearLayout4ListView
+                android:id="@+id/head_lv"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:orientation="horizontal" />
+
+        </com.ishow.ischool.widget.table.HeadHorizontalScrollView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

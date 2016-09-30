@@ -160,7 +160,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         saleMarkView.setChartView(mChart); // For bounds control
         mChart.setMarker(saleMarkView); // Set the marker to the chart
 
-        mChart.animateX(1500);
+        mChart.animateX(2500);
 
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();

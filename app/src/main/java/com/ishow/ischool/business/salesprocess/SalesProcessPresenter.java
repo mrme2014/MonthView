@@ -156,9 +156,9 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         // set an alternative background color
         mChart.setBackgroundColor(Color.WHITE);
 
-      /*  SaleMarkView saleMarkView = new SaleMarkView(context);
+        SaleMarkView saleMarkView = new SaleMarkView(context);
         saleMarkView.setChartView(mChart); // For bounds control
-        mChart.setMarker(saleMarkView); // Set the marker to the chart*/
+        mChart.setMarker(saleMarkView); // Set the marker to the chart
 
         mChart.animateX(1500);
 

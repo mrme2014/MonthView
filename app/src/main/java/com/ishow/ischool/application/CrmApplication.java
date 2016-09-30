@@ -106,11 +106,11 @@ public class CrmApplication extends BaseApplication {
 
 
     public void updateConfig() {
-        final String testApkFile = "http://apk.hiapk.com/web/api.do?qt=8051&id=721";
+//        final String testApkFile = "http://apk.hiapk.com/web/api.do?qt=8051&id=721";
         // Application中对Config进行配置
         final String TAG = "UpdateConfig";
         UpdateConfig.getConfig()
-                .url("http://crmcore.ishowedu.com/attribute/app/init?device_type=1&app_type=1")// 随便模拟的一个网络接口。
+                .url(Env.SITE_URL + "attribute/app/init?device_type=1&app_type=1")// 随便模拟的一个网络接口。
                 .jsonParser(new UpdateParser() {
                     @Override
                     public Update parse(String response) {

@@ -79,7 +79,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private String campus_name;
     private String position_name;
     private String file_name;
-    private int curuser_position_name;
+    private int curuser_position_id;
     private String user_name;
 
     public static final int REQUEST_CODE = 1001;
@@ -147,7 +147,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     protected void setUpData() {
         //  setUpDataByResult();
         campus_id = mUser.campusInfo.id;
-        curuser_position_name = position_id = mUser.positionInfo.id;
+        curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
     }
 
@@ -167,7 +167,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             CampusInfo campusInfo = mUser.campusInfo;
             PositionInfo positionInfo = mUser.positionInfo;
             campus_id = campusInfo.id;
-            curuser_position_name = position_id = positionInfo.id;
+            curuser_position_id = position_id = positionInfo.id;
             user_id = userInfo.user_id;
             campus_name = campusInfo.name;
             position_name = positionInfo.title;
@@ -192,7 +192,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
 
-        if (curuser_position_name == Constants.MORNING_READ_TEACHER || curuser_position_name == Constants.CHAT_COMMISSIONER) {
+        if (curuser_position_id == Constants.MORNING_READ_TEACHER || curuser_position_id == Constants.CHAT_COMMISSIONER) {
             salesJob.setCompoundDrawables(null, null, null, null);
         }
         //销讲师 或者 晨读讲师 就不能显示 第二个表格了
@@ -302,12 +302,13 @@ user_id	Int	0			指定看某个员工的	*/
                 break;
             case R.id.sales_job:
                 //校聊专员 晨读讲师
-                if (curuser_position_name == Constants.MORNING_READ_TEACHER || curuser_position_name == Constants.CHAT_COMMISSIONER) {
+                if (curuser_position_id == Constants.MORNING_READ_TEACHER || curuser_position_id == Constants.CHAT_COMMISSIONER) {
                     return;
                 }
                 Intent intent1 = new Intent(this, SelectPositionActivity.class);
                 intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
                 intent1.putExtra("CAMPUS_ID", campus_id);
+                intent1.putExtra("CAMPUS_NAME", campus_name);
                 JumpManager.jumpActivityForResult(this, intent1, REQUEST_CODE, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sale_legend_apply:
@@ -345,13 +346,17 @@ user_id	Int	0			指定看某个员工的	*/
                 SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
                 position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
                 position_name = data.getStringExtra(SelectPositionActivity.PICK_POSITION);
+                String extra_campus = data.getStringExtra(SelectPositionActivity.PICK_CAMPUS);
+                if (extra_campus != null && extra_campus != "")
+                    campus_name = extra_campus;
                 user_id = extra.id;
-                setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, campus_name, position_id);
-                getSaleProcessData();
+                setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, this.campus_name, position_id);
             } else {
                 setUpDataByResult();
-                salesSpinner.setSelection(0);
+                salesSpinner.setSelection(0, true);
+                type_time = 7;
             }
+            getSaleProcessData();
 
         }
     }
@@ -400,7 +405,7 @@ user_id	Int	0			指定看某个员工的	*/
             setUpDataByResult();
         }
         //如果 不是总部账号 那么process.principal  就会为空   campus_id
-        if (process.principal == null)
+        if (process.principal == null && campus_name == null && user_name == null && position_name == null)
             setUpDataByResult();
         setUpLable();
         mChart.invalidate();

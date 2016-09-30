@@ -248,6 +248,7 @@
     <string name="data_campus">教务教学</string>
     <string name="student_number_detail">各校区招生人数明细表</string>
     <string name="select_subordinates">选择下属</string>
+    <string name="select_subordinates_menu_default">杭州校区</string>
     <string name="select_subordinates_searchview">搜索名字或电话号码</string>
 
     <string name="other_statistic">其他类别统计</string>

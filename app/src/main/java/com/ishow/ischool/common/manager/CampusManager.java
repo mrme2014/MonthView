@@ -6,6 +6,7 @@ import com.commonlib.util.LogUtil;
 import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class CampusManager {
 
     public ArrayList<CampusInfo> get() {
         if (context == null) {
-            throw new RuntimeException();
+            context = CrmApplication.getInstance().getApplicationContext();
         }
         if (campusInfos == null) {
             String data = readData();

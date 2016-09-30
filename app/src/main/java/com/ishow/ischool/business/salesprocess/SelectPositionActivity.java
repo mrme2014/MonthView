@@ -7,6 +7,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,7 +20,6 @@ import com.ishow.ischool.bean.saleprocess.MarketPositionObject;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
-import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
@@ -34,7 +34,7 @@ import java.util.TreeMap;
 /**
  * Created by MrS on 2016/9/18.
  */
-public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition>, View.OnClickListener {
+public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition> {
 
     private Marketposition marketpositions;
     private LabelTextView ltv;
@@ -43,7 +43,10 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     private int position_id = -1;
     private int REQUEST_CODE;
     public static final String PICK_POSITION = "pick_position";
+    public static final String PICK_CAMPUS = "pick_campus";
+    public  String pick_campus ;
     private String pick_position;
+    private ArrayList<CampusInfo> campusInfos;
 
     @Override
     protected void initEnv() {
@@ -51,7 +54,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
         REQUEST_CODE = getIntent().getIntExtra("REQUEST_CODE", 0);
         campus_id = getIntent().getIntExtra("CAMPUS_ID", campus_id);
-
+        pick_campus  = getIntent().getStringExtra("CAMPUS_NAME");
     }
 
     @Override
@@ -60,7 +63,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         recycler.enableLoadMore(false);
         recycler.enablePullToRefresh(false);
         recycler.setOnRefreshListener(this);
-        if (campus_id == 1) {
+        if (mUser.userInfo.campus_id == 1) {
             setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
             Menu menu = mToolbar.getMenu();
             MenuItem item = menu.getItem(0);
@@ -70,9 +73,20 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.icon_screen_down_white);
             ltv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
             ltv.setUpMenu(true);
-            PositionInfo positionInfo = mUser.positionInfo;
-            ltv.setEllipsizeText(positionInfo.campus, 7);
-            ltv.setOnClickListener(this);
+            // PositionInfo positionInfo = mUser.positionInfo;
+            ltv.setEllipsizeText(pick_campus==null?getString(R.string.select_subordinates_menu_default):pick_campus, 7);
+            // ltv.setOnClickListener(this);
+            ltv.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (campusInfos == null) {
+                            campusInfos = CampusManager.getInstance().get();
+                        } else getCampusSucess(campusInfos);
+                    }
+                    return false;
+                }
+            });
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
@@ -81,9 +95,9 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
     private void getPositionData() {
         handProgressbar(true);
-        TreeMap<String,Integer> map= new TreeMap<>();
-        if (campus_id!=1){
-            map.put("campus_id",campus_id);
+        TreeMap<String, Integer> map = new TreeMap<>();
+        if (campus_id != 1) {
+            map.put("campus_id", campus_id);
         }
         mPresenter.getOption("Marketposition", map);
     }
@@ -107,7 +121,8 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         fragment.addCallback(new PickerDialogFragment.Callback<int[]>() {
             @Override
             public void onPickResult(int[] selectIds, String... result) {
-                ltv.setText(result[0]);
+                pick_campus = result[0];
+                ltv.setEllipsizeText(result[0], 7);
                 campus_id = campusInfos.get(selectIds[0]).id;
                 getPositionData();
             }
@@ -157,14 +172,6 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         loadFailed();
     }
 
-    private ArrayList<CampusInfo> campusInfos;
-
-    @Override
-    public void onClick(View v) {
-        if (campusInfos == null) {
-            campusInfos = CampusManager.getInstance().get();
-        } else getCampusSucess(campusInfos);
-    }
 
     class selectHeadHolder extends BaseViewHolder {
 
@@ -201,7 +208,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             //加个 if判断 是因为 如果数据为空的时候  显示了空界面 但还是 点击可响应
             if (marketpositions != null && marketpositions.Marketposition != null && marketpositions.Marketposition.size() > 0) {
                 Intent data = new Intent();
-                data.putExtra("no_choice",true);
+                data.putExtra("no_choice", true);
                 setResult(REQUEST_CODE, data);
                 SelectPositionActivity.this.finish();
             }
@@ -243,6 +250,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelectSubordinateActivity.PICK_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             data.putExtra(PICK_POSITION, pick_position);
+            data.putExtra(PICK_CAMPUS, pick_campus);
             data.putExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
             setResult(REQUEST_CODE, data);
             this.finish();

@@ -7,7 +7,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ import java.util.TreeMap;
 /**
  * Created by MrS on 2016/9/18.
  */
-public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition> {
+public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition>, View.OnClickListener {
 
     private Marketposition marketpositions;
     private LabelTextView ltv;
@@ -44,6 +43,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     private int REQUEST_CODE;
     public static final String PICK_POSITION = "pick_position";
     public static final String PICK_CAMPUS = "pick_campus";
+    public static final String PICK_CAMPUS_ID= "pick_campus_id";
     public  String pick_campus ;
     private String pick_position;
     private ArrayList<CampusInfo> campusInfos;
@@ -75,18 +75,8 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             ltv.setUpMenu(true);
             // PositionInfo positionInfo = mUser.positionInfo;
             ltv.setEllipsizeText(pick_campus==null?getString(R.string.select_subordinates_menu_default):pick_campus, 7);
-            // ltv.setOnClickListener(this);
-            ltv.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if (campusInfos == null) {
-                            campusInfos = CampusManager.getInstance().get();
-                        } else getCampusSucess(campusInfos);
-                    }
-                    return false;
-                }
-            });
+             ltv.setOnClickListener(this);
+
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
@@ -172,6 +162,14 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         loadFailed();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (campusInfos == null) {
+            campusInfos = CampusManager.getInstance().get();
+        }
+        getCampusSucess(campusInfos);
+    }
+
 
     class selectHeadHolder extends BaseViewHolder {
 
@@ -251,6 +249,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         if (requestCode == SelectSubordinateActivity.PICK_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             data.putExtra(PICK_POSITION, pick_position);
             data.putExtra(PICK_CAMPUS, pick_campus);
+            data.putExtra(PICK_CAMPUS_ID, campus_id);
             data.putExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
             setResult(REQUEST_CODE, data);
             this.finish();

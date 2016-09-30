@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
@@ -69,9 +70,17 @@ public class MarkerView extends RelativeLayout implements IMarker {
     public String getSelectValueByIndex(int dataSetIndex, int entryIndex) {
         if (chart == null)
             chart = getChartView();
-        float y = chart.getData().getDataSetByIndex(dataSetIndex).getEntryForIndex(entryIndex).getY();
-        if (y == 0) return "0";
-        return (int)y + "";
+        ChartData chartData = chart.getData();
+        int dataSetCount = chartData.getDataSetCount();
+        switch (dataSetIndex) {
+            case 0:
+                if (dataSetCount >= 1)
+                    return (int)chartData.getDataSetByIndex(dataSetIndex).getEntryForIndex(entryIndex).getY() + "";
+            case 1:
+                if (dataSetCount >= 2)
+                    return (int)chartData.getDataSetByIndex(dataSetIndex).getEntryForIndex(entryIndex).getY() + "";
+        }
+        return "0";
     }
 
     @Override

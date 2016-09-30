@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.github.mikephil.charting.charts.LineChart;
@@ -85,6 +86,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     public static final int REQUEST_CODE = 1001;
     private Principal principal;
 
+    private float downX = 0;
 
     /*private final int HIDE_TABLE_PERMISSION1 = 17;
     private final int HIDE_TABLE_PERMISSION2 = 18;
@@ -122,14 +124,14 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                float downX = 0;
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         downX = event.getX();
                         break;
-                    case MotionEvent.ACTION_MOVE:
+                    //  case MotionEvent.ACTION_MOVE:
                     case MotionEvent.ACTION_UP:
-                        if (event.getX() - downX < ViewConfiguration.get(SalesProcessActivity.this).getScaledTouchSlop()) {
+                        //      LogUtil.e(event.getX()-downX+"---"+ViewConfiguration.get(SalesProcessActivity.this).getScaledTouchSlop());
+                        if (Math.abs(event.getX() - downX) <= ViewConfiguration.get(SalesProcessActivity.this).getScaledTouchSlop()) {
                             mChart.setDrawMarkers(true);
                         }
                         break;
@@ -267,6 +269,8 @@ user_id	Int	0			指定看某个员工的	*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (saleLegendApply.isChecked()) invalidateApplyCount();
+        if (saleLegendFull.isChecked()) invalidateFullAmount();
         //  mChart.setDrawMarkers(true);
         if (position != mPresenter.getSpinnerData().size() - 1) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
@@ -346,16 +350,19 @@ user_id	Int	0			指定看某个员工的	*/
                 SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
                 position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
                 position_name = data.getStringExtra(SelectPositionActivity.PICK_POSITION);
+                campus_id = data.getIntExtra(SelectPositionActivity.PICK_CAMPUS_ID, campus_id);
+                user_id = extra.id;
                 String extra_campus = data.getStringExtra(SelectPositionActivity.PICK_CAMPUS);
                 if (extra_campus != null && extra_campus != "")
                     campus_name = extra_campus;
-                user_id = extra.id;
+
                 setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, this.campus_name, position_id);
             } else {
                 setUpDataByResult();
                 salesSpinner.setSelection(0, true);
                 type_time = 7;
             }
+            LogUtil.e("onActivityResult" + campus_id);
             getSaleProcessData();
 
         }

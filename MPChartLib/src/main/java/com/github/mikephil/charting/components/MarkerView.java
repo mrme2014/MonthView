@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.lang.ref.WeakReference;
@@ -72,13 +73,26 @@ public class MarkerView extends RelativeLayout implements IMarker {
             chart = getChartView();
         ChartData chartData = chart.getData();
         int dataSetCount = chartData.getDataSetCount();
+        if (chartData == null)
+            return "0";
+
         switch (dataSetIndex) {
             case 0:
-                if (dataSetCount >= 1)
-                    return (int)chartData.getDataSetByIndex(dataSetIndex).getEntryForIndex(entryIndex).getY() + "";
+                if (dataSetCount >= 1) {
+                    IDataSet dataSetByIndex = chartData.getDataSetByIndex(dataSetIndex);
+                    if (dataSetByIndex == null)
+                        return "0";
+                    return (int) dataSetByIndex.getEntryForIndex(entryIndex).getY() + "";
+                }
+
             case 1:
-                if (dataSetCount >= 2)
-                    return (int)chartData.getDataSetByIndex(dataSetIndex).getEntryForIndex(entryIndex).getY() + "";
+                if (dataSetCount >= 2) {
+                    IDataSet dataSetByIndex = chartData.getDataSetByIndex(dataSetIndex);
+                    if (dataSetByIndex == null)
+                        return "0";
+                    return (int) dataSetByIndex.getEntryForIndex(entryIndex).getY() + "";
+                }
+
         }
         return "0";
     }

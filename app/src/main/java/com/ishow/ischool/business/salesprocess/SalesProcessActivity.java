@@ -416,6 +416,8 @@ user_id	Int	0			指定看某个员工的	*/
             setUpDataByResult();
         setUpLable();
         mChart.invalidate();
+        mChart.animateX(2500);
+        mChart.animateY(2500);
     }
 
     @Override

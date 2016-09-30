@@ -25,7 +25,7 @@ public class TableRowTextView extends TextView {
 
     private float txtHeight;
 
-    private boolean shouldDrawBotLine;
+    private boolean shouldDrawBotLine =false;
 
     private int cellWidth;
     private int fixedCellWidth;

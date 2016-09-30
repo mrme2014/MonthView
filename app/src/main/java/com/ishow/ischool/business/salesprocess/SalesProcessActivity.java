@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
@@ -20,7 +21,9 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.saleprocess.Principal;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.saleprocess.TableTotal;
@@ -75,13 +78,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private int user_id;
     private String campus_name;
     private String position_name;
+    private String file_name;
+    private int curuser_position_name;
+    private String user_name;
 
     public static final int REQUEST_CODE = 1001;
+    private Principal principal;
 
-    private final int HIDE_TABLE_PERMISSION1 = 17;
+
+    /*private final int HIDE_TABLE_PERMISSION1 = 17;
     private final int HIDE_TABLE_PERMISSION2 = 18;
     private final int HIDE_TABLE_PERMISSION3 = 19;
-    private final int HIDE_TABLE_PERMISSION4 = 14;
+    private final int HIDE_TABLE_PERMISSION4 = 14;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,15 +113,27 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 mChart.onTouchEvent(event);
                 mChart.clearAnimation();
                 mChart.clearFocus();
+                mChart.setDrawMarkers(false);
                 return false;
             }
         });
         salesSpinner.setOnItemSelectedListener(this);
-
         mPresenter.initChart(this, mChart);
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                float downX = 0;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        downX = event.getX();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_UP:
+                        if (event.getX() - downX < ViewConfiguration.get(SalesProcessActivity.this).getScaledTouchSlop()) {
+                            mChart.setDrawMarkers(true);
+                        }
+                        break;
+                }
                 if (mChart.getScaleX() > 1f || mChart.getScaleY() > 1f)
                     mChart.requestDisallowInterceptTouchEvent(true);
                 return false;
@@ -125,24 +145,44 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     protected void setUpData() {
-        Avatar avatar = mUser.avatar;
-        UserInfo userInfo = mUser.userInfo;
-        CampusInfo campusInfo = mUser.campusInfo;
-        PositionInfo positionInfo = mUser.positionInfo;
-        campus_id = campusInfo.id;
-        position_id = positionInfo.id;
-        user_id = userInfo.user_id;
-        campus_name = campusInfo.name;
-        position_name = positionInfo.title;
+        //  setUpDataByResult();
+        campus_id = mUser.campusInfo.id;
+        curuser_position_name = position_id = mUser.positionInfo.id;
+        user_id = mUser.userInfo.user_id;
+    }
 
-        setUpPersonInfo(avatar.file_name, user_id, userInfo.user_name, position_name, campusInfo.name, position_id);
-
+    private void setUpDataByResult() {
+        if (principal != null) {
+            file_name = principal.avatar;
+            user_id = principal.user_id;
+            user_name = principal.user_name;
+            position_name = principal.position_name;
+            campus_name = principal.campus_name;
+            position_id = principal.position_id;
+            campus_id = principal.campus_id;
+            //setUpPersonInfo(file_name, user_id, user_name, position_name,campus_name, position_id);
+        } else {
+            Avatar avatar = mUser.avatar;
+            UserInfo userInfo = mUser.userInfo;
+            CampusInfo campusInfo = mUser.campusInfo;
+            PositionInfo positionInfo = mUser.positionInfo;
+            campus_id = campusInfo.id;
+            curuser_position_name = position_id = positionInfo.id;
+            user_id = userInfo.user_id;
+            campus_name = campusInfo.name;
+            position_name = positionInfo.title;
+            file_name = avatar.file_name;
+            user_name = userInfo.user_name;
+        }
+        setUpPersonInfo(file_name, user_id, user_name, position_name, campus_name, position_id);
     }
 
     private void setUpPersonInfo(String file_name, int user_id, String user_name, String position_name, String campus_name, int position_id) {
-        if (file_name != null && !TextUtils.equals(file_name, "") && file_name != null && file_name != "[]")
+        if (file_name != null && !TextUtils.equals(file_name, "") && file_name != null && file_name != "[]") {
+            salesAvartTxt.setVisibility(View.GONE);
+            salesAvart.setVisibility(View.VISIBLE);
             ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
-        else {
+        } else {
             ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
             salesAvart.setImageResource(R.mipmap.img_header_default);
             salesAvartTxt.setText(user_name, user_id, "");
@@ -152,14 +192,15 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
 
-        if (position_id == HIDE_TABLE_PERMISSION1) {
+        if (curuser_position_name == Constants.MORNING_READ_TEACHER || curuser_position_name == Constants.CHAT_COMMISSIONER) {
             salesJob.setCompoundDrawables(null, null, null, null);
         }
         //销讲师 或者 晨读讲师 就不能显示 第二个表格了
-        if (position_id == HIDE_TABLE_PERMISSION1
-                || position_id == HIDE_TABLE_PERMISSION2
-                || HIDE_TABLE_PERMISSION3 == position_id
-                || HIDE_TABLE_PERMISSION4 == position_id)
+        if (position_id == Constants.COURSE_CONSULTANT_LEADER
+                || position_id == Constants.CHAT_COMMISSIONER
+                || Constants.COURSE_CONSULTANT == position_id
+                || Constants.MORNING_READ_TEACHER == position_id
+                || Constants.PIN_LECTURER == position_id)
             salesTable2.setVisibility(View.GONE);
         else salesTable2.setVisibility(View.VISIBLE);
     }
@@ -205,6 +246,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         mChart.setVisibleXRangeMaximum(type_time == 7 ? 7 : 15);
         if (type_time == 7) {
             mChart.fitScreen();
+            mChart.notifyDataSetChanged();
         }
     }
 
@@ -214,7 +256,7 @@ user_id	Int	0			指定看某个员工的	*/
     private void getSaleProcessData() {
         handProgressbar(true);
         TreeMap map = new TreeMap();
-        if (campus_id != 1) {
+        if (campus_id != Constants.CAMPUS_HEADQUARTERS && campus_id != 0) {
             map.put("campus_id", campus_id);
             map.put("position_id", position_id);
             map.put("user_id", user_id);
@@ -225,7 +267,7 @@ user_id	Int	0			指定看某个员工的	*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        //  mChart.setDrawMarkers(true);
         if (position != mPresenter.getSpinnerData().size() - 1) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
@@ -259,7 +301,8 @@ user_id	Int	0			指定看某个员工的	*/
                 startActivity2SaleTable(false);
                 break;
             case R.id.sales_job:
-                if (position_id == HIDE_TABLE_PERMISSION1) {
+                //校聊专员 晨读讲师
+                if (curuser_position_name == Constants.MORNING_READ_TEACHER || curuser_position_name == Constants.CHAT_COMMISSIONER) {
                     return;
                 }
                 Intent intent1 = new Intent(this, SelectPositionActivity.class);
@@ -298,23 +341,18 @@ user_id	Int	0			指定看某个员工的	*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && requestCode == REQUEST_CODE && data != null) {
-            SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
-            position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
-            position_name = data.getStringExtra(SelectPositionActivity.PICK_POSITION);
-            user_id = extra.id;
-            setUpPersonInfo(extra.file_name, user_id, extra.user_name, position_name, campus_name, position_id);
-//            salesJob.setFirstTxt(extra.user_name);
-//            salesJob.setSecondTxt(data.getStringExtra(SelectPositionActivity.PICK_POSITION));
-//            if (extra.file_name==null||extra.file_name==""||extra.file_name=="[]") {
-//                salesAvart.setImageResource(R.mipmap.img_header_default);
-//                salesAvartTxt.setText(extra.user_name, extra.id, "");
-//                salesAvartTxt.setVisibility(View.VISIBLE);
-//                salesAvart.setVisibility(View.GONE);
-//            }else{
-//                ImageLoaderUtil.getInstance().loadImage(this, extra.file_name, salesAvart);
-//            }
+            if (!data.hasExtra("no_choice")) {
+                SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
+                position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
+                position_name = data.getStringExtra(SelectPositionActivity.PICK_POSITION);
+                user_id = extra.id;
+                setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, campus_name, position_id);
+                getSaleProcessData();
+            } else {
+                setUpDataByResult();
+                salesSpinner.setSelection(0);
+            }
 
-            getSaleProcessData();
         }
     }
 
@@ -356,6 +394,14 @@ user_id	Int	0			指定看某个员工的	*/
     public void getListSuccess(SaleProcess saleProcess) {
         this.process = saleProcess;
         handProgressbar(false);
+        //如果是总部账号 数据回来后 要 重新初始化 campus_id 等字段  principal==null 是是为了 只初始化一次
+        if (process != null && process.principal != null && principal == null) {
+            principal = saleProcess.principal;
+            setUpDataByResult();
+        }
+        //如果 不是总部账号 那么process.principal  就会为空   campus_id
+        if (process.principal == null)
+            setUpDataByResult();
         setUpLable();
         mChart.invalidate();
     }

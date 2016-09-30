@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.commonlib.core.BaseFragment4mvp;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseListAdapter;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.DividerItemDecoration;
@@ -96,6 +97,8 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         if (keywords != null && keywords != "")
             getOptionSubordinateKeyWords(campus_id, position_id, keywords);
         else getOptionSubdinate(campus_id, position_id);
+
+        LogUtil.e("getOptionSubordinateKeyWords"+campus_id+"---"+position_id);
     }
 
     private void getOptionSubdinate(int campus_id, int position_id) {
@@ -113,6 +116,7 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
             map.put("campus_id", campus_id);
             map.put("position_id", position_id);
         }
+
         mPresenter.getOptionSubordinateKeyWords("Subordinate", map, keywords);
     }
 
@@ -121,14 +125,10 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         pullRecycler.onRefreshCompleted();
         if (subordinate != null)
             lists = subordinate.Subordinate;
-        if (lists.size() == 0) {
+        pullRecycler.resetView();
+        adapter.notifyDataSetChanged();
+        if (lists!=null&&lists.size()==0)
             pullRecycler.showEmptyView();
-        } else {
-            pullRecycler.resetView();
-            adapter.notifyDataSetChanged();
-        }
-
-
     }
 
     @Override
@@ -154,7 +154,7 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
 
         @Override
         protected BaseViewHolder onCreateNormalViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_pick_referrer, parent, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_pick_referrer,parent,false);
             return new ViewHolder(view);
         }
     }
@@ -175,10 +175,10 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         @Override
         public void onBindViewHolder(final int position) {
             SubordinateObject data = lists.get(position);
-            if (data.file_name != null && !TextUtils.isEmpty(data.file_name)) {
+            if (data.avatar != null && !TextUtils.isEmpty(data.avatar)) {
                 avatarTv.setVisibility(View.GONE);
                 avatarIv.setVisibility(View.VISIBLE);
-                Glide.with(getContext().getApplicationContext()).load(data.user_name).fitCenter().placeholder(R.mipmap.img_header_default)
+                Glide.with(getContext().getApplicationContext()).load(data.avatar).fitCenter().placeholder(R.mipmap.img_header_default)
                         .transform(new CircleTransform(getContext().getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(avatarIv) {
                     @Override
                     protected void setResource(GlideDrawable resource) {
@@ -199,7 +199,7 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
             } else {
                 avatarIv.setVisibility(View.GONE);
                 avatarTv.setVisibility(View.VISIBLE);
-                avatarTv.setText(data.user_name, data.id, data.file_name);
+                avatarTv.setText(data.user_name, data.id, data.avatar);
             }
             referrerName.setText(data.user_name);
         }
@@ -208,7 +208,6 @@ public class SearchSubordinatesFragment extends BaseFragment4mvp<SalesProcessPre
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
             Intent intent = new Intent();
-
             intent.putExtra(SelectSubordinateActivity.PICK_USER, lists.get(position));
             getActivity().setResult(getActivity().RESULT_OK, intent);
             getActivity().finish();

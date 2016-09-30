@@ -199,8 +199,12 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
             //加个 if判断 是因为 如果数据为空的时候  显示了空界面 但还是 点击可响应
-            if (marketpositions != null && marketpositions.Marketposition != null && marketpositions.Marketposition.size() > 0)
+            if (marketpositions != null && marketpositions.Marketposition != null && marketpositions.Marketposition.size() > 0) {
+                Intent data = new Intent();
+                data.putExtra("no_choice",true);
+                setResult(REQUEST_CODE, data);
                 SelectPositionActivity.this.finish();
+            }
         }
     }
 

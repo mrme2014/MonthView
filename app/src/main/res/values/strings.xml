@@ -264,4 +264,5 @@
     <string name="filter_start_date">开始时间 : %s</string>
     <string name="filter_end_date">结束时间 : %s</string>
     <string name="end_le_start">结束时间必须大于开始时间</string>
+    <string name="status">状态</string>
 </resources>

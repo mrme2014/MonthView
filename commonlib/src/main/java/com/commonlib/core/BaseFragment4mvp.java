@@ -32,10 +32,13 @@ public abstract class BaseFragment4mvp<P extends BasePresenter, M extends BaseMo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter = GenericUtil.getType(this, 0);
-        mModel = GenericUtil.getType(this, 1);
-        if (mPresenter != null && mModel != null && this instanceof BaseView) {
-            mPresenter.setMV(mModel, this);
+
+        if (this instanceof BaseView) {
+            mPresenter = GenericUtil.getType(this, 0);
+            mModel = GenericUtil.getType(this, 1);
+            if (mPresenter != null && mModel != null && this instanceof BaseView) {
+                mPresenter.setMV(mModel, this);
+            }
         }
         /*if (this instanceof BaseView) {
             mPresenter.setMV(mModel, this);

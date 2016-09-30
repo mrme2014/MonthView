@@ -61,9 +61,9 @@ public class TableContentItemAdapter extends BaseAdapter {
         holder.tv_column1.setText(data.scene + "");
         holder.tv_column2.setText(data.sign + "");
         holder.tv_column3.setText(data.fullPay + "");
-        holder.tv_column4.setText(data.signRate + "");
-        holder.tv_column5.setText(data.signRate + "");
-        holder.tv_column6.setText(data.fullSignRate + "");
+        holder.tv_column4.setText(data.signRate + "%");
+        holder.tv_column5.setText(data.fullRate + "%");
+        holder.tv_column6.setText(data.fullSignRate + "%");
 
         return convertView;
     }

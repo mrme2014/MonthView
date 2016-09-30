@@ -10,9 +10,9 @@ public class SignAmount implements Parcelable {
     public int scene;
     public int sign;
     public int fullPay;
-    public int signRate;
-    public int fullSignRate;
-    public int fullRate;
+    public float signRate;
+    public float fullSignRate;
+    public float fullRate;
 
 
     @Override
@@ -25,9 +25,9 @@ public class SignAmount implements Parcelable {
         dest.writeInt(this.scene);
         dest.writeInt(this.sign);
         dest.writeInt(this.fullPay);
-        dest.writeInt(this.signRate);
-        dest.writeInt(this.fullSignRate);
-        dest.writeInt(this.fullRate);
+        dest.writeFloat(this.signRate);
+        dest.writeFloat(this.fullSignRate);
+        dest.writeFloat(this.fullRate);
     }
 
     public SignAmount() {
@@ -37,12 +37,12 @@ public class SignAmount implements Parcelable {
         this.scene = in.readInt();
         this.sign = in.readInt();
         this.fullPay = in.readInt();
-        this.signRate = in.readInt();
-        this.fullSignRate = in.readInt();
-        this.fullRate = in.readInt();
+        this.signRate = in.readFloat();
+        this.fullSignRate = in.readFloat();
+        this.fullRate = in.readFloat();
     }
 
-    public static final Parcelable.Creator<SignAmount> CREATOR = new Parcelable.Creator<SignAmount>() {
+    public static final Creator<SignAmount> CREATOR = new Creator<SignAmount>() {
         @Override
         public SignAmount createFromParcel(Parcel source) {
             return new SignAmount(source);

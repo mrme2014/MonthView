@@ -49,7 +49,6 @@ public interface DataApi {
     //数据分析.市场.各校区业绩对比(statistics.market.bazaarcontrast) 接口
     @GET("/statistics/market/bazaarcontrast")
     Observable<ApiResult<SignPerformanceResult>> getSignPerformance(
-            @Query("from") int from,                        //请求来源,0:pc端
             @Query("campus_id") String campus_id,           //多个校区用逗号连接
             @Query("begin_month") Integer begin_month,      //开始月份201604
             @Query("end_month") Integer end_month,

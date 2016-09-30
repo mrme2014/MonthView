@@ -46,6 +46,23 @@ public class CampusManager {
             throw new RuntimeException();
         }
         this.campusInfos = campusInfos;
+
+        // 按照校区id排序
+        if (campusInfos != null) {
+            Collections.sort(campusInfos, new Comparator<CampusInfo>() {
+                public int compare(CampusInfo arg0, CampusInfo arg1) {
+                    return (arg0.id).compareTo(arg1.id);
+                }
+            });
+
+            for (Iterator it = campusInfos.iterator(); it.hasNext(); ) {
+                CampusInfo campusInfo = (CampusInfo) it.next();
+                if (campusInfo.name.equals("总部") || campusInfo.name.equals("第三校区")) {
+                    it.remove();
+                }
+            }
+        }
+
         String data = gson.toJson(campusInfos);
         persistDate(data);
     }
@@ -58,22 +75,6 @@ public class CampusManager {
             String data = readData();
             campusInfos = gson.fromJson(data, new TypeToken<ArrayList<CampusInfo>>() {
             }.getType());
-
-            if (campusInfos != null) {
-                Collections.sort(campusInfos, new Comparator<CampusInfo>() {
-                    public int compare(CampusInfo arg0, CampusInfo arg1) {
-                        return (arg0.id).compareTo(arg1.id);
-                    }
-                });
-
-                for (Iterator it = campusInfos.iterator(); it.hasNext(); ) {
-                    CampusInfo campusInfo = (CampusInfo) it.next();
-                    if (campusInfo.name.equals("总部") || campusInfo.name.equals("第三校区")) {
-                        it.remove();
-                    }
-                }
-            }
-
         }
 
         return campusInfos;

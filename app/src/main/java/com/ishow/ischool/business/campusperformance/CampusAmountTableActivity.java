@@ -40,7 +40,7 @@ public class CampusAmountTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_amount_table, R.string.campus_performance_amount, MODE_BACK);
+        setContentView(R.layout.activity_campus_amount_table, R.string.student_performance_table, MODE_BACK);
     }
 
     @Override

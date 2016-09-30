@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.manager.TokenManager;
@@ -224,6 +223,9 @@ public class AppUtil {
         Calendar c = Calendar.getInstance();
         c.roll(Calendar.MONTH, -1);
         c.set(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         return c.getTime().getTime() / 1000;
     }
 
@@ -231,23 +233,10 @@ public class AppUtil {
         Calendar c = Calendar.getInstance();
         c.roll(Calendar.MONTH, -1);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
         return c.getTime().getTime() / 1000;
-    }
-
-    public static long getMonthStart(String s) {
-        long time = DateUtil.date2Second(s, "yyyy-MM");
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(time * 1000);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        return c.getTimeInMillis() / 1000;
-    }
-
-    public static long getMonthEnd(String s) {
-        long time = DateUtil.date2Second(s, "yyyy-MM");
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(time * 1000);
-        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        return c.getTimeInMillis() / 1000;
     }
 
     public static long getMonthStart(String year, String month) {
@@ -255,6 +244,9 @@ public class AppUtil {
         c.set(Calendar.YEAR, Integer.parseInt(year));
         c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
         c.set(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         return c.getTimeInMillis() / 1000;
     }
 
@@ -263,6 +255,9 @@ public class AppUtil {
         c.set(Calendar.YEAR, Integer.parseInt(year));
         c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
         return c.getTimeInMillis() / 1000;
     }
 

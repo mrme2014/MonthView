@@ -37,7 +37,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_month_performance_table, R.string.campus_performance_target, MODE_BACK);
+        setContentView(R.layout.activity_campus_month_performance_table, R.string.student_performance_detail_table, MODE_BACK);
     }
 
     @Override

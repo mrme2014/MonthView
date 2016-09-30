@@ -25,7 +25,7 @@ public class SplashActivity extends BaseActivity4Crm {
                     finish();
                     break;
                 case WHAT_LOGIN:
-                    JumpManager.jumpActivity(SplashActivity.this, LoginActivity.class,Resource.NO_NEED_CHECK);
+                    JumpManager.jumpActivity(SplashActivity.this, LoginActivity.class, Resource.NO_NEED_CHECK);
                     finish();
                     break;
             }

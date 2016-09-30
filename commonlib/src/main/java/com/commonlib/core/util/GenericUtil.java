@@ -17,8 +17,13 @@ public class GenericUtil {
      */
     public static <T> T getType(Object o, int i) {
         try {
-            Type[] arguments = ((ParameterizedType) (o.getClass()
-                    .getGenericSuperclass())).getActualTypeArguments();
+            Type type = o.getClass().getGenericSuperclass();
+
+            if (!(type instanceof ParameterizedType)) { //没有传入泛型时,type 转换 ParameterizedType出现异常
+                return null;
+            }
+
+            Type[] arguments = ((ParameterizedType) type).getActualTypeArguments();
 
             if (arguments.length != 0 && arguments.length > i) {
                 return ((Class<T>) arguments[i]).newInstance();
@@ -42,4 +47,6 @@ public class GenericUtil {
 
         return null;
     }
+
+
 }

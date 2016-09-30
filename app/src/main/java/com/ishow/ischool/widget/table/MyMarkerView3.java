@@ -18,17 +18,19 @@ import java.util.ArrayList;
  */
 public class MyMarkerView3 extends MarkerView {
 
-    private TextView tvContent1, tvContent2, tvContent3;
+    private TextView tvContent0, tvContent1, tvContent2, tvContent3;
     private ArrayList<SignAmount> datas;
+    private ArrayList<String> curCampus;
 
-    public MyMarkerView3(Context context, boolean firstY, boolean secondY, boolean thirdY, ArrayList<SignAmount> datas) {
+    public MyMarkerView3(Context context, boolean firstY, boolean secondY, boolean thirdY, ArrayList<String> curCampus, ArrayList<SignAmount> datas) {
         super(context, R.layout.custom_marker_view);
 
+        tvContent0 = (TextView) findViewById(R.id.tv0);
         tvContent1 = (TextView) findViewById(R.id.tv1);
         tvContent2 = (TextView) findViewById(R.id.tv2);
         tvContent3 = (TextView) findViewById(R.id.tv3);
         if (!firstY) {
-            tvContent2.setVisibility(GONE);
+            tvContent1.setVisibility(GONE);
         }
         if (!secondY) {
             tvContent2.setVisibility(GONE);
@@ -36,6 +38,7 @@ public class MyMarkerView3 extends MarkerView {
         if (!thirdY) {
             tvContent3.setVisibility(GONE);
         }
+        this.curCampus = curCampus;
         this.datas = datas;
     }
 
@@ -44,9 +47,10 @@ public class MyMarkerView3 extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        tvContent1.setText("总报名率:" + datas.get((int) e.getX()).signRate);
-        tvContent2.setText("总全款率:" + datas.get((int) e.getX()).fullRate);
-        tvContent3.setText("总全款报名率:" + datas.get((int) e.getX()).fullSignRate);
+        tvContent0.setText(curCampus.get((int) e.getX()));
+        tvContent1.setText("总报名率:" + datas.get((int) e.getX()).signRate + "%");
+        tvContent2.setText("总全款率:" + datas.get((int) e.getX()).fullRate + "%");
+        tvContent3.setText("总全款报名率:" + datas.get((int) e.getX()).fullSignRate + "%");
 
         super.refreshContent(e, highlight);
     }

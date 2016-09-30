@@ -12,16 +12,14 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/name_font_style"
-            android:text="业绩趋势" />
+            style="@style/normal_font_style"
+            android:text="业绩趋势(个)" />
 
         <TextView
             android:id="@+id/subtitle"
             style="@style/small_font_style"
             android:layout_below="@id/title"
-            android:text="2016.05-2016.12"
-            android:textSize="@dimen/sp12"
-            android:visibility="gone"/>
+            android:layout_marginTop="2dp"/>
 
         <TextView
             android:id="@+id/chart_switch"
@@ -48,18 +46,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/white">
 
         <com.github.mikephil.charting.charts.CombinedChart
             android:id="@+id/combinedChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="300dp"/>
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="360dp"
             android:visibility="gone"/>
     </RelativeLayout>
 
@@ -114,22 +112,16 @@
     <RelativeLayout
         android:id="@+id/table_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
         android:padding="10dp">
 
         <TextView
             android:id="@+id/detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/student_number_detail" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail"
-            android:text="查看各校区招生数据" />
+            style="@style/normal_font_style"
+            android:text="@string/student_performance_detail_table"
+            android:textSize="@dimen/sp15"/>
 
         <ImageView
             android:layout_width="wrap_content"

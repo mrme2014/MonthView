@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import retrofit2.adapter.rxjava.HttpException;
@@ -44,6 +45,7 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         if (!isAlive()) {
             return;
         }
+        e.printStackTrace();
         Throwable throwable = e;
         //获取最根源的异常
         while (throwable.getCause() != null) {
@@ -79,11 +81,11 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
         } else if (e instanceof ConnectException) {
             //均视为网络错误
             onError("连接失败");
-        } else if (e instanceof UnknownHostException) {
+        } else if (e instanceof UnknownHostException
+                || e instanceof SocketTimeoutException) {
             onError("网络连接异常");
         } else {
             //未知错误
-//            Log.d("xbin", "", new Exception());
             onError("发生未知错误");
         }
 

@@ -2,6 +2,7 @@ package com.ishow.ischool.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -36,7 +38,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.campusperformance.SignPerformance;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
@@ -47,6 +48,7 @@ import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.table.MyMarkerView1;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +91,8 @@ public class LineChartFragment extends BaseFragment {
     private int mCount = 0;                 // 横坐标个数,即数据个数
     private ArrayList<CampusInfo> mCampusInfos;
     public ArrayList<CampusInfo> mParamCampus;      // 上次显示的校区
+    public ArrayList<SignPerformance> mLastYdatas;      // 上次显示的数据(纵坐标)
+    public String campusParamAll = "";                     // 所有校区id,用于每次请求所有校区的数据
     public String campusParam = "";                 // 默认所有
     public ArrayList<SignPerformance> mYDatas;      // 纵坐标数据,即每个校区的数据
     public int mParamBeginDate = 201607, mParamEndDate = 201609;
@@ -103,14 +107,9 @@ public class LineChartFragment extends BaseFragment {
     public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth, int dataType) {
         mParamBeginDate = beginMonth;
         mParamEndDate = endMonth;
-        ArrayList<CampusInfo> allCampus = new ArrayList<>();
-        allCampus.addAll(CampusManager.getInstance().get());
-        for (CampusInfo info : allCampus) {
-            campusParam = campusParam + info.id + ",";
-        }
-        campusParam = campusParam.substring(0, campusParam.length() - 1);
-        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(1, campusParam,
-                beginMonth, endMonth, dataType == -1? null : dataType, "campusTotal")
+        subtitleTv.setText(mParamBeginDate + "-" + mParamEndDate);
+        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(campusParamAll,
+                beginMonth, endMonth, dataType == -1 ? null : dataType, "campusTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<SignPerformanceResult>() {
@@ -125,6 +124,7 @@ public class LineChartFragment extends BaseFragment {
                     public void onError(String msg) {
                     }
                 });
+
     }
 
     @Override
@@ -144,11 +144,19 @@ public class LineChartFragment extends BaseFragment {
 
     public void setData() {
         mParamCampus = new ArrayList<>();
+        mLastYdatas = new ArrayList<>();
         mCampusInfos = CampusManager.getInstance().get();
         mXDatas = new ArrayList<>();
-        mXDatas.add("");
         mXDatas.addAll(CampusManager.getInstance().getCampusNames());
         mCount = mXDatas.size();
+
+        // 初始获取所有校区id
+        ArrayList<CampusInfo> allCampus = new ArrayList<>();
+        allCampus.addAll(CampusManager.getInstance().get());
+        for (CampusInfo info : allCampus) {
+            campusParamAll = campusParamAll + info.id + ",";
+        }
+        campusParamAll = campusParamAll.substring(0, campusParamAll.length() - 1);
     }
 
     void initCombinedChart() {
@@ -179,14 +187,18 @@ public class LineChartFragment extends BaseFragment {
 //        xAxis.setXOffset(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);      //是否显示X坐标轴上的刻度竖线，默认是true
-        xAxis.setGranularity(0f);           // 设置轴最小间隔
+        xAxis.setGranularity(1f);           // 设置轴最小间隔
         xAxis.setAxisMinValue(0f);
         xAxis.setLabelRotationAngle(-60);       //设置x轴字体显示角度
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 LogUtil.d("LineChartFragment value = " + value);
-                return mXDatas.get((int) value % mXDatas.size());
+                if (value >= 0 && value < mCount) {
+                    return mXDatas.get((int) value);        // % mXDatas.size()
+                } else {
+                    return "";
+                }
             }
 
             @Override
@@ -202,14 +214,13 @@ public class LineChartFragment extends BaseFragment {
     public void setLineChartData(ArrayList<CampusInfo> campusInfos) {
         ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
         tempCampusInfos.addAll(campusInfos);
-        ArrayList<SignPerformance> datas = new ArrayList<>();
+        mLastYdatas.clear();
         if (mParamCampus != null && mParamCampus.size() > 0) {      // 即不是第一次
             mXDatas.clear();
-            mXDatas.add("");
             ArrayList<CampusInfo> allCampusInfos = CampusManager.getInstance().get();
             for (CampusInfo campusInfo : tempCampusInfos) {
                 mXDatas.add(campusInfo.name);
-                datas.add(mYDatas.get(allCampusInfos.indexOf(campusInfo)));
+                mLastYdatas.add(mYDatas.get(allCampusInfos.indexOf(campusInfo)));
             }
             mCount = mXDatas.size();
             lineData.removeDataSet(mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.base_performance), true));
@@ -217,14 +228,14 @@ public class LineChartFragment extends BaseFragment {
             barData.removeDataSet(mCombinedChart.getBarData().getDataSetByLabel(getString(performance), true));
             mCombinedChart.clearValues();
         } else {
-            datas.addAll(mYDatas);
+            mLastYdatas.addAll(mYDatas);
         }
         mParamCampus.clear();         // 更新上一次显示的校区
         mParamCampus.addAll(tempCampusInfos);
 
-        lineData.addDataSet(generateBaseLineData(datas));
-        lineData.addDataSet(generateChallengeLineData(datas));
-        barData.addDataSet(generateBarData(datas));
+        lineData.addDataSet(generateBaseLineData(mLastYdatas));
+        lineData.addDataSet(generateChallengeLineData(mLastYdatas));
+        barData.addDataSet(generateBarData(mLastYdatas));
         barData.setBarWidth(0.3f);
         combinedData.setData(lineData);
         combinedData.setData(barData);
@@ -235,17 +246,18 @@ public class LineChartFragment extends BaseFragment {
         mCombinedChart.animateXY(1000, 1000);
 
         if (mCount < 7) {
-            mCombinedChart.getXAxis().setLabelCount(mCount);
+            mCombinedChart.getXAxis().setLabelCount(mCount + 1);
         }
         if (mCount != 1) {
             mCombinedChart.setVisibleXRangeMaximum(mCount > 7 ? 7 : mCount);      //设置屏幕显示条数
         }
+        mCombinedChart.getXAxis().setGranularity(1f);
         mCombinedChart.invalidate();
-        setChartMarkView();
+        setChartMarkView(mLastYdatas);
     }
 
-    void setChartMarkView() {
-        MyMarkerView1 mv = new MyMarkerView1(getContext(), !baseCtv.isChecked(), !challengeCtv.isChecked(), mYDatas);
+    void setChartMarkView(ArrayList<SignPerformance> datas) {
+        MyMarkerView1 mv = new MyMarkerView1(getContext(), !baseCtv.isChecked(), !challengeCtv.isChecked(), mXDatas, datas);
         mv.setChartView(mCombinedChart); // For bounds control
         mCombinedChart.setMarker(mv);
     }
@@ -253,26 +265,43 @@ public class LineChartFragment extends BaseFragment {
     private void initPieChart() {
         mPieChart.setUsePercentValues(true);
         mPieChart.setDescription("");
-//        mPieChart.setExtraOffsets(5, 10, 5, 5);     //设置图表外，布局内显示的偏移量
+        mPieChart.setExtraOffsets(25, 10, 25, 10);     //设置图表外，布局内显示的偏移量
+
+        mPieChart.setDrawHoleEnabled(true);
+        mPieChart.setHoleColor(Color.WHITE);
+
+        mPieChart.setTransparentCircleColor(Color.WHITE);
+        mPieChart.setTransparentCircleAlpha(110);
+
+        mPieChart.setHoleRadius(58f);
+        mPieChart.setTransparentCircleRadius(61f);
+
+        mPieChart.setDrawCenterText(true);
+
+        mPieChart.setRotationAngle(0);
+        // enable rotation of the chart by touch
+        mPieChart.setRotationEnabled(true);
+        mPieChart.setHighlightPerTapEnabled(true);
 
         mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
-//        Legend l = mPieChart.getLegend();
-//        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
-//        l.setXEntrySpace(7f);
-//        l.setYEntrySpace(0f);
-//        l.setYOffset(0f);
+        Legend l = mPieChart.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(5f);
+        l.setWordWrapEnabled(true);
 
         // entry label styling
-        mPieChart.setEntryLabelColor(Color.WHITE);
-        mPieChart.setEntryLabelTextSize(12f);
+        mPieChart.setEntryLabelColor(getContext().getResources().getColor(R.color.txt_6));
+        mPieChart.setEntryLabelTextSize(10f);
     }
 
     private LineDataSet generateBaseLineData(ArrayList<SignPerformance> campusPerformances) {
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < mCount - 1; index++) {
-            entries.add(new Entry(index + 1f, Float.parseFloat(campusPerformances.get(index).perweek_full_base)));
+        for (int index = 0; index < mCount; index++) {
+            entries.add(new Entry(index, Float.parseFloat(campusPerformances.get(index).perweek_full_base)));
         }
 
         int color = getResources().getColor(R.color.chart_red);
@@ -295,8 +324,8 @@ public class LineChartFragment extends BaseFragment {
     private LineDataSet generateChallengeLineData(ArrayList<SignPerformance> campusPerformances) {
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < mCount - 1; index++) {
-            entries.add(new Entry(index + 1f, Float.parseFloat(campusPerformances.get(index).perweek_full_challenge)));
+        for (int index = 0; index < mCount; index++) {
+            entries.add(new Entry(index, Float.parseFloat(campusPerformances.get(index).perweek_full_challenge)));
         }
 
         int color = getResources().getColor(R.color.chart_green);
@@ -320,11 +349,11 @@ public class LineChartFragment extends BaseFragment {
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
         for (int index = 0; index < mCount; index++) {
-            if (index == mCount - 1) {
-                entries.add(new BarEntry(index + 1f, 0));
-                continue;
-            }
-            entries.add(new BarEntry(index + 1f, Float.parseFloat(campusPerformances.get(index).perweek_real)));
+//            if (index == mCount - 1) {
+//                entries.add(new BarEntry(index, 0));
+//                continue;
+//            }
+            entries.add(new BarEntry(index, Float.parseFloat(campusPerformances.get(index).perweek_real)));
         }
 
         barDataSet = new BarDataSet(entries, getString(performance));
@@ -338,6 +367,13 @@ public class LineChartFragment extends BaseFragment {
     }
 
     public void setPieChartData(ArrayList<CampusInfo> campusInfos) {
+        // 刷新上次显示(id)
+        campusParam = "";
+        for (CampusInfo info : campusInfos) {
+            campusParam = campusParam + info.id + ",";
+        }
+        campusParam = campusParam.substring(0, campusParam.length() - 1);
+
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
@@ -350,34 +386,47 @@ public class LineChartFragment extends BaseFragment {
         }
         for (int j = 0; j < campusInfos.size(); j++) {
             int position = mCampusInfos.indexOf(campusInfos.get(j));
-            entries.add(new PieEntry((float) (Integer.parseInt(mYDatas.get(position).perweek_real) / total) * 100, campusInfos.get(j).name));
+            double result = Math.round((Integer.parseInt(mYDatas.get(position).perweek_real) / total) * 10000) / 10000.0;     // 保留4位小数(*100后保留2位小数)
+            if (result > 0) {
+                double f = result * 100;
+                LogUtil.d("double = " + f);
+                BigDecimal bigDecimal = new BigDecimal(String.valueOf(f));
+                entries.add(new PieEntry(bigDecimal.floatValue(), campusInfos.get(j).name));
+            }
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "piechart");
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
+        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        dataSet.setValueLinePart1OffsetPercentage(80f);
+        dataSet.setValueLinePart1Length(0.2f);
+        dataSet.setValueLinePart2Length(0.4f);
+        dataSet.setValueTextColor(Color.WHITE);
 
         // add a lot of colors
 
         ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-//        colors.add(ColorTemplate.getHoloBlue());
-
+        colors.add(getResources().getColor(R.color.random_color1));
+        colors.add(getResources().getColor(R.color.random_color2));
+        colors.add(getResources().getColor(R.color.random_color3));
+        colors.add(getResources().getColor(R.color.random_color4));
+        colors.add(getResources().getColor(R.color.random_color5));
+        colors.add(getResources().getColor(R.color.random_color6));
+        colors.add(getResources().getColor(R.color.random_color7));
+        colors.add(getResources().getColor(R.color.random_color8));
+        colors.add(getResources().getColor(R.color.random_color9));
+        colors.add(getResources().getColor(R.color.random_color10));
+        colors.add(getResources().getColor(R.color.random_color11));
+        colors.add(getResources().getColor(R.color.random_color12));
+        colors.add(getResources().getColor(R.color.random_color13));
+        colors.add(getResources().getColor(R.color.random_color14));
+        colors.add(getResources().getColor(R.color.random_color15));
+        colors.add(getResources().getColor(R.color.random_color16));
+        colors.add(getResources().getColor(R.color.random_color17));
+        colors.add(getResources().getColor(R.color.random_color18));
+        colors.add(getResources().getColor(R.color.random_color19));
+        colors.add(getResources().getColor(R.color.random_color20));
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
 
@@ -389,8 +438,8 @@ public class LineChartFragment extends BaseFragment {
 
         // undo all highlights
         mPieChart.highlightValues(null);
-
         mPieChart.invalidate();
+        resetCheckTextState();          // 同步图例的显示与否
     }
 
 
@@ -410,27 +459,24 @@ public class LineChartFragment extends BaseFragment {
                     mCombinedChart.setVisibility(View.VISIBLE);
                     legendLayout.setVisibility(View.VISIBLE);
                     mPieChart.setVisibility(View.GONE);
-                    titleTv.setText("业绩趋势");
-//                    subtitleTv.setVisibility(View.VISIBLE);
-//                    subtitleTv.setText(lastBeginDate);
+                    titleTv.setText("业绩趋势(个)");
                     switcTv.setText("饼图");
                 } else {
                     curPieMode = true;
                     mPieChart.setVisibility(View.VISIBLE);
                     mCombinedChart.setVisibility(View.GONE);
                     legendLayout.setVisibility(View.GONE);
-                    titleTv.setText("业绩对比");
-//                    subtitleTv.setVisibility(View.GONE);
+                    titleTv.setText("业绩对比(%)");
                     switcTv.setText("折线图");
                 }
                 break;
             case R.id.legend_base_performance:
                 invalidateBasePerformance();
-                setChartMarkView();
+                setChartMarkView(mLastYdatas);
                 break;
             case R.id.legend_challenge_performance:
                 invalidateChallengePerformance();
-                setChartMarkView();
+                setChartMarkView(mLastYdatas);
                 break;
             case R.id.table_layout:
                 Intent intent = new Intent(getActivity(), CampusMonthPerformanceTableActivity.class);
@@ -443,6 +489,7 @@ public class LineChartFragment extends BaseFragment {
     private PopupWindow mFromPopup;
     private ListView from_lv;
     private ArrayList<String> fromList;
+
     void showFromPopup() {
         if (mFromPopup == null) {
             View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.filter_chart_from_popup, null);
@@ -450,8 +497,8 @@ public class LineChartFragment extends BaseFragment {
             mFromPopup.setWidth(fromTv.getWidth());
             mFromPopup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
             //外部是否可以点击
-//            mFromPopup.setBackgroundDrawable(new BitmapDrawable());
-//            mFromPopup.setOutsideTouchable(true);
+            mFromPopup.setBackgroundDrawable(new BitmapDrawable());
+            mFromPopup.setOutsideTouchable(true);
 
             from_lv = (ListView) contentView.findViewById(R.id.from_lv);
             final ViewGroup.LayoutParams params = from_lv.getLayoutParams();
@@ -468,7 +515,7 @@ public class LineChartFragment extends BaseFragment {
                 listitems.add(listitem);
             }
             SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), listitems, R.layout.item_performance_simple_list,
-                    new String[] { "from"}, new int[] {R.id.from_tv});
+                    new String[]{"from"}, new int[]{R.id.from_tv});
             from_lv.setAdapter(simpleAdapter);
             from_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -481,9 +528,10 @@ public class LineChartFragment extends BaseFragment {
                     } else if (i == 2) {
                         type = 3;
                     }
+                    fromTv.setText(fromList.get(i));
                     if (type != mParamDataType) {
                         mParamDataType = type;
-                        pullData(mParamCampus, mParamBeginDate, mParamBeginDate, mParamDataType);
+                        pullData(mParamCampus, mParamBeginDate, mParamEndDate, mParamDataType);
                     }
                     mFromPopup.dismiss();
                 }
@@ -492,15 +540,28 @@ public class LineChartFragment extends BaseFragment {
         mFromPopup.showAsDropDown(fromTv);
     }
 
+    void resetCheckTextState() {
+        if (baseCtv.isChecked()) {
+            baseDataSet = mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.base_performance), true);
+            lineData.removeDataSet(baseDataSet);
+        }
+        if (challengeCtv.isChecked()) {
+            challengeDataSet = mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.challenge_performance), true);
+            lineData.removeDataSet(challengeDataSet);
+        }
+
+        mCombinedChart.invalidate();
+    }
+
     private ILineDataSet baseDataSet, challengeDataSet;
     private LineData tempLineData;
 
     private void invalidateBasePerformance() {
-        if (tempLineData == null) {
-            tempLineData = mCombinedChart.getLineData();
-        }
+//        if (tempLineData == null) {
+//            tempLineData = mCombinedChart.getLineData();
+//        }
         if (!baseCtv.isChecked()) {
-            baseDataSet = tempLineData.getDataSetByLabel(getString(R.string.base_performance), true);
+            baseDataSet = mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.base_performance), true);
             lineData.removeDataSet(baseDataSet);
             baseCtv.setChecked(true);
         } else {
@@ -512,12 +573,11 @@ public class LineChartFragment extends BaseFragment {
     }
 
     private void invalidateChallengePerformance() {
-        if (lineData == null) lineData = mCombinedChart.getLineData();
+//        if (lineData == null) lineData = mCombinedChart.getLineData();
         if (!challengeCtv.isChecked()) {
-            challengeDataSet = lineData.getDataSetByLabel(getString(R.string.challenge_performance), true);
+            challengeDataSet = mCombinedChart.getLineData().getDataSetByLabel(getString(R.string.challenge_performance), true);
             lineData.removeDataSet(challengeDataSet);
             challengeCtv.setChecked(true);
-
         } else {
             lineData.addDataSet(challengeDataSet);
             challengeCtv.setChecked(false);

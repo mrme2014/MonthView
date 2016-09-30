@@ -39,25 +39,25 @@
         android:layout_marginTop="14dp"
         android:layout_toRightOf="@id/user_photo_iv"
         android:maxEms="10"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/communication_date"
         style="@style/small_font_style"
         android:layout_alignBaseline="@id/user_name"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:id="@+id/communication_content"
         style="@style/normal_font_style"
         android:layout_below="@id/user_name"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/user_photo_iv"
         android:ellipsize="end"
-        android:lines="2"/>
+        android:lines="2" />
 
     <View
         android:id="@+id/line1"
@@ -81,11 +81,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:paddingTop="20dp"
-            android:textSize="@dimen/sp13"
             android:textColor="@color/txt_3"
+            android:textSize="@dimen/sp13"
             app:label_text_color="@color/txt_9"
             app:label_text_size="@dimen/sp11"
-            app:label_text_top="状态" />
+            app:label_text_top="@string/status" />
 
         <View
             android:layout_width="1px"
@@ -100,11 +100,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:paddingTop="20dp"
-            android:textSize="@dimen/sp13"
             android:textColor="@color/txt_3"
+            android:textSize="@dimen/sp13"
             app:label_text_color="@color/txt_9"
             app:label_text_size="@dimen/sp11"
-            app:label_text_top="抗拒点" />
+            app:label_text_top="@string/commun_refuse" />
 
         <View
             android:layout_width="1px"
@@ -119,11 +119,11 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:paddingTop="20dp"
-            android:textSize="@dimen/sp13"
             android:textColor="@color/txt_3"
+            android:textSize="@dimen/sp13"
             app:label_text_color="@color/txt_9"
             app:label_text_size="@dimen/sp11"
-            app:label_text_top="信念" />
+            app:label_text_top="@string/commun_confidence" />
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.ishow.ischool.business.statistic.other;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     private Calendar calendar;
     private View headerView;
 
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        CampusManager.getInstance().init(this);
+    }
 
     @Override
     protected void setUpContentView() {
@@ -270,7 +277,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
             okTv.setOnClickListener(onClickListener);
             resetTv.setText(R.string.cancel);
 
-            mList.addAll(CampusManager.getInstance().getAll());
+            mList = CampusManager.getInstance().getAll();
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new CampusSelectAdapter(this, mList);
@@ -639,7 +646,9 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < count; i++) {
-            entries.add(new PieEntry(((float) others.get(i).value) / value * 100, others.get(i).name));
+            if (others.get(i).value > 0) {
+                entries.add(new PieEntry(((float) others.get(i).value) / value * 100, others.get(i).name));
+            }
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");

@@ -18,12 +18,14 @@ import java.util.ArrayList;
  */
 public class MyMarkerView1 extends MarkerView {
 
-    private TextView tvContent1, tvContent2, tvContent3;
+    private TextView tvContent0, tvContent1, tvContent2, tvContent3;
     private ArrayList<SignPerformance> datas;
+    private ArrayList<String> curCampus;
 
-    public MyMarkerView1(Context context, boolean secondY, boolean thirdY, ArrayList<SignPerformance> datas) {
+    public MyMarkerView1(Context context, boolean secondY, boolean thirdY, ArrayList<String> curCampus, ArrayList<SignPerformance> datas) {
         super(context, R.layout.custom_marker_view);
 
+        tvContent0 = (TextView) findViewById(R.id.tv0);
         tvContent1 = (TextView) findViewById(R.id.tv1);
         tvContent2 = (TextView) findViewById(R.id.tv2);
         tvContent3 = (TextView) findViewById(R.id.tv3);
@@ -33,6 +35,7 @@ public class MyMarkerView1 extends MarkerView {
         if (!thirdY) {
             tvContent3.setVisibility(GONE);
         }
+        this.curCampus = curCampus;
         this.datas = datas;
     }
 
@@ -40,10 +43,10 @@ public class MyMarkerView1 extends MarkerView {
     // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
-        tvContent1.setText("业绩:" + datas.get((int) e.getX()-1).perweek_full_base);
-        tvContent2.setText("红线目标:" + datas.get((int) e.getX()-1).perweek_full_challenge);
-        tvContent3.setText("冲刺目标:" + datas.get((int) e.getX()-1).perweek_real);
+        tvContent0.setText(curCampus.get((int) e.getX()));
+        tvContent1.setText("业绩:" + datas.get((int) e.getX()).perweek_real);
+        tvContent2.setText("红线目标:" + datas.get((int) e.getX()).perweek_full_base);
+        tvContent3.setText("冲刺目标:" + datas.get((int) e.getX()).perweek_full_challenge);
 
         super.refreshContent(e, highlight);
     }

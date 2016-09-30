@@ -52,4 +52,25 @@
     <color name="chart_green">#7fe385</color>
 
 
+    
+    <color name="random_color1">#708090</color>
+    <color name="random_color2">#008080</color>
+    <color name="random_color3">#D2B48C</color>
+    <color name="random_color4">#4682B4</color>
+    <color name="random_color5">#a3bc56</color>
+    <color name="random_color6">#fd9d9e</color>
+    <color name="random_color7">#60c0dd</color>
+    <color name="random_color8">#8063a0</color>
+    <color name="random_color9">#ffd700</color>
+    <color name="random_color10">#09b55a</color>
+    <color name="random_color11">#7e81db</color>
+    <color name="random_color12">#da78dd</color>
+    <color name="random_color13">#20B2AA</color>
+    <color name="random_color14">#F08080</color>
+    <color name="random_color15">#800080</color>
+    <color name="random_color16">#FF6347</color>
+    <color name="random_color17">#FF8C00</color>
+    <color name="random_color18">#4682B4</color>
+    <color name="random_color19">#2E8B57</color>
+    <color name="random_color20">#778899</color>
 </resources>

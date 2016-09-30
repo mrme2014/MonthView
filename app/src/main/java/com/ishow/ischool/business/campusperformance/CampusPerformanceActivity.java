@@ -243,11 +243,12 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                                 break;
                             }
                         }
+                        if (j == mLastSelectedItem.size()) {
+                            mCampusPopup.dismiss();
+                            break;
+                        }
                     }
-                    if (j == mLastSelectedItem.size() - 1) {
-                        mCampusPopup.dismiss();
-                        break;
-                    }
+
                     mLastSelectedItem.clear();
                     mLastSelectedItem.addAll(mAdapter.getSelectedItem());
 
@@ -371,7 +372,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
                     lineChartFragment.pullData(lineChartFragment.mParamCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
                                 mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1, lineChartFragment.mParamDataType);
-                    barChartFragment.pullData(barChartFragment.lastShowCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
+                    barChartFragment.pullData(barChartFragment.mLastShowCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
                                 mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1);
                     mLastStartTime = mFilterStartTime;
                     mLastEndTime = mFilterEndTime;

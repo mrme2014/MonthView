@@ -3,7 +3,6 @@ package com.ishow.ischool.business.statistic.other;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -510,12 +509,12 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         ArrayList<OtherStatistics> others = table.data;
 
         float start = 0f;
-        int count = others.size() > 8 ? 8 : others.size();
+        int count = others.size() > 8 && "1".equals(params.get("type")) ? 8 : others.size();
 
         mBarChart.getXAxis().setAxisMinimum(start);
         mBarChart.getXAxis().setAxisMaximum(start + count + 1);
 
-        CampusIAxisValueFormatter formatter = new CampusIAxisValueFormatter(others);
+        CampusIAxisValueFormatter formatter = new CampusIAxisValueFormatter(others, count);
         mBarChart.getXAxis().setValueFormatter(formatter);
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
@@ -637,7 +636,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
 
         ArrayList<OtherStatistics> others = table.data;
 
-        int count = others.size() > 8 ? 8 : others.size();
+        int count = others.size() > 8 && "1".equals(params.get("type")) ? 8 : others.size();
         int value = 0;
         for (int i = 0; i < count; i++) {
             value += others.get(i).value;

@@ -12,9 +12,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
@@ -30,7 +28,7 @@ import java.util.TreeMap;
 /**
  * Created by wqf on 16/8/14.
  */
-public class SalesProcessPresenter extends SalesProcessContract.Presenter implements OnChartValueSelectedListener {
+public class SalesProcessPresenter extends SalesProcessContract.Presenter {
 
 
     @Override
@@ -154,7 +152,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         mChart.setPinchZoom(true);
         // set an alternative background color
         mChart.setBackgroundColor(Color.WHITE);
-        mChart.setOnChartValueSelectedListener(this);
+        //mChart.setOnChartValueSelectedListener(this);
 
         SaleMarkView saleMarkView = new SaleMarkView(context);
         saleMarkView.setChartView(mChart); // For bounds control
@@ -247,11 +245,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             set2.setDrawHighlightIndicators(true);
             set2.setHighLightColor(ContextCompat.getColor(context, R.color.sale_full_fill_color_));
             set2.setDrawValues(set2.isDrawValuesEnabled());
-            //set2.setFillFormatter(new MyFillFormatter(900f));
-            //set1.removeFirst();
-            // set2.removeFirst();
-            // set1.removeLast();
-            // set2.removeLast();
+
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
@@ -271,17 +265,6 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             });
             // set data
             mChart.setData(data);
-            //mChart.setVisibleXRangeMaximum(15);
         }
-    }
-
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-
-    }
-
-    @Override
-    public void onNothingSelected() {
-
     }
 }

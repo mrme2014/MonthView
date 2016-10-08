@@ -32,6 +32,7 @@ android {
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled true
+            // 是否保留debug信息
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config

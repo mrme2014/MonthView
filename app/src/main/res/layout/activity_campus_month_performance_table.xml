@@ -20,7 +20,18 @@
             android:gravity="center"
             android:text="校区"
             android:textColor="@color/txt_3"
-            android:textSize="@dimen/sp13" />
+            android:textSize="@dimen/sp13"
+            android:background="@color/chart_head_gray_bg"/>
+
+        <View
+            android:id="@+id/horizontal_divider_line"
+            style="@style/table_horizontal_divider_line"
+            android:layout_below="@id/tv_name" />
+
+        <View
+            android:id="@+id/vertical_divider_line"
+            style="@style/table_vertical_divider_line"
+            android:layout_toRightOf="@id/tv_name" />
 
         <ListView
             android:id="@+id/lv_left"
@@ -29,30 +40,19 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/tv_name"
+            android:layout_below="@id/horizontal_divider_line"
             android:listSelector="#00000000"
             android:dividerHeight="1px"
             android:divider="@color/comm_line"
-            android:scrollbars="none" />
-
-        <View
-            android:id="@+id/line1"
-            style="@style/table_vertical_divider_line"
-            android:layout_toRightOf="@id/lv_left" />
-
-        <View
-            android:id="@+id/divider_line"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/tv_name"
-            android:background="@color/comm_line" />
+            android:scrollbars="none"
+            android:background="@color/chart_head_gray_bg"/>
 
         <com.ishow.ischool.widget.table.BodyHorizontalScrollView
             android:id="@+id/sv_detail"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@id/divider_line"
-            android:layout_toRightOf="@id/line1"
+            android:layout_below="@id/horizontal_divider_line"
+            android:layout_toRightOf="@id/vertical_divider_line"
             android:overScrollMode="never"
             android:scrollbars="none">
 
@@ -73,7 +73,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/line1"
+            android:layout_toRightOf="@id/vertical_divider_line"
             android:scrollbars="none">
 
             <com.ishow.ischool.widget.table.MyLinearLayout4ListView

@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.salesprocess;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
@@ -21,6 +22,7 @@ public class SaleMarkView extends MarkerView {
      * @param layoutResource the layout resource to use for the MarkerView
      */
     private TextView tvContent1, tvContent3;
+
     public SaleMarkView(Context context) {
         super(context, R.layout.custom_marker_view);
         tvContent1 = (TextView) findViewById(R.id.tv1);
@@ -29,13 +31,20 @@ public class SaleMarkView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tvContent1.setText("报名人数:" + getSelectValueByIndex(0, (int) e.getX()));
-        tvContent3.setText("全款人数:" + getSelectValueByIndex(1, (int) e.getX()));
+
+        tvContent1.setText("报名人数:" + getSelectValueByIndex(1, (int) e.getX()));
+        tvContent3.setText("全款人数:" + getSelectValueByIndex(0, (int) e.getX()));
+
+        tvContent1.setVisibility(isDataSetIndexVisible(1) ? View.VISIBLE : View.GONE);
+        tvContent3.setVisibility(isDataSetIndexVisible(0) ? View.VISIBLE : View.GONE);
+
         super.refreshContent(e, highlight);
     }
-    public void hideMarkView(){
+
+    public void hideMarkView() {
         layout(0, 0, 0, 0);
     }
+
     @Override
     public MPPointF getOffset() {
         return new MPPointF(-(getWidth() / 2), -getHeight());

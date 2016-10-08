@@ -383,7 +383,7 @@ user_id	Int	0			指定看某个员工的	*/
             lineData.addDataSet(full_data_set);
             saleLegendFull.setChecked(false);
         }
-        mChart.setDrawMarkers(!saleLegendFull.isChecked());
+        //mChart.setDrawMarkers(!saleLegendFull.isChecked());
         mChart.invalidate();
     }
 
@@ -398,7 +398,8 @@ user_id	Int	0			指定看某个员工的	*/
             lineData.addDataSet(apply_data_set);
             saleLegendApply.setChecked(false);
         }
-        mChart.setDrawMarkers(!saleLegendApply.isChecked());
+       //mChart.setDrawMarkers(!saleLegendApply.isChecked());
+        //mChart.getData().notifyDataChanged();
         mChart.invalidate();
     }
 

@@ -37,4 +37,6 @@ public class Resource {
     public static final int PERMISSION_DATA_CAMPUS = 27;
     public static final int PERMISSION_DATA_OTHER = 28;
 
+    public static final int PERMISSION_DATA_EDUCATION_OTHER = 31;//教务教学  其他
+
 }

@@ -14,6 +14,8 @@ import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
+import org.lzh.framework.updatepluginlib.model.Update;
+import org.lzh.framework.updatepluginlib.strategy.UpdateStrategy;
 
 public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
@@ -151,7 +153,24 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
 
 
     void checkUpdate() {
-        UpdateBuilder.create().check(MainActivity.this);
+        UpdateBuilder.create().strategy(new UpdateStrategy() {
+            @Override
+            public boolean isShowUpdateDialog(Update update) {
+                // 有新更新直接展示
+                return true;
+            }
+
+            @Override
+            public boolean isAutoInstall() {
+                return false;
+            }
+
+            @Override
+            public boolean isShowDownloadDialog() {
+                // 展示下载进度
+                return true;
+            }
+        }).check(MainActivity.this);
     }
 }
 

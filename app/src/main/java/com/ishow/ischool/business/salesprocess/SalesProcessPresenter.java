@@ -34,7 +34,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
 
 
     @Override
-    public void getSaleProcessData(TreeMap<String,Integer> map, int type) {
+    public void getSaleProcessData(TreeMap<String, Integer> map, int type) {
         mModel.getSaleProcessData(map, type).subscribe(new ApiObserver<SaleProcess>() {
             @Override
             public void onSuccess(SaleProcess saleProcess) {
@@ -54,7 +54,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
     }
 
     @Override
-    public void getOption(String option, TreeMap<String,Integer> map) {
+    public void getOption(String option, TreeMap<String, Integer> map) {
         mModel.getOption(option, map).subscribe(new ApiObserver<Marketposition>() {
             @Override
             public void onSuccess(Marketposition marketpositions) {
@@ -74,7 +74,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
     }
 
     @Override
-    public void getOptionSubordinate(String option, TreeMap<String,Integer> map) {
+    public void getOptionSubordinate(String option, TreeMap<String, Integer> map) {
         mModel.getOptionSubordinate(option, map).subscribe(new ApiObserver<Subordinate>() {
             @Override
             public void onSuccess(Subordinate subordinate) {
@@ -94,8 +94,8 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
     }
 
     @Override
-    public void getOptionSubordinateKeyWords(String option,TreeMap<String,Integer> map, String keywords) {
-        mModel.getOptionSubordinateKeyWords(option,map, keywords).subscribe(new ApiObserver<Subordinate>() {
+    public void getOptionSubordinateKeyWords(String option, TreeMap<String, Integer> map, String keywords) {
+        mModel.getOptionSubordinateKeyWords(option, map, keywords).subscribe(new ApiObserver<Subordinate>() {
             @Override
             public void onSuccess(Subordinate subordinate) {
                 mView.getListSuccess(subordinate);
@@ -135,7 +135,6 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
      */
     public void initChart(Context context, LineChart mChart) {
 
-        mChart.setOnChartValueSelectedListener(this);
         // no description text
         mChart.setDescription("");
         mChart.setNoDataTextDescription("");
@@ -155,6 +154,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         mChart.setPinchZoom(true);
         // set an alternative background color
         mChart.setBackgroundColor(Color.WHITE);
+        mChart.setOnChartValueSelectedListener(this);
 
         SaleMarkView saleMarkView = new SaleMarkView(context);
         saleMarkView.setChartView(mChart); // For bounds control
@@ -186,19 +186,9 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
         leftAxis.setAxisMinValue(0);
         leftAxis.setGranularity(1);
         leftAxis.setDrawGridLines(true);
-       // leftAxis.setGranularityEnabled(false);
+        // leftAxis.setGranularityEnabled(false);
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
-    }
-
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-
-    }
-
-    @Override
-    public void onNothingSelected() {
-
     }
 
     public void setData(Context context, LineChart mChart, List<String> full_amount, List<String> apply_number) {
@@ -283,5 +273,15 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter implem
             mChart.setData(data);
             //mChart.setVisibleXRangeMaximum(15);
         }
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 }

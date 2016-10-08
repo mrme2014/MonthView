@@ -346,4 +346,10 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/comm_line</item>
     </style>
+
+    <style name="table_horizontal_divider_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/comm_line</item>
+    </style>
 </resources>

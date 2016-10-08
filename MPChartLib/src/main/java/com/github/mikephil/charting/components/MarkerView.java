@@ -72,44 +72,32 @@ public class MarkerView extends RelativeLayout implements IMarker {
         if (chart == null)
             chart = getChartView();
         ChartData chartData = chart.getData();
-      //  int dataSetCount = chartData.getDataSetCount();
         if (chartData == null)
-            return "0";
-
-        switch (dataSetIndex) {
-            case 0:
-                    IDataSet dataSetByIndex0 = chartData.getDataSetByLabel("全款人数", true);
-                    if (dataSetByIndex0 == null)
-                        return "0";
-                    return (int) dataSetByIndex0.getEntryForIndex(entryIndex).getY() + "";
-            case 1:
-                    IDataSet dataSetByIndex1 = chartData.getDataSetByLabel("报名人数", true);
-                    if (dataSetByIndex1 == null)
-                        return "0";
-                    return (int) dataSetByIndex1.getEntryForIndex(entryIndex).getY() + "";
-
+            return "";
+        if (dataSetIndex == 1) {
+            IDataSet dataSetByLabel = chartData.getDataSetByLabel("报名人数", true);
+            if (dataSetByLabel == null) return "";
+            return (int)dataSetByLabel.getEntryForIndex(entryIndex).getY() + "";
+        } else if (dataSetIndex == 0) {
+            IDataSet dataSetByLabel = chartData.getDataSetByLabel("全款人数", true);
+            if (dataSetByLabel == null) return "";
+            return (int)dataSetByLabel.getEntryForIndex(entryIndex).getY() + "";
         }
-        return "0";
+        return "";
     }
 
     public boolean isDataSetIndexVisible(int dataSetIndex) {
         if (chart == null)
             chart = getChartView();
         ChartData chartData = chart.getData();
-        if (dataSetIndex == 1 && chartData != null) {
-            IDataSet byLabel = chartData.getDataSetByLabel("报名人数", true);
-            if (byLabel != null)
-                return true;
-            else
-                return false;
-        }
-
-        if (dataSetIndex == 0 && chartData != null) {
-            IDataSet byLabel = chartData.getDataSetByLabel("全款人数", true);
-            if (byLabel != null)
-                return true;
-            else
-                return false;
+        if (chartData == null)
+            return false;
+        if (dataSetIndex == 1) {
+            IDataSet dataSetByLabel = chartData.getDataSetByLabel("报名人数", true);
+            return dataSetByLabel == null ? false : true;
+        } else if (dataSetIndex == 0) {
+            IDataSet dataSetByLabel = chartData.getDataSetByLabel("全款人数", true);
+            return dataSetByLabel == null ? false : true;
         }
         return false;
     }

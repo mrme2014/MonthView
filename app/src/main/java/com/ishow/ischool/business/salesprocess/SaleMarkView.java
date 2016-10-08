@@ -41,10 +41,6 @@ public class SaleMarkView extends MarkerView {
         super.refreshContent(e, highlight);
     }
 
-    public void hideMarkView() {
-        layout(0, 0, 0, 0);
-    }
-
     @Override
     public MPPointF getOffset() {
         return new MPPointF(-(getWidth() / 2), -getHeight());

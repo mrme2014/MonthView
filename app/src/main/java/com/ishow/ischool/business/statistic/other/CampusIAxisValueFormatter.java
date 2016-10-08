@@ -13,15 +13,21 @@ import java.util.ArrayList;
 public class CampusIAxisValueFormatter implements IAxisValueFormatter {
 
     private ArrayList<OtherStatistics> others;
+    private int count;
 
     public CampusIAxisValueFormatter(ArrayList<OtherStatistics> otherStatistics) {
         this.others = otherStatistics;
     }
 
+    public CampusIAxisValueFormatter(ArrayList<OtherStatistics> otherStatistics, int count) {
+        this.others = otherStatistics;
+        this.count = count;
+    }
+
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
         try {
-            if (value <= 8) {
+            if (value <= count) {
                 return others.get((int) value - 1).name;
             } else {
                 return "";

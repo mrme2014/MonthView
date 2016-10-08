@@ -201,8 +201,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         if (position_id == Constants.COURSE_CONSULTANT_LEADER
                 || position_id == Constants.CHAT_COMMISSIONER
                 || Constants.COURSE_CONSULTANT == position_id
-                || Constants.MORNING_READ_TEACHER == position_id
-                || Constants.PIN_LECTURER == position_id)
+                || Constants.MORNING_READ_TEACHER == position_id)
             salesTable2.setVisibility(View.GONE);
         else salesTable2.setVisibility(View.VISIBLE);
     }

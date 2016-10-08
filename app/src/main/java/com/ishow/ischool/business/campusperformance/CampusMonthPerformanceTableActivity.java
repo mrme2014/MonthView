@@ -79,7 +79,6 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
     private MonthPerformanceTableRowAdapter tableContentItemAdapter;
     private MyLinearLayout4ListView myLinearLayout4ListView;
 
-
     private void initView() {
         sv_head = (HeadHorizontalScrollView) findViewById(R.id.sv_title);
         sv_content = (BodyHorizontalScrollView) findViewById(R.id.sv_detail);
@@ -180,6 +179,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
             }
         });
 
+
         //右侧ListView滚动时，控制左侧ListView滚动
         lvDetail.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -201,6 +201,5 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
                 }
             }
         });
-
     }
 }

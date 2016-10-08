@@ -42,7 +42,8 @@ public class MyLinearLayout4ListView extends LinearLayout {
         }
 
         for (int i = 0; i < adapter.getCount(); i++) {
-            final View v = adapter.getView(i);
+            View convertView = null;
+            final View v = adapter.getView(i, convertView);
             final int position = i;
             final Object obj = adapter.getItem(i);
 

@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
@@ -42,8 +41,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     RecyclerView recyclerView;
     @BindView(R.id.empty_layout)
     LinearLayout emptyView;
-    @BindView(R.id.communication_add)
-    TextView communAddTv;
 
     public CommunicationListFragment() {
     }
@@ -150,7 +147,6 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
 
     private void showEmptyView() {
         emptyView.setVisibility(View.VISIBLE);
-        communAddTv.setVisibility(View.VISIBLE);
     }
 
     @Override

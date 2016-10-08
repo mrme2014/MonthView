@@ -30,14 +30,14 @@
             android:layout_height="wrap_content"
             android:text="@string/communication_empty" />
 
-        <TextView
-            android:id="@+id/communication_add"
-            style="@style/text_btn_blue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            android:text="@string/add_communication" />
+        <!--<TextView-->
+            <!--android:id="@+id/communication_add"-->
+            <!--style="@style/text_btn_blue"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:visibility="gone"-->
+            <!--android:text="@string/add_communication" />-->
     </LinearLayout>
 
 </FrameLayout>

@@ -9,6 +9,8 @@ import com.ishow.ischool.bean.campusperformance.WeekTableBodyItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ishow.ischool.R.id.tv;
+
 /**
  * Created by mini on 16/9/28.
  */
@@ -20,13 +22,24 @@ public class WeekPerformanceTableBodyAdapter extends MyLinearLayoutBaseAdapter<W
     }
 
     @Override
-    View getView(int position) {
-        View convertView = getLayoutInflater().inflate(R.layout.item_month_performance_table_body, null);
-        MultiTextLabelBody tv = (MultiTextLabelBody) convertView.findViewById(R.id.tv);
+    View getView(int position, View convertView) {
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = getLayoutInflater().inflate(R.layout.item_month_performance_table_body, null);
+            viewHolder = new ViewHolder();
+            viewHolder.tv = (MultiTextLabelBody) convertView.findViewById(tv);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
         ArrayList<String> item = (ArrayList<String>) list.get(position);
-        tv.setLeftextStr(item.get(0));
-        tv.setCenterTextStr(item.get(1));
-        tv.setRightTextStr(item.get(2));
+        viewHolder.tv.setLeftextStr(item.get(0));
+        viewHolder.tv.setCenterTextStr(item.get(1));
+        viewHolder.tv.setRightTextStr(item.get(2));
         return convertView;
+    }
+
+    class ViewHolder {
+        MultiTextLabelBody tv;
     }
 }

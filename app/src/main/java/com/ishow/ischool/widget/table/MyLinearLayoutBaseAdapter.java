@@ -49,7 +49,7 @@ public abstract class MyLinearLayoutBaseAdapter<T> {
      * @param position
      * @return
      */
-    abstract View getView(int position);
+    abstract View getView(int position, View convertView);
 
 }
 

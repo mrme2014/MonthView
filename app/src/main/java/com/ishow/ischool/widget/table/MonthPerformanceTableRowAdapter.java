@@ -44,16 +44,29 @@ public class MonthPerformanceTableRowAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.item_month_performance_table_row, null);
+//        ViewHolder viewHolder;
+//        if (convertView == null) {
+//            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_month_performance_table_row, null);
+//            viewHolder.lv = (MyLinearLayout4ListView) convertView.findViewById(R.id.row_lv);
         MyLinearLayout4ListView lv = (MyLinearLayout4ListView) convertView.findViewById(R.id.row_lv);
+//            convertView.setTag(viewHolder);
+//        } else {
+//            viewHolder = (ViewHolder) convertView.getTag();
+//        }
 
         MonthTableBodyRow rowData = datas.get(position);
         ArrayList<MonthTableBodyItem> temp = new ArrayList<>();
         temp.addAll(rowData.subList(1, rowData.size()));        // 去掉第一个"校区"(已固定存在于右边)
         MonthPerformanceTableBodyAdapter adapter = new MonthPerformanceTableBodyAdapter(context, temp);
         lv.setAdapter(adapter);
+//        viewHolder.lv.setAdapter(adapter);
 
         return convertView;
     }
+
+//    class ViewHolder {
+//        MyLinearLayout4ListView lv;
+//    }
 
 }

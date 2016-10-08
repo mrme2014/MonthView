@@ -89,13 +89,13 @@ public class MultiTextLabelHead extends TextView {
         canvas.drawLine(0, 0, 0, height, linePaint);
 
         if (centerTextStr != null && !centerTextStr.equals("")) {
-            float centerHeight = height / 2 - (Math.abs(bottomTextPaint.ascent()) - Math.abs(bottomTextPaint.descent())) / 2;       // baseline的位置
+            float centerHeight = height / 2 + (Math.abs(bottomTextPaint.ascent()) - Math.abs(bottomTextPaint.descent())) / 2;       // baseline的位置
             canvas.drawText(centerTextStr, getMeasuredWidth() / 2 - bottomTextPaint.measureText(centerTextStr) / 2, centerHeight, bottomTextPaint);
         } else {
             canvas.drawText(topTextStr, getMeasuredWidth() / 2 - topTextPaint.measureText(topTextStr) / 2, height / 2 - topTextPaint.getFontMetrics().descent, topTextPaint);
             float bottomTextMargin = ((getMeasuredWidth() - getPaddingLeft() - getPaddingRight()) / 3 - bottomTextPaint.measureText(bottomTextStr1)) / 2;
             float itemWidth = (getMeasuredWidth() - getPaddingLeft() - getPaddingRight()) / 3;
-            float bottomHeight = height / 4 * 3 - (Math.abs(bottomTextPaint.ascent()) - Math.abs(bottomTextPaint.descent())) / 2;
+            float bottomHeight = height / 4 * 3 + (Math.abs(bottomTextPaint.ascent()) - Math.abs(bottomTextPaint.descent())) / 2;
             canvas.drawText(bottomTextStr1, getPaddingLeft() + bottomTextMargin, bottomHeight, bottomTextPaint);
             canvas.drawText(bottomTextStr2, getPaddingLeft() + bottomTextMargin + itemWidth, bottomHeight, bottomTextPaint);
             canvas.drawText(bottomTextStr3, getPaddingLeft() + bottomTextMargin + itemWidth * 2, bottomHeight, bottomTextPaint);

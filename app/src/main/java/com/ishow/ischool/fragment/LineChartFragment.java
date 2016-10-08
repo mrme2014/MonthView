@@ -391,7 +391,10 @@ public class LineChartFragment extends BaseFragment {
                 double f = result * 100;
                 LogUtil.d("double = " + f);
                 BigDecimal bigDecimal = new BigDecimal(String.valueOf(f));
-                entries.add(new PieEntry(bigDecimal.floatValue(), campusInfos.get(j).name));
+                LogUtil.d("bigDecimal = " + bigDecimal.toString());
+                LogUtil.d("float = " + Float.parseFloat(bigDecimal.toString()));
+                // 这里已经是2位小数了,饼状图只支持1位小数显示
+                entries.add(new PieEntry(Float.parseFloat(bigDecimal.toString()), campusInfos.get(j).name));
             }
         }
 

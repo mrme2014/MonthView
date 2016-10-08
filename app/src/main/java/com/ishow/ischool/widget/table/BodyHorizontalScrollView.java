@@ -2,6 +2,8 @@ package com.ishow.ischool.widget.table;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
 /**
@@ -11,20 +13,41 @@ import android.widget.HorizontalScrollView;
 public class BodyHorizontalScrollView extends HorizontalScrollView {
 
     private LinkScrollChangeListener listener;
+    private GestureDetector mGestureDetector;
 
     public BodyHorizontalScrollView(Context context) {
         super(context);
-        setFadingEdgeLength(0);
+        init(context);
     }
 
     public BodyHorizontalScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setFadingEdgeLength(0);
+        init(context);
     }
 
     public BodyHorizontalScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    void init(Context context) {
+        mGestureDetector = new GestureDetector(context, new HScrollDetector());
         setFadingEdgeLength(0);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return super.onInterceptTouchEvent(ev) && mGestureDetector.onTouchEvent(ev);
+    }
+
+    class HScrollDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            if (Math.abs(distanceX) > Math.abs(distanceY)) {
+                return true;
+            }
+            return false;
+        }
     }
 
     public void setMyScrollChangeListener(LinkScrollChangeListener listener) {

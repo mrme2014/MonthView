@@ -268,4 +268,5 @@
     <string name="filter_end_date">结束时间 : %s</string>
     <string name="end_le_start">结束时间必须大于开始时间</string>
     <string name="status">状态</string>
+    <string name="teach_process_title">教学流程分析</string>
 </resources>

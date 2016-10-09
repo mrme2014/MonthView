@@ -279,6 +279,7 @@ user_id	Int	0			指定看某个员工的	*/
             type_time = 999;
         }
         getSaleProcessData();
+
     }
 
     @Override

@@ -115,6 +115,10 @@
         <activity
             android:name=".business.salesprocess.SelectSubordinateActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+        <activity
+            android:name=".business.teachprocess.TeachProcessActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+
 
     </application>
 

@@ -79,12 +79,12 @@ public class AvatarImageView extends ImageView {
         invalidate();
     }
 
-    public void setText(String text, int id, String url) {
-        if (TextUtils.isEmpty(url)) {
+    public void setText(String text, int id, String imageUrl) {
+        if (TextUtils.isEmpty(imageUrl)) {
             this.text = AppUtil.getFirstChar(text);
             setBackgroundColor(ColorUtil.getColorById(id));
         } else {
-            PicUtils.loadpic(getContext(), this, url);
+            PicUtils.loadpic(getContext(), this, imageUrl);
         }
 
         invalidate();

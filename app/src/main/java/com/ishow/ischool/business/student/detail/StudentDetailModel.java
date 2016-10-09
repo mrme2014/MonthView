@@ -1,9 +1,11 @@
 package com.ishow.ischool.business.student.detail;
 
 import com.commonlib.http.ApiFactory;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.UserApi;
 
 import java.util.HashMap;
 
@@ -31,5 +33,20 @@ public class StudentDetailModel implements StudentDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    public Observable getQiNiuToken(int user_id) {
+        return ApiFactory.getInstance().getApi(UserApi.class).getQiniuiToken(-1, 5, user_id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable getAvatar(int user_id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(Resource.RESOURCE_ID, Resource.PERMISSION_STUDENT_GET + "");
+        params.put("id", user_id + "");
+        return ApiFactory.getInstance().getApi(MarketApi.class)
+                .getStudent(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
 }

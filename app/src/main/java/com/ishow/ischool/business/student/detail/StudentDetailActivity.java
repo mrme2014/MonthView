@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.student.detail;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,17 +13,23 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.commonlib.util.PermissionUtil;
+import com.commonlib.util.StorageUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.fragment.SelectDialogFragment;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.ColorUtil;
+import com.ishow.ischool.util.PhotoUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
@@ -68,6 +75,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private FragmentAdapter mFragmentAdapter;
     private boolean isCommun;
     private boolean needRefresh;
+    private String tempPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture.avatar";
+    private String tempCropPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture_crop.avatar";
 
     @Override
     protected void initEnv() {
@@ -104,6 +113,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 handleAlphaOnTitle(percentage);
             }
         });
+
     }
 
     private void handleAlphaOnTitle(float percentage) {
@@ -202,6 +212,17 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         showToast(msg);
     }
 
+
+    @Override
+    public void onUploadAvatarFailed(String msg) {
+        showToast(msg);
+    }
+
+    @Override
+    public void updateAvatar(int per_net_token_sucess, Avatar avatar) {
+        avatarTv.setText("", 0, avatar.file_name);
+    }
+
     public StudentInfo getStudentInfo() {
         if (student != null) {
             return student.studentInfo;
@@ -232,10 +253,67 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         return null;
     }
 
-    @OnClick(R.id.fab)
-    void onClickCommunAdd(View view) {
-        Intent intent = new Intent(this, CommunicationAddActivity.class);
-        intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-        JumpManager.jumpActivity(this, intent, Resource.COMMUNICATION_ADD);
+    @OnClick({R.id.fab, R.id.student_avatar_iv})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab:
+                Intent intent = new Intent(this, CommunicationAddActivity.class);
+                intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
+                JumpManager.jumpActivity(this, intent, Resource.COMMUNICATION_ADD);
+                break;
+
+            case R.id.student_avatar_iv:
+                ArrayList<String> avatars = new ArrayList<>();
+                avatars.add(getString(R.string.capture));
+                avatars.add(getString(R.string.amblue));
+                AppUtil.showItemDialog(getSupportFragmentManager(), avatars, new SelectDialogFragment.OnItemSelectedListner() {
+                    @Override
+                    public void onItemSelected(int position, String txt) {
+                        StudentDetailActivity.this.onItemSelected(position);
+                    }
+                });
+                break;
+        }
+
+    }
+
+    private void onItemSelected(int position) {
+        if (position == 0) {
+            PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
+                @Override
+                public void onGrant(String grantPermission, int index) {
+                    PhotoUtil.capture(StudentDetailActivity.this, tempPath);
+                }
+
+                @Override
+                public void onDenied(String deniedPermission, int index) {
+                    showToast(R.string.permission_camera_denid);
+                }
+            }, Manifest.permission.CAMERA);
+        } else if (position == 1) {
+            PermissionUtil.getInstance().checkPermission(this, new PermissionUtil.PermissionChecker() {
+                @Override
+                public void onGrant(String grantPermission, int index) {
+                    PhotoUtil.selectAlbums(StudentDetailActivity.this);
+                }
+
+                @Override
+                public void onDenied(String deniedPermission, int index) {
+                    showToast(R.string.permission_storage_denid);
+                }
+            }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        PhotoUtil.onActivityResult(this, tempPath, tempCropPath, requestCode, resultCode, data, new PhotoUtil.UploadListener() {
+            @Override
+            public void upload() {
+                mPresenter.uploadImg(student.studentInfo.id, tempCropPath);
+            }
+        });
     }
 }

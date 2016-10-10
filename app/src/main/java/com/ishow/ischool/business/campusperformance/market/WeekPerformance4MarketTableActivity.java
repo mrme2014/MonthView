@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.campusperformance;
+package com.ishow.ischool.business.campusperformance.market;
 
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by wqf on 2016/9/23.
  */
-public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
+public class WeekPerformance4MarketTableActivity extends BaseActivity4Crm {
     private MonthTableData mDatas;
     private String monthStr;
     private int mMonthId = 0;
@@ -42,7 +42,7 @@ public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_week_performance_table, getString(R.string.campus_performance_target) + "(" + monthStr + ")");
+        setContentView(R.layout.activity_market_week_performance_table, getString(R.string.campus_performance_target) + "(" + monthStr + ")");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class CampusWeekPerformanceTableActivity extends BaseActivity4Crm {
 
         List<WeekTableHead> titles = new ArrayList<>();
         titles.addAll(mWeek4MonthHeadData.subList(1, mWeek4MonthHeadData.size()));        // 去掉第一个"校区"(已固定存在于左上角)
-        WeekPerformanceTableHeadAdapter adapter = new WeekPerformanceTableHeadAdapter(CampusWeekPerformanceTableActivity.this, titles);
+        WeekPerformanceTableHeadAdapter adapter = new WeekPerformanceTableHeadAdapter(WeekPerformance4MarketTableActivity.this, titles);
         myLinearLayout4ListView.setAdapter(adapter);
 
         myLinearLayout4ListView.setOnItemClickListener(new MyLinearLayout4ListView.OnItemClickListener() {

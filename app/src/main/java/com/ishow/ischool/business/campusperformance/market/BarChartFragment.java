@@ -1,4 +1,4 @@
-package com.ishow.ischool.fragment;
+package com.ishow.ischool.business.campusperformance.market;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +26,6 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.campusperformance.SignAmount;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.user.CampusInfo;
-import com.ishow.ischool.business.campusperformance.CampusAmountTableActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
@@ -428,7 +427,7 @@ public class BarChartFragment extends BaseFragment {
                 setPercentageChartMarkView(mLastYdatas);
                 break;
             case R.id.table_layout:
-                Intent intent = new Intent(getActivity(), CampusAmountTableActivity.class);
+                Intent intent = new Intent(getActivity(), Amount4MarketTableActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList("campus", mXDatas);
                 ArrayList<SignAmount> temp = new ArrayList<SignAmount>(mLastYdatas.subList(0, mLastYdatas.size() - 1));

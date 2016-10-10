@@ -25,8 +25,9 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
-import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
+
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
+import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -241,7 +242,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
                 break;
             case R.id.data_campus://PERMISSION_DATA_CAMPUS
                 if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
-                    startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
+                    startActivity(new Intent(getActivity(), Performance4MarketActivity.class));
                 }
                 break;
             case R.id.data_other:

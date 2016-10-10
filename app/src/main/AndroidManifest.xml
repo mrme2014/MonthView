@@ -91,17 +91,21 @@
             android:name=".business.salesprocess.SalesProcessActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.campusperformance.CampusPerformanceActivity" />
+
+       <!-- <activity android:name=".business.campusperformance.CampusPerformanceActivity" />-->
+
+        <activity android:name=".business.campusperformance.market.Performance4MarketActivity" />
+
         <activity
-            android:name=".business.campusperformance.CampusAmountTableActivity"
+            android:name=".business.campusperformance.market.Amount4MarketTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".business.campusperformance.CampusMonthPerformanceTableActivity"
+            android:name=".business.campusperformance.market.MonthPerformance4MarketTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".business.campusperformance.CampusWeekPerformanceTableActivity"
+            android:name=".business.campusperformance.market.WeekPerformance4MarketTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
 

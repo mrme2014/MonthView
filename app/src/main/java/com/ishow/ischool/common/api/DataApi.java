@@ -1,6 +1,7 @@
 package com.ishow.ischool.common.api;
 
 import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.campusperformance.EducationMonthResult;
 import com.ishow.ischool.bean.campusperformance.MonthTableData;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
@@ -80,4 +81,14 @@ public interface DataApi {
     @GET("/statistics/market/other")
 //    @GET("/statistics/education/teachingprocessanalysis")
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(@QueryMap HashMap<String, String> params);
+
+
+    //数据分析.教务教学.各校区业绩对比(statistics.education.bazaarcontrast)
+    @GET("/statistics/education/bazaarcontrast")
+    Observable<ApiResult<EducationMonthResult>> getEducationMonth(
+            @Query("campus_id") String campus_id,           //多个校区用逗号连接
+            @Query("begin_month") Integer begin_month,      //开始月份201604
+            @Query("end_month") Integer end_month,
+            @Query("option") String option                  //educationMonth
+    );
 }

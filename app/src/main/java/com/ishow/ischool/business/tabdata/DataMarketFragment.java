@@ -25,7 +25,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
-import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
+import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;

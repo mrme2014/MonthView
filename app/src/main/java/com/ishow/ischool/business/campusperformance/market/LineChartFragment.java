@@ -1,4 +1,4 @@
-package com.ishow.ischool.fragment;
+package com.ishow.ischool.business.campusperformance.market;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,7 +42,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.campusperformance.SignPerformance;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.user.CampusInfo;
-import com.ishow.ischool.business.campusperformance.CampusMonthPerformanceTableActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.manager.CampusManager;
@@ -482,7 +481,7 @@ public class LineChartFragment extends BaseFragment {
                 setChartMarkView(mLastYdatas);
                 break;
             case R.id.table_layout:
-                Intent intent = new Intent(getActivity(), CampusMonthPerformanceTableActivity.class);
+                Intent intent = new Intent(getActivity(), MonthPerformance4MarketTableActivity.class);
                 intent.putExtra("campusParam", campusParam);
                 startActivity(intent);
                 break;

@@ -108,6 +108,7 @@
             android:name=".business.campusperformance.market.WeekPerformance4MarketTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
+        <activity android:name=".business.campusperformance.education.Performance4EduActivity" />
 
         <activity android:name=".business.salesprocess.SelectPositionActivity" />
 

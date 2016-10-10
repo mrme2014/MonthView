@@ -21,8 +21,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
-
-import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
+import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
 import com.ishow.ischool.business.teachprocess.TeachProcessActivity;
@@ -199,7 +198,7 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
                 break;
             case R.id.data_campus://PERMISSION_DATA_CAMPUS
                 if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
-                    startActivity(new Intent(getActivity(), Performance4MarketActivity.class));
+                    startActivity(new Intent(getActivity(), Performance4EduActivity.class));
                 }
                 break;
             case R.id.data_other:

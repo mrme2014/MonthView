@@ -1,10 +1,23 @@
 package com.ishow.ischool.business.campusperformance.education;
 
-import com.ishow.ischool.business.campusperformance.market.Performance4MarketContract;
+import com.commonlib.http.ApiFactory;
+import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.campusperformance.EducationMonthResult;
+import com.ishow.ischool.common.api.DataApi;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wqf on 16/9/8.
  */
-public class Performance4EduModel implements Performance4MarketContract.Model {
+public class Performance4EduModel implements Performance4EduContract.Model {
 
+    public Observable<ApiResult<EducationMonthResult>> getEduMonthPerformance(String campusIds, int beginMonth, int endMonth) {
+        return ApiFactory.getInstance().getApi(DataApi.class).getEducationMonth(campusIds, beginMonth, endMonth, "educationMonth")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
 }

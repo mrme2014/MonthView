@@ -91,8 +91,8 @@ public class LineChartFragment extends BaseFragment {
     private ArrayList<CampusInfo> mCampusInfos;
     public ArrayList<CampusInfo> mParamCampus;      // 上次显示的校区
     public ArrayList<SignPerformance> mLastYdatas;      // 上次显示的数据(纵坐标)
-    public String campusParamAll = "";                     // 所有校区id,用于每次请求所有校区的数据
-    public String campusParam = "";                 // 默认所有
+    public String mCampusParamAll = "";                     // 所有校区id,用于每次请求所有校区的数据
+    public String mLastCampusParam = "";                   // 上次显示的校区id,用于传递给表格用
     public ArrayList<SignPerformance> mYDatas;      // 纵坐标数据,即每个校区的数据
     public int mParamBeginDate = 201607, mParamEndDate = 201609;
     public Integer mParamDataType = -1;       //数据类型 1:晨读 3:校聊
@@ -107,7 +107,7 @@ public class LineChartFragment extends BaseFragment {
         mParamBeginDate = beginMonth;
         mParamEndDate = endMonth;
         subtitleTv.setText(mParamBeginDate + "-" + mParamEndDate);
-        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(campusParamAll,
+        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(mCampusParamAll,
                 beginMonth, endMonth, dataType == -1 ? null : dataType, "campusTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -135,13 +135,13 @@ public class LineChartFragment extends BaseFragment {
 
     @Override
     public void init() {
-        setData();
+        initData();
         initPieChart();
         initCombinedChart();
         pullData(mCampusInfos, mParamBeginDate, mParamEndDate, mParamDataType);
     }
 
-    public void setData() {
+    public void initData() {
         mParamCampus = new ArrayList<>();
         mLastYdatas = new ArrayList<>();
         mCampusInfos = CampusManager.getInstance().get();
@@ -153,9 +153,9 @@ public class LineChartFragment extends BaseFragment {
         ArrayList<CampusInfo> allCampus = new ArrayList<>();
         allCampus.addAll(CampusManager.getInstance().get());
         for (CampusInfo info : allCampus) {
-            campusParamAll = campusParamAll + info.id + ",";
+            mCampusParamAll = mCampusParamAll + info.id + ",";
         }
-        campusParamAll = campusParamAll.substring(0, campusParamAll.length() - 1);
+        mCampusParamAll = mCampusParamAll.substring(0, mCampusParamAll.length() - 1);
     }
 
     void initCombinedChart() {
@@ -367,11 +367,11 @@ public class LineChartFragment extends BaseFragment {
 
     public void setPieChartData(ArrayList<CampusInfo> campusInfos) {
         // 刷新上次显示(id)
-        campusParam = "";
+        mLastCampusParam = "";
         for (CampusInfo info : campusInfos) {
-            campusParam = campusParam + info.id + ",";
+            mLastCampusParam = mLastCampusParam + info.id + ",";
         }
-        campusParam = campusParam.substring(0, campusParam.length() - 1);
+        mLastCampusParam = mLastCampusParam.substring(0, mLastCampusParam.length() - 1);
 
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
@@ -482,7 +482,7 @@ public class LineChartFragment extends BaseFragment {
                 break;
             case R.id.table_layout:
                 Intent intent = new Intent(getActivity(), MonthPerformance4MarketTableActivity.class);
-                intent.putExtra("campusParam", campusParam);
+                intent.putExtra("campusParam", mLastCampusParam);
                 startActivity(intent);
                 break;
         }

@@ -51,6 +51,14 @@ public interface UserApi {
     @POST("/system/qiniu/token")
     Observable<ApiResult<JsonElement>> get_qiniui_token(@Field("resources_id") int resources_id, @Field("type") int type);
 
+    //获取七年上传token(system.qiniu.token) 接口
+    @FormUrlEncoded
+    @POST("/system/qiniu/token")
+    Observable<ApiResult<JsonElement>> getQiniuiToken(@Field("resources_id") int resources_id,
+                                                       @Field("type") int type,
+                                                       @Field("student_id") int student_id
+    );
+
     //APP找回密码第一步(system.user.checkrandcode) 接口
     @FormUrlEncoded
     @POST("/system/user/checkrandcode")

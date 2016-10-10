@@ -7,4 +7,5 @@ import java.util.ArrayList;
  */
 public class StudentList {
     public ArrayList<Student> lists;
+    public int total;
 }

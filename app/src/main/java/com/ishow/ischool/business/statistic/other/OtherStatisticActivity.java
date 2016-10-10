@@ -58,8 +58,11 @@ import static com.ishow.ischool.R.id.chart_date;
 
 public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, OtherModel> implements BaseView {
 
+    public static final String IS_TEACH_DATA = "is_teach_data";
     @BindView(R.id.filter_type)
     TextView filertType;
+    @BindView(R.id.filter_line_1)
+    View filertLine1;
     @BindView(R.id.filter_campus)
     TextView filertCampus;
     @BindView(R.id.filter_date)
@@ -90,11 +93,14 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     private Calendar calendar;
     private View headerView;
 
+    private boolean isTeachData;
+
 
     @Override
     protected void initEnv() {
         super.initEnv();
         CampusManager.getInstance().init(this);
+        isTeachData = getIntent().getBooleanExtra(IS_TEACH_DATA, false);
     }
 
     @Override
@@ -105,17 +111,22 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     @Override
     protected void setUpView() {
         calendar = Calendar.getInstance();
+        if (isTeachData) {
+            filertType.setVisibility(View.GONE);
+            filertLine1.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void setUpData() {
         params = new HashMap<>();
         params.put("campus", mUser.positionInfo.campusId + "");
-        params.put("type", "1");
-        params.put("type_name", getString(R.string.type_apply));
+        params.put("type", isTeachData ? "2" : "1");
+        params.put("type_name", isTeachData ? getString(R.string.type_refuse_point) : getString(R.string.type_apply));
         params.put("start_time", AppUtil.getLastMonthStart() + "");
         params.put("end_time", AppUtil.getLastMonthEnd() + "");
-        mPresenter.getOtherStatistics(params);
+//        params.put("resources_id", isTeachData ? Resource.PERMISSION_DATA_TEACH_OTHER + "" : Resource.PERMISSION_DATA_OTHER + "");
+        mPresenter.getOtherStatistics(params, isTeachData);
 
         //默认值
         filertCampus.setText(mUser.positionInfo.campus);
@@ -346,7 +357,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                 case R.id.campus_ok:
                     CampusInfo campusInfo = mAdapter.getCurCampusInfo();
                     params.put("campus", campusInfo.id + "");
-                    mPresenter.getOtherStatistics(params);
+                    mPresenter.getOtherStatistics(params, isTeachData);
 //                    updateChartTitle();
                     filertCampus.setText(campusInfo.name);
                     mCampusPopup.dismiss();
@@ -356,7 +367,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     mTypePopup.dismiss();
                     params.put("type", "1");
                     params.put("type_name", getString(R.string.type_apply));
-                    mPresenter.getOtherStatistics(params);
+                    mPresenter.getOtherStatistics(params, isTeachData);
                     updateChartTitle();
                     break;
                 case R.id.refuse_point_tv:
@@ -365,7 +376,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     mTypePopup.dismiss();
                     params.put("type", "2");
                     params.put("type_name", getString(R.string.type_refuse_point));
-                    mPresenter.getOtherStatistics(params);
+                    mPresenter.getOtherStatistics(params, isTeachData);
                     updateChartTitle();
                     break;
                 case R.id.source_tv:
@@ -373,7 +384,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     mTypePopup.dismiss();
                     params.put("type", "3");
                     params.put("type_name", getString(R.string.type_source));
-                    mPresenter.getOtherStatistics(params);
+                    mPresenter.getOtherStatistics(params, isTeachData);
                     updateChartTitle();
                     break;
                 case R.id.blank_view_type:
@@ -419,7 +430,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     updateChartTitle();
                     params.put("start_time", startTime + "");
                     params.put("end_time", endTime + "");
-                    mPresenter.getOtherStatistics(params);
+                    mPresenter.getOtherStatistics(params, isTeachData);
                     updateChartTitle();
                     break;
                 case R.id.blank_view_date:

@@ -272,4 +272,19 @@ public class AppUtil {
         c.setTimeInMillis(second * 1000);
         return c.get(Calendar.MONTH) + 1;
     }
+
+
+    public static ArrayList<String> getSpinnerData() {
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add("7天");
+        list.add("30天");
+        list.add("90天");
+        list.add("180天");
+        list.add("365天");
+        list.add("全部");
+        list.add("自定义");
+
+        return list;
+    }
 }

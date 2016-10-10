@@ -20,6 +20,7 @@ import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.util.AppUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,13 +116,7 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter {
 
     public ArrayList<String> getSpinnerData() {
         if (list == null) {
-            list = new ArrayList<>();
-            list.add("7天");
-            list.add("30天");
-            list.add("90天");
-            list.add("180天");
-            list.add("365天");
-            list.add("全部");
+            list = AppUtil.getSpinnerData();
         }
         return list;
     }

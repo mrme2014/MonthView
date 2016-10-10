@@ -28,6 +28,8 @@ public class LabelTextView extends TextView {
 
     private String labelTextTop;
     private String labelTextLeft;
+
+
     private String labelTextRight;
     private String labelTextBottom;
     private float labelTextSize;
@@ -66,9 +68,9 @@ public class LabelTextView extends TextView {
         labelTextLeft = typedArray.getString(R.styleable.LabelTextView_label_text_left);
         labelTextRight = typedArray.getString(R.styleable.LabelTextView_label_text_right);
         labelTextBottom = typedArray.getString(R.styleable.LabelTextView_label_text_bottom);
-        labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.dip2px(getContext(), 14));
+        labelTextSize = typedArray.getInteger(R.styleable.LabelTextView_label_text_size, UIUtil.sp2px(getContext(), 12));
         labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF333333);
-        labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
+        labelPadding = typedArray.getInteger(R.styleable.LabelTextView_label_padding, 0);
 
         draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line, false);
         bottom_line_color = typedArray.getColor(R.styleable.LabelTextView_bottom_line_color, 0);
@@ -96,7 +98,14 @@ public class LabelTextView extends TextView {
 //        topOffset = UIUtil.dip2px(getContext(), 2.5f);
 
     }
-
+    public void setLabelTextLeft(String labelTextLeft) {
+        this.labelTextLeft = labelTextLeft;
+        invalidate();
+    }
+    public void setLabelTextRight(String labelTextRight) {
+        this.labelTextRight = labelTextRight;
+        invalidate();
+    }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

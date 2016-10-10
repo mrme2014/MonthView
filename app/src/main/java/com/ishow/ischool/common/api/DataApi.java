@@ -7,6 +7,7 @@ import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
+import com.ishow.ischool.bean.teachprocess.TeachProcess;
 
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -40,7 +41,7 @@ public interface DataApi {
     //数据分析.市场.销售流程分析(statistics.market.process) 接口
     @FormUrlEncoded
     @POST("/statistics/market/process")
-    Observable<ApiResult<SaleProcess>> getSaleProcessData(@Field("resources_id")int resources_id,@FieldMap TreeMap<String,Integer> map);
+    Observable<ApiResult<SaleProcess>> getSaleProcessData(@Field("resources_id") int resources_id, @FieldMap TreeMap<String, Integer> map);
 
     @FormUrlEncoded
     @POST("/statistics/market/process")
@@ -83,6 +84,11 @@ public interface DataApi {
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(@QueryMap HashMap<String, String> params);
 
 
+
+
+    //  -----------------------------   教学   ------------------------------  //
+
+
     //数据分析.教务教学.各校区业绩对比(statistics.education.bazaarcontrast)
     @GET("/statistics/education/bazaarcontrast")
     Observable<ApiResult<EducationMonthResult>> getEducationMonth(
@@ -91,4 +97,16 @@ public interface DataApi {
             @Query("end_month") Integer end_month,
             @Query("option") String option                  //educationMonth
     );
+
+    /**
+     * start_time	Int	0			开始时间	0
+     * end_time	Int	0			结束时间	0
+     * position_id	Int	0			职位id	0
+     * user_id	Int	0			用户id	0
+     * @param params
+     * @return
+     */
+    //数据分析.教务教学.教学流程分析(statistics.education.teachingprocessanalysis) 接口
+    @GET("/statistics/education/teachingprocessanalysis")
+    Observable<ApiResult<TeachProcess>> getTeatProcess(@QueryMap TreeMap<String, Integer> params);
 }

@@ -56,10 +56,10 @@ public class TableRowTextViewTeach extends TextView {
             txtHeight = fontMetrics.descent - fontMetrics.ascent;
         }
         args =new String[4];
-        args[0]="哈哈哈哈";
-        args[1]="哈哈哈哈";
-        args[2]="哈哈哈哈";
-        args[3]="哈哈哈哈";
+        args[0]="哈哈";
+        args[1]="哈哈";
+        args[2]="哈哈";
+        args[3]="哈哈";
 
     }
 

@@ -95,6 +95,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         super.onCreate(savedInstanceState);
     }
 
@@ -291,14 +292,20 @@ user_id	Int	0			指定看某个员工的	*/
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_table1:
-                if (process != null && process.table != null && process.table.table1 == null) {
+                if (process == null || process.table == null ||
+                        process.table.table1 == null ||
+                        process.table.table1.tablehead == null ||
+                        process.table.table1.tablehead.size() == 0) {
                     showToast(getString(R.string.no_value_show));
                     return;
                 }
                 startActivity2SaleTable(true);
                 break;
             case R.id.sales_table2:
-                if (process != null && process.table != null && process.table.table2 == null) {
+                if (process == null || process.table == null ||
+                        process.table.table2 == null ||
+                        process.table.table2.tablehead == null ||
+                        process.table.table2.tablehead.size() == 0) {
                     showToast(getString(R.string.no_value_show));
                     return;
                 }
@@ -399,7 +406,7 @@ user_id	Int	0			指定看某个员工的	*/
             lineData.addDataSet(apply_data_set);
             saleLegendApply.setChecked(false);
         }
-       //mChart.setDrawMarkers(!saleLegendApply.isChecked());
+        //mChart.setDrawMarkers(!saleLegendApply.isChecked());
         //mChart.getData().notifyDataChanged();
         mChart.invalidate();
     }

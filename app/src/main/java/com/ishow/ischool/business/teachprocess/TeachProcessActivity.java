@@ -18,8 +18,8 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
-import com.ishow.ischool.bean.saleprocess.Principal;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
+import com.ishow.ischool.bean.teachprocess.Option;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
@@ -33,13 +33,13 @@ import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -78,10 +78,11 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
 
     private TeachProcess teachProcess;
-    private Principal principal;
+    private Option principal;
 
     @Override
     protected void setUpContentView() {
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         setContentView(R.layout.activity_teach_process, R.string.teach_process_title, R.menu.menu_submit, MODE_BACK);
     }
 
@@ -158,12 +159,12 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         handProgressbar(false);
         this.teachProcess = process;
         //如果是总部账号 数据回来后 要 重新初始化 campus_id 等字段  principal==null 是是为了 只初始化一次
-        if (process != null && process.principal != null && principal == null) {
-            principal = process.principal;
+        if (process != null  && !process.option.isCampus && principal == null) {
+            principal = process.option;
             setUpPersonInfoByResult();
         }
         //如果 不是总部账号 那么process.principal  就会为空   campus_id
-        if (process.principal == null && campus_name == null && user_name == null && position_name == null)
+        if (process != null  && process.option.isCampus && campus_name == null && user_name == null && position_name == null)
             setUpPersonInfoByResult();
 
         invalidateChart();
@@ -176,8 +177,10 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         final List<String> body = teachProcess.selfChartData.body.get(0);
         final List<String> head = teachProcess.selfChartData.head;
-        final int head_size = head.size() - 2;
+        if (head == null || head.size() == 0 || body == null || body.size() == 0)
+            return;
 
+        final int head_size = head.size() - 2;
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         yVals1.clear();
 
@@ -185,12 +188,14 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             float aFloat = Float.parseFloat(body.get(i));
             yVals1.add(new BarEntry(i * 15f, aFloat));
         }
+
         mPresenter.setData(lineChart, yVals1);
+
         lineChart.invalidate();
-        fullAmount.setLabelTextRight(body.get(0));
-        upgradeAmount.setLabelTextRight(body.get(1));
-        upgradeBaseAmount.setLabelTextRight(body.get(2));
-        classAmount.setLabelTextRight(body.get(3));
+        fullAmount.setLabelTextRight(body.get(3));
+        upgradeAmount.setLabelTextRight(body.get(2));
+        upgradeBaseAmount.setLabelTextRight(body.get(1));
+        classAmount.setLabelTextRight(body.get(0));
 
     }
 
@@ -207,6 +212,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         int rate_size = rate.size();
         int number_size = number.size();
         salesTable1.setSpanedStr(rate.get(rate_size - 3), number.get(number_size - 3), rate.get(rate_size - 2), number.get(number_size - 2), rate.get(rate_size - 1), number.get(number_size - 1));
+
+        salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -229,10 +236,47 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 JumpManager.jumpActivityForResult(this, intent1, REQUEST_CODE, Resource.NO_NEED_CHECK);
                 break;
             case R.id.sales_table1:
-                showToast(getString(R.string.no_value_show));
+                if (teachProcess == null || teachProcess.tableListData_22 == null ||
+                        teachProcess.tableListData_22.head == null ||
+                        teachProcess.tableListData_22.body == null||
+                        teachProcess.tableListData_22.head.size()==0||
+                        teachProcess.tableListData_22.body.size()==0) {
+                    showToast(getString(R.string.no_value_show));
+                    return;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("table1_head", (ArrayList<String>) teachProcess.tableListData_22.head);
+                bundle.putStringArrayList("table1_body", (ArrayList<String>) teachProcess.tableListData_22.body.get(0));
+                Intent intent = new Intent(this, TeachProcessTableActivity.class);
+                intent.putExtra(TeachProcessTableActivity.SHOW_TABLE1, true);
+                if (salesTable2.getVisibility() == View.VISIBLE && teachProcess.tableListData != null && teachProcess.tableListData.head != null && teachProcess.tableListData.body != null) {
+                    intent.putExtra(TeachProcessTableActivity.SHOW_MENU, true);
+                    bundle.putStringArrayList("table2_head", (ArrayList<String>) teachProcess.tableListData.head);
+                    bundle.putSerializable("table2_body", (Serializable) teachProcess.tableListData.body);
+                }
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.sales_table2:
-                showToast(getString(R.string.no_value_show));
+                if (teachProcess == null || teachProcess.tableListData == null ||
+                        teachProcess.tableListData.head == null ||
+                        teachProcess.tableListData.body == null||
+                        teachProcess.tableListData.head.size()==0||
+                        teachProcess.tableListData.body.size()==0) {
+                    showToast(getString(R.string.no_value_show));
+                    return;
+                }
+                Bundle bundle1 = new Bundle();
+                bundle1.putStringArrayList("table2_head", (ArrayList<String>) teachProcess.tableListData.head);
+                bundle1.putSerializable("table2_body", (Serializable) teachProcess.tableListData.body);
+                Intent intent2 = new Intent(this, TeachProcessTableActivity.class);
+                if (teachProcess.tableListData_22 != null && teachProcess.tableListData_22.head != null && teachProcess.tableListData_22.body != null) {
+                    intent2.putExtra(TeachProcessTableActivity.SHOW_MENU, true);
+                    bundle1.putStringArrayList("table1_head", (ArrayList<String>) teachProcess.tableListData_22.head);
+                    bundle1.putStringArrayList("table1_body", (ArrayList<String>) teachProcess.tableListData_22.body.get(0));
+                }
+                intent2.putExtras(bundle1);
+                startActivity(intent2);
                 break;
         }
     }
@@ -242,6 +286,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && requestCode == REQUEST_CODE && data != null) {
             if (!data.hasExtra("no_choice")) {
+                //选择其他职位  其他下属
                 SubordinateObject extra = (SubordinateObject) data.getParcelableExtra(SelectSubordinateActivity.PICK_USER);
                 position_id = data.getIntExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
                 position_name = data.getStringExtra(SelectPositionActivity.PICK_POSITION);
@@ -252,12 +297,12 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     campus_name = extra_campus;
 
                 setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, this.campus_name, position_id);
+                getTeachProcessData();
             } else {
+                //选择自己
                 setUpPersonInfoByResult();
-                // salesSpinner.setSelection(0, true);
+                salesSpinner.setSelection(0, true);
             }
-            getTeachProcessData();
-
         }
     }
 
@@ -276,13 +321,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
 
-        //销讲师 或者 晨读讲师 就不能显示 第二个表格了
-        if (position_id == Constants.COURSE_CONSULTANT_LEADER
-                || position_id == Constants.CHAT_COMMISSIONER
-                || Constants.COURSE_CONSULTANT == position_id
-                || Constants.MORNING_READ_TEACHER == position_id)
-            salesTable2.setVisibility(View.GONE);
-        else salesTable2.setVisibility(View.VISIBLE);
+
     }
 
 
@@ -295,12 +334,5 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

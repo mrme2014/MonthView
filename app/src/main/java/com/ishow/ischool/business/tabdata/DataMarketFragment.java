@@ -26,9 +26,9 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
+import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
-import com.ishow.ischool.business.teachprocess.TeachProcessActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 
@@ -236,8 +236,7 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         switch (view.getId()) {
             case R.id.data_market:
                 if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)) {
-                   //startActivity(new Intent(getActivity(), SalesProcessActivity.class));
-                    startActivity(new Intent(getActivity(), TeachProcessActivity.class));
+                    startActivity(new Intent(getActivity(), SalesProcessActivity.class));
                 }
                 break;
             case R.id.data_campus://PERMISSION_DATA_CAMPUS

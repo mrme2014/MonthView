@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -34,6 +35,8 @@ public class SaleStatementTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_salestatementtable, R.string.sale_process_statement, MODE_BACK);
 
     }

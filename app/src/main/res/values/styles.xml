@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -22,7 +22,7 @@
         <item name="android:windowBackground">@color/color_app_bg</item>
         <item name="actionMenuTextAppearance">@style/MenuTextStyle</item>
         <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
-        <!--<item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>-->
+       <!--<item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>-->
         <!--<item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>-->
         <!--<item name="android:listDivider">@color/comm_line</item>-->
     </style>
@@ -328,9 +328,14 @@
 
     <style name="table_head_style">
         <item name="android:layout_width">120dp</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/txt_3</item>
+    </style>
+
+    <style name="table_head_style1" parent="table_head_style">
+        <item name="android:layout_width">210dp</item>
+
     </style>
 
     <style name="table_content_style">

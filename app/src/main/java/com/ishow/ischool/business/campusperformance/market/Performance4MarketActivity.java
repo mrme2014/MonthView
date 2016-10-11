@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.campusperformance;
+package com.ishow.ischool.business.campusperformance.market;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,8 +19,6 @@ import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
-import com.ishow.ischool.fragment.BarChartFragment;
-import com.ishow.ischool.fragment.LineChartFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,10 +31,8 @@ import cn.qqtheme.framework.picker.DatePicker;
 /**
  * Created by wqf on 16/9/8.
  */
-public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformancePresenter, CampusPerformanceModel> implements CampusPerformanceContract.View {
+public class Performance4MarketActivity extends BaseActivity4Crm implements Performance4MarketContract.View {
 
-    private final int TYPE_START_TIME = 1;
-    private final int TYPE_END_TIME = 2;
     private boolean startDateFinished = false;
     private boolean endDateFinished = false;
     DatePicker startDatePicker, endDatePicker;
@@ -67,7 +63,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campusperformance, R.string.campus_performance, -1, MODE_BACK);
+        setContentView(R.layout.activity_market_performance, R.string.campus_performance, -1, MODE_BACK);
     }
 
     @Override
@@ -137,7 +133,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     void showCampusPopup() {
         if (mCampusPopup == null) {
-            View contentView = LayoutInflater.from(CampusPerformanceActivity.this).inflate(R.layout.filter_campus_layout, null);
+            View contentView = LayoutInflater.from(Performance4MarketActivity.this).inflate(R.layout.filter_campus_layout, null);
             mCampusPopup = new PopupWindow(contentView);
             mCampusPopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mCampusPopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -157,9 +153,9 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
             okTv.setOnClickListener(onClickListener);
 
             mList.addAll(CampusManager.getInstance().get());
-            layoutManager = new LinearLayoutManager(CampusPerformanceActivity.this);
+            layoutManager = new LinearLayoutManager(Performance4MarketActivity.this);
             recyclerView.setLayoutManager(layoutManager);
-            mAdapter = new CampusSelectAdapter(CampusPerformanceActivity.this, mList);
+            mAdapter = new CampusSelectAdapter(Performance4MarketActivity.this, mList);
             recyclerView.addItemDecoration(new BaseItemDecor(this, 10));
             recyclerView.setAdapter(mAdapter);
             mAdapter.selectAllItems();
@@ -169,7 +165,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     void showTypePopup() {
         if (mTypePopup == null) {
-            View contentView = LayoutInflater.from(CampusPerformanceActivity.this).inflate(R.layout.filter_type_layout, null);
+            View contentView = LayoutInflater.from(Performance4MarketActivity.this).inflate(R.layout.filter_type_layout, null);
             mTypePopup = new PopupWindow(contentView);
             mTypePopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mTypePopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -186,7 +182,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
 
     void showDatePopup() {
         if (mDatePopup == null) {
-            View contentView = LayoutInflater.from(CampusPerformanceActivity.this).inflate(R.layout.filter_date_layout, null);
+            View contentView = LayoutInflater.from(Performance4MarketActivity.this).inflate(R.layout.filter_date_layout, null);
             mDatePopup = new PopupWindow(contentView);
             mDatePopup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             mDatePopup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -294,7 +290,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     mTypePopup.dismiss();
                     break;
                 case R.id.start_date:
-                    startDatePicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
+                    startDatePicker = new DatePicker(Performance4MarketActivity.this, DatePicker.YEAR_MONTH);
                     startDatePicker.setRangeStart(1970, 1);         //开始范围
                     startDatePicker.setRangeEnd(2099, 12);          //结束范围
                     startDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
@@ -327,7 +323,7 @@ public class CampusPerformanceActivity extends BaseActivity4Crm<CampusPerformanc
                     startDatePicker.show();
                     break;
                 case R.id.end_date:
-                    endDatePicker = new DatePicker(CampusPerformanceActivity.this, DatePicker.YEAR_MONTH);
+                    endDatePicker = new DatePicker(Performance4MarketActivity.this, DatePicker.YEAR_MONTH);
                     endDatePicker.setRangeStart(1970, 1);           //开始范围
                     endDatePicker.setRangeEnd(2099, 12);            //结束范围
                     endDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1

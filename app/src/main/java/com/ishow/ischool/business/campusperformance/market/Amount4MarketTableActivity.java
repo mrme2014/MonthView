@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.campusperformance;
+package com.ishow.ischool.business.campusperformance.market;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +11,10 @@ import com.ishow.ischool.adpter.TableContentItemAdapter;
 import com.ishow.ischool.adpter.TableLeftItemAdapter;
 import com.ishow.ischool.bean.campusperformance.SignAmount;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.widget.table.AmountTableHeadAdapter;
 import com.ishow.ischool.widget.table.BodyHorizontalScrollView;
 import com.ishow.ischool.widget.table.HeadHorizontalScrollView;
 import com.ishow.ischool.widget.table.MyLinearLayout4ListView;
-import com.ishow.ischool.widget.table.AmountTableHeadAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by wqf on 2016/9/23.
  */
-public class CampusAmountTableActivity extends BaseActivity4Crm {
+public class Amount4MarketTableActivity extends BaseActivity4Crm {
     private ArrayList<String> campus;
     private ArrayList<SignAmount> datas;
 
@@ -40,7 +40,7 @@ public class CampusAmountTableActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_amount_table, R.string.student_performance_table, MODE_BACK);
+        setContentView(R.layout.activity_market_amount_table, R.string.student_performance_table, MODE_BACK);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class CampusAmountTableActivity extends BaseActivity4Crm {
         list.add("总报名率");
         list.add("总全款率");
         list.add("总报名全款率");
-        AmountTableHeadAdapter adapter = new AmountTableHeadAdapter(CampusAmountTableActivity.this, list);
+        AmountTableHeadAdapter adapter = new AmountTableHeadAdapter(Amount4MarketTableActivity.this, list);
         myLinearLayout4ListView.setAdapter(adapter);
     }
 

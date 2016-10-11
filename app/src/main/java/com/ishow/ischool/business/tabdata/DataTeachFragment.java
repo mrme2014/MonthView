@@ -21,10 +21,10 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
-import com.ishow.ischool.business.campusperformance.CampusPerformanceActivity;
-import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
+import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
+import com.ishow.ischool.business.teachprocess.TeachProcessActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 
@@ -193,12 +193,12 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         switch (view.getId()) {
             case R.id.data_market:
                 if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)) {
-                    startActivity(new Intent(getActivity(), SalesProcessActivity.class));
+                    startActivity(new Intent(getActivity(), TeachProcessActivity.class));
                 }
                 break;
             case R.id.data_campus://PERMISSION_DATA_CAMPUS
                 if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
-                    startActivity(new Intent(getActivity(), CampusPerformanceActivity.class));
+                    startActivity(new Intent(getActivity(), Performance4EduActivity.class));
                 }
                 break;
             case R.id.data_other:

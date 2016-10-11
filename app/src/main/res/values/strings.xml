@@ -270,6 +270,8 @@
     <string name="status">状态</string>
 
     <string name="teach_process_title">教学流程分析</string>
+    <string name="teach_process_table1">表格预览</string>
+    <string name="teach_process_table2">业绩明细表</string>
 
     <string name="data_teach_title">教学流程分析</string>
     <string name="student_statistics_total">(共%d人)</string>

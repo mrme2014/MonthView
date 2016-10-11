@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -25,10 +26,10 @@ public class TableRowTextView extends TextView {
 
     private float txtHeight;
 
-    private boolean shouldDrawBotLine =false;
+    private boolean shouldDrawBotLine = false;
 
-    private int cellWidth;
-    private int fixedCellWidth;
+    private int cellWidth = UIUtil.dip2px(getContext(), 100);
+    private int fixedCellWidth = UIUtil.dip2px(getContext(), 100);
     private int txtWidth;
 
     public TableRowTextView(Context context) {
@@ -58,7 +59,7 @@ public class TableRowTextView extends TextView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (list == null)
             return;
-        cellWidth = UIUtil.dip2px(getContext(), 100);
+        //cellWidth = UIUtil.dip2px(getContext(), 100);
 
         int width = list.size() * cellWidth;
         width = Math.max(width, UIUtil.getScreenWidthPixels(getContext()) - fixedCellWidth);
@@ -69,7 +70,6 @@ public class TableRowTextView extends TextView {
 
 
     private void init() {
-        fixedCellWidth = UIUtil.dip2px(getContext(), 100);
         if (linePaint == null) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             linePaint.setColor(ContextCompat.getColor(getContext(), R.color.chart_line));
@@ -94,17 +94,20 @@ public class TableRowTextView extends TextView {
         int height = getMeasuredHeight();
 
         for (int i = 0; i < list.size(); i++) {
-            txtWidth = (int) txtPaint.measureText(list.get(i));
-            if (cellWidth >= txtWidth) {
-                canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
+            String needDraw = list.get(i) == null ? "hahah" : list.get(i);
+            txtWidth = (int) txtPaint.measureText(needDraw);
+            if (cellWidth> txtWidth) {
+                canvas.drawText(needDraw, i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
             } else {
-                String needDraw = list.get(i);
-                int overLength = getCellFixLength(needDraw);
+                //String needDraw = list.get(i);
+                int overLength = needDraw.length() - getCellFixLength(needDraw);
+                overLength = overLength < 0 ? 0 : overLength;
+                LogUtil.e(i + "--getCellFixLength---" + overLength + "----" + needDraw.length());
                 String needTop = needDraw.substring(0, overLength);
                 String needBottom = needDraw.substring(overLength, needDraw.length());
                 float txtTopWidth = txtPaint.measureText(needTop);
                 float txtBottWidth = txtPaint.measureText(needBottom);
-                canvas.drawText(needTop, i * cellWidth + cellWidth / 2 - txtTopWidth / 2, (float) (height / 2)-2 , txtPaint);
+                canvas.drawText(needTop, i * cellWidth + cellWidth / 2 - txtTopWidth / 2, (float) (height / 2) - 4, txtPaint);
                 canvas.drawText(needBottom, i * cellWidth + cellWidth / 2 - txtBottWidth / 2, (float) (height / 2) + txtHeight, txtPaint);
                 //canvas.drawText(list.get(i), i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
             }
@@ -127,23 +130,18 @@ public class TableRowTextView extends TextView {
         if (lists == null)
             return;
         this.list = lists;
-        measure(getMeasuredWidth(), MeasureSpec.makeMeasureSpec(UIUtil.dip2px(getContext(), 45), MeasureSpec.EXACTLY));
+        // measure(getMeasuredWidth(), MeasureSpec.makeMeasureSpec(UIUtil.dip2px(getContext(), 45), MeasureSpec.EXACTLY));
         invalidate();
     }
 
     private int getCellFixLength(String txt) {
         int overLength = txtWidth - cellWidth;//15
+
         int byteLength = txtWidth / txt.length();//10
         if (overLength <= byteLength)
             return 1;
-        int i = overLength / byteLength + 1;
-        i = txt.length()-i;
-        return i;
-    }
+        int i = overLength / byteLength+1 ;
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        cellWidth = 0;
+        return i < 0 ? 0 : i;
     }
 }

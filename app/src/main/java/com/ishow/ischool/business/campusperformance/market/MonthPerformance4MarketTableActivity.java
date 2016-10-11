@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.campusperformance;
+package com.ishow.ischool.business.campusperformance.market;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,13 +31,13 @@ import rx.schedulers.Schedulers;
 /**
  * Created by wqf on 2016/9/23.
  */
-public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
+public class MonthPerformance4MarketTableActivity extends BaseActivity4Crm {
     private MonthTableData mDatas;
     private String mCampusIds;
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_campus_month_performance_table, R.string.student_performance_detail_table, MODE_BACK);
+        setContentView(R.layout.activity_market_month_performance_table, R.string.student_performance_detail_table, MODE_BACK);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
 
         List<MonthTableHead> titles = new ArrayList<>();
         titles.addAll(mDatas._title.subList(1, mDatas._title.size()));        // 去掉第一个"校区"(已固定存在于左上角)
-        MonthPerformanceTableHeadAdapter adapter = new MonthPerformanceTableHeadAdapter(CampusMonthPerformanceTableActivity.this, titles);
+        MonthPerformanceTableHeadAdapter adapter = new MonthPerformanceTableHeadAdapter(MonthPerformance4MarketTableActivity.this, titles);
         myLinearLayout4ListView.setAdapter(adapter);
 
         int flag = -1, count = 1;
@@ -125,7 +125,7 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
                 MonthTableHead info = (MonthTableHead) obj;
                 if (info != null) {
                     if (info.monthPosition > 0) {
-                        Intent intent = new Intent(CampusMonthPerformanceTableActivity.this, CampusWeekPerformanceTableActivity.class);
+                        Intent intent = new Intent(MonthPerformance4MarketTableActivity.this, WeekPerformance4MarketTableActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("data", mDatas);
                         bundle.putString("month", info.title);
@@ -146,7 +146,9 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
         content.setMyScrollChangeListener(new BodyHorizontalScrollView.LinkScrollChangeListener() {
             @Override
             public void onscroll(BodyHorizontalScrollView view, int x, int y, int oldx, int oldy) {
+                LogUtil.d("content_lv x = " + x, " ; y = " + y);
                 title.scrollTo(x, y);
+                LogUtil.d("title_lv x = " + title.getX(), " ; y = " + title.getY());
             }
         });
 
@@ -156,6 +158,19 @@ public class CampusMonthPerformanceTableActivity extends BaseActivity4Crm {
         // 禁止快速滑动,回弹效果
         lvName.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         lvDetail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+
+//        lvName.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+////                switch (motionEvent.getAction()) {
+////                    case MotionEvent.ACTION_MOVE:
+////                        return true;
+////                    default:
+////                        break;
+////                }
+//                return true;
+//            }
+//        });
 
         //左侧ListView滚动时，控制右侧ListView滚动
         lvName.setOnScrollListener(new AbsListView.OnScrollListener() {

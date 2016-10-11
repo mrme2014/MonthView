@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/chart_head_gray_bg"
+            android:orientation="horizontal">
+
+            <com.commonlib.widget.LabelTextView
+                style="@style/table_head_style1"
+                android:layout_width="90dp"
+                android:textColor="@color/chart_gray_txt"
+                android:text="总人数" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/chart_line"></View>
+
+            <com.commonlib.widget.LabelTextView
+                style="@style/table_head_style1"
+                android:textColor="@color/chart_gray_txt"
+                android:text="各组别原始人数" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/chart_line"></View>
+
+            <com.commonlib.widget.LabelTextView
+                style="@style/table_head_style1"
+                android:textColor="@color/chart_gray_txt"
+                android:text="升学基数" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/chart_line"></View>
+
+            <com.commonlib.widget.LabelTextView
+                style="@style/table_head_style1"
+                android:textColor="@color/chart_gray_txt"
+                android:text="升学" />
+
+            <com.ishow.ischool.widget.custom.TableRowTextView
+                android:id="@+id/head_cell"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/body_cell1"
+                style="@style/table_head_style1"
+                android:layout_width="90dp"
+                android:textColor="@color/chart_gray_txt"
+                android:text="2" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/chart_line"></View>
+
+            <com.ishow.ischool.widget.custom.TableRowTextViewTeach
+                android:id="@+id/body_cell2"
+                style="@style/table_head_style1"
+                android:textColor="@color/chart_gray_txt"
+                 />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/chart_line"></View>
+
+            <com.ishow.ischool.widget.custom.TableRowTextViewTeach
+                android:id="@+id/body_cell3"
+                style="@style/table_head_style1"
+                android:textColor="@color/chart_gray_txt"
+               />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/chart_line"></View>
+
+            <com.ishow.ischool.widget.custom.TableRowTextViewTeach
+                android:id="@+id/body_cell4"
+                style="@style/table_head_style1"
+                android:textColor="@color/chart_gray_txt"
+                />
+
+            <com.ishow.ischool.widget.custom.TableRowTextView
+                android:id="@+id/body_cell5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/chart_line"></View>
+    </LinearLayout>
+</HorizontalScrollView>

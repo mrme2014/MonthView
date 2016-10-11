@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/filter_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/filter_campus"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@mipmap/icon_screen_down"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="选择校区"
+                        android:textColor="@color/txt_6" />
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/comm_line" />
+
+                    <TextView
+                        android:id="@+id/filter_date"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@mipmap/icon_screen_down"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="时间选择"
+                        android:textColor="@color/txt_6" />
+                </LinearLayout>
+
+                <include layout="@layout/view_bottom_line" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@android:color/white"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/normal_font_style"
+                    android:layout_centerVertical="true"
+                    android:text="业绩趋势(%)" />
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    style="@style/small_font_style"
+                    android:layout_below="@id/title"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/chart_switch"
+                    style="@style/normal_font_style"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/switch_bg_round_corner"
+                    android:drawablePadding="4dp"
+                    android:text="饼图" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white">
+
+                <com.github.mikephil.charting.charts.CombinedChart
+                    android:id="@+id/combinedChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="340dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/legend_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckedTextView
+                    android:id="@+id/legend_performance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/performance"
+                    android:textColor="@color/selector_campus_legend_performance_color"
+                    android:textSize="14sp" />
+
+                <CheckedTextView
+                    android:id="@+id/legend_base_performance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_base_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/base_performance"
+                    android:textColor="@color/selector_campus_legend_base_performance_color"
+                    android:textSize="14sp" />
+
+                <CheckedTextView
+                    android:id="@+id/legend_challenge_performance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/selector_campus_legend_challenge_performance_drawable"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/challenge_performance"
+                    android:textColor="@color/selector_campus_legend_challenge_performance_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--<RelativeLayout-->
+            <!--android:id="@+id/table_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:padding="10dp">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/detail"-->
+            <!--style="@style/normal_font_style"-->
+            <!--android:text="@string/student_performance_detail_table"-->
+            <!--android:textSize="@dimen/sp15"/>-->
+
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@mipmap/icon_list_next" />-->
+            <!--</RelativeLayout>-->
+
+            <com.ishow.ischool.widget.custom.ListViewForScrollView
+                android:id="@+id/chart_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_table_bg"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

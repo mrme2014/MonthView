@@ -57,16 +57,15 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
+            android:layout_height="340dp"
             android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/legend_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:gravity="center"
-        android:padding="10dp"
         android:background="@color/white"
         android:orientation="horizontal">
         <CheckedTextView

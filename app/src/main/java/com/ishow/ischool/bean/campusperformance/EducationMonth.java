@@ -9,10 +9,10 @@ import android.os.Parcelable;
 
 public class EducationMonth implements Parcelable {
 
-    public int campusid;
-    public int full_base;
-    public int full_challenge;
-    public int permonth_real;
+    public Integer campusid;
+    public String full_base;
+    public String full_challenge;
+    public String permonth_real;
 
 
     @Override
@@ -23,9 +23,9 @@ public class EducationMonth implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.campusid);
-        dest.writeInt(this.full_base);
-        dest.writeInt(this.full_challenge);
-        dest.writeInt(this.permonth_real);
+        dest.writeString(this.full_base);
+        dest.writeString(this.full_challenge);
+        dest.writeString(this.permonth_real);
     }
 
     public EducationMonth() {
@@ -33,9 +33,9 @@ public class EducationMonth implements Parcelable {
 
     protected EducationMonth(Parcel in) {
         this.campusid = in.readInt();
-        this.full_base = in.readInt();
-        this.full_challenge = in.readInt();
-        this.permonth_real = in.readInt();
+        this.full_base = in.readString();
+        this.full_challenge = in.readString();
+        this.permonth_real = in.readString();
     }
 
     public static final Creator<EducationMonth> CREATOR = new Creator<EducationMonth>() {

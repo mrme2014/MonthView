@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class EducationMonth implements Parcelable {
 
-    public int campusid;
+    public Integer campusid;
     public String full_base;
     public String full_challenge;
     public String permonth_real;

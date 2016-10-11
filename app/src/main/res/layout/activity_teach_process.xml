@@ -92,7 +92,6 @@
                     android:layout_height="30dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/bg_sale_spinner"
-
                     >
 
                     <Spinner
@@ -102,7 +101,17 @@
                         android:gravity="center"></Spinner>
                 </RelativeLayout>
 
-
+                <TextView
+                    android:id="@+id/sales_spinner1"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="7天"
+                    android:gravity="center"
+                    android:drawableRight="@mipmap/icon_screen_down"
+                    android:paddingRight="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/bg_sale_spinner"/>
             </LinearLayout>
 
 

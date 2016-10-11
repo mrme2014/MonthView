@@ -15,6 +15,7 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -273,6 +274,15 @@ public class AppUtil {
         return c.get(Calendar.MONTH) + 1;
     }
 
+    public static int getTodayMislls() {
+        int time = (int)new Date().getTime()+24*3600*1000;
+        return  time;
+    }
+
+    public static int getDayAgoMislls(int dayAgo){
+        int time = (int)new Date().getTime()+24*3600*1000;
+        return time -dayAgo*24*3600*1000;
+    }
 
     public static ArrayList<String> getSpinnerData() {
         ArrayList<String> list = new ArrayList<>();

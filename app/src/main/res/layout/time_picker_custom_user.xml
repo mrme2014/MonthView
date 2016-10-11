@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_round_coner8"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="@dimen/sp13"
+            android:textColor="@drawable/selector_btn_blue_text" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="自定义"
+            android:textSize="@dimen/sp14"
+            android:textColor="@color/txt_2"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="完成"
+            android:textSize="@dimen/sp13"
+            android:textColor="@drawable/selector_btn_blue_text" />
+    </RelativeLayout>
+
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/start_time"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:draw_bottom_line="true"
+        app:draw_right_tip_txt="@string/select_start_time"
+        app:tip_right_padding="30"
+        android:gravity="center_vertical|left"
+        android:textColor="@color/txt_2"
+        android:text="@string/item_end_time"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:drawableRight="@mipmap/icon_list_next"
+
+        />
+
+    <com.ishow.ischool.widget.custom.FmItemTextView
+        android:id="@+id/end_time"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/item_end_time"
+        android:textColor="@color/txt_2"
+        app:tip_right_padding="30"
+        app:draw_right_tip_txt="@string/select_end_time"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:drawableRight="@mipmap/icon_list_next"
+        />
+</LinearLayout>

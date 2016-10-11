@@ -36,7 +36,7 @@ public class FmItemTextView extends TextView {
     private int rightTipColor = Color.parseColor("#999999");//默认色
 
 
-    private String tipTxt ="";//提示类型文本
+    private String tipTxt;//提示类型文本
 
     private int redPointRadius; //小红点半径
 
@@ -115,6 +115,7 @@ public class FmItemTextView extends TextView {
         bottom_line_Lp = ta.getInteger(R.styleable.FmItemTextView_draw_bottom_line_padding, 0);
         line_color = ta.getColor(R.styleable.FmItemTextView_draw_bottom_line_color, line_color);
         drawLine = ta.getBoolean(R.styleable.FmItemTextView_draw_bottom_line, false);
+        tipTxt = ta.getString(R.styleable.FmItemTextView_draw_right_tip_txt);
 
         tip_Rp = ta.getInteger(R.styleable.FmItemTextView_tip_right_padding, 0);
         drawRPoint = ta.getBoolean(R.styleable.FmItemTextView_draw_right_redPoint, false);
@@ -140,7 +141,7 @@ public class FmItemTextView extends TextView {
        }
 
         /*如果是绘制文本类型的 拿到文本的高度*/
-        if (!drawRPoint) {
+        if (!drawRPoint&&tipTxt!=null&&tipTxt!="") {
             Paint.FontMetrics fontMetrics = rightTipPaint.getFontMetrics();
             txtHeight = fontMetrics.descent - fontMetrics.ascent;
             txtWidth = rightTipPaint.measureText(tipTxt);

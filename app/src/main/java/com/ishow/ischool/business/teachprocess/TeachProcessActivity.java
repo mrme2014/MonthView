@@ -3,12 +3,14 @@ package com.ishow.ischool.business.teachprocess;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
@@ -29,11 +31,14 @@ import com.ishow.ischool.business.salesprocess.SelectPositionActivity;
 import com.ishow.ischool.business.salesprocess.SelectSubordinateActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.fragment.TimeSeletByUserDialog;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
+import com.ishow.ischool.widget.custom.DateChosePopWindow;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -46,7 +51,7 @@ import butterknife.OnClick;
  * Created by MrS on 2016/10/9.
  */
 
-public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, TeachModel> implements TeachProcessConact.View, AdapterView.OnItemSelectedListener {
+public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, TeachModel> implements TeachProcessConact.View, AdapterView.OnItemSelectedListener, View.OnClickListener {
     @BindView(R.id.sales_avart)
     CircleImageView salesAvart;
     @BindView(R.id.sales_avart_txt)
@@ -79,11 +84,13 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
     private TeachProcess teachProcess;
     private Option principal;
-
+    private TimeSeletByUserDialog timeSeletByUser;
+    private boolean isUser;
     @Override
     protected void setUpContentView() {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         setContentView(R.layout.activity_teach_process, R.string.teach_process_title, R.menu.menu_submit, MODE_BACK);
+        LogUtil.e("onCreate");
     }
 
     @Override
@@ -93,9 +100,15 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, mPresenter.getSpinnerData());
         salesSpinner.setAdapter(adapter);
-        salesSpinner.setOnItemSelectedListener(this);
+        salesSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isUser = true;
+                return false;
+            }
+        });
         salesSpinner.setSelection(0, true);
-
+        salesSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -103,7 +116,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         campus_id = mUser.campusInfo.id;
         curuser_position_id = position_id = mUser.positionInfo.id;
-        user_id = mUser.userInfo.user_id;
+        // user_id = mUser.userInfo.user_id;
+        user_id = 107;
         Calendar calendar = Calendar.getInstance();
         start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
         end_time = (int) AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
@@ -115,7 +129,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             salesJob.setCompoundDrawables(null, null, null, null);
         }
 
-        // getTeachProcessData();
+        getTeachProcessData();
     }
 
     private void setUpPersonInfoByResult() {
@@ -159,13 +173,15 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         handProgressbar(false);
         this.teachProcess = process;
         //如果是总部账号 数据回来后 要 重新初始化 campus_id 等字段  principal==null 是是为了 只初始化一次
-        if (process != null  && !process.option.isCampus && principal == null) {
+        if (process != null && !process.option.isCampus && principal == null) {
             principal = process.option;
             setUpPersonInfoByResult();
         }
         //如果 不是总部账号 那么process.principal  就会为空   campus_id
-        if (process != null  && process.option.isCampus && campus_name == null && user_name == null && position_name == null)
+        if (process != null && process.option.isCampus && campus_name == null && user_name == null && position_name == null) {
+            principal = process.option;
             setUpPersonInfoByResult();
+        }
 
         invalidateChart();
         setUpLabel();
@@ -214,6 +230,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         salesTable1.setSpanedStr(rate.get(rate_size - 3), number.get(number_size - 3), rate.get(rate_size - 2), number.get(number_size - 2), rate.get(rate_size - 1), number.get(number_size - 1));
 
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
+
+        LogUtil.e(principal.start_time + "--setUpLabel--" + principal.end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) principal.start_time) + "-" + DateUtil.parseSecond2Str((long) principal.end_time));
     }
 
     @Override
@@ -222,7 +241,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         showToast(error);
     }
 
-    @OnClick({R.id.sales_job, R.id.sales_table1, R.id.sales_table2})
+    @OnClick({R.id.sales_job, R.id.sales_table1, R.id.sales_table2, R.id.sales_spinner1})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_job:
@@ -238,9 +257,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             case R.id.sales_table1:
                 if (teachProcess == null || teachProcess.tableListData_22 == null ||
                         teachProcess.tableListData_22.head == null ||
-                        teachProcess.tableListData_22.body == null||
-                        teachProcess.tableListData_22.head.size()==0||
-                        teachProcess.tableListData_22.body.size()==0) {
+                        teachProcess.tableListData_22.body == null ||
+                        teachProcess.tableListData_22.head.size() == 0 ||
+                        teachProcess.tableListData_22.body.size() == 0) {
                     showToast(getString(R.string.no_value_show));
                     return;
                 }
@@ -260,9 +279,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             case R.id.sales_table2:
                 if (teachProcess == null || teachProcess.tableListData == null ||
                         teachProcess.tableListData.head == null ||
-                        teachProcess.tableListData.body == null||
-                        teachProcess.tableListData.head.size()==0||
-                        teachProcess.tableListData.body.size()==0) {
+                        teachProcess.tableListData.body == null ||
+                        teachProcess.tableListData.head.size() == 0 ||
+                        teachProcess.tableListData.body.size() == 0) {
                     showToast(getString(R.string.no_value_show));
                     return;
                 }
@@ -277,6 +296,16 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 }
                 intent2.putExtras(bundle1);
                 startActivity(intent2);
+                break;
+            case R.id.sales_spinner1:
+                DateChosePopWindow popWindow = new DateChosePopWindow(this);
+                popWindow.setonItemClick(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                });
+                popWindow.show();
                 break;
         }
     }
@@ -327,12 +356,55 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        LogUtil.e("onItemSelected" + position);
-        getTeachProcessData();
+        int dayAgo = 0;
+        if (position < mPresenter.getSpinnerData().size() - 2) {
+            String selectTxt = mPresenter.getSpinnerData().get(position);
+            String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
+            dayAgo = Integer.parseInt(selectNum);
+            start_time = AppUtil.getDayAgoMislls(dayAgo);
+            end_time = AppUtil.getTodayMislls();
+            getTeachProcessData();
+        } else if (position == mPresenter.getSpinnerData().size() - 2) {
+            start_time = 0;
+            end_time = AppUtil.getTodayMislls();
+            getTeachProcessData();
+        } else if (position == mPresenter.getSpinnerData().size() - 1) {
+            if (timeSeletByUser == null&&isUser) {
+                timeSeletByUser = new TimeSeletByUserDialog();
+                timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
+                    @Override
+                    public void onResult(int starttime, int endtime) {
+                        start_time = starttime;
+                        end_time = endtime;
+                        getTeachProcessData();
+                    }
+
+                    @Override
+                    public void onEorr(String error) {
+                        showToast(error);
+                    }
+                });
+            }
+            if (!timeSeletByUser.isAdded()&&isUser)timeSeletByUser.show(getSupportFragmentManager(), "dialog");
+        }
+        try {
+            //以下三行代码是解决问题所在
+            Field field = AdapterView.class.getDeclaredField("mOldSelectedPosition");
+            field.setAccessible(true);  //设置mOldSelectedPosition可访问
+            field.setInt(salesSpinner, AdapterView.INVALID_POSITION); //设置mOldSelectedPosition的值
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+        LogUtil.e("onNothingSelected" + salesSpinner.getSelectedItemPosition());
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isUser =false;
     }
 }

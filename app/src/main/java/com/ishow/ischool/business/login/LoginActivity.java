@@ -2,7 +2,9 @@ package com.ishow.ischool.business.login;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,9 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
     @BindView(R.id.submit_tv)
     TextView submitTv;
 
+    @BindView(R.id.login_layout)
+    ScrollView mLoginSv;
+
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_login, -1, -1, MODE_NONE);
@@ -39,13 +44,19 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @Override
     protected void setUpView() {
-        //12288880009
-        // usernameEt.setText("12288880009");
-        //  passwdEt.setText("qq1234");
         Intent intent = getIntent();
-        if (intent.hasExtra("invalidate_token")){
-            Toast.makeText(this,getString(R.string.login_in_other_devices),Toast.LENGTH_SHORT).show();
+        if (intent.hasExtra("invalidate_token")) {
+            Toast.makeText(this, getString(R.string.login_in_other_devices), Toast.LENGTH_SHORT).show();
         }
+
+        passwdEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mLoginSv.fullScroll(View.FOCUS_DOWN);
+                }
+            }
+        });
     }
 
     @Override

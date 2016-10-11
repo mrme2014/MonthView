@@ -35,7 +35,6 @@ import com.ishow.ischool.fragment.TimeSeletByUserDialog;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
-import com.ishow.ischool.widget.custom.DateChosePopWindow;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -85,6 +84,10 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     private TeachProcess teachProcess;
     private Option principal;
     private TimeSeletByUserDialog timeSeletByUser;
+    //这个变量是当初 spinner 不能重复选择 ，
+    // 后通过反射变量值 来实现了，
+    // 但当屏幕旋转后 又出现了 spinner  无故回调的问题。。。
+    // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
     @Override
     protected void setUpContentView() {
@@ -241,7 +244,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         showToast(error);
     }
 
-    @OnClick({R.id.sales_job, R.id.sales_table1, R.id.sales_table2, R.id.sales_spinner1})
+    @OnClick({R.id.sales_job, R.id.sales_table1, R.id.sales_table2})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_job:
@@ -297,16 +300,6 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 intent2.putExtras(bundle1);
                 startActivity(intent2);
                 break;
-            case R.id.sales_spinner1:
-                DateChosePopWindow popWindow = new DateChosePopWindow(this);
-                popWindow.setonItemClick(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    }
-                });
-                popWindow.show();
-                break;
         }
     }
 
@@ -356,6 +349,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (!isUser)
+            return;
         int dayAgo = 0;
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
@@ -369,7 +364,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             end_time = AppUtil.getTodayMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
-            if (timeSeletByUser == null&&isUser) {
+            if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
@@ -385,7 +380,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     }
                 });
             }
-            if (!timeSeletByUser.isAdded()&&isUser)timeSeletByUser.show(getSupportFragmentManager(), "dialog");
+            if (!timeSeletByUser.isAdded())timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
         try {
             //以下三行代码是解决问题所在

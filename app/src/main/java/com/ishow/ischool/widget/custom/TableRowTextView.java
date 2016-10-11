@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -94,7 +93,7 @@ public class TableRowTextView extends TextView {
         int height = getMeasuredHeight();
 
         for (int i = 0; i < list.size(); i++) {
-            String needDraw = list.get(i) == null ? "hahah" : list.get(i);
+            String needDraw = list.get(i) == null ? "null" : list.get(i);
             txtWidth = (int) txtPaint.measureText(needDraw);
             if (cellWidth> txtWidth) {
                 canvas.drawText(needDraw, i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
@@ -102,7 +101,6 @@ public class TableRowTextView extends TextView {
                 //String needDraw = list.get(i);
                 int overLength = needDraw.length() - getCellFixLength(needDraw);
                 overLength = overLength < 0 ? 0 : overLength;
-                LogUtil.e(i + "--getCellFixLength---" + overLength + "----" + needDraw.length());
                 String needTop = needDraw.substring(0, overLength);
                 String needBottom = needDraw.substring(overLength, needDraw.length());
                 float txtTopWidth = txtPaint.measureText(needTop);

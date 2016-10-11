@@ -91,6 +91,10 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private float downX = 0;
     private TreeMap map;
     private TimeSeletByUserDialog timeSeletByUser;
+    //这个变量是当初 spinner 不能重复选择 ，
+    // 后通过反射变量值 来实现了，
+    // 但当屏幕旋转后 又出现了 spinner  无故回调的问题。。。
+    // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
 
     @Override
@@ -114,7 +118,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 mChart.clearAnimation();
                 mChart.clearFocus();
                 mChart.setDrawMarkers(false);
-                isUser =true;
+                isUser = true;
                 return false;
             }
         });
@@ -150,6 +154,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         campus_id = mUser.campusInfo.id;
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
+
+        getSaleProcessData();
     }
 
     private void setUpDataByResult() {
@@ -267,6 +273,8 @@ user_id	Int	0			指定看某个员工的	*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (!isUser)
+            return;
         try {
             //以下三行代码是解决问题所在
             Field field = AdapterView.class.getDeclaredField("mOldSelectedPosition");
@@ -287,7 +295,7 @@ user_id	Int	0			指定看某个员工的	*/
             type_time = 999;
             getSaleProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
-            if (timeSeletByUser == null&&isUser) {
+            if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
@@ -304,7 +312,7 @@ user_id	Int	0			指定看某个员工的	*/
                     }
                 });
             }
-            if (!timeSeletByUser.isAdded()&&isUser)
+            if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
     }

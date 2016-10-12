@@ -158,6 +158,8 @@
         <attr name="tip_right_color" format="color|reference"></attr>
         <!--是否是绘制 消息提示类型的-->
         <attr name="draw_right_redPoint" format="boolean"></attr>
+
+        <attr name="draw_right_tip_txt" format="string"></attr>
     </declare-styleable>
 
 

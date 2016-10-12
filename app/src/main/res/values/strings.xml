@@ -105,6 +105,8 @@
     <string name="item_start_time">开始时间</string>
     <string name="item_end_time">结束时间</string>
     <string name="time_error">结束时间不能早于起始时间</string>
+    <string name="select_start_time">请选择开始时间</string>
+    <string name="select_end_time">请选择结束时间</string>
 
     <!-- 选择推荐人 -->
     <string name="pick_referrer">选择推荐人</string>
@@ -267,6 +269,8 @@
     <string name="filter_start_date">开始时间 : %s</string>
     <string name="filter_end_date">结束时间 : %s</string>
     <string name="end_le_start">结束时间必须大于开始时间</string>
+    <string name="start_nonull">请选择开始时间</string>
+    <string name="end_nonull">请选择结束时间</string>
     <string name="status">状态</string>
 
     <string name="teach_process_title">教学流程分析</string>

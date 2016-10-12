@@ -34,10 +34,12 @@ import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.fragment.TimeSeletByUserDialog;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -87,15 +89,16 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private Principal principal;
 
     private float downX = 0;
-
-    /*private final int HIDE_TABLE_PERMISSION1 = 17;
-    private final int HIDE_TABLE_PERMISSION2 = 18;
-    private final int HIDE_TABLE_PERMISSION3 = 19;
-    private final int HIDE_TABLE_PERMISSION4 = 14;*/
+    private TreeMap map;
+    private TimeSeletByUserDialog timeSeletByUser;
+    //这个变量是当初 spinner 不能重复选择 ，
+    // 后通过反射变量值 来实现了，
+    // 但当屏幕旋转后 又出现了 spinner  无故回调的问题。。。
+    // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
+    private boolean isUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         super.onCreate(savedInstanceState);
     }
 
@@ -106,8 +109,6 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     protected void setUpView() {
-
-
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, mPresenter.getSpinnerData());
         salesSpinner.setAdapter(adapter);
         salesSpinner.setOnTouchListener(new View.OnTouchListener() {
@@ -117,6 +118,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 mChart.clearAnimation();
                 mChart.clearFocus();
                 mChart.setDrawMarkers(false);
+                isUser = true;
                 return false;
             }
         });
@@ -152,6 +154,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         campus_id = mUser.campusInfo.id;
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
+
+        getSaleProcessData();
     }
 
     private void setUpDataByResult() {
@@ -257,7 +261,7 @@ position_id	Int	0			职位ID	0
 user_id	Int	0			指定看某个员工的	*/
     private void getSaleProcessData() {
         handProgressbar(true);
-        TreeMap map = new TreeMap();
+        if (map == null) map = new TreeMap();
         if (campus_id != Constants.CAMPUS_HEADQUARTERS && campus_id != 0) {
             map.put("campus_id", campus_id);
             map.put("position_id", position_id);
@@ -269,18 +273,48 @@ user_id	Int	0			指定看某个员工的	*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (!isUser)
+            return;
+        try {
+            //以下三行代码是解决问题所在
+            Field field = AdapterView.class.getDeclaredField("mOldSelectedPosition");
+            field.setAccessible(true);  //设置mOldSelectedPosition可访问
+            field.setInt(salesSpinner, AdapterView.INVALID_POSITION); //设置mOldSelectedPosition的值
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (saleLegendApply.isChecked()) invalidateApplyCount();
         if (saleLegendFull.isChecked()) invalidateFullAmount();
         //  mChart.setDrawMarkers(true);
-        if (position != mPresenter.getSpinnerData().size() - 1) {
+        if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
             type_time = Integer.parseInt(selectNum);
-        } else {
+            getSaleProcessData();
+        } else if (position == mPresenter.getSpinnerData().size() - 2) {
             type_time = 999;
-        }
-        getSaleProcessData();
+            getSaleProcessData();
+        } else if (position == mPresenter.getSpinnerData().size() - 1) {
+            if (timeSeletByUser == null) {
+                timeSeletByUser = new TimeSeletByUserDialog();
+                timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
+                    @Override
+                    public void onResult(int starttime, int endtime) {
+                        if (map == null) map = new TreeMap();
+                        map.put("begin_time", starttime);
+                        map.put("end_time", endtime);
+                        getSaleProcessData();
+                    }
 
+                    @Override
+                    public void onEorr(String error) {
+                        showToast(error);
+                    }
+                });
+            }
+            if (!timeSeletByUser.isAdded())
+                timeSeletByUser.show(getSupportFragmentManager(), "dialog");
+        }
     }
 
     @Override
@@ -370,6 +404,8 @@ user_id	Int	0			指定看某个员工的	*/
                 type_time = 7;
             }
             LogUtil.e("onActivityResult" + campus_id);
+            if (map == null) map = new TreeMap();
+            map.clear();
             getSaleProcessData();
 
         }
@@ -438,6 +474,12 @@ user_id	Int	0			指定看某个员工的	*/
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isUser = false;
     }
 
     @Override

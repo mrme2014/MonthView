@@ -43,11 +43,14 @@ import com.ishow.ischool.bean.campusperformance.EducationMonthResult;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.widget.custom.ListViewForScrollView;
 import com.ishow.ischool.widget.table.MyMarkerView4;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -78,6 +81,10 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     CheckedTextView baseCtv;
     @BindView(R.id.legend_challenge_performance)
     CheckedTextView challengeCtv;
+    @BindView(R.id.chart_table)
+    ListViewForScrollView listViewForScrollView;
+    private Performance4EduTableAdaper mTableAdapter;
+    private View headerView;
 
     public boolean curPieMode = false;
     private ArrayList<String> mXDatas;      // 横坐标数据,需要显示的校区name
@@ -104,6 +111,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     @Override
     protected void setUpView() {
         initData();
+        initTable();
         initCombinedChart();
         initPieChart();
     }
@@ -140,6 +148,11 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     @Override
     public void getListSuccess(EducationMonthResult educationMonthResult) {
         mYDatas = educationMonthResult.educationMonth;
+        Collections.sort(mYDatas, new Comparator<EducationMonth>() {
+            public int compare(EducationMonth arg0, EducationMonth arg1) {
+                return (arg0.campusid).compareTo(arg1.campusid);
+            }
+        });
         setLineChartData(mAllCampus);
         setPieChartData(mAllCampus);
     }
@@ -147,6 +160,24 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     @Override
     public void getListFail(String msg) {
 
+    }
+
+    private void initTable() {
+        mTableAdapter = new Performance4EduTableAdaper(this, mXDatas, mLastYdatas);
+        if (headerView == null) {
+            headerView = getLayoutInflater().inflate(R.layout.item_performance_education_table_head, null);
+            listViewForScrollView.addHeaderView(headerView);
+        }
+        TextView nameTv = (TextView) headerView.findViewById(R.id.item_name);
+        TextView challengeTv = (TextView) headerView.findViewById(R.id.item_challenge);
+        TextView baseTv = (TextView) headerView.findViewById(R.id.item_base);
+        TextView realTv = (TextView) headerView.findViewById(R.id.item_real);
+        nameTv.setText("校区");
+        challengeTv.setText("冲刺目标");
+        baseTv.setText("红线目标");
+        realTv.setText("当前业绩");
+
+        listViewForScrollView.setAdapter(mTableAdapter);
     }
 
     void initCombinedChart() {
@@ -257,6 +288,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
         }
         mLastCampus.clear();         // 更新上一次显示的校区
         mLastCampus.addAll(tempCampusInfos);
+        // 刷新table
+        mTableAdapter.notifyDataSetChanged();
 
         lineData.addDataSet(generateBaseLineData(mLastYdatas));
         lineData.addDataSet(generateChallengeLineData(mLastYdatas));

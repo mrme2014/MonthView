@@ -147,6 +147,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
 
     @Override
     public void getListSuccess(EducationMonthResult educationMonthResult) {
+        lazyShow();
         mYDatas = educationMonthResult.educationMonth;
         Collections.sort(mYDatas, new Comparator<EducationMonth>() {
             public int compare(EducationMonth arg0, EducationMonth arg1) {
@@ -160,6 +161,18 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     @Override
     public void getListFail(String msg) {
 
+    }
+
+    /**
+     * 懒加载，避免数据没有加载成功，点击崩溃
+     */
+    void lazyShow() {
+        if (legendLayout.getVisibility() == View.GONE) {
+            legendLayout.setVisibility(View.VISIBLE);
+        }
+        if (listViewForScrollView.getVisibility() != View.VISIBLE) {
+            listViewForScrollView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initTable() {
@@ -503,14 +516,18 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                 if (curPieMode) {
                     curPieMode = false;
                     mCombinedChart.setVisibility(View.VISIBLE);
-                    legendLayout.setVisibility(View.VISIBLE);
+                    if (legendLayout.getVisibility() == View.INVISIBLE) {
+                        legendLayout.setVisibility(View.VISIBLE);
+                    }
                     mPieChart.setVisibility(View.GONE);
                     switcTv.setText("饼图");
                 } else {
                     curPieMode = true;
                     mPieChart.setVisibility(View.VISIBLE);
+                    if (legendLayout.getVisibility() == View.VISIBLE) {
+                        legendLayout.setVisibility(View.INVISIBLE);
+                    }
                     mCombinedChart.setVisibility(View.GONE);
-                    legendLayout.setVisibility(View.GONE);
                     switcTv.setText("折线图");
                 }
                 break;
@@ -682,8 +699,10 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     } else {
                         mLastCampus.clear();
                         mLastCampus.addAll(mAdapter.getSelectedItem());
-                        setLineChartData(mLastCampus);
-                        setPieChartData(mLastCampus);
+                        if (mLastYdatas != null && mLastYdatas.size() > 0) {
+                            setLineChartData(mLastCampus);
+                            setPieChartData(mLastCampus);
+                        }
                     }
                     mCampusPopup.dismiss();
                     break;

@@ -28,7 +28,6 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.util.PhotoUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -166,7 +165,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             HashMap<String, String> params = new HashMap<>();
             params.put("id", studentId + "");
             params.put("resources_id", "7");
-            params.put("fields", "studentInfo");
+            params.put("fields", "studentInfo,avatarInfo");
             mPresenter.getStudent(params);
         }
     }
@@ -184,8 +183,9 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     }
 
     private void updateView(Student student) {
-        avatarTv.setText(student.studentInfo.name);
-        avatarTv.setBackgroundColor(ColorUtil.getColorById(student.studentInfo.id));
+//        avatarTv.setText(student.studentInfo.name);
+//        avatarTv.setBackgroundColor(ColorUtil.getColorById(student.studentInfo.id));
+        avatarTv.setText(student.studentInfo.name, student.studentInfo.id, student.avatarInfo.file_name);
 
         usernameTv.setText(student.studentInfo.name);
         applyStateLtv.setText(student.studentInfo.pay_state_name);

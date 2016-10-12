@@ -300,8 +300,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             final String nameStr = data.studentInfo.name;
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
-//                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
-                avatar.setText(data.studentInfo.name, data.studentInfo.id, "");
+                avatar.setText(data.studentInfo.name, data.studentInfo.id, data.avatarInfo.file_name);
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
                 state.setText(data.studentInfo.pay_state_name);

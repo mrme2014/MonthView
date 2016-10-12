@@ -12,6 +12,7 @@ public class StatisticsListPresenter extends StatisticsListContract.Presenter {
 
     @Override
     public void getList4StudentStatistics(HashMap<String, String> params, int page) {
+        params.put("fields", "studentInfo,avatarInfo");
         mModel.getList4StudentStatistics(params, page)
                 .subscribe(new ApiObserver<StudentList>() {
                     @Override

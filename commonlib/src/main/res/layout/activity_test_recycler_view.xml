@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_test_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.commonlib.widget.pullrecyclerview.TestRecyclerViewActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="title" />
+
+    <com.commonlib.widget.pullrecyclerview.PullRecyclerView
+        android:id="@+id/pull_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
+
+
+</RelativeLayout>

@@ -58,6 +58,8 @@ public class BarChartFragment extends BaseFragment {
     TextView switcTv;
     @BindView(R.id.chart1_layout)
     LinearLayout chart1Layout;
+    @BindView(R.id.chart1_legend)
+    LinearLayout chart1Legend;
     @BindView(R.id.legend_attend_amount)
     CheckedTextView attendAmountCtv;
     @BindView(R.id.legend_registration_amount)
@@ -66,6 +68,8 @@ public class BarChartFragment extends BaseFragment {
     CheckedTextView fullPaymentAmountCtv;
     @BindView(R.id.chart2_layout)
     LinearLayout chart2Layout;
+    @BindView(R.id.chart2_legend)
+    LinearLayout chart2Legend;
     @BindView(R.id.legend_registration_rate)
     CheckedTextView registrationRateCtv;
     @BindView(R.id.legend_full_payment_rate)
@@ -78,7 +82,7 @@ public class BarChartFragment extends BaseFragment {
     private ArrayList<String> mXDatas;
     private int mCount = 0;
     private ArrayList<CampusInfo> mCampusInfos;
-    public ArrayList<CampusInfo> mLastShowCampus;      // 上次显示的校区
+    public ArrayList<CampusInfo> mLastCampus;      // 上次显示的校区
     public ArrayList<SignAmount> mLastYdatas;
     private ArrayList<SignAmount> mYDatas;
     private String label1, label2, label3;
@@ -100,6 +104,7 @@ public class BarChartFragment extends BaseFragment {
                 .subscribe(new ApiObserver<SignAmountResult>() {
                     @Override
                     public void onSuccess(SignAmountResult result) {
+                        lazyShow();
                         mYDatas = result.signTotal;
                         mYDatas.add(new SignAmount());
                         setBarChartData(showCampus, mChartAmount, mBarDataAmount);
@@ -129,11 +134,23 @@ public class BarChartFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 懒加载，避免数据没有加载成功，点击崩溃
+     */
+    void lazyShow() {
+        if (chart1Legend.getVisibility() == View.GONE) {
+            chart1Legend.setVisibility(View.VISIBLE);
+        }
+        if (chart2Legend.getVisibility() != View.GONE) {
+            chart2Legend.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void init() {
         mBarDataAmount = new BarData();
         mBarDataPercentage = new BarData();
-        mLastShowCampus = new ArrayList<>();
+        mLastCampus = new ArrayList<>();
         mLastYdatas = new ArrayList<>();
         mCampusInfos = CampusManager.getInstance().get();
         mXDatas = new ArrayList<>();
@@ -155,7 +172,6 @@ public class BarChartFragment extends BaseFragment {
     private void initAmountChart() {
         mChartAmount.setScaleEnabled(false);
         mChartAmount.setDescription("");
-        mChartAmount.setNoDataText("no data");
 
         mChartAmount.getLegend().setEnabled(false);
 
@@ -196,7 +212,6 @@ public class BarChartFragment extends BaseFragment {
     private void initPercentageChart() {
         mChartPercentage.setScaleEnabled(false);
         mChartPercentage.setDescription("");
-        mChartPercentage.setNoDataText("no data");
 
         mChartPercentage.getLegend().setEnabled(false);
 
@@ -276,7 +291,7 @@ public class BarChartFragment extends BaseFragment {
         ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
         tempCampusInfos.addAll(campusInfos);
         mLastYdatas.clear();
-        if (mLastShowCampus != null && mLastShowCampus.size() > 0) {      // 即不是第一次
+        if (mLastCampus != null && mLastCampus.size() > 0) {      // 即不是第一次
             mXDatas.clear();
             ArrayList<CampusInfo> allCampusInfos = CampusManager.getInstance().get();
             for (CampusInfo campusInfo : campusInfos) {
@@ -294,8 +309,8 @@ public class BarChartFragment extends BaseFragment {
         }
 
         if (barChart == mChartPercentage) {
-            mLastShowCampus.clear();         // 更新上一次显示的校区
-            mLastShowCampus.addAll(tempCampusInfos);
+            mLastCampus.clear();         // 更新上一次显示的校区
+            mLastCampus.addAll(tempCampusInfos);
         }
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();

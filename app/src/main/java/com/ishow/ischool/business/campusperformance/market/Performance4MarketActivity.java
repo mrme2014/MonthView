@@ -252,11 +252,13 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                     if (selectedItem.size() == 0) {
                         showToast("校区选项必须选择一个");
                     } else {
-                        lineChartFragment.setLineChartData(selectedItem);
-                        lineChartFragment.setPieChartData(selectedItem);
+                        if (lineChartFragment.mLastYdatas != null && lineChartFragment.mLastYdatas.size() > 0) {        //  避免网络异常等原因数据获取失败
+                            lineChartFragment.setLineChartData(selectedItem);
+                            lineChartFragment.setPieChartData(selectedItem);
 
-                        barChartFragment.setBarChartData(selectedItem, barChartFragment.mChartAmount, barChartFragment.mBarDataAmount);
-                        barChartFragment.setBarChartData(selectedItem, barChartFragment.mChartPercentage, barChartFragment.mBarDataPercentage);
+                            barChartFragment.setBarChartData(selectedItem, barChartFragment.mChartAmount, barChartFragment.mBarDataAmount);
+                            barChartFragment.setBarChartData(selectedItem, barChartFragment.mChartPercentage, barChartFragment.mBarDataPercentage);
+                        }
                     }
                     mCampusPopup.dismiss();
                     break;
@@ -366,10 +368,12 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                         break;
                     }
 
-                    lineChartFragment.pullData(lineChartFragment.mParamCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
+                    if (lineChartFragment.mLastYdatas != null && lineChartFragment.mLastYdatas.size() > 0) {        //  避免网络异常等原因数据获取失败
+                        lineChartFragment.pullData(lineChartFragment.mLastCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
                                 mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1, lineChartFragment.mParamDataType);
-                    barChartFragment.pullData(barChartFragment.mLastShowCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
+                        barChartFragment.pullData(barChartFragment.mLastCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
                                 mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1);
+                    }
                     mLastStartTime = mFilterStartTime;
                     mLastEndTime = mFilterEndTime;
                     mDatePopup.dismiss();

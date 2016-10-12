@@ -89,7 +89,7 @@ public class LineChartFragment extends BaseFragment {
     private ArrayList<String> mXDatas;      // 横坐标数据,需要显示的校区name
     private int mCount = 0;                 // 横坐标个数,即数据个数
     private ArrayList<CampusInfo> mCampusInfos;
-    public ArrayList<CampusInfo> mParamCampus;      // 上次显示的校区
+    public ArrayList<CampusInfo> mLastCampus;      // 上次显示的校区
     public ArrayList<SignPerformance> mLastYdatas;      // 上次显示的数据(纵坐标)
     public String mCampusParamAll = "";                     // 所有校区id,用于每次请求所有校区的数据
     public String mLastCampusParam = "";                   // 上次显示的校区id,用于传递给表格用
@@ -114,9 +114,10 @@ public class LineChartFragment extends BaseFragment {
                 .subscribe(new ApiObserver<SignPerformanceResult>() {
                     @Override
                     public void onSuccess(SignPerformanceResult result) {
+                        lazyShow();
                         mYDatas = result.campusTotal;
                         setLineChartData(showCampus);
-                        setPieChartData(mParamCampus);
+                        setPieChartData(mLastCampus);
                     }
 
                     @Override
@@ -142,7 +143,7 @@ public class LineChartFragment extends BaseFragment {
     }
 
     public void initData() {
-        mParamCampus = new ArrayList<>();
+        mLastCampus = new ArrayList<>();
         mLastYdatas = new ArrayList<>();
         mCampusInfos = CampusManager.getInstance().get();
         mXDatas = new ArrayList<>();
@@ -156,6 +157,15 @@ public class LineChartFragment extends BaseFragment {
             mCampusParamAll = mCampusParamAll + info.id + ",";
         }
         mCampusParamAll = mCampusParamAll.substring(0, mCampusParamAll.length() - 1);
+    }
+
+    /**
+     * 懒加载，避免数据没有加载成功，点击崩溃
+     */
+    void lazyShow() {
+        if (legendLayout.getVisibility() == View.GONE) {
+            legendLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     void initCombinedChart() {
@@ -214,7 +224,7 @@ public class LineChartFragment extends BaseFragment {
         ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
         tempCampusInfos.addAll(campusInfos);
         mLastYdatas.clear();
-        if (mParamCampus != null && mParamCampus.size() > 0) {      // 即不是第一次
+        if (mLastCampus != null && mLastCampus.size() > 0) {      // 即不是第一次
             mXDatas.clear();
             ArrayList<CampusInfo> allCampusInfos = CampusManager.getInstance().get();
             for (CampusInfo campusInfo : tempCampusInfos) {
@@ -229,8 +239,8 @@ public class LineChartFragment extends BaseFragment {
         } else {
             mLastYdatas.addAll(mYDatas);
         }
-        mParamCampus.clear();         // 更新上一次显示的校区
-        mParamCampus.addAll(tempCampusInfos);
+        mLastCampus.clear();         // 更新上一次显示的校区
+        mLastCampus.addAll(tempCampusInfos);
 
         lineData.addDataSet(generateBaseLineData(mLastYdatas));
         lineData.addDataSet(generateChallengeLineData(mLastYdatas));
@@ -459,7 +469,9 @@ public class LineChartFragment extends BaseFragment {
                 if (curPieMode) {
                     curPieMode = false;
                     mCombinedChart.setVisibility(View.VISIBLE);
-                    legendLayout.setVisibility(View.VISIBLE);
+                    if (legendLayout.getVisibility() == View.INVISIBLE) {
+                        legendLayout.setVisibility(View.VISIBLE);
+                    }
                     mPieChart.setVisibility(View.GONE);
                     titleTv.setText("业绩趋势(个)");
                     switcTv.setText("饼图");
@@ -467,7 +479,9 @@ public class LineChartFragment extends BaseFragment {
                     curPieMode = true;
                     mPieChart.setVisibility(View.VISIBLE);
                     mCombinedChart.setVisibility(View.GONE);
-                    legendLayout.setVisibility(View.GONE);
+                    if (legendLayout.getVisibility() == View.VISIBLE) {
+                        legendLayout.setVisibility(View.INVISIBLE);
+                    }
                     titleTv.setText("业绩对比(%)");
                     switcTv.setText("折线图");
                 }
@@ -533,7 +547,7 @@ public class LineChartFragment extends BaseFragment {
                     fromTv.setText(fromList.get(i));
                     if (type != mParamDataType) {
                         mParamDataType = type;
-                        pullData(mParamCampus, mParamBeginDate, mParamEndDate, mParamDataType);
+                        pullData(mLastCampus, mParamBeginDate, mParamEndDate, mParamDataType);
                     }
                     mFromPopup.dismiss();
                 }

@@ -1,11 +1,16 @@
 package com.ishow.ischool.business.tabdata;
 
+import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.teachprocess.TeachProcess;
+import com.ishow.ischool.common.api.DataApi;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by abel on 16/10/9.
@@ -13,7 +18,7 @@ import rx.Observable;
 
 public class DataTeachModel implements DataTeachContract.Model {
     @Override
-    public Observable<ApiResult<SaleProcess>> getTeachingProcess(HashMap<String, String> params) {
-        return null;
+    public Observable<ApiResult<TeachProcess>> getTeachingProcess(TreeMap<String, Integer> params) {
+        return ApiFactory.getInstance().getApi(DataApi.class).getTeatProcess(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

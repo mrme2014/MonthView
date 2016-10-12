@@ -5,10 +5,11 @@ import com.commonlib.core.BasePresenter;
 import com.commonlib.core.BaseView;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import rx.Observable;
 
@@ -19,18 +20,19 @@ import rx.Observable;
 public interface DataTeachContract {
     interface Model extends BaseModel {
 
-        Observable<ApiResult<SaleProcess>> getTeachingProcess(HashMap<String, String> params);
+        Observable<ApiResult<TeachProcess>> getTeachingProcess(TreeMap<String, Integer> params);
+
     }
 
     interface View extends BaseView {
-        void getTeachingProcessSuccess(ArrayList<CampusInfo> campusInfos);
 
-        void getTeachingProcessFail(String msg);
+        void getTeachingProcessSucess(TeachProcess process);
 
+        void getTeachingProcessFaild(String msg);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
-        abstract void getTeachingProcess(HashMap<String,String> params);
+        abstract void getTeachingProcess(TreeMap<String, Integer> params);
 
     }
 }

@@ -2,34 +2,26 @@ package com.ishow.ischool.business.tabdata;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
-import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.bean.teachprocess.TeachProcess;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
-import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
 import com.ishow.ischool.business.teachprocess.TeachProcessActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.util.AppUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,9 +32,11 @@ import butterknife.OnClick;
 public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, DataTeachModel> implements DataTeachContract.View {
 
     private OnFragmentInteractionListener mListener;
-    @BindView(R.id.line_chart)
-    LineChart mChart;
+    @BindView(R.id.bar_chart)
+    HorizontalBarChart mBarChart;
     private SaleProcess mSaleProcess;
+    private int campus_id, curuser_position_id, user_id, position_id;
+    private long start_time, end_time;
 
     public DataTeachFragment() {
         // Required empty public constructor
@@ -92,94 +86,44 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
 
     @Override
     public void init() {
-//        mChart.setOnChartGestureListener(this);
-//        mChart.setOnChartValueSelectedListener(this);
-        mChart.setDrawGridBackground(false);
-        mChart.setBorderColor(Color.WHITE);
 
-        // no description text
-        mChart.setDescription("");
-        mChart.setNoDataTextDescription("You need to provide data for the chart.");
+        User mUser = UserManager.getInstance().get();
+        campus_id = mUser.campusInfo.id;
+        curuser_position_id = position_id = mUser.positionInfo.id;
+        // user_id = mUser.userInfo.user_id;
+        user_id = 107;
+        Calendar calendar = Calendar.getInstance();
+        start_time = AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
+        end_time = AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
 
-        // enable touch gestures
-        mChart.setTouchEnabled(true);
+        mPresenter.initChart(mBarChart);
 
-        // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
-        // mChart.setScaleXEnabled(true);
-        // mChart.setScaleYEnabled(true);
+        getTeachProcessData();
+    }
 
-        // if disabled, scaling can be done on x- and y-axis separately
-        mChart.setPinchZoom(true);
+    private void getTeachProcessData() {
+        TreeMap<String, Integer> map = new TreeMap();
+        map.put("start_time", (int) start_time);
+        map.put("end_time", (int) end_time);
+        map.put("position_id", position_id);
+        map.put("user_id", user_id);
+//        handProgressbar(true);
 
-        // set an alternative background color
-        mChart.setBackgroundColor(getResources().getColor(R.color.comm_blue));
-
-        // create a custom MarkerView (extend MarkerView) and specify the layout
-        // to use for it
-
-        XAxis xAxis = mChart.getXAxis();
-        //xAxis.enableGridDashedLine(10f, 10f, 0f);
-        xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(-45);
-        xAxis.setAxisMinimum(0);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        //leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(false);
-        leftAxis.setDrawGridLines(false);
-        leftAxis.setGridColor(Color.WHITE);
-        leftAxis.setAxisLineColor(Color.WHITE);
-        leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setGranularity(1);
-        leftAxis.setAxisMinimum(0);
-
-        // limit lines are drawn behind data (and not on top)
-        leftAxis.setDrawLimitLinesBehindData(true);
-
-        mChart.getAxisRight().setEnabled(false);
-
-        //mChart.getViewPortHandler().setMaximumScaleY(2f);
-        //mChart.getViewPortHandler().setMaximumScaleX(2f);
-
-        // add data
-        //setData(15, 100);
-
-//        mChart.setVisibleXRange(20);
-//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
-//        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
-
-        mChart.animateX(2500);
-        //mChart.invalidate();
-
-        // get the legend (only possible after setting data)
-        Legend l = mChart.getLegend();
-
-        // modify the legend ...
-        // l.setPosition(LegendPosition.LEFT_OF_CHART);
-        l.setForm(Legend.LegendForm.LINE);
-        l.setTextColor(Color.WHITE);
-
-        // // dont forget to refresh the drawing
-        // mChart.invalidate();
-        if (mSaleProcess != null && mChart.getData() == null) {
-            setData(mSaleProcess);
-        }
+        mPresenter.getTeachingProcess(map);
     }
 
     @Override
-    public void getTeachingProcessSuccess(ArrayList<CampusInfo> campusInfos) {
-
+    public void getTeachingProcessSucess(TeachProcess process) {
+//        Gson gson = new Gson();
+//        String str = "{ \"selfChartData\": { \"head\": [ \"带班人数\", \"升学基数\", \"升学人数\", \"全款人数\", \"升学率\", \"全款率\" ], \"body\": [ [ 1031, 21, 1, 0, \"4.76%\", \"0.00%\" ] ] }, \"tableListData_22\": { \"head\": [ \"总人数\", \"各组别原始人数-初级\", \"各组别原始人数-中级\", \"各组别原始人数-高级\", \"各组别原始人数-总\", \"升学基数-初级\", \"升学基数-中级\", \"升学基数-高级\", \"升学基数-总\", \"升学-初升中\", \"升学-中升高\", \"升学-高升影\", \"升学-总\", \"全款\", \"退款\", \"升学率\", \"全款率\", \"退款率\" ], \"body\": [ [ 31, 14, 14, 4, 32, 6, 11, 4, 21, 1, 0, 0, 1, 0, 0, \"4.76%\", \"0.00%\", \"0.00%\" ] ] }, \"tableListData\": { \"head\": [ \"级别\", \"组长\", \"老师\", \"学习顾问\", \"班级\", \"原始人数\", \"升学基数\", \"升学\", \"全款\", \"退款\", \"升学率\", \"全款率\", \"退款率\" ], \"body\": [ [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初级老师\", \"张鹤0初级学习顾问\", \"16年0905初\", 4, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初中级老师\", \"张鹤0初级学习顾问\", \"16年0909\", 2, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初中级老师\", \"张鹤0初级学习顾问\", \"16年0912初\", 2, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤初中级老师\", \"张鹤0中级学习顾问\", \"16年0912中\", 3, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初级老师\", \"张鹤初中高影学顾\", \"初级老师17初\", 3, 3, 1, 0, 0, \"33.33%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初中级老师\", \"张鹤0初级学习顾问\", \"初中级老师17初\", 3, 3, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤中级老师\", \"张鹤初中高影学顾\", \"中级老师17中\", 3, 3, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤初中级老师\", \"张鹤0中级学习顾问\", \"初中级老师17中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"教总17中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow高级\", \"张鹤教总高影组中高师\", \"张鹤教总高影组中高师\", \"张鹤初中高影学顾\", \"教总17高\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow高级\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"张鹤教学多角色\", \"市场主管17高\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"教总23中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤初中级老师\", \"张鹤0中级学习顾问\", \"初中级老师23中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow影视\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"\", \"张多角色影视班\", 0, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ] ] }, \"option\": { \"start_time\": 1472659200, \"end_time\": 1475164800, \"isCampus\": false, \"campus_id\": 1, \"campus_name\": \"总部\", \"position_id\": 22, \"position_name\": \"\", \"user_id\": 107, \"user_name\": \"张鹤教总高影组中高师\", \"avatar\": \"\" } } ";
+//        TeachProcess process1 = gson.fromJson(str, TeachProcess.class);
+        mPresenter.setData(mBarChart, process);
+        mBarChart.invalidate();
     }
 
     @Override
-    public void getTeachingProcessFail(String msg) {
-
+    public void getTeachingProcessFaild(String msg) {
+        showToast(msg);
     }
 
 
@@ -211,109 +155,4 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         }
     }
 
-    public void setData(SaleProcess saleProcess) {
-        if (saleProcess != null && saleProcess.chart != null) {
-            this.mSaleProcess = saleProcess;
-        }
-        if (mChart == null || saleProcess == null || saleProcess.chart == null) {
-            return;
-        }
-        List<String> apply_number = saleProcess.chart.apply_number;
-        List<String> full_amount = saleProcess.chart.full_amount;
-
-        ArrayList<Entry> point1 = null;
-        if (apply_number != null) {
-            int aplply_size = apply_number.size();
-            point1 = new ArrayList<Entry>();
-            for (int i = 0; i < aplply_size; i++) {
-                point1.add(new Entry(i, Float.valueOf(apply_number.get(i))));
-            }
-        }
-
-        ArrayList<Entry> point2 = null;
-        if (full_amount != null) {
-            int full_size = full_amount.size();
-            point2 = new ArrayList<Entry>();
-            for (int i = 0; i < full_size; i++) {
-                point2.add(new Entry(i, Float.valueOf(full_amount.get(i))));
-            }
-        }
-
-        SaleProcessIAxisValueFormatter formatter = new SaleProcessIAxisValueFormatter(saleProcess.chart.date);
-        mChart.getXAxis().setValueFormatter(formatter);
-
-
-        LineDataSet set1;
-        LineDataSet set2;
-
-
-        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(point1);
-            set2 = (LineDataSet) mChart.getData().getDataSetByIndex(1);
-            set2.setValues(point2);
-
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-        } else {
-            if (point1 == null || point2 == null)
-                return;
-
-            set1 = new LineDataSet(point1, getString(R.string.apply_count));
-
-            set1.setColor(Color.WHITE);
-            set1.setCircleColor(Color.WHITE);
-            set1.setLineWidth(0f);
-            set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(false);
-            set1.setValueTextSize(9f);
-            set1.setDrawFilled(true);
-            set1.setValueTextColor(Color.WHITE);
-
-            set1.setFillColor(getResources().getColor(R.color.fill_color));
-
-            set2 = new LineDataSet(point2, getString(R.string.full_amount));
-
-            set2.setColor(Color.WHITE);
-            set2.setCircleColor(Color.WHITE);
-            set2.setLineWidth(0f);
-            set2.setCircleRadius(3f);
-            set2.setDrawCircleHole(false);
-            set2.setValueTextSize(9f);
-            set2.setDrawFilled(true);
-            set2.setValueTextColor(Color.WHITE);
-
-            set2.setFillColor(getResources().getColor(R.color.fill_color));
-
-            set1.setValueFormatter(new IValueFormatter() {
-                @Override
-                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                    return String.valueOf((int) value);
-                }
-            });
-
-            set2.setValueFormatter(new IValueFormatter() {
-                @Override
-                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                    return String.valueOf((int) value);
-                }
-            });
-
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1); // add the datasets
-            dataSets.add(set2); // add the datasets
-
-            // create a data object with the datasets
-            LineData data = new LineData(dataSets);
-
-            // set data
-            mChart.setData(data);
-            mChart.invalidate();
-        }
-    }
-
-    public void refreshData(SaleProcess saleProcess) {
-        setData(saleProcess);
-//        mChart.notifyDataSetChanged();
-    }
 }

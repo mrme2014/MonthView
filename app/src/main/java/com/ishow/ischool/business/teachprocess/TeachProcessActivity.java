@@ -114,7 +114,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 return false;
             }
         });
-        salesSpinner.setSelection(0);
+        salesSpinner.setSelection(1);
         salesSpinner.setOnItemSelectedListener(this);
     }
 
@@ -136,6 +136,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             salesJob.setCompoundDrawables(null, null, null, null);
         }
 
+        start_time = AppUtil.getDayAgoMislls(30);
+        end_time = AppUtil.getTodayMislls();
         getTeachProcessData();
     }
 
@@ -212,17 +214,17 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         yVals1.clear();
 
-        for (int i = head_size-1; i >= 0; i--) {
+        for (int i =0; i<head_size ; i++) {
             float aFloat = Float.parseFloat(body.get(i));
-            yVals1.add(new BarEntry(i * 15f, aFloat));
+            yVals1.add(new BarEntry((head_size-i) * 15f, aFloat));
         }
 
         mPresenter.setData(lineChart, yVals1);
 
         lineChart.invalidate();
-        fullAmount.setLabelTextRight(body.get(3));
-        upgradeAmount.setLabelTextRight(body.get(2));
-        upgradeBaseAmount.setLabelTextRight(body.get(1));
+        fullAmount.setLabelTextRight(body.get(2));
+        upgradeAmount.setLabelTextRight(body.get(1));
+        upgradeBaseAmount.setLabelTextRight(body.get(3));
         classAmount.setLabelTextRight(body.get(0));
 
     }
@@ -245,8 +247,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
 
-        LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) principal.start_time) + "-" + DateUtil.parseSecond2Str((long) principal.end_time));
+       // LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long)start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
     }
 
     @Override

@@ -144,8 +144,6 @@ public class LabelTextView extends TextView {
     public void setUpMenu(boolean b) {
         this.setClickable(b);
         this.setEnabled(b);
-        this.setFocusableInTouchMode(true);
-        this.requestFocus();
         this.setAlpha(b ? 1.0f : 0.5f);
     }
 

@@ -12,7 +12,6 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
@@ -173,10 +172,10 @@ public class FmItemTextView extends TextView {
         }
 
         float v = measuredWidth - tip_Rp - txtWidth;
-        LogUtil.e(v+"--"+measuredWidth+"--"+tip_Rp+"--"+txtWidth);
+       // LogUtil.e(v+"--"+measuredWidth+"--"+tip_Rp+"--"+txtWidth);
          /*绘制文本提示类型*/
         if (tipTxt!=null&&tipTxt!="")
-           canvas.drawText(tipTxt, v,measuredHeight/2+txtHeight/4,rightTipPaint);
+           canvas.drawText(tipTxt, v,measuredHeight/2+txtHeight/4,rightTipPaint);//+txtHeight/4
 
     }
 
@@ -184,6 +183,8 @@ public class FmItemTextView extends TextView {
     public void setTipTxt(String tipTxt) {
         this.tipTxt = tipTxt;
         txtWidth = rightTipPaint.measureText(tipTxt);
+        Paint.FontMetrics fontMetrics = rightTipPaint.getFontMetrics();
+        txtHeight = fontMetrics.descent - fontMetrics.ascent;
         invalidate();
     }
     public String getTipTxt(){

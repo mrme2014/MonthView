@@ -70,6 +70,7 @@
             android:drawableLeft="@mipmap/icon_mine_switch"
             android:text="@string/fm_me_switch_role"
             app:tip_right_color="#999"
+            app:draw_right_tip_txt="sddfsfsff"
             app:tip_right_padding="24"
             />
 

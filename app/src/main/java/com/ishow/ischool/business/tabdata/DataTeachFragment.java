@@ -91,7 +91,7 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         campus_id = mUser.campusInfo.id;
         curuser_position_id = position_id = mUser.positionInfo.id;
         // user_id = mUser.userInfo.user_id;
-        user_id = 107;
+        user_id = mUser.userInfo.user_id;
         Calendar calendar = Calendar.getInstance();
         start_time = AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
         end_time = AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
@@ -136,12 +136,12 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_market:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_PROCESS)) {
                     startActivity(new Intent(getActivity(), TeachProcessActivity.class));
                 }
                 break;
             case R.id.data_campus://PERMISSION_DATA_CAMPUS
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_CAMPUS)) {
                     startActivity(new Intent(getActivity(), Performance4EduActivity.class));
                 }
                 break;

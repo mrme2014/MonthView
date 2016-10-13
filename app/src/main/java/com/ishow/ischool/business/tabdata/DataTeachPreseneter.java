@@ -11,7 +11,9 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
@@ -25,7 +27,7 @@ import java.util.TreeMap;
  * Created by abel on 16/10/9.
  */
 
-public class DataTeachPreseneter extends DataTeachContract.Presenter {
+public class DataTeachPreseneter extends DataTeachContract.Presenter implements OnChartValueSelectedListener {
     @Override
     void getTeachingProcess(TreeMap<String, Integer> params) {
         mModel.getTeachingProcess(params).subscribe(new ApiObserver<TeachProcess>() {
@@ -47,7 +49,7 @@ public class DataTeachPreseneter extends DataTeachContract.Presenter {
     }
 
     public void initChart(HorizontalBarChart mChart) {
-//        mChart.setOnChartValueSelectedListener(this);
+        mChart.setOnChartValueSelectedListener(this);
         // mChart.setHighlightEnabled(false);
 
         mChart.setDrawBarShadow(false);
@@ -107,6 +109,10 @@ public class DataTeachPreseneter extends DataTeachContract.Presenter {
         for (int i = 0; i < heads.size() - 2; i++) {
             yVals1.add(new BarEntry(i + 1, Integer.parseInt(bodys.get(i))));
         }
+        if (yVals1.isEmpty()) {
+            mChart.clear();
+            return;
+        }
 
         XAxis xl = mChart.getXAxis();
         xl.setValueFormatter(new ProcessIAxisValueFormatter(heads));
@@ -139,5 +145,15 @@ public class DataTeachPreseneter extends DataTeachContract.Presenter {
 
             mChart.setData(data);
         }
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 }

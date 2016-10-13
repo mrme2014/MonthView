@@ -29,6 +29,7 @@ import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.event.ChangeRoleEvent;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
@@ -91,7 +92,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         else {
             fmMeHeaderAvart.setVisibility(View.INVISIBLE);
             fmAvartTxt.setVisibility(View.VISIBLE);
-            fmAvartTxt.setText(userInfo.user_name,userInfo.user_id,"");
+            fmAvartTxt.setText(userInfo.user_name, userInfo.user_id, "");
         }
 
         PositionInfo info = user.positionInfo;
@@ -194,7 +195,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
         RxBus.getInstance().post(campusInfo.name);
-
+        com.ishow.ischool.common.rxbus.RxBus.getDefault().post(new ChangeRoleEvent(changedUser));
     }
 
     @Override

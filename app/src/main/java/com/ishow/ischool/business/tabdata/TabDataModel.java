@@ -25,13 +25,13 @@ public class TabDataModel implements TabDataContract.Model {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
-
-    public Observable<ApiResult<SaleProcess>> getSaleProcessData(HashMap<String, String> params) {
-        params.put("resources_id", "-1");
-
-        return ApiFactory.getInstance().getApi(DataApi.class).getSaleProcessData(params) .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
+//    @Override
+//
+//    public Observable<ApiResult<SaleProcess>> getSaleProcessData(HashMap<String, String> params) {
+//        params.put("resources_id", "-1");
+//
+//        return ApiFactory.getInstance().getApi(DataApi.class).getSaleProcessData(params) .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
+//    }
 
 }

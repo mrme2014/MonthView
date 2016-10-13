@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -16,6 +18,7 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by abel on 16/8/16.
@@ -306,5 +309,27 @@ public class AppUtil {
         list.add("自定义");
 
         return list;
+    }
+
+    public static boolean hasSalesPermision() {
+        User user = UserManager.getInstance().get();
+        List<Integer> myResources = user.myResources;
+        for (int res : myResources) {
+            if (res == Resource.PERMISSION_DATA_SALE_PROCESS || res == Resource.PERMISSION_DATA_CAMPUS || res == Resource.PERMISSION_DATA_OTHER) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasTeachPermision() {
+        User user = UserManager.getInstance().get();
+        List<Integer> myResources = user.myResources;
+        for (int res : myResources) {
+            if (res == Resource.PERMISSION_DATA_TEACH_PROCESS || res == Resource.PERMISSION_DATA_TEACH_CAMPUS || res == Resource.PERMISSION_DATA_TEACH_OTHER) {
+                return true;
+            }
+        }
+        return false;
     }
 }

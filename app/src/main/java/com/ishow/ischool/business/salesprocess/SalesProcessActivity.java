@@ -35,6 +35,7 @@ import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.fragment.TimeSeletByUserDialog;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
@@ -97,6 +98,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
 
+    private  int start_time,end_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +158,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
 
+        start_time= AppUtil.getDayAgoMislls(6);
+        end_time=AppUtil.getTodayEndMislls();
         getSaleProcessData();
     }
 
@@ -283,7 +288,7 @@ user_id	Int	0			指定看某个员工的	*/
         }
         if (!isUser)
             return;
-
+        map.clear();
         if (saleLegendApply.isChecked()) invalidateApplyCount();
         if (saleLegendFull.isChecked()) invalidateFullAmount();
         //  mChart.setDrawMarkers(true);
@@ -296,11 +301,18 @@ user_id	Int	0			指定看某个员工的	*/
             type_time = 999;
             getSaleProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
+            type_time = 999;
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("start_time",start_time);
+                bundle.putInt("end_time",end_time);
+                timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
+                        start_time = starttime;
+                        end_time = endtime;
                         if (map == null) map = new TreeMap();
                         map.put("begin_time", starttime);
                         map.put("end_time", endtime);
@@ -309,6 +321,11 @@ user_id	Int	0			指定看某个员工的	*/
                     @Override
                     public void onEorr(String error) {
                         showToast(error);
+                    }
+
+                    @Override
+                    public void onCacel() {
+                        timeSeletByUser = null;
                     }
                 });
             }

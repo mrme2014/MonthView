@@ -17,7 +17,6 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -277,13 +276,24 @@ public class AppUtil {
         return c.get(Calendar.MONTH) + 1;
     }
 
-    public static int getTodayMislls() {
-        int time = (int) (new Date().getTime()/1000);
+    public static int getTodayEndMislls() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        int time = (int) (c.getTimeInMillis() / 1000);
         return  time;
     }
 
-    public static int getDayAgoMislls(int dayAgo){
-        int time = getTodayMislls()-dayAgo*24*3600 ;
+    public static int getDayAgoMislls(int dayAgo){  //N天前的 零点  时间戳
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min = c.get(Calendar.MINUTE);
+        int sec = c.get(Calendar.SECOND);
+        int time = getTodayEndMislls()-dayAgo*24*3600-hour*3600-min*60-sec ;
         return time ;
     }
 

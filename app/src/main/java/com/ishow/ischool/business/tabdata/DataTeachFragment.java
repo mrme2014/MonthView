@@ -149,9 +149,10 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_market:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_PROCESS)) {
+                startActivity(new Intent(getActivity(), TeachProcessActivity.class));
+                /*if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_PROCESS)) {
                     startActivity(new Intent(getActivity(), TeachProcessActivity.class));
-                }
+                }*/
                 break;
             case R.id.data_campus://PERMISSION_DATA_CAMPUS
                 if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_CAMPUS)) {

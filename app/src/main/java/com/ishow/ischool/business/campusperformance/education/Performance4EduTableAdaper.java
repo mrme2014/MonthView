@@ -59,9 +59,9 @@ public class Performance4EduTableAdaper extends BaseAdapter {
 
         EducationMonth educationMonth = (EducationMonth)getItem(position);
         holder.itemName.setText(names.get(position));
-        holder.itemChallenge.setText(educationMonth.full_challenge);
-        holder.itemBase.setText(educationMonth.full_base);
-        holder.itemReal.setText(educationMonth.permonth_real);
+        holder.itemChallenge.setText(educationMonth.full_challenge + "%");
+        holder.itemBase.setText(educationMonth.full_base + "%");
+        holder.itemReal.setText(educationMonth.permonth_real + "%");
 
         return convertView;
     }

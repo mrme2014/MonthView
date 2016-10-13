@@ -38,6 +38,8 @@ public class Resource {
     public static final int PERMISSION_DATA_OTHER = 28;
 
     public static final int PERMISSION_DATA_TEACH_OTHER = 31;//教务教学  其他
+    public static final int PERMISSION_DATA_TEACH_PROCESS = 29;//教务教学
+    public static final int PERMISSION_DATA_TEACH_CAMPUS = 30;//教务教学
 
     public static final int PERMISSION_STUDENT_GET = 7;
     public static final String RESOURCE_ID = "resource_id";

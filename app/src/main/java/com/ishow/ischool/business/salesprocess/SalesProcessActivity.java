@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
@@ -35,7 +36,6 @@ import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.fragment.TimeSeletByUserDialog;
-import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
@@ -158,8 +158,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
 
-        start_time= AppUtil.getDayAgoMislls(6);
-        end_time=AppUtil.getTodayEndMislls();
+        //start_time= AppUtil.getDayAgoMislls(6);
+       // end_time=AppUtil.getTodayEndMislls();
         getSaleProcessData();
     }
 
@@ -234,6 +234,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }
         final List<String> date = process.chart.date;
         salesTrends.setSecondTxt(date.get(0) + "--" + date.get(date.size() - 1));
+        start_time = DateUtil.date2Second(date.get(0));
+        end_time = DateUtil.date2Second(date.get(date.size() - 1))+24*3600;
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
@@ -332,6 +334,7 @@ user_id	Int	0			指定看某个员工的	*/
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
+        LogUtil.e("timeSeletByUser-result"+start_time+"----"+end_time);
     }
 
     @Override

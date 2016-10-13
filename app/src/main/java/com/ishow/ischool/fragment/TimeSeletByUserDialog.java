@@ -93,7 +93,6 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                     break;
                 }
                 if (callback!=null){
-                    LogUtil.e("timeSeletByUser-result"+start_time+"----"+end_time);
                     callback.onResult(start_time,end_time);
                 }
                 this.dismiss();

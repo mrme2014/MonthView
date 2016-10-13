@@ -391,13 +391,14 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 timeSeletByUser = new TimeSeletByUserDialog();
                 Bundle bundle = new Bundle();
                 bundle.putInt("start_time",start_time);
-                bundle.putInt("end_time",end_time);
+                bundle.putInt("end_time",end_time+24*3600-1);
                 timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
                         start_time = starttime;
                         end_time = endtime;
+                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
                         getTeachProcessData();
                     }
 
@@ -415,7 +416,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
-
+        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
     }
 
     @Override

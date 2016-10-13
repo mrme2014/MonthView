@@ -275,13 +275,13 @@ public class AppUtil {
     }
 
     public static int getTodayMislls() {
-        int time = (int)new Date().getTime()+24*3600*1000;
+        int time = (int) (new Date().getTime()/1000);
         return  time;
     }
 
     public static int getDayAgoMislls(int dayAgo){
-        int time = (int)new Date().getTime()+24*3600*1000;
-        return time -dayAgo*24*3600*1000;
+        int time = getTodayMislls()-dayAgo*24*3600 ;
+        return time ;
     }
 
     public static ArrayList<String> getSpinnerData() {

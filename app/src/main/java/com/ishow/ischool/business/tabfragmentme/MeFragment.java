@@ -6,9 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
@@ -39,7 +37,6 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -215,16 +212,12 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             avartPath = data.getStringExtra("tempath");
-            if (fmMeHeaderAvart != null && avartPath != null && avartPath != "")
+            if (fmMeHeaderAvart != null && avartPath != null && avartPath != ""){
+                fmMeHeaderAvart.setVisibility(View.VISIBLE);
+                fmAvartTxt.setVisibility(View.GONE);
                 ImageLoaderUtil.getInstance().loadImage(getActivity(), fmMeHeaderAvart, avartPath);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+            }
+        }
     }
 }

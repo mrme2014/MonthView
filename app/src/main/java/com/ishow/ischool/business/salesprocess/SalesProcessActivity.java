@@ -190,8 +190,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             salesAvart.setVisibility(View.VISIBLE);
             ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
         } else {
-            ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
-            salesAvart.setImageResource(R.mipmap.img_header_default);
+        /*    ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
+            salesAvart.setImageResource(R.mipmap.img_header_default);*/
             salesAvartTxt.setText(user_name, user_id, "");
             salesAvartTxt.setVisibility(View.VISIBLE);
             salesAvart.setVisibility(View.GONE);

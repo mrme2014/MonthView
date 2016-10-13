@@ -68,6 +68,7 @@ public class TeachPresenter extends TeachProcessConact.Presenter implements OnCh
         mChart.setDrawGridBackground(false);
 
         XAxis xl = mChart.getXAxis();
+        xl.setXOffset(30);
         xl.setEnabled(false);
      /*   xl.setPosition(XAxis.XAxisPosition.TOP);
         xl.setDrawAxisLine(false);

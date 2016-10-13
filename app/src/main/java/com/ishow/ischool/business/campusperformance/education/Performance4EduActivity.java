@@ -95,7 +95,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     public String mCampusParam = "";                     // 所有校区id,用于每次请求所有校区的数据
     public String mLastCampusParam = "";                 // 上次显示的校区id,用于传递给表格用
     public ArrayList<EducationMonth> mYDatas;      // 纵坐标数据,即每个校区的数据
-    public int mParamBeginDate = 201607, mParamEndDate = 201609;
+    public int mParamBeginDate, mParamEndDate;
 
     private LineData lineData = new LineData();
     private LineDataSet baseLineDataSet, challengeLineDataSet;
@@ -122,9 +122,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     }
 
     public void initData() {
-        calendar = Calendar.getInstance();      //初始化日历类
-        mFilterStartTime = "201607";
-        mFilterEndTime = "201609";
+        initDefaultDate();
         mAllCampus = new ArrayList<>();
         mLastCampus = new ArrayList<>();
         mLastYdatas = new ArrayList<>();
@@ -173,6 +171,26 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
         if (listViewForScrollView.getVisibility() != View.VISIBLE) {
             listViewForScrollView.setVisibility(View.VISIBLE);
         }
+    }
+
+    void initDefaultDate() {
+        calendar = Calendar.getInstance();      //初始化日历类
+        int curYear = calendar.get(Calendar.YEAR);
+        String startMonth = calendar.get(Calendar.MONTH) + "";
+        if (Integer.parseInt(startMonth) == 0) {
+            curYear = curYear - 1;
+            startMonth = "12";
+        } else if (Integer.parseInt(startMonth) < 10) {
+            startMonth = "0" + startMonth;
+        }
+        mFilterStartTime = curYear + startMonth;
+        String endMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1); //得到月，因为从0开始的，所以要加1
+        if (Integer.parseInt(endMonth) < 10) {
+            endMonth = "0" + endMonth;
+        }
+        mFilterEndTime = curYear + endMonth;
+        mParamBeginDate = Integer.parseInt(curYear + startMonth);
+        mParamEndDate = Integer.parseInt(curYear + endMonth);
     }
 
     private void initTable() {
@@ -631,8 +649,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
             TextView resetTv = (TextView) contentView.findViewById(R.id.date_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.date_ok);
             View blankView = contentView.findViewById(R.id.blank_view_date);
-            startDateTv.setText(getString(R.string.item_start_time) + " :        2016-07");
-            endDateTv.setText(getString(R.string.item_end_time) + " :        2016-09");
+            startDateTv.setText(getString(R.string.item_start_time) + " :   " + mFilterStartTime);
+            endDateTv.setText(getString(R.string.item_end_time) + " :   " + mFilterEndTime);
             startDateTv.setOnClickListener(onClickListener);
             endDateTv.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);
@@ -733,7 +751,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                                 }
                                 startDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
                             }
-                            startDateTv.setText(getString(R.string.item_start_time) + " :        " + year + "-" + month);
+                            startDateTv.setText(getString(R.string.item_start_time) + " :   " + year + month);
                             mFilterStartTime = year + month;
                             startDateFinished = true;
                         }
@@ -769,7 +787,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                                 }
                                 endDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
                             }
-                            endDateTv.setText(getString(R.string.item_end_time) + " :        " + year + "-" + month);
+                            endDateTv.setText(getString(R.string.item_end_time) + " :   " + year + month);
                             mFilterEndTime = year + month;
                             endDateFinished = true;
                         }

@@ -144,10 +144,10 @@ public class UserManager {
              */
             PositionInfo positionInfo = user.positionInfo;
             CampusInfo campusInfo = user.campusInfo;
-            if (campusInfo==null||position==null)
+            if (campusInfo == null || position == null)
                 return;
             positionInfo.campusId = campusInfo.id;
-            positionInfo.campus=campusInfo.name;
+            positionInfo.campus = campusInfo.name;
             save(mUser);
             /*for (int i = 0; i < position.size(); i++) {
                 if (position.get(i).id == positionInfo.id&&position.get(i).campus_id==campusInfo.id) {
@@ -176,19 +176,20 @@ public class UserManager {
     private String readData() {
         return SpUtil.getInstance(context).getStringValue(USER_KEY);
     }
-    public void upadteInfo(Avatar avatar ,int birthday,String qq){
-        if (user==null)
+
+    public void upadteInfo(Avatar avatar, int birthday, String qq) {
+        if (user == null)
             user = get();
-        if (avatar!=null)user.avatar =avatar;
-        if (birthday!=0)user.userInfo.qq =qq;
-        if (qq!=null&&qq!="")user.userInfo.birthday=birthday;
+        if (avatar != null) user.avatar = avatar;
+        if (birthday != 0) user.userInfo.qq = qq;
+        if (qq != null && qq != "") user.userInfo.birthday = birthday;
         save(user);
     }
 
-    public List<Integer>  getResurces(){
-        if (user==null) user =get();
+    public List<Integer> getResurces() {
+        if (user == null) user = get();
         List<Integer> myResources = user.myResources;
-        if (myResources!=null) return myResources;
-        return  null;
+        if (myResources != null) return myResources;
+        return null;
     }
 }

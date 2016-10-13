@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -82,12 +83,13 @@ public class AvatarImageView extends ImageView {
     public void setText(String text, int id, String imageUrl) {
         if (TextUtils.isEmpty(imageUrl)) {
             this.text = AppUtil.getFirstChar(text);
-            setBackgroundColor(ColorUtil.getColorById(id));
+            setImageDrawable(new ColorDrawable(ColorUtil.getColorById(id)));
         } else {
+            this.text = "";
             PicUtils.loadpic(getContext(), this, imageUrl);
         }
 
-        invalidate();
+        //invalidate();
     }
 
     @Deprecated

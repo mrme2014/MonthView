@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.commonlib.core.BaseView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,17 +24,22 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
-
-import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
+import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
+import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
 import com.ishow.ischool.business.statistic.other.SaleProcessIAxisValueFormatter;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.manager.UserManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,12 +48,14 @@ import butterknife.OnClick;
 /**
  * 市场业务统计
  */
-public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestureListener, OnChartValueSelectedListener {
+public class DataMarketFragment extends BaseFragment4Crm<DataMarketPresenter, DataMarketModel> implements BaseView, OnChartGestureListener, OnChartValueSelectedListener {
 
     private OnFragmentInteractionListener mListener;
     @BindView(R.id.line_chart)
     LineChart mChart;
     private SaleProcess mSaleProcess;
+    private User mUser;
+    private int type_time = 7;
 
     public DataMarketFragment() {
         // Required empty public constructor
@@ -97,6 +105,8 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
     @Override
     public void init() {
+        mUser = UserManager.getInstance().get();
+
         mChart.setOnChartGestureListener(this);
         mChart.setOnChartValueSelectedListener(this);
         mChart.setDrawGridBackground(false);
@@ -175,6 +185,8 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
         if (mSaleProcess != null && mChart.getData() == null) {
             setData(mSaleProcess);
         }
+
+        taskGetSales();
     }
 
     @Override
@@ -227,6 +239,14 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
 
     }
 
+    public void getSaleSuccess(SaleProcess saleProcess) {
+        refreshData(saleProcess);
+    }
+
+    public void getSaleFail(String msg) {
+
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -252,6 +272,20 @@ public class DataMarketFragment extends BaseFragment4Crm implements OnChartGestu
                 break;
         }
     }
+
+    private void taskGetSales() {
+        UserInfo userInfo = mUser.userInfo;
+        CampusInfo capusInfo = mUser.campusInfo;
+        HashMap<String, String> params = new HashMap<>();
+        if (capusInfo.id != Constants.CAMPUS_HEADQUARTERS) {
+            params.put("campus_id", capusInfo.id + "");
+            params.put("position_id", mUser.positionInfo.id + "");
+            params.put("user_id", userInfo.user_id + "");
+        }
+        params.put("type", type_time + "");
+        mPresenter.getSales(params);
+    }
+
 
     public void setData(SaleProcess saleProcess) {
         if (saleProcess != null && saleProcess.chart != null) {

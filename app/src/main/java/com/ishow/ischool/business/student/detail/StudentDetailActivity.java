@@ -77,6 +77,16 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private String tempPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture.avatar";
     private String tempCropPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture_crop.avatar";
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            tempPath = savedInstanceState.getString("tempPath");
+            tempCropPath = savedInstanceState.getString("tempCropPath");
+        }
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     protected void initEnv() {
         super.initEnv();
@@ -112,7 +122,6 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 handleAlphaOnTitle(percentage);
             }
         });
-
     }
 
     private void handleAlphaOnTitle(float percentage) {
@@ -172,7 +181,6 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     @Override
     public void onFragmentInteraction(Bundle data) {
-
         needRefresh = data.getBoolean("refresh", false);
     }
 
@@ -263,15 +271,17 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 break;
 
             case R.id.student_avatar_iv:
-                ArrayList<String> avatars = new ArrayList<>();
-                avatars.add(getString(R.string.capture));
-                avatars.add(getString(R.string.amblue));
-                AppUtil.showItemDialog(getSupportFragmentManager(), avatars, new SelectDialogFragment.OnItemSelectedListner() {
-                    @Override
-                    public void onItemSelected(int position, String txt) {
-                        StudentDetailActivity.this.onItemSelected(position);
-                    }
-                });
+                if (JumpManager.checkUserPermision(this, Resource.STUDENT_EDIT)) {
+                    ArrayList<String> avatars = new ArrayList<>();
+                    avatars.add(getString(R.string.capture));
+                    avatars.add(getString(R.string.amblue));
+                    AppUtil.showItemDialog(getSupportFragmentManager(), avatars, new SelectDialogFragment.OnItemSelectedListner() {
+                        @Override
+                        public void onItemSelected(int position, String txt) {
+                            StudentDetailActivity.this.onItemSelected(position);
+                        }
+                    });
+                }
                 break;
         }
 
@@ -309,6 +319,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         PhotoUtil.onActivityResult(this, tempPath, tempCropPath, requestCode, resultCode, data, new PhotoUtil.UploadListener() {
             @Override
             public void upload() {
@@ -316,4 +327,12 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             }
         });
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("tempPath", tempPath);
+        outState.putString("tempCropPath", tempCropPath);
+        super.onSaveInstanceState(outState);
+    }
+
 }

@@ -45,7 +45,6 @@ import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -115,7 +114,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 return false;
             }
         });
-        salesSpinner.setSelection(0);
+        salesSpinner.setSelection(1);
         salesSpinner.setOnItemSelectedListener(this);
     }
 
@@ -137,6 +136,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             salesJob.setCompoundDrawables(null, null, null, null);
         }
 
+        start_time = AppUtil.getDayAgoMislls(30);
+        end_time = AppUtil.getTodayMislls();
         getTeachProcessData();
     }
 
@@ -191,6 +192,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             setUpPersonInfoByResult();
         }
 
+
         invalidateChart();
         setUpLabel();
     }
@@ -212,22 +214,24 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         yVals1.clear();
 
-        for (int i = 0; i < head_size; i++) {
+        for (int i =0; i<head_size ; i++) {
             float aFloat = Float.parseFloat(body.get(i));
-            yVals1.add(new BarEntry(i * 15f, aFloat));
+            yVals1.add(new BarEntry((head_size-i) * 15f, aFloat));
         }
 
         mPresenter.setData(lineChart, yVals1);
 
         lineChart.invalidate();
-        fullAmount.setLabelTextRight(body.get(3));
-        upgradeAmount.setLabelTextRight(body.get(2));
-        upgradeBaseAmount.setLabelTextRight(body.get(1));
+        fullAmount.setLabelTextRight(body.get(2));
+        upgradeAmount.setLabelTextRight(body.get(1));
+        upgradeBaseAmount.setLabelTextRight(body.get(3));
         classAmount.setLabelTextRight(body.get(0));
 
     }
 
     private void setUpLabel() {
+        LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) principal.start_time) + "-" + DateUtil.parseSecond2Str((long) principal.end_time));
 
         if (teachProcess == null || teachProcess.tableListData_22 == null
                 || teachProcess.tableListData_22.head == null
@@ -243,8 +247,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
 
-        LogUtil.e(principal.start_time + "--setUpLabel--" + principal.end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) principal.start_time) + "-" + DateUtil.parseSecond2Str((long) principal.end_time));
+       // LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long)start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
     }
 
     @Override
@@ -338,19 +342,19 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void setUpPersonInfo(String avatar, int user_id, String user_name, String position_name, String campus_name, int position_id) {
-        if (avatar != null && !TextUtils.equals(avatar, "") && avatar != null && avatar != "[]") {
-            salesAvartTxt.setVisibility(View.GONE);
+        if (file_name != null && !TextUtils.equals(file_name, "") && file_name != null && file_name != "[]") {
             salesAvart.setVisibility(View.VISIBLE);
-            ImageLoaderUtil.getInstance().loadImage(this, avatar, salesAvart);
+            salesAvartTxt.setVisibility(View.GONE);
+            ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
         } else {
-            //ImageLoaderUtil.getInstance().loadImage(this, avatar, salesAvart);
-            // salesAvart.setImageResource(R.mipmap.img_header_default);
             salesAvartTxt.setText(user_name, user_id, "");
             salesAvartTxt.setVisibility(View.VISIBLE);
             salesAvart.setVisibility(View.GONE);
         }
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
+
+        LogUtil.e(avatar+"---setUpPersonInfo---"+salesAvart.getVisibility());
 
 
     }
@@ -413,12 +417,5 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     protected void onPause() {
         super.onPause();
         isUser = false;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

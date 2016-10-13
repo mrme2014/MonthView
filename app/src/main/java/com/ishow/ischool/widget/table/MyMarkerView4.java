@@ -44,9 +44,9 @@ public class MyMarkerView4 extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         tvContent0.setText(curCampus.get((int) e.getX()));
-        tvContent1.setText("当前业绩:" + datas.get((int) e.getX()).permonth_real);
-        tvContent2.setText("红线目标:" + datas.get((int) e.getX()).full_base);
-        tvContent3.setText("冲刺目标:" + datas.get((int) e.getX()).full_challenge);
+        tvContent1.setText("当前业绩:" + datas.get((int) e.getX()).permonth_real + "%");
+        tvContent2.setText("红线目标:" + datas.get((int) e.getX()).full_base + "%");
+        tvContent3.setText("冲刺目标:" + datas.get((int) e.getX()).full_challenge + "%");
 
         super.refreshContent(e, highlight);
     }

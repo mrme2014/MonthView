@@ -88,6 +88,7 @@ public class DateUtil {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        LogUtil.e("date2Second"+unix);
         return unix;
     }
 

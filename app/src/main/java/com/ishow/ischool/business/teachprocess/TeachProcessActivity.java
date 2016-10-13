@@ -137,7 +137,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         }
 
         start_time = AppUtil.getDayAgoMislls(30);
-        end_time = AppUtil.getTodayMislls();
+        end_time = AppUtil.getTodayEndMislls();
         getTeachProcessData();
     }
 
@@ -207,6 +207,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         final List<String> head = teachProcess.selfChartData.head;
         if (head == null || head.size() == 0 || body == null || body.size() == 0) {
             lineChartTip.setVisibility(View.GONE);
+            lineChart.clear();
             return;
         }
         lineChartTip.setVisibility(View.VISIBLE);
@@ -230,8 +231,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void setUpLabel() {
-        LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) principal.start_time) + "-" + DateUtil.parseSecond2Str((long) principal.end_time));
+      //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
 
         if (teachProcess == null || teachProcess.tableListData_22 == null
                 || teachProcess.tableListData_22.head == null
@@ -247,7 +248,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
 
-       // LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        LogUtil.e(start_time+"----"+end_time);
         salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long)start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
     }
 
@@ -354,7 +355,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
 
-        LogUtil.e(avatar+"---setUpPersonInfo---"+salesAvart.getVisibility());
+       // LogUtil.e(avatar+"---setUpPersonInfo---"+salesAvart.getVisibility());
 
 
     }
@@ -379,15 +380,19 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
             dayAgo = Integer.parseInt(selectNum);
             start_time = AppUtil.getDayAgoMislls(dayAgo);
-            end_time = AppUtil.getTodayMislls();
+            end_time = AppUtil.getTodayEndMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
             start_time = 0;
-            end_time = AppUtil.getTodayMislls();
+            end_time = AppUtil.getTodayEndMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("start_time",start_time);
+                bundle.putInt("end_time",end_time);
+                timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
@@ -399,6 +404,11 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     @Override
                     public void onEorr(String error) {
                         showToast(error);
+                    }
+
+                    @Override
+                    public void onCacel() {
+                        timeSeletByUser = null;
                     }
                 });
             }

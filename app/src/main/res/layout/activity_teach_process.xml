@@ -105,6 +105,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:background="@android:color/white"
                 android:layout_height="160dp">
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
@@ -112,15 +113,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="60dp"
-                    android:background="@android:color/white" />
+                   />
 
                 <LinearLayout
                     android:id="@+id/lineChartTip"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:background="@android:color/white"
+
                     android:orientation="vertical"
+                    android:visibility="gone"
                     android:paddingRight="10dp">
 
                     <com.commonlib.widget.LabelTextView

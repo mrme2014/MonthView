@@ -1,6 +1,7 @@
 package com.ishow.ischool.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -9,9 +10,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.commonlib.util.DateUtil;
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
+
+import java.util.Date;
 
 /**
  * Created by MrS on 2016/10/11.
@@ -25,6 +30,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
     private TextView Ok;
     private int end_time;
     private int start_time;
+
 
     @NonNull
     @Override
@@ -42,6 +48,15 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
         endTime.setOnClickListener(this);
         cancel.setOnClickListener(this);
         Ok.setOnClickListener(this);
+        dialog.setOnDismissListener(this);
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            start_time = bundle.getInt("start_time");
+            end_time = bundle.getInt("end_time");
+            if (end_time!=0)endTime.setTipTxt(DateUtil.parseSecond2Str((long) end_time-24*3600+1));
+            if (start_time!=0)startTime.setTipTxt(DateUtil.parseSecond2Str((long) start_time));
+        }
+        LogUtil.e(start_time+"---"+new Date().getTime()+"---"+end_time);
         return dialog;
     }
 
@@ -78,6 +93,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                     break;
                 }
                 if (callback!=null){
+                    LogUtil.e("timeSeletByUser-result"+start_time+"----"+end_time);
                     callback.onResult(start_time,end_time);
                 }
                 this.dismiss();
@@ -91,7 +107,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
 
     private void showDatePickDialog(final boolean pick_start) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start?start_time:end_time).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
         PickerDialogFragment fragment = builder.Build();
         fragment.show(getChildFragmentManager());
         fragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
@@ -101,11 +117,19 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                     startTime.setTipTxt(result[0]);
                     start_time = selectIds;
                 } else {
-                    end_time = selectIds;
+                    end_time = selectIds+24*3600-1;
                     endTime.setTipTxt(result[0]);
                 }
             }
         });
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (callback!=null){
+            callback.onCacel();
+        }
     }
 
     OnSelectResultCallback callback;
@@ -113,6 +137,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
     public interface OnSelectResultCallback {
         void onResult(int start_time, int end_time);
         void onEorr(String error);
+        void onCacel();
     }
 
     public void setOnSelectResultCallback(OnSelectResultCallback callback1) {

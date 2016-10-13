@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import com.commonlib.widget.CircleChartView;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.google.gson.Gson;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
@@ -20,7 +22,9 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -32,8 +36,11 @@ import butterknife.OnClick;
 public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, DataTeachModel> implements DataTeachContract.View {
 
     private OnFragmentInteractionListener mListener;
-    @BindView(R.id.bar_chart)
-    HorizontalBarChart mBarChart;
+//    @BindView(R.id.bar_chart)
+//    HorizontalBarChart mBarChart;
+    @BindView(R.id.circle_chartview)
+    CircleChartView mCircleChartView;
+
     private SaleProcess mSaleProcess;
     private int campus_id, curuser_position_id, user_id, position_id;
     private long start_time, end_time;
@@ -96,7 +103,7 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         start_time = AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
         end_time = AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
 
-        mPresenter.initChart(mBarChart);
+//        mPresenter.initChart(mBarChart);
 
         getTeachProcessData();
     }
@@ -107,8 +114,6 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         map.put("end_time", (int) end_time);
         map.put("position_id", position_id);
         map.put("user_id", user_id);
-//        handProgressbar(true);
-
         mPresenter.getTeachingProcess(map);
     }
 
@@ -116,9 +121,17 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
     public void getTeachingProcessSucess(TeachProcess process) {
 //        Gson gson = new Gson();
 //        String str = "{ \"selfChartData\": { \"head\": [ \"带班人数\", \"升学基数\", \"升学人数\", \"全款人数\", \"升学率\", \"全款率\" ], \"body\": [ [ 1031, 21, 1, 0, \"4.76%\", \"0.00%\" ] ] }, \"tableListData_22\": { \"head\": [ \"总人数\", \"各组别原始人数-初级\", \"各组别原始人数-中级\", \"各组别原始人数-高级\", \"各组别原始人数-总\", \"升学基数-初级\", \"升学基数-中级\", \"升学基数-高级\", \"升学基数-总\", \"升学-初升中\", \"升学-中升高\", \"升学-高升影\", \"升学-总\", \"全款\", \"退款\", \"升学率\", \"全款率\", \"退款率\" ], \"body\": [ [ 31, 14, 14, 4, 32, 6, 11, 4, 21, 1, 0, 0, 1, 0, 0, \"4.76%\", \"0.00%\", \"0.00%\" ] ] }, \"tableListData\": { \"head\": [ \"级别\", \"组长\", \"老师\", \"学习顾问\", \"班级\", \"原始人数\", \"升学基数\", \"升学\", \"全款\", \"退款\", \"升学率\", \"全款率\", \"退款率\" ], \"body\": [ [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初级老师\", \"张鹤0初级学习顾问\", \"16年0905初\", 4, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初中级老师\", \"张鹤0初级学习顾问\", \"16年0909\", 2, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初中级老师\", \"张鹤0初级学习顾问\", \"16年0912初\", 2, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤初中级老师\", \"张鹤0中级学习顾问\", \"16年0912中\", 3, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初级老师\", \"张鹤初中高影学顾\", \"初级老师17初\", 3, 3, 1, 0, 0, \"33.33%\", \"0.00%\", \"0.00%\" ], [ \"ishow初级\", \"张鹤0初级组长\", \"张鹤初中级老师\", \"张鹤0初级学习顾问\", \"初中级老师17初\", 3, 3, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤中级老师\", \"张鹤初中高影学顾\", \"中级老师17中\", 3, 3, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤初中级老师\", \"张鹤0中级学习顾问\", \"初中级老师17中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"教总17中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow高级\", \"张鹤教总高影组中高师\", \"张鹤教总高影组中高师\", \"张鹤初中高影学顾\", \"教总17高\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow高级\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"张鹤教学多角色\", \"市场主管17高\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"教总23中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow中级\", \"张鹤0中级组长\", \"张鹤初中级老师\", \"张鹤0中级学习顾问\", \"初中级老师23中\", 2, 2, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ], [ \"ishow影视\", \"张鹤教总高影组中高师\", \"张鹤教学多角色\", \"\", \"张多角色影视班\", 0, 0, 0, 0, 0, \"0.00%\", \"0.00%\", \"0.00%\" ] ] }, \"option\": { \"start_time\": 1472659200, \"end_time\": 1475164800, \"isCampus\": false, \"campus_id\": 1, \"campus_name\": \"总部\", \"position_id\": 22, \"position_name\": \"\", \"user_id\": 107, \"user_name\": \"张鹤教总高影组中高师\", \"avatar\": \"\" } } ";
-//        TeachProcess process1 = gson.fromJson(str, TeachProcess.class);
-        mPresenter.setData(mBarChart, process);
-        mBarChart.invalidate();
+//        process = gson.fromJson(str, TeachProcess.class);
+        ArrayList<CircleChartView.Value> yVals1 = new ArrayList<>();
+
+        List<String> heads = process.selfChartData.head;
+        List<String> bodys = process.selfChartData.body.get(0);
+
+        for (int i = 0; i < heads.size() - 2; i++) {
+            yVals1.add(new CircleChartView.Value(heads.get(i), bodys.get(i)));
+        }
+
+        mCircleChartView.setData(yVals1,"最近7日教学数据统计");
     }
 
     @Override
@@ -147,7 +160,7 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
                 }
                 break;
             case R.id.data_other:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_OTHER)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_OTHER)) {
                     Intent intent = new Intent(getActivity(), OtherStatisticActivity.class);
                     intent.putExtra(OtherStatisticActivity.IS_TEACH_DATA, true);
                     startActivity(intent);

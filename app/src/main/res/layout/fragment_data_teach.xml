@@ -13,10 +13,17 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:id="@+id/bar_chart"
+        <!--<com.github.mikephil.charting.charts.HorizontalBarChart-->
+        <!--android:id="@+id/bar_chart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:visibility="gone" />-->
+
+        <com.commonlib.widget.CircleChartView
+            android:id="@+id/circle_chartview"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:background="@color/comm_blue" />
 
         <com.commonlib.widget.TopBottomTextView
             android:id="@+id/data_market"

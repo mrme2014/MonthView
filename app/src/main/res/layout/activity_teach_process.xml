@@ -111,10 +111,10 @@
                     android:id="@+id/lineChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="70dp"
                     android:background="@android:color/white" />
 
                 <LinearLayout
+                    android:id="@+id/lineChartTip"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"

@@ -18,8 +18,8 @@ import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.Avatar;
-import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
@@ -106,8 +106,9 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
             fmMeHeaderJob.setText(info.campus + "  " + info.title);
         }
 
-        List<Campus> campus = user.campus;
-        if (campus != null && campus.size() <= 1) {
+        //List<Campus> campus = user.campus;
+        List<Position> positions = user.position;
+        if (positions != null && positions.size() <= 1) {
             Drawable[] drawables = fmMeSwitchRole.getCompoundDrawables();
             fmMeSwitchRole.setCompoundDrawables(drawables[0], null, null, null);
         }

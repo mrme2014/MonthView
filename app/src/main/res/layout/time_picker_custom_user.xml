@@ -51,7 +51,7 @@
         app:tip_right_padding="30"
         android:gravity="center_vertical|left"
         android:textColor="@color/txt_2"
-        android:text="@string/item_end_time"
+        android:text="@string/item_start_time"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:drawableRight="@mipmap/icon_list_next"

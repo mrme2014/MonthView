@@ -273,8 +273,6 @@ user_id	Int	0			指定看某个员工的	*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (!isUser)
-            return;
         try {
             //以下三行代码是解决问题所在
             Field field = AdapterView.class.getDeclaredField("mOldSelectedPosition");
@@ -283,6 +281,9 @@ user_id	Int	0			指定看某个员工的	*/
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (!isUser)
+            return;
+
         if (saleLegendApply.isChecked()) invalidateApplyCount();
         if (saleLegendFull.isChecked()) invalidateFullAmount();
         //  mChart.setDrawMarkers(true);
@@ -305,7 +306,6 @@ user_id	Int	0			指定看某个员工的	*/
                         map.put("end_time", endtime);
                         getSaleProcessData();
                     }
-
                     @Override
                     public void onEorr(String error) {
                         showToast(error);

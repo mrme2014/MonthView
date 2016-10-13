@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -79,6 +81,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     LabelTextView upgradeBaseAmount;
     @BindView(R.id.class_amount)
     LabelTextView classAmount;
+    @BindView(R.id.lineChartTip)
+    LinearLayout lineChartTip;
 
 
     private TeachProcess teachProcess;
@@ -89,6 +93,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     // 但当屏幕旋转后 又出现了 spinner  无故回调的问题。。。
     // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
+
     @Override
     protected void setUpContentView() {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
@@ -110,7 +115,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 return false;
             }
         });
-        salesSpinner.setSelection(0, true);
+        salesSpinner.setSelection(0);
         salesSpinner.setOnItemSelectedListener(this);
     }
 
@@ -119,8 +124,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         campus_id = mUser.campusInfo.id;
         curuser_position_id = position_id = mUser.positionInfo.id;
-        // user_id = mUser.userInfo.user_id;
-        user_id = 107;
+        user_id = mUser.userInfo.user_id;
+        //user_id = 107;
         Calendar calendar = Calendar.getInstance();
         start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
         end_time = (int) AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
@@ -191,14 +196,18 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void invalidateChart() {
-        if (teachProcess == null || teachProcess.selfChartData == null || teachProcess.selfChartData.head == null || teachProcess.selfChartData.body == null)
+        if (teachProcess == null || teachProcess.selfChartData == null || teachProcess.selfChartData.head == null || teachProcess.selfChartData.body == null) {
+            lineChartTip.setVisibility(View.GONE);
             return;
+        }
 
         final List<String> body = teachProcess.selfChartData.body.get(0);
         final List<String> head = teachProcess.selfChartData.head;
-        if (head == null || head.size() == 0 || body == null || body.size() == 0)
+        if (head == null || head.size() == 0 || body == null || body.size() == 0) {
+            lineChartTip.setVisibility(View.GONE);
             return;
-
+        }
+        lineChartTip.setVisibility(View.VISIBLE);
         final int head_size = head.size() - 2;
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         yVals1.clear();
@@ -349,8 +358,17 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        try {
+            //以下三行代码是解决问题所在
+            Field field = AdapterView.class.getDeclaredField("mOldSelectedPosition");
+            field.setAccessible(true);  //设置mOldSelectedPosition可访问
+            field.setInt(salesSpinner, AdapterView.INVALID_POSITION); //设置mOldSelectedPosition的值
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (!isUser)
             return;
+        isUser =false;
         int dayAgo = 0;
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
@@ -380,16 +398,10 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     }
                 });
             }
-            if (!timeSeletByUser.isAdded())timeSeletByUser.show(getSupportFragmentManager(), "dialog");
+            if (!timeSeletByUser.isAdded())
+                timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
-        try {
-            //以下三行代码是解决问题所在
-            Field field = AdapterView.class.getDeclaredField("mOldSelectedPosition");
-            field.setAccessible(true);  //设置mOldSelectedPosition可访问
-            field.setInt(salesSpinner, AdapterView.INVALID_POSITION); //设置mOldSelectedPosition的值
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -400,6 +412,13 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     @Override
     protected void onPause() {
         super.onPause();
-        isUser =false;
+        isUser = false;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

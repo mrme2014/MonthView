@@ -75,6 +75,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     TextView subtitleTv;
     @BindView(R.id.chart_switch)
     TextView switcTv;
+    @BindView(R.id.combinedChart_layout)
+    LinearLayout combinedChartLayout;
     @BindView(R.id.legend_layout)
     LinearLayout legendLayout;
     @BindView(R.id.legend_base_performance)
@@ -165,7 +167,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
      * 懒加载，避免数据没有加载成功，点击崩溃
      */
     void lazyShow() {
-        if (legendLayout.getVisibility() == View.GONE) {
+        if (legendLayout.getVisibility() != View.VISIBLE) {
             legendLayout.setVisibility(View.VISIBLE);
         }
         if (listViewForScrollView.getVisibility() != View.VISIBLE) {
@@ -533,19 +535,13 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
             case R.id.chart_switch:
                 if (curPieMode) {
                     curPieMode = false;
-                    mCombinedChart.setVisibility(View.VISIBLE);
-                    if (legendLayout.getVisibility() == View.INVISIBLE) {
-                        legendLayout.setVisibility(View.VISIBLE);
-                    }
+                    combinedChartLayout.setVisibility(View.VISIBLE);
                     mPieChart.setVisibility(View.GONE);
                     switcTv.setText("饼图");
                 } else {
                     curPieMode = true;
                     mPieChart.setVisibility(View.VISIBLE);
-                    if (legendLayout.getVisibility() == View.VISIBLE) {
-                        legendLayout.setVisibility(View.INVISIBLE);
-                    }
-                    mCombinedChart.setVisibility(View.GONE);
+                    combinedChartLayout.setVisibility(View.GONE);
                     switcTv.setText("折线图");
                 }
                 break;

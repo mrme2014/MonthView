@@ -138,10 +138,10 @@ public class BarChartFragment extends BaseFragment {
      * 懒加载，避免数据没有加载成功，点击崩溃
      */
     void lazyShow() {
-        if (chart1Legend.getVisibility() == View.GONE) {
+        if (chart1Legend.getVisibility() != View.VISIBLE) {
             chart1Legend.setVisibility(View.VISIBLE);
         }
-        if (chart2Legend.getVisibility() != View.GONE) {
+        if (chart2Legend.getVisibility() != View.VISIBLE) {
             chart2Legend.setVisibility(View.VISIBLE);
         }
     }

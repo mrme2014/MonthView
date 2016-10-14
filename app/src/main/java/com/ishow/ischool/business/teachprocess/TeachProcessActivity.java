@@ -231,7 +231,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     private void setUpLabel() {
         //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
         salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
-
+        salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
         if (teachProcess == null || teachProcess.tableListData_22 == null
                 || teachProcess.tableListData_22.head == null
                 || teachProcess.tableListData_22.body == null)
@@ -243,11 +243,6 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         int rate_size = rate.size();
         int number_size = number.size();
         salesTable1.setSpanedStr(rate.get(rate_size - 3), number.get(number_size - 3), rate.get(rate_size - 2), number.get(number_size - 2), rate.get(rate_size - 1), number.get(number_size - 1));
-
-        salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
-
-        LogUtil.e(start_time + "----" + end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
     }
 
     @Override

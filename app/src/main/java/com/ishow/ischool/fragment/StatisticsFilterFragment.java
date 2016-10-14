@@ -487,7 +487,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                 break;
             case R.id.item_referrer:
                 Intent intent = new Intent(getActivity(), PositionPickActivity.class);
-                intent.putExtra("CAMPUS_ID", mUser.positionInfo.campusId);
+                intent.putExtra("CAMPUS_ID", Integer.parseInt(mFilterCampusId));
                 intent.putExtra("CAMPUS_NAME", campus_name);
                 JumpManager.jumpActivityForResult(this, intent, PositionPickActivity.REQUEST_CODE_PICKPOSITION, Resource.NO_NEED_CHECK);
                 break;

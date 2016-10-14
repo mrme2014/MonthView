@@ -1,17 +1,12 @@
 package com.ishow.ischool.business.user.pick;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
@@ -19,25 +14,22 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.MarketPositionObject;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.user.Avatar;
-import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
-import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 
 /**
  * Created by mini on 2016/10/13.
  */
-public class PositionPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, MarketPositionObject> implements UserPickContract.View<Marketposition>, View.OnClickListener {
+public class PositionPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, MarketPositionObject> implements UserPickContract.View<Marketposition> {
 
     public static final int REQUEST_CODE_PICKPOSITION = 1001;
     private Marketposition marketpositions;
-    private LabelTextView ltv;
 
     private int mPickPositionId;
     private String mPickPositionName;
@@ -47,10 +39,7 @@ public class PositionPickActivity extends BaseListActivity4Crm<UserPickPresenter
     public static final String PICK_POSITION_NAME = "pick_position_name";
     public static final String PICK_CAMPUS_ID = "pick_campus_id";
     public static final String PICK_CAMPUS_NAME = "pick_campus_name";
-
-
-
-    private ArrayList<CampusInfo> campusInfos;
+    private MenuItem campusMenu;
 
     @Override
     protected void initEnv() {
@@ -63,22 +52,11 @@ public class PositionPickActivity extends BaseListActivity4Crm<UserPickPresenter
     @Override
     protected void setUpView() {
         super.setUpView();
-        if (mUser.userInfo.campus_id == 1) {
-            setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
-            Menu menu = mToolbar.getMenu();
-            MenuItem item = menu.getItem(0);
-            item.setIcon(R.mipmap.icon_screen_down_white);
-            ltv = (LabelTextView) MenuItemCompat.getActionView(item);
-            ltv.setAboutMenuItem();
-            Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.icon_screen_down_white);
-            ltv.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
-            ltv.setUpMenu(true);
-            // PositionInfo positionInfo = mUser.positionInfo;
-            ltv.setEllipsizeText(mPickCampusName == null ? getString(R.string.select_subordinates_menu_default) : mPickCampusName, 7);
-            ltv.setOnClickListener(this);
-        } else {
-            setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
-        }
+        setUpToolbar(R.string.select_subordinates, R.menu.menu_pickposition, MODE_BACK);
+        campusMenu = mToolbar.getMenu().findItem(R.id.campus);
+        String subtitle = mPickCampusId == 1 ? "所有校区" : CampusManager.getInstance().getCampusNameById(mPickCampusId);
+        campusMenu.setTitle(subtitle);
+        campusMenu.setChecked(false);
     }
 
     @Override
@@ -94,34 +72,6 @@ public class PositionPickActivity extends BaseListActivity4Crm<UserPickPresenter
         mPresenter.getPosition(mPickCampusId);
     }
 
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return super.onMenuItemClick(item);
-    }
-
-    private void getCampusSucess(final ArrayList<CampusInfo> campusInfos) {
-        if (campusInfos == null || campusInfos.size() == 0) return;
-        PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-        ArrayList<String> campus = new ArrayList();
-        for (int i = 0; i < campusInfos.size(); i++) {
-            campus.add(campusInfos.get(i).name);
-        }
-        builder.setBackgroundDark(true).setDialogTitle(R.string.switch_campus).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0, 1, campus);
-        PickerDialogFragment fragment = builder.Build();
-        fragment.show(getSupportFragmentManager(), "dialog");
-        fragment.addCallback(new PickerDialogFragment.Callback<int[]>() {
-            @Override
-            public void onPickResult(int[] selectIds, String... result) {
-                mPickCampusName = result[0];
-                ltv.setEllipsizeText(mPickCampusName, 7);
-                mPickCampusId = campusInfos.get(selectIds[0]).id;
-
-                mPresenter.getPosition(mPickCampusId);
-            }
-        });
-    }
-
     @Override
     public void getListSuccess(Marketposition marketpositions) {
         this.marketpositions = marketpositions;
@@ -132,14 +82,6 @@ public class PositionPickActivity extends BaseListActivity4Crm<UserPickPresenter
     public void getListFail(String msg) {
         showToast(msg);
         loadFailed();
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (campusInfos == null) {
-            campusInfos = CampusManager.getInstance().get();
-        }
-        getCampusSucess(campusInfos);
     }
 
 

@@ -115,7 +115,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
         initData();
         initTable();
         initCombinedChart();
-        initPieChart();
+//        initPieChart();
     }
 
     @Override
@@ -150,13 +150,14 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
             }
         });
 
+        subtitleTv.setText(mParamBeginDate + "-" + mParamEndDate);
         setLineChartData((mLastCampus == null || mLastCampus.size() == 0) ? mAllCampus : mLastCampus);
-        setPieChartData((mLastCampus == null || mLastCampus.size() == 0) ? mAllCampus : mLastCampus);
+//        setPieChartData((mLastCampus == null || mLastCampus.size() == 0) ? mAllCampus : mLastCampus);
     }
 
     @Override
     public void getListFail(String msg) {
-
+        showToast(msg);
     }
 
     /**
@@ -298,6 +299,13 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
      * @param campusInfos // 本次需要显示的校区
      */
     public void setLineChartData(ArrayList<CampusInfo> campusInfos) {
+        // 刷新上次显示(id)
+        mLastCampusParam = "";
+        for (CampusInfo info : campusInfos) {
+            mLastCampusParam = mLastCampusParam + info.id + ",";
+        }
+        mLastCampusParam = mLastCampusParam.substring(0, mLastCampusParam.length() - 1);
+
         ArrayList<CampusInfo> tempCampusInfos = new ArrayList<>();
         tempCampusInfos.addAll(campusInfos);
         mLastYdatas.clear();
@@ -423,7 +431,6 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
         }
         mLastCampusParam = mLastCampusParam.substring(0, mLastCampusParam.length() - 1);
 
-
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
@@ -543,11 +550,11 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                 break;
             case R.id.legend_base_performance:
                 invalidateBasePerformance();
-//                setChartMarkView(mLastYdatas);
+                setChartMarkView(mLastYdatas);
                 break;
             case R.id.legend_challenge_performance:
                 invalidateChallengePerformance();
-//                setChartMarkView(mLastYdatas);
+                setChartMarkView(mLastYdatas);
                 break;
         }
     }
@@ -684,7 +691,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     isAllSelected = !isAllSelected;
                     break;
                 case R.id.campus_reset:
-                    mCampusPopup.dismiss();
+                    startDateTv.setText(getString(R.string.item_start_time) + " :   ");
+                    endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;
                 case R.id.campus_ok:
                     int j = 0;
@@ -711,7 +719,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                         mLastCampus.addAll(mAdapter.getSelectedItem());
                         if (mLastYdatas != null && mLastYdatas.size() > 0) {
                             setLineChartData(mLastCampus);
-                            setPieChartData(mLastCampus);
+//                            setPieChartData(mLastCampus);
                         }
                     }
                     mCampusPopup.dismiss();

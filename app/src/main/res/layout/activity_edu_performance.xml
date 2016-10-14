@@ -71,15 +71,13 @@
                 <TextView
                     android:id="@+id/title"
                     style="@style/normal_font_style"
-                    android:layout_centerVertical="true"
                     android:text="业绩趋势(%)" />
 
                 <TextView
                     android:id="@+id/subtitle"
                     style="@style/small_font_style"
                     android:layout_below="@id/title"
-                    android:layout_marginTop="2dp"
-                    android:visibility="gone" />
+                    android:layout_marginTop="2dp" />
 
                 <TextView
                     android:id="@+id/chart_switch"
@@ -88,7 +86,8 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/switch_bg_round_corner"
                     android:drawablePadding="4dp"
-                    android:text="饼图" />
+                    android:text="饼图"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
 
@@ -106,7 +105,8 @@
                     <com.github.mikephil.charting.charts.CombinedChart
                         android:id="@+id/combinedChart"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="wrap_content"
+                        android:minHeight="300dp"/>
 
                     <LinearLayout
                         android:id="@+id/legend_layout"

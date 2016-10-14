@@ -67,7 +67,6 @@
         app:draw_bottom_line="true"
         app:draw_bottom_line_color="@color/comm_line"
         app:tip_right_color="@color/txt_9"
-        app:draw_bottom_line_padding="10"
         app:tip_right_padding="20"
         />
 

@@ -317,7 +317,7 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                                     }
                                 }
                             }
-                            startDateTv.setText(getString(R.string.item_start_time) + " :        " + year + "-" + month);
+                            startDateTv.setText(getString(R.string.item_start_time) + " :   " + year + "-" + month);
                             mFilterStartTime = year + month;
                             startDateFinished = true;
                         }
@@ -352,7 +352,7 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                                     }
                                 }
                             }
-                            endDateTv.setText(getString(R.string.item_end_time) + " :        " + year + "-" + month);
+                            endDateTv.setText(getString(R.string.item_end_time) + " :   " + year + "-" + month);
                             mFilterEndTime = year + month;
                             endDateFinished = true;
                         }
@@ -360,7 +360,8 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                     endDatePicker.show();
                     break;
                 case R.id.date_reset:
-                    mDatePopup.dismiss();
+                    startDateTv.setText(getString(R.string.item_start_time) + " :   ");
+                    endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;
                 case R.id.date_ok:
                     if (mLastStartTime.equals(mFilterStartTime) && mLastEndTime.equals(mFilterEndTime)) {

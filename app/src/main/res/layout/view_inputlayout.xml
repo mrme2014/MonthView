@@ -16,10 +16,9 @@
             android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="top"
+            android:gravity="center|left"
             android:minWidth="100dp"
             android:paddingLeft="10dp"
-            android:paddingTop="10dp"
             android:textColor="@color/txt_2"
             android:textSize="@dimen/sp14" />
 
@@ -28,14 +27,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@null"
-            android:gravity="top"
+            android:gravity="center|left"
             android:paddingRight="15dp"
-            android:paddingTop="10dp"
             android:singleLine="true"
             android:textColor="@color/txt_2"
             android:textColorHint="@color/txt_hint"
-            android:textSize="@dimen/sp14" />
+            android:textSize="@dimen/sp14"
+            android:background="@null"/>
 
         <ImageView
             android:id="@+id/next"

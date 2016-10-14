@@ -318,6 +318,7 @@ user_id	Int	0			指定看某个员工的	*/
                         if (map == null) map = new TreeMap();
                         map.put("begin_time", starttime);
                         map.put("end_time", endtime);
+                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
                         getSaleProcessData();
                     }
                     @Override
@@ -334,7 +335,6 @@ user_id	Int	0			指定看某个员工的	*/
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
-        LogUtil.e("timeSeletByUser-result"+start_time+"----"+end_time);
     }
 
     @Override

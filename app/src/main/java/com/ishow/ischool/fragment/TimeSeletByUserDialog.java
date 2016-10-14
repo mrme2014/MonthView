@@ -106,7 +106,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
 
     private void showDatePickDialog(final boolean pick_start) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start?start_time:end_time).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start?start_time:end_time-24*3600).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
         PickerDialogFragment fragment = builder.Build();
         fragment.show(getChildFragmentManager());
         fragment.addCallback(new PickerDialogFragment.Callback<Integer>() {

@@ -77,7 +77,7 @@
                     android:paddingRight="10dp"
                     app:label_TB_padding="1"
                     app:label_left_padding="10"
-                    app:label_text_bottom="2016-10-09-2016-09-31"
+                    app:label_text_bottom=""
                     app:label_text_bottom_color="@color/txt_9"
                     app:label_text_bottom_size="12"
                     app:label_text_top_color="@color/txt_2"

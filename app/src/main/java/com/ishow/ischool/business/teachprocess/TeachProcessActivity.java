@@ -394,7 +394,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     public void onResult(int starttime, int endtime) {
                         start_time = starttime;
                         end_time = endtime;
-                        // LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
+                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
                         getTeachProcessData();
                     }
 

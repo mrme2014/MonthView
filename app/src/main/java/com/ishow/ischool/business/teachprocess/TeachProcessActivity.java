@@ -40,7 +40,6 @@ import com.ishow.ischool.widget.custom.CircleImageView;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -92,6 +91,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     // 但当屏幕旋转后 又出现了 spinner  无故回调的问题。。。
     // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
+    private TreeMap map;
 
     @Override
     protected void setUpContentView() {
@@ -125,9 +125,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
         //user_id = 107;
-        Calendar calendar = Calendar.getInstance();
-        start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
-        end_time = (int) AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
+//        Calendar calendar = Calendar.getInstance();
+//        start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
+//        end_time = (int) AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
 //        campus_name = mUser.campusInfo.name;
 //        position_name = mUser.positionInfo.title;
 //        file_name = mUser.avatar.file_name;
@@ -168,11 +168,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void getTeachProcessData() {
-        TreeMap<String, Integer> map = new TreeMap();
+        if (map == null) map = new TreeMap();
         map.put("start_time", start_time);
         map.put("end_time", end_time);
-        map.put("position_id", position_id);
-        map.put("user_id", user_id);
         handProgressbar(true);
         mPresenter.getTeachProcessData(map);
     }
@@ -215,9 +213,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         yVals1.clear();
 
-        for (int i =0; i<head_size ; i++) {
+        for (int i = 0; i < head_size; i++) {
             float aFloat = Float.parseFloat(body.get(i));
-            yVals1.add(new BarEntry((head_size-i) * 15f, aFloat));
+            yVals1.add(new BarEntry((head_size - i) * 15f, aFloat));
         }
 
         mPresenter.setData(lineChart, yVals1);
@@ -231,7 +229,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void setUpLabel() {
-      //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
         salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
 
         if (teachProcess == null || teachProcess.tableListData_22 == null
@@ -248,8 +246,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
 
-        LogUtil.e(start_time+"----"+end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long)start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
+        LogUtil.e(start_time + "----" + end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
     }
 
     @Override
@@ -331,22 +329,27 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 String extra_campus = data.getStringExtra(SelectPositionActivity.PICK_CAMPUS);
                 if (extra_campus != null && extra_campus != "")
                     campus_name = extra_campus;
-
                 setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, this.campus_name, position_id);
+                if (map == null) map = new TreeMap();
+                map.put("position_id", position_id);
+                map.put("user_id", user_id);
                 getTeachProcessData();
             } else {
                 //选择自己
+                map.clear();
+                setUpData();
                 setUpPersonInfoByResult();
-                salesSpinner.setSelection(0, true);
+                //salesSpinner.setSelection(0, true);
             }
+
         }
     }
 
     private void setUpPersonInfo(String avatar, int user_id, String user_name, String position_name, String campus_name, int position_id) {
-        if (file_name != null && !TextUtils.equals(file_name, "") && file_name != null && file_name != "[]") {
+        if (avatar != null && !TextUtils.equals(avatar, "") && avatar != null && avatar != "[]") {
             salesAvart.setVisibility(View.VISIBLE);
             salesAvartTxt.setVisibility(View.GONE);
-            ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
+            ImageLoaderUtil.getInstance().loadImage(this, avatar, salesAvart);
         } else {
             salesAvartTxt.setText(user_name, user_id, "");
             salesAvartTxt.setVisibility(View.VISIBLE);
@@ -355,9 +358,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
 
-       // LogUtil.e(avatar+"---setUpPersonInfo---"+salesAvart.getVisibility());
-
-
+        // LogUtil.e(avatar+"---setUpPersonInfo---"+salesAvart.getVisibility());
     }
 
 
@@ -373,7 +374,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         }
         if (!isUser)
             return;
-        isUser =false;
+        isUser = false;
         int dayAgo = 0;
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
@@ -383,22 +384,22 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             end_time = AppUtil.getTodayEndMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
-            start_time = 0;
+            start_time = AppUtil.getDayAgoMislls(999);
             end_time = AppUtil.getTodayEndMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
                 Bundle bundle = new Bundle();
-                bundle.putInt("start_time",start_time);
-                bundle.putInt("end_time",end_time+24*3600-1);
+                bundle.putInt("start_time", start_time);
+                bundle.putInt("end_time", end_time + 24 * 3600 - 1);
                 timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
                         start_time = starttime;
                         end_time = endtime;
-                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
+                        // LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
                         getTeachProcessData();
                     }
 
@@ -416,12 +417,12 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
-        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
+        // LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        LogUtil.e("onNothingSelected" + salesSpinner.getSelectedItemPosition());
+        // LogUtil.e("onNothingSelected" + salesSpinner.getSelectedItemPosition());
     }
 
     @Override

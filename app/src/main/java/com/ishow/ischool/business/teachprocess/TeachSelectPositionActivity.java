@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.salesprocess;
+package com.ishow.ischool.business.teachprocess;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,10 +16,14 @@ import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.MarketPositionObject;
-import com.ishow.ischool.bean.saleprocess.Marketposition;
+import com.ishow.ischool.bean.teachprocess.Educationposition;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.UserInfo;
+import com.ishow.ischool.business.salesprocess.SalesProcessContract;
+import com.ishow.ischool.business.salesprocess.SalesProcessModel;
+import com.ishow.ischool.business.salesprocess.SalesProcessPresenter;
+import com.ishow.ischool.business.salesprocess.SelectSubordinateActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -33,9 +37,9 @@ import java.util.TreeMap;
 /**
  * Created by MrS on 2016/9/18.
  */
-public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Marketposition>, View.OnClickListener {
+public class TeachSelectPositionActivity extends BaseListActivity4Crm<SalesProcessPresenter, SalesProcessModel, MarketPositionObject> implements SalesProcessContract.View<Educationposition>, View.OnClickListener {
 
-    private Marketposition marketpositions;
+
     private LabelTextView ltv;
 
     private int campus_id = -1;
@@ -48,7 +52,8 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     private String pick_position;
     private ArrayList<CampusInfo> campusInfos;
 
-    private String option;
+    private String option="Educationposition";
+    private Educationposition educationposition;
 
     @Override
     protected void initEnv() {
@@ -57,8 +62,6 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         REQUEST_CODE = getIntent().getIntExtra("REQUEST_CODE", 0);
         campus_id = getIntent().getIntExtra("CAMPUS_ID", campus_id);
         pick_campus = getIntent().getStringExtra("CAMPUS_NAME");
-        option = getIntent().getStringExtra("option");
-        if (option == null || option == "") option = "Marketposition";
     }
 
     @Override
@@ -93,7 +96,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         if (campus_id != 1) {
             map.put("campus_id", campus_id);
         }
-        mPresenter.getOption(option, map);
+        mPresenter.getOptionEducation(option, map);
     }
 
     @Override
@@ -148,15 +151,15 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
     @Override
     protected int getDataCounts() {
-        return marketpositions == null ? 1 : marketpositions.Marketposition.size() + 1;
+        return educationposition == null ? 1 : educationposition.Educationposition.size() + 1;
     }
 
 
     @Override
-    public void getListSuccess(Marketposition marketpositions) {
+    public void getListSuccess(Educationposition educationposition) {
         handProgressbar(false);
-        this.marketpositions = marketpositions;
-        loadSuccess(marketpositions.Marketposition);
+        this.educationposition = educationposition;
+        loadSuccess(educationposition.Educationposition);
     }
 
     @Override
@@ -195,7 +198,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
             UserInfo userInfo = mUser.userInfo;
             Avatar avatar = mUser.avatar;
             if (imageAvart != null && avatar != null && avatar.file_name != null && avatar.file_name != "")
-                ImageLoaderUtil.getInstance().loadImage(SelectPositionActivity.this, avatar.file_name, imageAvart);
+                ImageLoaderUtil.getInstance().loadImage(TeachSelectPositionActivity.this, avatar.file_name, imageAvart);
             else {
                 imageAvart.setVisibility(View.GONE);
                 avatarImageView.setVisibility(View.VISIBLE);
@@ -208,12 +211,10 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
             //加个 if判断 是因为 如果数据为空的时候  显示了空界面 但还是 点击可响应
-            if (marketpositions != null && marketpositions.Marketposition != null && marketpositions.Marketposition.size() > 0) {
-                Intent data = new Intent();
-                data.putExtra("no_choice", true);
-                setResult(REQUEST_CODE, data);
-                SelectPositionActivity.this.finish();
-            }
+            Intent data = new Intent();
+            data.putExtra("no_choice", true);
+            setResult(REQUEST_CODE, data);
+            TeachSelectPositionActivity.this.finish();
         }
     }
 
@@ -230,15 +231,15 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         public void onBindViewHolder(int position) {
 
             if (textView != null)
-                textView.setText(marketpositions.Marketposition.get(position - 1).name);
+                textView.setText(educationposition.Educationposition.get(position - 1).name);
         }
 
         @Override
         public void onItemClick(View view, int position) {
             super.onItemClick(view, position);
-            position_id = marketpositions.Marketposition.get(position - 1).id;
-            pick_position = marketpositions.Marketposition.get(position - 1).name;
-            Intent intent = new Intent(SelectPositionActivity.this, SelectSubordinateActivity.class);
+            position_id = educationposition.Educationposition.get(position - 1).id;
+            pick_position = educationposition.Educationposition.get(position - 1).name;
+            Intent intent = new Intent(TeachSelectPositionActivity.this, SelectSubordinateActivity.class);
             intent.putExtra(SelectSubordinateActivity.PICK_CAMPUS_ID, campus_id);
             intent.putExtra(SelectSubordinateActivity.PICK_POSITION_ID, position_id);
             intent.putExtra(SelectSubordinateActivity.PICK_QEQUEST_CODE, SelectSubordinateActivity.PICK_REQUEST_CODE);

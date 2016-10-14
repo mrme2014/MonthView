@@ -6,6 +6,7 @@ import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentList;
+import com.ishow.ischool.bean.teachprocess.Educationposition;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.university.UniversityInfoListResult;
@@ -108,6 +109,11 @@ public interface MarketApi {
     @FormUrlEncoded
     @POST("/attribute/option/get")//@Field("campus_id") int campus_id
     Observable<ApiResult<Marketposition>> getOption(@Field("option") String option,@FieldMap TreeMap<String,Integer> map);
+
+    /*属性.选择项.查询(attribute.option.get) 接口*/
+    @FormUrlEncoded
+    @POST("/attribute/option/get")//@Field("campus_id") int campus_id
+    Observable<ApiResult<Educationposition>> getOptionEducation(@Field("option") String option, @FieldMap TreeMap<String,Integer> map);
 
     /*属性.选择项.查询(attribute.option.get) 接口*/
     @FormUrlEncoded

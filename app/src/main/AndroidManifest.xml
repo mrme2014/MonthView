@@ -129,7 +129,10 @@
             android:name=".business.teachprocess.TeachProcessTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"></activity>
-
+        <activity
+            android:name=".business.teachprocess.TeachSelectPositionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

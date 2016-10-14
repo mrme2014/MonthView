@@ -258,7 +258,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 if (curuser_position_id == Constants.MORNING_READ_TEACHER || curuser_position_id == Constants.CHAT_COMMISSIONER) {
                     return;
                 }
-                Intent intent1 = new Intent(this, SelectPositionActivity.class);
+                Intent intent1 = new Intent(this, TeachSelectPositionActivity.class);
                 intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
                 intent1.putExtra("CAMPUS_ID", campus_id);
                 intent1.putExtra("CAMPUS_NAME", campus_name);

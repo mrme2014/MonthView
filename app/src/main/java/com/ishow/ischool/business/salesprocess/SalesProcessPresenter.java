@@ -19,6 +19,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
+import com.ishow.ischool.bean.teachprocess.Educationposition;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.util.AppUtil;
 
@@ -57,6 +58,26 @@ public class SalesProcessPresenter extends SalesProcessContract.Presenter {
         mModel.getOption(option, map).subscribe(new ApiObserver<Marketposition>() {
             @Override
             public void onSuccess(Marketposition marketpositions) {
+                mView.getListSuccess(marketpositions);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.getListFail(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+        });
+    }
+
+    @Override
+    public void getOptionEducation(String option, TreeMap<String, Integer> map) {
+        mModel.getOptionEducation(option, map).subscribe(new ApiObserver<Educationposition>() {
+            @Override
+            public void onSuccess(Educationposition marketpositions) {
                 mView.getListSuccess(marketpositions);
             }
 

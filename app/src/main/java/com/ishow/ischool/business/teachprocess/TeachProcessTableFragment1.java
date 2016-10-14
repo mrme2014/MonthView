@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.commonlib.core.BaseFragment4mvp;
-import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.widget.custom.TableRowTextView;
 import com.ishow.ischool.widget.custom.TableRowTextViewTeach;
@@ -27,8 +26,8 @@ public class TeachProcessTableFragment1 extends BaseFragment4mvp {
 
     @BindView(R.id.head_cell)
     TableRowTextView headCell;
-    @BindView(R.id.body_cell1)
-    LabelTextView bodyCell1;
+//    @BindView(R.id.body_cell1)
+//    LabelTextView bodyCell1;
     @BindView(R.id.body_cell2)
     TableRowTextViewTeach bodyCell2;
     @BindView(R.id.body_cell3)
@@ -63,7 +62,7 @@ public class TeachProcessTableFragment1 extends BaseFragment4mvp {
         List<String> strings_head = table1_head.subList(13, table1_head.size());
         List<String> strings_body = table1_body.subList(13, table1_body.size());
         headCell.setTxtList(strings_head);
-        bodyCell1.setText(table1_body.get(0));
+       // bodyCell1.setText(table1_body.get(0));
         bodyCell2.updateList(table1_body.get(4),table1_body.get(1),table1_body.get(2),table1_body.get(3));
         bodyCell3.updateList(table1_body.get(8),table1_body.get(5),table1_body.get(6),table1_body.get(7));
         bodyCell4.updateList(table1_body.get(12),table1_body.get(9),table1_body.get(10),table1_body.get(11));

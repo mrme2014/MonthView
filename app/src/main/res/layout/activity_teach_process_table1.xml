@@ -14,16 +14,16 @@
             android:background="@color/chart_head_gray_bg"
             android:orientation="horizontal">
 
-            <com.commonlib.widget.LabelTextView
-                style="@style/table_head_style1"
-                android:layout_width="90dp"
-                android:textColor="@color/chart_gray_txt"
-                android:text="总人数" />
+            <!--<com.commonlib.widget.LabelTextView-->
+                <!--style="@style/table_head_style1"-->
+                <!--android:layout_width="90dp"-->
+                <!--android:textColor="@color/chart_gray_txt"-->
+                <!--android:text="总人数" />-->
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="@color/chart_line"></View>
+            <!--<View-->
+                <!--android:layout_width="1px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/chart_line"></View>-->
 
             <com.commonlib.widget.LabelTextView
                 style="@style/table_head_style1"
@@ -63,17 +63,17 @@
             android:layout_height="60dp"
             android:orientation="horizontal">
 
-            <com.commonlib.widget.LabelTextView
-                android:id="@+id/body_cell1"
-                style="@style/table_head_style1"
-                android:layout_width="90dp"
-                android:textColor="@color/chart_gray_txt"
-                android:text="2" />
+            <!--<com.commonlib.widget.LabelTextView-->
+                <!--android:id="@+id/body_cell1"-->
+                <!--style="@style/table_head_style1"-->
+                <!--android:layout_width="90dp"-->
+                <!--android:textColor="@color/chart_gray_txt"-->
+                <!--android:text="2" />-->
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="@color/chart_line"></View>
+            <!--<View-->
+                <!--android:layout_width="1px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/chart_line"></View>-->
 
             <com.ishow.ischool.widget.custom.TableRowTextViewTeach
                 android:id="@+id/body_cell2"

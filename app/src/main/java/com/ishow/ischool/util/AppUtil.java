@@ -277,25 +277,22 @@ public class AppUtil {
         return c.get(Calendar.MONTH) + 1;
     }
 
-    public static int getTodayEndMislls() {
+    public static int getTodayEnd() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
         int time = (int) (c.getTimeInMillis() / 1000);
-        return  time;
+        return time;
     }
 
-    public static int getDayAgoMislls(int dayAgo){  //N天前的 零点  时间戳
+    public static int getDayAgo(int dayAgo) {  //N天前的 零点  时间戳
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int min = c.get(Calendar.MINUTE);
-        int sec = c.get(Calendar.SECOND);
-        int time = getTodayEndMislls()-dayAgo*24*3600-hour*3600-min*60-sec ;
-        return time ;
+        c.roll(Calendar.DAY_OF_YEAR, -dayAgo);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return (int) (c.getTimeInMillis() / 1000);
     }
 
     public static ArrayList<String> getSpinnerData() {

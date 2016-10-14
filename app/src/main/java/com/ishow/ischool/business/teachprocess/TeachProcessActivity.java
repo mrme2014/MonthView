@@ -136,8 +136,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             salesJob.setCompoundDrawables(null, null, null, null);
         }
 
-        start_time = AppUtil.getDayAgoMislls(30);
-        end_time = AppUtil.getTodayEndMislls();
+        start_time = AppUtil.getDayAgo(30);
+        end_time = AppUtil.getTodayEnd();
         getTeachProcessData();
     }
 
@@ -375,12 +375,12 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
             dayAgo = Integer.parseInt(selectNum);
-            start_time = AppUtil.getDayAgoMislls(dayAgo);
-            end_time = AppUtil.getTodayEndMislls();
+            start_time = AppUtil.getDayAgo(dayAgo);
+            end_time = AppUtil.getTodayEnd();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
-            start_time = AppUtil.getDayAgoMislls(999);
-            end_time = AppUtil.getTodayEndMislls();
+            start_time = AppUtil.getDayAgo(999);
+            end_time = AppUtil.getTodayEnd();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
             if (timeSeletByUser == null) {

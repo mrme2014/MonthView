@@ -158,8 +158,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
 
-        //start_time= AppUtil.getDayAgoMislls(6);
-       // end_time=AppUtil.getTodayEndMislls();
+        //start_time= AppUtil.getDayAgo(6);
+       // end_time=AppUtil.getTodayEnd();
         getSaleProcessData();
     }
 

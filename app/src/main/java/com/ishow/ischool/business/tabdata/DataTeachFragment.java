@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.commonlib.widget.CircleChartView;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.google.gson.Gson;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.teachprocess.ChartProcess;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
@@ -36,7 +36,7 @@ import butterknife.OnClick;
 public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, DataTeachModel> implements DataTeachContract.View {
 
     private OnFragmentInteractionListener mListener;
-//    @BindView(R.id.bar_chart)
+    //    @BindView(R.id.bar_chart)
 //    HorizontalBarChart mBarChart;
     @BindView(R.id.circle_chartview)
     CircleChartView mCircleChartView;
@@ -100,8 +100,8 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         // user_id = mUser.userInfo.user_id;
         user_id = mUser.userInfo.user_id;
         Calendar calendar = Calendar.getInstance();
-        start_time = AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
-        end_time = AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
+        start_time = AppUtil.getDayAgo(30);
+        end_time = AppUtil.getTodayEnd();
 
 //        mPresenter.initChart(mBarChart);
 
@@ -127,11 +127,20 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         List<String> heads = process.selfChartData.head;
         List<String> bodys = process.selfChartData.body.get(0);
 
-        for (int i = 0; i < heads.size() - 2; i++) {
-            yVals1.add(new CircleChartView.Value(heads.get(i), bodys.get(i)));
+        if (heads.isEmpty()) {
+            String data = "{\"head\":[\"带班人数\",\"升学基数\",\"升学人数\",\"全款人数\"],\"body\":[[0,0,0,0]]}";
+            Gson gson = new Gson();
+            ChartProcess chartProcess = gson.fromJson(data, ChartProcess.class);
+            for (int i = 0; i < 5; i++) {
+                yVals1.add(new CircleChartView.Value(chartProcess.head.get(i), chartProcess.body.get(0).get(i)));
+            }
+        } else {
+            for (int i = 0; i < heads.size() - 2; i++) {
+                yVals1.add(new CircleChartView.Value(heads.get(i), bodys.get(i)));
+            }
         }
 
-        mCircleChartView.setData(yVals1,"最近7日教学数据统计");
+        mCircleChartView.setData(yVals1, "最近30日教学数据统计");
     }
 
     @Override

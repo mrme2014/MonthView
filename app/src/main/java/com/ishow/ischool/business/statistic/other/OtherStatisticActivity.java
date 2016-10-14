@@ -398,6 +398,10 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
+                            if (AppUtil.getMonthStart(year, month) > endTime) {
+                                showToast(R.string.end_le_start);
+                                return;
+                            }
                             startTime = AppUtil.getMonthStart(year, month);
                             startDateTv.setText(getString(R.string.filter_start_date, DateUtil.parseSecond2Str(startTime)));
                         }

@@ -21,8 +21,12 @@ import android.widget.TextView;
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.business.user.pick.AgentPickActivity;
 import com.ishow.ischool.business.user.pick.UserPickActivity;
+import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
@@ -31,6 +35,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.ishow.ischool.business.user.pick.AgentPickActivity.REQUEST_CODE_PICKAGENT;
 
 /**
  * Created by MrS on 2016/8/18.
@@ -70,6 +76,7 @@ public class CommuDialogFragment extends DialogFragment {
 
     private Dialog dialog;
     private String orderName;
+    private User mUser;
 
     @NonNull
     @Override
@@ -147,9 +154,8 @@ public class CommuDialogFragment extends DialogFragment {
                 });
                 break;
             case R.id.commun_order:
-                Intent intent = new Intent(getActivity(), UserPickActivity.class);
-                intent.putExtra(UserPickActivity.P_TITLE,getString(R.string.pick_banliren));
-                startActivityForResult(intent, UserPickActivity.REQUEST_CODE_PICK_USER);
+                Intent intent = new Intent(getActivity(), AgentPickActivity.class);
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_CODE_PICKAGENT, Resource.NO_NEED_CHECK);
                 break;
             case R.id.commu_reset:
                 resetSlectResult();
@@ -196,6 +202,7 @@ public class CommuDialogFragment extends DialogFragment {
     }
 
     private void setupView() {
+        mUser = UserManager.getInstance().get();
         communState.setText(AppUtil.getStateById(statePosition));
         if (startUnix > 0) {
             communDateStart.setText(DateUtil.parseSecond2Str(startUnix, "yyyy-MM-dd"));
@@ -255,7 +262,7 @@ public class CommuDialogFragment extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == UserPickActivity.REQUEST_CODE_PICK_USER && data != null) {
+            if (requestCode == AgentPickActivity.REQUEST_CODE_PICKAGENT && data != null) {
                 User user = data.getParcelableExtra(UserPickActivity.PICK_USER);
                 communOrder.setText(user.userInfo.user_name);
                 orderPosition = user.userInfo.user_id;

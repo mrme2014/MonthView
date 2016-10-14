@@ -134,7 +134,7 @@
         android:id="@+id/item_referrer"
         style="@style/input_linearLayout_style"
         input:bottom_line="false"
-        input:inputLayout_texthint="请选择推荐人"
+        input:inputLayout_texthint="请选择角色"
         input:label_text="@string/item_referrer"
         input:next="true" />
 

@@ -24,13 +24,17 @@ import android.widget.TextView;
 import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Cons;
+import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
+import com.ishow.ischool.business.user.pick.PositionPickActivity;
 import com.ishow.ischool.business.user.pick.UserPickActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
@@ -46,6 +50,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
+import static com.ishow.ischool.R.id.campus_name;
 
 /**
  * Created by wqf on 16/8/22.
@@ -194,8 +201,10 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         if (TextUtils.isEmpty(mFilterTimeType) || mFilterTimeType.equals("1")) {
             mFilterTimeType = "1";
             timeTypeTv.setText(getString(R.string.item_register_time));
-        } else {
+        } else if (mFilterTimeType.equals("2")) {
             timeTypeTv.setText(getString(R.string.item_matriculation_time));
+        } else {
+            timeTypeTv.setText(getString(R.string.item_enter_time));
         }
         if (!TextUtils.isEmpty(mFilterStartTime)) {
             startTimeEt.setText(sdf.format(new Date(Long.parseLong(mFilterStartTime) * 1000)));
@@ -477,9 +486,10 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                 startActivityForResult(new Intent(getActivity(), UniversityPickActivity.class), UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY);
                 break;
             case R.id.item_referrer:
-                Intent intent = new Intent(getActivity(), UserPickActivity.class);
-                intent.putExtra(UserPickActivity.P_TITLE,getString(R.string.pick_referrer));
-                startActivityForResult(intent, UserPickActivity.REQUEST_CODE_PICK_USER);
+                Intent intent = new Intent(getActivity(), PositionPickActivity.class);
+                intent.putExtra("CAMPUS_ID", mUser.positionInfo.campusId);
+                intent.putExtra("CAMPUS_NAME", campus_name);
+                JumpManager.jumpActivityForResult(this, intent, PositionPickActivity.REQUEST_CODE_PICKPOSITION, Resource.NO_NEED_CHECK);
                 break;
             default:
                 break;
@@ -489,28 +499,28 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-        switch (requestCode) {
-            case UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY:
-                if (data != null) {
-                    mUniversityInfo = data.getParcelableExtra(UniversityPickActivity.KEY_PICKED_UNIVERSITY);
-                    mFilterCollegeName = mUniversityInfo.name;
-                    universityIL.setContent(mFilterCollegeName);
-                    mFilterUniversityId = mUniversityInfo.id + "";
-                    mFilterProvinceId = mUniversityInfo.prov_id + "";
-                    //                    city_id = mUniversityInfo.city_id;
-                }
-                break;
-            case UserPickActivity.REQUEST_CODE_PICK_USER:
-                if (data != null) {
-                    User user = data.getParcelableExtra(UserPickActivity.PICK_USER);
-                    mFilterReferrerName = user.userInfo.user_name;
-                    referrerIL.setContent(mFilterReferrerName);
-                    mFilterReferrerId = user.userInfo.user_id + "";
-                }
-                break;
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case UniversityPickActivity.REQUEST_CODE_PICK_UNIVERSITY:
+                    if (data != null) {
+                        mUniversityInfo = data.getParcelableExtra(UniversityPickActivity.KEY_PICKED_UNIVERSITY);
+                        mFilterCollegeName = mUniversityInfo.name;
+                        universityIL.setContent(mFilterCollegeName);
+                        mFilterUniversityId = mUniversityInfo.id + "";
+                        mFilterProvinceId = mUniversityInfo.prov_id + "";
+                        //                    city_id = mUniversityInfo.city_id;
+                    }
+                    break;
+                case PositionPickActivity.REQUEST_CODE_PICKPOSITION:
+                    if (data != null) {
+                        SubordinateObject user = data.getParcelableExtra(UserPickActivity.PICK_USER);
+                        mFilterReferrerName = user.user_name;
+                        referrerIL.setContent(mFilterReferrerName);
+                        mFilterReferrerId = user.id + "";
+                    }
+                    break;
+            }
         }
-//        }
     }
 
     @Override
@@ -573,7 +583,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                                 startTimeIv.setVisibility(View.VISIBLE);
                             }
                         } else if (type == TYPE_END_TIME) {
-                            long end4Today = DateUtil.getEndTime(new Date((long)unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
+                            long end4Today = DateUtil.getEndTime(new Date((long) unix * 1000)) / 1000;      // 获取当日23:59:59的timestamp
                             mFilterEndTime = String.valueOf(end4Today);
                             if (!TextUtils.isEmpty(mFilterStartTime) && unix < Integer.parseInt(mFilterStartTime)) {
                                 showTimeError();

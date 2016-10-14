@@ -7,5 +7,5 @@ import java.util.ArrayList;
  */
 
 public class Marketposition {
-  public   ArrayList<MarketPositionObject>  Marketposition;
+    public ArrayList<MarketPositionObject> Marketposition;
 }

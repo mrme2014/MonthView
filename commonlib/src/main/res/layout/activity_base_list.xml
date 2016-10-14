@@ -4,16 +4,10 @@
 
     <include layout="@layout/widget_toolbar" />
 
-   <FrameLayout
-       android:id="@+id/pullContent"
-       android:layout_width="match_parent"
-       android:layout_marginTop="45dp"
-       android:layout_height="match_parent">
-       <com.commonlib.widget.pull.PullRecycler
-           android:id="@id/pullRecycler"
-           android:layout_below="@id/toolbar"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" />
-   </FrameLayout>
+    <com.commonlib.widget.pull.PullRecycler
+        android:id="@id/pullRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
 
 </RelativeLayout>

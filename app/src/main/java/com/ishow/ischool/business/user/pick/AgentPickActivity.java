@@ -21,8 +21,8 @@ import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.saleprocess.Subordinate;
-import com.ishow.ischool.bean.saleprocess.SubordinateObject;
+import com.ishow.ischool.bean.user.User;
+import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleTransform;
@@ -35,28 +35,19 @@ import butterknife.ButterKnife;
 /**
  * Created by wqf on 16/8/18.
  */
-public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, SubordinateObject> implements UserPickContract.View<Subordinate> {
-    public static final int REQUEST_CODE_PICKUSER = 1002;
+public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, User> implements UserPickContract.View<UserListResult> {
+    public static final int REQUEST_CODE_PICKAGENT = 1003;
     public static final String PICK_USER = "user";
-    public static final String P_TITLE = "title";
 
     private SearchView mSearchView;
     private String mSearchKey;
     private boolean mSearchMode = false;
     private boolean enableSelect;
-    private int mCampusId, mPositionId;
 
-
-    @Override
-    protected void initEnv() {
-        super.initEnv();
-        mPositionId = getIntent().getIntExtra(PositionPickActivity.PICK_POSITION_ID, -1);
-        mCampusId = getIntent().getIntExtra(PositionPickActivity.PICK_CAMPUS_ID, -1);
-    }
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_pick_referrer, R.string.pick_user, R.menu.menu_pickreferrer, MODE_BACK);
+        setContentView(R.layout.activity_pick_referrer, R.string.pick_banliren, R.menu.menu_pickreferrer, MODE_BACK);
     }
 
     @Override
@@ -114,26 +105,25 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
             mCurrentPage = 1;
         }
 
-        mPresenter.getUserByPosition(mCampusId, mPositionId, mSearchKey, mCurrentPage++);
+        mPresenter.listUser(mUser.positionInfo.campusId, mSearchKey, mCurrentPage++);
     }
 
-
     @Override
-    public void getListSuccess(Subordinate subordinate) {
-        if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, this);
+    public void getListSuccess(UserListResult userListResult) {
+        if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         if (mSearchMode && mCurrentPage == 2) {
             mDataList.clear();
         }
-        loadSuccess(subordinate.Subordinate);
-        enableSelect = true;
+        loadSuccess(userListResult.lists);
+        enableSelect= true;
     }
 
     @Override
     public void getListFail(String msg) {
-        if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, this);
+        if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         loadFailed();
         showToast(msg);
-        enableSelect = false;
+        enableSelect= false;
     }
 
     @Override
@@ -158,11 +148,11 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
         @Override
         public void onBindViewHolder(final int position) {
-            SubordinateObject data = mDataList.get(position);
-            if (data.avatar != null && !TextUtils.isEmpty(data.avatar)) {
+            User data = mDataList.get(position);
+            if (data.avatar != null && !TextUtils.isEmpty(data.avatar.file_name)) {
                 avatarTv.setVisibility(View.GONE);
                 avatarIv.setVisibility(View.VISIBLE);
-                Glide.with(getApplicationContext()).load(data.avatar).fitCenter().placeholder(R.mipmap.img_header_default)
+                Glide.with(getApplicationContext()).load(data.avatar.file_name).fitCenter().placeholder(R.mipmap.img_header_default)
                         .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(avatarIv) {
                     @Override
                     protected void setResource(GlideDrawable resource) {
@@ -172,7 +162,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
                     @Override
                     public void setRequest(Request request) {
                         avatarIv.setTag(position);
-                        avatarIv.setTag(R.id.glide_tag_id, request);
+                        avatarIv.setTag(R.id.glide_tag_id,request);
                     }
 
                     @Override
@@ -183,10 +173,10 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
             } else {
                 avatarIv.setVisibility(View.GONE);
                 avatarTv.setVisibility(View.VISIBLE);
-                avatarTv.setText(data.user_name, data.id, data.avatar);
+                avatarTv.setText(data.userInfo.user_name, data.userInfo.user_id, data.avatar.file_name);
             }
 
-            referrerName.setText(data.user_name);
+            referrerName.setText(data.userInfo.user_name);
         }
 
         @Override
@@ -194,7 +184,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
             if (!enableSelect)
                 return;
             Intent intent = new Intent();
-            SubordinateObject data = mDataList.get(position);
+            User data = mDataList.get(position);
             intent.putExtra(PICK_USER, data);
             setResult(RESULT_OK, intent);
             finish();

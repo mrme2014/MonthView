@@ -13,7 +13,7 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_margin="10dp"
-        android:src="@mipmap/img_header_default"/>
+        android:src="@mipmap/img_header_default" />
 
     <com.ishow.ischool.widget.custom.AvatarImageView
         android:id="@+id/sales_avart_txt"
@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         app:text_color="@color/colorPrimary"
         android:visibility="gone"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp" />
 
     <TextView
         android:id="@+id/item_type1_name"
@@ -32,7 +32,5 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center|left"
-        android:text="sadadasda"
-        android:textColor="@color/txt_2"
-        />
+        android:textColor="@color/txt_2" />
 </LinearLayout>

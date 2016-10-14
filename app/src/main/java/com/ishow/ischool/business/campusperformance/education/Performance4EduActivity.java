@@ -92,9 +92,9 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     private ArrayList<String> mXDatas;      // 横坐标数据,需要显示的校区name
     private int mCount = 0;                 // 横坐标个数,即数据个数
     public ArrayList<CampusInfo> mAllCampus;           // 此Activity所有校区
-    public ArrayList<CampusInfo> mLastCampus;      // 上次显示的校区
+    public ArrayList<CampusInfo> mLastCampus;           // 上次显示的校区
     public ArrayList<EducationMonth> mLastYdatas;      // 上次显示的数据(纵坐标)
-    public String mCampusParam = "";                     // 所有校区id,用于每次请求所有校区的数据
+    public String mCampusParamAll = "";                     // 所有校区id,用于每次请求所有校区的数据
     public String mLastCampusParam = "";                 // 上次显示的校区id,用于传递给表格用
     public ArrayList<EducationMonth> mYDatas;      // 纵坐标数据,即每个校区的数据
     public int mParamBeginDate, mParamEndDate;
@@ -120,7 +120,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
 
     @Override
     protected void setUpData() {
-        mPresenter.getEduMonthPerformance(mCampusParam, mParamBeginDate, mParamEndDate);
+        mPresenter.getEduMonthPerformance(mCampusParamAll, mParamBeginDate, mParamEndDate);
     }
 
     public void initData() {
@@ -129,20 +129,15 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
         mLastCampus = new ArrayList<>();
         mLastYdatas = new ArrayList<>();
         mXDatas = new ArrayList<>();
-        ArrayList<CampusInfo> mAllCampusInfos = CampusManager.getInstance().get();
-        for (int i = 0; i < mAllCampusInfos.size(); i++) {
-            if ((mAllCampusInfos.get(i).id >= 2 && mAllCampusInfos.get(i).id <= 5) || (mAllCampusInfos.get(i).id >= 7 && mAllCampusInfos.get(i).id <= 16)) {
-                mAllCampus.add(mAllCampusInfos.get(i));
-                mXDatas.add(mAllCampusInfos.get(i).name);
-            }
-        }
-        mCount = mXDatas.size();
-
+        mAllCampus.addAll(CampusManager.getInstance().get());
         // 初始获取所有校区id
         for (CampusInfo info : mAllCampus) {
-            mCampusParam = mCampusParam + info.id + ",";
+            mCampusParamAll = mCampusParamAll + info.id + ",";
         }
-        mCampusParam = mCampusParam.substring(0, mCampusParam.length() - 1);
+
+        mCampusParamAll = mCampusParamAll.substring(0, mCampusParamAll.length() - 1);
+        mXDatas.addAll(CampusManager.getInstance().getCampusNames());
+        mCount = mXDatas.size();
     }
 
     @Override
@@ -154,8 +149,9 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                 return (arg0.campusid).compareTo(arg1.campusid);
             }
         });
-        setLineChartData(mAllCampus);
-        setPieChartData(mAllCampus);
+
+        setLineChartData((mLastCampus == null || mLastCampus.size() == 0) ? mAllCampus : mLastCampus);
+        setPieChartData((mLastCampus == null || mLastCampus.size() == 0) ? mAllCampus : mLastCampus);
     }
 
     @Override
@@ -799,7 +795,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                         break;
                     }
 
-                    mPresenter.getEduMonthPerformance(mCampusParam, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : null,
+                    mPresenter.getEduMonthPerformance(mCampusParamAll, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : null,
                             mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : null);
                     mParamBeginDate = Integer.parseInt(mFilterStartTime);
                     mParamEndDate = Integer.parseInt(mFilterEndTime);

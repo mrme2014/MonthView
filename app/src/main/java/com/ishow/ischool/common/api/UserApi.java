@@ -2,6 +2,8 @@ package com.ishow.ischool.common.api;
 
 import com.google.gson.JsonElement;
 import com.ishow.ischool.bean.ApiResult;
+import com.ishow.ischool.bean.saleprocess.Marketposition;
+import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserListResult;
 
@@ -91,4 +93,20 @@ public interface UserApi {
             @Query("page") int page,
             @Query("campus_id") int campus_id,
             @Query("fields") String fields);
+
+    /*属性.选择项.查询(attribute.option.get) 接口*/  // 根据校区id获取对应的用户职位（下属）
+    @GET("/attribute/option/get")
+    Observable<ApiResult<Marketposition>> getPosition(
+            @Query("option") String option,
+            @Query("campus_id") int campus_id);
+
+    /*属性.选择项.查询(attribute.option.get) 接口*/  // 根据职位获取对应的用户（下属）
+    @GET("/attribute/option/get")
+    Observable<ApiResult<Subordinate>> getUserByPosition(
+            @Query("option") String option,
+            @Query("campus_id") int campus_id,
+            @Query("position_id") int position_id,
+            @Query("keyword") String keyword,
+            @Query("pagesize") int pagesize,
+            @Query("page") int page);
 }

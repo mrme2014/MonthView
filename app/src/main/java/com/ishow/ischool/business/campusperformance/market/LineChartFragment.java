@@ -78,6 +78,8 @@ public class LineChartFragment extends BaseFragment {
     TextView fromTv;
     @BindView(R.id.chart_switch)
     TextView switcTv;
+    @BindView(R.id.combinedChart_layout)
+    LinearLayout combinedChartLayout;
     @BindView(R.id.legend_layout)
     LinearLayout legendLayout;
     @BindView(R.id.legend_base_performance)
@@ -163,7 +165,7 @@ public class LineChartFragment extends BaseFragment {
      * 懒加载，避免数据没有加载成功，点击崩溃
      */
     void lazyShow() {
-        if (legendLayout.getVisibility() == View.GONE) {
+        if (legendLayout.getVisibility() != View.VISIBLE) {
             legendLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -468,20 +470,14 @@ public class LineChartFragment extends BaseFragment {
             case R.id.chart_switch:
                 if (curPieMode) {
                     curPieMode = false;
-                    mCombinedChart.setVisibility(View.VISIBLE);
-                    if (legendLayout.getVisibility() == View.INVISIBLE) {
-                        legendLayout.setVisibility(View.VISIBLE);
-                    }
+                    combinedChartLayout.setVisibility(View.VISIBLE);
                     mPieChart.setVisibility(View.GONE);
                     titleTv.setText("业绩趋势(个)");
                     switcTv.setText("饼图");
                 } else {
                     curPieMode = true;
                     mPieChart.setVisibility(View.VISIBLE);
-                    mCombinedChart.setVisibility(View.GONE);
-                    if (legendLayout.getVisibility() == View.VISIBLE) {
-                        legendLayout.setVisibility(View.INVISIBLE);
-                    }
+                    combinedChartLayout.setVisibility(View.GONE);
                     titleTv.setText("业绩对比(%)");
                     switcTv.setText("折线图");
                 }

@@ -97,72 +97,74 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white">
 
-                <com.github.mikephil.charting.charts.CombinedChart
-                    android:id="@+id/combinedChart"
+                <LinearLayout
+                    android:id="@+id/combinedChart_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="340dp"
+                    android:orientation="vertical">
+
+                    <com.github.mikephil.charting.charts.CombinedChart
+                        android:id="@+id/combinedChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+
+                    <LinearLayout
+                        android:id="@+id/legend_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@id/combinedChart"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <CheckedTextView
+                            android:id="@+id/legend_performance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="20dp"
+                            android:background="@color/transparent"
+                            android:drawableLeft="@drawable/selector_campus_legend_performance_drawable"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="@string/performance"
+                            android:textColor="@color/selector_campus_legend_performance_color"
+                            android:textSize="14sp" />
+
+                        <CheckedTextView
+                            android:id="@+id/legend_base_performance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="20dp"
+                            android:background="@color/transparent"
+                            android:drawableLeft="@drawable/selector_campus_legend_base_performance_drawable"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="@string/base_performance"
+                            android:textColor="@color/selector_campus_legend_base_performance_color"
+                            android:textSize="14sp" />
+
+                        <CheckedTextView
+                            android:id="@+id/legend_challenge_performance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:drawableLeft="@drawable/selector_campus_legend_challenge_performance_drawable"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="@string/challenge_performance"
+                            android:textColor="@color/selector_campus_legend_challenge_performance_color"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="340dp"
                     android:visibility="gone" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/white">
-
-                <LinearLayout
-                    android:id="@+id/legend_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <CheckedTextView
-                        android:id="@+id/legend_performance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="20dp"
-                        android:background="@color/transparent"
-                        android:drawableLeft="@drawable/selector_campus_legend_performance_drawable"
-                        android:drawablePadding="5dp"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="@string/performance"
-                        android:textColor="@color/selector_campus_legend_performance_color"
-                        android:textSize="14sp" />
-
-                    <CheckedTextView
-                        android:id="@+id/legend_base_performance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="20dp"
-                        android:background="@color/transparent"
-                        android:drawableLeft="@drawable/selector_campus_legend_base_performance_drawable"
-                        android:drawablePadding="5dp"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="@string/base_performance"
-                        android:textColor="@color/selector_campus_legend_base_performance_color"
-                        android:textSize="14sp" />
-
-                    <CheckedTextView
-                        android:id="@+id/legend_challenge_performance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparent"
-                        android:drawableLeft="@drawable/selector_campus_legend_challenge_performance_drawable"
-                        android:drawablePadding="5dp"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="@string/challenge_performance"
-                        android:textColor="@color/selector_campus_legend_challenge_performance_color"
-                        android:textSize="14sp" />
-                </LinearLayout>
             </RelativeLayout>
 
             <!--<RelativeLayout-->

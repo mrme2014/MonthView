@@ -30,7 +30,7 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     private boolean isPullToRefreshEnabled = true;
     private ILayoutManager mLayoutManager;
     private BaseListAdapter adapter;
-    public boolean mPageEnable = true;
+    public boolean mPageEnable = true;      // 是否支持分页
 
     public PullRecycler(Context context) {
         super(context);
@@ -189,11 +189,17 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
         void onRefresh(int action);
     }
 
+    /**
+     * @param resId 设置数据为空时占位图
+     */
     public void setEmptyView4Icon(int resId) {
         ImageView emptyIcon = (ImageView) emptyLayout.findViewById(R.id.empty_iv);
         emptyIcon.setImageResource(resId);
     }
 
+    /**
+     * 显示数据为空时的占位图
+     */
     public void showEmptyView() {
         emptyLayout.setVisibility(VISIBLE);
     }

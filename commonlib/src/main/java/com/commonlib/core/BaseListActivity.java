@@ -36,6 +36,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 
     /**
      * 设置该页面不支持分页加载,默认支持分页
+     *
      * @return
      */
     protected boolean setPageEnable() {
@@ -49,7 +50,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         recycler.setLayoutManager(getLayoutManager());
         recycler.addItemDecoration(getItemDecoration());
         recycler.setAdapter(mAdapter);
-        recycler.setRefreshing();       // 进入即加载
+        recycler.setRefreshing();       // 进入即加载，无需操作关于recycler的刷新与停止刷新操作，只关注于数据
     }
 
     protected void setRefreshing() {
@@ -66,6 +67,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 
     /**
      * 自定义分隔线
+     *
      * @return
      */
     protected RecyclerView.ItemDecoration getItemDecoration() {
@@ -99,9 +101,11 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
     protected int getDataCounts() {
         return mDataList != null ? mDataList.size() : 0;
     }
+
     protected int getItemType(int position) {
         return 0;
     }
+
     protected boolean isSectionHeader(int position) {
         return false;
     }
@@ -109,29 +113,34 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
     protected abstract BaseViewHolder getViewHolder(ViewGroup parent, int viewType);
 
 
+    /**
+     * 数据获取成功时，对recycleview状态、mCurrentState以及adapter的实时刷新
+     *
+     * @param resultList
+     */
     protected void loadSuccess(ArrayList<T> resultList) {
+        if (mCurrentPage == 1) {        // 不支持分页（mCurrentPage没有使用时，就是没有作分页处理，即mCurrentPage一直等于1）
+            recycler.mPageEnable = false;
+        }
+
         recycler.resetView();
         if (!recycler.mPageEnable) {            // 如果不支持分页，第一次加载之后就关闭下拉刷新
             recycler.enablePullToRefresh(false);
         }
 
-        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {      // 下拉刷新，清除数据
+        if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {      // 下拉刷新，重置数据
             mDataList.clear();
         }
 
         if (resultList == null || resultList.size() == 0) {
-            if (recycler.mPageEnable) {         // 支持分页
-                if (mCurrentPage > 2) {         // 非第一页
-                    recycler.enableLoadMore(false);
-                    recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);
-                } else {        // 当curPage=2时，其实是第一页数据。
-                    recycler.showEmptyView();
-                }
-            } else {
+            if (recycler.mPageEnable && mCurrentPage > 2) {     // 非第一页并且支持分页时
+                recycler.enableLoadMore(false);
+                recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);       // 加载到底（没数据了）
+            } else {                                            // 当不支持分页或者第一页时（即mCurrentPage=2，因为mCurrentPage++）。
                 recycler.showEmptyView();
             }
         } else {
-            if (recycler.mPageEnable) {     // 支持分页
+            if (recycler.mPageEnable) {
                 if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
                     recycler.enableLoadMore(false);
                     recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);
@@ -145,15 +154,23 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         recycler.onRefreshCompleted();
     }
 
+    /**
+     * 数据获取失败时，对recycleview状态、mCurrentState以及adapter的实时刷新
+     */
     protected void loadFailed() {
+        if (mCurrentPage == 1) {        // 不支持分页（mCurrentPage没有使用时，就是没有作分页处理，即mCurrentPage一直等于1）
+            recycler.mPageEnable = false;
+        }
+
         if (!recycler.mPageEnable) {        // 如果不支持分页，第一次加载之后就关闭下拉刷新
             recycler.enablePullToRefresh(false);
         }
 
-        if (mCurrentPage > 1) {
+        if (mCurrentPage > 1) {             // 数据请求失败，mCurrentPage减1
             mCurrentPage--;
         }
-        if (mCurrentPage == 1) {            // 没有数据，清楚数据（列表上次有数据的情况）并显示空白占位
+
+        if (mCurrentPage == 1) {            // 没有数据，清除数据（列表上次有数据的情况）并显示空白占位
             mDataList.clear();
             mAdapter.notifyDataSetChanged();
             recycler.setLoadState(PullRecycler.ACTION_IDLE);

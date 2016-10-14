@@ -152,6 +152,7 @@ public class AppUtil {
         ArrayList<String> timeTypeList = new ArrayList<>();
         timeTypeList.add("登记时间");
         timeTypeList.add("上课时间");
+        timeTypeList.add("报名时间");
         return timeTypeList;
     }
 

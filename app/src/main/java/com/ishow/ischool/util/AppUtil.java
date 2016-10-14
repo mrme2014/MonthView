@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -15,8 +17,8 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by abel on 16/8/16.
@@ -275,14 +277,25 @@ public class AppUtil {
         return c.get(Calendar.MONTH) + 1;
     }
 
-    public static int getTodayMislls() {
-        int time = (int)new Date().getTime()+24*3600*1000;
+    public static int getTodayEndMislls() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        int time = (int) (c.getTimeInMillis() / 1000);
         return  time;
     }
 
-    public static int getDayAgoMislls(int dayAgo){
-        int time = (int)new Date().getTime()+24*3600*1000;
-        return time -dayAgo*24*3600*1000;
+    public static int getDayAgoMislls(int dayAgo){  //N天前的 零点  时间戳
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min = c.get(Calendar.MINUTE);
+        int sec = c.get(Calendar.SECOND);
+        int time = getTodayEndMislls()-dayAgo*24*3600-hour*3600-min*60-sec ;
+        return time ;
     }
 
     public static ArrayList<String> getSpinnerData() {
@@ -297,5 +310,27 @@ public class AppUtil {
         list.add("自定义");
 
         return list;
+    }
+
+    public static boolean hasSalesPermision() {
+        User user = UserManager.getInstance().get();
+        List<Integer> myResources = user.myResources;
+        for (int res : myResources) {
+            if (res == Resource.PERMISSION_DATA_SALE_PROCESS || res == Resource.PERMISSION_DATA_CAMPUS || res == Resource.PERMISSION_DATA_OTHER) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasTeachPermision() {
+        User user = UserManager.getInstance().get();
+        List<Integer> myResources = user.myResources;
+        for (int res : myResources) {
+            if (res == Resource.PERMISSION_DATA_TEACH_PROCESS || res == Resource.PERMISSION_DATA_TEACH_CAMPUS || res == Resource.PERMISSION_DATA_TEACH_OTHER) {
+                return true;
+            }
+        }
+        return false;
     }
 }

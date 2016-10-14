@@ -5,6 +5,7 @@ import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
+import com.ishow.ischool.bean.teachprocess.Educationposition;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.api.MarketApi;
 
@@ -29,6 +30,11 @@ public class SalesProcessModel implements SalesProcessContract.Model {
     @Override
     public Observable<ApiResult<Marketposition>> getOption(String option, TreeMap<String,Integer> map) {
         return ApiFactory.getInstance().getApi(MarketApi.class).getOption(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<ApiResult<Educationposition>> getOptionEducation(String option, TreeMap<String, Integer> map) {
+        return ApiFactory.getInstance().getApi(MarketApi.class).getOptionEducation(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

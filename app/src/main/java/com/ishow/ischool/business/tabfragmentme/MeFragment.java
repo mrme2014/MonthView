@@ -6,9 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
@@ -31,6 +29,7 @@ import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
+import com.ishow.ischool.event.ChangeRoleEvent;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
@@ -39,7 +38,6 @@ import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -94,7 +92,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         else {
             fmMeHeaderAvart.setVisibility(View.INVISIBLE);
             fmAvartTxt.setVisibility(View.VISIBLE);
-            fmAvartTxt.setText(userInfo.user_name,userInfo.user_id,"");
+            fmAvartTxt.setText(userInfo.user_name, userInfo.user_id, "");
         }
 
         PositionInfo info = user.positionInfo;
@@ -197,7 +195,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
         RxBus.getInstance().post(campusInfo.name);
-
+        com.ishow.ischool.common.rxbus.RxBus.getDefault().post(new ChangeRoleEvent(changedUser));
     }
 
     @Override
@@ -215,16 +213,12 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             avartPath = data.getStringExtra("tempath");
-            if (fmMeHeaderAvart != null && avartPath != null && avartPath != "")
+            if (fmMeHeaderAvart != null && avartPath != null && avartPath != ""){
+                fmMeHeaderAvart.setVisibility(View.VISIBLE);
+                fmAvartTxt.setVisibility(View.GONE);
                 ImageLoaderUtil.getInstance().loadImage(getActivity(), fmMeHeaderAvart, avartPath);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+            }
+        }
     }
 }

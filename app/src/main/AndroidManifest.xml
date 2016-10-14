@@ -94,7 +94,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
-       <!-- <activity android:name=".business.campusperformance.CampusPerformanceActivity" />-->
+        <!-- <activity android:name=".business.campusperformance.CampusPerformanceActivity" />-->
 
         <activity android:name=".business.campusperformance.market.Performance4MarketActivity" />
 
@@ -125,13 +125,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize"></activity>
         <activity
             android:name=".business.teachprocess.TeachProcessActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".business.teachprocess.TeachProcessTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"></activity>
-
+        <activity
+            android:name=".business.teachprocess.TeachSelectPositionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

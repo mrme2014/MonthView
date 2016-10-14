@@ -20,7 +20,6 @@ public interface TabDataContract {
     interface Model extends BaseModel {
         Observable<ApiResult<ArrayList<CampusInfo>>> getCampusList();
 
-        Observable<ApiResult<SaleProcess>> getSaleProcessData(HashMap<String, String> params);
     }
 
     interface View extends BaseView {
@@ -28,14 +27,10 @@ public interface TabDataContract {
 
         void getListFail(String msg);
 
-        void getSaleSuccess(SaleProcess saleProcess);
-
-        void getSaleFail(String msg);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
         abstract void getCampusList();
 
-        abstract void getSales(HashMap<String,String> params);
     }
 }

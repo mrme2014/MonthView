@@ -40,12 +40,10 @@ import com.ishow.ischool.widget.custom.CircleImageView;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -93,6 +91,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     // 但当屏幕旋转后 又出现了 spinner  无故回调的问题。。。
     // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
+    private TreeMap map;
 
     @Override
     protected void setUpContentView() {
@@ -115,7 +114,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 return false;
             }
         });
-        salesSpinner.setSelection(0);
+        salesSpinner.setSelection(1);
         salesSpinner.setOnItemSelectedListener(this);
     }
 
@@ -126,9 +125,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
         //user_id = 107;
-        Calendar calendar = Calendar.getInstance();
-        start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
-        end_time = (int) AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
+//        Calendar calendar = Calendar.getInstance();
+//        start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
+//        end_time = (int) AppUtil.getMonthEnd(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
 //        campus_name = mUser.campusInfo.name;
 //        position_name = mUser.positionInfo.title;
 //        file_name = mUser.avatar.file_name;
@@ -137,6 +136,8 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             salesJob.setCompoundDrawables(null, null, null, null);
         }
 
+        start_time = AppUtil.getDayAgoMislls(30);
+        end_time = AppUtil.getTodayEndMislls();
         getTeachProcessData();
     }
 
@@ -167,11 +168,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void getTeachProcessData() {
-        TreeMap<String, Integer> map = new TreeMap();
+        if (map == null) map = new TreeMap();
         map.put("start_time", start_time);
         map.put("end_time", end_time);
-        map.put("position_id", position_id);
-        map.put("user_id", user_id);
         handProgressbar(true);
         mPresenter.getTeachProcessData(map);
     }
@@ -191,6 +190,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             setUpPersonInfoByResult();
         }
 
+
         invalidateChart();
         setUpLabel();
     }
@@ -205,6 +205,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         final List<String> head = teachProcess.selfChartData.head;
         if (head == null || head.size() == 0 || body == null || body.size() == 0) {
             lineChartTip.setVisibility(View.GONE);
+            lineChart.clear();
             return;
         }
         lineChartTip.setVisibility(View.VISIBLE);
@@ -214,21 +215,23 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
         for (int i = 0; i < head_size; i++) {
             float aFloat = Float.parseFloat(body.get(i));
-            yVals1.add(new BarEntry(i * 15f, aFloat));
+            yVals1.add(new BarEntry((head_size - i) * 15f, aFloat));
         }
 
         mPresenter.setData(lineChart, yVals1);
 
         lineChart.invalidate();
-        fullAmount.setLabelTextRight(body.get(3));
-        upgradeAmount.setLabelTextRight(body.get(2));
-        upgradeBaseAmount.setLabelTextRight(body.get(1));
+        fullAmount.setLabelTextRight(body.get(2));
+        upgradeAmount.setLabelTextRight(body.get(1));
+        upgradeBaseAmount.setLabelTextRight(body.get(3));
         classAmount.setLabelTextRight(body.get(0));
 
     }
 
     private void setUpLabel() {
-
+        //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
+        salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
         if (teachProcess == null || teachProcess.tableListData_22 == null
                 || teachProcess.tableListData_22.head == null
                 || teachProcess.tableListData_22.body == null)
@@ -240,11 +243,6 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         int rate_size = rate.size();
         int number_size = number.size();
         salesTable1.setSpanedStr(rate.get(rate_size - 3), number.get(number_size - 3), rate.get(rate_size - 2), number.get(number_size - 2), rate.get(rate_size - 1), number.get(number_size - 1));
-
-        salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
-
-        LogUtil.e(principal.start_time + "--setUpLabel--" + principal.end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) principal.start_time) + "-" + DateUtil.parseSecond2Str((long) principal.end_time));
     }
 
     @Override
@@ -260,7 +258,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 if (curuser_position_id == Constants.MORNING_READ_TEACHER || curuser_position_id == Constants.CHAT_COMMISSIONER) {
                     return;
                 }
-                Intent intent1 = new Intent(this, SelectPositionActivity.class);
+                Intent intent1 = new Intent(this, TeachSelectPositionActivity.class);
                 intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
                 intent1.putExtra("CAMPUS_ID", campus_id);
                 intent1.putExtra("CAMPUS_NAME", campus_name);
@@ -326,25 +324,28 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 String extra_campus = data.getStringExtra(SelectPositionActivity.PICK_CAMPUS);
                 if (extra_campus != null && extra_campus != "")
                     campus_name = extra_campus;
-
                 setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, this.campus_name, position_id);
+                if (map == null) map = new TreeMap();
+                map.put("position_id", position_id);
+                map.put("user_id", user_id);
                 getTeachProcessData();
             } else {
                 //选择自己
+                map.clear();
+                setUpData();
                 setUpPersonInfoByResult();
-                salesSpinner.setSelection(0, true);
+                //salesSpinner.setSelection(0, true);
             }
+
         }
     }
 
     private void setUpPersonInfo(String avatar, int user_id, String user_name, String position_name, String campus_name, int position_id) {
         if (avatar != null && !TextUtils.equals(avatar, "") && avatar != null && avatar != "[]") {
-            salesAvartTxt.setVisibility(View.GONE);
             salesAvart.setVisibility(View.VISIBLE);
+            salesAvartTxt.setVisibility(View.GONE);
             ImageLoaderUtil.getInstance().loadImage(this, avatar, salesAvart);
         } else {
-            //ImageLoaderUtil.getInstance().loadImage(this, avatar, salesAvart);
-            // salesAvart.setImageResource(R.mipmap.img_header_default);
             salesAvartTxt.setText(user_name, user_id, "");
             salesAvartTxt.setVisibility(View.VISIBLE);
             salesAvart.setVisibility(View.GONE);
@@ -352,7 +353,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         salesJob.setFirstTxt(user_name);
         salesJob.setSecondTxt(position_name + " | " + campus_name);
 
-
+        // LogUtil.e(avatar+"---setUpPersonInfo---"+salesAvart.getVisibility());
     }
 
 
@@ -368,27 +369,32 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         }
         if (!isUser)
             return;
-        isUser =false;
+        isUser = false;
         int dayAgo = 0;
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
             dayAgo = Integer.parseInt(selectNum);
             start_time = AppUtil.getDayAgoMislls(dayAgo);
-            end_time = AppUtil.getTodayMislls();
+            end_time = AppUtil.getTodayEndMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
-            start_time = 0;
-            end_time = AppUtil.getTodayMislls();
+            start_time = AppUtil.getDayAgoMislls(999);
+            end_time = AppUtil.getTodayEndMislls();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("start_time", start_time);
+                bundle.putInt("end_time", end_time + 24 * 3600 - 1);
+                timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
                         start_time = starttime;
                         end_time = endtime;
+                        // LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
                         getTeachProcessData();
                     }
 
@@ -396,29 +402,27 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     public void onEorr(String error) {
                         showToast(error);
                     }
+
+                    @Override
+                    public void onCacel() {
+                        timeSeletByUser = null;
+                    }
                 });
             }
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
-
+        // LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        LogUtil.e("onNothingSelected" + salesSpinner.getSelectedItemPosition());
+        // LogUtil.e("onNothingSelected" + salesSpinner.getSelectedItemPosition());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         isUser = false;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

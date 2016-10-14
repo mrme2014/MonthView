@@ -49,6 +49,7 @@
                         android:layout_height="78dp"
                         android:background="@color/green"
                         android:gravity="center"
+                        android:scaleType="centerCrop"
                         app:text_color="@color/white" />
 
                     <TextView

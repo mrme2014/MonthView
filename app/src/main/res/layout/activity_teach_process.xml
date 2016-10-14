@@ -105,33 +105,44 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:background="@android:color/white"
                 android:layout_height="160dp">
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:id="@+id/lineChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/white" />
+                    android:layout_marginRight="60dp"
+                   />
 
                 <LinearLayout
                     android:id="@+id/lineChartTip"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:background="@android:color/white"
+
                     android:orientation="vertical"
+                    android:visibility="gone"
                     android:paddingRight="10dp">
 
                     <com.commonlib.widget.LabelTextView
-                        android:id="@+id/full_amount"
+
+                        android:id="@+id/class_amount"
                         style="@style/teach_process_chart_label_style"
                         android:layout_marginTop="17dp"
-                        android:text="全款人数"
-                        app:label_text_color="@color/chart_blue"
+                        android:text="带班人数"
+                        app:label_text_color="@color/random_color14"
                         app:label_text_right="" />
 
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/upgrade_amount"
+                        style="@style/teach_process_chart_label_style"
+                        app:label_text_color="@color/random_color9"
+                        android:text="升学基数" />
+
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/full_amount"
                         style="@style/teach_process_chart_label_style"
                         app:label_text_color="@color/random_color12"
                         android:text="升学人数" />
@@ -140,15 +151,8 @@
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/upgrade_base_amount"
                         style="@style/teach_process_chart_label_style"
-                        app:label_text_color="@color/random_color9"
-                        android:text="升学基数" />
-
-
-                    <com.commonlib.widget.LabelTextView
-                        android:id="@+id/class_amount"
-                        style="@style/teach_process_chart_label_style"
-                        app:label_text_color="@color/random_color14"
-                        android:text="带班人数" />
+                        app:label_text_color="@color/chart_blue"
+                        android:text="全款人数" />
                 </LinearLayout>
             </RelativeLayout>
 

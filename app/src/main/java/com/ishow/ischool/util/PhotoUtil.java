@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 
+import com.commonlib.util.StorageUtil;
 import com.commonlib.util.StringUtils;
 
 import java.io.File;
@@ -28,12 +29,11 @@ public class PhotoUtil {
         File file = new File(tempCapturePath);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        cameraIntent.putExtra("return-data", true);
+        //cameraIntent.putExtra("return-data", false);
         activity.startActivityForResult(cameraIntent, CAPTURE);
     }
 
     public static void cropImage(Activity activity, Uri inUri, String tempOutPath) {
-//        String tempCropPath = tempOutPath.substring(0, tempOutPath.lastIndexOf(".")) + System.currentTimeMillis() + tempOutPath.substring(tempOutPath.lastIndexOf("."), tempOutPath.length());
         File file = new File(tempOutPath);
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -80,7 +80,7 @@ public class PhotoUtil {
                     }
                     return true;
                 case CAPTURE:
-                    if (StringUtils.isEmpty(tempCapturePath)) {
+                    if (!StringUtils.isEmpty(tempCapturePath)) {
                         File file = new File(tempCapturePath);
                         if (file.exists())
                             cropImage(activity, Uri.fromFile(file), tempCropPath);

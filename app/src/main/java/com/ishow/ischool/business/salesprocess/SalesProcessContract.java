@@ -8,6 +8,7 @@ import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
+import com.ishow.ischool.bean.teachprocess.Educationposition;
 
 import java.util.TreeMap;
 
@@ -23,6 +24,8 @@ public interface SalesProcessContract {
 
         Observable<ApiResult<Marketposition>> getOption(String option, TreeMap<String,Integer> map);
 
+        Observable<ApiResult<Educationposition>> getOptionEducation(String option, TreeMap<String,Integer> map);
+
         Observable<ApiResult<Subordinate>> getOptionSubordinate(String option, TreeMap<String,Integer> map);
 
         Observable<ApiResult<Subordinate>> getOptionSubordinateKeyWords(String option,TreeMap<String,Integer> map,String keywords);
@@ -37,6 +40,8 @@ public interface SalesProcessContract {
         public abstract void getSaleProcessData(TreeMap<String,Integer> map, int type);
 
         public abstract void getOption(String option,TreeMap<String,Integer> map);
+
+        public abstract void getOptionEducation(String option,TreeMap<String,Integer> map);
 
         public abstract void getOptionSubordinate(String option, TreeMap<String,Integer> map);
 

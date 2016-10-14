@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
@@ -97,6 +98,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
 
+    private  int start_time,end_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +158,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
 
+        //start_time= AppUtil.getDayAgoMislls(6);
+       // end_time=AppUtil.getTodayEndMislls();
         getSaleProcessData();
     }
 
@@ -190,8 +195,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             salesAvart.setVisibility(View.VISIBLE);
             ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
         } else {
-            ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
-            salesAvart.setImageResource(R.mipmap.img_header_default);
+        /*    ImageLoaderUtil.getInstance().loadImage(this, file_name, salesAvart);
+            salesAvart.setImageResource(R.mipmap.img_header_default);*/
             salesAvartTxt.setText(user_name, user_id, "");
             salesAvartTxt.setVisibility(View.VISIBLE);
             salesAvart.setVisibility(View.GONE);
@@ -229,6 +234,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         }
         final List<String> date = process.chart.date;
         salesTrends.setSecondTxt(date.get(0) + "--" + date.get(date.size() - 1));
+        start_time = DateUtil.date2Second(date.get(0));
+        end_time = DateUtil.date2Second(date.get(date.size() - 1))+24*3600;
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
@@ -283,7 +290,7 @@ user_id	Int	0			指定看某个员工的	*/
         }
         if (!isUser)
             return;
-
+        map.clear();
         if (saleLegendApply.isChecked()) invalidateApplyCount();
         if (saleLegendFull.isChecked()) invalidateFullAmount();
         //  mChart.setDrawMarkers(true);
@@ -296,19 +303,32 @@ user_id	Int	0			指定看某个员工的	*/
             type_time = 999;
             getSaleProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
+            type_time = 999;
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("start_time",start_time);
+                bundle.putInt("end_time",end_time);
+                timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
+                        start_time = starttime;
+                        end_time = endtime;
                         if (map == null) map = new TreeMap();
                         map.put("begin_time", starttime);
                         map.put("end_time", endtime);
+                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
                         getSaleProcessData();
                     }
                     @Override
                     public void onEorr(String error) {
                         showToast(error);
+                    }
+
+                    @Override
+                    public void onCacel() {
+                        timeSeletByUser = null;
                     }
                 });
             }

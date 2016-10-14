@@ -72,6 +72,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
     private int[] selectDefaluts;
     private int count;
     private ArrayList<ArrayList<String>> data;
+    private int date_time;
 
 
     @NonNull
@@ -83,7 +84,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             PICK_TYPE = bundle.getInt("PICK_TYPE");
             PICK_TITLE = bundle.getInt("PICK_TITLE");
             PICK_THEME = bundle.getInt("PICK_THEME");
-
+            date_time = bundle.getInt("date_time");
             defalut = bundle.getInt("defalut");
             selectDefaluts =bundle.getIntArray("selectDefaluts");
             count = bundle.getInt("count");
@@ -127,7 +128,8 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         window.setAttributes(params);
 
         if (picker != null) {
-            picker.setDate(new Date().getTime());
+           if (date_time<=0)picker.setDate(new Date().getTime());
+            else picker.setDate((long)date_time*1000);
         }
 
         if (linearlayout != null) {
@@ -153,6 +155,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
         private ArrayList<ArrayList<String>> data;
         private int pickType;
         private int[] selectDefaluts;
+        private int dateTime;
 
         public Builder setBackgroundDark(boolean dark) {
             this.dark = dark;
@@ -166,6 +169,11 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
 
         public Builder setDialogType(int pickType) {
             this.pickType = pickType;
+            return this;
+        }
+
+        public Builder setDateTime(int dateTime) {
+            this.dateTime = dateTime;
             return this;
         }
 
@@ -197,6 +205,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             bundle.putInt("count", count);
             bundle.putSerializable("data", data);
             bundle.putInt("PICK_TYPE", pickType);
+            bundle.putInt("date_time", dateTime);
             PickerDialogFragment fragment = new PickerDialogFragment();
             fragment.setArguments(bundle);
             return fragment;
@@ -255,6 +264,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
             if (picker != null) {//1这个1  可以直接转换成时间戳
                 String[] pickedTimeExt = picker.getPickedTimeExt();
                 if (callback != null)
+
                     callback.onPickResult(DateUtil.date2Second(pickedTimeExt[0]), pickedTimeExt);
             } else if (linearlayout != null) {
                 String[] selectResult = linearlayout.getSelectResult();

@@ -33,21 +33,21 @@ public class TabDataPresenter extends TabDataContract.Presenter {
                     }
                 });
     }
-
-    @Override
-    void getSales(HashMap<String, String> params) {
-        mModel.getSaleProcessData(params).subscribe(new ApiObserver<SaleProcess>() {
-            @Override
-            public void onSuccess(SaleProcess saleProcess) {
-                mView.getSaleSuccess(saleProcess);
-            }
-
-            @Override
-            public void onError(String msg) {
-                mView.getSaleFail(msg);
-            }
-        });
-    }
+//
+//    @Override
+//    void getSales(HashMap<String, String> params) {
+//        mModel.getSaleProcessData(params).subscribe(new ApiObserver<SaleProcess>() {
+//            @Override
+//            public void onSuccess(SaleProcess saleProcess) {
+//                mView.getSaleSuccess(saleProcess);
+//            }
+//
+//            @Override
+//            public void onError(String msg) {
+//                mView.getSaleFail(msg);
+//            }
+//        });
+//    }
 
 
 }

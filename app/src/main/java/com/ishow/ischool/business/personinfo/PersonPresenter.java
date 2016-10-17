@@ -54,8 +54,8 @@ public class PersonPresenter extends BasePresenter<PersonMode, PersonView> {
 
     public void uploadImg2QiNiu(final int user_id, String file_path, String token) {
         UploadManager uploadManager = new UploadManager();
-        //以下api可以修改为图片地址 或者file  或者byte[]//xx/xxx/xx.jpg
-        uploadManager.put(file_path, file_path.substring(file_path.lastIndexOf("/") + 1) + new Date().getTime(), token, new UpCompletionHandler() {
+        //以下api可以修改为图片地址 或者file  或者byte[]//xx/xxx/xx.jpg   1400000000 123.jpg
+        uploadManager.put(file_path, new Date().getTime()+file_path.substring(file_path.lastIndexOf("/") + 1)  , token, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
                 if (info != null && info.statusCode == 200) {

@@ -287,12 +287,8 @@ public class AppUtil {
     }
 
     public static int getDayAgo(int dayAgo) {  //N天前的 零点  时间戳
-        Calendar c = Calendar.getInstance();
-        c.roll(Calendar.DAY_OF_YEAR, -dayAgo);
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        return (int) (c.getTimeInMillis() / 1000);
+
+        return getTodayEnd()-dayAgo*24*3600;
     }
 
     public static ArrayList<String> getSpinnerData() {

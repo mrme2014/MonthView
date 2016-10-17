@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 
 import java.util.List;
@@ -74,10 +73,6 @@ public class CircleChartView extends View {
 
         int with = getWidth();
         int height = getHeight();
-//        LogUtil.d("xbin:onMeasure with=" + with + " height=" + height);
-//        count = datas == null ? 4 : datas.size();
-//        minRadius = with / 6;
-//        distance = (height - topPadding - minRadius) / count;
     }
 
     @Override
@@ -88,7 +83,6 @@ public class CircleChartView extends View {
         count = datas == null ? 4 : datas.size();
         minRadius = with / 6;
         distance = (height - topPadding - minRadius) / count;
-//        LogUtil.d("xbin:onDraw with=" + with + " height=" + height);
 
         if (!TextUtils.isEmpty(title)) {
             canvas.drawText(title, with / 2 - titlePaint.measureText(title) / 2, topPadding + distance / 2, titlePaint);

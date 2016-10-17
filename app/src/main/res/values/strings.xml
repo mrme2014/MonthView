@@ -280,4 +280,5 @@
 
     <string name="data_teach_title">教学流程分析</string>
     <string name="student_statistics_total">(共%d人)</string>
+    <string name="data_title_last_7">最近7日教学数据统计</string>
 </resources>

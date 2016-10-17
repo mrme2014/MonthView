@@ -398,10 +398,6 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     startPicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            if (AppUtil.getMonthStart(year, month) > endTime) {
-                                showToast(R.string.end_le_start);
-                                return;
-                            }
                             startTime = AppUtil.getMonthStart(year, month);
                             startDateTv.setText(getString(R.string.filter_start_date, DateUtil.parseSecond2Str(startTime)));
                         }
@@ -430,10 +426,15 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     mDatePopup.dismiss();
                     break;
                 case R.id.date_ok:
+                    if (endTime < startTime) {
+                        showToast(R.string.end_le_start);
+                        return;
+                    }
                     mDatePopup.dismiss();
                     updateChartTitle();
                     params.put("start_time", startTime + "");
                     params.put("end_time", endTime + "");
+
                     mPresenter.getOtherStatistics(params, isTeachData);
                     updateChartTitle();
                     break;

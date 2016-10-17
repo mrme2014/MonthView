@@ -39,6 +39,7 @@ import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.UploadAvatarEvent;
 import com.ishow.ischool.fragment.StatisticsFilterFragment;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -83,10 +84,34 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     }
 
     @Override
+    protected void initEnv() {
+        super.initEnv();
+        RxBus.getDefault().register(UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
+            @Override
+            public void call(UploadAvatarEvent o) {
+                for (int i = 0; i < mDataList.size(); i++) {
+                    if (mDataList.get(i).studentInfo.id == o.student.studentInfo.id) {
+                        mDataList.get(i).avatarInfo = o.student.avatarInfo;
+                        mAdapter.notifyItemChanged(i);
+                        break;
+                    }
+                }
+
+            }
+        });
+
+        RxBus.getDefault().register(StudentInfo.class, new Action1() {
+            @Override
+            public void call(Object o) {
+                initFilter();
+                setRefreshing();
+            }
+        });
+    }
+
+    @Override
     protected void setUpView() {
         super.setUpView();
-
-        doSubscribe();
         initFilter();
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -205,30 +230,6 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 break;
         }
         return true;
-    }
-
-    private void doSubscribe() {
-//        Subscription subscription4AddSuccess = RxBus.getInstance()
-//                .doSubscribe(StudentInfo.class, new Action1<StudentInfo>() {
-//                    @Override
-//                    public void call(StudentInfo studentInfo) {
-//                        initFilter();
-//                        setRefreshing();
-//                    }
-//                }, new Action1<Throwable>() {
-//                    @Override
-//                    public void call(Throwable throwable) {
-//
-//                    }
-//                });
-//        RxBus.getInstance().addSubscription(this, subscription4AddSuccess);
-        RxBus.getDefault().register(StudentInfo.class, new Action1() {
-            @Override
-            public void call(Object o) {
-                initFilter();
-                setRefreshing();
-            }
-        });
     }
 
     /**

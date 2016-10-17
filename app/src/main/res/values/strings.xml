@@ -280,5 +280,8 @@
 
     <string name="data_teach_title">教学流程分析</string>
     <string name="student_statistics_total">(共%d人)</string>
+    <string name="update_rate">升学率</string>
+    <string name="fullpay_rate">全款率</string>
+    <string name="tuikuan_rate">退款率</string>
     <string name="data_title_last_7">最近7日教学数据统计</string>
 </resources>

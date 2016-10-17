@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * Created by abel on 16/8/18.
  */
 
-public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> implements InfoContract.View {
+public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> implements InfoContract.View {
 
     private static final String ARG_PARAM = "param";
     private static final int REQUEST_USER_NAME = 999;
@@ -78,11 +78,11 @@ public class StudentInfoFragment extends BaseFragment4Crm<InfoPresenter, InfoMod
     @BindView(R.id.net_empty_view_group)
     View emptyViewGroup;
 
-    public StudentInfoFragment() {
+    public InfoFragment() {
     }
 
-    public static StudentInfoFragment newInstance() {
-        StudentInfoFragment fragment = new StudentInfoFragment();
+    public static InfoFragment newInstance() {
+        InfoFragment fragment = new InfoFragment();
         return fragment;
     }
 

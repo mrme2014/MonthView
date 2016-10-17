@@ -189,8 +189,6 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             principal = process.option;
             setUpPersonInfoByResult();
         }
-
-
         invalidateChart();
         setUpLabel();
     }
@@ -230,12 +228,16 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
     private void setUpLabel() {
         //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "-" + DateUtil.parseSecond2Str((long) end_time));
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
         if (teachProcess == null || teachProcess.tableListData_22 == null
                 || teachProcess.tableListData_22.head == null
-                || teachProcess.tableListData_22.body == null)
+                || teachProcess.tableListData_22.body == null
+                ||teachProcess.tableListData_22.head.size()==0
+                ||teachProcess.tableListData_22.body.size()==0) {
+            salesTable1.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
             return;
+        }
         List<String> rate = teachProcess.tableListData_22.head;
         List<String> number = teachProcess.tableListData_22.body.get(0);
         if (rate == null || number == null || rate.size() == 0 || number.size() == 0)
@@ -394,7 +396,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     public void onResult(int starttime, int endtime) {
                         start_time = starttime;
                         end_time = endtime;
-                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
+                      //  LogUtil.e("timeSeletByUser" + start_time + "====" + end_time);
                         getTeachProcessData();
                     }
 

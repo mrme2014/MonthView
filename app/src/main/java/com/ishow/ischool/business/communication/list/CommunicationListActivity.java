@@ -34,10 +34,9 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
 import com.ishow.ischool.event.CommunicationEditRefreshEvent;
-import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.util.ColorUtil;
-import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.fragment.CommuDialogFragment;
+import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,11 +228,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         @Override
         public void onBindViewHolder(int position) {
             Communication communication = mDataList.get(position);
-            userPhotoIv.setText(communication.studentInfo.name);
-            userPhotoIv.setBackgroundColor(ColorUtil.getColorById(communication.studentInfo.id));
-//            GradientDrawable myGrad = (GradientDrawable) userPhotoIv.getBackground();
-//            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));
-
+            userPhotoIv.setText(communication.studentInfo.name, communication.studentInfo.id, communication.studentAvatar != null ? communication.studentAvatar.file_name : "");
             usernameTv.setText(communication.studentInfo.name);
             dateTv.setText(DateUtil.parseDate2Str(communication.communicationInfo.communication_date * 1000, "yyyy-MM-dd"));
             contentTv.setText(communication.communicationInfo.content);

@@ -99,6 +99,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
     private String mFilterUniversityId;
     private String mFilterProvinceId;
     private String mFilterReferrerId;
+    private String mFilterPositionId;
     private String mFilterCollegeName;
     private String mFilterReferrerName;
 
@@ -138,6 +139,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             mFilterUniversityId = bundle.getString("college_id", "");
             mFilterProvinceId = bundle.getString("province_id", "");
             mFilterReferrerId = bundle.getString("referrer", "");
+            mFilterPositionId = bundle.getString("position_id", "");
             mFilterSourceName = bundle.getString("source_name", "");
             mFilterCollegeName = bundle.getString("college_name", "");
             mFilterReferrerName = bundle.getString("referrer_name", "");
@@ -350,6 +352,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                     if (!TextUtils.isEmpty(mFilterReferrerId)) {
                         params.put("referrer", mFilterReferrerId);
                     }
+                    if (!TextUtils.isEmpty(mFilterPositionId)) {
+                        params.put("position_id", mFilterPositionId);
+                    }
                     callback.onFinishFilter(params, mFilterSourceName, mFilterCollegeName, mFilterReferrerName);
                 }
                 break;
@@ -393,6 +398,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         mFilterUniversityId = "";
         mFilterProvinceId = "";
         mFilterReferrerId = "";
+        mFilterPositionId = "";
         mFilterSourceName = "";
         mFilterCollegeName = "";
         mFilterReferrerName = "";
@@ -513,6 +519,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                     break;
                 case PositionPickActivity.REQUEST_CODE_PICKPOSITION:
                     if (data != null) {
+                        mFilterPositionId = data.getIntExtra(PositionPickActivity.PICK_POSITION_ID, -1) + "";
                         SubordinateObject user = data.getParcelableExtra(UserPickActivity.PICK_USER);
                         mFilterReferrerName = user.user_name;
                         referrerIL.setContent(mFilterReferrerName);

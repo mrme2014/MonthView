@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="62dp"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/touch_bg">
 
     <RelativeLayout
         android:id="@+id/avatar_layout"
@@ -31,7 +32,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/avatar_layout"
         android:maxWidth="150dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/txt_2"
         android:textSize="@dimen/sp15" />
 

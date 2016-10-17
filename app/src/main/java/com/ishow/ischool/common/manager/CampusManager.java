@@ -57,7 +57,7 @@ public class CampusManager {
 
             for (Iterator it = campusInfos.iterator(); it.hasNext(); ) {
                 CampusInfo campusInfo = (CampusInfo) it.next();
-                if (campusInfo.name.equals("总部") || campusInfo.name.equals("第三校区")) {
+                if (campusInfo.name.equals("总部")) {     //  || campusInfo.name.equals("第三校区")
                     it.remove();
                 }
             }
@@ -100,7 +100,7 @@ public class CampusManager {
         }
         ArrayList<String> campusNames = new ArrayList<>();
         for (CampusInfo campusInfo : get()) {
-            if (!campusInfo.name.equals("总部") && !campusInfo.name.equals("第三校区")) {
+            if (!campusInfo.name.equals("总部")) {        //  && !campusInfo.name.equals("第三校区")
                 campusNames.add(campusInfo.name);
             }
         }

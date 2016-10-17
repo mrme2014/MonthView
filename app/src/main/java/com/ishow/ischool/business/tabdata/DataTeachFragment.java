@@ -100,7 +100,7 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         // user_id = mUser.userInfo.user_id;
         user_id = mUser.userInfo.user_id;
         Calendar calendar = Calendar.getInstance();
-        start_time = AppUtil.getDayAgo(30);
+        start_time = AppUtil.getDayAgo(7);
         end_time = AppUtil.getTodayEnd();
 
 //        mPresenter.initChart(mBarChart);
@@ -112,8 +112,8 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         TreeMap<String, Integer> map = new TreeMap();
         map.put("start_time", (int) start_time);
         map.put("end_time", (int) end_time);
-        map.put("position_id", position_id);
-        map.put("user_id", user_id);
+//        map.put("position_id", position_id);
+//        map.put("user_id", user_id);
         mPresenter.getTeachingProcess(map);
     }
 
@@ -131,8 +131,8 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
             String data = "{\"head\":[\"带班人数\",\"升学基数\",\"升学人数\",\"全款人数\"],\"body\":[[0,0,0,0]]}";
             Gson gson = new Gson();
             ChartProcess chartProcess = gson.fromJson(data, ChartProcess.class);
-            for (int i = 0; i < 5; i++) {
-                yVals1.add(new CircleChartView.Value(chartProcess.head.get(i), chartProcess.body.get(0).get(i)));
+            for (int i = 0; i < 4; i++) {
+                yVals1.add(new CircleChartView.Value(chartProcess.head.get(i), "0"));
             }
         } else {
             for (int i = 0; i < heads.size() - 2; i++) {
@@ -140,7 +140,7 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
             }
         }
 
-        mCircleChartView.setData(yVals1, "最近30日教学数据统计");
+        mCircleChartView.setData(yVals1, getString(R.string.data_title_last_7));
     }
 
     @Override

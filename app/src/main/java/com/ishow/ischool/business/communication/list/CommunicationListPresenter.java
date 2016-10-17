@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class CommunicationListPresenter extends CommunicationListContract.Presenter {
 
     public void listCommunication(HashMap<String, String> params, int page) {
+        params.put("fields", "communicationInfo,studentInfo,userInfo,studentAvatar");
         mModel.listCommunications(params, page).subscribe(new ApiObserver<CommunicationList>() {
 
             @Override

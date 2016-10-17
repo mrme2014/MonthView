@@ -73,9 +73,6 @@ public class CircleChartView extends View {
 
         int with = getWidth();
         int height = getHeight();
-        count = datas == null ? 4 : datas.size();
-        minRadius = with / 6;
-        distance = (height - topPadding - minRadius) / count;
     }
 
     @Override
@@ -83,6 +80,9 @@ public class CircleChartView extends View {
         super.onDraw(canvas);
         int with = getWidth();
         int height = getHeight();
+        count = datas == null ? 4 : datas.size();
+        minRadius = with / 6;
+        distance = (height - topPadding - minRadius) / count;
 
         if (!TextUtils.isEmpty(title)) {
             canvas.drawText(title, with / 2 - titlePaint.measureText(title) / 2, topPadding + distance / 2, titlePaint);

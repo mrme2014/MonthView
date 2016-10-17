@@ -36,7 +36,7 @@ public interface StudentDetailContract {
 
         void onUploadAvatarFailed(String msg);
 
-        void updateAvatar(int per_net_token_sucess, Avatar avatar);
+        void onUploadAvatarSuccess(int per_net_token_sucess, Avatar avatar);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

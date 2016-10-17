@@ -40,7 +40,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:visibility="gone"
-                    app:text_color="@color/colorPrimary" />
+                    app:text_color="@color/white" />
 
                 <com.commonlib.widget.TopBottomTextView
                     android:id="@+id/sales_job"
@@ -91,8 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/bg_sale_spinner"
-                    >
+                    android:background="@drawable/bg_sale_spinner">
 
                     <Spinner
                         android:id="@+id/sales_spinner"
@@ -105,15 +104,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="@android:color/white"
-                android:layout_height="160dp">
+                android:layout_height="160dp"
+                android:background="@android:color/white">
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:id="@+id/lineChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="60dp"
-                   />
+                    android:layout_marginRight="60dp" />
 
                 <LinearLayout
                     android:id="@+id/lineChartTip"
@@ -122,8 +120,8 @@
                     android:layout_alignParentRight="true"
 
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:paddingRight="10dp">
+                    android:paddingRight="10dp"
+                    android:visibility="gone">
 
                     <com.commonlib.widget.LabelTextView
 
@@ -137,22 +135,22 @@
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/upgrade_amount"
                         style="@style/teach_process_chart_label_style"
-                        app:label_text_color="@color/random_color9"
-                        android:text="升学基数" />
+                        android:text="升学基数"
+                        app:label_text_color="@color/random_color9" />
 
 
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/full_amount"
                         style="@style/teach_process_chart_label_style"
-                        app:label_text_color="@color/random_color12"
-                        android:text="升学人数" />
+                        android:text="升学人数"
+                        app:label_text_color="@color/random_color12" />
 
 
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/upgrade_base_amount"
                         style="@style/teach_process_chart_label_style"
-                        app:label_text_color="@color/chart_blue"
-                        android:text="全款人数" />
+                        android:text="全款人数"
+                        app:label_text_color="@color/chart_blue" />
                 </LinearLayout>
             </RelativeLayout>
 

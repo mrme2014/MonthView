@@ -26,6 +26,7 @@ import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.UploadAvatarEvent;
 import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.PhotoUtil;
@@ -38,7 +39,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresenter, StudentDetailModel> implements
-        CommunicationListFragment.OnFragmentInteractionListener, StudentInfoFragment.OnFragmentInteractionListener,
+        CommunFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener,
         StudentDetailContract.View {
 
     public static final String P_STUDENT = "student";
@@ -69,8 +70,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     public Student student;
     public int studentId;
 
-    private StudentInfoFragment studentInfoFragment;
-    private CommunicationListFragment communicationListFragment;
+    private InfoFragment studentInfoFragment;
+    private CommunFragment communicationListFragment;
     private FragmentAdapter mFragmentAdapter;
     private boolean isCommun;
     private boolean needRefresh;
@@ -131,8 +132,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     private void initViewPager() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        studentInfoFragment = StudentInfoFragment.newInstance();
-        communicationListFragment = CommunicationListFragment.newInstance();
+        studentInfoFragment = InfoFragment.newInstance();
+        communicationListFragment = CommunFragment.newInstance();
         fragments.add(studentInfoFragment);
         fragments.add(communicationListFragment);
 
@@ -227,8 +228,10 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     }
 
     @Override
-    public void updateAvatar(int per_net_token_sucess, Avatar avatar) {
+    public void onUploadAvatarSuccess(int per_net_token_sucess, Avatar avatar) {
         avatarTv.setText("", 0, avatar.file_name);
+        student.avatarInfo = avatar;
+        RxBus.getDefault().post(new UploadAvatarEvent(student));
     }
 
     public StudentInfo getStudentInfo() {

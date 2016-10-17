@@ -112,8 +112,8 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         TreeMap<String, Integer> map = new TreeMap();
         map.put("start_time", (int) start_time);
         map.put("end_time", (int) end_time);
-        map.put("position_id", position_id);
-        map.put("user_id", user_id);
+//        map.put("position_id", position_id);
+//        map.put("user_id", user_id);
         mPresenter.getTeachingProcess(map);
     }
 

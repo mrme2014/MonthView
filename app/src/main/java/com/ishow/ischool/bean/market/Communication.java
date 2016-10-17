@@ -15,6 +15,7 @@ public class Communication implements Parcelable {
     public StudentInfo studentInfo;//		1			学生信息	0
     public UserInfo userInfo;//	UserInfo
     public Avatar avatar;
+    public Avatar studentAvatar;
 
 
     protected Communication(Parcel in) {
@@ -22,6 +23,7 @@ public class Communication implements Parcelable {
         studentInfo = in.readParcelable(StudentInfo.class.getClassLoader());
         userInfo = in.readParcelable(UserInfo.class.getClassLoader());
         avatar = in.readParcelable(Avatar.class.getClassLoader());
+        studentAvatar = in.readParcelable(Avatar.class.getClassLoader());
     }
 
     @Override
@@ -30,6 +32,7 @@ public class Communication implements Parcelable {
         dest.writeParcelable(studentInfo, flags);
         dest.writeParcelable(userInfo, flags);
         dest.writeParcelable(avatar, flags);
+        dest.writeParcelable(studentAvatar, flags);
     }
 
     @Override

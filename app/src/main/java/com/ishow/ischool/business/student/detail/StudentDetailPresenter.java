@@ -121,7 +121,7 @@ public class StudentDetailPresenter extends StudentDetailContract.Presenter {
             @Override
             public void onSuccess(Student user) {
                 if (mView != null)
-                    mView.updateAvatar(R.string.per_net_token_sucess, user.avatarInfo);
+                    mView.onUploadAvatarSuccess(R.string.per_net_token_sucess, user.avatarInfo);
             }
 
             @Override

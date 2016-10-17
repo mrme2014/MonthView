@@ -28,7 +28,7 @@ import butterknife.BindView;
 import rx.functions.Action1;
 
 
-public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter, CommunModel> implements CommunContract.View {
+public class CommunFragment extends BaseFragment4Crm<CommunPresenter, CommunModel> implements CommunContract.View {
 
     private int mCurrentPage = 1;
     private CommunListAdapter mAdapter;
@@ -42,11 +42,11 @@ public class CommunicationListFragment extends BaseFragment4Crm<CommunPresenter,
     @BindView(R.id.empty_layout)
     LinearLayout emptyView;
 
-    public CommunicationListFragment() {
+    public CommunFragment() {
     }
 
-    public static CommunicationListFragment newInstance() {
-        CommunicationListFragment fragment = new CommunicationListFragment();
+    public static CommunFragment newInstance() {
+        CommunFragment fragment = new CommunFragment();
         return fragment;
     }
 

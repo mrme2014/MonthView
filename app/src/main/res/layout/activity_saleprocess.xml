@@ -41,6 +41,7 @@
                     android:layout_gravity="center"
                     app:text_color="@color/colorPrimary"
                     android:visibility="gone"
+                    android:scaleType="centerCrop"
                     android:layout_marginLeft="10dp"/>
 
                 <com.commonlib.widget.TopBottomTextView

@@ -30,6 +30,7 @@
         android:layout_margin="10dp"
         android:background="@color/green"
         android:gravity="center"
+        android:scaleType="centerCrop"
         app:text_color="@color/white" />
 
     <TextView
@@ -128,10 +129,10 @@
     </LinearLayout>
 
     <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1px"-->
-        <!--android:layout_below="@id/state_group"-->
-        <!--android:background="@color/comm_line" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px"-->
+    <!--android:layout_below="@id/state_group"-->
+    <!--android:background="@color/comm_line" />-->
 
 
 </RelativeLayout>

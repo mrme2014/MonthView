@@ -40,6 +40,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:visibility="gone"
+                    android:scaleType="centerCrop"
                     app:text_color="@color/white" />
 
                 <com.commonlib.widget.TopBottomTextView

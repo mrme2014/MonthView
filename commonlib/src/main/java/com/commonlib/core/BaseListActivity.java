@@ -133,8 +133,8 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         }
 
         if (resultList == null || resultList.size() == 0) {
+            recycler.enableLoadMore(false);         // 数据为空时，屏蔽加载更多功能
             if (recycler.mPageEnable && mCurrentPage > 2) {     // 非第一页并且支持分页时
-                recycler.enableLoadMore(false);
                 recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);       // 加载到底（没数据了）
             } else {                                            // 当不支持分页或者第一页时（即mCurrentPage=2，因为mCurrentPage++）。
                 recycler.showEmptyView();

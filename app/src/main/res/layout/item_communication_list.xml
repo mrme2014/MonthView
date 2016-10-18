@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
+    android:background="@drawable/touch_bg"
     android:orientation="vertical">
 
     <View
@@ -30,6 +30,7 @@
         android:layout_margin="10dp"
         android:background="@color/green"
         android:gravity="center"
+        android:scaleType="centerCrop"
         app:text_color="@color/white" />
 
     <TextView
@@ -127,11 +128,11 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@id/state_group"
-        android:background="@color/comm_line" />
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px"-->
+    <!--android:layout_below="@id/state_group"-->
+    <!--android:background="@color/comm_line" />-->
 
 
 </RelativeLayout>

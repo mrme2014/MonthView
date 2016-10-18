@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/commun_block_top"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/default_toolbar_height"
         android:background="@android:color/transparent"/>
     <com.ishow.ischool.widget.custom.InputLinearLayout
         android:id="@+id/item_campus"

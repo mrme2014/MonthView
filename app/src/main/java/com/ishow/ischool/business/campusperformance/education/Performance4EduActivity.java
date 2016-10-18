@@ -648,8 +648,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
             TextView resetTv = (TextView) contentView.findViewById(R.id.date_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.date_ok);
             View blankView = contentView.findViewById(R.id.blank_view_date);
-            startDateTv.setText(getString(R.string.item_start_time) + " :   " + mFilterStartTime);
-            endDateTv.setText(getString(R.string.item_end_time) + " :   " + mFilterEndTime);
+            startDateTv.setText(getString(R.string.item_start_time) + " :   " + mFilterStartTime.substring(0, 4) + "-" + mFilterStartTime.substring(4, mFilterStartTime.length()));
+            endDateTv.setText(getString(R.string.item_end_time) + " :   " + mFilterEndTime.substring(0, 4) + "-" + mFilterEndTime.substring(4, mFilterEndTime.length()));
             startDateTv.setOnClickListener(onClickListener);
             endDateTv.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);
@@ -691,8 +691,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     isAllSelected = !isAllSelected;
                     break;
                 case R.id.campus_reset:
-                    startDateTv.setText(getString(R.string.item_start_time) + " :   ");
-                    endDateTv.setText(getString(R.string.item_end_time) + " :   ");
+                    mCampusPopup.dismiss();
                     break;
                 case R.id.campus_ok:
                     int j = 0;
@@ -751,7 +750,7 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                                 }
                                 startDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
                             }
-                            startDateTv.setText(getString(R.string.item_start_time) + " :   " + year + month);
+                            startDateTv.setText(getString(R.string.item_start_time) + " :   " + year + "-" + month);
                             mFilterStartTime = year + month;
                             startDateFinished = true;
                         }
@@ -795,7 +794,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     endDatePicker.show();
                     break;
                 case R.id.date_reset:
-                    mDatePopup.dismiss();
+                    startDateTv.setText(getString(R.string.item_start_time) + " :   ");
+                    endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;
                 case R.id.date_ok:
                     if (mParamBeginDate == Integer.parseInt(mFilterStartTime) && mParamEndDate == Integer.parseInt(mFilterEndTime)) {

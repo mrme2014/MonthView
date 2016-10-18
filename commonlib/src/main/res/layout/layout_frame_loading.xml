@@ -9,6 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:indicator="LineSpinFadeLoader"
-        app:indicator_color="@color/colorAccent"/>
+        app:indicatorName="LineSpinFadeLoader"
+        app:indicatorColor="@color/colorAccent"/>
 </RelativeLayout>

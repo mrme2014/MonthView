@@ -14,8 +14,8 @@
         <com.wang.avi.AVLoadingIndicatorView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            loading:indicator="BallPulse"
-            loading:indicator_color="@color/colorAccent"/>
+            loading:indicatorName="BallPulse"
+            loading:indicatorColor="@color/colorAccent"/>
     </LinearLayout>
 
     <!--<ProgressBar-->

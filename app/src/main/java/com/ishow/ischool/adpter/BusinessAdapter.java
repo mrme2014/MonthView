@@ -55,7 +55,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
     public void onBindViewHolder(BusinessViewHolder holder, final int position) {
         holder.itemTv.setText(tabSpecs.get(position).text);
         holder.itemTv.setCompoundDrawablesWithIntrinsicBounds(0, tabSpecs.get(position).iconResId, 0, 0);
-        holder.itemTv.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int resources = Resource.NO_NEED_CHECK;

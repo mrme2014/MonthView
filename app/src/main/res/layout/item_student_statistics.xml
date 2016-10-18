@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="62dp"
+    android:background="@drawable/touch_bg"
     android:padding="10dp">
 
     <com.ishow.ischool.widget.custom.AvatarImageView

@@ -33,6 +33,7 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone"
                 app:text_color="@color/colorPrimary"
+                android:scaleType="centerCrop"
                 android:layout_marginLeft="10dp"/>
 
             <TextView

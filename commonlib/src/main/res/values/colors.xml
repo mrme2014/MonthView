@@ -6,4 +6,6 @@
 
     <color name="txt_2">#222222</color>
     <color name="txt_9">#999999</color>
+
+    <color name="color_gray">#EFEFEF</color>
 </resources>

@@ -68,11 +68,29 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
 
     @Override
     protected void setUpView() {
-        calendar = Calendar.getInstance();//初始化日历类
         mLastSelectedItem = new ArrayList<>();
         mLastSelectedItem.addAll(CampusManager.getInstance().get());
-        mFilterStartTime = mLastStartTime = "201607";
-        mFilterEndTime = mLastEndTime = "201609";
+        initDefaultDate();
+    }
+
+    void initDefaultDate() {
+        calendar = Calendar.getInstance();      //初始化日历类
+        int curYear = calendar.get(Calendar.YEAR);
+        String startMonth = calendar.get(Calendar.MONTH) + "";
+        if (Integer.parseInt(startMonth) == 0) {
+            curYear = curYear - 1;
+            startMonth = "12";
+        } else if (Integer.parseInt(startMonth) < 10) {
+            startMonth = "0" + startMonth;
+        }
+        mFilterStartTime = curYear + startMonth;
+        String endMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1); //得到月，因为从0开始的，所以要加1
+        if (Integer.parseInt(endMonth) < 10) {
+            endMonth = "0" + endMonth;
+        }
+        mFilterEndTime = curYear + endMonth;
+        mFilterStartTime = mLastStartTime = curYear + startMonth;
+        mFilterEndTime = mLastEndTime = curYear + endMonth;
     }
 
     @Override
@@ -192,8 +210,8 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
             TextView resetTv = (TextView) contentView.findViewById(R.id.date_reset);
             TextView okTv = (TextView) contentView.findViewById(R.id.date_ok);
             View blankView = contentView.findViewById(R.id.blank_view_date);
-            startDateTv.setText(getString(R.string.item_start_time) + " :        2016-07");
-            endDateTv.setText(getString(R.string.item_end_time) + " :        2016-09");
+            startDateTv.setText(getString(R.string.item_start_time) + " :   " + mFilterStartTime.substring(0, 4) + "-" + mFilterStartTime.substring(4, mFilterStartTime.length()));
+            endDateTv.setText(getString(R.string.item_end_time) + " :   " + mFilterEndTime.substring(0, 4) + "-" + mFilterEndTime.substring(4, mFilterEndTime.length()));
             startDateTv.setOnClickListener(onClickListener);
             endDateTv.setOnClickListener(onClickListener);
             resetTv.setOnClickListener(onClickListener);

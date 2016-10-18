@@ -359,7 +359,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     public void getListSuccess(StudentList studentList) {
         loadSuccess(studentList.lists);
-        setUpTitle(getString(R.string.student_statistics) + getString(R.string.student_statistics_total, studentList.total));
+        setUpTitle(getString(R.string.student_statistics) + getString(R.string.student_statistics_total, Math.max(studentList.total, getDataCounts())));
     }
 
 

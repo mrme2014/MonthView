@@ -133,8 +133,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
         if (mStudent == null) {
             return;
         }
-        if (JumpManager.checkUserPermision(getContext(), Resource.MARKET_STUDENT_STUDENTINFO, false)
-                && JumpManager.checkRelationPermision(getContext(), getStudentInfo().all_user_ids)) {
+        if (JumpManager.checkUserPermision(getContext(), Resource.MARKET_STUDENT_STUDENTINFO, false)) {
             contentLayout.setVisibility(View.VISIBLE);
             emptyViewGroup.setVisibility(View.GONE);
         } else {

@@ -270,6 +270,8 @@
     <string name="filter_start_date">开始时间 : %s</string>
     <string name="filter_end_date">结束时间 : %s</string>
     <string name="end_le_start">结束时间必须大于开始时间</string>
+    <string name="start_than_end">开始时间必须小于结束时间</string>
+    <string name="filter_time_half_year">必须同处于上半年或下半年</string>
     <string name="start_nonull">请选择开始时间</string>
     <string name="end_nonull">请选择结束时间</string>
     <string name="status">状态</string>

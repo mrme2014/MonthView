@@ -250,7 +250,12 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.SHARE_COMMUNICATION_ADDM);
+        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1})) {
+//            JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.SHARE_COMMUNICATION_ADDM);
+            Intent intent = new Intent(this, CommunicationAddActivity.class);
+            startActivity(intent);
+
+        }
     }
 
 

@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.statisticslist;
+package com.ishow.ischool.business.statistic.list;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -33,7 +33,7 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.user.Campus;
-import com.ishow.ischool.business.addstudent.AddStudentActivity;
+import com.ishow.ischool.business.student.add.AddStudentActivity;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;

@@ -1,6 +1,7 @@
 package com.ishow.ischool.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -58,19 +59,29 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int resources = Resource.NO_NEED_CHECK;
-                switch (position){
+                int[] resources;
+                switch (position) {
 
-                    case 0:resources = Resource.MARKET_STUDENT_STATISTICS;
+                    case 0:
+                        resources = new int[]{Resource.MARKET_STUDENT_STATISTICS};
                         break;
-                    case 1:resources = Resource.SHARE_COMMUNICATION_INDEXM;
+                    case 1:
+                        resources = new int[]{Resource.SHARE_COMMUNICATION_INDEXM};
                         break;
-                    case 2:resources = Resource.MARKET_STUDENT_ADD;
+                    case 2:
+                        resources = new int[]{Resource.MARKET_STUDENT_ADD};
                         break;
-                    case 3:resources = Resource.SHARE_COMMUNICATION_ADDM;
+                    case 3:
+                        resources = new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1};
+                        break;
+                    default:
+                        resources = new int[]{Resource.NO_NEED_CHECK};
                         break;
                 }
-                JumpManager.jumpActivity(mContext, tabSpecs.get(position).intentClazz,resources);
+                if (JumpManager.checkUserPermision(mContext, resources)) {
+                    Intent intent = new Intent(mContext, tabSpecs.get(position).intentClazz);
+                    mContext.startActivity(intent);
+                }
             }
         });
     }

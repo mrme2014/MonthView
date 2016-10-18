@@ -268,9 +268,11 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                Intent intent = new Intent(this, CommunicationAddActivity.class);
-                intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-                JumpManager.jumpActivity(this, intent, Resource.SHARE_COMMUNICATION_ADDM);
+                if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1})) {
+                    Intent intent = new Intent(this, CommunicationAddActivity.class);
+                    intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.student_avatar_iv:

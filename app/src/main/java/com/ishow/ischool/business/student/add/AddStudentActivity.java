@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.addstudent;
+package com.ishow.ischool.business.student.add;
 
 import android.content.DialogInterface;
 import android.content.Intent;

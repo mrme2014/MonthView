@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.tabfragmentme;
+package com.ishow.ischool.business.tabme;
 
 import android.app.Activity;
 import android.content.Intent;

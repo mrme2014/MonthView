@@ -9,7 +9,7 @@ import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabdata.TabDataFragment;
-import com.ishow.ischool.business.tabfragmentme.MeFragment;
+import com.ishow.ischool.business.tabme.MeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.zaaach.citypicker.utils.LocManager;
 

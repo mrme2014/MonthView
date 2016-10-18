@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.addstudent;
+package com.ishow.ischool.business.student.add;
 
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.user.Campus;

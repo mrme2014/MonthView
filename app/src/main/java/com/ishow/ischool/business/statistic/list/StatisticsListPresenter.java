@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.statisticslist;
+package com.ishow.ischool.business.statistic.list;
 
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.api.ApiObserver;

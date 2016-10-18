@@ -43,6 +43,15 @@ public class JumpManager {
         return checkUserPermision(context, permission, true);
     }
 
+    public static boolean checkUserPermision(Context context, int[] permission) {
+        for (int per : permission) {
+            if (checkUserPermision(context, per, true)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 权限检查
      *

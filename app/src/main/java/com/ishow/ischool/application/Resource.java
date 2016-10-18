@@ -177,7 +177,7 @@ public class Resource {
     public static final int MARKET_INVITATION_INDEX = 135; //邀约列表
     public static final int MARKET_OPENCLASS_QRCODE = 136; //查看二维码
     public static final int MARKET_STUDENT_COMMUNICATIONLIST = 138; //查看沟通记录
-    //    public static final int SHARE_COMMUNICATION_ADDM = 139; //添加沟通记录
+    public static final int SHARE_COMMUNICATION_ADDM_1 = 139; //添加沟通记录
     public static final int SHARE_CLASSCOUNT_EXPORTM = 140; //课程统计导出
     public static final int SHARE_CLASSCOUNT_EXPORTE = 141; //课程统计导出
     public static final int MARKET_STUDENT_STUDENTINFOE = 142; //学生详情

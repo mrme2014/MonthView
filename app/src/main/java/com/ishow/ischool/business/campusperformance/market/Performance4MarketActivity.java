@@ -19,6 +19,7 @@ import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,8 +34,8 @@ import cn.qqtheme.framework.picker.DatePicker;
  */
 public class Performance4MarketActivity extends BaseActivity4Crm implements Performance4MarketContract.View {
 
-    private boolean startDateFinished = false;
-    private boolean endDateFinished = false;
+    private boolean startDateFinished = true;
+    private boolean endDateFinished = true;
     DatePicker startDatePicker, endDatePicker;
 
     @BindView(R.id.filter_layout)
@@ -318,22 +319,24 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                         @Override
                         public void onDatePicked(String year, String month) {
                             if (endDateFinished) {
-                                String endDateYear = endDatePicker.getSelectedYear();
-                                String endDateMonth = endDatePicker.getSelectedMonth();
+                                String endDateYear = mFilterEndTime.substring(0, 4);
+                                String endDateMonth = mFilterEndTime.substring(4, mFilterEndTime.length());
                                 if (!year.equals(endDateYear)) {
                                     year = endDateYear;
                                 }
-                                if (Integer.parseInt(endDateMonth) <= 6) {      //当end<=6(上半年)
-                                    if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
-                                        month = endDateMonth;
-                                    }
-                                } else {                                        //当end>6(下半年)
-                                    if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
-                                        month = endDateMonth;
-                                    } else if (Integer.parseInt(month) <= 6) {                      //若start<=6,则start=7
-                                        month = "07";
+
+                                if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
+//                                    month = endDateMonth;
+                                    ToastUtil.showToast(Performance4MarketActivity.this, getString(R.string.start_than_end));
+                                    return;
+                                } else {
+                                    if (Integer.parseInt(endDateMonth) > 6) {      //当end>6(下半年)
+                                        if (Integer.parseInt(month) <= 6) {
+                                            month = "07";
+                                        }
                                     }
                                 }
+                                startDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
                             }
                             startDateTv.setText(getString(R.string.item_start_time) + " :   " + year + "-" + month);
                             mFilterStartTime = year + month;
@@ -351,24 +354,25 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                         @Override
                         public void onDatePicked(String year, String month) {
                             if (startDateFinished) {
-                                String startDateYear = startDatePicker.getSelectedYear();
-                                String startDateMonth = startDatePicker.getSelectedMonth();
+                                String startDateYear = mFilterStartTime.substring(0, 4);
+                                String startDateMonth = mFilterStartTime.substring(4, mFilterStartTime.length());
                                 if (!year.equals(startDateYear)) {
                                     year = startDateYear;
                                 }
-                                if (Integer.parseInt(startDateMonth) <= 6) {    //当start<=6(上半年)
-                                    if (Integer.parseInt(month) > Integer.parseInt(startDateMonth)) {   //若end>start
+
+                                if (Integer.parseInt(month) < Integer.parseInt(startDateMonth)) {     //若end<start(不合理情况)
+//                                  month = startDateMonth;
+                                    ToastUtil.showToast(Performance4MarketActivity.this, getString(R.string.end_le_start));
+                                    return;
+                                } else {
+                                    if (Integer.parseInt(startDateMonth) <= 6) {    //当start<=6(上半年)
                                         if (Integer.parseInt(month) > 6) {
                                             month = "06";                              //若end>6,则end=6
+//                                            showToast(R.string.filter_time_half_year);
                                         }
-                                    } else {                                                            //若end<start(不合理情况)
-                                        month = startDateMonth;
-                                    }
-                                } else {                                        //当start>6(下半年)
-                                    if (Integer.parseInt(month) < Integer.parseInt(startDateMonth)) {   //若end<start
-                                        month = startDateMonth;
                                     }
                                 }
+                                endDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
                             }
                             endDateTv.setText(getString(R.string.item_end_time) + " :   " + year + "-" + month);
                             mFilterEndTime = year + month;
@@ -378,6 +382,8 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                     endDatePicker.show();
                     break;
                 case R.id.date_reset:
+                    startDateFinished = false;
+                    endDateFinished = false;
                     startDateTv.setText(getString(R.string.item_start_time) + " :   ");
                     endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;

@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class PickStudentPresenter extends PickStudentContract.Presenter {
     @Override
     public void getStudentStatisticsList(HashMap<String, String> params, int page) {
+        params.put("fields", "studentInfo,avatarInfo");
         mModel.getStudentStatisticsList(params, page).subscribe(new ApiObserver<StudentList>() {
             @Override
             public void onSuccess(StudentList studentStatisticsList) {

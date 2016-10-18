@@ -16,7 +16,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
-import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.HashMap;
@@ -106,8 +105,7 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         @Override
         public void onBindViewHolder(int position) {
             Student ss = mDataList.get(position);
-            photoIv.setText(ss.studentInfo.name);
-            photoIv.setBackgroundColor(ColorUtil.getColorById(ss.studentInfo.id));
+            photoIv.setText(ss.studentInfo.name, ss.studentInfo.id, ss.avatarInfo == null ? "" : ss.avatarInfo.file_name);
             usernameTv.setText(ss.studentInfo.name);
             moblieTv.setText(ss.studentInfo.mobile);
         }

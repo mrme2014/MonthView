@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class OtherPresenter extends BasePresenter<OtherModel, OtherStatisticActivity> {
     public void getOtherStatistics(HashMap<String, String> params, boolean isTeachData) {
-        params.put("resources_id", isTeachData ? Resource.PERMISSION_DATA_TEACH_OTHER + "" : Resource.PERMISSION_DATA_OTHER + "");
+        params.put("resources_id", isTeachData ? Resource.DATA_DATAANALYZE_TEACHINGOTHER + "" : Resource.DATA_DATAANALYZE_BAZAAROTHER + "");
         mModel.getOtherStatistics(params).subscribe(new ApiObserver<OtherStatisticsTable>() {
             @Override
             public void onSuccess(OtherStatisticsTable otherStatisticsTable) {

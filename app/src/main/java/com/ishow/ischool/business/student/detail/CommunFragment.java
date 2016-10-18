@@ -126,7 +126,7 @@ public class CommunFragment extends BaseFragment4Crm<CommunPresenter, CommunMode
 
     public void initData() {
         if (getStudentInfo() != null) {
-            HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+            HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_STATISTICS);
             params.put("student_id", getStudentInfo().student_id + "");
             params.put("fields", "communicationInfo,studentInfo,userInfo,avatar");
             mPresenter.getCommunicationList(params, mCurrentPage);
@@ -189,7 +189,7 @@ public class CommunFragment extends BaseFragment4Crm<CommunPresenter, CommunMode
             @Override
             public void onClick(String content, long date) {
                 if (!TextUtils.isEmpty(content) && date != 0) {
-                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                     params.put("content", content);
                     params.put("callback_date", date + "");
                     params.put("student_id", communication.studentInfo.student_id + "");

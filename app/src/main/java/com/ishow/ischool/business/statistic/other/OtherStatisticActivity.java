@@ -125,7 +125,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         params.put("type_name", isTeachData ? getString(R.string.type_refuse_point) : getString(R.string.type_apply));
         params.put("start_time", AppUtil.getLastMonthStart() + "");
         params.put("end_time", AppUtil.getLastMonthEnd() + "");
-//        params.put("resources_id", isTeachData ? Resource.PERMISSION_DATA_TEACH_OTHER + "" : Resource.PERMISSION_DATA_OTHER + "");
+//        params.put("resources_id", isTeachData ? Resource.DATA_DATAANALYZE_TEACHINGOTHER + "" : Resource.DATA_DATAANALYZE_BAZAAROTHER + "");
         mPresenter.getOtherStatistics(params, isTeachData);
 
         //默认值

@@ -98,7 +98,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             loadFailed();
         } else {
             ApiFactory.getInstance().getApi(MarketApi.class)
-                    .listStudentStatistics(Resource.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                    .listStudentStatistics(Resource.MARKET_STUDENT_STATISTICS, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ApiObserver<StudentList>() {
@@ -197,7 +197,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             Student data = mDataList.get(position);
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(getActivity(), intent, Resource.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(getActivity(), intent, Resource.MARKET_STUDENT_STUDENTINFO);
         }
     }
 }

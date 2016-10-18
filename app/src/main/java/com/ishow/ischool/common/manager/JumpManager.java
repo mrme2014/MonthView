@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.student.StudentRelationInfo;
 import com.ishow.ischool.bean.user.User;
 import com.zaaach.citypicker.utils.ToastUtils;
@@ -133,6 +134,18 @@ public class JumpManager {
             if (id == uid) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public static boolean checkStudentEditPermision(Context context, StudentInfo studentInfo, boolean showToast) {
+        if ((JumpManager.checkUserPermision(context, Resource.MARKET_STUDENT_EDIT, false) ||
+                JumpManager.checkUserPermision(context, Resource.EDUCATION_CLASSMANAGEMENT_EDITSTUDENT, false))
+                && JumpManager.checkRelationPermision(context, studentInfo.all_user_ids)) {
+            return true;
+        }
+        if (showToast) {
+            ToastUtils.showToast(context, R.string.no_permission);
         }
         return false;
     }

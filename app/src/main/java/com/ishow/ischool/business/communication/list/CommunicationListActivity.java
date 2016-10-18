@@ -87,7 +87,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     }
 
     private void initParamsMap() {
-        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        mParamsMap = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_STATISTICS);
         mParamsMap.put("list_type", "2");
     }
 
@@ -114,7 +114,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
                 if (searchFragment == null) {
-                    searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+                    searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
                 }
                 searchFragment.startSearch(mSearchKey);
                 return true;
@@ -155,7 +155,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             }
         });
 
-        searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+        searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
     }
 
     @Override
@@ -243,20 +243,20 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            //Resource.PERMISSION_STU_DETAIL
+            //Resource.MARKET_STUDENT_STUDENTINFO
             JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.NO_NEED_CHECK);
         }
     }
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.COMMUNICATION_ADD);
+        JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.SHARE_COMMUNICATION_ADDM);
     }
 
 
     void showSearchFragment() {
         if (searchFragment == null)
-            searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+            searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
         frameLayout.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
@@ -307,7 +307,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      */
     @Override
     public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
-        //mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        //mParamsMap = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_STATISTICS);
         initParamsMap();
         mCurrentPage = 1;
         mParamsMap.put("page", mCurrentPage + "");

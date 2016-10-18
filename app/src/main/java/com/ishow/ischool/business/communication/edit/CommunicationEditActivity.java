@@ -76,7 +76,7 @@ public class CommunicationEditActivity extends BaseActivity4Crm<CommunEditPresen
     public boolean onMenuItemClick(MenuItem item) {
         KeyBoardUtil.closeKeybord(mEditText, this);
         String text = mEditText.getText().toString();
-        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
         params.put("id", mId + "");
         switch (mType) {
             case Cons.Communication.source: {

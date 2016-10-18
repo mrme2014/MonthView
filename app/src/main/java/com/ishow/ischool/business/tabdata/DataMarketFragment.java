@@ -256,17 +256,17 @@ public class DataMarketFragment extends BaseFragment4Crm<DataMarketPresenter, Da
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_market:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_SALE_PROCESS)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_BAZAARANALYZE)) {
                     startActivity(new Intent(getActivity(), SalesProcessActivity.class));
                 }
                 break;
-            case R.id.data_campus://PERMISSION_DATA_CAMPUS
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_CAMPUS)) {
+            case R.id.data_campus://DATA_DATAANALYZE_BAZAARCONTRAST
+                if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_BAZAARCONTRAST)) {
                     startActivity(new Intent(getActivity(), Performance4MarketActivity.class));
                 }
                 break;
             case R.id.data_other:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_OTHER)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_BAZAAROTHER)) {
                     startActivity(new Intent(getActivity(), OtherStatisticActivity.class));
                 }
                 break;

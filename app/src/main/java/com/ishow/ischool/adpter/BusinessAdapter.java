@@ -61,13 +61,13 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
                 int resources = Resource.NO_NEED_CHECK;
                 switch (position){
 
-                    case 0:resources = Resource.MODUL_STU_STATICS;
+                    case 0:resources = Resource.MARKET_STUDENT_STATISTICS;
                         break;
-                    case 1:resources = Resource.MODUL_CONMMLIST;
+                    case 1:resources = Resource.SHARE_COMMUNICATION_INDEXM;
                         break;
-                    case 2:resources = Resource.MODUL_STU_STATICS_ADD;
+                    case 2:resources = Resource.MARKET_STUDENT_ADD;
                         break;
-                    case 3:resources = Resource.MODUL_CONMMLIST_ADD;
+                    case 3:resources = Resource.SHARE_COMMUNICATION_ADDM;
                         break;
                 }
                 JumpManager.jumpActivity(mContext, tabSpecs.get(position).intentClazz,resources);

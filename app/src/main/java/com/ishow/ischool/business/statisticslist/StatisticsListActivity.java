@@ -352,7 +352,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             Student data = mDataList.get(position);
             Intent intent = new Intent(StatisticsListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(StatisticsListActivity.this, intent, Resource.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(StatisticsListActivity.this, intent, Resource.MARKET_STUDENT_STUDENTINFO);
         }
     }
 
@@ -371,7 +371,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @OnClick(R.id.fab)
     void add() {
-        JumpManager.jumpActivity(this, AddStudentActivity.class, Resource.PERMISSION_ADD_NEW_STU);
+        JumpManager.jumpActivity(this, AddStudentActivity.class, Resource.MARKET_STUDENT_ADD);
     }
 
     @Override

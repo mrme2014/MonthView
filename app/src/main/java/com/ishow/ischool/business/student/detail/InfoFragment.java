@@ -133,7 +133,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
         if (mStudent == null) {
             return;
         }
-        if (JumpManager.checkUserPermision(getContext(), Resource.PERMISSION_STU_EDIT, false)
+        if (JumpManager.checkUserPermision(getContext(), Resource.MARKET_STUDENT_STUDENTINFO, false)
                 && JumpManager.checkRelationPermision(getContext(), getStudentInfo().all_user_ids)) {
             contentLayout.setVisibility(View.VISIBLE);
             emptyViewGroup.setVisibility(View.GONE);
@@ -187,41 +187,61 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
         void onFragmentInteraction(Bundle data);
     }
 
+
     @OnClick({R.id.student_english_name, R.id.student_phone, R.id.student_qq, R.id.student_birthday,
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
             R.id.student_class, R.id.student_idcard, R.id.student_user_name})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.student_user_name: {
+
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_user_name));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_user_name);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().name);
                 intent.putExtra(EditActivity.P_LEN, 10);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME, Resource.PERMISSION_STU_EDIT);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_USER_NAME, Resource.MARKET_STUDENT_EDIT);
+                startActivityForResult(intent, REQUEST_USER_NAME);
                 break;
             }
             case R.id.student_english_name: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_info_english_name));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_english_name);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().english_name);
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME, Resource.PERMISSION_STU_EDIT);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_ENGLISH_NAME, Resource.MARKET_STUDENT_EDIT);
+                startActivityForResult(intent, REQUEST_ENGLISH_NAME);
                 break;
             }
             case R.id.student_phone: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
 //                Intent intent = new Intent(getActivity(), EditActivity.class);
 //                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_phone));
 //                intent.putExtra(EditActivity.P_TYPE, R.id.student_phone);
 //                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
 //                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().mobile);
 //                JumpManager.jumpActivityForResult(this, intent, REQUEST_PHONE);
+//                startActivityForResult(intent, REQUEST_PHONE);
                 break;
             }
             case R.id.student_qq: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_qq));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_qq);
@@ -230,25 +250,34 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                     intent.putExtra(EditActivity.P_TEXT, getStudentInfo().qq);
                 }
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ, Resource.PERMISSION_STU_EDIT);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_QQ, Resource.MARKET_STUDENT_EDIT);
+                startActivityForResult(intent, REQUEST_QQ);
             }
             break;
 
             case R.id.student_wechat: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_wechat));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_wechat);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().wechat);
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT, Resource.NO_NEED_CHECK);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_WECHAT, Resource.NO_NEED_CHECK);
+                startActivityForResult(intent, REQUEST_WECHAT);
             }
             break;
             case R.id.student_birthday: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
                 AppUtil.showTimePickerDialog(getActivity().getSupportFragmentManager(), new PickerDialogFragment.Callback<Integer>() {
                     @Override
                     public void onPickResult(Integer unix, String... result) {
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                         params.put("id", getStudentInfo().student_id + "");
                         params.put("birthday", String.valueOf(unix));
                         params.put("birthdayTv", result[0]);
@@ -258,27 +287,39 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
             }
             break;
             case R.id.student_school: {
-                JumpManager.jumpActivityForResult(this, new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY, Resource.PERMISSION_STU_EDIT);
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), UniversityPickActivity.class);
+//                JumpManager.jumpActivityForResult(this, new Intent(getActivity(), UniversityPickActivity.class), REQUEST_CODE_PICK_UNIVERSITY, Resource.MARKET_STUDENT_EDIT);
+                startActivityForResult(intent, REQUEST_CODE_PICK_UNIVERSITY);
                 //startActivityForResult(, );
             }
             break;
             case R.id.student_specialty: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_specialty));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_specialty);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().major);
                 intent.putExtra(EditActivity.P_LEN, 20);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY, Resource.PERMISSION_STU_EDIT);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_SPECIALTY, Resource.MARKET_STUDENT_EDIT);
+                startActivityForResult(intent, REQUEST_SPECIALTY);
             }
             break;
             case R.id.student_class: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
 
                 ArrayList<String> years = AppUtil.getB10Year();
                 AppUtil.showItemDialog(getChildFragmentManager(), years, new SelectDialogFragment.OnItemSelectedListner() {
                     @Override
                     public void onItemSelected(int position, String txt) {
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                         params.put("id", getStudentInfo().student_id + "");
                         params.put("entering_school_year", txt);
                         params.put("gradeText", getString(R.string.year, txt));
@@ -288,16 +329,31 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
             }
             break;
             case R.id.student_idcard: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_idcard));
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_idcard);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
                 intent.putExtra(EditActivity.P_LEN, 18);
-                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD, Resource.PERMISSION_STU_EDIT);
+//                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD, Resource.MARKET_STUDENT_EDIT);
+                startActivityForResult(intent, REQUEST_IDCARD);
             }
             break;
         }
+    }
+
+    private boolean checkStudentEditPermision() {
+        if ((JumpManager.checkUserPermision(getActivity(), Resource.MARKET_STUDENT_EDIT, false) ||
+                JumpManager.checkUserPermision(getActivity(), Resource.EDUCATION_CLASSMANAGEMENT_EDITSTUDENT, false))
+                && JumpManager.checkRelationPermision(getActivity(), getStudentInfo().all_user_ids)) {
+            return true;
+        }
+        showToast(R.string.no_permission);
+        return false;
     }
 
     private Student getStudent() {
@@ -320,7 +376,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                     university_id = mUniversityInfo.id;
                     province_id = mUniversityInfo.prov_id;
                     city_id = mUniversityInfo.city_id;
-                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.STUDENT_EDIT);
+                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_EDIT);
                     params.put("college_id", university_id + "");
                     params.put("id", getStudentInfo().student_id + "");
                     params.put("college_name", mUniversityInfo.name);

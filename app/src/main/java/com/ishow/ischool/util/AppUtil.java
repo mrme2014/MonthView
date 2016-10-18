@@ -309,7 +309,7 @@ public class AppUtil {
         User user = UserManager.getInstance().get();
         List<Integer> myResources = user.myResources;
         for (int res : myResources) {
-            if (res == Resource.PERMISSION_DATA_SALE_PROCESS || res == Resource.PERMISSION_DATA_CAMPUS || res == Resource.PERMISSION_DATA_OTHER) {
+            if (res == Resource.DATA_DATAANALYZE_BAZAARANALYZE || res == Resource.DATA_DATAANALYZE_BAZAARCONTRAST || res == Resource.DATA_DATAANALYZE_BAZAAROTHER) {
                 return true;
             }
         }
@@ -320,7 +320,7 @@ public class AppUtil {
         User user = UserManager.getInstance().get();
         List<Integer> myResources = user.myResources;
         for (int res : myResources) {
-            if (res == Resource.PERMISSION_DATA_TEACH_PROCESS || res == Resource.PERMISSION_DATA_TEACH_CAMPUS || res == Resource.PERMISSION_DATA_TEACH_OTHER) {
+            if (res == Resource.DATA_DATAANALYZE_TEACHINGPROCESSANALYSIS || res == Resource.DATA_DATAANALYZE_TEACHINGCONTRAST || res == Resource.DATA_DATAANALYZE_TEACHINGOTHER) {
                 return true;
             }
         }

@@ -57,6 +57,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/user_photo_iv"
+        android:gravity="left"
         android:ellipsize="end"
         android:lines="2" />
 

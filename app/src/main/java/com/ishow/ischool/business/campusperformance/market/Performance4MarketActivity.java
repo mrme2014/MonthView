@@ -103,10 +103,10 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
         curFragment = lineChartFragment;
     }
 
-    @OnClick({R.id.filter_type, R.id.filter_campus, R.id.filter_date})
+    @OnClick({R.id.filter_type_layout, R.id.filter_campus_layout, R.id.filter_date_layout})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.filter_type:
+            case R.id.filter_type_layout:
                 if (mTypePopup != null && mTypePopup.isShowing()) {
                     mTypePopup.dismiss();
                 } else {
@@ -114,7 +114,7 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                     showTypePopup();
                 }
                 break;
-            case R.id.filter_campus:
+            case R.id.filter_campus_layout:
                 if (mCampusPopup != null && mCampusPopup.isShowing()) {
                     mCampusPopup.dismiss();
                 } else {
@@ -122,7 +122,7 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                     showCampusPopup();
                 }
                 break;
-            case R.id.filter_date:
+            case R.id.filter_date_layout:
                 if (mDatePopup != null && mDatePopup.isShowing()) {
                     mDatePopup.dismiss();
                 } else {

@@ -28,34 +28,31 @@
                     android:background="@android:color/white"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <RelativeLayout
                         android:id="@+id/filter_campus"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableRight="@mipmap/icon_screen_down"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="选择校区"
-                        android:textColor="@color/txt_6" />
+                        android:layout_weight="1">
 
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/comm_line" />
+                        <TextView
+                            style="@style/chart_filter_label_style"
+                            android:drawablePadding="10dp"
+                            android:text="选择校区" />
+                    </RelativeLayout>
 
-                    <TextView
+                    <View style="@style/chart_filter_label_divider" />
+
+                    <RelativeLayout
                         android:id="@+id/filter_date"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableRight="@mipmap/icon_screen_down"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="时间选择"
-                        android:textColor="@color/txt_6" />
+                        android:layout_weight="1">
+
+                        <TextView
+                            style="@style/chart_filter_label_style"
+                            android:drawablePadding="10dp"
+                            android:text="时间选择" />
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <include layout="@layout/view_bottom_line" />
@@ -87,7 +84,7 @@
                     android:background="@drawable/switch_bg_round_corner"
                     android:drawablePadding="4dp"
                     android:text="饼图"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </RelativeLayout>
 
 
@@ -106,7 +103,7 @@
                         android:id="@+id/combinedChart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="300dp"/>
+                        android:minHeight="300dp" />
 
                     <LinearLayout
                         android:id="@+id/legend_layout"

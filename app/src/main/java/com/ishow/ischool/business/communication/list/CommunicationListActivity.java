@@ -175,10 +175,10 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             if (isShowSearchFragment) {
                 searchFragment.refresh();
             } else {
-//                initParamsMap();
+                initParamsMap();
                 setRefreshing();
+                needRefresh = false;
             }
-            needRefresh = false;
         }
     }
 
@@ -290,6 +290,10 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         ft.commit();
         searchFragment = null;
         isShowSearchFragment = false;
+
+        if (needRefresh) {
+            setRefreshing();
+        }
     }
 
 

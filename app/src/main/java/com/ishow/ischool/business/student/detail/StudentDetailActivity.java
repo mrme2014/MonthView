@@ -245,7 +245,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     public void onBackPressed() {
         super.onBackPressed();
         if (needRefresh) {
-            RxBus.getDefault().post(new StudentInfo());
+            RxBus.getDefault().post(getStudentInfo());
         }
     }
 
@@ -253,7 +253,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     protected void onNavigationBtnClicked() {
         super.onNavigationBtnClicked();
         if (needRefresh) {
-            RxBus.getDefault().post(new StudentInfo());
+            RxBus.getDefault().post(getStudentInfo());
         }
     }
 

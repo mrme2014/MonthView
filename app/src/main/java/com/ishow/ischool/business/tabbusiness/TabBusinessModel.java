@@ -4,7 +4,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.business.student.add.AddStudentActivity;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.list.CommunicationListActivity;
-import com.ishow.ischool.business.statistic.list.StatisticsListActivity;
+import com.ishow.ischool.business.student.list.StatisticsListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

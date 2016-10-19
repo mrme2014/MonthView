@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.statistic.list;
+package com.ishow.ischool.business.student.list;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -20,13 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.actionsheet.ActionSheet;
-import com.commonlib.util.LogUtil;
 import com.commonlib.widget.fabbehavior.HidingScrollListener;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.activity.StatisticsSearchFragment;
 import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
@@ -77,6 +75,10 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     private String mFilterReferrerName;
     StatisticsFilterFragment dialog = null;
     private int curPositionId;      // 用户当前职位id
+    private boolean isSearchFragment;
+
+
+    private boolean needRefresh;
 
     @Override
     protected void setUpContentView() {
@@ -89,24 +91,39 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         RxBus.getDefault().register(UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
             @Override
             public void call(UploadAvatarEvent o) {
-                for (int i = 0; i < mDataList.size(); i++) {
-                    if (mDataList.get(i).studentInfo.id == o.student.studentInfo.id) {
-                        mDataList.get(i).avatarInfo = o.student.avatarInfo;
-                        mAdapter.notifyItemChanged(i);
-                        break;
+                if (isSearchFragment) {
+                    searchFragment.refreshStudentAvatar(o.student);
+                    needRefresh = true;
+                } else {
+                    for (int i = 0; i < mDataList.size(); i++) {
+                        if (mDataList.get(i).studentInfo.id == o.student.studentInfo.id) {
+                            mDataList.get(i).avatarInfo = o.student.avatarInfo;
+                            mAdapter.notifyItemChanged(i);
+                            break;
+                        }
                     }
                 }
-
             }
         });
 
         RxBus.getDefault().register(StudentInfo.class, new Action1() {
             @Override
             public void call(Object o) {
-                initFilter();
-                setRefreshing();
+//                initFilter();
+//                setRefreshing();
+                needRefresh = true;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (needRefresh) {
+            initFilter();
+            setRefreshing();
+            needRefresh = false;
+        }
     }
 
     @Override
@@ -124,7 +141,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                LogUtil.d("SearchView newText = " + newText);
+//                LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
                 if (searchFragment == null) {
                     searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
@@ -208,6 +225,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
         ft.commit();
+        isSearchFragment = true;
     }
 
     void hideSearchFragment() {
@@ -216,6 +234,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         ft.remove(searchFragment);
         ft.commit();
         searchFragment = null;
+        isSearchFragment = false;
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.statistic.list;
+package com.ishow.ischool.business.student.list;
 
 import com.commonlib.Conf;
 import com.commonlib.http.ApiFactory;

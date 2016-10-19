@@ -61,6 +61,8 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     public static final String IS_TEACH_DATA = "is_teach_data";
     @BindView(R.id.filter_type)
     TextView filertType;
+    @BindView(R.id.filter_type_layout)
+    RelativeLayout filertTypeLayout;
     @BindView(R.id.filter_line_1)
     View filertLine1;
     @BindView(R.id.filter_campus)
@@ -112,7 +114,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
     protected void setUpView() {
         calendar = Calendar.getInstance();
         if (isTeachData) {
-            filertType.setVisibility(View.GONE);
+            filertTypeLayout.setVisibility(View.GONE);
             filertLine1.setVisibility(View.GONE);
         }
     }
@@ -203,10 +205,10 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
         mTableListView.setVisibility(View.GONE);
     }
 
-    @OnClick({R.id.filter_type, R.id.filter_campus, R.id.filter_date, R.id.chart_change})
+    @OnClick({R.id.filter_type_layout, R.id.filter_campus_layout, R.id.filter_date_layout, R.id.chart_change})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.filter_type:
+            case R.id.filter_type_layout:
                 if (mTypePopup != null && mTypePopup.isShowing()) {
                     mTypePopup.dismiss();
                 } else {
@@ -214,7 +216,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     showTypePopup();
                 }
                 break;
-            case R.id.filter_campus:
+            case R.id.filter_campus_layout:
                 if (mUser.positionInfo.campusId == Constants.CAMPUS_HEADQUARTERS) {
                     if (mCampusPopup != null && mCampusPopup.isShowing()) {
                         mCampusPopup.dismiss();
@@ -224,7 +226,7 @@ public class OtherStatisticActivity extends BaseActivity4Crm<OtherPresenter, Oth
                     }
                 }
                 break;
-            case R.id.filter_date:
+            case R.id.filter_date_layout:
                 if (mDatePopup != null && mDatePopup.isShowing()) {
                     mDatePopup.dismiss();
                 } else {

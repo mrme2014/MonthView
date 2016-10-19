@@ -365,4 +365,22 @@
         <item name="textColor">@color/txt_9</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="chart_filter_label_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableRight">@mipmap/icon_screen_down</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/txt_6</item>
+    </style>
+
+    <style name="chart_filter_label_divider">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/comm_line</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
 </resources>

@@ -28,7 +28,7 @@
         android:layout_height="38dp"
         android:layout_below="@id/line"
         android:layout_margin="10dp"
-        android:background="@color/green"
+        android:background="@color/gray"
         android:gravity="center"
         android:scaleType="centerCrop"
         app:text_color="@color/white" />

@@ -34,6 +34,7 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
 import com.ishow.ischool.event.CommunicationEditRefreshEvent;
+import com.ishow.ischool.event.UploadAvatarEvent;
 import com.ishow.ischool.fragment.CommuDialogFragment;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -65,6 +66,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     private boolean needRefresh;
 
     CommuDialogFragment dialog = null;
+    private boolean isShowSearchFragment;
 
     @Override
     protected void initEnv() {
@@ -82,6 +84,14 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             @Override
             public void call(CommunicationEditRefreshEvent o) {
                 needRefresh = true;
+            }
+        });
+
+        RxBus.getDefault().register(UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
+            @Override
+            public void call(UploadAvatarEvent o) {
+                needRefresh = true;
+
             }
         });
     }
@@ -162,8 +172,12 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     protected void onResume() {
         super.onResume();
         if (needRefresh) {
-            initParamsMap();
-            setRefreshing();
+            if (isShowSearchFragment) {
+                searchFragment.refresh();
+            } else {
+//                initParamsMap();
+                setRefreshing();
+            }
             needRefresh = false;
         }
     }
@@ -266,6 +280,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
         ft.commit();
+        isShowSearchFragment = true;
     }
 
     void hideSearchFragment() {
@@ -274,6 +289,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         ft.remove(searchFragment);
         ft.commit();
         searchFragment = null;
+        isShowSearchFragment = false;
     }
 
 
@@ -345,5 +361,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         super.onDestroy();
         RxBus.getDefault().unregister(CommunicationAddRefreshEvent.class);
         RxBus.getDefault().unregister(CommunicationEditRefreshEvent.class);
+        RxBus.getDefault().unregister(UploadAvatarEvent.class);
     }
 }

@@ -90,29 +90,24 @@
 
                     <TextView
                         android:id="@+id/chart_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/normal_font_style"
                         android:text="报名量统计" />
 
                     <TextView
                         android:id="@+id/chart_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/small_font_style"
                         android:layout_below="@id/chart_name"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/txt_9"
-                        android:textSize="@dimen/sp11" />
+                        android:layout_marginTop="2dp" />
 
                     <TextView
                         android:id="@+id/chart_change"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/normal_font_style"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/shape_chart_change_bg"
+                        android:background="@drawable/switch_bg_round_corner"
                         android:drawableLeft="@mipmap/icon_chars_switch"
                         android:drawablePadding="5dp"
-                        android:padding="7dp"
+                        android:padding="4dp"
                         android:text="@string/cake_chart" />
                 </RelativeLayout>
 

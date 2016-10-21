@@ -34,6 +34,7 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
 import com.ishow.ischool.event.CommunicationEditRefreshEvent;
+import com.ishow.ischool.event.UploadAvatarEvent;
 import com.ishow.ischool.fragment.CommuDialogFragment;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -65,6 +66,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     private boolean needRefresh;
 
     CommuDialogFragment dialog = null;
+    private boolean isShowSearchFragment;
 
     @Override
     protected void initEnv() {
@@ -84,10 +86,18 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 needRefresh = true;
             }
         });
+
+        RxBus.getDefault().register(UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
+            @Override
+            public void call(UploadAvatarEvent o) {
+                needRefresh = true;
+
+            }
+        });
     }
 
     private void initParamsMap() {
-        mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        mParamsMap = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_STATISTICS);
         mParamsMap.put("list_type", "2");
     }
 
@@ -114,7 +124,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
                 if (searchFragment == null) {
-                    searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+                    searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
                 }
                 searchFragment.startSearch(mSearchKey);
                 return true;
@@ -155,16 +165,20 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             }
         });
 
-        searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+        searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (needRefresh) {
-            initParamsMap();
-            setRefreshing();
-            needRefresh = false;
+            if (isShowSearchFragment) {
+                searchFragment.refresh();
+            } else {
+                initParamsMap();
+                setRefreshing();
+                needRefresh = false;
+            }
         }
     }
 
@@ -243,24 +257,30 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            //Resource.PERMISSION_STU_DETAIL
+            //Resource.MARKET_STUDENT_STUDENTINFO
             JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.NO_NEED_CHECK);
         }
     }
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.COMMUNICATION_ADD);
+        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1})) {
+//            JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.SHARE_COMMUNICATION_ADDM);
+            Intent intent = new Intent(this, CommunicationAddActivity.class);
+            startActivity(intent);
+
+        }
     }
 
 
     void showSearchFragment() {
         if (searchFragment == null)
-            searchFragment = CommunicationSearchFragment.newInstance(Resource.COMMUNICATION_LIST + "");
+            searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
         frameLayout.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);
         ft.commit();
+        isShowSearchFragment = true;
     }
 
     void hideSearchFragment() {
@@ -269,6 +289,11 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         ft.remove(searchFragment);
         ft.commit();
         searchFragment = null;
+        isShowSearchFragment = false;
+
+        if (needRefresh) {
+            setRefreshing();
+        }
     }
 
 
@@ -307,7 +332,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      */
     @Override
     public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
-        //mParamsMap = AppUtil.getParamsHashMap(Resource.COMMUNICATION_LIST);
+        //mParamsMap = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_STATISTICS);
         initParamsMap();
         mCurrentPage = 1;
         mParamsMap.put("page", mCurrentPage + "");
@@ -340,5 +365,6 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         super.onDestroy();
         RxBus.getDefault().unregister(CommunicationAddRefreshEvent.class);
         RxBus.getDefault().unregister(CommunicationEditRefreshEvent.class);
+        RxBus.getDefault().unregister(UploadAvatarEvent.class);
     }
 }

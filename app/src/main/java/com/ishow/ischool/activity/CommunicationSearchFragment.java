@@ -27,7 +27,6 @@ import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.CommunicationApi;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
-import com.ishow.ischool.util.ColorUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
@@ -74,6 +73,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
         searchParams = new HashMap<>();
         searchParams.put("resources_id", mResourceId);
         searchParams.put("list_type", "2");
+        searchParams.put("fields", "communicationInfo,studentInfo,userInfo,studentAvatar");
     }
 
     public void startSearch(String searchKey) {
@@ -119,6 +119,10 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
         return new CommnunicationHolder(view);
     }
 
+    public void refresh() {
+        setRefreshing();
+    }
+
     class CommnunicationHolder extends BaseViewHolder {
         @BindView(R.id.user_photo_iv)
         AvatarImageView userPhotoIv;
@@ -143,8 +147,8 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
         @Override
         public void onBindViewHolder(int position) {
             Communication communication = mDataList.get(position);
-            userPhotoIv.setText(communication.studentInfo.name);
-            userPhotoIv.setBackgroundColor(ColorUtil.getColorById(communication.studentInfo.id));
+            userPhotoIv.setText(communication.studentInfo.name, communication.studentInfo.id, communication.studentAvatar.file_name);
+//            userPhotoIv.setBackgroundColor(ColorUtil.getColorById(communication.studentInfo.id));
 //            GradientDrawable myGrad = (GradientDrawable) userPhotoIv.getBackground();
 //            myGrad.setColor(ColorUtil.getColorById(communication.studentInfo.id));
 
@@ -162,7 +166,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(getActivity(), intent, Resource.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(getActivity(), intent, Resource.MARKET_STUDENT_STUDENTINFO);
         }
     }
 }

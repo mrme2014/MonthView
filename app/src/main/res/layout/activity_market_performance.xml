@@ -18,52 +18,45 @@
             android:background="@android:color/white"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/filter_type"
+            <RelativeLayout
+                android:id="@+id/filter_type_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="业绩对比"
-                android:textColor="@color/txt_6"
-                android:drawableRight="@mipmap/icon_screen_down"
-                android:padding="10dp"/>
+                android:layout_weight="1">
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/comm_line"/>
+                <TextView
+                    android:id="@+id/filter_type"
+                    style="@style/chart_filter_label_style"
+                    android:text="业绩对比" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/filter_campus"
+            <View style="@style/chart_filter_label_divider" />
+
+            <RelativeLayout
+                android:id="@+id/filter_campus_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="选择校区"
-                android:textColor="@color/txt_6"
-                android:drawableRight="@mipmap/icon_screen_down"
-                android:padding="10dp"/>
+                android:layout_weight="1">
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/comm_line"/>
+                <TextView
+                    android:id="@+id/filter_campus"
+                    style="@style/chart_filter_label_style"
+                    android:text="选择校区" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/filter_date"
+            <View style="@style/chart_filter_label_divider" />
+
+            <RelativeLayout
+                android:id="@+id/filter_date_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="时间选择"
-                android:textColor="@color/txt_6"
-                android:drawableRight="@mipmap/icon_screen_down"
-                android:padding="10dp"/>
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/filter_date"
+                    style="@style/chart_filter_label_style"
+                    android:text="时间选择" />
+            </RelativeLayout>
         </LinearLayout>
 
         <include layout="@layout/view_bottom_line" />
@@ -74,6 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp" />
 
 </LinearLayout>

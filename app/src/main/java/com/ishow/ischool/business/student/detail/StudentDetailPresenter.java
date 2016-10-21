@@ -115,7 +115,7 @@ public class StudentDetailPresenter extends StudentDetailContract.Presenter {
     private void getStudentAvatar(int user_id) {
         HashMap<String, String> params = new HashMap<>();
         params.put("id", user_id + "");
-        params.put("resources_id", Resource.PERMISSION_STUDENT_GET + "");
+        params.put("resources_id", Resource.MARKET_STUDENT_STATISTICS + "");
         params.put("fields", "avatarInfo");
         mModel.getStudent(params).subscribe(new ApiObserver<Student>() {
             @Override

@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
 public class OtherModel implements BaseModel {
 
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(HashMap<String, String> params) {
-//        params.put("resources_id", Resource.PERMISSION_DATA_OTHER + "");
+//        params.put("resources_id", Resource.DATA_DATAANALYZE_BAZAAROTHER + "");
         return ApiFactory.getInstance().getApi(DataApi.class).getOtherStatistics(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

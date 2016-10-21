@@ -245,7 +245,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     public void onBackPressed() {
         super.onBackPressed();
         if (needRefresh) {
-            RxBus.getDefault().post(new StudentInfo());
+            RxBus.getDefault().post(getStudentInfo());
         }
     }
 
@@ -253,7 +253,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     protected void onNavigationBtnClicked() {
         super.onNavigationBtnClicked();
         if (needRefresh) {
-            RxBus.getDefault().post(new StudentInfo());
+            RxBus.getDefault().post(getStudentInfo());
         }
     }
 
@@ -268,13 +268,15 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                Intent intent = new Intent(this, CommunicationAddActivity.class);
-                intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-                JumpManager.jumpActivity(this, intent, Resource.COMMUNICATION_ADD);
+                if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1})) {
+                    Intent intent = new Intent(this, CommunicationAddActivity.class);
+                    intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.student_avatar_iv:
-                if (JumpManager.checkUserPermision(this, Resource.STUDENT_EDIT)) {
+                if (JumpManager.checkStudentEditPermision(this, getStudentInfo(), true)) {
                     ArrayList<String> avatars = new ArrayList<>();
                     avatars.add(getString(R.string.capture));
                     avatars.add(getString(R.string.amblue));
@@ -285,6 +287,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                         }
                     });
                 }
+
                 break;
         }
 

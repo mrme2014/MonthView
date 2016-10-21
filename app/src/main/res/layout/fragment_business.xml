@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:src="@mipmap/img_01" />
+            android:src="@mipmap/business_bg" />
         <TextView
             android:id="@+id/campus"
             android:layout_width="wrap_content"

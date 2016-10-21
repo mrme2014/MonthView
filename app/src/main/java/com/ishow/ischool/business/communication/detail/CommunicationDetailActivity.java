@@ -89,7 +89,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
 
     @Override
     protected void setUpData() {
-        if (!JumpManager.checkUserPermision(this, Resource.COMMUNICATION_EDIT, false) || mData.userInfo.user_id != mUser.userInfo.user_id) {
+        if (!JumpManager.checkUserPermision(this, Resource.SHARE_COMMUNICATION_EDITM, false) || mData.userInfo.user_id != mUser.userInfo.user_id) {
             communStateTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             communFaithTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             communOpposeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -100,7 +100,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
 
     @OnClick({R.id.commun_state, R.id.commun_faith, R.id.commun_oppose, R.id.commun_source, R.id.commun_back_date})
     void onClick(View view) {
-        if (!JumpManager.checkUserPermision(this, Resource.COMMUNICATION_EDIT, false) || mData.userInfo.user_id != mUser.userInfo.user_id) {
+        if (!JumpManager.checkUserPermision(this, Resource.SHARE_COMMUNICATION_EDITM, false) || mData.userInfo.user_id != mUser.userInfo.user_id) {
             ToastUtils.showToast(this, R.string.no_permission);
             return;
         }
@@ -113,7 +113,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
                     @Override
                     public void onItemSelected(int position, String txt) {
                         communStateTv.setText(datas.get(position));
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                         params.put("status", (position + 1) + "");
                         params.put("status_str", datas.get(position));
                         params.put("id", communId + "");
@@ -127,7 +127,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
                     @Override
                     public void onItemSelected(int position, String txt) {
                         communFaithTv.setText(faiths.get(position));
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                         params.put("belief", (position + 1) + "");
                         params.put("belief_str", faiths.get(position));
                         params.put("id", communId + "");
@@ -141,7 +141,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
                     @Override
                     public void onItemSelected(int position, String txt) {
                         communOpposeTv.setText(opposes.get(position));
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                         params.put("refuse", (position + 1) + "");
                         params.put("refuse_str", opposes.get(position));
                         params.put("id", communId + "");
@@ -164,7 +164,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
                     @Override
                     public void onPickResult(Integer object, String... result) {
                         communBackDateTv.setText(result[0]);
-                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.COMMUNICATION_EDIT);
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
                         params.put("callback_date", String.valueOf(object));
                         params.put("callback_date_str", result[0]);
                         params.put("id", communId + "");

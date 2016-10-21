@@ -594,8 +594,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     LinearLayoutManager layoutManager;
     CampusSelectAdapter mAdapter;
 
-    private boolean startDateFinished = false;
-    private boolean endDateFinished = false;
+    private boolean startDateFinished = true;
+    private boolean endDateFinished = true;
     DatePicker startDatePicker, endDatePicker;
     private RelativeLayout inverseLayout;
     private TextView inverseTv;
@@ -725,31 +725,32 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     break;
                 case R.id.start_date:
                     startDatePicker = new DatePicker(Performance4EduActivity.this, DatePicker.YEAR_MONTH);
-                    startDatePicker.setRangeStart(1970, 1);         //开始范围
-                    startDatePicker.setRangeEnd(2099, 12);          //结束范围
-                    startDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    if (endDateFinished) {
+                        int curYear = Integer.parseInt(mFilterEndTime.substring(0, 4));
+                        int endMonth = Integer.parseInt(mFilterEndTime.substring(4, mFilterEndTime.length()));
+                        if (endMonth <= 6) {     // 上半年
+                            startDatePicker.setRangeStart(curYear, 1);                  //开始范围
+                        } else {
+                            startDatePicker.setRangeStart(curYear, 7);                  //开始范围
+                        }
+                        startDatePicker.setRangeEnd(curYear, endMonth);             //结束范围
+                        if (startDateFinished) {
+                            startDatePicker.setSelectedItem(Integer.parseInt(mFilterStartTime.substring(0, 4)), Integer.parseInt(mFilterStartTime.substring(4, mFilterStartTime.length())));
+                        } else {
+                            startDatePicker.setSelectedItem(curYear, endMonth);
+                        }
+                    } else {
+                        startDatePicker.setRangeStart(1970, 1);         //开始范围
+                        startDatePicker.setRangeEnd(2099, 12);          //结束范围
+                        startDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    }
+
                     startDatePicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            if (endDateFinished) {
-                                String endDateYear = endDatePicker.getSelectedYear();
-                                String endDateMonth = endDatePicker.getSelectedMonth();
-                                if (!year.equals(endDateYear)) {
-                                    year = endDateYear;
-                                }
-                                if (Integer.parseInt(endDateMonth) <= 6) {      //当end<=6(上半年)
-                                    if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
-                                        month = endDateMonth;
-                                    }
-                                } else {                                        //当end>6(下半年)
-                                    if (Integer.parseInt(month) > Integer.parseInt(endDateMonth)) { //若start>end,则start=end(不合理情况)
-                                        month = endDateMonth;
-                                    } else if (Integer.parseInt(month) <= 6) {                      //若start<=6,则start=7
-                                        month = "07";
-                                    }
-                                }
-                                startDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
-                            }
+//                            if (endDateFinished) {
+//                                startDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
+//                            }
                             startDateTv.setText(getString(R.string.item_start_time) + " :   " + year + "-" + month);
                             mFilterStartTime = year + month;
                             startDateFinished = true;
@@ -759,34 +760,33 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     break;
                 case R.id.end_date:
                     endDatePicker = new DatePicker(Performance4EduActivity.this, DatePicker.YEAR_MONTH);
-                    endDatePicker.setRangeStart(1970, 1);           //开始范围
-                    endDatePicker.setRangeEnd(2099, 12);            //结束范围
-                    endDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    if (startDateFinished) {
+                        int curYear = Integer.parseInt(mFilterStartTime.substring(0, 4));
+                        int endMonth = Integer.parseInt(mFilterStartTime.substring(4, mFilterStartTime.length()));
+                        if (endMonth <= 6) {     // 上半年
+                            endDatePicker.setRangeEnd(curYear, 6);                  //开始范围
+                        } else {
+                            endDatePicker.setRangeEnd(curYear, 12);                  //开始范围
+                        }
+                        endDatePicker.setRangeStart(curYear, endMonth);             //结束范围
+                        if (endDateFinished) {
+                            endDatePicker.setSelectedItem(Integer.parseInt(mFilterEndTime.substring(0, 4)), Integer.parseInt(mFilterEndTime.substring(4, mFilterEndTime.length())));
+                        } else {
+                            endDatePicker.setSelectedItem(curYear, endMonth);
+                        }
+                    } else {
+                        endDatePicker.setRangeStart(1970, 1);           //开始范围
+                        endDatePicker.setRangeEnd(2099, 12);            //结束范围
+                        endDatePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);  //得到月，因为从0开始的，所以要加1
+                    }
+
                     endDatePicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                         @Override
                         public void onDatePicked(String year, String month) {
-                            if (startDateFinished) {
-                                String startDateYear = startDatePicker.getSelectedYear();
-                                String startDateMonth = startDatePicker.getSelectedMonth();
-                                if (!year.equals(startDateYear)) {
-                                    year = startDateYear;
-                                }
-                                if (Integer.parseInt(startDateMonth) <= 6) {    //当start<=6(上半年)
-                                    if (Integer.parseInt(month) > Integer.parseInt(startDateMonth)) {   //若end>start
-                                        if (Integer.parseInt(month) > 6) {
-                                            month = "06";                              //若end>6,则end=6
-                                        }
-                                    } else {                                                            //若end<start(不合理情况)
-                                        month = startDateMonth;
-                                    }
-                                } else {                                        //当start>6(下半年)
-                                    if (Integer.parseInt(month) < Integer.parseInt(startDateMonth)) {   //若end<start
-                                        month = startDateMonth;
-                                    }
-                                }
-                                endDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
-                            }
-                            endDateTv.setText(getString(R.string.item_end_time) + " :   " + year + month);
+//                            if (startDateFinished) {
+//                                endDatePicker.setSelectedItem(Integer.parseInt(year), Integer.parseInt(month));
+//                            }
+                            endDateTv.setText(getString(R.string.item_end_time) + " :   " + year + "-" + month);
                             mFilterEndTime = year + month;
                             endDateFinished = true;
                         }
@@ -794,6 +794,8 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                     endDatePicker.show();
                     break;
                 case R.id.date_reset:
+                    startDateFinished = false;
+                    endDateFinished = false;
                     startDateTv.setText(getString(R.string.item_start_time) + " :   ");
                     endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;

@@ -5,7 +5,7 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="?attr/dropdownListPreferredItemHeight"
-    android:text="111"
     android:gravity="center"
     android:textColor="@color/txt_6"
+    android:textSize="@dimen/sp14"
     android:ellipsize="marquee"/>

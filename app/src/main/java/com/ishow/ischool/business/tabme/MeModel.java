@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.tabfragmentme;
+package com.ishow.ischool.business.tabme;
 
 import com.commonlib.core.BaseModel;
 import com.commonlib.http.ApiFactory;

@@ -1,4 +1,4 @@
-package com.ishow.ischool.activity;
+package com.ishow.ischool.business.student.list;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -76,6 +76,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
         searchParams = new HashMap<String, String>();
         searchParams.put("campus_id", mCampusId);
         searchParams.put("source", mSource);
+        searchParams.put("fields", "studentInfo,avatarInfo");
     }
 
     public void startSearch(String searchKey) {
@@ -98,7 +99,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             loadFailed();
         } else {
             ApiFactory.getInstance().getApi(MarketApi.class)
-                    .listStudentStatistics(Resource.STUDENT_LIST, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
+                    .listStudentStatistics(Resource.MARKET_STUDENT_STATISTICS, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ApiObserver<StudentList>() {
@@ -119,6 +120,20 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_student_statistics, parent, false);
         return new StatisticsListViewHolder(view);
+    }
+
+    public void refresh() {
+        setRefreshing();
+    }
+
+    public void refreshStudentAvatar(Student student) {
+        for (int i = 0; i < mDataList.size(); i++) {
+            if (mDataList.get(i).studentInfo.id == student.studentInfo.id) {
+                mDataList.get(i).avatarInfo = student.avatarInfo;
+                mAdapter.notifyItemChanged(i);
+                break;
+            }
+        }
     }
 
     class StatisticsListViewHolder extends BaseViewHolder {
@@ -145,7 +160,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
 //                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
-                avatar.setText(data.studentInfo.name, data.studentInfo.id, "");
+                avatar.setText(data.studentInfo.name, data.studentInfo.id, data.avatarInfo == null ? "" : data.avatarInfo.file_name);
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
                 state.setText(data.studentInfo.pay_state_name);
@@ -197,7 +212,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             Student data = mDataList.get(position);
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(getActivity(), intent, Resource.PERMISSION_STU_DETAIL);
+            JumpManager.jumpActivity(getActivity(), intent, Resource.MARKET_STUDENT_STUDENTINFO);
         }
     }
 }

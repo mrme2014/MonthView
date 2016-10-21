@@ -47,7 +47,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".business.statisticslist.StatisticsListActivity"
+            android:name=".business.student.list.StatisticsListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -67,7 +67,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".business.communication.add.CommunicationAddActivity" />
         <activity
-            android:name=".business.addstudent.AddStudentActivity"
+            android:name=".business.student.add.AddStudentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity

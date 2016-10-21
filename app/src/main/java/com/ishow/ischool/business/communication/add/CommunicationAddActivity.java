@@ -199,7 +199,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     protected void setUpData() {
-        form.resources_id = Resource.COMMUNICATION_ADD;
+        form.resources_id = Resource.SHARE_COMMUNICATION_ADDM;
     }
 
     @Override

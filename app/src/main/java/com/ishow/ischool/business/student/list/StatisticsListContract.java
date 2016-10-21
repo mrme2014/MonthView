@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.statisticslist;
+package com.ishow.ischool.business.student.list;
 
 
 import com.commonlib.core.BaseModel;

@@ -41,7 +41,7 @@ public class StudentDetailModel implements StudentDetailContract.Model {
 
     public Observable getAvatar(int user_id) {
         HashMap<String, String> params = new HashMap<>();
-        params.put(Resource.RESOURCE_ID, Resource.PERMISSION_STUDENT_GET + "");
+        params.put(Resource.RESOURCE_ID, Resource.MARKET_STUDENT_STATISTICS + "");
         params.put("id", user_id + "");
         return ApiFactory.getInstance().getApi(MarketApi.class)
                 .getStudent(params)

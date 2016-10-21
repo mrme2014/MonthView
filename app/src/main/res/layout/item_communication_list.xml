@@ -28,7 +28,7 @@
         android:layout_height="38dp"
         android:layout_below="@id/line"
         android:layout_margin="10dp"
-        android:background="@color/green"
+        android:background="@color/gray"
         android:gravity="center"
         android:scaleType="centerCrop"
         app:text_color="@color/white" />
@@ -57,6 +57,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/user_photo_iv"
+        android:gravity="left"
         android:ellipsize="end"
         android:lines="2" />
 

@@ -159,17 +159,19 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, Dat
         switch (view.getId()) {
             case R.id.data_market:
                // startActivity(new Intent(getActivity(), ClassAttendActivity.class));
-              if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_PROCESS)) {
+             /* if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_PROCESS)) {
+                startActivity(new Intent(getActivity(), TeachProcessActivity.class));*/
+                if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_TEACHINGPROCESSANALYSIS)) {
                     startActivity(new Intent(getActivity(), TeachProcessActivity.class));
                 }
                 break;
-            case R.id.data_campus://PERMISSION_DATA_CAMPUS
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_CAMPUS)) {
+            case R.id.data_campus://DATA_DATAANALYZE_BAZAARCONTRAST
+                if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_TEACHINGCONTRAST)) {
                     startActivity(new Intent(getActivity(), Performance4EduActivity.class));
                 }
                 break;
             case R.id.data_other:
-                if (JumpManager.checkUserPermision(getActivity(), Resource.PERMISSION_DATA_TEACH_OTHER)) {
+                if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_TEACHINGOTHER)) {
                     Intent intent = new Intent(getActivity(), OtherStatisticActivity.class);
                     intent.putExtra(OtherStatisticActivity.IS_TEACH_DATA, true);
                     startActivity(intent);

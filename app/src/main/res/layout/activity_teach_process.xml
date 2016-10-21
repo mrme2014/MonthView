@@ -80,9 +80,9 @@
                     app:label_left_padding="10"
                     app:label_text_bottom=""
                     app:label_text_bottom_color="@color/txt_9"
-                    app:label_text_bottom_size="12"
-                    app:label_text_top_color="@color/txt_2"
-                    app:label_text_top_size="16"
+                    app:label_text_bottom_size="11"
+                    app:label_text_top_color="@color/txt_6"
+                    app:label_text_top_size="14"
                     app:label_text_top_str="业绩趋势"
                     app:label_top_padding="25"
 
@@ -171,7 +171,7 @@
                 app:label_text_bottom=""
                 app:label_text_bottom_color="@color/txt_9"
                 app:label_text_bottom_size="12"
-                app:label_text_top_color="@color/txt_2"
+                app:label_text_top_color="@color/txt_6"
                 app:label_text_top_size="14"
                 app:label_text_top_str="表格预览"
                 app:label_top_padding="22"
@@ -190,8 +190,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="业绩明细表"
-                android:textColor="@color/txt_2"
-                android:textSize="@dimen/sp13" />
+                android:textColor="@color/txt_6"
+                android:textSize="@dimen/sp14" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

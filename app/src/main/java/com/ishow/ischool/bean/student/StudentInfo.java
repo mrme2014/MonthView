@@ -78,6 +78,7 @@ public class StudentInfo implements Parcelable {
     public int payed;
     public int entering_school_year;
     public ArrayList<Integer> all_user_ids;
+    public String avatar;
 
 
     public StudentInfo() {

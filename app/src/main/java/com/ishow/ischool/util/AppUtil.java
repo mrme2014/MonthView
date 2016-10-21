@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.User;
@@ -214,7 +215,16 @@ public class AppUtil {
         return grades.get(grade);
     }
 
-    public static ArrayList<String> getB10Year() {
+    public static List<String> getClazCheckInTableHeadList(){
+        List<String> list = new ArrayList<>();
+        list.add("上课时间");
+        list.add("老师");
+        list.add("课时"); list.add("应到人数"); list.add("实到人数");
+
+
+        return list;
+    }
+     public static ArrayList<String> getB10Year() {
         ArrayList<String> years = new ArrayList<>();
         int curYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 0; i < 10; i++) {
@@ -275,6 +285,11 @@ public class AppUtil {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(second * 1000);
         return c.get(Calendar.MONTH) + 1;
+    }
+
+    public static String getTodayStr() {
+        Calendar c = Calendar.getInstance();
+       return DateUtil.parseSecond2Str(c.getTimeInMillis()/1000);
     }
 
     public static int getTodayEnd() {

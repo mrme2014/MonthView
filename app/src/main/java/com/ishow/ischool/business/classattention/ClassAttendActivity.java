@@ -1,0 +1,177 @@
+package com.ishow.ischool.business.classattention;
+
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.commonlib.widget.LabelTextView;
+import com.commonlib.widget.pull.BaseItemDecor;
+import com.ishow.ischool.R;
+import com.ishow.ischool.bean.classattend.ClazInfo;
+import com.ishow.ischool.bean.classattend.ClazStudentList;
+import com.ishow.ischool.bean.classattend.ClazStudentObject;
+import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.PicUtils;
+import com.ishow.ischool.widget.custom.AvatarImageView;
+import com.ishow.ischool.widget.custom.CircleImageView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
+import java.util.List;
+
+import butterknife.BindView;
+
+/**
+ * Created by MrS on 2016/10/20.
+ */
+
+public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazModle> implements ClazView<ClazStudentList> {
+    @BindView(R.id.class_avart_img)
+    CircleImageView classAvartImg;
+    @BindView(R.id.class_avart_txt)
+    AvatarImageView classAvartTxt;
+    @BindView(R.id.class_list)
+    RecyclerView classList;
+    @BindView(R.id.class_name)
+    TextView className;
+    @BindView(R.id.claz_label)
+    LabelTextView clazLabel;
+
+    private int claz_id;
+    private ClazListAdapter adapter;
+    private List<ClazStudentObject> lists;
+    private boolean checkInSucess;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        Intent intent = getIntent();
+        claz_id = intent.getIntExtra("claz_id", 1);
+    }
+
+    @Override
+    protected void setUpContentView() {
+        setContentView(R.layout.activity_class_attendance, "", R.menu.menu_class_attention, MODE_NONE);
+    }
+
+    @Override
+    protected void setUpView() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.inflateMenu(R.menu.menu_class_attention);
+        mToolbar.setOnMenuItemClickListener(this);
+        mToolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.mipmap.nav_back_normal));
+        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onReadyFinishActivity();
+            }
+        });
+        classList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        classList.setHasFixedSize(true);
+        classList.addItemDecoration(new BaseItemDecor(this, 16));
+        mPresenter.getStudentList(claz_id);
+    }
+
+    @Override
+    protected void setUpData() {
+
+    }
+
+    @Override
+    public void getResutSucess(ClazStudentList result) {
+        lists = result.lists;
+        adapter = new ClazListAdapter(this, result.lists);
+        adapter.setOnItemClickListner(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ClassAttendActivity.this, ClazCheckinTableActivity.class);
+                intent.putExtra("claz_id", claz_id);
+                startActivity(intent);
+            }
+        });
+        classList.setAdapter(adapter);
+
+        ClazInfo classInfo = result.classInfo;
+        if (classInfo == null)
+            return;
+        if (classInfo.avart != null && classInfo.avart != "") {
+            PicUtils.loadpic(this, classAvartImg, classInfo.avart);
+        } else {
+            classAvartImg.setVisibility(View.GONE);
+            classAvartTxt.setVisibility(View.VISIBLE);
+            classAvartTxt.setText(classInfo.teacher);
+        }
+
+        className.setText(classInfo.course_type + ":" + classInfo.teacher);
+        clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
+        clazLabel.setLabelTextRight(AppUtil.getTodayStr());
+        mToolbarTitle.setText(classInfo.name);
+        mToolbarTitle.append("\n");
+        SpannableString spanText = new SpannableString(classInfo.course_type + " " + classInfo.lesson_times);
+        spanText.setSpan(new AbsoluteSizeSpan(12, true), 0, spanText.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        mToolbarTitle.append(spanText);
+    }
+
+    @Override
+    public void CheckInSucess(String msg) {
+        checkInSucess = true;
+        handProgressbar(false);
+        showToast(msg);
+    }
+
+    @Override
+    public void getResultEorre(String msg) {
+        handProgressbar(false);
+        showToast(msg);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (adapter != null && lists != null && lists.size() > 0) {
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < lists.size(); i++) {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("student_id", lists.get(i).studentInfo.student_id);
+                    object.put("status", adapter.getCheckInState(i));
+                    object.put("memo", adapter.getCheckBeiZhuContent(i));
+                    array.put(object.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            handProgressbar(true);
+            mPresenter.checkIn(array.toString(), claz_id, (int) (new Date().getTime() / 1000));
+        }
+        return super.onMenuItemClick(item);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        onReadyFinishActivity();
+    }
+
+    private void onReadyFinishActivity() {
+        if (checkInSucess) {
+            Intent intent = new Intent();
+            intent.putExtra("checkInSucess", checkInSucess);
+            this.setResult(RESULT_OK, intent);
+        }
+        this.finish();
+    }
+}

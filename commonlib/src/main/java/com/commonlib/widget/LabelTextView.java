@@ -102,6 +102,7 @@ public class LabelTextView extends TextView {
         this.labelTextLeft = labelTextLeft;
         invalidate();
     }
+
     public void setLabelTextRight(String labelTextRight) {
         this.labelTextRight = labelTextRight;
         invalidate();
@@ -135,6 +136,7 @@ public class LabelTextView extends TextView {
     /*下面这两个方法 用于 设定 menuitem  属性时 设置的*/
     public void setAboutMenuItem() {
         this.setPadding(0, 0, UIUtil.dip2px(getContext(), 10), 0);
+        this.setCompoundDrawablePadding(5);
         //setHeight(UIUtil.dip2px(getContext(),45));
         setGravity(Gravity.CENTER);
         setTextColor(Color.parseColor("#ffffff"));

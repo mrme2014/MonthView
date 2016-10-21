@@ -135,6 +135,11 @@
             android:name=".business.teachprocess.TeachSelectPositionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".business.classattention.ClassAttendActivity"></activity>
+        <activity
+            android:name=".business.classattention.ClazCheckinTableActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"></activity>
 
     </application>
 

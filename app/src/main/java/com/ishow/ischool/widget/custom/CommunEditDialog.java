@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import butterknife.OnClick;
 public class CommunEditDialog extends DialogFragment {
 
     public static final int max_length = 200;
+    @BindView(R.id.dialog_title)
+    TextView dialogTitle;
 
     private OnClickListener listener;
     public int date;
@@ -49,6 +52,8 @@ public class CommunEditDialog extends DialogFragment {
     @BindView(R.id.dialog_content_count)
     TextView contentCountTv;
     private PickerDialogFragment dateDialog;
+    private String content;
+    private boolean noNeedDate;
 
     @Nullable
     @Override
@@ -57,6 +62,11 @@ public class CommunEditDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_commun_edit_fragment, container, false);
         ButterKnife.bind(this, view);
 
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            content = arguments.getString("content");
+            noNeedDate = arguments.containsKey("needDate");
+        }
         initViews();
         return view;
     }
@@ -85,6 +95,11 @@ public class CommunEditDialog extends DialogFragment {
                 }
             }
         });
+
+        if (content != "" && content != null)
+            contentEt.setText(content);
+        setNeedDate(noNeedDate);
+
     }
 
     @OnClick({R.id.dialog_date, R.id.dialog_sure, R.id.dialog_cancel})
@@ -92,7 +107,7 @@ public class CommunEditDialog extends DialogFragment {
         switch (view.getId()) {
             case R.id.dialog_date:
                 PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-                builder.setBackgroundDark(true).setDialogTitle(R.string.switch_role).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+                builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
                 dateDialog = builder.Build();
                 dateDialog.show(getActivity().getSupportFragmentManager(), "dialog");
                 dateDialog.addCallback(new PickerDialogFragment.Callback<Integer>() {
@@ -104,13 +119,24 @@ public class CommunEditDialog extends DialogFragment {
                 });
                 break;
             case R.id.dialog_sure:
-                if (TextUtils.isEmpty(contentEt.getText().toString()) || date == 0) {
-                    Toast.makeText(getContext(), R.string.check_commun_add, Toast.LENGTH_LONG).show();
-                } else {
-                    if (listener != null) {
-                        listener.onClick(contentEt.getText().toString(), date);
+                if (!noNeedDate) {
+                    if (TextUtils.isEmpty(contentEt.getText().toString()) || date == 0) {
+                        Toast.makeText(getContext(), R.string.check_commun_add, Toast.LENGTH_LONG).show();
+                    } else {
+                        if (listener != null) {
+                            listener.onClick(contentEt.getText().toString(), date);
+                            dismiss();
+                        }
                     }
-                    dismiss();
+                }else{
+                    if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                        Toast.makeText(getContext(), R.string.check_commun_add, Toast.LENGTH_LONG).show();
+                    } else {
+                        if (listener != null) {
+                            listener.onClick(contentEt.getText().toString(), date);
+                            dismiss();
+                        }
+                    }
                 }
 
                 break;
@@ -125,6 +151,13 @@ public class CommunEditDialog extends DialogFragment {
     public CommunEditDialog setOnClickListener(OnClickListener listener) {
         this.listener = listener;
         return this;
+    }
+
+    public void setNeedDate(boolean noNeedDate) {
+        if (noNeedDate) {
+            dateLtv.setLayoutParams(new RelativeLayout.LayoutParams(0,0));
+            dialogTitle.setText(getString(com.commonlib.R.string.str_add_beizhu));
+        }
     }
 
     public interface OnClickListener {

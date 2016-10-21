@@ -16,6 +16,7 @@
         android:textColor="@drawable/selector_btn_blue_text" />
 
     <TextView
+        android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_alignParentTop="true"
@@ -28,9 +29,9 @@
         android:layout_width="39dp"
         android:layout_height="39dp"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:layout_marginLeft="10dp"
         android:text="@string/sure"
         android:textColor="@drawable/selector_btn_blue_text" />
 
@@ -41,47 +42,56 @@
         android:layout_below="@id/dialog_sure"
         android:background="@color/comm_line" />
 
-    <com.commonlib.widget.LabelEditText
-        android:id="@+id/dialog_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_title_line"
-        android:background="@color/white"
-        android:gravity="top"
-        android:lines="5"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
+ <RelativeLayout
+     android:id="@+id/content"
+     android:layout_width="match_parent"
+     android:layout_height="160dp"
+     android:layout_below="@+id/dialog_title_line">
+     <com.commonlib.widget.LabelEditText
+         android:id="@+id/dialog_content"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/white"
+         android:gravity="top"
+         android:lines="5"
+         android:paddingBottom="25dp"
+         android:paddingLeft="10dp"
+         android:paddingRight="10dp"
+         android:paddingTop="10dp" />
 
-        android:paddingBottom="25dp"/>
+
+     <TextView
+         android:id="@+id/dialog_content_count"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="5dp"
+         android:layout_marginLeft="12dp"
+         android:text="200"
+         android:layout_alignParentBottom="true"
+         android:textColor="@color/txt_9" />
+ </RelativeLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/content"
+        android:background="@color/comm_line" />
 
     <com.commonlib.widget.LabelTextView
         android:id="@+id/dialog_date"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/dialog_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/line"
         android:drawablePadding="12dp"
         android:drawableRight="@mipmap/icon_list_next"
         android:gravity="center_vertical|right"
         android:hint="@string/choose_commun_date"
         android:paddingRight="12dp"
         app:label_padding="12dp"
+        android:visibility="gone"
         app:label_text_left="@string/commun_date" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@id/dialog_content"
-        android:background="@color/comm_line" />
-
-    <TextView
-        android:id="@+id/dialog_content_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/dialog_date"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="12dp"
-        android:text="200"
-        android:textColor="@color/txt_9" />
 
 </RelativeLayout>

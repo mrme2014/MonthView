@@ -2,11 +2,12 @@
     <string name="app_name">Commonlib</string>
 
     <string name="str_submit">提交</string>
+    <string name="class_history">确定</string>
     <string name="str_cancel">取消</string>
     <string name="str_reset">重置</string>
     <string name="str_ok">确定</string>
     <string name="str_ignore">忽略</string>
-
+    <string name="str_add_beizhu">添加备注</string>
     <string name="load_nomore">已显示全部内容</string>
     <string name="load_fail">加载失败</string>
 

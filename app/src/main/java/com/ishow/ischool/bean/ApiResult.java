@@ -45,6 +45,7 @@ public class ApiResult<T> {
             return gson.fromJson(result, type);
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         return null;
     }

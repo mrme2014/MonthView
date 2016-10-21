@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="50dp">
+
+        <com.ishow.ischool.widget.custom.CircleImageView
+            android:id="@+id/class_avart_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/img_header_default" />
+
+        <com.ishow.ischool.widget.custom.AvatarImageView
+            android:id="@+id/class_avart_txt"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/class_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="user_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16" />
+    </LinearLayout>
+
+    <com.commonlib.widget.LabelTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/claz_label"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/comm_bg"
+        android:paddingTop="13dp"
+        app:label_padding="10dp"
+        app:label_text_color="@color/txt_6"
+        app:label_text_left="出勤10人 共15人"
+        app:label_text_right="2016-12-13" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/class_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/activity_class_attendace_list_item"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="62dp"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <com.ishow.ischool.widget.custom.CircleImageView
+        android:id="@+id/item_avart_img"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/img_header_default" />
+
+    <com.ishow.ischool.widget.custom.AvatarImageView
+        android:id="@+id/item_avart_txt"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/class_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        android:text="xujiajia"
+        android:textColor="@color/txt_2"
+        android:textSize="@dimen/sp15" />
+
+    <TextView
+        android:id="@+id/class_beizhu"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/bg_round_corner_gray"
+        android:gravity="center"
+        android:text="备注"
+        android:textColor="@color/txt_9"
+        android:textSize="@dimen/sp12" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_weight="1">
+
+    </TextView>
+
+    <ToggleButton
+        android:id="@+id/class_togbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:checked="true"
+        android:textColor="@color/txt_9"
+        android:textOff="缺席"
+        android:textOn="上课"
+        tools:ignore="RtlHardcoded" />
+</LinearLayout>

@@ -145,6 +145,7 @@
     <string name="hint_search">搜索</string>
 
     <string name="commun_date">沟通时间</string>
+
     <string name="commun_date_start">开始时间</string>
     <string name="commun_date_end">结束时间</string>
     <string name="commun_refuse">目前困惑点</string>
@@ -284,4 +285,7 @@
     <string name="fullpay_rate">全款率</string>
     <string name="tuikuan_rate">退款率</string>
     <string name="data_title_last_7">最近7日教学数据统计</string>
+    <string name="history_claz">上课记录</string>
+    <string name="history_claz_time">上课时间</string>
+    <string name="claz_table_tip">课时总计:%1$s 人数总计:实到人数%2$s 应到人数%3$s</string>
 </resources>

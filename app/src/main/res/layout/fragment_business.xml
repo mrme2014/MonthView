@@ -1,31 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/comm_bg"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@mipmap/business_bg" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/default_toolbar_height"
+        android:layout_gravity="center_horizontal">
+
         <TextView
-            android:id="@+id/campus"
+            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/default_toolbar_height"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:layout_centerHorizontal="true"/>
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/title_radio"
+            android:layout_width="164dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/title_radio_1"
+                android:layout_width="82dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/radio_left"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/data_market"
+                android:textColor="@color/selector_btn_blue_white_text"
+                android:textSize="@dimen/sp13" />
+
+            <RadioButton
+                android:id="@+id/title_radio_2"
+                android:layout_width="82dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/radio_right"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/data_campus"
+                android:textColor="@color/selector_btn_blue_white_text"
+                android:textSize="@dimen/sp13" />
+        </RadioGroup>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/business_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-</LinearLayout>
+</FrameLayout>

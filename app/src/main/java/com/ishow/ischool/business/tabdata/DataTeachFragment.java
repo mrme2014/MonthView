@@ -33,7 +33,7 @@ import butterknife.OnClick;
 /**
  * 教务教学数据统计
  */
-public class DataTeachFragment extends BaseFragment4Crm<DataTeachPreseneter, DataTeachModel> implements DataTeachContract.View {
+public class DataTeachFragment extends BaseFragment4Crm<DataTeachPresenter, DataTeachModel> implements DataTeachContract.View {
 
     private OnFragmentInteractionListener mListener;
     //    @BindView(R.id.bar_chart)

@@ -59,11 +59,13 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     private ClazInfo classInfo;
     private AlertDialog dialog1;
 
+    public static final String CLASSID = "claz_id";
+
     @Override
     protected void initEnv() {
         super.initEnv();
         Intent intent = getIntent();
-        claz_id = intent.getIntExtra("claz_id", 1);
+        claz_id = intent.getIntExtra(CLASSID, 1);
     }
 
     @Override

@@ -21,7 +21,6 @@
     <color name="colorPrimaryDark">#2883f6</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
-    <color name="color_header">#000000</color>
     <color name="transparent">#00FFFFFF</color>
 
 
@@ -73,4 +72,12 @@
     <color name="random_color18">#4682B4</color>
     <color name="random_color19">#2E8B57</color>
     <color name="random_color20">#778899</color>
+    
+    
+    <!--  班级管理  -->
+    <color name="class_primary">#5fd76b</color>
+    <color name="class_intermediate">#668ed6</color>
+    <color name="class_senior">#e7b91b</color>
+    <color name="class_movie">#e77970</color>
+    <color name="light_gray">#f8f9fa</color>
 </resources>

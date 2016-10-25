@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="color_gray">#EFEFEF</color>
+    <color name="color_app_bg">#f1f1f1</color>
+
     <color name="txt_2">#222222</color>
     <color name="txt_9">#999999</color>
-
-    <color name="color_gray">#EFEFEF</color>
 </resources>

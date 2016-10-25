@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@mipmap/business_bg" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/campus"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="@dimen/default_toolbar_height"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:textSize="18sp"-->
+    <!--android:layout_centerHorizontal="true"/>-->
+    <!--</RelativeLayout>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@mipmap/business_bg" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/business_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

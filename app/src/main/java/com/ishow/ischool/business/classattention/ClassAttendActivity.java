@@ -54,11 +54,13 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     private List<ClazStudentObject> lists;
     private boolean checkInSucess;
 
+    public static final String CLASSID = "claz_id";
+
     @Override
     protected void initEnv() {
         super.initEnv();
         Intent intent = getIntent();
-        claz_id = intent.getIntExtra("claz_id", 1);
+        claz_id = intent.getIntExtra(CLASSID, 1);
     }
 
     @Override

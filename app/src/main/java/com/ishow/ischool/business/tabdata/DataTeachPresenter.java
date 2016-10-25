@@ -27,7 +27,7 @@ import java.util.TreeMap;
  * Created by abel on 16/10/9.
  */
 
-public class DataTeachPreseneter extends DataTeachContract.Presenter implements OnChartValueSelectedListener {
+public class DataTeachPresenter extends DataTeachContract.Presenter implements OnChartValueSelectedListener {
     @Override
     void getTeachingProcess(TreeMap<String, Integer> params) {
         mModel.getTeachingProcess(params).subscribe(new ApiObserver<TeachProcess>() {

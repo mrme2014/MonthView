@@ -11,7 +11,6 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_marginRight="15dp"
-        android:background="@mipmap/img_header_default"
         android:scaleType="centerCrop"
         app:text_color="@color/white" />
 
@@ -20,7 +19,7 @@
         style="@style/name_font_style"
         android:layout_toRightOf="@id/avatar"
         android:maxWidth="200dp"
-        android:singleLine="true" />
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/state"
@@ -31,17 +30,15 @@
 
     <TextView
         android:id="@+id/university"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/normal_font_style"
         android:layout_alignBottom="@id/state"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/state"
         android:drawableLeft="@mipmap/icon_adress"
         android:drawablePadding="4dp"
         android:maxWidth="150dp"
-        android:singleLine="true"
-        android:textColor="@color/txt_9"
-        android:textSize="@dimen/sp13" />
+        android:maxLines="1"
+        android:textColor="@color/txt_9"/>
 
     <ImageView
         android:id="@+id/phone"

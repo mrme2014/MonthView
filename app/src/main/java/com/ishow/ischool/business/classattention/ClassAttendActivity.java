@@ -2,14 +2,17 @@ package com.ishow.ischool.business.classattention;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.commonlib.widget.LabelTextView;
@@ -53,6 +56,8 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     private ClazListAdapter adapter;
     private List<ClazStudentObject> lists;
     private boolean checkInSucess;
+    private ClazInfo classInfo;
+    private AlertDialog dialog1;
 
     @Override
     protected void initEnv() {
@@ -105,7 +110,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         });
         classList.setAdapter(adapter);
 
-        ClazInfo classInfo = result.classInfo;
+        classInfo = result.classInfo;
         if (classInfo == null)
             return;
         if (classInfo.avart != null && classInfo.avart != "") {
@@ -139,8 +144,38 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         showToast(msg);
     }
 
+    private Button ok, cancel;
+    private TextView info;
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_class_attendance_checkin, null);
+        ok = (Button) view.findViewById(R.id.check_in);
+        cancel = (Button) view.findViewById(R.id.check_cancel);
+        info = (TextView) view.findViewById(R.id.check_info);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                go2ChcekIn();
+                dialog1.dismiss();
+            }
+        });
+        info.setText(String.format(getString(R.string.check_info), classInfo.current_numbers, classInfo.numbers));
+        builder.setView(view);
+        dialog1 = builder.create();
+        dialog1.show();
+        return super.onMenuItemClick(item);
+
+    }
+
+    private void go2ChcekIn() {
         if (adapter != null && lists != null && lists.size() > 0) {
             JSONArray array = new JSONArray();
             for (int i = 0; i < lists.size(); i++) {
@@ -157,8 +192,6 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
             handProgressbar(true);
             mPresenter.checkIn(array.toString(), claz_id, (int) (new Date().getTime() / 1000));
         }
-        return super.onMenuItemClick(item);
-
     }
 
     @Override

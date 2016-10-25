@@ -17,8 +17,8 @@
 
         <com.ishow.ischool.widget.custom.CircleImageView
             android:id="@+id/class_avart_img"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
             android:src="@mipmap/img_header_default" />
 
         <com.ishow.ischool.widget.custom.AvatarImageView
@@ -31,7 +31,7 @@
             android:id="@+id/class_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:text="user_name"
             android:textColor="@color/white"
             android:textSize="@dimen/sp16" />

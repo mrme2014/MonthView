@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.classattend.ClazStudentObject;
@@ -84,6 +84,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.button.setText(checkInList.get(position)?"缺勤":"上课");
                 checkInList.put(position,holder.button.isChecked());
             }
         });
@@ -123,7 +124,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
         return beiZhuList.get(position);
     }
     class ClazViewHolder extends RecyclerView.ViewHolder {
-        public ToggleButton button;
+        public Switch button;
         public TextView beiZhu;
         public TextView name;
         public CircleImageView avartImg;
@@ -131,7 +132,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
 
         public ClazViewHolder(final View itemView) {
             super(itemView);
-            this.button = (ToggleButton) itemView.findViewById(R.id.class_togbtn);
+            this.button = (Switch) itemView.findViewById(R.id.class_togbtn);
             this.beiZhu = (TextView) itemView.findViewById(R.id.class_beizhu);
             this.name = (TextView) itemView.findViewById(R.id.class_name);
             this.avartImg = (CircleImageView) itemView.findViewById(R.id.item_avart_img);

@@ -75,9 +75,9 @@
     
     
     <!--  班级管理  -->
-    <color name="class_primary">#5fd76b</color>
-    <color name="class_intermediate">#668ed6</color>
-    <color name="class_senior">#e7b91b</color>
-    <color name="class_movie">#e77970</color>
+    <color name="class_primary">#4dd87b</color>
+    <color name="class_intermediate">#55a9fd</color>
+    <color name="class_senior">#ffbc3c</color>
+    <color name="class_movie">#8e7ee4</color>
     <color name="light_gray">#f8f9fa</color>
 </resources>

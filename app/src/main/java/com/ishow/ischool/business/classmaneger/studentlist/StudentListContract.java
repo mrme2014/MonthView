@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.classes.memberlist;
+package com.ishow.ischool.business.classmaneger.studentlist;
 
 
 import com.commonlib.core.BaseModel;

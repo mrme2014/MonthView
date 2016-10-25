@@ -141,10 +141,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"></activity>
 
-        <activity android:name=".business.classes.classlist.ClassListActivity"
+        <activity android:name=".business.classmaneger.classlist.ClassListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".business.classes.memberlist.StudentListActivity"
+        <activity android:name=".business.classmaneger.studentlist.StudentListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".business.classmaneger.classlist.TeacherPickActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

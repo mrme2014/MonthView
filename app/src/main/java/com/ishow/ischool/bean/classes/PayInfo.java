@@ -39,7 +39,7 @@ public class PayInfo implements Parcelable {
     private String pay_info;
     private String receipt_no;
     private String memo;
-    private long cheap;
+    private String cheap;
     private int preferential_course_id;
 
 
@@ -63,7 +63,7 @@ public class PayInfo implements Parcelable {
         dest.writeString(this.pay_info);
         dest.writeString(this.receipt_no);
         dest.writeString(this.memo);
-        dest.writeLong(this.cheap);
+        dest.writeString(this.cheap);
         dest.writeInt(this.preferential_course_id);
     }
 
@@ -84,7 +84,7 @@ public class PayInfo implements Parcelable {
         this.pay_info = in.readString();
         this.receipt_no = in.readString();
         this.memo = in.readString();
-        this.cheap = in.readLong();
+        this.cheap = in.readString();
         this.preferential_course_id = in.readInt();
     }
 

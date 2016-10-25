@@ -1,7 +1,7 @@
 package com.ishow.ischool.business.tabbusiness;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.business.classes.classlist.ClassListActivity;
+import com.ishow.ischool.business.classmaneger.classlist.ClassListActivity;
 import com.ishow.ischool.business.student.add.AddStudentActivity;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.communication.list.CommunicationListActivity;

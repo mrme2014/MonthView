@@ -1,6 +1,7 @@
-package com.ishow.ischool.business.classes.memberlist;
+package com.ishow.ischool.business.classmaneger.studentlist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baoyz.actionsheet.ActionSheet;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
@@ -112,6 +114,55 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
         @Override
         public void onBindViewHolder(int position) {
             Student data = mDataList.get(position);
+            name.setText(data.studentInfo.name);
+            final String nameStr = data.studentInfo.name;
+            final String phoneNumber = data.studentInfo.mobile;
+            if (data.studentInfo.class_state == 2) {        // 停课
+                state.setVisibility(View.VISIBLE);
+                state.setText("停课");
+                state.setBackgroundResource(R.drawable.bg_round_corner_blue);
+            }
+//            chenduTv.setText(data.);
+            keguTv.setText(data.studentInfo.advisor_name);
+
+            phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActionSheet.createBuilder(StudentListActivity.this, StudentListActivity.this.getSupportFragmentManager())
+                            .setCancelButtonTitle(R.string.str_cancel)
+                            .setOtherButtonTitles(nameStr + "\n" + phoneNumber, getString(R.string.call), getString(R.string.phone_contacts))
+                            .setCancelableOnTouchOutside(true)
+                            .setListener(new ActionSheet.ActionSheetListener() {
+                                @Override
+                                public void onDismiss(ActionSheet actionSheet, boolean b) {
+
+                                }
+
+                                @Override
+                                public void onOtherButtonClick(ActionSheet actionSheet, int i) {
+                                    switch (i) {
+                                        case 1:
+                                            // TODO: 16/8/17  打电话
+                                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+                                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(callIntent);
+                                            break;
+                                        case 2:
+                                            // TODO: 16/8/17  保存至通讯录
+                                            Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+                                            intent.setType("vnd.android.cursor.item/person");
+                                            intent.setType("vnd.android.cursor.item/contact");
+                                            intent.setType("vnd.android.cursor.item/raw_contact");
+                                            //    intent.putExtra(android.provider.ContactsContract.Intents.Insert.NAME, name);
+                                            intent.putExtra(android.provider.ContactsContract.Intents.Insert.PHONE, phoneNumber);
+                                            intent.putExtra(android.provider.ContactsContract.Intents.Insert.PHONE_TYPE, 3);
+                                            startActivity(intent);
+                                            break;
+                                    }
+                                }
+                            }).show();
+                }
+            });
         }
 
         @Override

@@ -9,8 +9,6 @@ import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.bean.student.StudentRelationInfo;
-import com.ishow.ischool.bean.user.User;
 import com.zaaach.citypicker.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -81,9 +79,9 @@ public class JumpManager {
 
 
     @Deprecated
-    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
-        return checkRelationPermision(context, relation, false);
-    }
+//    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
+//        return checkRelationPermision(context, relation, false);
+//    }
 
     /**
      * 相关的人才能操作
@@ -92,25 +90,25 @@ public class JumpManager {
      * @param relation
      * @return
      */
-    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation, boolean showToast) {
-        if (relation == null) {
-            if (showToast) {
-                ToastUtils.showToast(context, R.string.no_permission);
-            }
-            return false;
-        }
-        User user = UserManager.getInstance().get();
-        int uid = user.userInfo.user_id;
-        if (uid == relation.advisor_id || uid == relation.referrer_id || uid == relation.campus_manager_id
-                || uid == relation.charge_id || uid == relation.saler_id || uid == relation.student_id
-                || uid == relation.guider_id || uid == relation.school_chat_attache_id || uid == relation.school_chat_charge_id) {
-            return true;
-        }
-        if (showToast) {
-            ToastUtils.showToast(context, R.string.no_permission);
-        }
-        return false;
-    }
+//    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation, boolean showToast) {
+//        if (relation == null) {
+//            if (showToast) {
+//                ToastUtils.showToast(context, R.string.no_permission);
+//            }
+//            return false;
+//        }
+//        User user = UserManager.getInstance().get();
+//        int uid = user.userInfo.user_id;
+//        if (uid == relation.advisor_id || uid == relation.referrer_id || uid == relation.campus_manager_id
+//                || uid == relation.charge_id || uid == relation.saler_id || uid == relation.student_id
+//                || uid == relation.guider_id || uid == relation.school_chat_attache_id || uid == relation.school_chat_charge_id) {
+//            return true;
+//        }
+//        if (showToast) {
+//            ToastUtils.showToast(context, R.string.no_permission);
+//        }
+//        return false;
+//    }
 
 
     public static void jumpActivityForResult(Activity from, Class to, int requestCode, int permission) {

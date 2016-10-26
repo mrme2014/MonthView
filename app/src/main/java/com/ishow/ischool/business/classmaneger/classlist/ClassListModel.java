@@ -1,10 +1,11 @@
-package com.ishow.ischool.business.classes.classlist;
+package com.ishow.ischool.business.classmaneger.classlist;
 
 import com.commonlib.Conf;
 import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.classes.ClassList;
+import com.ishow.ischool.bean.classes.TeacherList;
 import com.ishow.ischool.common.api.EducationApi;
 
 import java.util.HashMap;
@@ -25,4 +26,11 @@ public class ClassListModel implements ClassListContract.Model {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<ApiResult<TeacherList>> listTeacher(Integer campusId, String option, String keyword, int page) {
+        return ApiFactory.getInstance().getApi(EducationApi.class)
+                .getTeacherList(option, campusId, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

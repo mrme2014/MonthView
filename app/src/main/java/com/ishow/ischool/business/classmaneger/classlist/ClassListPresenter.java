@@ -1,6 +1,7 @@
-package com.ishow.ischool.business.classes.classlist;
+package com.ishow.ischool.business.classmaneger.classlist;
 
 import com.ishow.ischool.bean.classes.ClassList;
+import com.ishow.ischool.bean.classes.TeacherList;
 import com.ishow.ischool.common.api.ApiObserver;
 
 import java.util.HashMap;
@@ -17,6 +18,27 @@ public class ClassListPresenter extends ClassListContract.Presenter {
                     @Override
                     public void onSuccess(ClassList classList) {
                         mView.getListSuccess(classList);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mView.getListFail(msg);
+                    }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return mView != null && !mView.isActivityFinished();
+                    }
+                });
+    }
+
+    @Override
+    public void listTeacher(Integer campusId, String option, String keyword, int page) {
+        mModel.listTeacher(campusId, option, keyword, page)
+                .subscribe(new ApiObserver<TeacherList>() {
+                    @Override
+                    public void onSuccess(TeacherList teacherInfos) {
+                        mView.getListSuccess(teacherInfos);
                     }
 
                     @Override

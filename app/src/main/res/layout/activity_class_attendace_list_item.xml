@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="62dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+   android:padding="10dp">
 
     <com.ishow.ischool.widget.custom.CircleImageView
         android:id="@+id/item_avart_img"
@@ -33,14 +32,14 @@
 
     <TextView
         android:id="@+id/class_beizhu"
-        android:layout_width="50dp"
+        android:layout_width="52dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginLeft="8dp"
         android:background="@drawable/bg_round_corner_gray"
         android:gravity="center"
         android:text="备注"
-        android:textColor="@color/txt_9"
+        android:textColor="#ddd"
         android:textSize="@dimen/sp12" />
 
     <TextView
@@ -50,14 +49,15 @@
 
     </TextView>
 
-    <ToggleButton
+    <Switch
         android:id="@+id/class_togbtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="31dp"
         android:layout_gravity="right|center_vertical"
         android:checked="true"
         android:textColor="@color/txt_9"
         android:textOff="缺席"
         android:textOn="上课"
+        android:text="上课"
         tools:ignore="RtlHardcoded" />
 </LinearLayout>

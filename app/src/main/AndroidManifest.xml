@@ -135,12 +135,13 @@
         <activity
             android:name=".business.classattention.ClazCheckinTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".business.classes.classlist.ClassListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".business.classes.memberlist.StudentListActivity"
+            android:screenOrientation="landscape"></activity>
+
+        <activity android:name=".business.classmaneger.classlist.ClassListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".business.classmaneger.studentlist.StudentListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".business.classmaneger.classlist.TeacherPickActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".business.address.AddressListActivity"></activity>
     </application>

@@ -50,7 +50,8 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
         super.setUpView();
         curCity = LocManager.getInstance().getCurCityName();
         mToolbarTitle.setText(curCity);
-        mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_adress_down, 0);
+        mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_xiala, 0);
+        mToolbarTitle.setCompoundDrawablePadding(20);
         mToolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

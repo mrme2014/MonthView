@@ -3,6 +3,8 @@ package com.ishow.ischool.bean.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by mini on 16/10/21.
  */
@@ -10,6 +12,8 @@ import android.os.Parcelable;
 public class TeacherInfo implements Parcelable {
     public int id;
     public String user_name;
+    @SerializedName("default")
+    public int defaultValue;
 
 
     @Override
@@ -21,6 +25,7 @@ public class TeacherInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.user_name);
+        dest.writeInt(this.defaultValue);
     }
 
     public TeacherInfo() {
@@ -29,9 +34,10 @@ public class TeacherInfo implements Parcelable {
     protected TeacherInfo(Parcel in) {
         this.id = in.readInt();
         this.user_name = in.readString();
+        this.defaultValue = in.readInt();
     }
 
-    public static final Parcelable.Creator<TeacherInfo> CREATOR = new Parcelable.Creator<TeacherInfo>() {
+    public static final Creator<TeacherInfo> CREATOR = new Creator<TeacherInfo>() {
         @Override
         public TeacherInfo createFromParcel(Parcel source) {
             return new TeacherInfo(source);

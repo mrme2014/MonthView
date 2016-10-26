@@ -87,7 +87,7 @@ public class StudentInfo implements Parcelable {
     public String idcard;
     public int create_time;
     public int update_time;
-    public int class_state;
+    public int class_state;     //班级状态。1.上课；2.停课；3.结果；4.升学中；5.退费
     public int pay_state;
     public int upgrade_state;
     public int apply_state;

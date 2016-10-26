@@ -16,4 +16,5 @@ public abstract class BasePresenter<M, V> {
     public void onDestroy() {
         mView = null;
     }
+
 }

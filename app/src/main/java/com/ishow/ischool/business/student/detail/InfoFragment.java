@@ -15,6 +15,7 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.university.UniversityInfo;
+import com.ishow.ischool.business.address.AddressListActivity;
 import com.ishow.ischool.business.student.edit.EditActivity;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -46,6 +47,8 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
     private static final int REQUEST_IDCARD = 1006;
     private static final int REQUEST_CODE_PICK_UNIVERSITY = 1007;
     private static final int REQUEST_WECHAT = 1008;
+    private static final int REQUEST_PARENT_PHONE = 1009;
+    private static final int REQUEST_HOMETOWN = 1010;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,6 +76,11 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
     LabelTextView enterSchoolYear;
     @BindView(R.id.student_idcard)
     LabelTextView idcardTv;
+    @BindView(R.id.student_parent_phone_number)
+    LabelTextView parentPhoneTv;
+    @BindView(R.id.student_hometown)
+    LabelTextView homeTownTv;
+
     @BindView(R.id.content)
     LinearLayout contentLayout;
     @BindView(R.id.net_empty_view_group)
@@ -151,9 +159,11 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
             birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
-        enterSchoolYear.setText(getString(R.string.year, mStudent.entering_school_year));
+        enterSchoolYear.setText(getString(R.string.year, mStudent.entering_school_year + ""));
         idcardTv.setText(mStudent.idcard);
         wechatTv.setText(mStudent.wechat);
+        parentPhoneTv.setText(mStudent.parents_call);
+        homeTownTv.setText(mStudent.hometown_pid_name + mStudent.hometown_cid_name);
     }
 
     private StudentInfo getStudentInfo() {
@@ -189,7 +199,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
 
     @OnClick({R.id.student_english_name, R.id.student_phone, R.id.student_qq, R.id.student_birthday,
             R.id.student_school, R.id.student_specialty, R.id.student_wechat,
-            R.id.student_class, R.id.student_idcard, R.id.student_user_name})
+            R.id.student_class, R.id.student_idcard, R.id.student_user_name, R.id.student_parent_phone_number, R.id.student_hometown})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.student_user_name: {
@@ -338,9 +348,32 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().idcard);
                 intent.putExtra(EditActivity.P_LEN, 18);
-//                JumpManager.jumpActivityForResult(this, intent, REQUEST_IDCARD, Resource.MARKET_STUDENT_EDIT);
                 startActivityForResult(intent, REQUEST_IDCARD);
             }
+            break;
+            case R.id.student_parent_phone_number: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                intent.putExtra(EditActivity.P_TITLE, getString(R.string.label_student_parent_phone_number));
+                intent.putExtra(EditActivity.P_TYPE, R.id.student_parent_phone_number);
+                intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
+                intent.putExtra(EditActivity.P_TEXT, getStudentInfo().parents_call);
+                intent.putExtra(EditActivity.P_LEN, 11);
+                startActivityForResult(intent, REQUEST_PARENT_PHONE);
+            }
+            break;
+            case R.id.student_hometown: {
+                if (!checkStudentEditPermision()) {
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), AddressListActivity.class);
+                intent.putExtra(AddressListActivity.P_STUDENT_ID, getStudentInfo().student_id);
+                startActivityForResult(intent, REQUEST_HOMETOWN);
+            }
+
             break;
         }
     }
@@ -417,6 +450,21 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                 case REQUEST_IDCARD:
                     idcardTv.setText(text);
                     getStudentInfo().idcard = text;
+                    break;
+                case REQUEST_PARENT_PHONE:
+                    parentPhoneTv.setText(text);
+                    getStudentInfo().idcard = text;
+                    break;
+                case REQUEST_HOMETOWN:
+                    String pname = data.getStringExtra("hometown_pname");
+                    String cname = data.getStringExtra("hometown_cname");
+                    int pid = data.getIntExtra("hometown_pid", 0);
+                    int cid = data.getIntExtra("hometown_cid", 0);
+                    homeTownTv.setText(pname + cname);
+                    getStudentInfo().hometown_cid = cid;
+                    getStudentInfo().hometown_pid = pid;
+                    getStudentInfo().hometown_cid_name = cname;
+                    getStudentInfo().hometown_pid_name = pname;
                     break;
 
             }

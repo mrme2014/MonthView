@@ -39,9 +39,39 @@ public class PayInfo implements Parcelable {
     private String pay_info;
     private String receipt_no;
     private String memo;
-    private long cheap;
+    private String cheap;
     private int preferential_course_id;
 
+
+    protected PayInfo(Parcel in) {
+        id = in.readInt();
+        apply_id = in.readInt();
+        student_id = in.readInt();
+        class_cost = in.readString();
+        payed = in.readString();
+        arrearage = in.readString();
+        teacher_id = in.readInt();
+        advisor_id = in.readInt();
+        pay_time = in.readInt();
+        is_del = in.readInt();
+        pay_info = in.readString();
+        receipt_no = in.readString();
+        memo = in.readString();
+        cheap = in.readString();
+        preferential_course_id = in.readInt();
+    }
+
+    public static final Creator<PayInfo> CREATOR = new Creator<PayInfo>() {
+        @Override
+        public PayInfo createFromParcel(Parcel in) {
+            return new PayInfo(in);
+        }
+
+        @Override
+        public PayInfo[] newArray(int size) {
+            return new PayInfo[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -50,53 +80,20 @@ public class PayInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeInt(this.apply_id);
-        dest.writeInt(this.student_id);
-        dest.writeString(this.class_cost);
-        dest.writeString(this.payed);
-        dest.writeString(this.arrearage);
-        dest.writeInt(this.teacher_id);
-        dest.writeInt(this.advisor_id);
-        dest.writeInt(this.pay_time);
-        dest.writeInt(this.is_del);
-        dest.writeString(this.pay_info);
-        dest.writeString(this.receipt_no);
-        dest.writeString(this.memo);
-        dest.writeLong(this.cheap);
-        dest.writeInt(this.preferential_course_id);
+        dest.writeInt(id);
+        dest.writeInt(apply_id);
+        dest.writeInt(student_id);
+        dest.writeString(class_cost);
+        dest.writeString(payed);
+        dest.writeString(arrearage);
+        dest.writeInt(teacher_id);
+        dest.writeInt(advisor_id);
+        dest.writeInt(pay_time);
+        dest.writeInt(is_del);
+        dest.writeString(pay_info);
+        dest.writeString(receipt_no);
+        dest.writeString(memo);
+        dest.writeString(cheap);
+        dest.writeInt(preferential_course_id);
     }
-
-    public PayInfo() {
-    }
-
-    protected PayInfo(Parcel in) {
-        this.id = in.readInt();
-        this.apply_id = in.readInt();
-        this.student_id = in.readInt();
-        this.class_cost = in.readString();
-        this.payed = in.readString();
-        this.arrearage = in.readString();
-        this.teacher_id = in.readInt();
-        this.advisor_id = in.readInt();
-        this.pay_time = in.readInt();
-        this.is_del = in.readInt();
-        this.pay_info = in.readString();
-        this.receipt_no = in.readString();
-        this.memo = in.readString();
-        this.cheap = in.readLong();
-        this.preferential_course_id = in.readInt();
-    }
-
-    public static final Creator<PayInfo> CREATOR = new Creator<PayInfo>() {
-        @Override
-        public PayInfo createFromParcel(Parcel source) {
-            return new PayInfo(source);
-        }
-
-        @Override
-        public PayInfo[] newArray(int size) {
-            return new PayInfo[size];
-        }
-    };
 }

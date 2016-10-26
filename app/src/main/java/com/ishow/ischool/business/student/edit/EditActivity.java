@@ -123,6 +123,10 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
                 params.put("idcard", text);
                 break;
             }
+            case R.id.student_parent_phone_number: {
+                params.put("parents_call", text);
+                break;
+            }
         }
         mPresenter.editStudent(params, text);
         return super.onMenuItemClick(item);

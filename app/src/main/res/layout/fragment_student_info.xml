@@ -126,6 +126,26 @@
                 android:layout_height="1px"
                 android:background="@color/comm_line" />
 
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/student_parent_phone_number"
+                style="@style/student_info_textview"
+                app:label_text_left="@string/label_student_parent_phone_number" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/comm_line" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/student_hometown"
+                style="@style/student_info_textview"
+                app:label_text_left="@string/label_student_hometown" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/comm_line" />
+
         </LinearLayout>
 
         <include layout="@layout/net_empty_view" />

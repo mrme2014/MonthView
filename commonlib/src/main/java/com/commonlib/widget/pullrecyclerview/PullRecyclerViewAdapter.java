@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.commonlib.R;
@@ -29,16 +30,27 @@ public abstract class PullRecyclerViewAdapter<T> extends RecyclerView.Adapter<Pu
     //获取从Activity中传递过来每个item的数据集合
     public List<T> mDatas;
     private int mState = ACTION_LOADMORE_HIDE;
+    private AdapterView.OnItemClickListener onItemClickListener;
 
     @Override
     public PullViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOAD_MORE_LOADING || viewType == VIEW_TYPE_LOAD_MORE_END) {
             return onCreateLoadMoreFooterViewHolder(parent);
         }
-        return onCreateItemViewHolder(parent, viewType);
+        return onCreateDataViewHolder(parent, viewType);
     }
 
-    public abstract PullViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType);
+    public abstract PullViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType);
+
+    @Override
+    public void onBindViewHolder(PullViewHolder holder, int position) {
+        if (onItemClickListener != null) {
+            holder.setOnItemClickListener(onItemClickListener);
+        }
+        onBindDataViewHolder(holder, position);
+    }
+
+    public abstract void onBindDataViewHolder(PullViewHolder holder, int position);
 
     @Override
     public int getItemCount() {
@@ -57,15 +69,35 @@ public abstract class PullRecyclerViewAdapter<T> extends RecyclerView.Adapter<Pu
      */
     protected PullViewHolder onCreateLoadMoreFooterViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.widget_pull_to_refresh_footer, parent, false);
-        return new LoadMoreFooterViewHolder(view);
+        return new LoadMoreFooterPullViewHolder(view);
     }
 
+    @Deprecated
+    /**
+     * need computer loadmore
+     * use PullRecycleView.setData()
+     */
     public void setData(ArrayList<T> datas) {
         mDatas = datas;
         notifyDataSetChanged();
     }
 
+    protected void setData(ArrayList<T> datas, boolean sort) {
+        mDatas = datas;
+        notifyDataSetChanged();
+    }
+
+    @Deprecated
+    /**
+     * need computer loadmore
+     * use PullRecycleView.addData()
+     */
     public void addData(ArrayList<T> datas) {
+        mDatas.addAll(datas);
+        notifyDataSetChanged();
+    }
+
+    protected void addData(ArrayList<T> datas, boolean sort) {
         mDatas.addAll(datas);
         notifyDataSetChanged();
     }
@@ -84,16 +116,23 @@ public abstract class PullRecyclerViewAdapter<T> extends RecyclerView.Adapter<Pu
         return 0;
     }
 
+    public T getData(int postion) {
+        return mDatas.get(postion);
+    }
+
     public void onLoadMoreStateChanged(int actionLoadmoreShow) {
         mState = actionLoadmoreShow;
     }
 
     public void onLoadMoreLoading() {
         mState = ACTION_LOADMORE_LOADING;
+        notifyItemChanged(getItemCount() - 1);
     }
 
     public void onLoadMoreCompleted() {
         mState = ACTION_LOADMORE_HIDE;
+        notifyItemChanged(getItemCount() - 1);
+        LogUtil.d("onLoadMoreCompleted");
     }
 
     public void onLoadNoMoreData() {
@@ -102,9 +141,15 @@ public abstract class PullRecyclerViewAdapter<T> extends RecyclerView.Adapter<Pu
         LogUtil.d("onLoadNoMoreData");
     }
 
-    private class LoadMoreFooterViewHolder extends PullViewHolder {
+    protected void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        if (listener != null) {
+            this.onItemClickListener = listener;
+        }
+    }
 
-        public LoadMoreFooterViewHolder(View view) {
+    private class LoadMoreFooterPullViewHolder extends PullViewHolder {
+
+        public LoadMoreFooterPullViewHolder(View view) {
             super(view);
             LinearLayout loadMoreEndLayout = (LinearLayout) view.findViewById(R.id.end_layout);
             LinearLayout loadMoreLoadingLayout = (LinearLayout) view.findViewById(R.id.loading_layout);
@@ -117,4 +162,5 @@ public abstract class PullRecyclerViewAdapter<T> extends RecyclerView.Adapter<Pu
             }
         }
     }
+
 }

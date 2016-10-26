@@ -292,7 +292,6 @@
     <string name="claz_table_tip">课时总计:%1$s 人数总计:实到人数%2$s 应到人数%3$s</string>
 
 
-
     <!--  班级管理  -->
     <string name="not_in_class">未上课</string>
     <string name="in_class">上课中</string>
@@ -301,4 +300,7 @@
     <string name="lesson_schedule">课程(%1$d/%2$d)</string>
     <string name="lesson_student_number">学生 %1$d/%2$d人</string>
     <string name="time_slot">周%1$s (%2$s-%3$s)</string>
+
+    <string name="label_student_parent_phone_number">父母电话</string>
+    <string name="label_student_hometown">家乡</string>
 </resources>

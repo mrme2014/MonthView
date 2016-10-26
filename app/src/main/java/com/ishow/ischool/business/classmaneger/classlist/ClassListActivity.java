@@ -2,7 +2,6 @@ package com.ishow.ischool.business.classmaneger.classlist;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,11 +22,14 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.TimeSlotAdapter;
 import com.ishow.ischool.bean.classes.ClassList;
 import com.ishow.ischool.bean.classes.ClassPojo;
+import com.ishow.ischool.bean.classes.ClassTimeSlot;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.classattention.ClassAttendActivity;
 import com.ishow.ischool.business.classmaneger.studentlist.StudentListActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.fragment.ClassListFilterFragment;
+import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.CustomGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +42,7 @@ import butterknife.ButterKnife;
  * Created by wqf on 16/10/21.
  */
 public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, ClassListModel, ClassPojo> implements ClassListContract.View<ClassList>,
-    ClassListFilterFragment.FilterCallback {
+        ClassListFilterFragment.FilterCallback {
 
     private PopupWindow popupWindow;
     private View popupView;
@@ -59,7 +61,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     protected void setUpView() {
         super.setUpView();
         mToolbarTitle.setText(R.string.in_class);
-        mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_adress_down, 0);
+        mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_xiala, 0);
+        mToolbarTitle.setCompoundDrawablePadding(20);
         mToolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,6 +93,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             popupWindow.setOutsideTouchable(true);
             popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            popupWindow.setAnimationStyle(R.style.popup_anim);
         }
         int popupWidth = popupView.getMeasuredWidth();
         int popupHeight = popupView.getMeasuredHeight();
@@ -163,10 +167,10 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     }
 
     /**
-     * @param map                   筛选参数
-     * @param course_type_name      用于缓存筛选后，再次进入时填充内容（课程类型）
-     * @param teacher_name          用于缓存筛选后，再次进入时填充内容（教师名字）
-     * @param advisor_name          用于缓存筛选后，再次进入时填充内容 (学习顾问名字)
+     * @param map              筛选参数
+     * @param course_type_name 用于缓存筛选后，再次进入时填充内容（课程类型）
+     * @param teacher_name     用于缓存筛选后，再次进入时填充内容（教师名字）
+     * @param advisor_name     用于缓存筛选后，再次进入时填充内容 (学习顾问名字)
      */
     @Override
     public void onFinishFilter(HashMap<String, String> map, String course_type_name, String teacher_name, String advisor_name) {
@@ -200,6 +204,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         }
 
         filterParams.put("status", mParamStatus + "");
+        filterParams.put("fields", "classDynamic,classInfo");
         mPresenter.getListClasses(filterParams, mCurrentPage++);
     }
 
@@ -279,6 +284,23 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                     break;
             }
             classNameTv.setText(data.classInfo.course_type + "-" + data.classInfo.name);
+            switch (data.classInfo.status) {
+                case 2:
+                    int day = AppUtil.getDayOfWeek();
+                    for (ClassTimeSlot classTimeSlot : data.classInfo.timeslot) {
+                        if (classTimeSlot.week == day) {
+                            if (data.classDynamic.checkin_status == 0) {
+                                signedTv.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                case 1:
+                case 3:
+                    signedTv.setVisibility(View.GONE);
+                    break;
+            }
             lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.current_numbers, data.classInfo.lesson_times));
 //            Glide.with(getApplicationContext()).load(data.avatar).fitCenter().placeholder(R.mipmap.img_header_default)
 //                    .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(teacherAvatar) {
@@ -301,7 +323,9 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             teacherName.setText(data.classInfo.teacher_name);
             advisorName.setText(data.classInfo.advisor_name);
 //            classTimeTv.setText(data.classInfo.);
-            recyclerView.setLayoutManager(new GridLayoutManager(ClassListActivity.this, 2));
+            CustomGridLayoutManager gridLayoutManager = new CustomGridLayoutManager(ClassListActivity.this, 2);
+            gridLayoutManager.setScrollEnabled(false);
+            recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(new TimeSlotAdapter(ClassListActivity.this, data.classInfo.timeslot));
             studentNumberTv.setText(getString(R.string.lesson_student_number, data.classInfo.current_numbers, data.classInfo.numbers));

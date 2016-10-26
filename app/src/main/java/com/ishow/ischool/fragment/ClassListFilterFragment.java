@@ -29,6 +29,7 @@ import com.ishow.ischool.business.classmaneger.classlist.TeacherPickActivity;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.util.ToastUtil;
 import com.ishow.ischool.widget.custom.InputLinearLayout;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
@@ -116,9 +117,9 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
             mFilterEndTime = bundle.getString("end_time", "");
             mFilterCourseTypeId = bundle.getString("course_type", "");
             mFilterCourseTypeName = bundle.getString("course_type_name", "");
-            mFilterTeacherId = bundle.getString("teacher_id", "");
+            mFilterTeacherId = bundle.getString("teacher", "");
             mFilterTeacherName = bundle.getString("teacher_name", "");
-            mFilterAdvisorId = bundle.getString("advisor_id", "");
+            mFilterAdvisorId = bundle.getString("advisor", "");
             mFilterAdvisorName = bundle.getString("advisor_name", "");
         }
     }
@@ -176,9 +177,8 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
         isUserCampus = (mUser.userInfo.campus_id == Campus.HEADQUARTERS) ? false : true;
         if (!isUserCampus) {        // 总部才显示“所属校区”筛选条件（默认杭州校区）
             campusIL.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(mFilterCampusId) || mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
-                campusIL.setContent("杭州校区");
-            } else {
+            if (!TextUtils.isEmpty(mFilterCampusId) && !mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
+//                campusIL.setContent("杭州校区");
                 campusIL.setContent(CampusManager.getInstance().getCampusNameById(Integer.parseInt(mFilterCampusId)));
             }
         }
@@ -310,7 +310,20 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
                     public void onPickResult(Object object, String... result) {
                         campusIL.setContent(result[0]);
                         int index = campusList.indexOf(result[0]);
-                        mFilterCampusId = (CampusManager.getInstance().get().get(index).id + "");
+                        String selectedCampusId = (CampusManager.getInstance().get().get(index).id + "");
+                        if (!mFilterCampusId.equals(selectedCampusId)) {            // 校区改变后，清空教师和学习顾问
+                            if (!TextUtils.isEmpty(mFilterTeacherId)) {
+                                mFilterTeacherId = "";
+                                mFilterTeacherName = "";
+                                teacherIL.setContent("");
+                            }
+                            if (!TextUtils.isEmpty(mFilterAdvisorId)) {
+                                mFilterAdvisorId = "";
+                                mFilterAdvisorName = "";
+                                advisorIL.setContent("");
+                            }
+                            mFilterCampusId = selectedCampusId;
+                        }
                     }
                 });
                 break;
@@ -352,18 +365,26 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
                 });
                 break;
             case R.id.item_teacher:
-                Intent teacherIntent = new Intent(getActivity(), TeacherPickActivity.class);
-                teacherIntent.putExtra(TeacherPickActivity.PICK_CAMPUS_ID, TextUtils.isEmpty(mFilterCampusId) ? -1 : Integer.parseInt(mFilterCampusId));
-                teacherIntent.putExtra(TeacherPickActivity.PICK_TITLE, "选择教师");
-                teacherIntent.putExtra(TeacherPickActivity.PICK_TYPE, TeacherPickActivity.PICK_TYPE_TEACHER);
-                startActivityForResult(teacherIntent, TeacherPickActivity.REQUEST_CODE_PICKTEACHER);
+                if (!TextUtils.isEmpty(mFilterCampusId) && !mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
+                    Intent teacherIntent = new Intent(getActivity(), TeacherPickActivity.class);
+                    teacherIntent.putExtra(TeacherPickActivity.PICK_CAMPUS_ID, TextUtils.isEmpty(mFilterCampusId) ? -1 : Integer.parseInt(mFilterCampusId));
+                    teacherIntent.putExtra(TeacherPickActivity.PICK_TITLE, "选择教师");
+                    teacherIntent.putExtra(TeacherPickActivity.PICK_TYPE, TeacherPickActivity.PICK_TYPE_TEACHER);
+                    startActivityForResult(teacherIntent, TeacherPickActivity.REQUEST_CODE_PICKTEACHER);
+                } else {
+                    ToastUtil.showToast(getActivity(), "请先选择校区");
+                }
                 break;
             case R.id.item_advisor:
-                Intent advisorIntent = new Intent(getActivity(), TeacherPickActivity.class);
-                advisorIntent.putExtra(TeacherPickActivity.PICK_CAMPUS_ID, TextUtils.isEmpty(mFilterCampusId) ? -1 : Integer.parseInt(mFilterCampusId));
-                advisorIntent.putExtra(TeacherPickActivity.PICK_TITLE, "选择学习顾问");
-                advisorIntent.putExtra(TeacherPickActivity.PICK_TYPE, TeacherPickActivity.PICK_TYPE_ADVISOR);
-                startActivityForResult(advisorIntent, TeacherPickActivity.REQUEST_CODE_PICKADVISOR);
+                if (!TextUtils.isEmpty(mFilterCampusId) && !mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
+                    Intent advisorIntent = new Intent(getActivity(), TeacherPickActivity.class);
+                    advisorIntent.putExtra(TeacherPickActivity.PICK_CAMPUS_ID, TextUtils.isEmpty(mFilterCampusId) ? -1 : Integer.parseInt(mFilterCampusId));
+                    advisorIntent.putExtra(TeacherPickActivity.PICK_TITLE, "选择学习顾问");
+                    advisorIntent.putExtra(TeacherPickActivity.PICK_TYPE, TeacherPickActivity.PICK_TYPE_ADVISOR);
+                    startActivityForResult(advisorIntent, TeacherPickActivity.REQUEST_CODE_PICKADVISOR);
+                } else {
+                    ToastUtil.showToast(getActivity(), "请先选择校区");
+                }
                 break;
             default:
                 break;

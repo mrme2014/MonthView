@@ -14,9 +14,13 @@ import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
+import com.ishow.ischool.business.student.detail.StudentDetailActivity;
+import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
 import java.util.ArrayList;
@@ -99,8 +103,8 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
         TextView name;
         @BindView(R.id.state)
         TextView state;
-        @BindView(R.id.chengdu_tv)
-        TextView chenduTv;
+        @BindView(R.id.teacher_tv)
+        TextView teacherTv;
         @BindView(R.id.kegu_tv)
         TextView keguTv;
         @BindView(R.id.phone)
@@ -115,15 +119,33 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
         public void onBindViewHolder(int position) {
             Student data = mDataList.get(position);
             name.setText(data.studentInfo.name);
+            avatar.setText(data.studentInfo.name, data.studentInfo.id, data.avatarInfo == null ? "" : data.avatarInfo.file_name);
+            if (data.studentInfo.source == MarketApi.TYPESOURCE_READING) {
+                teacherTv.setText(getString(R.string.chendu, data.studentInfo.source_name));
+            } else if (data.studentInfo.source == MarketApi.TYPESOURCE_CHAT) {
+                teacherTv.setText(getString(R.string.xiaoliao, data.studentInfo.source_name));
+            } else {
+                teacherTv.setVisibility(View.GONE);
+            }
             final String nameStr = data.studentInfo.name;
             final String phoneNumber = data.studentInfo.mobile;
-            if (data.studentInfo.class_state == 2) {        // 停课
+            int classState = data.studentInfo.old_class_state;
+            if (classState == -1 || classState == -2 ||
+                    classState == 4 || classState == 2) {
                 state.setVisibility(View.VISIBLE);
-                state.setText("停课");
                 state.setBackgroundResource(R.drawable.bg_round_corner_blue);
+                if (classState == -1) {
+                    state.setText(getString(R.string.state_class_switch));  // 调班
+                } else if (classState == -2) {
+                    state.setText(getString(R.string.state_class_change));  // 转班
+                } else if (classState == 4) {
+                    state.setText(getString(R.string.state_class_suspended));  // 停课
+                } else if (classState == 2) {
+                    state.setText(getString(R.string.state_class_refund));  // 退费
+                }
             }
 //            chenduTv.setText(data.);
-            keguTv.setText(data.studentInfo.advisor_name);
+            keguTv.setText(getString(R.string.kegu, data.studentInfo.advisor_name));
 
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,6 +190,9 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
         @Override
         public void onItemClick(View view, int position) {
             Student data = mDataList.get(position);
+            Intent intent = new Intent(StudentListActivity.this, StudentDetailActivity.class);
+            intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
+            JumpManager.jumpActivity(StudentListActivity.this, intent, Resource.MARKET_STUDENT_STUDENTINFO);
         }
     }
 }

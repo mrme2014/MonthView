@@ -45,7 +45,7 @@ public class TabBusinessModel implements TabBusinessContract.Model {
     List<TabSpec> getTabSpecs4Teach() {
         intentClazz = new Class[]{ClassListActivity.class, CommunicationListActivity.class, AddStudentActivity.class};
         texts = new String[]{"班级管理", "沟通记录", "添加沟通记录"};
-        iconResIds = new int[]{R.mipmap.icon_business_01, R.mipmap.icon_business_02, R.mipmap.icon_business_04};
+        iconResIds = new int[]{R.mipmap.icon_business_class, R.mipmap.icon_business_02, R.mipmap.icon_business_04};
         int tabsize = intentClazz.length;
         tabSpecs = new ArrayList<>(tabsize);
         for (int i = 0; i < tabsize; i++) {

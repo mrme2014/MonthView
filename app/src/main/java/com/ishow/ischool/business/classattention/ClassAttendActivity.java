@@ -115,8 +115,8 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         classInfo = result.classInfo;
         if (classInfo == null)
             return;
-        if (classInfo.avart != null && classInfo.avart != "") {
-            PicUtils.loadpic(this, classAvartImg, classInfo.avart);
+        if (classInfo.teacherAvatar != null && classInfo.teacherAvatar != "") {
+            PicUtils.loadpic(this, classAvartImg, classInfo.teacherAvatar);
         } else {
             classAvartImg.setVisibility(View.GONE);
             classAvartTxt.setVisibility(View.VISIBLE);

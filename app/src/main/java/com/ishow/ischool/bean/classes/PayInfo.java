@@ -99,6 +99,4 @@ public class PayInfo implements Parcelable {
             return new PayInfo[size];
         }
     };
-
-
 }

@@ -25,6 +25,7 @@ import com.ishow.ischool.bean.classes.ClassPojo;
 import com.ishow.ischool.bean.classes.ClassTimeSlot;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.classattention.ClassAttendActivity;
+import com.ishow.ischool.business.classattention.ClazCheckinTableActivity;
 import com.ishow.ischool.business.classmaneger.studentlist.StudentListActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.fragment.ClassListFilterFragment;
@@ -340,14 +341,15 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                             startActivity(signedIntent);
                             break;
                         case R.id.student_number_layout:
-                            ClassPojo data = mDataList.get(position);
                             Intent classIntent = new Intent(ClassListActivity.this, StudentListActivity.class);
                             classIntent.putExtra(StudentListActivity.CLASSID, data.classInfo.id);
                             classIntent.putExtra(StudentListActivity.CLASSNAME, data.classInfo.name);
                             startActivity(classIntent);
                             break;
                         case R.id.class_history:
-
+                            Intent historyIntent = new Intent(ClassListActivity.this, ClazCheckinTableActivity.class);
+                            historyIntent.putExtra("claz_id", data.classInfo.id);
+                            startActivity(historyIntent);
                             break;
                     }
                 }

@@ -77,7 +77,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
             holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_blue);
             holder.beiZhu.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         }else{
-            holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_gray);
+            holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_gray_normal);
             holder.beiZhu.setTextColor(context.getResources().getColor(R.color.txt_9));
         }
         holder.button.setChecked(checkInList.get(position));

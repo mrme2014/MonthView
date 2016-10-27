@@ -14,6 +14,7 @@ public class TeacherInfo implements Parcelable {
     public String user_name;
     @SerializedName("default")
     public int defaultValue;
+    public String avatar;
 
 
     @Override
@@ -26,6 +27,7 @@ public class TeacherInfo implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.user_name);
         dest.writeInt(this.defaultValue);
+        dest.writeString(this.avatar);
     }
 
     public TeacherInfo() {
@@ -35,6 +37,7 @@ public class TeacherInfo implements Parcelable {
         this.id = in.readInt();
         this.user_name = in.readString();
         this.defaultValue = in.readInt();
+        this.avatar = in.readString();
     }
 
     public static final Creator<TeacherInfo> CREATOR = new Creator<TeacherInfo>() {

@@ -140,7 +140,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             return;
         }
         ClazTableTotal total = result.total;
-        clazTableTip.setText(String.format(getString(R.string.claz_table_tip),total.num,total.real_numbers,total.numbers));
+        clazTableTip.setText(String.format(getString(R.string.claz_table_tip),total.num,total.numbers,total.real_numbers));
         List<List<String>> listList = new ArrayList<>();
         listList.clear();
         List<String> left = new ArrayList<>();
@@ -151,8 +151,8 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             row.add(DateUtil.parseSecond2Str(Long.parseLong(clazTableRow.class_date + "")));
             row.add(clazTableRow.teacher);
             row.add(clazTableRow.lessoned_times);
-            row.add(clazTableRow.numbers);
             row.add(clazTableRow.real_numbers);
+            row.add(clazTableRow.numbers);
             left.add(i + "");//左边 list序号列
             listList.add(row);
         }

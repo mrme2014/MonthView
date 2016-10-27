@@ -90,8 +90,8 @@ public class PayInfo implements Parcelable {
 
     public static final Creator<PayInfo> CREATOR = new Creator<PayInfo>() {
         @Override
-        public PayInfo createFromParcel(Parcel in) {
-            return new PayInfo(in);
+        public PayInfo createFromParcel(Parcel source) {
+            return new PayInfo(source);
         }
 
         @Override
@@ -99,28 +99,4 @@ public class PayInfo implements Parcelable {
             return new PayInfo[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeInt(apply_id);
-        dest.writeInt(student_id);
-        dest.writeString(class_cost);
-        dest.writeString(payed);
-        dest.writeString(arrearage);
-        dest.writeInt(teacher_id);
-        dest.writeInt(advisor_id);
-        dest.writeInt(pay_time);
-        dest.writeInt(is_del);
-        dest.writeString(pay_info);
-        dest.writeString(receipt_no);
-        dest.writeString(memo);
-        dest.writeString(cheap);
-        dest.writeInt(preferential_course_id);
-    }
 }

@@ -15,8 +15,8 @@ import com.ishow.ischool.bean.teachprocess.ChartProcess;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
-import com.ishow.ischool.business.classattention.ClassAttendActivity;
 import com.ishow.ischool.business.statistic.other.OtherStatisticActivity;
+import com.ishow.ischool.business.teachprocess.TeachProcessActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -158,10 +158,10 @@ public class DataTeachFragment extends BaseFragment4Crm<DataTeachPresenter, Data
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_market:
-               startActivity(new Intent(getActivity(), ClassAttendActivity.class));
-              /*  if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_TEACHINGPROCESSANALYSIS)) {
+               //startActivity(new Intent(getActivity(), ClassAttendActivity.class));
+               if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_TEACHINGPROCESSANALYSIS)) {
                     startActivity(new Intent(getActivity(), TeachProcessActivity.class));
-                }*/
+                }
                 break;
             case R.id.data_campus://DATA_DATAANALYZE_BAZAARCONTRAST
                 if (JumpManager.checkUserPermision(getActivity(), Resource.DATA_DATAANALYZE_TEACHINGCONTRAST)) {

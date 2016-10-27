@@ -62,7 +62,7 @@ public class TestRecyclerViewActivity extends AppCompatActivity {
                 datas.add(mPage + "_" + i);
             }
             mAdapter.addData(datas);
-            mPullRecyclerView.setRefreshCompleted();
+            mPullRecyclerView.setRefreshing(false);
         } else {
             mPullRecyclerView.setNoMoreData();
         }
@@ -75,7 +75,7 @@ public class TestRecyclerViewActivity extends AppCompatActivity {
             datas.add("1_" + i);
         }
         mAdapter.setData(datas);
-        mPullRecyclerView.setRefreshCompleted();
+        mPullRecyclerView.setRefreshing(false);
     }
 
 
@@ -95,7 +95,7 @@ public class TestRecyclerViewActivity extends AppCompatActivity {
         }
 
         @Override
-        public PullViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
+        public PullViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
                 case type_1:
                     View view = LayoutInflater.from(context).inflate(R.layout.item_test_recycler_view, parent, false);
@@ -105,7 +105,7 @@ public class TestRecyclerViewActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(PullViewHolder holder, int position) {
+        public void onBindDataViewHolder(PullViewHolder holder, int position) {
             if (holder instanceof MyViewHolder) {
                 String str = mDatas.get(position);
                 MyViewHolder myViewHolder = (MyViewHolder) holder;

@@ -13,6 +13,7 @@ import com.commonlib.widget.pull.layoutmanager.ILayoutManager;
 import com.commonlib.widget.pull.layoutmanager.MyLinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wqf on 16/4/29.
@@ -118,7 +119,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
      *
      * @param resultList
      */
-    protected void loadSuccess(ArrayList<T> resultList) {
+    protected void loadSuccess(List<T> resultList) {
         if (mCurrentPage == 1) {        // 不支持分页（mCurrentPage没有使用时，就是没有作分页处理，即mCurrentPage一直等于1）
             recycler.mPageEnable = false;
         }
@@ -130,6 +131,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
 
         if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {      // 下拉刷新，重置数据
             mDataList.clear();
+            recycler.smoothToTop();
         }
 
         if (resultList == null || resultList.size() == 0) {
@@ -140,14 +142,14 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
                 recycler.showEmptyView();
             }
         } else {
-            if (recycler.mPageEnable) {
+//            if (recycler.mPageEnable) {
                 if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
                     recycler.enableLoadMore(false);
                     recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);
                 } else {
                     recycler.enableLoadMore(true);
                 }
-            }
+//            }
             mDataList.addAll(resultList);
             mAdapter.notifyDataSetChanged();
         }

@@ -303,6 +303,12 @@ public class AppUtil {
         return time;
     }
 
+    public static int getDayOfWeek() {
+        Calendar c = Calendar.getInstance();
+        int weekDay = c.get(Calendar.DAY_OF_WEEK);
+        return weekDay - 1;         // 因为是从星期日作为第一天
+    }
+
     public static int getDayAgo(int dayAgo) {  //N天前的 零点  时间戳
 
         return getTodayEnd()-dayAgo*24*3600;

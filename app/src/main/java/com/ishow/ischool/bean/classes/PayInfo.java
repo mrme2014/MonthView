@@ -39,7 +39,7 @@ public class PayInfo implements Parcelable {
     private String pay_info;
     private String receipt_no;
     private String memo;
-    private long cheap;
+    private String cheap;
     private int preferential_course_id;
 
 
@@ -63,7 +63,7 @@ public class PayInfo implements Parcelable {
         dest.writeString(this.pay_info);
         dest.writeString(this.receipt_no);
         dest.writeString(this.memo);
-        dest.writeLong(this.cheap);
+        dest.writeString(this.cheap);
         dest.writeInt(this.preferential_course_id);
     }
 
@@ -84,14 +84,14 @@ public class PayInfo implements Parcelable {
         this.pay_info = in.readString();
         this.receipt_no = in.readString();
         this.memo = in.readString();
-        this.cheap = in.readLong();
+        this.cheap = in.readString();
         this.preferential_course_id = in.readInt();
     }
 
     public static final Creator<PayInfo> CREATOR = new Creator<PayInfo>() {
         @Override
-        public PayInfo createFromParcel(Parcel source) {
-            return new PayInfo(source);
+        public PayInfo createFromParcel(Parcel in) {
+            return new PayInfo(in);
         }
 
         @Override
@@ -99,4 +99,28 @@ public class PayInfo implements Parcelable {
             return new PayInfo[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(apply_id);
+        dest.writeInt(student_id);
+        dest.writeString(class_cost);
+        dest.writeString(payed);
+        dest.writeString(arrearage);
+        dest.writeInt(teacher_id);
+        dest.writeInt(advisor_id);
+        dest.writeInt(pay_time);
+        dest.writeInt(is_del);
+        dest.writeString(pay_info);
+        dest.writeString(receipt_no);
+        dest.writeString(memo);
+        dest.writeString(cheap);
+        dest.writeInt(preferential_course_id);
+    }
 }

@@ -1,6 +1,7 @@
 package com.ishow.ischool.business.student.detail;
 
 import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.HashMap;
 
@@ -21,5 +22,9 @@ public class InfoPresenter extends InfoContract.Presenter {
                 mView.onEditStudentFailed(msg);
             }
         });
+    }
+
+    public void pickHometown() {
+
     }
 }

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,18 +15,27 @@ import android.widget.TextView;
 import com.commonlib.R;
 import com.commonlib.util.LogUtil;
 
+import java.util.ArrayList;
+
+import static com.commonlib.widget.pullrecyclerview.PullRecyclerViewAdapter.ACTION_LOADMORE_END;
+
 
 /**
  * Created by abel on 16/10/10.
  */
 
-public class PullRecyclerView extends SwipeRefreshLayout {
+public class PullRecyclerView<T> extends SwipeRefreshLayout {
 
-    //    public static final int ACTION_PULL_TO_REFRESH = 1;
+    public static final int ACTION_PULL_TO_REFRESH = 1;
     public static final int ACTION_LOAD_MORE_LOADING = 2;
-    //    public static final int ACTION_LOAD_MORE_END = 3;
+    public static final int ACTION_LOAD_MORE_NO_MORE_DATA = 3;
     public static final int ACTION_IDLE = 0;
     private static final String TAG = "PullRecyclerView";
+
+    public static final int MODE_PULL_DOWN = 1;
+    public static final int MODE_PULL_UP = 2;
+    public static final int MODE_BOTH = 3;
+    public static final int MODE_NONE = 0;
 
     RecyclerView mRecyclerView;
     private LinearLayout mEmptyLayout;
@@ -33,9 +43,12 @@ public class PullRecyclerView extends SwipeRefreshLayout {
     private int mCurrentState;
     private PullRecyclerViewAdapter mAdapter;
 
-    private boolean isLoadMoreEnabled = true;
+    private boolean isLoadMoreEnable = true;
+    private boolean isNoMoreDataEnable = true;
 
     private OnRefreshListener1 mOnRefreshListener;
+    private int mode = MODE_BOTH;
+    private int pageSize = 20;
 
     public PullRecyclerView(Context context) {
         super(context);
@@ -56,22 +69,24 @@ public class PullRecyclerView extends SwipeRefreshLayout {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                LogUtil.d("onScrollStateChanged newState=" + newState + " Thread=" + Thread.currentThread().getId());
+                //LogUtil.d("onScrollStateChanged newState=" + newState + " Thread=" + Thread.currentThread().getId());
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                LogUtil.d("onScrolled " + dx + " " + dy + " mCurrentState=" + mCurrentState + " Thread=" + Thread.currentThread().getId());
-                if (mCurrentState == ACTION_IDLE && isLoadMoreEnabled && checkIfNeedLoadMore()) {
+                LogUtil.d("onScrolled " + dx + " " + dy + " mCurrentState=" + mCurrentState);
+                if (mCurrentState == ACTION_IDLE && (mode & MODE_PULL_UP) != 0 && isLoadMoreEnable && checkIfNeedLoadMore()) {
 
                     mCurrentState = ACTION_LOAD_MORE_LOADING;
                     mAdapter.onLoadMoreLoading();
 
                     setEnabled(false);
                     LogUtil.d("onScrolled mCurrentState=" + mCurrentState);
-                    mOnRefreshListener.onRefreshMore();
+                    if (mOnRefreshListener != null) {
+                        mOnRefreshListener.onRefreshMore();
+                    }
                 }
             }
         });
@@ -132,15 +147,94 @@ public class PullRecyclerView extends SwipeRefreshLayout {
         setOnRefreshListener(listener);
     }
 
-    public void setLoadMoreEnabled(boolean loadMoreEnabled) {
-        isLoadMoreEnabled = loadMoreEnabled;
+    public void set(int mode, int pageSize) {
+        setMode(mode);
+        setPageSize(pageSize);
+    }
+
+    public void computerLoadMore(int pageSize, int dataSize) {
+        if (dataSize == pageSize && (mode & MODE_PULL_UP) != 0) {
+            isLoadMoreEnable = true;
+        } else if (dataSize < pageSize && isNoMoreDataEnable) {
+            mAdapter.onLoadMoreStateChanged(ACTION_LOADMORE_END);
+        } else {
+            isLoadMoreEnable = false;
+        }
+    }
+
+    public int setPageData(ArrayList<T> datas, int page) {
+        if (page <= 1) {
+            if (datas == null || datas.isEmpty()) {
+                showEmptyView();
+            } else {
+                setData(datas);
+            }
+        } else {
+            if (datas == null || datas.isEmpty()) {//加载跟多，但是无数据
+                //页数减一
+                page--;
+                //显示没有更多数据了
+                if (isNoMoreDataEnable) {
+                    mAdapter.onLoadMoreStateChanged(ACTION_LOADMORE_END);
+                }
+            } else {
+                addData(datas);
+            }
+        }
+        return page;
+    }
+
+    public void setData(ArrayList<T> datas) {
+        computerLoadMore(pageSize, datas.size());
+        mAdapter.setData(datas, false);
+    }
+
+    public void addData(ArrayList<T> datas) {
+        computerLoadMore(pageSize, datas.size());
+        mAdapter.addData(datas, false);
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+        switch (mode) {
+            case MODE_NONE:
+                setEnabled(false);
+                isLoadMoreEnable = false;
+                isNoMoreDataEnable = false;
+                break;
+            case MODE_PULL_DOWN:
+                setEnabled(true);
+                break;
+            case MODE_PULL_UP:
+                isLoadMoreEnable = true;
+                break;
+            case MODE_BOTH:
+                setEnabled(true);
+                isLoadMoreEnable = true;
+                isNoMoreDataEnable = true;
+                break;
+
+        }
+
+    }
+
+    public void setNoMoreDataEnable(boolean noMoreDataEnable) {
+        isNoMoreDataEnable = noMoreDataEnable;
     }
 
     public void setNoMoreData() {
         mCurrentState = ACTION_IDLE;
-        isLoadMoreEnabled = false;
+        isLoadMoreEnable = false;
         mAdapter.onLoadNoMoreData();
         setEnabled(true);
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public interface OnRefreshListener1 extends SwipeRefreshLayout.OnRefreshListener {
@@ -148,13 +242,26 @@ public class PullRecyclerView extends SwipeRefreshLayout {
         void onRefreshMore();
     }
 
-    public void setRefreshCompleted() {
-        setEnabled(true);
-        if (mCurrentState == ACTION_LOAD_MORE_LOADING) {
-            mCurrentState = ACTION_IDLE;
-            mAdapter.onLoadMoreCompleted();
+    /**
+     * 刷新状态，加载更多状态
+     */
+    @Override
+    public void setRefreshing(boolean refreshing) {
+        super.setRefreshing(refreshing);
+        if (refreshing) {
+            mCurrentState = ACTION_PULL_TO_REFRESH;
         } else {
-            setRefreshing(false);
+            setEnabled(true);
+            if (mCurrentState == ACTION_LOAD_MORE_LOADING) {
+                mAdapter.onLoadMoreCompleted();
+            }
+            mCurrentState = ACTION_IDLE;
+        }
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener lisnter) {
+        if (mAdapter != null) {
+            mAdapter.setOnItemClickListener(lisnter);
         }
     }
 }

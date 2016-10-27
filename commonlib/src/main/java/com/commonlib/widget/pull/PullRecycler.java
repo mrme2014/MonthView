@@ -211,4 +211,12 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
+
+    /**
+     * recycleview滑到顶部
+     */
+    public void smoothToTop() {
+        mRecyclerView.scrollToPosition(0);
+//        mRecyclerView.smoothScrollToPosition(0);
+    }
 }

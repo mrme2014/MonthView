@@ -20,7 +20,9 @@ public class DataMarketPresenter extends BasePresenter<DataMarketModel, DataMark
 
             @Override
             public void onError(String msg) {
-                mView.getSaleFail(msg);
+                if(mView != null){
+                    mView.getSaleFail(msg);
+                }
             }
         });
     }

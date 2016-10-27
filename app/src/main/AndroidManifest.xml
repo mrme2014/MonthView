@@ -94,10 +94,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
-        <!-- <activity android:name=".business.campusperformance.CampusPerformanceActivity" />-->
+        <!-- <activity android:name=".business.campusperformance.CampusPerformanceActivity" /> -->
 
         <activity android:name=".business.campusperformance.market.Performance4MarketActivity" />
-
         <activity
             android:name=".business.campusperformance.market.Amount4MarketTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -111,40 +110,40 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity android:name=".business.campusperformance.education.Performance4EduActivity" />
-
         <activity android:name=".business.salesprocess.SelectPositionActivity" />
-
         <activity android:name=".business.statistic.other.OtherStatisticActivity" />
         <activity
             android:name=".business.salesprocess.SaleStatementTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"></activity>
-
+            android:screenOrientation="landscape" />
         <activity
             android:name=".business.salesprocess.SelectSubordinateActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".business.teachprocess.TeachProcessActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.teachprocess.TeachProcessTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".business.teachprocess.TeachSelectPositionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".business.classattention.ClassAttendActivity"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.classattention.ClassAttendActivity" />
         <activity
             android:name=".business.classattention.ClazCheckinTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"></activity>
 
-        <activity android:name=".business.classes.classlist.ClassListActivity"
+        <activity android:name=".business.classmaneger.classlist.ClassListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".business.classes.memberlist.StudentListActivity"
+        <activity android:name=".business.classmaneger.studentlist.StudentListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".business.classmaneger.classlist.TeacherPickActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.address.AddressListActivity"></activity>
     </application>
 
 </manifest>

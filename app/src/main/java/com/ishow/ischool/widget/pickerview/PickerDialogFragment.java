@@ -235,7 +235,7 @@ public class PickerDialogFragment extends DialogFragment implements View.OnClick
 
     }
 
-    private void resfreshData(int index, ArrayList<String> newDatas) {
+    public void resfreshData(int index, ArrayList<String> newDatas) {
         linearlayout.resfreshData(index, newDatas);
 
     }

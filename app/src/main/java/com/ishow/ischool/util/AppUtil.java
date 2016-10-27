@@ -215,16 +215,19 @@ public class AppUtil {
         return grades.get(grade);
     }
 
-    public static List<String> getClazCheckInTableHeadList(){
+    public static List<String> getClazCheckInTableHeadList() {
         List<String> list = new ArrayList<>();
         list.add("上课时间");
         list.add("老师");
-        list.add("课时"); list.add("应到人数"); list.add("实到人数");
+        list.add("课时");
+        list.add("应到人数");
+        list.add("实到人数");
 
 
         return list;
     }
-     public static ArrayList<String> getB10Year() {
+
+    public static ArrayList<String> getB10Year() {
         ArrayList<String> years = new ArrayList<>();
         int curYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 0; i < 10; i++) {
@@ -289,7 +292,7 @@ public class AppUtil {
 
     public static String getTodayStr() {
         Calendar c = Calendar.getInstance();
-       return DateUtil.parseSecond2Str(c.getTimeInMillis()/1000);
+        return DateUtil.parseSecond2Str(c.getTimeInMillis() / 1000);
     }
 
     public static int getTodayEnd() {
@@ -309,7 +312,7 @@ public class AppUtil {
 
     public static int getDayAgo(int dayAgo) {  //N天前的 零点  时间戳
 
-        return getTodayEnd()-dayAgo*24*3600;
+        return getTodayEnd() - dayAgo * 24 * 3600;
     }
 
     public static ArrayList<String> getSpinnerData() {
@@ -346,5 +349,17 @@ public class AppUtil {
             }
         }
         return false;
+    }
+
+    public static ArrayList<String> getSourceList() {
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add("父母");
+        list.add("朋友");
+        list.add("奖学金");
+        list.add("兼职");
+        list.add("其他");
+
+        return list;
     }
 }

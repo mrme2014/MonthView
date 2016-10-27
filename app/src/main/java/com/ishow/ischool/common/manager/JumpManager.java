@@ -78,18 +78,18 @@ public class JumpManager {
     }
 
 
-    @Deprecated
+//    @Deprecated
 //    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation) {
 //        return checkRelationPermision(context, relation, false);
 //    }
 
-    /**
-     * 相关的人才能操作
-     *
-     * @param context
-     * @param relation
-     * @return
-     */
+//    /**
+//     * 相关的人才能操作
+//     *
+//     * @param context
+//     * @param relation
+//     * @return
+//     */
 //    public static boolean checkRelationPermision(Context context, StudentRelationInfo relation, boolean showToast) {
 //        if (relation == null) {
 //            if (showToast) {

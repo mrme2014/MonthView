@@ -87,7 +87,7 @@
                         android:id="@+id/class_history"
                         style="@style/normal_font_style"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_round_corner_gray"
+                        android:background="@drawable/selector_round_corner_gray"
                         android:text="上课记录" />
 
                 </LinearLayout>

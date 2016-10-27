@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseItemDecor;
@@ -20,7 +24,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.classes.TeacherInfo;
 import com.ishow.ischool.bean.classes.TeacherList;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
-import com.ishow.ischool.widget.custom.AvatarImageView;
+import com.ishow.ischool.widget.custom.CircleTransform;
 
 import java.util.ArrayList;
 
@@ -157,9 +161,8 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
     }
 
     class PickReferrerHolder extends BaseViewHolder {
-
         @BindView(R.id.avatar_text)
-        AvatarImageView avatarTv;
+        ImageView avatartv;
         @BindView(R.id.avatar_iv)
         ImageView avatarIv;
         @BindView(R.id.referrer_name)
@@ -173,33 +176,26 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
         @Override
         public void onBindViewHolder(final int position) {
             TeacherInfo data = mDataList.get(position);
-//            if (data.avatar != null && !TextUtils.isEmpty(data.avatar)) {
-//                avatarTv.setVisibility(View.GONE);
-//                avatarIv.setVisibility(View.VISIBLE);
-//                Glide.with(getApplicationContext()).load(data.avatar).fitCenter().placeholder(R.mipmap.img_header_default)
-//                        .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(avatarIv) {
-//                    @Override
-//                    protected void setResource(GlideDrawable resource) {
-//                        avatarIv.setImageDrawable(resource);
-//                    }
-//
-//                    @Override
-//                    public void setRequest(Request request) {
-//                        avatarIv.setTag(position);
-//                        avatarIv.setTag(R.id.glide_tag_id, request);
-//                    }
-//
-//                    @Override
-//                    public Request getRequest() {
-//                        return (Request) avatarIv.getTag(R.id.glide_tag_id);
-//                    }
-//                });
-//            } else {
-//                avatarIv.setVisibility(View.GONE);
-//                avatarTv.setVisibility(View.VISIBLE);
-//                avatarTv.setText(data.user_name, data.id, data.avatar);
-//            }
+            avatartv.setVisibility(View.GONE);
+            avatarIv.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(data.avatar).fitCenter().placeholder(R.mipmap.icon_class_headimg)
+                    .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(avatarIv) {
+                @Override
+                protected void setResource(GlideDrawable resource) {
+                    avatarIv.setImageDrawable(resource);
+                }
 
+                @Override
+                public void setRequest(Request request) {
+                    avatarIv.setTag(position);
+                    avatarIv.setTag(R.id.glide_tag_id, request);
+                }
+
+                @Override
+                public Request getRequest() {
+                    return (Request) avatarIv.getTag(R.id.glide_tag_id);
+                }
+            });
             referrerName.setText(data.user_name);
         }
 

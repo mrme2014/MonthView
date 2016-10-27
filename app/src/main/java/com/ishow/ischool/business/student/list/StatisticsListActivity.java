@@ -325,7 +325,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
                 state.setText(data.studentInfo.pay_state_name);
-                state.setBackgroundResource(R.drawable.bg_round_corner_gray);
+                state.setBackgroundResource(R.drawable.bg_round_corner_gray_normal);
             }
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override

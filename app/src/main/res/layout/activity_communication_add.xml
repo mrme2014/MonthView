@@ -72,13 +72,20 @@
                 android:layout_marginLeft="10dp"
                 android:background="@color/comm_line" />
 
-            <com.commonlib.widget.LabelEditText
+
+            <com.commonlib.widget.LabelTextView
                 android:id="@+id/commun_source"
-                style="@style/communication_edittext"
-                android:hint="@string/commun_input_source_hint"
-                android:maxLength="10"
-                app:label_text="@string/commun_label_source"
-                app:label_text_size="@dimen/sp14" />
+                style="@style/communication_textview"
+                android:hint="@string/commun_choose_hint"
+                app:label_text_left="@string/commun_label_source" />
+
+            <!--<com.commonlib.widget.LabelEditText-->
+                <!--android:id="@+id/commun_source"-->
+                <!--style="@style/communication_edittext"-->
+                <!--android:hint="@string/commun_input_source_hint"-->
+                <!--android:maxLength="10"-->
+                <!--app:label_text="@string/commun_label_source"-->
+                <!--app:label_text_size="@dimen/sp14" />-->
 
             <View
                 android:layout_width="match_parent"

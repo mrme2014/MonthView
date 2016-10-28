@@ -11,9 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.business.tabbusiness.TabBusinessModel;
-import com.ishow.ischool.common.manager.JumpManager;
+import com.zaaach.citypicker.utils.ToastUtils;
 
 import java.util.List;
 
@@ -59,28 +58,31 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int[] resources;
-                switch (position) {
-
-                    case 0:
-                        resources = new int[]{Resource.MARKET_STUDENT_STATISTICS};
-                        break;
-                    case 1:
-                        resources = new int[]{Resource.SHARE_COMMUNICATION_INDEXM};
-                        break;
-                    case 2:
-                        resources = new int[]{Resource.MARKET_STUDENT_ADD};
-                        break;
-                    case 3:
-                        resources = new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1};
-                        break;
-                    default:
-                        resources = new int[]{Resource.NO_NEED_CHECK};
-                        break;
-                }
-                if (JumpManager.checkUserPermision(mContext, resources)) {
+//                int[] resources;
+//                switch (position) {
+//
+//                    case 0:
+//                        resources = new int[]{Resource.MARKET_STUDENT_STATISTICS};
+//                        break;
+//                    case 1:
+//                        resources = new int[]{Resource.SHARE_COMMUNICATION_INDEXM};
+//                        break;
+//                    case 2:
+//                        resources = new int[]{Resource.MARKET_STUDENT_ADD};
+//                        break;
+//                    case 3:
+//                        resources = new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1};
+//                        break;
+//                    default:
+//                        resources = new int[]{Resource.NO_NEED_CHECK};
+//                        break;
+//                }
+//                if (JumpManager.checkUserPermision(mContext, resources)) {
+                if (tabSpecs.get(position).hasPermission) {
                     Intent intent = new Intent(mContext, tabSpecs.get(position).intentClazz);
                     mContext.startActivity(intent);
+                } else {
+                    ToastUtils.showToast(mContext, R.string.no_permission);
                 }
             }
         });

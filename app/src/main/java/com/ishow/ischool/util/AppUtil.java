@@ -349,4 +349,28 @@ public class AppUtil {
         }
         return false;
     }
+
+
+    public static boolean hasBusinessPermision4Market() {
+        User user = UserManager.getInstance().get();
+        List<Integer> myResources = user.myResources;
+        for (int res : myResources) {
+            if (res == Resource.MARKET_STUDENT_STATISTICS || res == Resource.SHARE_COMMUNICATION_INDEXM || res == Resource.MARKET_STUDENT_ADD
+                    || (res == Resource.SHARE_COMMUNICATION_ADDM && res == Resource.SHARE_COMMUNICATION_ADDM_1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasBusinessPermision4Teach() {
+        User user = UserManager.getInstance().get();
+        List<Integer> myResources = user.myResources;
+        for (int res : myResources) {
+            if (res == Resource.EDUCATION_CLASSMANAGEMENT_INDEX || res == Resource.SHARE_COMMUNICATION_INDEXE || res == Resource.SHARE_COMMUNICATION_ADDE) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

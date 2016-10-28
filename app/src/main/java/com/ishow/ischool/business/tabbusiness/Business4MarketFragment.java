@@ -19,8 +19,6 @@ public class Business4MarketFragment extends BaseFragment4Crm<TabBusinessPresent
 
     @BindView(R.id.business_recyclerview)
     RecyclerView mRecyclerView;
-//    @BindView(R.id.campus)
-//    TextView campusTv;
     BusinessAdapter mAdapter;
 
     @Override
@@ -36,33 +34,5 @@ public class Business4MarketFragment extends BaseFragment4Crm<TabBusinessPresent
         mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new BusinessAdapter(mActivity, mModel.getTabSpecs4Market());
         mRecyclerView.setAdapter(mAdapter);
-//        setCampus();
     }
-
-//    void setCampus() {
-//        User user = UserManager.getInstance().get();
-//        if (user != null && user.positionInfo != null && !TextUtils.isEmpty(user.positionInfo.campus)) {
-//            campusTv.setText(user.positionInfo.campus);
-//        }
-//        Subscription subscription = RxBus.getInstance().doSubscribe(String.classes, new Action1<String>() {
-//
-//            @Override
-//            public void call(String s) {
-//                campusTv.setText(s);
-//            }
-//        }, new Action1<Throwable>() {
-//            @Override
-//            public void call(Throwable throwable) {
-//
-//            }
-//        });
-//        com.commonlib.widget.event.RxBus.getInstance().addSubscription(this, subscription);
-//    }
-//
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        RxBus.getInstance().unSubscribe(this);
-//    }
 }

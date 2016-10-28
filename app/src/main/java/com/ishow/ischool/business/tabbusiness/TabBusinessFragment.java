@@ -66,12 +66,12 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
         ArrayList<Fragment> fragments = new ArrayList<>();
         ArrayList<String> titleList = new ArrayList<>();
 
-        if (AppUtil.hasSalesPermision()) {
+        if (AppUtil.hasBusinessPermision4Market()) {
             titleList.add(getString(R.string.data_market));
             marketFragment = new Business4MarketFragment();
             fragments.add(marketFragment);
         }
-        if (AppUtil.hasTeachPermision()) {
+        if (AppUtil.hasBusinessPermision4Teach()) {
             titleList.add(getString(R.string.data_teach));
             teachFragment = new Business4TeachFragment();
             fragments.add(teachFragment);

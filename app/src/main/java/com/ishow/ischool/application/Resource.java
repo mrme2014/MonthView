@@ -102,8 +102,8 @@ public class Resource {
     public static final int SYSTEM_ALIPAY_DELETE = 58; //删除支付宝
     public static final int SYSTEM_PROMOTION_ADD = 59; //增加校区优惠
     public static final int SYSTEM_PROMOTION_DELETE = 60; //删除校区优惠
-    public static final int SHARE_COMMUNICATION_ADDE = 61; //添加沟通记录
-    public static final int SHARE_COMMUNICATION_ADDM = 62; //添加沟通记录
+    public static final int SHARE_COMMUNICATION_ADDE = 61; //添加沟通记录 教学
+    public static final int SHARE_COMMUNICATION_ADDM = 62; //添加沟通记录 市场
     public static final int SYSTEM_ROLE_AUTHORIZE = 63; //角色授权
     public static final int SYSTEM_ROLE_EDIT = 64; //修改角色
     public static final int SYSTEM_ROLE_DEL = 65; //删除角色
@@ -177,7 +177,7 @@ public class Resource {
     public static final int MARKET_INVITATION_INDEX = 135; //邀约列表
     public static final int MARKET_OPENCLASS_QRCODE = 136; //查看二维码
     public static final int MARKET_STUDENT_COMMUNICATIONLIST = 138; //查看沟通记录
-    public static final int SHARE_COMMUNICATION_ADDM_1 = 139; //添加沟通记录
+    public static final int SHARE_COMMUNICATION_ADDM_1 = 139; //添加沟通记录 详情中
     public static final int SHARE_CLASSCOUNT_EXPORTM = 140; //课程统计导出
     public static final int SHARE_CLASSCOUNT_EXPORTE = 141; //课程统计导出
     public static final int MARKET_STUDENT_STUDENTINFOE = 142; //学生详情

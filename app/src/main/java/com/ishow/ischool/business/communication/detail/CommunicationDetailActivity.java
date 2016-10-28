@@ -8,18 +8,16 @@ import android.widget.TextView;
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
-import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
-import com.ishow.ischool.business.communication.edit.CommunicationEditActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationEditRefreshEvent;
+import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.CircleImageView;
-import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 import com.zaaach.citypicker.utils.ToastUtils;
 
@@ -67,7 +65,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
     @Override
     protected void initEnv() {
         super.initEnv();
-        mData = (Communication)getIntent().getExtras().get(COMMUNICATION_DATA);
+        mData = (Communication) getIntent().getExtras().get(COMMUNICATION_DATA);
     }
 
     @Override
@@ -150,13 +148,17 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
                 });
                 break;
             case R.id.commun_source:
-                Intent intent = new Intent(CommunicationDetailActivity.this, CommunicationEditActivity.class);
-                intent.putExtra(CommunicationEditActivity.P_ID, communId);
-                intent.putExtra(CommunicationEditActivity.P_TITLE, getString(R.string.commun_label_source));
-                intent.putExtra(CommunicationEditActivity.P_TYPE, Cons.Communication.source);
-                intent.putExtra(CommunicationEditActivity.P_TEXT, mData.communicationInfo.tuition_source);
-                intent.putExtra(CommunicationEditActivity.P_LEN, 20);
-                startActivityForResult(intent, REQUEST_SOURCE);
+                final ArrayList<String> sources = AppUtil.getSourceList();
+                AppUtil.showItemDialog(getSupportFragmentManager(), sources, new SelectDialogFragment.OnItemSelectedListner() {
+                    @Override
+                    public void onItemSelected(int position, String txt) {
+                        communSourceTv.setText(sources.get(position));
+                        HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.SHARE_COMMUNICATION_EDITM);
+                        params.put("tuition_source", sources.get(position));
+                        params.put("id", communId + "");
+                        mPresenter.editCommunication(params);
+                    }
+                });
                 break;
 
             case R.id.commun_back_date:

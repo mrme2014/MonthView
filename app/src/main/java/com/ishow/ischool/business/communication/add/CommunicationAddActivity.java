@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
 import com.commonlib.util.KeyBoardUtil;
-import com.commonlib.widget.LabelEditText;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
@@ -24,8 +23,8 @@ import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.CommunicationAddRefreshEvent;
-import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.fragment.SelectDialogFragment;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     LabelTextView dateTv;
 
     @BindView(R.id.commun_source)
-    LabelEditText moneySourceTv;
+    LabelTextView moneySourceTv;
 
     @BindView(R.id.commun_content)
     EditText contentTv;
@@ -227,7 +226,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         if (isSubmitting) {
             return;
         }
-        KeyBoardUtil.closeKeybord(moneySourceTv, this);
+        KeyBoardUtil.closeKeybord(contentTv, this);
         if (checkForm()) {
             isSubmitting = true;
             mPresenter.addCommunication(form);
@@ -284,7 +283,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         return check;
     }
 
-    @OnClick({R.id.commun_student_name, R.id.commun_state, R.id.commun_faith, R.id.commun_oppose, R.id.commun_back_date, R.id.commun_date})
+    @OnClick({R.id.commun_student_name, R.id.commun_state, R.id.commun_faith, R.id.commun_oppose, R.id.commun_back_date, R.id.commun_date, R.id.commun_source})
     void onClickItem(View view) {
         switch (view.getId()) {
             case R.id.commun_student_name:
@@ -337,6 +336,17 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
                     public void onPickResult(Integer unix, String... result) {
                         form.communication_date = unix;
                         dateTv.setText(result[0]);
+                    }
+                });
+                break;
+            case R.id.commun_source:
+                final ArrayList<String> source = AppUtil.getSourceList();
+                AppUtil.showItemDialog(getSupportFragmentManager(), source, new SelectDialogFragment.OnItemSelectedListner() {
+
+                    @Override
+                    public void onItemSelected(int position, String txt) {
+                        moneySourceTv.setText(source.get(position));
+                        form.tuition_source = source.get(position);
                     }
                 });
                 break;

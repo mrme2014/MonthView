@@ -90,8 +90,8 @@ public class PayInfo implements Parcelable {
 
     public static final Creator<PayInfo> CREATOR = new Creator<PayInfo>() {
         @Override
-        public PayInfo createFromParcel(Parcel in) {
-            return new PayInfo(in);
+        public PayInfo createFromParcel(Parcel source) {
+            return new PayInfo(source);
         }
 
         @Override

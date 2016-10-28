@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.commonlib.application.ActivityStackManager;
 import com.commonlib.util.DeviceUtils;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.event.RxBus;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
@@ -177,7 +178,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
 
     @Override
     public void onChangeSucess(User changedUser) {
-
+        LogUtil.e("changedUser");
         PositionInfo positionInfo = changedUser.positionInfo;
         CampusInfo campusInfo = changedUser.campusInfo;
         if (positionInfo == null || campusInfo == null) {

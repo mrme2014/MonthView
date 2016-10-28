@@ -13,6 +13,7 @@ import com.ishow.ischool.bean.user.Position;
 import com.ishow.ischool.bean.user.PositionInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.ArrayList;
@@ -58,19 +59,24 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
         });
     }
 
-    public void change(int campuse_id, int position_id) {
+    public void change(int campus_size,int position_size,int campuse_id, int position_id) {
+        if (campus_size==1&&position_size==1){
+            mView.onChangeSucess(UserManager.getInstance().get());
+            return;
+        }
         mView.showProgressbar(true);
         mModel.change(campuse_id, position_id).subscribe(new ApiObserver<User>() {
             @Override
             public void onSuccess(User user) {
-                mView.onChangeSucess(user);
                 mView.showProgressbar(false);
+                mView.onChangeSucess(user);
             }
 
             @Override
             public void onError(String msg) {
-                mView.onChageFailed(msg);
                 mView.showProgressbar(false);
+                mView.onChageFailed(msg);
+
             }
 
             @Override
@@ -145,7 +151,7 @@ public class MePresenter extends BasePresenter<MeModel, MePresenter.Iview> {
             public void onPickResult(int[] integers, String... result) {
                 Position selectPosition = getSelectPosition(campus, positions, integers[0], result[result.length - 1]);
                 if (selectPosition != null) {
-                    change(selectPosition.campus_id, selectPosition.id);
+                    change(campusSize,positionsSize,selectPosition.campus_id, selectPosition.id);
                 }
             }
         });

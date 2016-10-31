@@ -71,7 +71,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private CommunicationForm form = new CommunicationForm();
 
     private boolean isSubmitting;
-    private int max_length = 200;
+    private int max_length = 600;
     private Communication oldCommunication;
 
     @Override
@@ -123,6 +123,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private void updateDateView() {
         form.communication_date = new Date().getTime() / 1000;
         dateTv.setText(DateUtil.parseSecond2Str(form.communication_date));
+        contentCountTv.setText(max_length + "");
     }
 
     private void updateOldView() {

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 
 import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Cons;
 import com.ishow.ischool.bean.classes.TeacherInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.bean.user.User;
@@ -89,6 +90,7 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
 
     private boolean isUserCampus;       // 是否是校区员工（非总部员工）
     private User mUser;
+    private int mPositionId;            // 当前职位
     private FilterCallback callback;
 
 
@@ -174,6 +176,7 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
 
     void initFilter() {
         mUser = UserManager.getInstance().get();
+        mPositionId = mUser.positionInfo.id;
         isUserCampus = (mUser.userInfo.campus_id == Campus.HEADQUARTERS) ? false : true;
         if (!isUserCampus) {        // 总部才显示“所属校区”筛选条件（默认杭州校区）
             campusIL.setVisibility(View.VISIBLE);
@@ -193,11 +196,19 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
         if (!TextUtils.isEmpty(mFilterCourseTypeId) && !TextUtils.isEmpty(mFilterCourseTypeName)) {
             courseTypeIL.setContent(mFilterCourseTypeName);
         }
-        if (!TextUtils.isEmpty(mFilterTeacherId) && !TextUtils.isEmpty(mFilterTeacherName)) {
-            teacherIL.setContent(mFilterTeacherName);
-        }
-        if (!TextUtils.isEmpty(mFilterAdvisorId) && !TextUtils.isEmpty(mFilterAdvisorName)) {
-            advisorIL.setContent(mFilterAdvisorName);
+
+        if (mPositionId == Cons.Position.Chujixuexiguwen || mPositionId == Cons.Position.Zhongjixuexiguwen ||       // 当前角色是学习顾问时，隐藏教师栏，并置角色栏为自己名字
+                mPositionId == Cons.Position.Gaojixuexiguwen || mPositionId == Cons.Position.Yingshixuexiguwen) {
+            teacherIL.setVisibility(View.GONE);
+            advisorIL.setContent(mUser.userInfo.user_name);
+            advisorIL.setDisable();
+        } else {
+            if (!TextUtils.isEmpty(mFilterTeacherId) && !TextUtils.isEmpty(mFilterTeacherName)) {
+                teacherIL.setContent(mFilterTeacherName);
+            }
+            if (!TextUtils.isEmpty(mFilterAdvisorId) && !TextUtils.isEmpty(mFilterAdvisorName)) {
+                advisorIL.setContent(mFilterAdvisorName);
+            }
         }
         campusIL.setOnEidttextClick(this);
         courseTypeIL.setOnEidttextClick(this);
@@ -226,10 +237,12 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
             case R.id.start_time_clear:
                 startTimeEt.setText("");
                 startTimeIv.setVisibility(View.GONE);
+                mFilterStartTime = "";
                 break;
             case R.id.end_time_clear:
                 endTimeEt.setText("");
                 endTimeIv.setVisibility(View.GONE);
+                mFilterEndTime = "";
                 break;
             case R.id.filter_reset:
                 resetFilter();
@@ -277,7 +290,9 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
         courseTypeIL.setContent("");
         teacherIL.setContent("");
         advisorIL.setContent("");
-        mFilterCampusId = "";
+        if (!isUserCampus) {
+            mFilterCampusId = "";
+        }
         mFilterStartTime = "";
         mFilterEndTime = "";
         mFilterCourseTypeId = "";
@@ -407,9 +422,9 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
                 case TeacherPickActivity.REQUEST_CODE_PICKADVISOR:
                     if (data != null) {
                         TeacherInfo teacherInfo = data.getExtras().getParcelable(TeacherPickActivity.PICK_USER);
-                        mFilterTeacherName = teacherInfo.user_name;
-                        mFilterTeacherId = teacherInfo.id + "";
-                        advisorIL.setContent(mFilterTeacherName);
+                        mFilterAdvisorName = teacherInfo.user_name;
+                        mFilterAdvisorId = teacherInfo.id + "";
+                        advisorIL.setContent(mFilterAdvisorName);
                     }
                     break;
             }

@@ -220,11 +220,11 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             payStateIL.setContent(AppUtil.getPayState().get(Integer.parseInt(mFilterPayState) - 1));
         }
 
-        if (mPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+        if (mPositionId == Cons.Position.Chendujiangshi) {
             mFilterSource = MarketApi.TYPESOURCE_READING + "";
-        } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+        } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan) {
             mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
-        } else if (mPositionId == Cons.Position.Xiaoyuanjingli.ordinal() || mPositionId == Cons.Position.Shichangzhuguan.ordinal()) {
+        } else if (mPositionId == Cons.Position.Xiaoyuanjingli || mPositionId == Cons.Position.Shichangzhuguan) {
 
             sources = new ArrayList<String>() {{
                 add("晨读");
@@ -232,7 +232,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                 add("全部来源");
             }};
             sourceIL.setVisibility(View.VISIBLE);
-        } else if (mPositionId == Cons.Position.Xiaoliaozhuguan.ordinal()) {
+        } else if (mPositionId == Cons.Position.Xiaoliaozhuguan) {
 
             sources = new ArrayList<String>() {{
                 add("校聊");
@@ -315,10 +315,12 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             case R.id.start_time_clear:
                 startTimeEt.setText("");
                 startTimeIv.setVisibility(View.GONE);
+                mFilterStartTime = "";
                 break;
             case R.id.end_time_clear:
                 endTimeEt.setText("");
                 endTimeIv.setVisibility(View.GONE);
+                mFilterEndTime = "";
                 break;
             case R.id.filter_reset:
                 resetFilter();
@@ -387,9 +389,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         mFilterPayState = "";
         mFilterSource = "";
         if (TextUtils.isEmpty(mFilterSource)) {
-            if (mPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+            if (mPositionId == Cons.Position.Chendujiangshi) {
                 mFilterSource = MarketApi.TYPESOURCE_READING + "";
-            } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+            } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan) {
                 mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
             } else {
                 mFilterSource = "-1";

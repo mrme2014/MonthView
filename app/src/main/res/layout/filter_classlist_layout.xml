@@ -125,7 +125,8 @@
         style="@style/input_linearLayout_style"
         input:inputLayout_texthint="请选择学习顾问"
         input:label_text="学习顾问"
-        input:next="true" />
+        input:next="true"
+        input:bottom_line="false"/>
 
     <include layout="@layout/view_bottom_line" />
 

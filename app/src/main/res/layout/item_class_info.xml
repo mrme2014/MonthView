@@ -34,7 +34,6 @@
                 android:id="@+id/class_bg"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-
                 android:orientation="horizontal"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
@@ -44,8 +43,10 @@
                 <TextView
                     android:id="@+id/class_name"
                     style="@style/name_font_style"
+                    android:maxWidth="200dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:layout_centerVertical="true"
-                    android:text="中级班-309A"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp16" />
 
@@ -80,7 +81,7 @@
                     <TextView
                         android:id="@+id/lesson_schedule"
                         style="@style/name_font_style"
-                        android:text="课程"
+                        android:text="课时"
                         android:textColor="@color/txt_6" />
 
                     <TextView

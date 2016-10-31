@@ -82,7 +82,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_statistics_list, R.string.student_statistics, R.menu.menu_statisticslist, MODE_BACK);
+        setContentView(R.layout.activity_statistics_list, R.string.student_statistics, R.menu.menu_search_filter, MODE_BACK);
     }
 
     @Override
@@ -205,10 +205,10 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         }
 
         curPositionId = mUser.positionInfo.id;
-        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+        if (curPositionId == Cons.Position.Chendujiangshi) {
             mSource = MarketApi.TYPESOURCE_READING + "";
             filterParams.put("source", MarketApi.TYPESOURCE_READING + "");
-        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan) {
             mSource = MarketApi.TYPESOURCE_CHAT + "";
             filterParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
         } else {
@@ -235,7 +235,6 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         ft.commit();
         searchFragment = null;
         isSearchFragment = false;
-
     }
 
     @Override
@@ -245,8 +244,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 if (dialog == null) {
                     dialog = StatisticsFilterFragment.newInstance(filterParams, mFilterSourceName, mFilterCollegeName, mFilterReferrerName);
                     dialog.setOnFilterCallback(StatisticsListActivity.this);
+                    dialog.show(getSupportFragmentManager(), "dialog");
                 }
-                dialog.show(getSupportFragmentManager(), "dialog");
                 break;
         }
         return true;

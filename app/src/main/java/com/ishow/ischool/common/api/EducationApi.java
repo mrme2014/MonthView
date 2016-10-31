@@ -31,6 +31,7 @@ public interface EducationApi {
     @GET("/education/classes/studentlists")
     Observable<ApiResult<StudentList>> listStudent(
             @Query("resources_id") int resources_id,
+            @Query("allIn") int allIn,      //0:当前还在班级里的学员，1:所有在班级里呆过的学员，包括已经转班和调班的学员
             @Query("classes_id") int classes_id
     );
 

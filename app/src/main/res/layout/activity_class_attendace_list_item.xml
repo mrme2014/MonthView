@@ -36,7 +36,7 @@
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginLeft="8dp"
-        android:background="@drawable/bg_round_corner_gray_normal"
+        android:background="@drawable/bg_round_corner_gray"
         android:gravity="center"
         android:text="备注"
         android:textColor="#ddd"

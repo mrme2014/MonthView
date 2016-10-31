@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
 public class StudentListModel implements StudentListContract.Model {
 
     public Observable<ApiResult<StudentList>> getListStudent(int class_id) {
-        return ApiFactory.getInstance().getApi(EducationApi.class).listStudent(Resource.MARKET_STUDENT_STATISTICS, class_id)
+        return ApiFactory.getInstance().getApi(EducationApi.class).listStudent(Resource.EDUCATION_CLASSMANAGEMENT_INDEX, class_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

@@ -14,8 +14,11 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.commonlib.util.DateUtil;
-import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
@@ -30,6 +33,7 @@ import com.ishow.ischool.business.classmaneger.studentlist.StudentListActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.fragment.ClassListFilterFragment;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.CircleTransform;
 import com.ishow.ischool.widget.custom.CustomGridLayoutManager;
 
 import java.util.ArrayList;
@@ -47,8 +51,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
 
     private PopupWindow popupWindow;
     private View popupView;
-    private int mParamStatus = 2;
-    private String mTitle = "上课中";
+    private int mParamStatus = -1;
+    private String mTitle;
 
     // 筛选
     private HashMap<String, String> filterParams;
@@ -61,7 +65,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     @Override
     protected void setUpView() {
         super.setUpView();
-        mToolbarTitle.setText(R.string.in_class);
+        mTitle= this.getResources().getString(R.string.class_manager);
+        mToolbarTitle.setText(mTitle);
         mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_xiala, 0);
         mToolbarTitle.setCompoundDrawablePadding(20);
         mToolbarTitle.setOnClickListener(new View.OnClickListener() {
@@ -80,15 +85,17 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     }
 
     void showPopupWindow() {
-        TextView statu1Tv, statu2Tv, statu3Tv;
+        TextView statu1Tv, statu2Tv, statu3Tv, statu4Tv;
         if (popupWindow == null) {
             popupView = getLayoutInflater().inflate(R.layout.popup_class_status, null);
             statu1Tv = (TextView) popupView.findViewById(R.id.status1);
             statu2Tv = (TextView) popupView.findViewById(R.id.status2);
             statu3Tv = (TextView) popupView.findViewById(R.id.status3);
+            statu4Tv = (TextView) popupView.findViewById(R.id.status4);
             statu1Tv.setOnClickListener(handler);
             statu2Tv.setOnClickListener(handler);
             statu3Tv.setOnClickListener(handler);
+            statu4Tv.setOnClickListener(handler);
 
             popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
             popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -102,12 +109,6 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         mToolbarTitle.getLocationOnScreen(location);
         popupWindow.showAtLocation(mToolbarTitle, Gravity.NO_GRAVITY, (location[0] + mToolbarTitle.getWidth() / 2) - popupWidth / 2,
                 location[1] + mToolbarTitle.getHeight());
-        LogUtil.d("mToolbarTitle popupWidth", popupWidth + "");
-        LogUtil.d("mToolbarTitle popupHeight", popupHeight + "");
-        LogUtil.d("mToolbarTitle x", location[0] + "");
-        LogUtil.d("mToolbarTitle getWidth", mToolbarTitle.getWidth() + "");
-        LogUtil.d("mToolbarTitle getHeight", mToolbarTitle.getHeight() + "");
-        LogUtil.d("mToolbarTitle y", location[1] + "");
     }
 
     View.OnClickListener handler = new View.OnClickListener() {
@@ -128,6 +129,10 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                     mTitle = getString(R.string.class_has_been);
                     selectedItem = 3;
                     break;
+                case R.id.status4:
+                    mTitle = getString(R.string.class_manager);
+                    selectedItem = -1;
+                    break;
             }
             if (selectedItem != mParamStatus) {
                 mParamStatus = selectedItem;
@@ -146,7 +151,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         filterParams = new HashMap<>();
         if (mUser.userInfo.campus_id == Campus.HEADQUARTERS) {
             mCampusId = Campus.HEADQUARTERS + "";
-            filterParams.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id传1
+//            filterParams.put("campus_id", Campus.HEADQUARTERS + "");                  // 总部获取学院统计列表campus_id,不传campus_id，即全部
         } else {
             mCampusId = mUser.userInfo.campus_id + "";
             filterParams.put("campus_id", mUser.userInfo.campus_id + "");
@@ -204,8 +209,12 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             mCurrentPage = 1;
         }
 
-        filterParams.put("status", mParamStatus + "");
-        filterParams.put("fields", "classDynamic,classInfo");
+        if (mParamStatus != -1) {
+            filterParams.put("status", mParamStatus + "");
+        } else {
+            filterParams.remove("status");
+        }
+        filterParams.put("fields", "classDynamic,classInfo,teacherAvatar,advisorAvatar");
         mPresenter.getListClasses(filterParams, mCurrentPage++);
     }
 
@@ -251,6 +260,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         ImageView advisorAvatar;
         @BindView(R.id.advisor_name)
         TextView advisorName;
+        @BindView(R.id.click_layout)
+        LinearLayout clickLayout;
         @BindView(R.id.class_time_slot)
         RecyclerView recyclerView;
         @BindView(R.id.student_number_layout)
@@ -270,18 +281,27 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             switch (data.classInfo.type) {
                 case 1:
                     classBg.setBackgroundResource(R.drawable.bg_corner_top_primary);
+                    classHistoryTv.setBackgroundResource(R.drawable.bg_round_corner_primary);
+                    classHistoryTv.setTextColor(getResources().getColor(R.color.class_primary));
                     break;
                 case 10:
                     classBg.setBackgroundResource(R.drawable.bg_corner_top_intermediate);
+                    classHistoryTv.setBackgroundResource(R.drawable.bg_round_corner_intermediate);
+                    classHistoryTv.setTextColor(getResources().getColor(R.color.class_intermediate));
                     break;
                 case 20:
                     classBg.setBackgroundResource(R.drawable.bg_corner_top_senior);
+                    classHistoryTv.setBackgroundResource(R.drawable.bg_round_corner_senior);
+                    classHistoryTv.setTextColor(getResources().getColor(R.color.class_senior));
                     break;
                 case 30:
                     classBg.setBackgroundResource(R.drawable.bg_corner_top_movie);
+                    classHistoryTv.setBackgroundResource(R.drawable.bg_round_corner_movie);
+                    classHistoryTv.setTextColor(getResources().getColor(R.color.class_movie));
                     break;
                 default:
                     classBg.setBackgroundColor(getResources().getColor(R.color.comm_blue));
+                    classHistoryTv.setBackgroundResource(R.drawable.bg_round_corner_gray);
                     break;
             }
             classNameTv.setText(data.classInfo.course_type + "-" + data.classInfo.name);
@@ -302,28 +322,45 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                     signedTv.setVisibility(View.GONE);
                     break;
             }
-            lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.current_numbers, data.classInfo.lesson_times));
-//            Glide.with(getApplicationContext()).load(data.avatar).fitCenter().placeholder(R.mipmap.img_header_default)
-//                    .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(teacherAvatar) {
-//                @Override
-//                protected void setResource(GlideDrawable resource) {
-//                    teacherAvatar.setImageDrawable(resource);
-//                }
-//
-//                @Override
-//                public void setRequest(Request request) {
-//                    teacherAvatar.setTag(position);
-//                    teacherAvatar.setTag(R.id.glide_tag_id, request);
-//                }
-//
-//                @Override
-//                public Request getRequest() {
-//                    return (Request) teacherAvatar.getTag(R.id.glide_tag_id);
-//                }
-//            });
+            lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.lessoned_times, data.classInfo.lesson_times));
+            Glide.with(getApplicationContext()).load(data.teacherAvatar.file_name).fitCenter().placeholder(R.mipmap.icon_class_headimg)
+                    .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(teacherAvatar) {
+                @Override
+                protected void setResource(GlideDrawable resource) {
+                    teacherAvatar.setImageDrawable(resource);
+                }
+
+                @Override
+                public void setRequest(Request request) {
+                    teacherAvatar.setTag(position);
+                    teacherAvatar.setTag(R.id.glide_tag_id, request);
+                }
+
+                @Override
+                public Request getRequest() {
+                    return (Request) teacherAvatar.getTag(R.id.glide_tag_id);
+                }
+            });
+            Glide.with(getApplicationContext()).load(data.advisorAvatar.file_name).fitCenter().placeholder(R.mipmap.icon_class_headimg)
+                    .transform(new CircleTransform(getApplicationContext())).into(new ImageViewTarget<GlideDrawable>(advisorAvatar) {
+                @Override
+                protected void setResource(GlideDrawable resource) {
+                    advisorAvatar.setImageDrawable(resource);
+                }
+
+                @Override
+                public void setRequest(Request request) {
+                    advisorAvatar.setTag(position);
+                    advisorAvatar.setTag(R.id.glide_tag_id, request);
+                }
+
+                @Override
+                public Request getRequest() {
+                    return (Request) advisorAvatar.getTag(R.id.glide_tag_id);
+                }
+            });
             teacherName.setText(data.classInfo.teacher_name);
             advisorName.setText(data.classInfo.advisor_name);
-//            classTimeTv.setText(data.classInfo.);
             CustomGridLayoutManager gridLayoutManager = new CustomGridLayoutManager(ClassListActivity.this, 2);
             gridLayoutManager.setScrollEnabled(false);
             recyclerView.setLayoutManager(gridLayoutManager);
@@ -340,7 +377,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                             signedIntent.putExtra(ClassAttendActivity.CLASSID, data.classInfo.id);
                             startActivity(signedIntent);
                             break;
-                        case R.id.student_number_layout:
+                        case R.id.click_layout:
                             Intent classIntent = new Intent(ClassListActivity.this, StudentListActivity.class);
                             classIntent.putExtra(StudentListActivity.CLASSID, data.classInfo.id);
                             classIntent.putExtra(StudentListActivity.CLASSNAME, data.classInfo.name);
@@ -355,7 +392,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                 }
             };
             signedTv.setOnClickListener(handler);
-            studentNumberLayout.setOnClickListener(handler);
+            clickLayout.setOnClickListener(handler);
             classHistoryTv.setOnClickListener(handler);
         }
 

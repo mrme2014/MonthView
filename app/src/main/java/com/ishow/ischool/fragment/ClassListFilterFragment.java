@@ -164,10 +164,10 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
         super.onActivityCreated(savedInstanceState);
         sdf = new SimpleDateFormat("yyyy-MM-dd");
         courseType = new ArrayList<String>() {{
-            add("初级班");
-            add("中级班");
-            add("高级班");
-            add("影视班");
+            add("ishow初级");
+            add("ishow中级");
+            add("ishow高级");
+            add("ishow影视");
         }};
         initFilter();
     }
@@ -347,16 +347,16 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
                         mFilterCourseTypeName = result[0];
                         courseTypeIL.setContent(mFilterCourseTypeName);
                         switch (mFilterCourseTypeName) {
-                            case "初级班":
+                            case "ishow初级":
                                 mFilterCourseTypeId = 1 + "";
                                 break;
-                            case "中级班":
+                            case "ishow中级":
                                 mFilterCourseTypeId = 10 + "";
                                 break;
-                            case "高级班":
+                            case "ishow高级":
                                 mFilterCourseTypeId = 20 + "";
                                 break;
-                            case "影视班":
+                            case "ishow影视":
                                 mFilterCourseTypeId = 30 + "";
                                 break;
                         }

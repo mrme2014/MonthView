@@ -21,6 +21,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.classattend.ClazInfo;
 import com.ishow.ischool.bean.classattend.ClazStudentList;
 import com.ishow.ischool.bean.classattend.ClazStudentObject;
+import com.ishow.ischool.bean.classattend.TechAvart;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.PicUtils;
@@ -113,10 +114,11 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         classList.setAdapter(adapter);
 
         classInfo = result.classInfo;
+        TechAvart techAvart = result.teacherAvatar;
         if (classInfo == null)
             return;
-        if (classInfo.teacherAvatar != null && classInfo.teacherAvatar != "") {
-            PicUtils.loadpic(this, classAvartImg, classInfo.teacherAvatar);
+        if (techAvart != null && techAvart.file_name != ""&&techAvart.file_name!=null) {
+            PicUtils.loadpic(this, classAvartImg, techAvart.file_name);
         } else {
             classAvartImg.setVisibility(View.GONE);
             classAvartTxt.setVisibility(View.VISIBLE);

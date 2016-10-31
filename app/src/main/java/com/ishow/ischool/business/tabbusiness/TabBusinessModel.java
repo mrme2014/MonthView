@@ -69,7 +69,7 @@ public class TabBusinessModel implements TabBusinessContract.Model {
     }
 
     List<TabSpec> getTabSpecs4Teach() {
-        intentClazz = new Class[]{ClassListActivity.class, CommunicationListActivity.class, AddStudentActivity.class};
+        intentClazz = new Class[]{ClassListActivity.class, CommunicationListActivity.class, CommunicationAddActivity.class};
         texts = new String[]{"班级管理", "沟通记录", "添加沟通记录"};
         hasPermissions = new ArrayList<Boolean>(){{add(false);add(false);add(false);}};
         int icon1 = R.mipmap.icon_class_gray;
@@ -84,7 +84,7 @@ public class TabBusinessModel implements TabBusinessContract.Model {
             hasPermissions.set(1, true);
         }
         if (checkUserPermision(Resource.SHARE_COMMUNICATION_ADDE)) {
-            icon2 = R.mipmap.icon_business_04;
+            icon3 = R.mipmap.icon_business_04;
             hasPermissions.set(2, true);
         }
         iconResIds = new int[]{icon1, icon2, icon3};

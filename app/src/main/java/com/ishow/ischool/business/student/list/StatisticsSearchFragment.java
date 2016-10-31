@@ -164,7 +164,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
                 state.setText(data.studentInfo.pay_state_name);
-                state.setBackgroundResource(R.drawable.bg_round_corner_gray_normal);
+                state.setBackgroundResource(R.drawable.bg_round_corner_gray);
             }
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override

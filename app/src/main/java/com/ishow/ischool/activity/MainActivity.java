@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 
 import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
@@ -21,6 +21,8 @@ import com.zaaach.citypicker.utils.LocManager;
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
 import org.lzh.framework.updatepluginlib.model.Update;
 import org.lzh.framework.updatepluginlib.strategy.UpdateStrategy;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
@@ -84,17 +86,25 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                     .commitAllowingStateLoss();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //使得布局延伸到状态栏和导航栏区域
+            window.getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+            );
+            //透明状态栏/导航栏
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
+//            if (SDK_INT < 23) {
+//                ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+//                View parentView = contentFrameLayout.getChildAt(0);
+//                parentView.setFitsSystemWindows(true);
+//            }
         }
+
     }
 
     @Override

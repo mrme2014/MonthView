@@ -34,7 +34,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialDesign">
+        android:theme="@style/AppBaseTheme">
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -137,11 +137,14 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"></activity>
 
-        <activity android:name=".business.classmaneger.classlist.ClassListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".business.classmaneger.studentlist.StudentListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".business.classmaneger.classlist.TeacherPickActivity"
+        <activity
+            android:name=".business.classmaneger.classlist.ClassListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.classmaneger.studentlist.StudentListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.classmaneger.classlist.TeacherPickActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".business.address.AddressListActivity"></activity>
     </application>

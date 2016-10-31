@@ -1,13 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="Theme.MaterialDesign" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar颜色 -->
         <!-- <item name="colorPrimary">@color/color_header</item>-->
@@ -25,6 +17,12 @@
         <!--<item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>-->
         <!--<item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>-->
         <!--<item name="android:listDivider">@color/comm_line</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
+    <style name="AppBaseTheme" parent="Theme.MaterialDesign">
+
     </style>
 
     <style name="MenuTextStyle">
@@ -59,7 +57,6 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <!--popwindow  渐隐渐现出现  消失-->
     <!--popwindow  渐隐渐现出现  消失-->
     <style name="fade_PopupAnimation" parent="PopupAnimation">
         <item name="android:backgroundDimEnabled">true</item>

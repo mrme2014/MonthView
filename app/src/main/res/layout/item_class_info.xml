@@ -56,11 +56,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_round_corner_white"
-                    android:text="签到"
                     android:gravity="center"
+                    android:text="签到"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp15"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -73,21 +73,20 @@
                     android:id="@+id/lesson_schedule_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:gravity="center_vertical">
+                    android:paddingLeft="20dp">
 
                     <TextView
                         android:id="@+id/lesson_schedule"
                         style="@style/name_font_style"
-                        android:textColor="@color/txt_6"
-                        android:text="课程"/>
+                        android:text="课程"
+                        android:textColor="@color/txt_6" />
 
                     <TextView
                         android:id="@+id/class_history"
                         style="@style/normal_font_style"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/selector_round_corner_gray"
                         android:text="上课记录" />
 
                 </LinearLayout>
@@ -110,8 +109,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/icon_class_headimg"/>
+                            android:layout_marginRight="10dp" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -127,12 +125,12 @@
                             <TextView
                                 android:id="@+id/advisor_name"
                                 style="@style/normal_font_style"
-                                android:textColor="@color/txt_2"
-                                android:layout_marginTop="5dp"
-                                android:maxLines="1"
-                                android:maxLength="4"
                                 android:layout_gravity="left"
-                                android:gravity="left"/>
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:maxLength="4"
+                                android:maxLines="1"
+                                android:textColor="@color/txt_2" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -140,9 +138,9 @@
                         android:id="@+id/divider_line"
                         android:layout_width="1px"
                         android:layout_height="30dp"
+                        android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/advisor_layout"
-                        android:background="@color/comm_line"
-                        android:layout_centerVertical="true"/>
+                        android:background="@color/comm_line" />
 
                     <RelativeLayout
                         android:id="@+id/teacher_layout"
@@ -157,8 +155,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/icon_class_headimg"/>
+                            android:layout_marginRight="10dp" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -169,17 +166,17 @@
 
                             <TextView
                                 style="@style/small_font_style"
-                                android:text="教师"/>
+                                android:text="教师" />
 
                             <TextView
                                 android:id="@+id/teacher_name"
                                 style="@style/normal_font_style"
-                                android:textColor="@color/txt_2"
-                                android:layout_marginTop="5dp"
-                                android:maxLines="1"
-                                android:maxLength="4"
                                 android:layout_gravity="left"
-                                android:gravity="left"/>
+                                android:layout_marginTop="5dp"
+                                android:gravity="left"
+                                android:maxLength="4"
+                                android:maxLines="1"
+                                android:textColor="@color/txt_2" />
                         </LinearLayout>
                     </RelativeLayout>
                 </RelativeLayout>
@@ -191,38 +188,46 @@
                 android:layout_height="1px"
                 android:background="@color/comm_line" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/class_time_slot"
+            <LinearLayout
+                android:id="@+id/click_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_gray" />
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/comm_line" />
-            <RelativeLayout
-                android:id="@+id/student_number_layout"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@drawable/selector_corner_bottom"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp">
-
-                <TextView
-                    android:id="@+id/student_number"
-                    style="@style/name_font_style"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/txt_6"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/class_time_slot"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_list_next" />
-            </RelativeLayout>
+                    android:background="@color/light_gray" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/comm_line" />
+
+                <RelativeLayout
+                    android:id="@+id/student_number_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@drawable/selector_corner_bottom"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp">
+
+                    <TextView
+                        android:id="@+id/student_number"
+                        style="@style/name_font_style"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/txt_6" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_list_next" />
+                </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

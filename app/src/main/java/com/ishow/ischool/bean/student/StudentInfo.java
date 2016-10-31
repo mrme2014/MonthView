@@ -113,10 +113,12 @@ public class StudentInfo implements Parcelable {
     public String hometown_pid_name;
     public String hometown_cid_name;
     public String source_name;
-    public int guider_id;
-    public String guider_name;
+    public int guider_id;                   // 晨读讲师id
+    public String guider_name;              // 晨读讲师名字
     public int campus_manager_id;
     public String campus_manager_name;
+    public int school_chat_attache_id;      // 校聊专员id
+    public String school_chat_attache_name;     // 校聊专员名字
     public int charge_id;
     public String charge_name;
     public int saler_id;
@@ -132,6 +134,7 @@ public class StudentInfo implements Parcelable {
     public List<PayInfo> paylist_top3;
     public CommunicationInfo communication;
     public int old_class_state;
+
 
     @Override
     public int describeContents() {
@@ -184,6 +187,8 @@ public class StudentInfo implements Parcelable {
         dest.writeString(this.guider_name);
         dest.writeInt(this.campus_manager_id);
         dest.writeString(this.campus_manager_name);
+        dest.writeInt(this.school_chat_attache_id);
+        dest.writeString(this.school_chat_attache_name);
         dest.writeInt(this.charge_id);
         dest.writeString(this.charge_name);
         dest.writeInt(this.saler_id);
@@ -249,6 +254,8 @@ public class StudentInfo implements Parcelable {
         this.guider_name = in.readString();
         this.campus_manager_id = in.readInt();
         this.campus_manager_name = in.readString();
+        this.school_chat_attache_id = in.readInt();
+        this.school_chat_attache_name = in.readString();
         this.charge_id = in.readInt();
         this.charge_name = in.readString();
         this.saler_id = in.readInt();

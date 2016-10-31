@@ -325,7 +325,13 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
                 state.setText(data.studentInfo.pay_state_name);
-                state.setBackgroundResource(R.drawable.bg_round_corner_gray_normal);
+                if (data.studentInfo.pay_state_name.equals("欠款")) {
+                    state.setBackgroundResource(R.drawable.bg_round_corner_intermediate);
+                    state.setTextColor(getResources().getColor(R.color.class_intermediate));
+                } else {
+                    state.setBackgroundResource(R.drawable.bg_round_corner_gray);
+                    state.setTextColor(getResources().getColor(R.color.txt_9));
+                }
             }
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override

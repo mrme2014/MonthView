@@ -21,7 +21,7 @@ public class ClassListModel implements ClassListContract.Model {
 
     public Observable<ApiResult<ClassList>> listClasses(HashMap<String, String> params, int page) {
         return ApiFactory.getInstance().getApi(EducationApi.class)
-                .listClasses(Resource.MARKET_STUDENT_STATISTICS, params, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .listClasses(Resource.EDUCATION_CLASSMANAGEMENT_INDEX, params, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

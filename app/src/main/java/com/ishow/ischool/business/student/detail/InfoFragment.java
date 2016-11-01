@@ -361,7 +361,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_parent_phone_number);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().parents_call);
-                intent.putExtra(EditActivity.P_LEN, 11);
+                //intent.putExtra(EditActivity.P_LEN, 11);
                 startActivityForResult(intent, REQUEST_PARENT_PHONE);
             }
             break;
@@ -453,7 +453,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                     break;
                 case REQUEST_PARENT_PHONE:
                     parentPhoneTv.setText(text);
-                    getStudentInfo().idcard = text;
+                    getStudentInfo().parents_call = text;
                     break;
                 case REQUEST_HOMETOWN:
                     String pname = data.getStringExtra("hometown_pname");
@@ -466,7 +466,6 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                     getStudentInfo().hometown_cid_name = cname;
                     getStudentInfo().hometown_pid_name = pname;
                     break;
-
             }
         }
 

@@ -124,12 +124,23 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
                 break;
             }
             case R.id.student_parent_phone_number: {
+                if (!checkPhoneNumber(text)) {
+                    showToast(R.string.msg_mobile_input);
+                    return false;
+                }
                 params.put("parents_call", text);
                 break;
             }
         }
         mPresenter.editStudent(params, text);
         return super.onMenuItemClick(item);
+    }
+
+    private boolean checkPhoneNumber(String text) {
+        Pattern pattern = Pattern.compile("^(\\d{3,4}-\\d{8})|(\\d{13})$");
+        Matcher matcher = pattern.matcher(text);
+        boolean b = matcher.matches();
+        return b;
     }
 
     private boolean checkIdcard(String text) {

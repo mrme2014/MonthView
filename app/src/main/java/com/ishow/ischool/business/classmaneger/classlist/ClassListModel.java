@@ -27,9 +27,9 @@ public class ClassListModel implements ClassListContract.Model {
     }
 
     @Override
-    public Observable<ApiResult<TeacherList>> listTeacher(Integer campusId, String option, String keyword, int page) {
+    public Observable<ApiResult<TeacherList>> listTeacher(Integer campusId, Integer courseType, String option, String keyword, int page) {
         return ApiFactory.getInstance().getApi(EducationApi.class)
-                .getTeacherList(option, campusId, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
+                .getTeacherList(option, campusId, courseType, keyword, Conf.DEFAULT_PAGESIZE_LISTVIEW, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

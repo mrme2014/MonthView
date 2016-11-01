@@ -19,10 +19,12 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.TimeSlotAdapter;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.classes.ClassList;
 import com.ishow.ischool.bean.classes.ClassPojo;
 import com.ishow.ischool.bean.classes.ClassTimeSlot;
@@ -31,6 +33,9 @@ import com.ishow.ischool.business.classattention.ClassAttendActivity;
 import com.ishow.ischool.business.classattention.ClazCheckinTableActivity;
 import com.ishow.ischool.business.classmaneger.studentlist.StudentListActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.SignEvent;
 import com.ishow.ischool.fragment.ClassListFilterFragment;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CircleTransform;
@@ -42,6 +47,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 
 /**
@@ -62,6 +68,19 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     private String mFilterAdvisorName;
     private String mCampusId;
     ClassListFilterFragment dialog = null;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        RxBus.getDefault().register(SignEvent.class, new Action1<SignEvent>() {
+            @Override
+            public void call(SignEvent signEvent) {
+                ClassPojo classPojo = mDataList.get(signEvent.getUpdatePosition());
+                classPojo.classDynamic.checkin_status = 1;
+                mAdapter.notifyItemChanged(signEvent.getUpdatePosition());
+            }
+        });
+    }
 
     @Override
     protected void setUpView() {
@@ -199,6 +218,11 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         dialog = null;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getDefault().unregister(SignEvent.class);
+    }
 
     @Override
     public void onRefresh(int action) {
@@ -275,6 +299,9 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
 
         @Override
         public void onBindViewHolder(final int position) {
+            if (position == 1) {
+                LogUtil.d("ClassListActivity position = 1 + ; signedTv = " + signedTv.toString());
+            }
             final ClassPojo data = mDataList.get(position);
             startDateTv.setText(getString(R.string.class_open_date, DateUtil.parseSecond2Str(Long.parseLong(data.classInfo.open_date))));
             switch (data.classInfo.type) {
@@ -304,22 +331,26 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                     break;
             }
             classNameTv.setText(data.classInfo.course_type + "-" + data.classInfo.name);
-            switch (data.classInfo.status) {
-                case 2:
-                    int day = AppUtil.getDayOfWeek();
-                    for (ClassTimeSlot classTimeSlot : data.classInfo.timeslot) {
-                        if (classTimeSlot.week == day) {
-                            if (data.classDynamic.checkin_status == 0) {
-                                signedTv.setVisibility(View.VISIBLE);
+            if (JumpManager.checkUserPermision(getApplicationContext(), Resource.EDUCATION_CLASSMANAGEMENT_CLASSSIGN, false)) {     // 如果没有签到权限，直接隐藏签到按钮
+                switch (data.classInfo.status) {
+                    case 2:
+                        int day = AppUtil.getDayOfWeek();
+                        for (ClassTimeSlot classTimeSlot : data.classInfo.timeslot) {
+                            if (classTimeSlot.week == day) {
+                                if (data.classDynamic.checkin_status == 0) {
+                                    signedTv.setVisibility(View.VISIBLE);
+                                } else {
+                                    signedTv.setVisibility(View.GONE);
+                                }
+                                break;
                             }
-                            break;
                         }
-                    }
-                    break;
-                case 1:
-                case 3:
-                    signedTv.setVisibility(View.GONE);
-                    break;
+                        break;
+                    case 1:
+                    case 3:
+                        signedTv.setVisibility(View.GONE);
+                        break;
+                }
             }
             lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.lessoned_times, data.classInfo.lesson_times));
             Glide.with(getApplicationContext()).load(data.teacherAvatar.file_name).fitCenter().placeholder(R.mipmap.icon_class_headimg)
@@ -374,6 +405,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                         case R.id.class_signed:
                             Intent signedIntent = new Intent(ClassListActivity.this, ClassAttendActivity.class);
                             signedIntent.putExtra(ClassAttendActivity.CLASSID, data.classInfo.id);
+                            signedIntent.putExtra("item_position", position);
+                            LogUtil.d("ClassListActivity item_position = " + position);
                             startActivity(signedIntent);
                             break;
                         case R.id.click_layout:

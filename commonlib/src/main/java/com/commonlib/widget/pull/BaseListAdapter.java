@@ -82,6 +82,11 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
         return loadMoreFooterState == ACTION_LOADMORE_SHOW && position == getItemCount() - 1;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public boolean isSectionHeader(int position) {
         return false;
     }

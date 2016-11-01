@@ -20,7 +20,7 @@ public interface ClassListContract {
     interface Model extends BaseModel {
         Observable<ApiResult<ClassList>> listClasses(HashMap<String, String> params, int page);
 
-        Observable<ApiResult<TeacherList>> listTeacher(Integer campusId, String option, String keyword, int page);
+        Observable<ApiResult<TeacherList>> listTeacher(Integer campusId, Integer courseType, String option, String keyword, int page);
     }
 
     interface View<T> extends BaseView {
@@ -32,6 +32,6 @@ public interface ClassListContract {
     abstract class Presenter extends BasePresenter<Model, View> {
         public abstract void getListClasses(HashMap<String, String> params, int page);
 
-        public abstract void listTeacher(Integer campusId, String option, String keyword, int page);
+        public abstract void listTeacher(Integer campusId, Integer courseType, String option, String keyword, int page);
     }
 }

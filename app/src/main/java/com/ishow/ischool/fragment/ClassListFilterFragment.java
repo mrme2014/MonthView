@@ -432,6 +432,7 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
                 if (!TextUtils.isEmpty(mFilterCampusId) && !mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
                     Intent teacherIntent = new Intent(getActivity(), TeacherPickActivity.class);
                     teacherIntent.putExtra(TeacherPickActivity.PICK_CAMPUS_ID, TextUtils.isEmpty(mFilterCampusId) ? -1 : Integer.parseInt(mFilterCampusId));
+                    teacherIntent.putExtra(TeacherPickActivity.PICK_COURSE_TYPE, TextUtils.isEmpty(mFilterCourseTypeId) ? -1 : Integer.parseInt(mFilterCourseTypeId));
                     teacherIntent.putExtra(TeacherPickActivity.PICK_TITLE, "选择教师");
                     teacherIntent.putExtra(TeacherPickActivity.PICK_TYPE, TeacherPickActivity.PICK_TYPE_TEACHER);
                     startActivityForResult(teacherIntent, TeacherPickActivity.REQUEST_CODE_PICKTEACHER);
@@ -443,6 +444,7 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
                 if (!TextUtils.isEmpty(mFilterCampusId) && !mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
                     Intent advisorIntent = new Intent(getActivity(), TeacherPickActivity.class);
                     advisorIntent.putExtra(TeacherPickActivity.PICK_CAMPUS_ID, TextUtils.isEmpty(mFilterCampusId) ? -1 : Integer.parseInt(mFilterCampusId));
+                    advisorIntent.putExtra(TeacherPickActivity.PICK_COURSE_TYPE, TextUtils.isEmpty(mFilterCourseTypeId) ? -1 : Integer.parseInt(mFilterCourseTypeId));
                     advisorIntent.putExtra(TeacherPickActivity.PICK_TITLE, "选择学习顾问");
                     advisorIntent.putExtra(TeacherPickActivity.PICK_TYPE, TeacherPickActivity.PICK_TYPE_ADVISOR);
                     startActivityForResult(advisorIntent, TeacherPickActivity.REQUEST_CODE_PICKADVISOR);

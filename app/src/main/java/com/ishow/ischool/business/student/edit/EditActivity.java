@@ -137,7 +137,7 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
     }
 
     private boolean checkPhoneNumber(String text) {
-        Pattern pattern = Pattern.compile("^(\\d{3,4}-\\d{8})|(\\d{13})$");
+        Pattern pattern = Pattern.compile("^(\\d{3,4}-\\d{8})|(\\d{11})$");
         Matcher matcher = pattern.matcher(text);
         boolean b = matcher.matches();
         return b;

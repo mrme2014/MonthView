@@ -30,6 +30,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ishow.ischool.application.Resource.MARKET_STUDENT_EDIT;
+
 /**
  * Created by abel on 16/8/18.
  */
@@ -141,7 +143,8 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
         if (mStudent == null) {
             return;
         }
-        if (JumpManager.checkUserPermision(getContext(), Resource.MARKET_STUDENT_STUDENTINFO, false)) {
+        if (JumpManager.checkUserPermision(getContext(), Resource.MARKET_STUDENT_STUDENTINFO, false)
+                || JumpManager.checkUserPermision(getContext(), Resource.MARKET_STUDENT_STUDENTINFOE, false)) {
             contentLayout.setVisibility(View.VISIBLE);
             emptyViewGroup.setVisibility(View.GONE);
         } else {
@@ -379,8 +382,9 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
     }
 
     private boolean checkStudentEditPermision() {
-        if ((JumpManager.checkUserPermision(getActivity(), Resource.MARKET_STUDENT_EDIT, false) ||
-                JumpManager.checkUserPermision(getActivity(), Resource.EDUCATION_CLASSMANAGEMENT_EDITSTUDENT, false))
+        if ((JumpManager.checkUserPermision(getActivity(), MARKET_STUDENT_EDIT, false)
+                || JumpManager.checkUserPermision(getActivity(), Resource.EDUCATION_CLASSMANAGEMENT_EDITSTUDENT, false)
+                || JumpManager.checkUserPermision(getActivity(), Resource.MARKET_STUDENT_EDIT, false))
                 && JumpManager.checkRelationPermision(getActivity(), getStudentInfo().all_user_ids)) {
             return true;
         }
@@ -408,7 +412,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                     university_id = mUniversityInfo.id;
                     province_id = mUniversityInfo.prov_id;
                     city_id = mUniversityInfo.city_id;
-                    HashMap<String, String> params = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_EDIT);
+                    HashMap<String, String> params = AppUtil.getParamsHashMap(MARKET_STUDENT_EDIT);
                     params.put("college_id", university_id + "");
                     params.put("id", getStudentInfo().student_id + "");
                     params.put("college_name", mUniversityInfo.name);

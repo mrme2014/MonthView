@@ -223,8 +223,8 @@ public class AppUtil {
         list.add("上课时间");
         list.add("老师");
         list.add("课时");
-        list.add("应到人数");
         list.add("实到人数");
+        list.add("应到人数");
 
 
         return list;
@@ -303,7 +303,7 @@ public class AppUtil {
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-        int time = (int) (c.getTimeInMillis() / 1000);
+        int time = (int) (c.getTimeInMillis() / 1000)-3600*12;
         return time;
     }
 

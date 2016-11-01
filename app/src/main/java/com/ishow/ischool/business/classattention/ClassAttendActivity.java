@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.ishow.ischool.R;
@@ -116,18 +117,17 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         TechAvart techAvart = result.teacherAvatar;
         if (classInfo == null)
             return;
-        if (techAvart != null && techAvart.file_name != ""&&techAvart.file_name!=null) {
+        if (techAvart != null && techAvart.file_name != "" && techAvart.file_name != null) {
             PicUtils.loadpic(this, classAvartImg, techAvart.file_name);
         } else {
             classAvartImg.setVisibility(View.GONE);
             classAvartTxt.setVisibility(View.VISIBLE);
             classAvartTxt.setText(classInfo.teacher);
         }
-
-        className.setText( "教师:" + classInfo.teacher_name);
+        className.setText("教师:" + classInfo.teacher_name);
         //clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
         clazLabel.setLabelTextRight(AppUtil.getTodayStr());
-        mToolbarTitle.setText("第"+classInfo.lessoned_times+"节");
+        mToolbarTitle.setText("第" + classInfo.lessoned_times + "节");
         mToolbarTitle.append("\n");
         SpannableString spanText = new SpannableString(classInfo.course_type + " " + classInfo.name);
         spanText.setSpan(new AbsoluteSizeSpan(12, true), 0, spanText.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -152,6 +152,8 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        if (adapter==null||adapter.getItemCount()<=0)
+            return false;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_class_attendance_checkin, null);
@@ -172,7 +174,12 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
                 dialog1.dismiss();
             }
         });
-        info.setText(String.format(getString(R.string.check_info), classInfo.current_numbers, classInfo.numbers));
+        int out = 0;
+        for (int i = 0; i < adapter.checkInList.size(); i++) {
+            if (!adapter.checkInList.get(i))
+                out++;
+        }
+        info.setText(String.format(getString(R.string.check_info), classInfo.current_numbers,classInfo.current_numbers-out+""));
         builder.setView(view);
         dialog1 = builder.create();
         dialog1.show();
@@ -181,7 +188,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     }
 
     private void go2ChcekIn() {
-        if (adapter != null && lists != null && lists.size() > 0&&adapter.getItemCount()>0) {
+        if (adapter != null && lists != null && lists.size() > 0 && adapter.getItemCount() > 0) {
             JSONArray array = new JSONArray();
             for (int i = 0; i < lists.size(); i++) {
                 JSONObject object = new JSONObject();
@@ -189,12 +196,14 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
                     object.put("student_id", lists.get(i).studentInfo.student_id);
                     object.put("status", adapter.getCheckInState(i));
                     object.put("memo", adapter.getCheckBeiZhuContent(i));
-                    array.put(object.toString());
+                    //LogUtil.e("student_id="+lists.get(i).studentInfo.student_id+"--status="+adapter.getCheckInState(i));
+                    array.put(object);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             handProgressbar(true);
+            LogUtil.e(AppUtil.getTodayStart() + "----");
             mPresenter.checkIn(array.toString(), claz_id, AppUtil.getTodayStart());
         }
     }

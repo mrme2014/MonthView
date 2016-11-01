@@ -59,6 +59,8 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
     private TreeMap map;
     private int end_time;
     private int begin_time;
+    private ArrayList<String> left;
+    private List<List<String>> listList;
 
     @Override
     protected void initEnv() {
@@ -120,13 +122,14 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
         LinearLayoutManager layoutManager1 = (LinearLayoutManager) passiveRollRecycleView.getLayoutManager();
         int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
         View view = layoutManager.findViewByPosition(firstVisibleItemPosition);
-        layoutManager1.scrollToPositionWithOffset(firstVisibleItemPosition, view.getTop());
+        if (view != null)
+            layoutManager1.scrollToPositionWithOffset(firstVisibleItemPosition, view.getTop());
     }
 
     @Override
     protected void setUpData() {
 
-       if (map==null)  map = new TreeMap();
+        if (map == null) map = new TreeMap();
         map.put("classes_id", claz_id);
         mPresenter.getCheckInList(map);
 
@@ -137,13 +140,17 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
         List<ClazTableRow> lists = result.lists;
         if (lists == null || lists.size() == 0) {
             clazTableTip.setText(String.format(getString(R.string.claz_table_tip), "0", "0", "0"));
+            if (left != null) left.clear();
+            if (listList != null) listList.clear();
+            adapter2.notifyDataSetChanged();
+            adapter3.notifyDataSetChanged();
             return;
         }
         ClazTableTotal total = result.total;
         clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.numbers, total.real_numbers));
-        List<List<String>> listList = new ArrayList<>();
+        listList = new ArrayList<>();
         listList.clear();
-        List<String> left = new ArrayList<>();
+        left = new ArrayList<>();
         left.clear();
         for (int i = 0; i < lists.size(); i++) {
             ClazTableRow clazTableRow = lists.get(i);
@@ -153,7 +160,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             row.add(clazTableRow.lessoned_times);
             row.add(clazTableRow.real_numbers);
             row.add(clazTableRow.numbers);
-            left.add((i +1)+ "");//左边 list序号列
+            left.add((i + 1) + "");//左边 list序号列
             listList.add(row);
         }
         if (adapter2 == null) {
@@ -162,8 +169,8 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             saleTableRecyleview.setAdapter(adapter2);
             saleTableRecyleviewLeft.setAdapter(adapter3);
         } else {
-            adapter2.notifyDataSetChanged();
-            adapter3.notifyDataSetChanged();
+            adapter2.onRefresh(listList);
+            adapter3.onRefresh(left);
         }
     }
 
@@ -188,7 +195,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
         timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
             @Override
             public void onResult(int start_time, int over_time) {
-                begin_time = start_time-12*3600;
+                begin_time = start_time - 12 * 3600;
                 end_time = over_time;
                 map.put("begin_time", begin_time);
                 if (end_time != 0) map.put("end_time", end_time);

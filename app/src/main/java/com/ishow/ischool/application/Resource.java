@@ -6,40 +6,12 @@ package com.ishow.ischool.application;
 public class Resource {
     public static final int NO_NEED_CHECK = 10000;
 
-    //        public static final int MARKET_STUDENT_STATISTICS = 7;
-//    public static final int SHARE_COMMUNICATION_INDEXM = 9;
-//    public static final int MARKET_STUDENT_ADD = 80;
-//    public static final int SHARE_COMMUNICATION_ADDM = 62;
-//
-//
-//    public static final int SHARE_COMMUNICATION_ADDM = 62;
-//    public static final int SHARE_COMMUNICATION_EDITM = 78;
-//    public static final int MARKET_STUDENT_STATISTICS = 7;
-//    public static final int MARKET_STUDENT_EDIT = 110;
     public static final int ROLE_PERMISSION_CHENDU = 17;//晨读讲师的角色id
-    //    public static final int MARKET_STUDENT_STATISTICS = 7;   //学员统计
     public static final int USER_LISTS = -1;    //推荐人/办理人/用户列表
 
 
-//    public static final int MARKET_STUDENT_ADD = 80;
-//    public static final int PERMISSION_SEND_MSG = 81;
-//    public static final int PERMISSION_OPEN_POWER = 82;
-
-    //    public static final int PERMISSION_STU_PAY = 92;
-//    public static final int MARKET_STUDENT_STUDENTINFO = 93;
-//    public static final int MARKET_STUDENT_EDIT = 110;
-//
     public static final int MARKET_PROCESS = -1;
-//
-//    public static final int DATA_DATAANALYZE_BAZAARANALYZE = 26;
-//    public static final int DATA_DATAANALYZE_BAZAARCONTRAST = 27;
-//    public static final int DATA_DATAANALYZE_BAZAAROTHER = 28;
 
-    //    public static final int DATA_DATAANALYZE_TEACHINGOTHER = 31;//教务教学  其他
-//    public static final int DATA_DATAANALYZE_TEACHINGPROCESSANALYSIS = 29;//教务教学
-//    public static final int DATA_DATAANALYZE_TEACHINGCONTRAST = 30;//教务教学
-//
-//    public static final int MARKET_STUDENT_STATISTICS = 7;
     public static final String RESOURCE_ID = "resource_id";
 
     public static final int MARKET_HOME_HOME = 1; //市场业务

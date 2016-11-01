@@ -196,6 +196,7 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
             Student data = mDataList.get(position);
             Intent intent = new Intent(StudentListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
+            intent.putExtra(StudentDetailActivity.P_FROM,"class_student_list");
             JumpManager.jumpActivity(StudentListActivity.this, intent, Resource.MARKET_STUDENT_STUDENTINFOE);
         }
     }

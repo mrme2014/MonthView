@@ -2,6 +2,8 @@ package com.ishow.ischool.business.student.detail;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -38,6 +41,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresenter, StudentDetailModel> implements
         CommunFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener,
         StudentDetailContract.View {
@@ -45,6 +50,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     public static final String P_STUDENT = "student";
     public static final String P_STUDENT_ID = "student_id";
     public static final String P_COMMUNICATION = "communication";
+    public static final String P_FROM = "from";
     @BindView(R.id.tabs)
     TabLayout mTabs;
 
@@ -77,6 +83,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private boolean needRefresh;
     private String tempPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture.avatar";
     private String tempCropPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture_crop.avatar";
+    private String from;
 
 
     @Override
@@ -86,6 +93,16 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             tempCropPath = savedInstanceState.getString("tempCropPath");
         }
         super.onCreate(savedInstanceState);
+        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            //使得布局延伸到状态栏和导航栏区域
+            window.getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            );
+            //透明状态栏/导航栏
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 
     @Override
@@ -99,6 +116,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             }
         }
         isCommun = getIntent().getBooleanExtra(P_COMMUNICATION, false);
+        from = getIntent().getStringExtra(P_FROM);
 
     }
 
@@ -341,4 +359,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         super.onSaveInstanceState(outState);
     }
 
+    public String getFrom() {
+        return from;
+    }
 }

@@ -170,5 +170,6 @@ public class InputLinearLayout extends LinearLayout {
      */
     public void setDisable() {
         input.setEnabled(false);
+        next.setVisibility(GONE);
     }
 }

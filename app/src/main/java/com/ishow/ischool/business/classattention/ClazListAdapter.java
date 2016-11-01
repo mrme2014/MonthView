@@ -30,7 +30,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
     private Context context;
     private List<ClazStudentObject> lists;
     private HashMap<Integer,String> beiZhuList;
-    private HashMap<Integer,Boolean> checkInList;
+    public HashMap<Integer,Boolean> checkInList;
     private AdapterView.OnClickListener listener;
 
     public ClazListAdapter(Context context, List<ClazStudentObject> lists) {

@@ -34,6 +34,10 @@ public class SaleSatementAdapter extends RecyclerView.Adapter<SaleSatementAdapte
         holder.textView.setText(list.get(position));
     }
 
+   public void  onRefresh( List<String> newList){
+        list = newList;
+       notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return list==null?0:list.size();

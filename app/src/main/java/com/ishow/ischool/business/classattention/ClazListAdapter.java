@@ -81,6 +81,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
             holder.beiZhu.setTextColor(context.getResources().getColor(R.color.txt_9));
         }
         holder.button.setChecked(checkInList.get(position));
+        holder.button.setText(checkInList.get(position)?"上课":"缺勤");
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +94,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
             public void onClick(View v) {
                 CommunEditDialog dialog = new CommunEditDialog();
                 Bundle bundle = new Bundle();
-                bundle.putString("content","");
+                bundle.putString("content",beiZhuList.get(position));
                 bundle.putBoolean("needDate",false);
                 dialog.setArguments(bundle);
                 dialog.show(((ClassAttendActivity)context).getSupportFragmentManager(),"dialog");

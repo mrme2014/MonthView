@@ -27,6 +27,8 @@
         android:layout_marginLeft="8dp"
         android:gravity="center"
         android:text="xujiajia"
+        android:maxLength="4"
+        android:ellipsize="end"
         android:textColor="@color/txt_2"
         android:textSize="@dimen/sp15" />
 
@@ -57,7 +59,5 @@
         android:checked="true"
         android:textColor="@color/txt_9"
         android:textOff="缺席"
-        android:textOn="上课"
-        android:text="上课"
         tools:ignore="RtlHardcoded" />
 </LinearLayout>

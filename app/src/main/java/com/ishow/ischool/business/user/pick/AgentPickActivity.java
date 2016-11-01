@@ -44,7 +44,6 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
     private SearchView mSearchView;
     private String mSearchKey;
     private boolean mSearchMode = false;
-    private boolean enableSelect;
 
     private CampusInfo campusInfo;
 
@@ -136,14 +135,12 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
             mDataList.clear();
         }
         loadSuccess(userListResult.lists);
-        enableSelect = true;
     }
 
     @Override
     public void getListFail(String msg) {
         loadFailed();
         showToast(msg);
-        enableSelect = false;
     }
 
     @Override
@@ -201,8 +198,6 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
 
         @Override
         public void onItemClick(View view, int position) {
-            if (!enableSelect)
-                return;
             Intent intent = new Intent();
             User data = mDataList.get(position);
             intent.putExtra(PICK_USER, data);

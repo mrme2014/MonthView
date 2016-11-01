@@ -5,4 +5,13 @@ package com.ishow.ischool.event;
  */
 
 public class SignEvent {
+    public int updatePosition;
+
+    public SignEvent(int updatePosition) {
+        this.updatePosition = updatePosition;
+    }
+
+    public int getUpdatePosition() {
+        return updatePosition;
+    }
 }

@@ -47,6 +47,7 @@ public class ClazInfo {
     public int create_time;
     public int update_time;
     public String nextClassTime;
+    public String teacher_name;
     public String teacherAvatar;//teacherAvatar
     /**
      * start_time : 09:00

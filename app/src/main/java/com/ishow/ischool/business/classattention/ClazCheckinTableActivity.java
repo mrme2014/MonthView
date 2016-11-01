@@ -126,7 +126,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
     @Override
     protected void setUpData() {
 
-        map = new TreeMap();
+       if (map==null)  map = new TreeMap();
         map.put("classes_id", claz_id);
         mPresenter.getCheckInList(map);
 
@@ -140,7 +140,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             return;
         }
         ClazTableTotal total = result.total;
-        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.real_numbers, total.numbers));
+        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.numbers, total.real_numbers));
         List<List<String>> listList = new ArrayList<>();
         listList.clear();
         List<String> left = new ArrayList<>();
@@ -188,7 +188,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
         timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
             @Override
             public void onResult(int start_time, int over_time) {
-                begin_time = start_time;
+                begin_time = start_time-12*3600;
                 end_time = over_time;
                 map.put("begin_time", begin_time);
                 if (end_time != 0) map.put("end_time", end_time);

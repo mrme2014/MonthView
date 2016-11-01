@@ -46,6 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
+import static com.ishow.ischool.application.Cons.Position.Chujilaoshi;
 
 /**
  * Created by mini on 16/10/25.
@@ -91,6 +92,7 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
     private boolean isUserCampus;       // 是否是校区员工（非总部员工）
     private User mUser;
     private int mPositionId;            // 当前职位
+    private boolean isTeacher = false, isAdvisor = false;
     private FilterCallback callback;
 
 
@@ -197,11 +199,19 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
             courseTypeIL.setContent(mFilterCourseTypeName);
         }
 
-        if (mPositionId == Cons.Position.Chujixuexiguwen || mPositionId == Cons.Position.Zhongjixuexiguwen ||       // 当前角色是学习顾问时，隐藏教师栏，并置角色栏为自己名字
+        checkGrade(mPositionId);        // 如果是学习顾问或者教师时，写死课程栏
+        if (mPositionId == Cons.Position.Chujixuexiguwen || mPositionId == Cons.Position.Zhongjixuexiguwen ||       // 当前角色是学习顾问时，隐藏教师栏，并置学习顾问栏为自己名字
                 mPositionId == Cons.Position.Gaojixuexiguwen || mPositionId == Cons.Position.Yingshixuexiguwen) {
+            isAdvisor = true;
             teacherIL.setVisibility(View.GONE);
             advisorIL.setContent(mUser.userInfo.user_name);
             advisorIL.setDisable();
+        } else if (mPositionId == Chujilaoshi || mPositionId == Cons.Position.Zhongjilaoshi ||       // 当前角色是教师时，并置教师栏为自己名字
+                mPositionId == Cons.Position.Gaojilaoshi || mPositionId == Cons.Position.Yingshilaoshi) {
+            isTeacher = true;
+            teacherIL.setContent(mUser.userInfo.user_name);
+            teacherIL.setDisable();
+            advisorIL.setContent(mFilterAdvisorName);
         } else {
             if (!TextUtils.isEmpty(mFilterTeacherId) && !TextUtils.isEmpty(mFilterTeacherName)) {
                 teacherIL.setContent(mFilterTeacherName);
@@ -282,25 +292,64 @@ public class ClassListFilterFragment extends DialogFragment implements InputLine
     }
 
     void resetFilter() {
-        campusIL.setContent("");
+        mFilterStartTime = "";
+        mFilterEndTime = "";
         startTimeEt.setText("");
         startTimeIv.setVisibility(View.GONE);
         endTimeEt.setText("");
         endTimeIv.setVisibility(View.GONE);
-        courseTypeIL.setContent("");
-        teacherIL.setContent("");
-        advisorIL.setContent("");
+
         if (!isUserCampus) {
             mFilterCampusId = "";
+            campusIL.setContent("");
         }
-        mFilterStartTime = "";
-        mFilterEndTime = "";
-        mFilterCourseTypeId = "";
-        mFilterCourseTypeName = "";
-        mFilterTeacherId = "";
-        mFilterTeacherName = "";
-        mFilterAdvisorId = "";
-        mFilterAdvisorName = "";
+
+        if (!isTeacher && !isAdvisor) {
+            mFilterCourseTypeId = "";
+            mFilterCourseTypeName = "";
+            courseTypeIL.setContent("");
+        }
+
+        if (!isTeacher) {           // 不是老师角色才重置
+            mFilterTeacherId = "";
+            mFilterTeacherName = "";
+            teacherIL.setContent("");
+        }
+        if (!isAdvisor) {           // 不是学习顾问角色才重置
+            mFilterAdvisorId = "";
+            mFilterAdvisorName = "";
+            advisorIL.setContent("");
+        }
+    }
+
+    void checkGrade(int position) {
+        switch (position) {
+            case Cons.Position.Chujilaoshi:
+            case Cons.Position.Chujixuexiguwen:
+                mFilterCourseTypeId = 1 + "";
+                mFilterCourseTypeName = "ishow初级";
+                courseTypeIL.setDisable();
+                break;
+            case Cons.Position.Zhongjilaoshi:
+            case Cons.Position.Zhongjixuexiguwen:
+                mFilterCourseTypeId = 10 + "";
+                mFilterCourseTypeName = "ishow中级";
+                courseTypeIL.setDisable();
+                break;
+            case Cons.Position.Gaojilaoshi:
+            case Cons.Position.Gaojixuexiguwen:
+                mFilterCourseTypeId = 20 + "";
+                mFilterCourseTypeName = "ishow高级";
+                courseTypeIL.setDisable();
+                break;
+            case Cons.Position.Yingshilaoshi:
+            case Cons.Position.Yingshixuexiguwen:
+                mFilterCourseTypeId = 30 + "";
+                mFilterCourseTypeName = "ishow影视";
+                courseTypeIL.setDisable();
+                break;
+        }
+        courseTypeIL.setContent(mFilterCourseTypeName);
     }
 
     @Override

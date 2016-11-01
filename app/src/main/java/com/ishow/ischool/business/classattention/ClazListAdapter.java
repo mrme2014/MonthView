@@ -70,7 +70,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
         } else {
             holder.avartImg.setVisibility(View.GONE);
             holder.avartTx.setVisibility(View.VISIBLE);
-            holder.avartTx.setText(studentInfo.name);
+            holder.avartTx.setText(studentInfo.name,studentInfo.id,studentInfo.avatar);
         }
         holder.name.setText(studentInfo.name);
         if (beiZhuList.get(position)!=null&&beiZhuList.get(position)!=""){

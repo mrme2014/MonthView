@@ -1,9 +1,13 @@
 package com.ishow.ischool.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.Window;
 
 import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
@@ -16,6 +20,8 @@ import com.zaaach.citypicker.utils.LocManager;
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
 import org.lzh.framework.updatepluginlib.model.Update;
 import org.lzh.framework.updatepluginlib.strategy.UpdateStrategy;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
 
@@ -78,6 +84,23 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                     .hide(meFragment)
                     .commitAllowingStateLoss();
         }
+
+        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            //使得布局延伸到状态栏和导航栏区域
+            window.getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            );
+            //透明状态栏/导航栏
+            window.setStatusBarColor(Color.TRANSPARENT);
+//            if (SDK_INT < 23) {
+//                ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+//                View parentView = contentFrameLayout.getChildAt(0);
+//                parentView.setFitsSystemWindows(true);
+//            }
+        }
+
     }
 
     @Override

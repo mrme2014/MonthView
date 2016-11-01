@@ -3,6 +3,7 @@ package com.ishow.ischool.business.classmaneger.studentlist;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
 
     @Override
     protected void setUpToolbar(int titleResId, int menuId, int mode) {
-        setUpToolbar(mClassName + "班", -1, MODE_BACK);
+        setUpToolbar(mClassName, -1, MODE_BACK);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
     @Override
     public void getListSuccess(StudentList studentList) {
         loadSuccess(studentList.lists);
-        setUpTitle(mClassName + "班(" + Math.max(studentList.total, getDataCounts()) + ")");
+        setUpTitle(mClassName + "(" + Math.max(studentList.total, getDataCounts()) + ")");
     }
 
     @Override
@@ -120,10 +121,10 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
             Student data = mDataList.get(position);
             name.setText(data.studentInfo.name);
             avatar.setText(data.studentInfo.name, data.studentInfo.id, data.avatarInfo == null ? "" : data.avatarInfo.file_name);
-            if (data.studentInfo.source == MarketApi.TYPESOURCE_READING) {
-                teacherTv.setText(getString(R.string.chendu, data.studentInfo.source_name));
-            } else if (data.studentInfo.source == MarketApi.TYPESOURCE_CHAT) {
-                teacherTv.setText(getString(R.string.xiaoliao, data.studentInfo.source_name));
+            if (data.studentInfo.source == MarketApi.TYPESOURCE_READING && !TextUtils.isEmpty(data.studentInfo.guider_name)) {
+                teacherTv.setText(getString(R.string.chendu, data.studentInfo.guider_name));
+            } else if (data.studentInfo.source == MarketApi.TYPESOURCE_CHAT && !TextUtils.isEmpty(data.studentInfo.school_chat_attache_name)) {
+                teacherTv.setText(getString(R.string.xiaoliao, data.studentInfo.school_chat_attache_name));
             } else {
                 teacherTv.setVisibility(View.GONE);
             }
@@ -144,8 +145,11 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
                     state.setText(getString(R.string.state_class_refund));  // 退费
                 }
             }
-//            chenduTv.setText(data.);
-            keguTv.setText(getString(R.string.kegu, data.studentInfo.advisor_name));
+            if (!TextUtils.isEmpty(data.studentInfo.advisor_name)) {
+                keguTv.setText(getString(R.string.kegu, data.studentInfo.advisor_name));
+            } else {
+                keguTv.setVisibility(View.GONE);
+            }
 
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,7 +196,7 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
             Student data = mDataList.get(position);
             Intent intent = new Intent(StudentListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            JumpManager.jumpActivity(StudentListActivity.this, intent, Resource.MARKET_STUDENT_STUDENTINFO);
+            JumpManager.jumpActivity(StudentListActivity.this, intent, Resource.MARKET_STUDENT_STUDENTINFOE);
         }
     }
 }

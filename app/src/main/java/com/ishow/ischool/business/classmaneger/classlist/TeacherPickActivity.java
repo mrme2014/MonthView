@@ -62,7 +62,7 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_pick_referrer, mTitle, R.menu.menu_pickreferrer, MODE_BACK);
+        setContentView(R.layout.activity_pick_referrer, mTitle, R.menu.menu_search, MODE_BACK);
     }
 
     @Override
@@ -88,6 +88,7 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (mSearchView!=null) KeyBoardUtil.closeKeybord(mSearchView, TeacherPickActivity.this);
                 mSearchMode = true;
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
@@ -132,7 +133,6 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
 
     @Override
     public void getListSuccess(TeacherList teacherInfos) {
-        if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, this);
         if (mSearchMode && mCurrentPage == 2) {
             mDataList.clear();
         }
@@ -148,7 +148,6 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
 
     @Override
     public void getListFail(String msg) {
-        if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, this);
         loadFailed();
         showToast(msg);
         enableSelect = false;

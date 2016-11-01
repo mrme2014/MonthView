@@ -3,6 +3,5 @@
     <item
         android:id="@+id/campus"
         android:orderInCategory="100"
-        android:title="哈哈"
         app:showAsAction="always" />
 </menu>

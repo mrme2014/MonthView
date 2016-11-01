@@ -103,7 +103,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_communication_list, R.string.communication_list_title, R.menu.menu_communication_list, MODE_BACK);
+        setContentView(R.layout.activity_communication_list, R.string.communication_list_title, R.menu.menu_search_filter, MODE_BACK);
     }
 
     @Override

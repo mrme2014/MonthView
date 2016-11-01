@@ -293,7 +293,9 @@
     <string name="check_info">应到人数  %1$d 实到人数  %2$s </string>
 
     <!--  班级管理  -->
-    <string name="not_in_class">未上课</string>
+    <string name="class_manager">班级管理</string>
+    <string name="all_class">全部</string>
+    <string name="not_in_class">未开课</string>
     <string name="in_class">上课中</string>
     <string name="class_has_been">已结课</string>
     <string name="class_open_date">开班日期 :   %s</string>

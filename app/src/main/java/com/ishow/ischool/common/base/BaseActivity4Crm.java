@@ -2,9 +2,13 @@ package com.ishow.ischool.common.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -15,6 +19,8 @@ import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.UserManager;
 
 import butterknife.ButterKnife;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 /**
  * Created by wqf on 16/8/13.
@@ -28,6 +34,12 @@ public abstract class BaseActivity4Crm<P extends BasePresenter, M extends BaseMo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //为了Translucent system bar
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && SDK_INT < 23) {
+//            ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+//            View parentView = contentFrameLayout.getChildAt(0);
+//            parentView.setFitsSystemWindows(true);
+//        }
     }
 
     @Override

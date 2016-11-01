@@ -175,6 +175,7 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         if (mCurrentPage == 1) {            // 没有数据，清除数据（列表上次有数据的情况）并显示空白占位
             mDataList.clear();
             mAdapter.notifyDataSetChanged();
+            recycler.enableLoadMore(false);
             recycler.setLoadState(PullRecycler.ACTION_IDLE);
             recycler.showEmptyView();
         }

@@ -54,7 +54,7 @@ public class SelectSubordinateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selectsubordinate);
         ButterKnife.bind(this);
 
-        toolbar.inflateMenu(R.menu.menu_pickreferrer);
+        toolbar.inflateMenu(R.menu.menu_search);
         toolbarTitle.setText(getString(R.string.select_subordinates));
         toolbar.setNavigationIcon(R.mipmap.icon_return);
 

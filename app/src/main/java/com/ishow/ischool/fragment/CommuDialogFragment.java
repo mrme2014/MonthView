@@ -21,10 +21,13 @@ import android.widget.TextView;
 import com.commonlib.util.DateUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.user.pick.AgentPickActivity;
 import com.ishow.ischool.business.user.pick.UserPickActivity;
+import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
@@ -35,6 +38,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.OptionPicker;
 
 import static com.ishow.ischool.business.user.pick.AgentPickActivity.REQUEST_CODE_PICKAGENT;
 
@@ -42,6 +46,8 @@ import static com.ishow.ischool.business.user.pick.AgentPickActivity.REQUEST_COD
  * Created by MrS on 2016/8/18.
  */
 public class CommuDialogFragment extends DialogFragment {
+    @BindView(R.id.commun_school)
+    LabelTextView communSchool;
     @BindView(R.id.commun_state)
     LabelTextView communState;
     @BindView(R.id.commun_date_start)
@@ -68,6 +74,7 @@ public class CommuDialogFragment extends DialogFragment {
     LinearLayout root;
 
     private int statePosition;
+    private CampusInfo communCampus;
     private long startUnix;
     private long endUnix;
     private int refusePosition;
@@ -115,7 +122,8 @@ public class CommuDialogFragment extends DialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @OnClick({R.id.commun_block_top, R.id.commun_block_bottom, R.id.commun_state, R.id.commun_date_start, R.id.commun_date_end, R.id.commun_refuse, R.id.commun_confidence, R.id.commun_order, R.id.commu_reset, R.id.commu_ok})
+    @OnClick({R.id.commun_block_top, R.id.commun_block_bottom, R.id.commun_state, R.id.commun_date_start, R.id.commun_date_end, R.id.commun_refuse,
+            R.id.commun_confidence, R.id.commun_order, R.id.commu_reset, R.id.commu_ok, R.id.commun_school})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.commun_state:
@@ -155,6 +163,9 @@ public class CommuDialogFragment extends DialogFragment {
                 break;
             case R.id.commun_order:
                 Intent intent = new Intent(getActivity(), AgentPickActivity.class);
+                if (communCampus != null) {
+                    intent.putExtra(AgentPickActivity.P_CAMPUS, communCampus);
+                }
                 JumpManager.jumpActivityForResult(this, intent, REQUEST_CODE_PICKAGENT, Resource.NO_NEED_CHECK);
                 break;
             case R.id.commu_reset:
@@ -163,7 +174,7 @@ public class CommuDialogFragment extends DialogFragment {
             case R.id.commu_ok:
                 this.dismiss();
                 if (callback != null)
-                    callback.onResult(statePosition, confidencePosition, refusePosition, orderPosition, startUnix, endUnix);
+                    callback.onResult(statePosition, confidencePosition, refusePosition, orderPosition, startUnix, endUnix, communCampus);
                 break;
 
             case R.id.commun_block_top:
@@ -172,8 +183,24 @@ public class CommuDialogFragment extends DialogFragment {
                 if (callback != null)
                     callback.cancelDilaog();
                 break;
+            case R.id.commun_school:
+                final ArrayList<CampusInfo> campusInfos = CampusManager.getInstance().get();
+                ArrayList<String> campuses = new ArrayList<>();
+                for (CampusInfo info : campusInfos) {
+                    campuses.add(info.name);
+                }
+
+                AppUtil.showOptionPickDialog(getActivity(), campuses, campusInfos.indexOf(communCampus), new OptionPicker.OnOptionPickListener() {
+                    @Override
+                    public void onOptionPicked(int position, String option) {
+                        communSchool.setText(option);
+                        communCampus = campusInfos.get(position);
+                    }
+                });
+                break;
         }
     }
+
 
     private void showPickPop(int titleResId, int defalut, int colum, ArrayList<String> datas, PickerDialogFragment.Callback callback) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
@@ -193,6 +220,7 @@ public class CommuDialogFragment extends DialogFragment {
         communConfidence.setText("");
         communRefuse.setText("");
         communOrder.setText("");
+        communSchool.setText("");
         startUnix = 0;
         endUnix = 0;
         statePosition = 0;
@@ -213,6 +241,10 @@ public class CommuDialogFragment extends DialogFragment {
         communConfidence.setText(AppUtil.getBeliefById(confidencePosition));
         communRefuse.setText(AppUtil.getRefuseById(refusePosition));
         communOrder.setText(orderName);
+
+        if(mUser.positionInfo.campusId == Constants.CAMPUS_HEADQUARTERS){
+            communSchool.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showTimePickPop(final boolean start) {
@@ -251,7 +283,7 @@ public class CommuDialogFragment extends DialogFragment {
     public interface selectResultCallback {
         void cancelDilaog();
 
-        void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix);
+        void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix, CampusInfo campus);
     }
 
     public void addOnSelectResultCallback(selectResultCallback callback1) {

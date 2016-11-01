@@ -13,6 +13,14 @@
         android:background="@android:color/transparent" />
 
     <com.commonlib.widget.LabelTextView
+        android:id="@+id/commun_school"
+        style="@style/communication_textview"
+        android:hint="@string/commun_school_hnit"
+        app:draw_bottom_line="true"
+        app:label_text_left="@string/commun_school_state"
+        android:visibility="gone"/>
+
+    <com.commonlib.widget.LabelTextView
         android:id="@+id/commun_state"
         style="@style/communication_textview"
         android:hint="@string/commun_state_hnit"

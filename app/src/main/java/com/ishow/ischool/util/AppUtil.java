@@ -1,5 +1,6 @@
 package com.ishow.ischool.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import cn.qqtheme.framework.picker.OptionPicker;
 
 /**
  * Created by abel on 16/8/16.
@@ -394,5 +397,21 @@ public class AppUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * 第三方的Option选择框
+     * @param activity
+     * @param lists
+     * @param index 默认选择项
+     * @param listener
+     */
+    public static void showOptionPickDialog(Activity activity, ArrayList<String> lists, int index, OptionPicker.OnOptionPickListener listener) {
+        OptionPicker picker = new OptionPicker(activity, lists);
+        picker.setOffset(2);
+        picker.setSelectedIndex(index);
+        picker.setTextSize(12);
+        picker.setOnOptionPickListener(listener);
+        picker.show();
     }
 }

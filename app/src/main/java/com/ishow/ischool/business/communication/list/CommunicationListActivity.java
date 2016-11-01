@@ -27,6 +27,7 @@ import com.ishow.ischool.activity.CommunicationSearchFragment;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
@@ -331,7 +332,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
      * @param endUnix
      */
     @Override
-    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix) {
+    public void onResult(int statePosition, int confidencePosition, int refusePosition, int orderPosition, long startUnix, long endUnix, CampusInfo campusInfo) {
         //mParamsMap = AppUtil.getParamsHashMap(Resource.MARKET_STUDENT_STATISTICS);
         initParamsMap();
         mCurrentPage = 1;
@@ -353,6 +354,10 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         }
         if (orderPosition != 0) {
             mParamsMap.put("incharger", orderPosition + "");
+        }
+
+        if (campusInfo != null) {
+            mParamsMap.put("campus_id", campusInfo.id + "");
         }
 
 //        mPresenter.listCommunication(mParamsMap);

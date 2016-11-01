@@ -316,4 +316,7 @@
     <string name="state_class_suspended">停课</string>
     <string name="state_class_refund">退费</string>
     <string name="msg_mobile_input">请输入正确的号码</string>
+
+    <string name="commun_school_hnit">请选择校区</string>
+    <string name="commun_school_state">校区</string>
 </resources>

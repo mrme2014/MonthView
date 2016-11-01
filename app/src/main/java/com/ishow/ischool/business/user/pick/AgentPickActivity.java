@@ -21,6 +21,7 @@ import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserListResult;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
@@ -38,11 +39,14 @@ import butterknife.ButterKnife;
 public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, User> implements UserPickContract.View<UserListResult> {
     public static final int REQUEST_CODE_PICKAGENT = 1003;
     public static final String PICK_USER = "user";
+    public static final String P_CAMPUS = "campus";
 
     private SearchView mSearchView;
     private String mSearchKey;
     private boolean mSearchMode = false;
     private boolean enableSelect;
+
+    private CampusInfo campusInfo;
 
 
     @Override
@@ -56,9 +60,20 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
     }
 
     @Override
+    protected void initEnv() {
+        super.initEnv();
+        campusInfo = getIntent().getParcelableExtra(P_CAMPUS);
+    }
+
+    @Override
     protected void setUpView() {
         super.setUpView();
         initSearchView();
+        String campusName = mUser.campusInfo.name;
+        if (campusInfo != null) {
+            campusName = campusInfo.name;
+        }
+        setUpTitle(campusName + "-" + getString(R.string.pick_banliren));
     }
 
     void initSearchView() {
@@ -73,19 +88,20 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mSearchView!=null) KeyBoardUtil.closeKeybord(mSearchView, AgentPickActivity.this);
+                if (mSearchView != null)
+                    KeyBoardUtil.closeKeybord(mSearchView, AgentPickActivity.this);
 //                if (mSearchKey == null && newText.equals("")) {
 //                    //第一次默认不加载
 //                } else {
-                    mSearchMode = true;
-                    LogUtil.d("SearchView newText = " + newText);
+                mSearchMode = true;
+                LogUtil.d("SearchView newText = " + newText);
+                mSearchKey = newText;
+                if (TextUtils.isEmpty(newText)) {
+                    mSearchKey = null;
+                } else {
                     mSearchKey = newText;
-                    if (TextUtils.isEmpty(newText)) {
-                        mSearchKey = null;
-                    } else {
-                        mSearchKey = newText;
-                    }
-                    setRefreshing();
+                }
+                setRefreshing();
 //                }
                 return true;
             }
@@ -110,7 +126,8 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
             mCurrentPage = 1;
         }
 
-        mPresenter.listUser(mUser.positionInfo.campusId, mSearchKey, mCurrentPage++);
+        int campusId = campusInfo == null ? mUser.positionInfo.campusId : campusInfo.id;
+        mPresenter.listUser(campusId, mSearchKey, mCurrentPage++);
     }
 
     @Override
@@ -119,14 +136,14 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
             mDataList.clear();
         }
         loadSuccess(userListResult.lists);
-        enableSelect= true;
+        enableSelect = true;
     }
 
     @Override
     public void getListFail(String msg) {
         loadFailed();
         showToast(msg);
-        enableSelect= false;
+        enableSelect = false;
     }
 
     @Override
@@ -165,7 +182,7 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
                     @Override
                     public void setRequest(Request request) {
                         avatarIv.setTag(position);
-                        avatarIv.setTag(R.id.glide_tag_id,request);
+                        avatarIv.setTag(R.id.glide_tag_id, request);
                     }
 
                     @Override

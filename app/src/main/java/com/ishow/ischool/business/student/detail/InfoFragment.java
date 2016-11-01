@@ -382,10 +382,11 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
     }
 
     private boolean checkStudentEditPermision() {
+        String from = ((StudentDetailActivity) getActivity()).getFrom();
         if ((JumpManager.checkUserPermision(getActivity(), MARKET_STUDENT_EDIT, false)
                 || JumpManager.checkUserPermision(getActivity(), Resource.EDUCATION_CLASSMANAGEMENT_EDITSTUDENT, false)
                 || JumpManager.checkUserPermision(getActivity(), Resource.MARKET_STUDENT_EDIT, false))
-                && JumpManager.checkRelationPermision(getActivity(), getStudentInfo().all_user_ids)) {
+                && ("class_student_list".equals(from) ? true : JumpManager.checkRelationPermision(getActivity(), getStudentInfo().all_user_ids))) {
             return true;
         }
         showToast(R.string.no_permission);

@@ -81,15 +81,14 @@ public class AvatarImageView extends ImageView {
     }
 
     public void setText(String text, int id, String imageUrl) {
-        if (TextUtils.isEmpty(imageUrl)) {
+        if (TextUtils.isEmpty(imageUrl)||TextUtils.equals(imageUrl,"0")) {
             this.text = AppUtil.getFirstChar(text);
             setImageDrawable(new ColorDrawable(ColorUtil.getColorById(id)));
         } else {
             this.text = "";
             PicUtils.loadpic(getContext(), this, imageUrl);
         }
-
-        //invalidate();
+        invalidate();
     }
 
     @Deprecated

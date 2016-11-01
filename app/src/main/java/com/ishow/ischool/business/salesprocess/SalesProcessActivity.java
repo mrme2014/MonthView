@@ -507,4 +507,5 @@ user_id	Int	0			指定看某个员工的	*/
         super.onDestroy();
         handProgressbar(false);
     }
+
 }

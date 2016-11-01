@@ -102,11 +102,11 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
 
         // 来源方式权限限定
         int curPositionId = mUser.positionInfo.id;
-        if (curPositionId == Cons.Position.Chendujiangshi.ordinal()) {
+        if (curPositionId == Cons.Position.Chendujiangshi) {
             fromIL.setDisable();
             fromIL.setContent("晨读");
             source_id = MarketApi.TYPESOURCE_READING;
-        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan.ordinal()) {
+        } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan) {
             fromIL.setDisable();
             fromIL.setContent("校聊");
             source_id = MarketApi.TYPESOURCE_CHAT;

@@ -47,7 +47,7 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_pick_referrer, R.string.pick_banliren, R.menu.menu_pickreferrer, MODE_BACK);
+        setContentView(R.layout.activity_pick_referrer, R.string.pick_banliren, R.menu.menu_search, MODE_BACK);
     }
 
     @Override
@@ -73,15 +73,20 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mSearchMode = true;
-                LogUtil.d("SearchView newText = " + newText);
-                mSearchKey = newText;
-                if (TextUtils.isEmpty(newText)) {
-                    mSearchKey = null;
-                } else {
+                if (mSearchView!=null) KeyBoardUtil.closeKeybord(mSearchView, AgentPickActivity.this);
+//                if (mSearchKey == null && newText.equals("")) {
+//                    //第一次默认不加载
+//                } else {
+                    mSearchMode = true;
+                    LogUtil.d("SearchView newText = " + newText);
                     mSearchKey = newText;
-                }
-                setRefreshing();
+                    if (TextUtils.isEmpty(newText)) {
+                        mSearchKey = null;
+                    } else {
+                        mSearchKey = newText;
+                    }
+                    setRefreshing();
+//                }
                 return true;
             }
         });
@@ -110,7 +115,6 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
 
     @Override
     public void getListSuccess(UserListResult userListResult) {
-        if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         if (mSearchMode && mCurrentPage == 2) {
             mDataList.clear();
         }
@@ -120,7 +124,6 @@ public class AgentPickActivity extends BaseListActivity4Crm<UserPickPresenter, U
 
     @Override
     public void getListFail(String msg) {
-        if (mSearchView!=null)KeyBoardUtil.closeKeybord(mSearchView,this);
         loadFailed();
         showToast(msg);
         enableSelect= false;

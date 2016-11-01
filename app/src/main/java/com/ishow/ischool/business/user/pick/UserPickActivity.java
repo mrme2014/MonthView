@@ -38,7 +38,6 @@ import butterknife.ButterKnife;
 public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, UserPickModel, SubordinateObject> implements UserPickContract.View<Subordinate> {
     public static final int REQUEST_CODE_PICKUSER = 1002;
     public static final String PICK_USER = "user";
-    public static final String P_TITLE = "title";
 
     private SearchView mSearchView;
     private String mSearchKey;
@@ -56,7 +55,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_pick_referrer, R.string.pick_user, R.menu.menu_pickreferrer, MODE_BACK);
+        setContentView(R.layout.activity_pick_referrer, R.string.pick_user, R.menu.menu_search, MODE_BACK);
     }
 
     @Override
@@ -82,6 +81,8 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, UserPickActivity.this);
+
                 mSearchMode = true;
                 LogUtil.d("SearchView newText = " + newText);
                 mSearchKey = newText;
@@ -91,6 +92,7 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
                     mSearchKey = newText;
                 }
                 setRefreshing();
+
                 return true;
             }
         });
@@ -120,7 +122,6 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
     @Override
     public void getListSuccess(Subordinate subordinate) {
-        if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, this);
         if (mSearchMode && mCurrentPage == 2) {
             mDataList.clear();
         }
@@ -130,7 +131,6 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
     @Override
     public void getListFail(String msg) {
-        if (mSearchView != null) KeyBoardUtil.closeKeybord(mSearchView, this);
         loadFailed();
         showToast(msg);
         enableSelect = false;

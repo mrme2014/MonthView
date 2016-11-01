@@ -165,8 +165,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                 if (dialog == null) {
                     dialog = ClassListFilterFragment.newInstance(filterParams, mFilterCourseTypeName, mFilterTeacherName, mFilterAdvisorName);
                     dialog.setOnFilterCallback(ClassListActivity.this);
+                    dialog.show(getSupportFragmentManager(), "dialog");
                 }
-                dialog.show(getSupportFragmentManager(), "dialog");
                 break;
         }
         return true;

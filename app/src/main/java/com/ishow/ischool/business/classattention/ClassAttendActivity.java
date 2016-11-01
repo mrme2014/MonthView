@@ -32,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -125,12 +124,12 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
             classAvartTxt.setText(classInfo.teacher);
         }
 
-        className.setText(classInfo.course_type + ":" + classInfo.teacher);
-        clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
+        className.setText( "教师:" + classInfo.teacher);
+        //clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
         clazLabel.setLabelTextRight(AppUtil.getTodayStr());
-        mToolbarTitle.setText(classInfo.name);
+        mToolbarTitle.setText("第"+classInfo.lessoned_times+"节");
         mToolbarTitle.append("\n");
-        SpannableString spanText = new SpannableString(classInfo.course_type + " " + classInfo.lesson_times);
+        SpannableString spanText = new SpannableString(classInfo.course_type + " " + classInfo.name);
         spanText.setSpan(new AbsoluteSizeSpan(12, true), 0, spanText.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         mToolbarTitle.append(spanText);
     }
@@ -180,7 +179,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     }
 
     private void go2ChcekIn() {
-        if (adapter != null && lists != null && lists.size() > 0) {
+        if (adapter != null && lists != null && lists.size() > 0&&adapter.getItemCount()>0) {
             JSONArray array = new JSONArray();
             for (int i = 0; i < lists.size(); i++) {
                 JSONObject object = new JSONObject();
@@ -194,7 +193,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
                 }
             }
             handProgressbar(true);
-            mPresenter.checkIn(array.toString(), claz_id, (int) (new Date().getTime() / 1000));
+            mPresenter.checkIn(array.toString(), claz_id, AppUtil.getTodayStart());
         }
     }
 

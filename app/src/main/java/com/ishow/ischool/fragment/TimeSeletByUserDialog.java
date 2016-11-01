@@ -11,12 +11,9 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
-import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.widget.custom.FmItemTextView;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
-
-import java.util.Date;
 
 /**
  * Created by MrS on 2016/10/11.
@@ -30,6 +27,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
     private TextView Ok;
     private int end_time;
     private int start_time;
+    private boolean no_need_check;
 
 
     @NonNull
@@ -50,19 +48,20 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
         Ok.setOnClickListener(this);
         dialog.setOnDismissListener(this);
         Bundle bundle = getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
+            no_need_check = bundle.getBoolean("no_need_check");
             start_time = bundle.getInt("start_time");
             end_time = bundle.getInt("end_time");
-            if (end_time!=0)endTime.setTipTxt(DateUtil.parseSecond2Str((long) end_time-24*3600+1));
-            if (start_time!=0)startTime.setTipTxt(DateUtil.parseSecond2Str((long) start_time));
+            if (end_time != 0)
+                endTime.setTipTxt(DateUtil.parseSecond2Str((long) end_time - 24 * 3600 + 1));
+            if (start_time != 0) startTime.setTipTxt(DateUtil.parseSecond2Str((long) start_time));
         }
-        LogUtil.e(start_time+"---"+new Date().getTime()+"---"+end_time);
+        // LogUtil.e(start_time+"---"+new Date().getTime()+"---"+end_time);
         return dialog;
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.start_time:
                 showDatePickDialog(true);
@@ -74,26 +73,30 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                 this.dismiss();
                 break;
             case R.id.ok:
-                if (end_time < start_time) {
-                    if (callback!=null){
-                        callback.onEorr((getString(R.string.end_le_start)));
+                if (!no_need_check) {
+                    if (end_time < start_time) {
+                        if (callback != null) {
+                            callback.onEorr((getString(R.string.end_le_start)));
+                        }
                     }
                     break;
                 }
-                if (startTime.getTipTxt() == null || startTime.getTipTxt() == ""||startTime.getTipTxt() == getString(R.string.select_start_time)) {
-                    if (callback!=null){
+                if (startTime.getTipTxt() == null || startTime.getTipTxt() == "" || startTime.getTipTxt() == getString(R.string.select_start_time)) {
+                    if (callback != null) {
                         callback.onEorr((getString(R.string.start_nonull)));
                     }
                     break;
                 }
-                if (endTime.getTipTxt() == "" || endTime.getTipTxt() == null||endTime.getTipTxt()== getString(R.string.select_end_time)) {
-                    if (callback!=null){
-                        callback.onEorr((getString(R.string.end_nonull)));
+                if (!no_need_check) {
+                    if (endTime.getTipTxt() == "" || endTime.getTipTxt() == null || endTime.getTipTxt() == getString(R.string.select_end_time)) {
+                        if (callback != null) {
+                            callback.onEorr((getString(R.string.end_nonull)));
+                        }
                     }
                     break;
                 }
-                if (callback!=null){
-                    callback.onResult(start_time,end_time);
+                if (callback != null) {
+                    callback.onResult(start_time, end_time);
                 }
                 this.dismiss();
                 break;
@@ -106,7 +109,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
 
     private void showDatePickDialog(final boolean pick_start) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start?start_time:end_time-24*3600).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start ? start_time : end_time - 24 * 3600).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
         PickerDialogFragment fragment = builder.Build();
         fragment.show(getChildFragmentManager());
         fragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
@@ -116,7 +119,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                     startTime.setTipTxt(result[0]);
                     start_time = selectIds;
                 } else {
-                    end_time = selectIds+24*3600-1;
+                    end_time = selectIds + 24 * 3600 - 1;
                     endTime.setTipTxt(result[0]);
                 }
             }
@@ -126,7 +129,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (callback!=null){
+        if (callback != null) {
             callback.onCacel();
         }
     }
@@ -135,11 +138,13 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
 
     public interface OnSelectResultCallback {
         void onResult(int start_time, int end_time);
+
         void onEorr(String error);
+
         void onCacel();
     }
 
     public void setOnSelectResultCallback(OnSelectResultCallback callback1) {
-        this.callback =callback1;
+        this.callback = callback1;
     }
 }

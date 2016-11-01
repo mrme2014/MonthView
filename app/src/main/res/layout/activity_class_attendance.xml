@@ -45,7 +45,6 @@
         android:paddingTop="13dp"
         app:label_padding="10dp"
         app:label_text_color="@color/txt_6"
-        app:label_text_left="出勤10人 共15人"
         app:label_text_right="2016-12-13" />
 
     <android.support.v7.widget.RecyclerView

@@ -58,7 +58,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
                 startActivityForResult(new Intent(UniversityPickActivity.this, CityPickerActivity.class), CityPickerActivity.REQUEST_CODE_PICK_CITY);
             }
         });
-        setUpMenu(R.menu.menu_collegepick);
+        setUpMenu(R.menu.menu_search);
         init();
     }
 

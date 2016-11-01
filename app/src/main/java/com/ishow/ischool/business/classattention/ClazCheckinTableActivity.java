@@ -136,11 +136,11 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
     public void getResutSucess(ClazCheckTable result) {
         List<ClazTableRow> lists = result.lists;
         if (lists == null || lists.size() == 0) {
-            clazTableTip.setText(String.format(getString(R.string.claz_table_tip),"0","0","0"));
+            clazTableTip.setText(String.format(getString(R.string.claz_table_tip), "0", "0", "0"));
             return;
         }
         ClazTableTotal total = result.total;
-        clazTableTip.setText(String.format(getString(R.string.claz_table_tip),total.num,total.numbers,total.real_numbers));
+        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.real_numbers, total.numbers));
         List<List<String>> listList = new ArrayList<>();
         listList.clear();
         List<String> left = new ArrayList<>();
@@ -153,7 +153,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             row.add(clazTableRow.lessoned_times);
             row.add(clazTableRow.real_numbers);
             row.add(clazTableRow.numbers);
-            left.add(i + "");//左边 list序号列
+            left.add((i +1)+ "");//左边 list序号列
             listList.add(row);
         }
         if (adapter2 == null) {
@@ -181,8 +181,9 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
     public void onClick(View v) {
         timeSeletByUser = new TimeSeletByUserDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("start_time", begin_time);
-        bundle.putInt("end_time", end_time);
+        bundle.putBoolean("no_need_check", true);
+        //bundle.putInt("start_time", begin_time);
+        // bundle.putInt("end_time", end_time);
         timeSeletByUser.setArguments(bundle);
         timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
             @Override
@@ -190,7 +191,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
                 begin_time = start_time;
                 end_time = over_time;
                 map.put("begin_time", begin_time);
-                map.put("end_time", end_time);
+                if (end_time != 0) map.put("end_time", end_time);
                 setUpData();
             }
 
@@ -204,6 +205,6 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
 
             }
         });
-        if (!timeSeletByUser.isAdded())timeSeletByUser.show(getSupportFragmentManager(),"dialog");
+        if (!timeSeletByUser.isAdded()) timeSeletByUser.show(getSupportFragmentManager(), "dialog");
     }
 }

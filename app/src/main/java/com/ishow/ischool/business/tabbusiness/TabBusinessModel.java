@@ -12,6 +12,8 @@ import com.ishow.ischool.common.manager.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ishow.ischool.business.tabbusiness.TabBusinessModel.TabSpec.TYPE_TEACH;
+
 /**
  * Created by wqf on 16/8/14.
  */
@@ -24,16 +26,23 @@ public class TabBusinessModel implements TabBusinessContract.Model {
     ArrayList<Boolean> hasPermissions;
 
     public class TabSpec {
+        public static final int TYPE_TEACH = 1;
         public Class<?> intentClazz;
         public String text;
         public int iconResId;
         public boolean hasPermission;
+        public int type;
     }
 
     List<TabSpec> getTabSpecs4Market() {
         intentClazz = new Class[]{StatisticsListActivity.class, CommunicationListActivity.class, AddStudentActivity.class, CommunicationAddActivity.class};
         texts = new String[]{"学员统计", "沟通记录", "添加学员", "添加沟通记录"};
-        hasPermissions = new ArrayList<Boolean>(){{add(false);add(false);add(false);add(false);}};
+        hasPermissions = new ArrayList<Boolean>() {{
+            add(false);
+            add(false);
+            add(false);
+            add(false);
+        }};
         int icon1 = R.mipmap.icon_business_01_gray;
         int icon2 = R.mipmap.icon_business_02_gray;
         int icon3 = R.mipmap.icon_business_03_gray;
@@ -71,7 +80,11 @@ public class TabBusinessModel implements TabBusinessContract.Model {
     List<TabSpec> getTabSpecs4Teach() {
         intentClazz = new Class[]{ClassListActivity.class, CommunicationListActivity.class, CommunicationAddActivity.class};
         texts = new String[]{"班级管理", "沟通记录", "添加沟通记录"};
-        hasPermissions = new ArrayList<Boolean>(){{add(false);add(false);add(false);}};
+        hasPermissions = new ArrayList<Boolean>() {{
+            add(false);
+            add(false);
+            add(false);
+        }};
         int icon1 = R.mipmap.icon_class_gray;
         int icon2 = R.mipmap.icon_business_02_gray;
         int icon3 = R.mipmap.icon_business_04_gray;
@@ -96,6 +109,7 @@ public class TabBusinessModel implements TabBusinessContract.Model {
             tabSpec.text = texts[i];
             tabSpec.iconResId = iconResIds[i];
             tabSpec.hasPermission = hasPermissions.get(i);
+            tabSpec.type = TYPE_TEACH;
             tabSpecs.add(tabSpec);
         }
         return tabSpecs;

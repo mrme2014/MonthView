@@ -18,4 +18,6 @@ public class Constants {
 
     /*pin lecturer销讲师*/
     public static final int PIN_LECTURER = 18;
+
+    public static final String IS_TEACH = "is_teach";
 }

@@ -24,6 +24,7 @@ import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.CommunicationSearchFragment;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
@@ -69,6 +70,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     CommuDialogFragment dialog = null;
     private boolean isShowSearchFragment;
 
+    private boolean isTeach;
+
     @Override
     protected void initEnv() {
         super.initEnv();
@@ -95,6 +98,8 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
             }
         });
+
+        isTeach = getIntent().getBooleanExtra(Constants.IS_TEACH, false);
     }
 
     private void initParamsMap() {
@@ -265,9 +270,9 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1})) {
-//            JumpManager.jumpActivity(this, CommunicationAddActivity.class, Resource.SHARE_COMMUNICATION_ADDM);
+        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1, Resource.SHARE_COMMUNICATION_ADDE})) {
             Intent intent = new Intent(this, CommunicationAddActivity.class);
+            intent.putExtra(Constants.IS_TEACH, isTeach);
             startActivity(intent);
 
         }

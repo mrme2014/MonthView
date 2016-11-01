@@ -22,6 +22,7 @@ public interface PickStudentContract {
         void getListSuccess(StudentList studentStatisticsList);
 
         void getListFail(String msg);
+
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

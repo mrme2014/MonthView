@@ -124,10 +124,10 @@ public class EditActivity extends BaseActivity4Crm<EditPresenter, EditModel> imp
                 break;
             }
             case R.id.student_parent_phone_number: {
-                if (!checkPhoneNumber(text)) {
-                    showToast(R.string.msg_mobile_input);
-                    return false;
-                }
+//                if (!checkPhoneNumber(text)) {
+//                    showToast(R.string.msg_mobile_input);
+//                    return false;
+//                }
                 params.put("parents_call", text);
                 break;
             }

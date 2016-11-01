@@ -364,7 +364,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
                 intent.putExtra(EditActivity.P_TYPE, R.id.student_parent_phone_number);
                 intent.putExtra(EditActivity.P_STUDENT_ID, getStudentInfo().student_id);
                 intent.putExtra(EditActivity.P_TEXT, getStudentInfo().parents_call);
-                //intent.putExtra(EditActivity.P_LEN, 11);
+                intent.putExtra(EditActivity.P_LEN, 20);
                 startActivityForResult(intent, REQUEST_PARENT_PHONE);
             }
             break;

@@ -35,6 +35,7 @@ import com.ishow.ischool.fragment.ClassListFilterFragment;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CircleTransform;
 import com.ishow.ischool.widget.custom.CustomGridLayoutManager;
+import com.ishow.ischool.widget.custom.InterceptLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -261,11 +262,9 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         @BindView(R.id.advisor_name)
         TextView advisorName;
         @BindView(R.id.click_layout)
-        LinearLayout clickLayout;
+        InterceptLayout clickLayout;
         @BindView(R.id.class_time_slot)
         RecyclerView recyclerView;
-        @BindView(R.id.student_number_layout)
-        RelativeLayout studentNumberLayout;
         @BindView(R.id.student_number)
         TextView studentNumberTv;
 

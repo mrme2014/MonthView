@@ -223,8 +223,8 @@ public class AppUtil {
         list.add("上课时间");
         list.add("老师");
         list.add("课时");
-        list.add("实到人数");
         list.add("应到人数");
+        list.add("实到人数");
 
 
         return list;

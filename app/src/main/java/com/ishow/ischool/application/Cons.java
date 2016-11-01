@@ -35,7 +35,7 @@ public class Cons {
                 Zhongjizuzhang = 24,
                 Gaojizuzhang = 25,
                 Yingshizuzhang = 26,
-                Chujilaoshi = 26,
+                Chujilaoshi = 27,
                 Zhongjilaoshi = 28,
                 Gaojilaoshi = 29,
                 Yingshilaoshi = 30,

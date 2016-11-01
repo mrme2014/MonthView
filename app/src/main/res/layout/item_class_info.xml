@@ -189,7 +189,7 @@
                 android:layout_height="1px"
                 android:background="@color/comm_line" />
 
-            <LinearLayout
+            <com.ishow.ischool.widget.custom.InterceptLayout
                 android:id="@+id/click_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
                         android:layout_centerVertical="true"
                         android:src="@mipmap/icon_list_next" />
                 </RelativeLayout>
-            </LinearLayout>
+            </com.ishow.ischool.widget.custom.InterceptLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

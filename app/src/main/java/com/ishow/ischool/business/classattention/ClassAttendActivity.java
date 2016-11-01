@@ -124,7 +124,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
             classAvartTxt.setText(classInfo.teacher);
         }
 
-        className.setText( "教师:" + classInfo.teacher);
+        className.setText( "教师:" + classInfo.teacher_name);
         //clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
         clazLabel.setLabelTextRight(AppUtil.getTodayStr());
         mToolbarTitle.setText("第"+classInfo.lessoned_times+"节");
@@ -152,10 +152,12 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_class_attendance_checkin, null);
         ok = (Button) view.findViewById(R.id.check_in);
         cancel = (Button) view.findViewById(R.id.check_cancel);
+
         info = (TextView) view.findViewById(R.id.check_info);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

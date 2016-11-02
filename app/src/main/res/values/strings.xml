@@ -299,7 +299,7 @@
     <string name="in_class">上课中</string>
     <string name="class_has_been">已结课</string>
     <string name="class_open_date">开班日期 :   %s</string>
-    <string name="lesson_schedule">课程(%1$d/%2$d)</string>
+    <string name="lesson_schedule">课时(%1$d/%2$d)</string>
     <string name="lesson_student_number">学生 %1$d/%2$d人</string>
     <string name="time_slot">周%1$s (%2$s-%3$s)</string>
 

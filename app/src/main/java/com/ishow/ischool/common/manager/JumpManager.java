@@ -42,10 +42,17 @@ public class JumpManager {
     }
 
     public static boolean checkUserPermision(Context context, int[] permission) {
+        return checkUserPermision(context, permission, true);
+    }
+
+    public static boolean checkUserPermision(Context context, int[] permission, boolean show) {
         for (int per : permission) {
-            if (checkUserPermision(context, per, true)) {
+            if (checkUserPermision(context, per, false)) {
                 return true;
             }
+        }
+        if (show) {
+            ToastUtils.showToast(context, R.string.no_permission);
         }
         return false;
     }

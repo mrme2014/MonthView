@@ -88,9 +88,9 @@ public class PickStudentActivity extends BaseListActivity4Crm {
     void onSearchTextChanged(CharSequence text) {
         LogUtil.d("onSearchTextChanged text = " + text.toString());
         if (TextUtils.isEmpty(text)) {
-            params.remove("mobile_or_name");
+            params.remove("keyword");
         } else {
-            params.put("mobile_or_name", text.toString());
+            params.put("keyword", text.toString());
         }
         setRefreshing();
     }

@@ -2,7 +2,6 @@ package com.ishow.ischool.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -85,7 +84,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                     .commitAllowingStateLoss();
         }
 
-        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (SDK_INT >= 23) {
             Window window = getWindow();
             //使得布局延伸到状态栏和导航栏区域
             window.getDecorView().setSystemUiVisibility(

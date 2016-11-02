@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -47,7 +48,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        com.ishow.ischool.common.rxbus.RxBus.getDefault().register(ChangeRoleEvent.class, new Action1<ChangeRoleEvent>() {
+        com.ishow.ischool.common.rxbus.RxBus.getDefault().register(this,ChangeRoleEvent.class, new Action1<ChangeRoleEvent>() {
             @Override
             public void call(ChangeRoleEvent o) {
                 init();
@@ -58,7 +59,7 @@ public class TabBusinessFragment extends BaseFragment4Crm<TabBusinessPresenter, 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        com.ishow.ischool.common.rxbus.RxBus.getDefault().unregister(ChangeRoleEvent.class);
+        com.ishow.ischool.common.rxbus.RxBus.getDefault().unregister(this);
     }
 
     @Override

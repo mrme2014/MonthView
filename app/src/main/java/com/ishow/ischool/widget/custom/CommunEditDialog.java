@@ -92,7 +92,7 @@ public class CommunEditDialog extends DialogFragment {
                     contentEt.setSelection(max_length);
                 } else {
                     contentCountTv.setText((max_length - editable.length()) + "");
-                    contentEt.setSelection(contentEt.getSelectionStart());
+                    contentEt.setSelection(contentEt.getSelectionEnd());
                 }
             }
         });

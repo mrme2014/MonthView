@@ -51,13 +51,14 @@
 
     </TextView>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/class_togbtn"
         android:layout_width="wrap_content"
         android:layout_height="31dp"
         android:layout_gravity="right|center_vertical"
         android:checked="true"
         android:textColor="@color/txt_9"
-        android:textOff="缺席"
+        android:textOff=""
+        android:textOn=""
         tools:ignore="RtlHardcoded" />
 </LinearLayout>

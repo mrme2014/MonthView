@@ -78,8 +78,8 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                         if (callback != null) {
                             callback.onEorr((getString(R.string.end_le_start)));
                         }
+                        break;
                     }
-                    break;
                 }
                 if (startTime.getTipTxt() == null || startTime.getTipTxt() == "" || startTime.getTipTxt() == getString(R.string.select_start_time)) {
                     if (callback != null) {
@@ -92,8 +92,8 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
                         if (callback != null) {
                             callback.onEorr((getString(R.string.end_nonull)));
                         }
+                        break;
                     }
-                    break;
                 }
                 if (callback != null) {
                     callback.onResult(start_time, end_time);

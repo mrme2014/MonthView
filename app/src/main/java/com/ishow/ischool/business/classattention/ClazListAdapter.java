@@ -3,11 +3,12 @@ package com.ishow.ischool.business.classattention;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
@@ -65,7 +66,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
         StudentInfo studentInfo = lists.get(position).studentInfo;
         if (studentInfo == null)
             return;
-        if (studentInfo.avatar != null && studentInfo.avatar != ""&&studentInfo.avatar != "0") {
+        if (studentInfo.avatar != null && studentInfo.avatar != ""&& !TextUtils.equals(studentInfo.avatar,"0")) {
             PicUtils.loadpic(context, holder.avartImg, studentInfo.avatar);
         } else {
             holder.avartImg.setVisibility(View.GONE);
@@ -125,7 +126,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
         return beiZhuList.get(position);
     }
     class ClazViewHolder extends RecyclerView.ViewHolder {
-        public Switch button;
+        public SwitchCompat button;
         public TextView beiZhu;
         public TextView name;
         public CircleImageView avartImg;
@@ -133,7 +134,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
 
         public ClazViewHolder(final View itemView) {
             super(itemView);
-            this.button = (Switch) itemView.findViewById(R.id.class_togbtn);
+            this.button = (SwitchCompat) itemView.findViewById(R.id.class_togbtn);
             this.beiZhu = (TextView) itemView.findViewById(R.id.class_beizhu);
             this.name = (TextView) itemView.findViewById(R.id.class_name);
             this.avartImg = (CircleImageView) itemView.findViewById(R.id.item_avart_img);

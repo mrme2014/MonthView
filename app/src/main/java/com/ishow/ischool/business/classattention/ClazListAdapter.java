@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.classattend.ClazStudentObject;
+import com.ishow.ischool.bean.classattend.StudentAvart;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -65,14 +66,15 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
     @Override
     public void onBindViewHolder(final ClazListAdapter.ClazViewHolder holder, final int position) {
         StudentInfo studentInfo = lists.get(position).studentInfo;
+        StudentAvart studentAvart = lists.get(position).avatarInfo;
         if (studentInfo == null)
             return;
-        if (studentInfo.avatar != null && studentInfo.avatar != "" && !TextUtils.equals(studentInfo.avatar, "0")) {
-            PicUtils.loadpic(context, holder.avartImg, studentInfo.avatar);
+        if (studentAvart!= null &&!TextUtils.equals(studentAvart.file_name,"") &&!TextUtils.equals(studentAvart.file_name,null)) {
+            PicUtils.loadpic(context, holder.avartImg, studentAvart.file_name);
         } else {
             holder.avartImg.setVisibility(View.GONE);
             holder.avartTx.setVisibility(View.VISIBLE);
-            holder.avartTx.setText(studentInfo.name, studentInfo.id, studentInfo.avatar);
+            holder.avartTx.setText(studentInfo.name, studentInfo.id, studentAvart.file_name);
         }
         holder.name.setText(studentInfo.name);
         if (beiZhuList.get(position) != null && !TextUtils.equals(beiZhuList.get(position),"")) {

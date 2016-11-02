@@ -384,4 +384,8 @@
         <item name="android:windowEnterAnimation">@anim/menushow</item>
         <item name="android:windowExitAnimation">@anim/menuhide</item>
     </style>
+
+    <dimen name="student_detail_head_padding_bottom">10dp</dimen>
+    <dimen name="translucent_padding_top">0dp</dimen>
+    <dimen name="translucent_padding_top_1">0dp</dimen>
 </resources>

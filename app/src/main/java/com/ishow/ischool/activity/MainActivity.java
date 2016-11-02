@@ -2,13 +2,16 @@ package com.ishow.ischool.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.commonlib.util.LogUtil;
+import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabdata.TabDataFragment;
@@ -32,6 +35,7 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
     private String KEY_INDEX = "key_index";
 
     android.widget.RadioGroup RadioGroup;
+
 
 
     @Override
@@ -84,22 +88,20 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
                     .commitAllowingStateLoss();
         }
 
-        if (SDK_INT >= 23) {
-            Window window = getWindow();
-            //使得布局延伸到状态栏和导航栏区域
-            window.getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            );
-            //透明状态栏/导航栏
-            window.setStatusBarColor(Color.TRANSPARENT);
-//            if (SDK_INT < 23) {
-//                ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-//                View parentView = contentFrameLayout.getChildAt(0);
-//                parentView.setFitsSystemWindows(true);
-//            }
-        }
+    }
 
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 
     @Override

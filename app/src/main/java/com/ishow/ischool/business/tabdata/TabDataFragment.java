@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,11 +12,8 @@ import android.widget.TextView;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
-import com.ishow.ischool.application.Constants;
-import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.bean.user.User;
-import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -26,7 +22,6 @@ import com.ishow.ischool.event.ChangeRoleEvent;
 import com.ishow.ischool.util.AppUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import rx.functions.Action1;
@@ -63,7 +58,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RxBus.getDefault().register(ChangeRoleEvent.class, new Action1<ChangeRoleEvent>() {
+        RxBus.getDefault().register(this, ChangeRoleEvent.class, new Action1<ChangeRoleEvent>() {
             @Override
             public void call(ChangeRoleEvent o) {
                 init();
@@ -74,7 +69,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxBus.getDefault().unregister(ChangeRoleEvent.class);
+        RxBus.getDefault().unregister(this);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
     @Override
     protected void initEnv() {
         super.initEnv();
-        RxBus.getDefault().register(UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
+        RxBus.getDefault().register(this,UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
             @Override
             public void call(UploadAvatarEvent o) {
                 if (isSearchFragment) {
@@ -106,7 +106,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             }
         });
 
-        RxBus.getDefault().register(StudentInfo.class, new Action1() {
+        RxBus.getDefault().register(this,StudentInfo.class, new Action1() {
             @Override
             public void call(Object o) {
 //                initFilter();

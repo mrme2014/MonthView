@@ -68,7 +68,7 @@ public class CommunFragment extends BaseFragment4Crm<CommunPresenter, CommunMode
 
         initData();
 
-        RxBus.getDefault().register(CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
+        RxBus.getDefault().register(this,CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
             @Override
             public void call(CommunicationAddRefreshEvent o) {
                 needRefresh = true;
@@ -76,7 +76,7 @@ public class CommunFragment extends BaseFragment4Crm<CommunPresenter, CommunMode
             }
         });
 
-        RxBus.getDefault().register(CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
+        RxBus.getDefault().register(this,CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
             @Override
             public void call(CommunicationEditRefreshEvent o) {
                 needRefresh = true;

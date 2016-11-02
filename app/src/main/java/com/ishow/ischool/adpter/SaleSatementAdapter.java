@@ -19,14 +19,15 @@ public class SaleSatementAdapter extends RecyclerView.Adapter<SaleSatementAdapte
     private Context context;
     private List<String> list;
 
-    public SaleSatementAdapter(Context context, List<String> list){
+    public SaleSatementAdapter(Context context, List<String> list) {
         this.context = context;
 
         this.list = list;
     }
+
     @Override
     public SaleSatementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.activity_salestatement_list_item_tv,parent,false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.activity_salestatement_list_item_tv, parent, false));
     }
 
     @Override
@@ -34,17 +35,20 @@ public class SaleSatementAdapter extends RecyclerView.Adapter<SaleSatementAdapte
         holder.textView.setText(list.get(position));
     }
 
-   public void  onRefresh( List<String> newList){
+    public void onRefresh(List<String> newList) {
+      // if (list!=null)list.clear();
         list = newList;
-       notifyDataSetChanged();
-    }
-    @Override
-    public int getItemCount() {
-        return list==null?0:list.size();
+        notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public int getItemCount() {
+        return list == null ? 0 : list.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.salestatement_item);

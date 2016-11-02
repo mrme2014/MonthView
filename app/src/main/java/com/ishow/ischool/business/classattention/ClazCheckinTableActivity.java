@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.LogUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.SaleSatementAdapter;
@@ -148,10 +149,11 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
         }
         ClazTableTotal total = result.total;
         clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.real_numbers, total.numbers));
-        listList = new ArrayList<>();
+        if (listList == null) listList = new ArrayList<>();
         listList.clear();
-        left = new ArrayList<>();
+        if (left == null) left = new ArrayList<>();
         left.clear();
+        LogUtil.e(listList.size()+"-----"+lists.size());
         for (int i = 0; i < lists.size(); i++) {
             ClazTableRow clazTableRow = lists.get(i);
             List<String> row = new ArrayList<>();
@@ -189,6 +191,8 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
         timeSeletByUser = new TimeSeletByUserDialog();
         Bundle bundle = new Bundle();
         bundle.putBoolean("no_need_check", true);
+        begin_time =0;
+        end_time=0;
         //bundle.putInt("start_time", begin_time);
         // bundle.putInt("end_time", end_time);
         timeSeletByUser.setArguments(bundle);
@@ -196,9 +200,11 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             @Override
             public void onResult(int start_time, int over_time) {
                 begin_time = start_time - 12 * 3600;
-                end_time = over_time;
+                end_time = over_time-12*3600;
+                map.clear();
                 map.put("begin_time", begin_time);
-                if (end_time != 0) map.put("end_time", end_time);
+                LogUtil.e(start_time+"onResult"+over_time);
+                if (over_time != 0) map.put("end_time", end_time);
                 setUpData();
             }
 

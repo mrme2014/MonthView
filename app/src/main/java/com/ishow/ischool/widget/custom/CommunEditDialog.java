@@ -85,20 +85,23 @@ public class CommunEditDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() >= max_length + 1) {
+                contentCountTv.setText((max_length - editable.length()) + "");
+               /* if (editable.length() >= max_length + 1) {
                     contentCountTv.setText(0 + "");
                     String s = editable.toString();
                     contentEt.setText(s.substring(0, max_length));
                     contentEt.setSelection(max_length);
                 } else {
                     contentCountTv.setText((max_length - editable.length()) + "");
-                    contentEt.setSelection(contentEt.getSelectionEnd());
-                }
+                    //contentEt.setSelection(contentEt.getSelectionEnd());
+                }*/
             }
         });
 
-        if (content != "" && content != null)
+        if (content != "" && content != null) {
             contentEt.setText(content);
+            contentEt.setSelection(content.length());
+        }
         setNeedDate(noNeedDate);
 
     }
@@ -120,16 +123,12 @@ public class CommunEditDialog extends DialogFragment {
                 });
                 break;
             case R.id.dialog_sure:
-                if (!noNeedDate) {
-                    if (TextUtils.isEmpty(contentEt.getText().toString()) || date == 0) {
-                        Toast.makeText(getContext(), R.string.check_commun_add, Toast.LENGTH_LONG).show();
-                    } else {
-                        if (listener != null) {
-                            listener.onClick(contentEt.getText().toString(), date);
-                            dismiss();
-                        }
+                if (noNeedDate) {
+                    if (listener != null) {
+                        listener.onClick(contentEt.getText().toString(), date);
+                        dismiss();
                     }
-                }else{
+                } else {
                     if (TextUtils.isEmpty(contentEt.getText().toString())) {
                         Toast.makeText(getContext(), R.string.check_commun_add, Toast.LENGTH_LONG).show();
                     } else {
@@ -156,7 +155,7 @@ public class CommunEditDialog extends DialogFragment {
 
     public void setNeedDate(boolean noNeedDate) {
         if (noNeedDate) {
-            dateLtv.setLayoutParams(new RelativeLayout.LayoutParams(0,0));
+            dateLtv.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
             dialogTitle.setText(getString(com.commonlib.R.string.str_add_beizhu));
         }
     }

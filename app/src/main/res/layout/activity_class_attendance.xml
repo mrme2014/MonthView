@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:text="user_name"
             android:textColor="@color/white"
             android:textSize="@dimen/sp16" />
     </LinearLayout>
@@ -44,8 +43,7 @@
         android:background="@color/comm_bg"
         android:paddingTop="13dp"
         app:label_padding="10dp"
-        app:label_text_color="@color/txt_6"
-        app:label_text_right="2016-12-13" />
+        app:label_text_color="@color/txt_6" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/class_list"

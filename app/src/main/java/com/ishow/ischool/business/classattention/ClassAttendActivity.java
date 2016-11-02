@@ -127,12 +127,12 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         } else {
             classAvartImg.setVisibility(View.GONE);
             classAvartTxt.setVisibility(View.VISIBLE);
-            classAvartTxt.setText(classInfo.teacher);
+            classAvartTxt.setText(classInfo.teacher_name);
         }
         className.setText("教师:" + classInfo.teacher_name);
         //clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
         clazLabel.setLabelTextRight(AppUtil.getTodayStr());
-        mToolbarTitle.setText("第" +( classInfo.lessoned_times+1) + "节");
+        mToolbarTitle.setText("第" + (classInfo.lessoned_times + 1) + "节");
         mToolbarTitle.append("\n");
         SpannableString spanText = new SpannableString(classInfo.course_type + " " + classInfo.name);
         spanText.setSpan(new AbsoluteSizeSpan(12, true), 0, spanText.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -142,9 +142,9 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     @Override
     public void CheckInSucess(String msg) {
         RxBus.getDefault().post(new SignEvent(mItemPosition));
-//        checkInSucess = true;
         handProgressbar(false);
-        showToast(msg);
+        //showToast(msg);
+        this.finish();
     }
 
     @Override
@@ -158,7 +158,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (adapter==null||adapter.getItemCount()<=0)
+        if (adapter == null || adapter.getItemCount() <= 0)
             return false;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -185,7 +185,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
             if (!adapter.checkInList.get(i))
                 out++;
         }
-        info.setText(String.format(getString(R.string.check_info), classInfo.current_numbers,classInfo.current_numbers-out+""));
+        info.setText(String.format(getString(R.string.check_info), classInfo.current_numbers, classInfo.current_numbers - out + ""));
         builder.setView(view);
         dialog1 = builder.create();
         dialog1.show();

@@ -84,21 +84,6 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
         }
         holder.button.setChecked(checkInList.get(position));
         holder.button.setText(checkInList.get(position) ? "上课" : "缺勤");
-      /*  holder.button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                holder.button.setText(checkInList.get(position) ? "缺勤" : "上课");
-                checkInList.put(position, holder.button.isChecked());
-                return false;
-            }
-        });*/
-       /* holder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.button.setText(checkInList.get(position) ? "缺勤" : "上课");
-                checkInList.put(position, holder.button.isChecked());
-            }
-        });*/
         holder.button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

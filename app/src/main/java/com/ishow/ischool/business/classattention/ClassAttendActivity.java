@@ -132,7 +132,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         className.setText("教师:" + classInfo.teacher_name);
         //clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);
         clazLabel.setLabelTextRight(AppUtil.getTodayStr());
-        mToolbarTitle.setText("第" + classInfo.lessoned_times + "节");
+        mToolbarTitle.setText("第" +( classInfo.lessoned_times+1) + "节");
         mToolbarTitle.append("\n");
         SpannableString spanText = new SpannableString(classInfo.course_type + " " + classInfo.name);
         spanText.setSpan(new AbsoluteSizeSpan(12, true), 0, spanText.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);

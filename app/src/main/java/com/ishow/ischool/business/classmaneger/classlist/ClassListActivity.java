@@ -343,6 +343,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                                     signedTv.setVisibility(View.GONE);
                                 }
                                 break;
+                            } else {
+                                signedTv.setVisibility(View.GONE);
                             }
                         }
                         break;
@@ -351,6 +353,8 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                         signedTv.setVisibility(View.GONE);
                         break;
                 }
+            } else {
+                signedTv.setVisibility(View.GONE);
             }
             lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.lessoned_times, data.classInfo.lesson_times));
             Glide.with(getApplicationContext()).load(data.teacherAvatar.file_name).fitCenter().placeholder(R.mipmap.icon_class_headimg)

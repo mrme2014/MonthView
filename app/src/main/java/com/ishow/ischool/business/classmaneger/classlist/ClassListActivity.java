@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -267,7 +266,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
         @BindView(R.id.start_date)
         TextView startDateTv;
         @BindView(R.id.class_bg)
-        RelativeLayout classBg;
+        LinearLayout classBg;
         @BindView(R.id.class_signed)
         TextView signedTv;
         @BindView(R.id.class_name)
@@ -341,21 +340,21 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                                 if (data.classDynamic.checkin_status == 0) {
                                     signedTv.setVisibility(View.VISIBLE);
                                 } else {
-                                    signedTv.setVisibility(View.GONE);
+                                    signedTv.setVisibility(View.INVISIBLE);
                                 }
                                 break;
                             } else {
-//                                signedTv.setVisibility(View.GONE);
+                                signedTv.setVisibility(View.INVISIBLE);
                             }
                         }
                         break;
                     case 1:
                     case 3:
-                        signedTv.setVisibility(View.GONE);
+                        signedTv.setVisibility(View.INVISIBLE);
                         break;
                 }
             } else {
-//                signedTv.setVisibility(View.GONE);
+                signedTv.setVisibility(View.INVISIBLE);
             }
             lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.lessoned_times, data.classInfo.lesson_times));
             Glide.with(getApplicationContext()).load(data.teacherAvatar.file_name).fitCenter().placeholder(R.mipmap.icon_class_headimg)

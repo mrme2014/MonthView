@@ -77,6 +77,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             public void call(SignEvent signEvent) {
                 ClassPojo classPojo = mDataList.get(signEvent.getUpdatePosition());
                 classPojo.classDynamic.checkin_status = 1;
+                classPojo.classInfo.lessoned_times++;
                 mAdapter.notifyItemChanged(signEvent.getUpdatePosition());
             }
         });
@@ -344,7 +345,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                                 }
                                 break;
                             } else {
-                                signedTv.setVisibility(View.GONE);
+//                                signedTv.setVisibility(View.GONE);
                             }
                         }
                         break;
@@ -354,7 +355,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
                         break;
                 }
             } else {
-                signedTv.setVisibility(View.GONE);
+//                signedTv.setVisibility(View.GONE);
             }
             lessonScheduleTv.setText(getString(R.string.lesson_schedule, data.classInfo.lessoned_times, data.classInfo.lesson_times));
             Glide.with(getApplicationContext()).load(data.teacherAvatar.file_name).fitCenter().placeholder(R.mipmap.icon_class_headimg)

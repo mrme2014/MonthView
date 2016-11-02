@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_app_bg"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="18dp">
@@ -18,11 +19,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/start_date"
         android:layout_marginTop="5dp"
-        android:background="@color/white"
         app:cardCornerRadius="8dp"
         app:cardElevation="3dp"
         app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="false"
+        app:cardUseCompatPadding="true"
         app:contentPadding="0dp">
 
         <LinearLayout
@@ -43,11 +43,11 @@
                 <TextView
                     android:id="@+id/class_name"
                     style="@style/name_font_style"
-                    android:maxWidth="200dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:layout_centerVertical="true"
+                    android:ellipsize="end"
                     android:gravity="left"
+                    android:maxLines="1"
+                    android:maxWidth="200dp"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp16" />
 

@@ -75,7 +75,7 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
             holder.avartTx.setText(studentInfo.name, studentInfo.id, studentInfo.avatar);
         }
         holder.name.setText(studentInfo.name);
-        if (beiZhuList.get(position) != null && beiZhuList.get(position) != "") {
+        if (beiZhuList.get(position) != null && !TextUtils.equals(beiZhuList.get(position),"")) {
             holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_blue);
             holder.beiZhu.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         } else {
@@ -103,9 +103,15 @@ public class ClazListAdapter extends RecyclerView.Adapter<ClazListAdapter.ClazVi
                 dialog.setOnClickListener(new CommunEditDialog.OnClickListener() {
                     @Override
                     public void onClick(String content, long date) {
-                        holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_blue);
-                        holder.beiZhu.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                       if (!TextUtils.equals("",content)){
+                           holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_blue);
+                           holder.beiZhu.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                       }else{
+                           holder.beiZhu.setBackgroundResource(R.drawable.bg_round_corner_gray);
+                           holder.beiZhu.setTextColor(context.getResources().getColor(R.color.txt_9));
+                       }
                         beiZhuList.put(position, content);
+                        //notifyItemChanged(position);
                     }
                 });
             }

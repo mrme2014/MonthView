@@ -143,7 +143,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     public void CheckInSucess(String msg) {
         RxBus.getDefault().post(new SignEvent(mItemPosition));
         handProgressbar(false);
-        showToast(msg);
+        //showToast(msg);
         this.finish();
     }
 

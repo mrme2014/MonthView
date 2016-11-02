@@ -54,6 +54,7 @@
          android:background="@color/white"
          android:gravity="top"
          android:lines="5"
+         android:maxLength="200"
          android:paddingBottom="25dp"
          android:paddingLeft="10dp"
          android:paddingRight="10dp"

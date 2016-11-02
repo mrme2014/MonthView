@@ -8,7 +8,6 @@
     <color name="comm_line">#d9dadd</color>
     <color name="color_app_bg">#f1f1f1</color>
 
-
     <color name="txt_2">#222222</color>
     <color name="txt_3">#333333</color>
     <color name="txt_6">#666666</color>
@@ -80,4 +79,5 @@
     <color name="class_senior">#ffbc3c</color>
     <color name="class_movie">#8e7ee4</color>
     <color name="light_gray">#f8f9fa</color>
+    <color name="gray3d">#ddd</color>
 </resources>

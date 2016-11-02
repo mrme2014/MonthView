@@ -41,7 +41,7 @@
         android:background="@drawable/bg_round_corner_gray"
         android:gravity="center"
         android:text="备注"
-        android:textColor="#ddd"
+        android:textColor="@color/txt_9"
         android:textSize="@dimen/sp12" />
 
     <TextView

@@ -22,6 +22,7 @@ import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.user.Avatar;
@@ -289,6 +290,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1, Resource.SHARE_COMMUNICATION_ADDE})) {
                     Intent intent = new Intent(this, CommunicationAddActivity.class);
                     intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
+                    intent.putExtra(CommunicationAddActivity.P_COMMUNICATION_OLD,getCommunication());
                     startActivity(intent);
                 }
                 break;
@@ -309,6 +311,10 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 break;
         }
 
+    }
+
+    private Communication getCommunication() {
+        return communicationListFragment.getFirstCommunication();
     }
 
     private void onItemSelected(int position) {

@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.student.pick;
+package com.ishow.ischool.business.student.pick4teach;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.commonlib.http.ApiFactory;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
-import com.ishow.ischool.bean.student.Student;
-import com.ishow.ischool.bean.student.StudentList;
+import com.ishow.ischool.bean.attribute.AttrStudent;
+import com.ishow.ischool.bean.student.StudentInfo;
+import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.api.Attribute;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -23,8 +26,10 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresenter, PickStudentModel, Student> implements PickStudentContract.View {
+public class PickStudentActivity extends BaseListActivity4Crm {
 
     public static final String STUDENT_ID = "sid";
     public static final String STUDENT_NAME = "sname";
@@ -33,10 +38,6 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
     @BindView(R.id.pick_search_text_et)
     EditText mSearchEt;
 
-    @Override
-    protected void initEnv() {
-        super.initEnv();
-    }
 
     @Override
     protected void setUpContentView() {
@@ -61,7 +62,26 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
             mCurrentPage = 1;
         }
         params.put("campus_id", mUser.positionInfo.campusId + "");
-        mPresenter.getStudentStatisticsList(params, mCurrentPage++);
+        params.put("page", mCurrentPage++ + "");
+        taskStudentList4Teach(params);
+    }
+
+    private void taskStudentList4Teach(HashMap<String, String> params) {
+        params.put("option", "campusAllStudent");
+        ApiFactory.getInstance().getApi(Attribute.class).getStudentList(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ApiObserver<AttrStudent>() {
+                    @Override
+                    public void onSuccess(AttrStudent studentInfos) {
+                        getStudentListSuccess(studentInfos);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        getStudentListFail(msg);
+                    }
+                });
     }
 
     @OnTextChanged(R.id.pick_search_text_et)
@@ -75,14 +95,11 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
         setRefreshing();
     }
 
-
-    @Override
-    public void getListSuccess(StudentList studentStatisticsList) {
-        loadSuccess(studentStatisticsList.lists);
+    public void getStudentListSuccess(AttrStudent studentStatisticsList) {
+        loadSuccess(studentStatisticsList.campusAllStudent.list);
     }
 
-    @Override
-    public void getListFail(String msg) {
+    public void getStudentListFail(String msg) {
         loadFailed();
         showToast(msg);
     }
@@ -109,17 +126,17 @@ public class PickStudentActivity extends BaseListActivity4Crm<PickStudentPresent
 
         @Override
         public void onBindViewHolder(int position) {
-            Student ss = mDataList.get(position);
-            photoIv.setText(ss.studentInfo.name, ss.studentInfo.id, ss.avatarInfo == null ? "" : ss.avatarInfo.file_name);
-            usernameTv.setText(ss.studentInfo.name);
-            moblieTv.setText(ss.studentInfo.mobile);
+            StudentInfo ss = (StudentInfo) mDataList.get(position);
+            photoIv.setText(ss.name, ss.id, ss.avatar);
+            usernameTv.setText(ss.name);
+            moblieTv.setText(ss.mobile);
         }
 
         @Override
         public void onItemClick(View view, int position) {
             Intent intent = new Intent();
-            Student student = mDataList.get(position);
-            intent.putExtra(STUDENT, student.studentInfo);
+            StudentInfo student = (StudentInfo) mDataList.get(position);
+            intent.putExtra(STUDENT, student);
             setResult(RESULT_OK, intent);
             finish();
         }

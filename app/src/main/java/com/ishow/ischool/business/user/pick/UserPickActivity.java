@@ -42,7 +42,6 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
     private SearchView mSearchView;
     private String mSearchKey;
     private boolean mSearchMode = false;
-    private boolean enableSelect;
     private int mCampusId, mPositionId;
 
 
@@ -126,14 +125,12 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
             mDataList.clear();
         }
         loadSuccess(subordinate.Subordinate);
-        enableSelect = true;
     }
 
     @Override
     public void getListFail(String msg) {
         loadFailed();
         showToast(msg);
-        enableSelect = false;
     }
 
     @Override
@@ -191,8 +188,6 @@ public class UserPickActivity extends BaseListActivity4Crm<UserPickPresenter, Us
 
         @Override
         public void onItemClick(View view, int position) {
-            if (!enableSelect)
-                return;
             Intent intent = new Intent();
             SubordinateObject data = mDataList.get(position);
             intent.putExtra(PICK_USER, data);

@@ -33,8 +33,8 @@ public class ClassListPresenter extends ClassListContract.Presenter {
     }
 
     @Override
-    public void listTeacher(Integer campusId, String option, String keyword, int page) {
-        mModel.listTeacher(campusId, option, keyword, page)
+    public void listTeacher(Integer campusId, Integer courseType, String option, String keyword, int page) {
+        mModel.listTeacher(campusId, courseType, option, keyword, page)
                 .subscribe(new ApiObserver<TeacherList>() {
                     @Override
                     public void onSuccess(TeacherList teacherInfos) {

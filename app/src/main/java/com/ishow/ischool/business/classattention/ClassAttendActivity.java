@@ -24,6 +24,8 @@ import com.ishow.ischool.bean.classattend.ClazStudentList;
 import com.ishow.ischool.bean.classattend.ClazStudentObject;
 import com.ishow.ischool.bean.classattend.TechAvart;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.rxbus.RxBus;
+import com.ishow.ischool.event.SignEvent;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.util.PicUtils;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -61,12 +63,14 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     private AlertDialog dialog1;
 
     public static final String CLASSID = "claz_id";
+    public int mItemPosition;
 
     @Override
     protected void initEnv() {
         super.initEnv();
         Intent intent = getIntent();
         claz_id = intent.getIntExtra(CLASSID, 1);
+        mItemPosition = intent.getIntExtra("item_position", -1);
     }
 
     @Override
@@ -85,7 +89,8 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onReadyFinishActivity();
+//                onReadyFinishActivity();
+                finish();
             }
         });
         classList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -136,7 +141,8 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
 
     @Override
     public void CheckInSucess(String msg) {
-        checkInSucess = true;
+        RxBus.getDefault().post(new SignEvent(mItemPosition));
+//        checkInSucess = true;
         handProgressbar(false);
         showToast(msg);
     }
@@ -208,17 +214,17 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        onReadyFinishActivity();
-    }
-
-    private void onReadyFinishActivity() {
-        if (checkInSucess) {
-            Intent intent = new Intent();
-            intent.putExtra("checkInSucess", checkInSucess);
-            this.setResult(RESULT_OK, intent);
-        }
-        this.finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        onReadyFinishActivity();
+//    }
+//
+//    private void onReadyFinishActivity() {
+//        if (checkInSucess) {
+//            Intent intent = new Intent();
+//            intent.putExtra("checkInSucess", checkInSucess);
+//            this.setResult(RESULT_OK, intent);
+//        }
+//        this.finish();
+//    }
 }

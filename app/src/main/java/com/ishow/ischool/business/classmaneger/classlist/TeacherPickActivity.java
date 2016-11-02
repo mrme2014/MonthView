@@ -39,6 +39,7 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
     public static final int REQUEST_CODE_PICKADVISOR = 1004;
     public static final String PICK_USER = "user";
     public static final String PICK_CAMPUS_ID = "pick_campus_id";
+    public static final String PICK_COURSE_TYPE = "pick_course_type";
     public static final String PICK_TYPE = "pick_type";
     public static final String PICK_TITLE = "pick_title";
     public static final int PICK_TYPE_TEACHER = 1;
@@ -47,8 +48,8 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
     private SearchView mSearchView;
     private String mSearchKey;
     private boolean mSearchMode = false;
-    private boolean enableSelect;
     private int mCampusId;
+    private int mCourseType;
     private String mTitle;
     private int mPickType;
 
@@ -56,6 +57,7 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
     protected void initEnv() {
         super.initEnv();
         mCampusId = getIntent().getIntExtra(PICK_CAMPUS_ID, -1);
+        mCourseType = getIntent().getIntExtra(PICK_COURSE_TYPE, -1);
         mTitle = getIntent().getStringExtra(PICK_TITLE);
         mPickType = getIntent().getIntExtra(PICK_TYPE, -1);
     }
@@ -127,7 +129,7 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
         } else if (mPickType == PICK_TYPE_ADVISOR) {
             paramOption = "advisorsInfo";
         }
-        mPresenter.listTeacher(mCampusId == -1 ? null : mCampusId, paramOption, mSearchKey, mCurrentPage++);
+        mPresenter.listTeacher(mCampusId == -1 ? null : mCampusId, mCourseType == -1 ? null : mCourseType, paramOption, mSearchKey, mCurrentPage++);
     }
 
 
@@ -142,15 +144,12 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
         } else if (mPickType == PICK_TYPE_ADVISOR) {
             loadSuccess(teacherInfos.advisorsInfo);
         }
-
-        enableSelect = true;
     }
 
     @Override
     public void getListFail(String msg) {
         loadFailed();
         showToast(msg);
-        enableSelect = false;
     }
 
     @Override
@@ -200,8 +199,6 @@ public class TeacherPickActivity extends BaseListActivity4Crm<ClassListPresenter
 
         @Override
         public void onItemClick(View view, int position) {
-            if (!enableSelect)
-                return;
             Intent intent = new Intent();
             TeacherInfo data = mDataList.get(position);
             intent.putExtra(PICK_USER, data);

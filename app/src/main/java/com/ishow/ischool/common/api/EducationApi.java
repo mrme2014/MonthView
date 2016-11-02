@@ -40,6 +40,7 @@ public interface EducationApi {
     Observable<ApiResult<TeacherList>> getTeacherList(
             @Query("option") String option,
             @Query("campus_id") Integer campus_id,
+            @Query("course_type") Integer course_type,
             @Query("keyword") String keyword,
             @Query("pagesize") int pagesize,
             @Query("page") int page);

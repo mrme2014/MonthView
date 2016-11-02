@@ -18,7 +18,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.StudentInfo;
-import com.ishow.ischool.business.student.pick.PickStudentActivity;
+import com.ishow.ischool.business.student.pick4teach.PickStudentActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
@@ -38,6 +38,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private static final int REQUEST_PICK_STUDENT = 100;
     public static final String P_STUDENT_INFO = "student_info";
     public static final String P_COMMUNICATION_OLD = "communication";
+    private static final String P_IS_TEACH = "is_teach";
 
     @BindView(R.id.commun_student_name)
     LabelTextView studentNameTv;
@@ -74,11 +75,14 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private int max_length = 600;
     private Communication oldCommunication;
 
+    private boolean isTeach;
+
     @Override
     protected void initEnv() {
         super.initEnv();
         studentInfo = getIntent().getParcelableExtra(P_STUDENT_INFO);
         oldCommunication = getIntent().getParcelableExtra(P_COMMUNICATION_OLD);
+        isTeach = getIntent().getBooleanExtra(P_IS_TEACH, false);
     }
 
     @Override
@@ -288,7 +292,13 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     void onClickItem(View view) {
         switch (view.getId()) {
             case R.id.commun_student_name:
-                JumpManager.jumpActivityForResult(this, PickStudentActivity.class, REQUEST_PICK_STUDENT, Resource.NO_NEED_CHECK);
+                Intent intent;
+                if (isTeach) {
+                    intent = new Intent(this, PickStudentActivity.class);
+                } else {
+                    intent = new Intent(this, com.ishow.ischool.business.student.pick.PickStudentActivity.class);
+                }
+                JumpManager.jumpActivityForResult(this, intent, REQUEST_PICK_STUDENT, Resource.NO_NEED_CHECK);
                 break;
             case R.id.commun_state:
                 final ArrayList<String> datas = AppUtil.getStateList();

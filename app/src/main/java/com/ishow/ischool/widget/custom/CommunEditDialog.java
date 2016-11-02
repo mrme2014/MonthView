@@ -80,6 +80,7 @@ public class CommunEditDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
@@ -91,7 +92,7 @@ public class CommunEditDialog extends DialogFragment {
                     contentEt.setSelection(max_length);
                 } else {
                     contentCountTv.setText((max_length - editable.length()) + "");
-                    contentEt.setSelection(editable.length());
+                    contentEt.setSelection(contentEt.getSelectionStart());
                 }
             }
         });

@@ -17,8 +17,11 @@ import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.fragment.SelectDialogFragment;
 import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -225,8 +228,6 @@ public class AppUtil {
         list.add("课时");
         list.add("实到人数");
         list.add("应到人数");
-
-
         return list;
     }
 
@@ -237,6 +238,18 @@ public class AppUtil {
             years.add(String.valueOf(curYear - i));
         }
         return years;
+    }
+
+    public static int getOneDayStart(String oneDay) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(oneDay);
+            return (int) (date.getTime()/1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public static long getLastMonthStart() {
@@ -303,7 +316,7 @@ public class AppUtil {
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-        int time = (int) (c.getTimeInMillis() / 1000)-3600*12;
+        int time = (int) (c.getTimeInMillis() / 1000);
         return time;
     }
 

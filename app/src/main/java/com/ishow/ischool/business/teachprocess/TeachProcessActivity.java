@@ -227,14 +227,26 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void setUpLabel() {
-        //  LogUtil.e(start_time+"----"+end_time+"/********/"+principal.start_time+"******"+principal.end_time);
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
+        int oneday = AppUtil.getOneDayStart("2016-09-01");
+        if (salesSpinner.getSelectedItemPosition() >= 2 && salesSpinner.getSelectedItemPosition() < 6) {
+            if (start_time >= oneday) {
+                salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
+            } else {
+                start_time = oneday;
+                salesTrends.setSecondTxt("2016-09-01" + "--" + DateUtil.parseSecond2Str((long) end_time));
+            }
+        } else
+            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
+
+
+        LogUtil.e(oneday + "----" + start_time);
+        // salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
         if (teachProcess == null || teachProcess.tableListData_22 == null
                 || teachProcess.tableListData_22.head == null
                 || teachProcess.tableListData_22.body == null
-                ||teachProcess.tableListData_22.head.size()==0
-                ||teachProcess.tableListData_22.body.size()==0) {
+                || teachProcess.tableListData_22.head.size() == 0
+                || teachProcess.tableListData_22.body.size() == 0) {
             salesTable1.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
             return;
         }
@@ -376,7 +388,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
-            dayAgo = Integer.parseInt(selectNum)-1;
+            dayAgo = Integer.parseInt(selectNum) - 1;
             start_time = AppUtil.getDayAgo(dayAgo);
             end_time = AppUtil.getTodayEnd();
             getTeachProcessData();
@@ -396,7 +408,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                     public void onResult(int starttime, int endtime) {
                         start_time = starttime;
                         end_time = endtime;
-                      //  LogUtil.e("timeSeletByUser" + start_time + "====" + end_time);
+                        //  LogUtil.e("timeSeletByUser" + start_time + "====" + end_time);
                         getTeachProcessData();
                     }
 

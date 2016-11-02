@@ -101,6 +101,8 @@ public class CommunEditDialog extends DialogFragment {
         if (content != "" && content != null) {
             contentEt.setText(content);
             contentEt.setSelection(content.length());
+
+            contentEt.(0,0);       //http://baidu.com/?token=11111111111&type=1      GET
         }
         setNeedDate(noNeedDate);
 

@@ -127,7 +127,7 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
         } else {
             classAvartImg.setVisibility(View.GONE);
             classAvartTxt.setVisibility(View.VISIBLE);
-            classAvartTxt.setText(classInfo.teacher);
+            classAvartTxt.setText(classInfo.teacher_name);
         }
         className.setText("教师:" + classInfo.teacher_name);
         //clazLabel.setLabelTextLeft("出勤  " + classInfo.current_numbers + "     " + "共  " + classInfo.numbers);

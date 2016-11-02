@@ -196,6 +196,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
         else fmMeMornigQrcode.setVisibility(View.VISIBLE);
 
         RxBus.getInstance().post(campusInfo.name);
+        LogUtil.e("changedUser post ChangeRoleEvent");
         com.ishow.ischool.common.rxbus.RxBus.getDefault().post(new ChangeRoleEvent(changedUser));
     }
 

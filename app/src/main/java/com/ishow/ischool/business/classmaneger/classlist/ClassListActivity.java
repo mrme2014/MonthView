@@ -72,7 +72,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     @Override
     protected void initEnv() {
         super.initEnv();
-        RxBus.getDefault().register(SignEvent.class, new Action1<SignEvent>() {
+        RxBus.getDefault().register(this, SignEvent.class, new Action1<SignEvent>() {
             @Override
             public void call(SignEvent signEvent) {
                 ClassPojo classPojo = mDataList.get(signEvent.getUpdatePosition());
@@ -85,7 +85,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     @Override
     protected void setUpView() {
         super.setUpView();
-        mTitle= this.getResources().getString(R.string.class_manager);
+        mTitle = this.getResources().getString(R.string.class_manager);
         mToolbarTitle.setText(mTitle);
         mToolbarTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_xiala, 0);
         mToolbarTitle.setCompoundDrawablePadding(20);
@@ -221,7 +221,7 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.getDefault().unregister(SignEvent.class);
+        RxBus.getDefault().unregister(this);
     }
 
     @Override

@@ -77,21 +77,21 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
         super.initEnv();
         initParamsMap();
 
-        RxBus.getDefault().register(CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
+        RxBus.getDefault().register(this,CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
             @Override
             public void call(CommunicationAddRefreshEvent o) {
                 needRefresh = true;
             }
         });
 
-        RxBus.getDefault().register(CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
+        RxBus.getDefault().register(this,CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
             @Override
             public void call(CommunicationEditRefreshEvent o) {
                 needRefresh = true;
             }
         });
 
-        RxBus.getDefault().register(UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
+        RxBus.getDefault().register(this,UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
             @Override
             public void call(UploadAvatarEvent o) {
                 needRefresh = true;

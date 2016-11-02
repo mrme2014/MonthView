@@ -93,7 +93,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             tempCropPath = savedInstanceState.getString("tempCropPath");
         }
         super.onCreate(savedInstanceState);
-        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (SDK_INT >= 23) {
             Window window = getWindow();
             //使得布局延伸到状态栏和导航栏区域
             window.getDecorView().setSystemUiVisibility(

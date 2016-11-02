@@ -16,8 +16,7 @@ public class RxBus {
 
 
     private static volatile RxBus instance;
-    private CompositeSubscription subscriptions;
-    private HashMap<String, CompositeSubscription> map;
+    private HashMap<String, CompositeSubscription> mSubscriptionMap;
 
     // 单例RxBus
     public static RxBus getDefault() {
@@ -59,23 +58,48 @@ public class RxBus {
         return _bus.hasObservers();
     }
 
-
-    public <T> void register(Class<T> type, Action1 action1) {
-        subscriptions = new CompositeSubscription();
-        subscriptions.add(toObserverable(type).subscribe(action1));
-
-        if (map == null) map = new HashMap<>();
-        map.put(type.getSimpleName(), subscriptions);
-
-    }
-
-    public <T> void unregister(Class<T> type) {
-        if (map != null) {
-            if (!map.containsKey(type.getSimpleName())) {
-                return;
-            }
-            map.get(type.getSimpleName()).unsubscribe();
-            map.remove(type.getSimpleName());
+    /**
+     * 取消订阅
+     *
+     * @param o
+     */
+    public void unregister(Object o) {
+        if (mSubscriptionMap == null) {
+            return;
         }
+
+        String key = o.getClass().getName();
+        if (!mSubscriptionMap.containsKey(key)) {
+            return;
+        }
+        if (mSubscriptionMap.get(key) != null) {
+            mSubscriptionMap.get(key).unsubscribe();
+        }
+
+        mSubscriptionMap.remove(key);
     }
+
+    /**
+     * 注册
+     * @param object
+     * @param type
+     * @param action1
+     * @param <T>
+     */
+    public <T> void register(Object object, Class<T> type, Action1 action1) {
+
+        if (mSubscriptionMap == null) {
+            mSubscriptionMap = new HashMap<>();
+        }
+        String key = object.getClass().getName();
+        if (mSubscriptionMap.get(key) != null) {
+            mSubscriptionMap.get(key).add(toObserverable(type).subscribe(action1));
+        } else {
+            CompositeSubscription compositeSubscription = new CompositeSubscription();
+            compositeSubscription.add(toObserverable(type).subscribe(action1));
+            mSubscriptionMap.put(key, compositeSubscription);
+        }
+
+    }
+
 }

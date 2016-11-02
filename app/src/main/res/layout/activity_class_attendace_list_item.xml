@@ -60,5 +60,6 @@
         android:textColor="@color/txt_9"
         android:textOff=""
         android:textOn=""
+        android:background="@color/transparent"
         tools:ignore="RtlHardcoded" />
 </LinearLayout>

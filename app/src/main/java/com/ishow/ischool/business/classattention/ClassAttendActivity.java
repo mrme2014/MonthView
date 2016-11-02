@@ -108,14 +108,14 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     public void getResutSucess(ClazStudentList result) {
         lists = result.lists;
         adapter = new ClazListAdapter(this, result.lists);
-        adapter.setOnItemClickListner(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ClassAttendActivity.this, ClazCheckinTableActivity.class);
-                intent.putExtra("claz_id", claz_id);
-                startActivity(intent);
-            }
-        });
+//        adapter.setOnItemClickListner(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ClassAttendActivity.this, ClazCheckinTableActivity.class);
+//                intent.putExtra("claz_id", claz_id);
+//                startActivity(intent);
+//            }
+//        });
         classList.setAdapter(adapter);
 
         classInfo = result.classInfo;

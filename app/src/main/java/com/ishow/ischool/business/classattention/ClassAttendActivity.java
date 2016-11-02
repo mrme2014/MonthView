@@ -142,10 +142,9 @@ public class ClassAttendActivity extends BaseActivity4Crm<ClazPresenter, ClazMod
     @Override
     public void CheckInSucess(String msg) {
         RxBus.getDefault().post(new SignEvent(mItemPosition));
-        this.finish();
-//        checkInSucess = true;
         handProgressbar(false);
         showToast(msg);
+        this.finish();
     }
 
     @Override

@@ -21,7 +21,7 @@
         android:layout_marginTop="5dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="3dp"
-        app:cardPreventCornerOverlap="true"
+        app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
         app:contentPadding="0dp">
 

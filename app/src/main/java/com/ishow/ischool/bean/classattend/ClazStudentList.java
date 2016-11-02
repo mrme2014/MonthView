@@ -11,4 +11,5 @@ public class ClazStudentList {
     public ClazInfo classInfo;
     public ClazTableTotal total;
     public TechAvart teacherAvatar;
+
 }

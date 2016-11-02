@@ -8,4 +8,5 @@ import com.ishow.ischool.bean.student.StudentInfo;
 
 public class ClazStudentObject {
     public StudentInfo studentInfo;
+    public StudentAvart avatarInfo;
 }

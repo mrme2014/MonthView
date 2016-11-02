@@ -92,13 +92,15 @@ public class CommunEditDialog extends DialogFragment {
                     contentEt.setSelection(max_length);
                 } else {
                     contentCountTv.setText((max_length - editable.length()) + "");
-                    contentEt.setSelection(contentEt.getSelectionEnd());
+                    //contentEt.setSelection(contentEt.getSelectionEnd());
                 }
             }
         });
 
-        if (content != "" && content != null)
+        if (content != "" && content != null) {
             contentEt.setText(content);
+            contentEt.setSelection(content.length());
+        }
         setNeedDate(noNeedDate);
 
     }

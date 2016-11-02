@@ -186,7 +186,7 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             }
         });
 
-        searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
+//        searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
     }
 
     @Override
@@ -267,6 +267,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
             filterParams.clear();
             filterParams.putAll(map);
             setRefreshing();
+
+            mCampusId = filterParams.get("campus_id");
         }
 
     }

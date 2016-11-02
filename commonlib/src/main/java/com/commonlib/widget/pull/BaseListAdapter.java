@@ -22,6 +22,10 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
     public static final int ACTION_LOADMORE_SHOW = 1;
     public static final int ACTION_LOADMORE_END = 2;
 
+    public BaseListAdapter() {
+        setHasStableIds(true);      //我们要重写getItemId方法给他一个不同位置的唯一标识，并且hasStableIds返回true的时候应该返回相同的数据集；
+    }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOAD_MORE_LOADING || viewType == VIEW_TYPE_LOAD_MORE_END) {

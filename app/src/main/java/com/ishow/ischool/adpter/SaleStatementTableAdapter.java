@@ -36,8 +36,9 @@ public class SaleStatementTableAdapter extends RecyclerView.Adapter<RecyclerView
         if (position >= getItemCount() - 1) saleHolder.rowTextView.setShouldDrawBotLine(true);
     }
 
-    public void onRefresh(List<List<String>> newList){
-        list.addAll(newList);
+    public void onRefresh(List<List<String>> newList) {
+       // if (list != null) list.clear();
+        list=newList;
         notifyDataSetChanged();
     }
 

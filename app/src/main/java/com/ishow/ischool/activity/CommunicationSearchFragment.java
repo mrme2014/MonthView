@@ -166,7 +166,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
-            JumpManager.jumpActivity(getActivity(), intent, Resource.MARKET_STUDENT_STUDENTINFO);
+            JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
         }
     }
 }

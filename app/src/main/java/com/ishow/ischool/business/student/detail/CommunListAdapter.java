@@ -38,7 +38,7 @@ public class CommunListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public Communication getItem(int position) {
-        return datas.get(position);
+        return datas != null ? datas.get(position) : null;
     }
 
     @Override

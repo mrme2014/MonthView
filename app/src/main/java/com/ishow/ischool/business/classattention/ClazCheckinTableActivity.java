@@ -148,7 +148,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             return;
         }
         ClazTableTotal total = result.total;
-        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, "  "+total.real_numbers+"  ",  "  "+total.numbers+"  "));
+        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.real_numbers, total.numbers));
         if (listList == null) listList = new ArrayList<>();
         listList.clear();
         if (left == null) left = new ArrayList<>();

@@ -210,6 +210,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     public void onAddSuccess() {
+        handProgressbar(false);
         isSubmitting = false;
         showToast(R.string.add_success);
         RxBus.getDefault().post(new CommunicationAddRefreshEvent());
@@ -218,6 +219,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
 
     @Override
     public void onAddFailed(String msg) {
+        handProgressbar(false);
         isSubmitting = false;
         showToast(msg);
     }
@@ -237,6 +239,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         if (checkForm()) {
             isSubmitting = true;
             mPresenter.addCommunication(form);
+            handProgressbar(true);
         }
     }
 

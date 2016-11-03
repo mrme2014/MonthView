@@ -107,10 +107,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="@color/content_bg"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
+                android:paddingLeft="18dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp"
                 android:text="@string/commun_detail" />
 
             <com.commonlib.widget.LabelTextView

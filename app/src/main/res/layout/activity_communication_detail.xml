@@ -81,12 +81,16 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
+        <EditText
             android:id="@+id/commun_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:textColor="@color/txt_3" />
+            android:background="@color/white"
+            android:gravity="top"
+            android:hint="@string/commun_input_content_hint"
+            android:lines="8"
+            android:maxLength="600"
+            android:textSize="@dimen/sp14"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -111,11 +115,10 @@
                 android:layout_centerVertical="true"/>
 
             <TextView
-                android:id="@+id/oprater_date"
+                android:id="@+id/commun_content_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="time"
                 android:textColor="@color/txt_9"
                 android:textSize="@dimen/sp12"
                 android:layout_centerVertical="true"/>

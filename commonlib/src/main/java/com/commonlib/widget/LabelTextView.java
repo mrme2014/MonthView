@@ -68,8 +68,8 @@ public class LabelTextView extends TextView {
         labelTextLeft = typedArray.getString(R.styleable.LabelTextView_label_text_left);
         labelTextRight = typedArray.getString(R.styleable.LabelTextView_label_text_right);
         labelTextBottom = typedArray.getString(R.styleable.LabelTextView_label_text_bottom);
-        labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.sp2px(getContext(), 12));
-        labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF333333);
+        labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.sp2px(getContext(), 14));
+        labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF222222);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
 
         draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line, false);

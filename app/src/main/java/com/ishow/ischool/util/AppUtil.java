@@ -423,7 +423,7 @@ public class AppUtil {
         OptionPicker picker = new OptionPicker(activity, lists);
         picker.setOffset(2);
         picker.setSelectedIndex(index);
-        picker.setTextSize(12);
+        picker.setTextSize(14);
         picker.setOnOptionPickListener(listener);
         picker.show();
     }

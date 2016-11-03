@@ -13,10 +13,8 @@ import android.widget.TextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.bean.user.CampusInfo;
-import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
-import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.ChangeRoleEvent;
 import com.ishow.ischool.util.AppUtil;
@@ -47,8 +45,6 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
     private FragmentAdapter mFragmentAdapter;
     private DataMarketFragment dataMarketFragment;
     private DataTeachFragment dataTeachFragment;
-    private User mUser;
-    private int type_time = 7;
 
     @Override
     public int getLayoutId() {
@@ -74,7 +70,6 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void init() {
-        mUser = UserManager.getInstance().get();
         mPresenter.getCampusList();     //进入app获取所有校区信息
         ArrayList<Fragment> fragments = new ArrayList<>();
         ArrayList<String> titleList = new ArrayList<>();

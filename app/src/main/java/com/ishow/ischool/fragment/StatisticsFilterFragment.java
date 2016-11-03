@@ -383,6 +383,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
             mFilterCampusId = mUser.userInfo.campus_id + "";
         } else {
             mFilterCampusId = Campus.HEADQUARTERS + "";       // 总部获取学院统计列表campus_id传1
+            campusIL.setContent("杭州校区");
         }
         mFilterStartTime = "";
         mFilterEndTime = "";

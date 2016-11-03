@@ -153,6 +153,7 @@ public class DataMarketFragment extends BaseFragment4Crm<DataMarketPresenter, Da
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setGranularity(1);
         leftAxis.setAxisMinimum(0);
+        leftAxis.setXOffset(10f);
 
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
@@ -176,9 +177,11 @@ public class DataMarketFragment extends BaseFragment4Crm<DataMarketPresenter, Da
         Legend l = mChart.getLegend();
 
         // modify the legend ...
-        // l.setPosition(LegendPosition.LEFT_OF_CHART);
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         l.setForm(Legend.LegendForm.LINE);
         l.setTextColor(Color.WHITE);
+        l.setYOffset(5f);
+        l.setWordWrapEnabled(true);
 
         // // dont forget to refresh the drawing
         // mChart.invalidate();

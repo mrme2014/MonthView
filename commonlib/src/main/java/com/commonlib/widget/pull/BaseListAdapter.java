@@ -37,6 +37,7 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (loadMoreFooterState == ACTION_LOADMORE_SHOW && position == getItemCount() - 1) {
+            //在grid和stagger模式下，footer要占满一行而不是一个span。所以grid需要SpanSizeLookup来动态改footer所占的spanCount。而stagger，需要将viewholder中的itemView的LayoutParams中isFullSpan设置为true。
             if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
                 StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
                 params.setFullSpan(true);
@@ -119,6 +120,7 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
 
         @Override
         public void onBindViewHolder(int position) {
+            this.setIsRecyclable(false);    // 强制关闭复用，刷新动画
             // 设置自定义加载中和到底了效果
         }
 

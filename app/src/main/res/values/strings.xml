@@ -289,7 +289,7 @@
     <string name="data_title_last_7">最近7日教学数据统计</string>
     <string name="history_claz">上课记录</string>
     <string name="history_claz_time">上课时间</string>
-    <string name="claz_table_tip">课时总计:%1$s  人数总计:实到人数   %2$s     应到人数    %3$s</string>
+    <string name="claz_table_tip">课时总计:%1$s次  人数总计:   实到%2$s 次       应到%3$s次   </string>
     <string name="check_info">应到人数  %1$d 实到人数  %2$s </string>
 
     <!--  班级管理  -->

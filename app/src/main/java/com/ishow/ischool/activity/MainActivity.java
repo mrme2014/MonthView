@@ -11,7 +11,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.commonlib.util.LogUtil;
-import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabdata.TabDataFragment;
@@ -35,7 +34,6 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
     private String KEY_INDEX = "key_index";
 
     android.widget.RadioGroup RadioGroup;
-
 
 
     @Override

@@ -22,6 +22,7 @@ import com.commonlib.util.StorageUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.Student;
@@ -85,7 +86,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private boolean needRefresh;
     private String tempPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture.avatar";
     private String tempCropPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture_crop.avatar";
-    private String from;
+    private int from;
 
 
     @Override
@@ -118,7 +119,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             }
         }
         isCommun = getIntent().getBooleanExtra(P_COMMUNICATION, false);
-        from = getIntent().getStringExtra(P_FROM);
+        from = getIntent().getIntExtra(P_FROM,0);
 
     }
 
@@ -288,10 +289,12 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1, Resource.SHARE_COMMUNICATION_ADDE})) {
+                if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_LIST_ADDM,
+                        Resource.SHARE_COMMUNICATION_ADDE})) {
                     Intent intent = new Intent(this, CommunicationAddActivity.class);
                     intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
-                    intent.putExtra(CommunicationAddActivity.P_COMMUNICATION_OLD,getCommunication());
+                    intent.putExtra(CommunicationAddActivity.P_COMMUNICATION_OLD, getCommunication());
+                    intent.putExtra(Constants.FROM_M_E,from);
                     startActivity(intent);
                 }
                 break;
@@ -366,7 +369,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         super.onSaveInstanceState(outState);
     }
 
-    public String getFrom() {
+    public int getFrom() {
         return from;
     }
 }

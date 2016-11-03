@@ -140,7 +140,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
     public void getResutSucess(ClazCheckTable result) {
         List<ClazTableRow> lists = result.lists;
         if (lists == null || lists.size() == 0) {
-            clazTableTip.setText(String.format(getString(R.string.claz_table_tip), "0", "0", "0"));
+            clazTableTip.setText(String.format(getString(R.string.claz_table_tip), "  0", "  0", "  0"));
             if (left != null) left.clear();
             if (listList != null) listList.clear();
             adapter2.notifyDataSetChanged();
@@ -148,7 +148,7 @@ public class ClazCheckinTableActivity extends BaseActivity4Crm<ClazPresenter, Cl
             return;
         }
         ClazTableTotal total = result.total;
-        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, total.real_numbers, total.numbers));
+        clazTableTip.setText(String.format(getString(R.string.claz_table_tip), total.num, "  "+total.real_numbers+"  ",  "  "+total.numbers+"  "));
         if (listList == null) listList = new ArrayList<>();
         listList.clear();
         if (left == null) left = new ArrayList<>();

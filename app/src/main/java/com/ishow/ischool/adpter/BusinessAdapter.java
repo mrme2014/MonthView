@@ -17,8 +17,6 @@ import com.zaaach.citypicker.utils.ToastUtils;
 
 import java.util.List;
 
-import static com.ishow.ischool.business.tabbusiness.TabBusinessModel.TabSpec.TYPE_TEACH;
-
 /**
  * Created by wqf on 16/8/14.
  */
@@ -83,9 +81,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Busine
 //                if (JumpManager.checkUserPermision(mContext, resources)) {
                 if (tabSpecs.get(position).hasPermission) {
                     Intent intent = new Intent(mContext, tabSpecs.get(position).intentClazz);
-                    if (tabSpecs.get(position).type == TYPE_TEACH) {
-                        intent.putExtra(Constants.IS_TEACH, true);
-                    }
+                    intent.putExtra(Constants.FROM_M_E, tabSpecs.get(position).type);
                     mContext.startActivity(intent);
                 } else {
                     ToastUtils.showToast(mContext, R.string.no_permission);

@@ -15,6 +15,7 @@ import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
@@ -196,8 +197,8 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
             Student data = mDataList.get(position);
             Intent intent = new Intent(StudentListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_STUDENT, data.studentInfo);
-            intent.putExtra(StudentDetailActivity.P_FROM,"class_student_list");
-            JumpManager.jumpActivity(StudentListActivity.this, intent, Resource.MARKET_STUDENT_STUDENTINFOE);
+            intent.putExtra(StudentDetailActivity.P_FROM, Constants.FROM_TEACH);
+            JumpManager.jumpActivity(StudentListActivity.this, intent, Resource.EDUCATION_CLASSMANAGEMENT_STUDENTDETAIL);
         }
     }
 }

@@ -19,6 +19,7 @@ import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
@@ -46,6 +47,8 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
     private String mResourceId;
     private String mSearchKey = "";
 
+    private int from;
+
     public static CommunicationSearchFragment newInstance(String resources_id) {
         CommunicationSearchFragment fragment = new CommunicationSearchFragment();
         Bundle args = new Bundle();
@@ -70,6 +73,8 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
 
     @Override
     public void init() {
+        from = getActivity().getIntent().getIntExtra(Constants.FROM_M_E,0);
+
         searchParams = new HashMap<>();
         searchParams.put("resources_id", mResourceId);
         searchParams.put("list_type", "2");
@@ -123,6 +128,10 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
         setRefreshing();
     }
 
+    public void setFrom(int from) {
+        this.from = from;
+    }
+
     class CommnunicationHolder extends BaseViewHolder {
         @BindView(R.id.user_photo_iv)
         AvatarImageView userPhotoIv;
@@ -166,6 +175,7 @@ public class CommunicationSearchFragment extends BaseListFragment<Communication>
             Intent intent = new Intent(getActivity(), StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
+            intent.putExtra(StudentDetailActivity.P_FROM, from);
             JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
         }
     }

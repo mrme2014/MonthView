@@ -70,28 +70,29 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     CommuDialogFragment dialog = null;
     private boolean isShowSearchFragment;
 
-    private boolean isTeach;
+    //    private boolean isTeach;
+    private int from;
 
     @Override
     protected void initEnv() {
         super.initEnv();
         initParamsMap();
 
-        RxBus.getDefault().register(this,CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
+        RxBus.getDefault().register(this, CommunicationAddRefreshEvent.class, new Action1<CommunicationAddRefreshEvent>() {
             @Override
             public void call(CommunicationAddRefreshEvent o) {
                 needRefresh = true;
             }
         });
 
-        RxBus.getDefault().register(this,CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
+        RxBus.getDefault().register(this, CommunicationEditRefreshEvent.class, new Action1<CommunicationEditRefreshEvent>() {
             @Override
             public void call(CommunicationEditRefreshEvent o) {
                 needRefresh = true;
             }
         });
 
-        RxBus.getDefault().register(this,UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
+        RxBus.getDefault().register(this, UploadAvatarEvent.class, new Action1<UploadAvatarEvent>() {
             @Override
             public void call(UploadAvatarEvent o) {
                 needRefresh = true;
@@ -99,7 +100,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             }
         });
 
-        isTeach = getIntent().getBooleanExtra(Constants.IS_TEACH, false);
+        from = getIntent().getIntExtra(Constants.FROM_M_E, 0);
     }
 
     private void initParamsMap() {
@@ -263,6 +264,10 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             Intent intent = new Intent(CommunicationListActivity.this, StudentDetailActivity.class);
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
+            intent.putExtra(StudentDetailActivity.P_FROM, from);
+            if (from == Constants.FROM_TEACH) {
+                intent.putExtra(StudentDetailActivity.P_STUDENT_NO_EDIT, true);
+            }
             //Resource.MARKET_STUDENT_STUDENTINFO
             JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.NO_NEED_CHECK);
         }
@@ -270,9 +275,9 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
 
     @OnClick(R.id.communication_add)
     public void onAddCommunication() {
-        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_ADDM_1, Resource.SHARE_COMMUNICATION_ADDE})) {
+        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_ADDM, Resource.SHARE_COMMUNICATION_LIST_ADDM, Resource.SHARE_COMMUNICATION_ADDE})) {
             Intent intent = new Intent(this, CommunicationAddActivity.class);
-            intent.putExtra(Constants.IS_TEACH, isTeach);
+            intent.putExtra(Constants.FROM_M_E, from);
             startActivity(intent);
 
         }
@@ -282,6 +287,7 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
     void showSearchFragment() {
         if (searchFragment == null)
             searchFragment = CommunicationSearchFragment.newInstance(Resource.MARKET_STUDENT_STATISTICS + "");
+        searchFragment.setFrom(from);
         frameLayout.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.search_content, searchFragment);

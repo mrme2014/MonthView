@@ -20,4 +20,9 @@ public class Constants {
     public static final int PIN_LECTURER = 18;
 
     public static final String IS_TEACH = "is_teach";
+
+    public static final String FROM_M_E = "from";
+    public static final int FROM_TEACH = 1;
+    public static final int FROM_MARKET = 0;
+
 }

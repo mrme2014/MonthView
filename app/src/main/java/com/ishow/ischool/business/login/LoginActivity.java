@@ -53,7 +53,13 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    mLoginSv.fullScroll(View.FOCUS_DOWN);
+                    mLoginSv.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLoginSv.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+
                 }
             }
         });

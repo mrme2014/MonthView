@@ -136,15 +136,15 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
             stateTv.setText(AppUtil.getStateById(oldCommunication.communicationInfo.status));
             faithTv.setText(AppUtil.getBeliefById(oldCommunication.communicationInfo.belief));
             opposeTv.setText(AppUtil.getRefuseById(oldCommunication.communicationInfo.refuse));
-            if (oldCommunication.communicationInfo.callback_date > 0) {
-                backDateTv.setText(DateUtil.parseSecond2Str(oldCommunication.communicationInfo.callback_date));
-            }
+//            if (oldCommunication.communicationInfo.callback_date > 0) {
+//                backDateTv.setText(DateUtil.parseSecond2Str(oldCommunication.communicationInfo.callback_date));
+//            }
             moneySourceTv.setText(oldCommunication.communicationInfo.tuition_source);
 
             form.status = oldCommunication.communicationInfo.status;
             form.belief = oldCommunication.communicationInfo.belief;
             form.refuse = oldCommunication.communicationInfo.refuse;
-            form.callback_date = oldCommunication.communicationInfo.callback_date;
+//            form.callback_date = oldCommunication.communicationInfo.callback_date;
             form.tuition_source = oldCommunication.communicationInfo.tuition_source;
         }
     }

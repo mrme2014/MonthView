@@ -210,7 +210,9 @@ public class TimePicker extends LinearLayout {
 
         String mDay =mWheelDay.getSelectedText();
         mDay = mDay.substring(0,mDay.length()-1);
-
+        if (mWheelDay.getSelected()<9){
+            mDay= "0"+mDay;
+        }
         String mMonth  =mWheelMonth.getSelectedText();
         if (mWheelMonth.getSelected()<9)
             mMonth= "0"+mMonth;

@@ -116,6 +116,12 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         });
         salesSpinner.setSelection(1);
         salesSpinner.setOnItemSelectedListener(this);
+        lineChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     @Override

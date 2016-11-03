@@ -15,6 +15,7 @@ import com.commonlib.util.DateUtil;
 import com.commonlib.util.KeyBoardUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.student.StudentInfo;
@@ -75,14 +76,14 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
     private int max_length = 600;
     private Communication oldCommunication;
 
-    private boolean isTeach;
+    private int from;
 
     @Override
     protected void initEnv() {
         super.initEnv();
         studentInfo = getIntent().getParcelableExtra(P_STUDENT_INFO);
         oldCommunication = getIntent().getParcelableExtra(P_COMMUNICATION_OLD);
-        isTeach = getIntent().getBooleanExtra(P_IS_TEACH, false);
+        from = getIntent().getIntExtra(Constants.FROM_M_E, 0);
     }
 
     @Override
@@ -298,7 +299,7 @@ public class CommunicationAddActivity extends BaseActivity4Crm<CommunicationAddP
         switch (view.getId()) {
             case R.id.commun_student_name:
                 Intent intent;
-                if (isTeach) {
+                if (from == Constants.FROM_TEACH) {
                     intent = new Intent(this, PickStudentActivity.class);
                 } else {
                     intent = new Intent(this, com.ishow.ischool.business.student.pick.PickStudentActivity.class);

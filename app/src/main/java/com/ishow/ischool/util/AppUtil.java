@@ -9,9 +9,11 @@ import android.util.SparseArray;
 
 import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.login.LoginActivity;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.fragment.SelectDialogFragment;
@@ -394,7 +396,7 @@ public class AppUtil {
         List<Integer> myResources = user.myResources;
         for (int res : myResources) {
             if (res == Resource.MARKET_STUDENT_STATISTICS || res == Resource.SHARE_COMMUNICATION_INDEXM || res == Resource.MARKET_STUDENT_ADD
-                    || (res == Resource.SHARE_COMMUNICATION_ADDM && res == Resource.SHARE_COMMUNICATION_ADDM_1)) {
+                    || (res == Resource.SHARE_COMMUNICATION_ADDM && res == Resource.SHARE_COMMUNICATION_LIST_ADDM)) {
                 return true;
             }
         }
@@ -411,6 +413,7 @@ public class AppUtil {
         }
         return false;
     }
+
 
     /**
      * 第三方的Option选择框

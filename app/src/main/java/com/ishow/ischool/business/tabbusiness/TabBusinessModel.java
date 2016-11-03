@@ -59,7 +59,7 @@ public class TabBusinessModel implements TabBusinessContract.Model {
             icon3 = R.mipmap.icon_business_03;
             hasPermissions.set(2, true);
         }
-        if (checkUserPermision(Resource.SHARE_COMMUNICATION_ADDM) && checkUserPermision(Resource.SHARE_COMMUNICATION_ADDM_1)) {
+        if (checkUserPermision(Resource.SHARE_COMMUNICATION_ADDM) && checkUserPermision(Resource.SHARE_COMMUNICATION_LIST_ADDM)) {
             icon4 = R.mipmap.icon_business_04;
             hasPermissions.set(3, true);
         }

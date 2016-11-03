@@ -9,10 +9,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.common.api.ApiObserver;
@@ -25,7 +22,7 @@ import java.util.TreeMap;
  * Created by MrS on 2016/10/9.
  */
 
-public class TeachPresenter extends TeachProcessConact.Presenter implements OnChartValueSelectedListener {
+public class TeachPresenter extends TeachProcessConact.Presenter {
     @Override
     public void getTeachProcessData(TreeMap<String, Integer> map) {
         mModel.getTeachProcessData(map).subscribe(new ApiObserver<TeachProcess>() {
@@ -48,7 +45,7 @@ public class TeachPresenter extends TeachProcessConact.Presenter implements OnCh
 
 
     public void initChart(HorizontalBarChart mChart) {
-        mChart.setOnChartValueSelectedListener(this);
+       // mChart.setOnChartValueSelectedListener(this);
         // mChart.setHighlightEnabled(false);
 
         mChart.setDrawBarShadow(false);
@@ -126,13 +123,4 @@ public class TeachPresenter extends TeachProcessConact.Presenter implements OnCh
       return  AppUtil.getSpinnerData();
     }
 
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-
-    }
-
-    @Override
-    public void onNothingSelected() {
-
-    }
 }

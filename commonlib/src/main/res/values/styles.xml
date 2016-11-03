@@ -3,15 +3,14 @@
 
     <!-- Toolbar样式 -->
     <style name="ToolBarStyle" parent="Theme.AppCompat">
-        <item name="android:layout_width">match_parent</item>
-        <!--<item name="android:layout_height">wrap_content</item>-->
-        <!--<item name="android:minHeight">?attr/actionBarSize</item>-->
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">@dimen/default_toolbar_height</item>
         <!-- Toolbar背景颜色 -->
         <item name="android:background">?attr/colorPrimary</item>
         <!-- Toolbar popup menu样式 -->
         <item name="android:theme">@style/PopWindowStyle</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
 

@@ -6,13 +6,12 @@
         <item name="android:layout_width">match_parent</item>
         <!--<item name="android:layout_height">wrap_content</item>-->
         <!--<item name="android:minHeight">?attr/actionBarSize</item>-->
-        <item name="android:layout_height">@dimen/default_toolbar_height</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">@dimen/default_toolbar_height</item>
         <!-- Toolbar背景颜色 -->
         <item name="android:background">?attr/colorPrimary</item>
         <!-- Toolbar popup menu样式 -->
         <item name="android:theme">@style/PopWindowStyle</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 
 
@@ -62,4 +61,6 @@
         <item name="label_text_bottom_size">12</item>
         <item name="label_top_padding">28</item>
     </style>
+
+    <dimen name="toolbar_padding_top">0dp</dimen>
 </resources>

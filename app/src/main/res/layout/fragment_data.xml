@@ -4,9 +4,19 @@
     android:background="@color/comm_bg"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/ToolBarStyle">
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--style="@style/ToolBarStyle"-->
+    <!--android:paddingTop="@dimen/translucent_padding_top">-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:minHeight="@dimen/default_toolbar_height"
+        android:paddingTop="@dimen/translucent_padding_top">
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -50,7 +60,7 @@
                 android:textSize="@dimen/sp13" />
         </RadioGroup>
 
-    </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

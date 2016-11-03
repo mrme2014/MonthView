@@ -26,7 +26,7 @@
                 android:id="@+id/user_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="15dp">
+                android:paddingBottom="@dimen/student_detail_head_padding_bottom">
 
                 <LinearLayout
                     android:id="@+id/avatar_layout"

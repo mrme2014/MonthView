@@ -54,6 +54,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     public static final String P_STUDENT_ID = "student_id";
     public static final String P_COMMUNICATION = "communication";
     public static final String P_FROM = "from";
+    public static final String P_STUDENT_NO_EDIT = "student_no_edit";
     @BindView(R.id.tabs)
     TabLayout mTabs;
 
@@ -87,6 +88,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private String tempPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture.avatar";
     private String tempCropPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture_crop.avatar";
     private int from;
+    public boolean isNoEdit;
 
 
     @Override
@@ -119,7 +121,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             }
         }
         isCommun = getIntent().getBooleanExtra(P_COMMUNICATION, false);
-        from = getIntent().getIntExtra(P_FROM,0);
+        from = getIntent().getIntExtra(P_FROM, 0);
+        isNoEdit = getIntent().getBooleanExtra(P_STUDENT_NO_EDIT, false);
 
     }
 
@@ -294,7 +297,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                     Intent intent = new Intent(this, CommunicationAddActivity.class);
                     intent.putExtra(CommunicationAddActivity.P_STUDENT_INFO, getStudentInfo());
                     intent.putExtra(CommunicationAddActivity.P_COMMUNICATION_OLD, getCommunication());
-                    intent.putExtra(Constants.FROM_M_E,from);
+                    intent.putExtra(Constants.FROM_M_E, from);
                     startActivity(intent);
                 }
                 break;

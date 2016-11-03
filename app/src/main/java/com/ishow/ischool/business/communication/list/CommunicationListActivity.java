@@ -265,6 +265,9 @@ public class CommunicationListActivity extends BaseListActivity4Crm<Communicatio
             intent.putExtra(StudentDetailActivity.P_COMMUNICATION, true);
             intent.putExtra(StudentDetailActivity.P_STUDENT_ID, communication.studentInfo.student_id);
             intent.putExtra(StudentDetailActivity.P_FROM, from);
+            if (from == Constants.FROM_TEACH) {
+                intent.putExtra(StudentDetailActivity.P_STUDENT_NO_EDIT, true);
+            }
             //Resource.MARKET_STUDENT_STUDENTINFO
             JumpManager.jumpActivity(CommunicationListActivity.this, intent, Resource.NO_NEED_CHECK);
         }

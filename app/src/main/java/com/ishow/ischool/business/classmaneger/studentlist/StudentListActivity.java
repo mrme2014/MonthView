@@ -144,7 +144,11 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
                     state.setText(getString(R.string.state_class_suspended));  // 停课
                 } else if (classState == 2) {
                     state.setText(getString(R.string.state_class_refund));  // 退费
+                } else {
+                    state.setVisibility(View.GONE);
                 }
+            } else {
+                state.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(data.studentInfo.advisor_name)) {
                 keguTv.setText(getString(R.string.kegu, data.studentInfo.advisor_name));

@@ -69,9 +69,9 @@ dependencies {
     compile project(':commonlib')
     compile project(':citypicker')
     compile project(':MPChartLib')
+    /*七牛SDK*/
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.jakewharton:butterknife:8.2.1'
-    /*七牛SDK*/
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'cn.qqtheme.framework:WheelPicker:latest.release'

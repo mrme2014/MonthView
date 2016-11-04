@@ -319,4 +319,5 @@
 
     <string name="commun_school_hnit">请选择校区</string>
     <string name="commun_school_state">校区</string>
+    <string name="tab_index">首页</string>
 </resources>

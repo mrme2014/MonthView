@@ -2,6 +2,7 @@ package com.ishow.ischool.business.campusperformance.market;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,7 @@ public class BarChartFragment extends BaseFragment {
     public ArrayList<CampusInfo> mLastCampus;      // 上次显示的校区
     public ArrayList<SignAmount> mLastYdatas;
     private ArrayList<SignAmount> mYDatas;
+    public int mParamBeginDate, mParamEndDate;
     private String label1, label2, label3;
     public boolean isFirst = true;
     public String campusParamAll = "";                     // 每次请求所有校区的
@@ -115,6 +117,25 @@ public class BarChartFragment extends BaseFragment {
                     public void onError(String msg) {
                     }
                 });
+    }
+
+    public static BarChartFragment newInstance(int beginMonth, int endMonth) {
+        BarChartFragment fragment = new BarChartFragment();
+        Bundle args = new Bundle();
+        args.putInt("beginMonth", beginMonth);
+        args.putInt("endMonth", endMonth);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mParamBeginDate = bundle.getInt("beginMonth");
+            mParamEndDate = bundle.getInt("endMonth");
+        }
     }
 
     @Override
@@ -166,7 +187,7 @@ public class BarChartFragment extends BaseFragment {
 
         initAmountChart();
         initPercentageChart();
-        pullData(mCampusInfos, 201607, 201609);
+        pullData(mCampusInfos, mParamBeginDate, mParamEndDate);
     }
 
     private void initAmountChart() {

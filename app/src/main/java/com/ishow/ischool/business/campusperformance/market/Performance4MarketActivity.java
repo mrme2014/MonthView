@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.ishow.ischool.adpter.CampusSelectAdapter;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -95,8 +97,8 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
 
     @Override
     protected void setUpData() {
-        lineChartFragment = new LineChartFragment();
-        barChartFragment = new BarChartFragment();
+        lineChartFragment = LineChartFragment.newInstance(Integer.parseInt(mFilterStartTime), Integer.parseInt(mFilterEndTime));
+        barChartFragment = BarChartFragment.newInstance(Integer.parseInt(mFilterStartTime), Integer.parseInt(mFilterEndTime));
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.content, lineChartFragment).add(R.id.content, barChartFragment).hide(barChartFragment);
         ft.commit();
@@ -376,24 +378,46 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
                 case R.id.date_reset:
                     startDateFinished = false;
                     endDateFinished = false;
+                    mFilterStartTime = "";
+                    mFilterEndTime = "";
                     startDateTv.setText(getString(R.string.item_start_time) + " :   ");
                     endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;
                 case R.id.date_ok:
-                    if (mLastStartTime.equals(mFilterStartTime) && mLastEndTime.equals(mFilterEndTime)) {
-                        mDatePopup.dismiss();
-                        break;
-                    }
-
-                    if (lineChartFragment.mLastYdatas != null && lineChartFragment.mLastYdatas.size() > 0) {        //  避免网络异常等原因数据获取失败
-                        lineChartFragment.pullData(lineChartFragment.mLastCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
-                                mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1, lineChartFragment.mParamDataType);
-                        barChartFragment.pullData(barChartFragment.mLastCampus, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : -1,
-                                mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : -1);
-                    }
-                    mLastStartTime = mFilterStartTime;
-                    mLastEndTime = mFilterEndTime;
                     mDatePopup.dismiss();
+                    if (TextUtils.isEmpty(mFilterStartTime) && TextUtils.isEmpty(mFilterEndTime)) {
+                        ToastUtil.showToast(Performance4MarketActivity.this, "请选择时间");
+                        break;
+                    } else {
+                        if (TextUtils.isEmpty(mFilterStartTime)) {
+                            String curYear = mFilterEndTime.substring(0, 4);
+                            int endMonth = Integer.parseInt(mFilterEndTime.substring(4, mFilterEndTime.length()));
+                            if (endMonth <= 6) {     // 上半年
+                                mFilterStartTime = curYear + "01";
+                            } else {
+                                mFilterStartTime = curYear + "07";
+                            }
+                        } else if (TextUtils.isEmpty(mFilterEndTime)) {
+                            String curYear = mFilterStartTime.substring(0, 4);
+                            int startMonth = Integer.parseInt(mFilterStartTime.substring(4, mFilterStartTime.length()));
+                            if (startMonth <= 6) {     // 上半年
+                                mFilterEndTime = curYear + "06";
+                            } else {
+                                mFilterEndTime = curYear + "12";
+                            }
+                        }
+                        if (mLastStartTime.equals(mFilterStartTime) && mLastEndTime.equals(mFilterEndTime)) {
+                            break;
+                        }
+                        mLastStartTime = mFilterStartTime;
+                        mLastEndTime = mFilterEndTime;
+                        if (lineChartFragment.mLastYdatas != null && lineChartFragment.mLastYdatas.size() > 0) {        //  避免网络异常等原因数据获取失败
+                            lineChartFragment.pullData(lineChartFragment.mLastCampus, Integer.parseInt(mFilterStartTime),
+                                    Integer.parseInt(mFilterEndTime), lineChartFragment.mParamDataType);
+                            barChartFragment.pullData(barChartFragment.mLastCampus, Integer.parseInt(mFilterStartTime),
+                                    Integer.parseInt(mFilterEndTime));
+                        }
+                    }
                     break;
                 case R.id.blank_view_date:
                     mDatePopup.dismiss();

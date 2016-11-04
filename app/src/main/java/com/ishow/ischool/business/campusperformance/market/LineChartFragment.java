@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,7 @@ public class LineChartFragment extends BaseFragment {
     public String mCampusParamAll = "";                     // 所有校区id,用于每次请求所有校区的数据
     public String mLastCampusParam = "";                   // 上次显示的校区id,用于传递给表格用
     public ArrayList<SignPerformance> mYDatas;      // 纵坐标数据,即每个校区的数据
-    public int mParamBeginDate = 201607, mParamEndDate = 201609;
+    public int mParamBeginDate, mParamEndDate;
     public Integer mParamDataType = -1;       //数据类型 1:晨读 3:校聊
 
     private LineData lineData = new LineData();
@@ -126,7 +127,25 @@ public class LineChartFragment extends BaseFragment {
                     public void onError(String msg) {
                     }
                 });
+    }
 
+    public static LineChartFragment newInstance(int beginMonth, int endMonth) {
+        LineChartFragment fragment = new LineChartFragment();
+        Bundle args = new Bundle();
+        args.putInt("beginMonth", beginMonth);
+        args.putInt("endMonth", endMonth);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mParamBeginDate = bundle.getInt("beginMonth");
+            mParamEndDate = bundle.getInt("endMonth");
+        }
     }
 
     @Override

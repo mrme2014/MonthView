@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:checked="true"
-            android:drawableTop="@drawable/tab_business"
+            android:drawableTop="@drawable/tab_data"
             android:text="@string/tab_data" />
 
         <RadioButton

@@ -97,13 +97,8 @@
                 android:id="@+id/commun_back_date"
                 style="@style/communication_textview"
                 android:hint="@string/commun_choose1_hint"
-                app:label_text_left="@string/commun_label_back_date" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="10dp"
-                android:background="@color/comm_line" />
+                app:label_text_left="@string/commun_label_back_date"
+                app:draw_bottom_line="true"/>
 
             <TextView
                 android:layout_width="match_parent"

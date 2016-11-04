@@ -58,12 +58,9 @@
             <com.ishow.ischool.widget.custom.InputLinearLayout
                 android:id="@+id/item_start_school_year"
                 style="@style/input_linearLayout_style"
-                input:bottom_line="false"
                 input:inputLayout_texthint="请输入入学年份(必填)"
                 input:label_text="@string/item_start_school_year"
                 input:next="true" />
-
-            <!--<include layout="@layout/view_bottom_line" />-->
 
             <TextView
                 android:layout_width="wrap_content"

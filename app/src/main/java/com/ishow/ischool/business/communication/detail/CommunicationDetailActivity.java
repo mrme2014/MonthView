@@ -99,7 +99,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
         communCountTv.setText(600 - mData.communicationInfo.content.length() + "");
         communContentEt.setText(mData.communicationInfo.content);
         communContentEt.setSelection(mData.communicationInfo.content.length());
-        if (!JumpManager.checkUserPermision(this, Resource.SHARE_COMMUNICATION_EDITM, false) || mData.userInfo.user_id != mUser.userInfo.user_id) {
+        if (!checkCommunicationEditPermision() || mData.userInfo.user_id != mUser.userInfo.user_id) {
             communContentEt.setEnabled(false);
             communCountTv.setVisibility(View.GONE);
         }
@@ -128,7 +128,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
 
     @Override
     protected void setUpData() {
-        if (!checkStudentEditPermision() || mData.userInfo.user_id != mUser.userInfo.user_id) {
+        if (!checkCommunicationEditPermision() || mData.userInfo.user_id != mUser.userInfo.user_id) {
             communStateTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             communFaithTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             communOpposeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -168,7 +168,7 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
 
     @OnClick({R.id.commun_state, R.id.commun_faith, R.id.commun_oppose, R.id.commun_source, R.id.commun_back_date})
     void onClick(View view) {
-        if (!checkStudentEditPermision() || mData.userInfo.user_id != mUser.userInfo.user_id) {
+        if (!checkCommunicationEditPermision() || mData.userInfo.user_id != mUser.userInfo.user_id) {
             ToastUtils.showToast(this, R.string.no_permission);
             return;
         }
@@ -256,8 +256,8 @@ public class CommunicationDetailActivity extends BaseActivity4Crm<CommunicationD
 //        }
 //    }
 
-    private boolean checkStudentEditPermision() {
-        if (JumpManager.checkUserPermision(this, new int[]{Resource.EDUCATION_CLASSMANAGEMENT_EDITSTUDENT, Resource.MARKET_STUDENT_EDIT}, false)) {
+    private boolean checkCommunicationEditPermision() {
+        if (JumpManager.checkUserPermision(this, new int[]{Resource.SHARE_COMMUNICATION_EDITM, Resource.SHARE_COMMUNICATION_EDITE}, false)) {
             return true;
         }
         return false;

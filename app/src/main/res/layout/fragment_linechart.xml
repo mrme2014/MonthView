@@ -38,7 +38,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/chart_switch"
             android:background="@drawable/switch_bg_round_corner"
-            android:drawablePadding="4dp"
+            android:drawablePadding="6dp"
             android:drawableRight="@mipmap/icon_screen_down"
             android:text="全部" />
     </RelativeLayout>

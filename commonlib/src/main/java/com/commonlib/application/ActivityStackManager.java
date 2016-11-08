@@ -1,6 +1,7 @@
 package com.commonlib.application;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.commonlib.util.LogUtil;
 
@@ -17,6 +18,7 @@ public class ActivityStackManager {
 
     /**
      * <单例方法>
+     *
      * @return 该对象的实例
      */
     public static ActivityStackManager getInstance() {
@@ -28,6 +30,7 @@ public class ActivityStackManager {
 
     /**
      * <获取当前栈顶Activity>
+     *
      * @return
      */
     public Activity getTopActivity() {
@@ -42,6 +45,7 @@ public class ActivityStackManager {
 
     /**
      * <将Activity入栈>
+     *
      * @param activity
      */
     public void pushActivity(Activity activity) {
@@ -54,6 +58,7 @@ public class ActivityStackManager {
 
     /**
      * <将Activity出栈>
+     *
      * @param activity
      */
     public void popActivity(Activity activity) {
@@ -65,8 +70,23 @@ public class ActivityStackManager {
         }
     }
 
+    public void popActivity(String activity) {
+        if (mActivityStack != null) {
+            for (int i = 0; i < mActivityStack.size(); i++) {
+                LogUtil.e("remove current activity:" + mActivityStack.get(i).getClass().getSimpleName());
+                if (TextUtils.equals(mActivityStack.get(i).getClass().getSimpleName(), activity)) {
+                    Activity remove = mActivityStack.remove(i);
+                    if (remove!=null)
+                        remove.finish();
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * <退出栈中所有Activity,当前的activity除外>
+     *
      * @param cls
      */
     public void popAllActivityExceptMain(Class cls) {

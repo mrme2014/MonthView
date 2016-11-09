@@ -102,7 +102,9 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     private boolean isUser;
 
     private int start_time, end_time;
+    //*********************这里是从集团市场 销售流程传过来的*****************************************//
     private boolean from_commarket;
+    private SubordinateObject extra;
 
     @Override
     protected void initEnv() {
@@ -110,9 +112,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         user_id = getIntent().getIntExtra("user_id", user_id);
         campus_id = getIntent().getIntExtra("campus_id", campus_id);
         position_id = getIntent().getIntExtra("position_id", position_id);
+        position_name = getIntent().getStringExtra("position_name");
         start_time = getIntent().getIntExtra("start_time", start_time);
         end_time = getIntent().getIntExtra("end_time", end_time);
         from_commarket = getIntent().getBooleanExtra("from_commarket", false);
+        campus_name = getIntent().getStringExtra("campus_name");
+        extra = getIntent().getParcelableExtra("extra");
+        //如果 是从  集团 市场 销售流程传过来的    下面三句代码 就不能再初始化了
+        if (!from_commarket) {
+            campus_id = mUser.campusInfo.id;
+            curuser_position_id = position_id = mUser.positionInfo.id;
+            user_id = mUser.userInfo.user_id;
+        }
 
     }
 
@@ -181,26 +192,22 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     @Override
     protected void setUpData() {
         //  setUpDataByResult();
-        campus_id = mUser.campusInfo.id;
-        curuser_position_id = position_id = mUser.positionInfo.id;
-        user_id = mUser.userInfo.user_id;
-
         start_time = AppUtil.getDayAgo(7);
         end_time = AppUtil.getTodayEnd();
         getSaleProcessData();
     }
 
     private void setUpDataByResult() {
-        if (principal != null) {
+        if (principal != null && !from_commarket) {
             file_name = principal.avatar;
             user_id = principal.user_id;
             user_name = principal.user_name;
             position_name = principal.position_name;
             campus_name = principal.campus_name;
             position_id = principal.position_id;
-            // campus_id = principal.campus_id;
+            campus_id = principal.campus_id;
             //setUpPersonInfo(file_name, user_id, user_name, position_name,campus_name, position_id);
-        } else {
+        } else if (!from_commarket) {
             Avatar avatar = mUser.avatar;
             UserInfo userInfo = mUser.userInfo;
             CampusInfo campusInfo = mUser.campusInfo;
@@ -214,6 +221,9 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             user_name = userInfo.user_name;
         }
         setUpPersonInfo(file_name, user_id, user_name, position_name, campus_name, position_id);
+        if (from_commarket) {
+            setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, campus_name, position_id);
+        }
     }
 
     private void setUpPersonInfo(String file_name, int user_id, String user_name, String position_name, String campus_name, int position_id) {
@@ -241,6 +251,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 || Constants.MORNING_READ_TEACHER == position_id)
             salesTable2.setVisibility(View.GONE);
         else salesTable2.setVisibility(View.VISIBLE);
+
+
     }
 
 
@@ -312,7 +324,7 @@ user_id	Int	0			指定看某个员工的	*/
         }
         map.put("type", type_time);
         mPresenter.getSaleProcessData(map, type_time);
-        LogUtil.e(start_time+"getSaleProcessData"+end_time);
+        LogUtil.e(start_time + "getSaleProcessData" + end_time);
     }
 
     @Override
@@ -336,13 +348,13 @@ user_id	Int	0			指定看某个员工的	*/
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
             type_time = Integer.parseInt(selectNum);
             start_time = AppUtil.getDayAgo(type_time);
-            int oneday = AppUtil.getOneDayStart("2016-09-01")-12*3600;
+            int oneday = AppUtil.getOneDayStart("2016-09-01") - 12 * 3600;
             if (start_time < oneday) start_time = oneday;
             end_time = AppUtil.getTodayEnd();
             getSaleProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
             type_time = 999;
-            int oneday = AppUtil.getOneDayStart("2016-09-01")-12*3600;
+            int oneday = AppUtil.getOneDayStart("2016-09-01") - 12 * 3600;
             start_time = AppUtil.getDayAgo(type_time);
             if (start_time < oneday) start_time = oneday;
             end_time = AppUtil.getTodayEnd();
@@ -358,7 +370,7 @@ user_id	Int	0			指定看某个员工的	*/
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
-                        start_time = starttime+3600;
+                        start_time = starttime + 3600;
                         end_time = endtime;
                         if (map == null) map = new TreeMap();
                         map.put("begin_time", starttime);

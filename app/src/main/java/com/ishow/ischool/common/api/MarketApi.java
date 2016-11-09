@@ -5,6 +5,7 @@ import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.classattend.ClazCheckTable;
 import com.ishow.ischool.bean.classattend.ClazStudentList;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
+import com.ishow.ischool.bean.saleprocess.SaleTable1;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
@@ -147,5 +148,13 @@ public interface MarketApi {
     @POST("education/classes/studentlists")
     Observable<ApiResult<ClazStudentList>>  studentlists(@Field("resources_id")int resources_id,@Field("allIn")int allIn,@Field("classes_id")int classes_id);
 
+   /*数据分析.市场.流程表格(statistics.market.processhome) 接口*/
+   @FormUrlEncoded
+   @POST("statistics/market/processhome")
+   Observable<ApiResult<SaleTable1>>  getComMarketSaleprocess(@Field("begin_time")int begin_time, @Field("end_time")int end_time);
 
+    /*数据分析.市场.流程图表(statistics.market.processchart) 接口*/
+    @FormUrlEncoded
+    @POST("statistics/market/processchart")
+    Observable<ApiResult<SaleTable1>>  getComMarketProcesschart(@Field("begin_time")int begin_time, @Field("end_time")int end_time);
 }

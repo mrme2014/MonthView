@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toolbar" />
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/sales_layout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <com.ishow.ischool.widget.custom.AvatarImageView
+                    android:id="@+id/sales_avart_txt"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"
+                    app:text="fdadsa"
+                    app:text_color="@color/colorPrimary" />
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/sales_job"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/sales_avart"
+                    android:drawableRight="@mipmap/icon_list_next"
+                    android:paddingRight="10dp"
+                    app:label_TB_padding="6"
+                    app:label_left_padding="10"
+                    app:label_text_bottom="user_position"
+                    app:label_text_bottom_color="@color/txt_9"
+                    app:label_text_bottom_size="12"
+                    app:label_text_top_color="@color/txt_2"
+                    app:label_text_top_size="14"
+                    app:label_text_top_str="user_name"
+                    app:label_top_padding="32"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/sales_trends"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_toRightOf="@+id/sales_avart"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:paddingRight="10dp"
+                    app:label_TB_padding="1"
+                    app:label_left_padding="10"
+                    app:label_text_bottom=""
+                    app:label_text_bottom_color="@color/txt_9"
+                    app:label_text_bottom_size="12"
+                    app:label_text_top_color="@color/txt_6"
+                    app:label_text_top_size="14"
+                    app:label_text_top_str="业绩趋势"
+                    app:label_top_padding="25"
+
+                    />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bg_sale_spinner">
+                    <Spinner
+                        android:id="@+id/sales_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"></Spinner>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <com.ishow.ischool.widget.custom.PieChartView
+                android:id="@+id/lineChart"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="250dp" />
+
+
+            <com.commonlib.widget.TopBottomTextView
+                android:id="@+id/sales_table1"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/sales_avart"
+                android:background="@drawable/bg_item_text_ripple"
+                android:drawableRight="@mipmap/icon_list_next"
+                android:paddingBottom="13dp"
+                android:paddingRight="10dp"
+                android:paddingTop="13dp"
+                app:label_TB_padding="5"
+                app:label_left_padding="10"
+                app:label_text_bottom=""
+                app:label_text_bottom_color="@color/txt_9"
+                app:label_text_bottom_size="11"
+                app:label_text_top_color="@color/txt_6"
+                app:label_text_top_size="14"
+                app:label_text_top_str="业绩明细表"
+                app:label_top_padding="22"
+
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

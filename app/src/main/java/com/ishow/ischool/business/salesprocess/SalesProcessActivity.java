@@ -3,6 +3,7 @@ package com.ishow.ischool.business.salesprocess;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,8 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.commonlib.util.DateUtil;
+import com.commonlib.application.ActivityStackManager;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
@@ -36,6 +38,7 @@ import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.fragment.TimeSeletByUserDialog;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 
@@ -77,9 +80,9 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     private SaleProcess process;
     private int type_time = 7;
-    private int campus_id;
     private int position_id;
     private int user_id;
+    private int campus_id;
     private String campus_name;
     private String position_name;
     private String file_name;
@@ -98,7 +101,20 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
     // 所以加这个变量来区分 是认为选择spinner  还是因为 屏幕旋转引起的回调
     private boolean isUser;
 
-    private  int start_time,end_time;
+    private int start_time, end_time;
+    private boolean from_commarket;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        user_id = getIntent().getIntExtra("user_id", user_id);
+        campus_id = getIntent().getIntExtra("campus_id", campus_id);
+        position_id = getIntent().getIntExtra("position_id", position_id);
+        start_time = getIntent().getIntExtra("start_time", start_time);
+        end_time = getIntent().getIntExtra("end_time", end_time);
+        from_commarket = getIntent().getBooleanExtra("from_commarket", false);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +123,18 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_saleprocess, R.string.sale_process, MODE_BACK);
+        setContentView(R.layout.activity_saleprocess, R.string.sale_process, MODE_NONE);
+        mToolbar = (Toolbar) findViewById(com.commonlib.R.id.toolbar);
+        mToolbarTitle = (TextView) findViewById(com.commonlib.R.id.toolbar_title);
+        mToolbarTitle.setText(getString(R.string.sale_process));
+        mToolbar.setNavigationIcon(R.mipmap.icon_return);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityStackManager.getInstance().popActivity("CompanyMarketSaleprocess");
+                SalesProcessActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -158,8 +185,8 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
         curuser_position_id = position_id = mUser.positionInfo.id;
         user_id = mUser.userInfo.user_id;
 
-        //start_time= AppUtil.getDayAgo(6);
-       // end_time=AppUtil.getTodayEnd();
+        start_time = AppUtil.getDayAgo(7);
+        end_time = AppUtil.getTodayEnd();
         getSaleProcessData();
     }
 
@@ -171,7 +198,7 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
             position_name = principal.position_name;
             campus_name = principal.campus_name;
             position_id = principal.position_id;
-            campus_id = principal.campus_id;
+            // campus_id = principal.campus_id;
             //setUpPersonInfo(file_name, user_id, user_name, position_name,campus_name, position_id);
         } else {
             Avatar avatar = mUser.avatar;
@@ -233,15 +260,22 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 salesTable2.setSpanedStr(getString(R.string.apply_count), "0", getString(R.string.full_amount), "0", getString(R.string.full_amount_rate), "0");
         }
         final List<String> date = process.chart.date;
-        salesTrends.setSecondTxt(date.get(0) + "--" + date.get(date.size() - 1));
-        start_time = DateUtil.date2Second(date.get(0));
-        end_time = DateUtil.date2Second(date.get(date.size() - 1))+24*3600;
+        ;
+        // start_time = DateUtil.date2Second(date.get(0));
+        // end_time = DateUtil.date2Second(date.get(date.size() - 1)) + 24 * 3600;
+        int oneday = AppUtil.getOneDayStart("2016-09-01");
+        if (start_time > oneday)
+            salesTrends.setSecondTxt(date.get(0) + "--" + date.get(date.size() - 1));
+        else salesTrends.setSecondTxt("2016-09-01" + "--" + date.get(date.size() - 1));
+//        start_time = DateUtil.date2Second(date.get(0));
+//        end_time = DateUtil.date2Second(date.get(date.size() - 1)) + 24 * 3600;
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setLabelRotationAngle(-45);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+                value = Math.abs(value);
                 if (value >= date.size())
                     return "";
                 String s = date.get((int) value);
@@ -273,9 +307,12 @@ user_id	Int	0			指定看某个员工的	*/
             map.put("campus_id", campus_id);
             map.put("position_id", position_id);
             map.put("user_id", user_id);
+            map.put("begin_time", start_time);
+            map.put("end_time", end_time);
         }
         map.put("type", type_time);
         mPresenter.getSaleProcessData(map, type_time);
+        LogUtil.e(start_time+"getSaleProcessData"+end_time);
     }
 
     @Override
@@ -298,29 +335,38 @@ user_id	Int	0			指定看某个员工的	*/
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
             type_time = Integer.parseInt(selectNum);
+            start_time = AppUtil.getDayAgo(type_time);
+            int oneday = AppUtil.getOneDayStart("2016-09-01")-12*3600;
+            if (start_time < oneday) start_time = oneday;
+            end_time = AppUtil.getTodayEnd();
             getSaleProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
             type_time = 999;
+            int oneday = AppUtil.getOneDayStart("2016-09-01")-12*3600;
+            start_time = AppUtil.getDayAgo(type_time);
+            if (start_time < oneday) start_time = oneday;
+            end_time = AppUtil.getTodayEnd();
             getSaleProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
             type_time = 999;
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
                 Bundle bundle = new Bundle();
-                bundle.putInt("start_time",start_time);
-                bundle.putInt("end_time",end_time);
+                bundle.putInt("start_time", start_time);
+                bundle.putInt("end_time", end_time);
                 timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
-                        start_time = starttime;
+                        start_time = starttime+3600;
                         end_time = endtime;
                         if (map == null) map = new TreeMap();
                         map.put("begin_time", starttime);
                         map.put("end_time", endtime);
-                        LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
+                        LogUtil.e("timeSeletByUser" + start_time + "====" + end_time);
                         getSaleProcessData();
                     }
+
                     @Override
                     public void onEorr(String error) {
                         showToast(error);
@@ -419,6 +465,11 @@ user_id	Int	0			指定看某个员工的	*/
 
                 setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, this.campus_name, position_id);
             } else {
+                if (from_commarket) {
+                    setResult(101, data);
+                    this.finish();
+                    return;
+                }
                 setUpDataByResult();
                 salesSpinner.setSelection(0, true);
                 type_time = 7;
@@ -508,4 +559,9 @@ user_id	Int	0			指定看某个员工的	*/
         handProgressbar(false);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ActivityStackManager.getInstance().popActivity("CompanyMarketSaleprocess");
+    }
 }

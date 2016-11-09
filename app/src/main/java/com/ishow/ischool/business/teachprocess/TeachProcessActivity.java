@@ -142,7 +142,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             salesJob.setCompoundDrawables(null, null, null, null);
         }
 
-        start_time = AppUtil.getDayAgo(29);
+        start_time = AppUtil.getDayAgo(30);
         end_time = AppUtil.getTodayEnd();
         getTeachProcessData();
     }
@@ -179,6 +179,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         map.put("end_time", end_time);
         handProgressbar(true);
         mPresenter.getTeachProcessData(map);
+        LogUtil.e(start_time+"---"+end_time);
     }
 
     @Override
@@ -242,10 +243,10 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 salesTrends.setSecondTxt("2016-09-01" + "--" + DateUtil.parseSecond2Str((long) end_time));
             }
         } else
-            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
+            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (start_time+24*3600)) + "--" + DateUtil.parseSecond2Str((long) end_time));
 
 
-        LogUtil.e(oneday + "----" + start_time);
+       // LogUtil.e(oneday + "----" + start_time);
         // salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
         if (teachProcess == null || teachProcess.tableListData_22 == null
@@ -394,25 +395,25 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
-            dayAgo = Integer.parseInt(selectNum) - 1;
+            dayAgo = Integer.parseInt(selectNum) ;
             start_time = AppUtil.getDayAgo(dayAgo);
             end_time = AppUtil.getTodayEnd();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 2) {
-            start_time = AppUtil.getDayAgo(998);
+            start_time = AppUtil.getDayAgo(999);
             end_time = AppUtil.getTodayEnd();
             getTeachProcessData();
         } else if (position == mPresenter.getSpinnerData().size() - 1) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
                 Bundle bundle = new Bundle();
-                bundle.putInt("start_time", start_time);
+                bundle.putInt("start_time", start_time-12*3600);
                 bundle.putInt("end_time", end_time + 24 * 3600 - 1);
                 timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
-                        start_time = starttime;
+                        start_time = starttime+3600;
                         end_time = endtime;
                         //  LogUtil.e("timeSeletByUser" + start_time + "====" + end_time);
                         getTeachProcessData();

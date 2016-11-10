@@ -1,7 +1,6 @@
 package com.ishow.ischool.widget.custom;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -11,13 +10,11 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.textservice.TextInfo;
 
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +33,7 @@ public class PieChartView extends View {
     public List<String> nums;
     private int rate1;
     private int rate2;
+    private Biulder biulder;
 
     public PieChartView(Context context) {
         super(context);
@@ -101,12 +99,17 @@ public class PieChartView extends View {
     }
 
     private void drawBitmap(Canvas canvas) {
-        if (des == null) {
+        if (biulder == null) {
             return;
         }
+
         width = Math.max(getWidth(), (floorCount - 1) * floorHeight * 2);
         height = Math.max(getHeight(), floorCount * floorHeight);
 
+        if (biulder.baseColor != 0)
+            paint.setColor(ContextCompat.getColor(getContext(), biulder.baseColor));
+        /*当前 需要绘制的弧形的下标 */
+        int curDrawArcIndex = 0;
         for (int i = 0; i < floorCount; i++) {
             if (i == 0)
                 paint.setAlpha(90);
@@ -115,39 +118,90 @@ public class PieChartView extends View {
             else if (i == 2)
                 paint.setAlpha(170);
             else if (i == 3) {
-                paint.setColor(ContextCompat.getColor(getContext(), R.color.pie_color6));
-                paint.setAlpha(230);
-
+                paint.setAlpha(255);
             }
             // RectF rectF = new RectF(floorHeight/2, floorHeight+floorHeight/2, width-floorHeight/2, height + 3* floorHeight-floorHeight/2);
             //  canvas.drawArc(rectF, 0, 180 + 60, false, percentPaint);
+            /*绘制圆*/
             canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
-            if (i == 1)
-                setFloorPercent(canvas, 1, R.color.pie_color1, rate1);
-            if (i == 3)
-                setFloorPercent(canvas, 3, R.color.pie_color1, rate2);
-            if (des != null && des.size() > 0) {
+
+            /*绘制弧  且当前floor是 需要绘制的*/
+            if (biulder != null && biulder.floorIndex.contains(i)) {
+                setFloorPercent(canvas, i, biulder.floorColor.get(curDrawArcIndex) == 0 ? R.color.pie_color1 : biulder.floorColor.get(curDrawArcIndex), biulder.floorPercenter.get(curDrawArcIndex));
+                curDrawArcIndex++;
+            }
+
+            if (biulder.des != null && biulder.des.size() > 0) {
 
                 Paint.FontMetrics metrics = txtPaint.getFontMetrics();
-                float textWidth = txtPaint.measureText(des.get(i));
+                float textWidth = txtPaint.measureText(biulder.des.get(i));
                 float textHeight = metrics.descent - metrics.ascent;
 
                 Paint.FontMetrics numMetrics = numPaint.getFontMetrics();
-                float numWidth = numPaint.measureText(nums.get(i));
+                float numWidth = numPaint.measureText(biulder.nums.get(i));
                 float numHeight = numMetrics.descent - numMetrics.ascent;
 
-                canvas.drawText(des.get(i), width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
-                canvas.drawText(nums.get(i), width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
+                canvas.drawText(biulder.des.get(i), width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
+                canvas.drawText(biulder.nums.get(i), width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
             }
         }
 
         //setFloorPercent(1, R.color.pie_color5, 60);
     }
 
+    public static class Biulder {
+        public List<String> des;
+        public List<String> nums;
+        private int baseColor;
+        private List<Integer> floorIndex = new ArrayList<>();
+        private List<Integer> floorColor = new ArrayList<>();
+        private List<Integer> floorPercenter = new ArrayList<>();
 
-   /*  * @param rate1 需要绘制百分比的 第一个 floor的 百分比
-     * @param rate2 需要绘制百分比的 第二个 floor的 百分比*/
-    public void setFloorProperty(List<String> nums, String rate1, String rate2) {
+        public Biulder setPieChartBaseColor(int baseColor) {
+            this.baseColor = baseColor;
+            return this;
+        }
+
+        public Biulder setDrawTxtDes(List<String> drawDes) {
+            this.des = drawDes;
+            return this;
+        }
+
+        public Biulder setDrawNums(List<String> drawNums) {
+            this.nums = drawNums;
+            return this;
+        }
+
+        /**
+         * @param floorIndex1  需要绘制遮罩的楼层下标   从0开始
+         * @param percentColor 需要绘制遮罩楼层 的颜色
+         * @param floorRate    需要绘制遮罩楼层 的百分比
+         * @return
+         */
+        public Biulder DrawPercentFloor(int floorIndex1, int percentColor, String floorRate) {
+            floorIndex.add(floorIndex1);
+            floorColor.add(percentColor);
+
+            /*如果 包含 百分比 符号 就进行 分割*/
+            if (!TextUtils.equals(floorRate, "") && floorRate != null && floorRate.contains("%")) {
+                int rate = Integer.valueOf(floorRate.substring(0, floorRate.length() - 1));
+                floorPercenter.add(rate);
+            } else if (!TextUtils.equals(floorRate, "") && floorRate != null) {
+                /*m没有百分比符号 就默认是数字 */
+                floorPercenter.add(Integer.valueOf(floorRate));
+            } else floorPercenter.add(0);
+            return this;
+        }
+    }
+
+    public void invalidate(PieChartView.Biulder biulder) {
+        this.biulder = biulder;
+        invalidate();
+    }
+
+    /*  * @param rate1 需要绘制百分比的 第一个 floor的 百分比
+      * @param rate2 需要绘制百分比的 第二个 floor的 百分比*//*
+    public voidsetFloorProperty(List<String> nums, String rate1, String rate2) {
         if (des == null) des = new ArrayList<>();
         des.add("带班人数");
         des.add("公开课");
@@ -160,7 +214,7 @@ public class PieChartView extends View {
             this.rate2 = Integer.valueOf(rate2.substring(0, rate2.length() - 1));
 
         invalidate();
-    }
+    }*/
 
     public RectF setFloorPercent(Canvas canvas, int floorIndex, int color, int angle) {
         LogUtil.e(angle + "setFloorPercent");
@@ -169,7 +223,7 @@ public class PieChartView extends View {
         RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
         percentPaint.setStrokeWidth(floorHeight);
         percentPaint.setStyle(Paint.Style.STROKE);
-        percentPaint.setColor(color);
+        percentPaint.setColor(ContextCompat.getColor(getContext(), color));
         canvas.drawArc(rectF, 0, 180 + angle, false, percentPaint);
         return rectF;
     }

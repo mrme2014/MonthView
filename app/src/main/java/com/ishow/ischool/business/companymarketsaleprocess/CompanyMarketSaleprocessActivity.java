@@ -73,6 +73,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
     private int user_id;
     boolean isHeadQuatyer;
     private ComMarketProcess process;
+    private ArrayList<String> des;
 
     @Override
     protected void setUpContentView() {
@@ -159,6 +160,12 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
 
     @Override
     public void getChartSucess(ComMarketProcess process) {
+        if (des == null) des = new ArrayList<>();
+        des.add(getString(R.string.class_numbers));
+        des.add(getString(R.string.open_class));
+        des.add(getString(R.string.apply_numbers));
+        des.add(getString(R.string.full_amount_number));
+
         if (process == null || process.process == null) {
             salesTable1.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
             List<String> list = new ArrayList<>();
@@ -166,7 +173,10 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
             list.add("0");
             list.add("0");
             list.add("0");
-            lineChart.setFloorProperty(list, 0, 0);
+            PieChartView.Biulder biulder = new PieChartView.Biulder();
+            biulder.setPieChartBaseColor(R.color.colorPrimaryDark1).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "0").DrawPercentFloor(3, 0, "0");
+            lineChart.invalidate(biulder);
+            //lineChart.setFloorProperty(list, 0, 0);
             return;
         }
         this.process = process;
@@ -176,10 +186,13 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         list.add(process.process.openclass_sign_number);
         list.add(process.process.openclass_apply_number);
         list.add(process.process.openclass_full_amount_number);
-        String rate1 = process.process.openclass_apply_rate;
 
+        String rate1 = process.process.openclass_apply_rate;
         String rate2 = process.process.full_amount_rate;
-        lineChart.setFloorProperty(list, rate1, rate2);
+
+        PieChartView.Biulder biulder = new PieChartView.Biulder();
+        biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "35%").DrawPercentFloor(3, 0, "45%");
+        lineChart.invalidate(biulder);
         salesTable1.setSpanedStr(getString(R.string.update_rate),
                 process.process.openclass_sign_number,
                 getString(R.string.fullpay_rate),

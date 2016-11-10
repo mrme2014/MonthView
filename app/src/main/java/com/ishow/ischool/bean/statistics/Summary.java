@@ -10,5 +10,5 @@ public class Summary {
     public String full_amount_number;//: "0",
     public String refund_number;//: "0",
     public String refund_amount;//: "0",
-    public int prepayments;//: "0"
+    public float prepayments;//: "0"
 }

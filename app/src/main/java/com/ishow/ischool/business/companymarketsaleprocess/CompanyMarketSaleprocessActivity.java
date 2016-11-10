@@ -43,7 +43,7 @@ import butterknife.OnClick;
  * Created by MrS on 2016/11/8.
  */
 
-public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter, ComModel> implements ComIView, AdapterView.OnItemSelectedListener {
+public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePresenter, ComModel> implements ComIView, AdapterView.OnItemSelectedListener {
     @BindView(R.id.sales_avart_txt)
     AvatarImageView salesAvartTxt;
     @BindView(R.id.sales_job)
@@ -213,14 +213,14 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
             begin_time = (int) AppUtil.getWeekStart();
             end_time = (int) AppUtil.getWeekEnd();
         } else if (position == 1) {
-            begin_time = AppUtil.getLastMonthEnd24() + 12 * 3600;
-            end_time = AppUtil.getNextMonthStart24() + 12 * 3600;
+            begin_time = (int) AppUtil.getMonthStart();
+            end_time = (int) AppUtil.getMonthEnd();
         } else if (position == 2) {
             begin_time = (int) AppUtil.getLastWeekStart();
             end_time = (int) AppUtil.getLastWeekEnd();
         } else if (position == 3) {
-            begin_time = AppUtil.getLastMonthStart24() + 12 * 3600;
-            end_time = AppUtil.getLastMonthEnd24() + 12 * 3600;
+            begin_time = (int) AppUtil.getLastMonthStart();
+            end_time = (int) AppUtil.getLastMonthEnd();
         } else if (position == 4) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();

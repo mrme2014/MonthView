@@ -405,27 +405,6 @@ public class AppUtil {
         return getTodayEnd() - (dayAgo) * 24 * 3600+1;
     }
 
-    /*上月末  或者说 本月初   就可以用这个 */
-    public static int getLastMonthEnd24() {
-        Calendar c = Calendar.getInstance();
-        c.roll(Calendar.MONTH, -1);
-        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        c.set(Calendar.HOUR, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        return (int) (c.getTime().getTime() / 1000);
-    }
-
-    public  static int getLastMonthStart24() {
-        Calendar c = Calendar.getInstance();
-        c.roll(Calendar.MONTH, -1);
-        c.set(Calendar.DAY_OF_MONTH,0);
-        c.set(Calendar.HOUR, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        return (int) (c.getTime().getTime() / 1000);
-    }
-
     /*本月末  或者说 下月初   就可以用这个 */
     public static int getNextMonthStart24() {
         Calendar c = Calendar.getInstance();

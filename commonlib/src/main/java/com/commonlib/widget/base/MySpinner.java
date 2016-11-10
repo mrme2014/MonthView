@@ -131,6 +131,10 @@ public class MySpinner extends TextView {
         }
     }
 
+    public String getSelectedValue() {
+        return mValue;
+    }
+
     public void show() {
         initPop();
         mPopup.showAsDropDown(this);

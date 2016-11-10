@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.tabindex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.base.MySpinner;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.statistics.MarketHome;
+import com.ishow.ischool.business.companymarketsaleprocess.CompanyMarketSaleprocessActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -74,10 +76,15 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
     @BindView(R.id.home_scroll)
     NestedScrollView homeScrollView;
 
-    @BindView(R.id.up_progress_title)
-    TextView upProgressTitleTv;
+    @BindView(R.id.performance_title)
+    TextView performanceTitleTv;
+    @BindView(R.id.performance_subtitle)
+    TextView performanceSubtitleTv;
+
     @BindView(R.id.process_title)
     TextView processTv;
+    @BindView(R.id.process_group)
+    View processGroup;
 
     @BindView(R.id.home_circle_bg)
     ImageView homeCircleIv;
@@ -172,6 +179,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
                         computerParams(TYPE_LAST_MONTH);
                         break;
                 }
+                processTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
+                performanceSubtitleTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
+
                 taskGetHomeMarketData();
 
             }
@@ -191,14 +201,16 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.up_progress_title, R.id.process_title})
+    @OnClick({R.id.performance_title, R.id.process_group})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.up_progress_title: {
+            case R.id.performance_title: {
 
                 break;
             }
-            case R.id.process_title: {
+            case R.id.process_group: {
+                Intent intent = new Intent(getActivity(), CompanyMarketSaleprocessActivity.class);
+                startActivity(intent);
                 break;
             }
 
@@ -207,8 +219,6 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeMarketData() {
-        computerParams(TYPE_LAST_WEEK);
-
         ApiFactory.getInstance().getApi(DataApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<MarketHome>() {
                     @Override
@@ -256,12 +266,12 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     private void updateView(final MarketHome marketHome) {
 
-        advancesReceivedTv.withNumber(marketHome.summary.prepayments);
+        advancesReceivedTv.withNumber((int) marketHome.summary.prepayments);
 //        advancesReceivedTv.withNumber(324000);
         advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
             @Override
             public void onEndFinish() {
-                advancesReceivedTv.setText(marketHome.summary.prepayments + "");
+                advancesReceivedTv.setText((int) marketHome.summary.prepayments + "");
             }
         });
         advancesReceivedTv.start();

@@ -202,7 +202,6 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeTeachData() {
-        computerParams(TYPE_LAST_WEEK);
         ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<EducationHome>() {
                     @Override

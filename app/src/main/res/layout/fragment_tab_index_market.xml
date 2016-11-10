@@ -66,7 +66,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/up_progress_title"
+                    android:id="@+id/performance_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
@@ -75,11 +75,11 @@
                     android:textSize="@dimen/sp15" />
 
                 <TextView
-                    android:id="@+id/up_progress_subtitle"
+                    android:id="@+id/performance_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="本周数据"
+                    android:text=""
                     android:textColor="@color/txt_9"
                     android:textSize="@dimen/sp12" />
 

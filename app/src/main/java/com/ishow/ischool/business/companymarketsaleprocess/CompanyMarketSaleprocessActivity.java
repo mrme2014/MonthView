@@ -170,7 +170,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
             return;
         }
         this.process = process;
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + "--" + DateUtil.parseSecond2Str((long) end_time));
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
         List<String> list = new ArrayList<>();
         list.add(process.process.add_number);
         list.add(process.process.openclass_sign_number);

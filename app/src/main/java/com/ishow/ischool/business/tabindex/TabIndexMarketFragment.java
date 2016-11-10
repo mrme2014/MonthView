@@ -1,6 +1,5 @@
 package com.ishow.ischool.business.tabindex;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
@@ -21,8 +20,8 @@ import com.commonlib.widget.base.MySpinner;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.MarketHome;
-import com.ishow.ischool.business.companymarketsaleprocess.CompanyMarketSaleprocessActivity;
 import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
+import com.ishow.ischool.business.companymarketsaleprocess.CompanyMarketSaleprocessActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -204,7 +203,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.up_progress_title, R.id.process_group, R.id.performance_market_ll})
+    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_title: {
@@ -212,8 +211,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
                 break;
             }
             case R.id.process_group: {
-                Intent intent = new Intent(getActivity(), CompanyMarketSaleprocessActivity.class);
-                startActivity(intent);
+                JumpManager.jumpActivity(getActivity(), CompanyMarketSaleprocessActivity.class, Resource.NO_NEED_CHECK);
                 break;
             }
             case R.id.performance_market_ll:

@@ -142,8 +142,10 @@ public class PieChartView extends View {
     }
 
     /**
-     * @param des    每个floor的文本描述
-     * @param colors 每个floor的颜色值
+     *
+     * @param nums
+     * @param rate1
+     * @param rate2
      */
     public void setFloorProperty(List<String> nums, int rate1, int rate2) {
         if (des == null) des = new ArrayList<>();

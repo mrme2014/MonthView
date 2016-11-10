@@ -319,5 +319,31 @@
 
     <string name="commun_school_hnit">请选择校区</string>
     <string name="commun_school_state">校区</string>
+    <string name="tab_index">首页</string>
+    <string name="advances_received">预收款(元)</string>
+    <string name="label_student_all">上课人数</string>
+    <string name="label_student_final">实到人数</string>
+    <string name="label_student_should">应到人数</string>
+    <string name="label_student_refund">退款人数</string>
+    <string name="label_student_stop">停课人数</string>
+    <string name="label_refund">退款</string>
+    <string name="home_up_progress">升学率目标完成进度</string>
+    <string name="rush_target">冲刺目标</string>
+    <string name="red_target">红线目标</string>
+    <string name="label_student_entrance">招生人数</string>
+    <string name="label_student_apply">报名人数</string>
+    <string name="label_student_full_pay">全款人数</string>
+    <string name="home_performance_progress">集团业绩完成进度</string>
+    <string name="market_process">集团销售流程</string>
+
+    <string name="full_pay_rate">全款率</string>
+    <string name="upgrade_rate">升学率</string>
+
+    <string-array name="home_choose_times">
+        <item>本周</item>
+        <item>上周</item>
+        <item>本月</item>
+        <item>上月</item>
+    </string-array>
 
 </resources>

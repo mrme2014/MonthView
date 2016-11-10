@@ -3,110 +3,49 @@ package com.ishow.ischool.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TabHost;
+import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
+import com.commonlib.util.StatusBarCompat;
+import com.commonlib.widget.base.FragmentTabHost;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabdata.TabDataFragment;
-import com.ishow.ischool.business.tabme.MeFragment;
+import com.ishow.ischool.business.tabindex.TabIndexFragment;
+import com.ishow.ischool.business.tabme.TabMeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
 import org.lzh.framework.updatepluginlib.model.Update;
 import org.lzh.framework.updatepluginlib.strategy.UpdateStrategy;
 
+import java.util.ArrayList;
+
+import butterknife.BindView;
+
 import static android.os.Build.VERSION.SDK_INT;
 
-public class MainActivity extends BaseActivity4Crm implements android.widget.RadioGroup.OnCheckedChangeListener {
-
-    TabDataFragment dataFragment;
-    TabBusinessFragment businessFragment;
-    MeFragment meFragment;
-    Fragment curFragment;
-    private int curIndex = 0;
-    private String KEY_INDEX = "key_index";
-
-    android.widget.RadioGroup RadioGroup;
+public class MainActivity extends BaseActivity4Crm {
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private ArrayList<Class> fragments;
+    private ArrayList<String> titles;
+    private ArrayList<Integer> drawables;
 
-        if (savedInstanceState != null) {  // “内存重启”时调用,解决重叠问题
-            dataFragment = (TabDataFragment) getSupportFragmentManager().findFragmentByTag(TabDataFragment.class.getName());
-            businessFragment = (TabBusinessFragment) getSupportFragmentManager().findFragmentByTag(TabBusinessFragment.class.getName());
-            meFragment = (MeFragment) getSupportFragmentManager().findFragmentByTag(MeFragment.class.getName());
-            curIndex = savedInstanceState.getInt(KEY_INDEX);
-            switch (curIndex) {
-                case 0:
-                    getSupportFragmentManager().beginTransaction()
-                            .show(dataFragment)
-                            .hide(businessFragment)
-                            .hide(meFragment)
-                            .commitAllowingStateLoss();
-                    curFragment = dataFragment;
-                    break;
-                case 1:
-                    getSupportFragmentManager().beginTransaction()
-                            .hide(dataFragment)
-                            .show(businessFragment)
-                            .hide(meFragment)
-                            .commitAllowingStateLoss();
-                    curFragment = businessFragment;
-                    break;
-                case 2:
-                    getSupportFragmentManager().beginTransaction()
-                            .hide(dataFragment)
-                            .hide(businessFragment)
-                            .show(meFragment)
-                            .commitAllowingStateLoss();
-                    curFragment = meFragment;
-                    break;
-            }
-        } else {                            // 正常create
-            dataFragment = new TabDataFragment();
-            businessFragment = new TabBusinessFragment();
-            meFragment = new MeFragment();
-            curFragment = dataFragment;
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.tabcontent, dataFragment, dataFragment.getClass().getName())
-                    .add(R.id.tabcontent, businessFragment, businessFragment.getClass().getName())
-                    .add(R.id.tabcontent, meFragment, meFragment.getClass().getName())
-                    .hide(businessFragment)
-                    .hide(meFragment)
-                    .commitAllowingStateLoss();
-        }
-
-    }
+    @BindView(android.R.id.tabhost)
+    FragmentTabHost mTabHost;
 
     @Override
     protected void initEnv() {
         super.initEnv();
-        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // 保存当前Fragment的下标
-        outState.putInt(KEY_INDEX, curIndex);
+        StatusBarCompat.compat(this);
     }
 
     @Override
@@ -116,8 +55,44 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
 
     @Override
     protected void setUpView() {
-        RadioGroup = (android.widget.RadioGroup) findViewById(R.id.RadioGroup);
-        RadioGroup.setOnCheckedChangeListener(this);
+
+        fragments = new ArrayList<>(4);
+        fragments.add(TabIndexFragment.class);
+        fragments.add(TabDataFragment.class);
+        fragments.add(TabBusinessFragment.class);
+        fragments.add(TabMeFragment.class);
+
+        titles = new ArrayList<>(4);
+        titles.add(getString(R.string.tab_index));
+        titles.add(getString(R.string.tab_data));
+        titles.add(getString(R.string.tab_business));
+        titles.add(getString(R.string.tab_me));
+
+        drawables = new ArrayList<>(4);
+        drawables.add(R.drawable.tab_index);
+        drawables.add(R.drawable.tab_data);
+        drawables.add(R.drawable.tab_business);
+        drawables.add(R.drawable.tab_me);
+
+        mTabHost.setup(this, getSupportFragmentManager(), R.id.tabcontent);
+
+        for (int i = 0; i < fragments.size(); i++) {
+            // Tab按钮添加文字和图片
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(titles.get(i)).setIndicator(getIndicatorView(i));
+            // 添加Fragment
+            mTabHost.addTab(tabSpec, fragments.get(i), null);
+            // 设置Tab按钮的背景
+            mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.white);
+        }
+        mTabHost.getTabWidget().setDividerDrawable(R.color.transparent);
+    }
+
+    private View getIndicatorView(int i) {
+        View view = getLayoutInflater().inflate(R.layout.item_main_tab, null);
+        TextView textView = (TextView) view.findViewById(R.id.tab_text);
+        textView.setText(titles.get(i));
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, drawables.get(i), 0, 0);
+        return view;
     }
 
     @Override
@@ -127,48 +102,13 @@ public class MainActivity extends BaseActivity4Crm implements android.widget.Rad
         checkUpdate();
     }
 
-    @Override
-    public void onCheckedChanged(android.widget.RadioGroup group, int checkedId) {
-        showFragment(checkedId);
-    }
-
-    private void showFragment(int checkedId) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.hide(curFragment);
-        switch (checkedId) {
-            case R.id.tab_data:
-                curIndex = 0;
-                if (dataFragment == null) {
-                    dataFragment = new TabDataFragment();
-                    ft.add(R.id.tabcontent, dataFragment).show(dataFragment);
-                }
-                curFragment = dataFragment;
-                break;
-            case R.id.tab_business:
-                curIndex = 1;
-                if (businessFragment == null) {
-                    businessFragment = new TabBusinessFragment();
-                    ft.add(R.id.tabcontent, businessFragment).show(businessFragment);
-                }
-                curFragment = businessFragment;
-                break;
-            case R.id.tab_me:
-                curIndex = 2;
-                LogUtil.e(System.currentTimeMillis() + "");
-                if (meFragment == null) {
-                    meFragment = new MeFragment();
-                    ft.add(R.id.tabcontent, meFragment).show(meFragment);
-                }
-                curFragment = meFragment;
-                break;
-        }
-        ft.show(curFragment).commitAllowingStateLoss();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (meFragment != null)
+        Fragment meFragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.tab_me));
+        if (meFragment != null) {
             meFragment.onActivityResult(requestCode, resultCode, data);
+        }
         super.onActivityResult(requestCode, resultCode, data);
 
     }

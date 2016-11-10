@@ -245,12 +245,55 @@ public class AppUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = format.parse(oneDay);
-            return (int) (date.getTime()/1000);
+            return (int) (date.getTime() / 1000);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return 0;
     }
+
+    public static long getWeekStart() {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTime().getTime() / 1000;
+    }
+
+    public static long getWeekEnd() {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        return c.getTime().getTime() / 1000;
+    }
+
+    public static long getLastWeekStart() {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.roll(Calendar.WEEK_OF_YEAR, -1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTime().getTime() / 1000;
+    }
+
+    public static long getLastWeekEnd() {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        c.roll(Calendar.WEEK_OF_YEAR, -1);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        return c.getTime().getTime() / 1000;
+    }
+
 
     public static long getLastMonthStart() {
         Calendar c = Calendar.getInstance();
@@ -285,6 +328,16 @@ public class AppUtil {
         return c.getTimeInMillis() / 1000;
     }
 
+    public static long getMonthStart() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTimeInMillis() / 1000;
+    }
+
+
     public static long getMonthEnd(String year, String month) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, Integer.parseInt(year));
@@ -295,6 +348,17 @@ public class AppUtil {
         c.set(Calendar.SECOND, 59);
         return c.getTimeInMillis() / 1000;
     }
+
+
+    public static long getMonthEnd() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        return c.getTimeInMillis() / 1000;
+    }
+
 
     public static int getYear(long second) {
         Calendar c = Calendar.getInstance();
@@ -472,9 +536,10 @@ public class AppUtil {
 
     /**
      * 第三方的Option选择框
+     *
      * @param activity
      * @param lists
-     * @param index 默认选择项
+     * @param index    默认选择项
      * @param listener
      */
     public static void showOptionPickDialog(Activity activity, ArrayList<String> lists, int index, OptionPicker.OnOptionPickListener listener) {

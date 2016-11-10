@@ -6,6 +6,8 @@ import com.ishow.ischool.bean.campusperformance.MonthTableData;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.statistics.EducationHome;
+import com.ishow.ischool.bean.statistics.MarketHome;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 
@@ -35,7 +37,6 @@ public interface DataApi {
      * type	Int	0			7,30,90,180,365,999 对应的时间段	0
      *
      * @param resources_id
-     * @param type
      * @return
      */
     //数据分析.市场.销售流程分析(statistics.market.process) 接口
@@ -84,8 +85,6 @@ public interface DataApi {
     Observable<ApiResult<OtherStatisticsTable>> getOtherStatistics(@QueryMap HashMap<String, String> params);
 
 
-
-
     //  -----------------------------   教学   ------------------------------  //
 
 
@@ -103,10 +102,17 @@ public interface DataApi {
      * end_time	Int	0			结束时间	0
      * position_id	Int	0			职位id	0
      * user_id	Int	0			用户id	0
+     *
      * @param params
      * @return
      */
     //数据分析.教务教学.教学流程分析(statistics.education.teachingprocessanalysis) 接口
     @GET("/statistics/education/teachingprocessanalysis")
     Observable<ApiResult<TeachProcess>> getTeatProcess(@QueryMap TreeMap<String, Integer> params);
+
+    @GET("/statistics/market/home")
+    Observable<ApiResult<MarketHome>> getMarketHomeData(@QueryMap HashMap<String, Integer> params);
+
+    @GET("/statistics/education/home")
+    Observable<ApiResult<EducationHome>> getEducationHomeData(@QueryMap HashMap<String, Integer> params);
 }

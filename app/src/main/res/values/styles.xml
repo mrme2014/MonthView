@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Theme.MaterialDesign" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar颜色 -->
@@ -388,4 +388,25 @@
     <dimen name="student_detail_head_padding_bottom">10dp</dimen>
     <dimen name="translucent_padding_top">0dp</dimen>
     <dimen name="translucent_padding_top_1">0dp</dimen>
+    <dimen name="toolbar_padding_top">0dp</dimen>
+
+    <style name="home_count_group">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">25dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="label_text_color">@color/alph_99_white</item>
+        <item name="label_text_size">@dimen/sp12</item>
+    </style>
+
+    <style name="spinnerItemStyle">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="spinnerDropDownItemStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

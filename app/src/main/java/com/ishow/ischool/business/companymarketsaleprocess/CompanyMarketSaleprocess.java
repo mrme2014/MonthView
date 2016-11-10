@@ -81,8 +81,10 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
 
     @Override
     protected void setUpView() {
-        campus_id = mUser.campusInfo.id;
-        campus_name = mUser.campusInfo.name;
+        // campus_id = mUser.campusInfo.id;
+        campus_id = 2;
+        //  campus_name = mUser.campusInfo.name;
+        campus_name = "杭州校区";
         curuser_position_id = mUser.positionInfo.id;
         isHeadQuatyer = campus_id == Constants.CAMPUS_HEADQUARTERS;
           /*总部角色  拉取图表数据用现在接口，，，非总部的角色 用 市场------销售流程分析的接口*/
@@ -271,11 +273,12 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
                 String extra_campus = data.getStringExtra(SelectPositionActivity.PICK_CAMPUS);
                 if (extra_campus != null && extra_campus != "")
                     campus_name = extra_campus;
+
                 LogUtil.e("onActivityResult" + campus_id);
                 if (campus_id == Constants.CAMPUS_HEADQUARTERS)
                     getComMarketSaleProcess();
                 else
-                    startActivity2OldSaleProcessActivity();
+                    startActivity2OldSaleProcessActivity(extra);
 
             } else {
                 getComMarketSaleProcess();
@@ -286,15 +289,19 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
         }
     }
 
-    private void startActivity2OldSaleProcessActivity() {
+    private void startActivity2OldSaleProcessActivity(SubordinateObject extra) {
          /*要改的 这里*/
         Intent intent = new Intent(this, SalesProcessActivity.class);
         intent.putExtra("user_id", user_id);
         intent.putExtra("campus_id", campus_id);
         intent.putExtra("position_id", position_id);
+        intent.putExtra("position_name", position_name);
         intent.putExtra("start_time", begin_time);
         intent.putExtra("end_time", end_time);
+        intent.putExtra("campus_name", campus_name);
+        intent.putExtra("extra", extra);
         intent.putExtra("from_commarket", true);
+
         startActivityForResult(intent, 101);
     }
 

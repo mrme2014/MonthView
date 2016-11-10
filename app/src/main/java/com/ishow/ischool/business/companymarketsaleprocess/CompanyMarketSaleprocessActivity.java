@@ -176,7 +176,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
             PieChartView.Biulder biulder = new PieChartView.Biulder();
             biulder.setPieChartBaseColor(R.color.colorPrimaryDark1).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "0").DrawPercentFloor(3, 0, "0");
             lineChart.invalidate(biulder);
-            //lineChart.setFloorProperty(list, 0, 0);
+
             return;
         }
         this.process = process;

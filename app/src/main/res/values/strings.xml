@@ -343,6 +343,9 @@
     <string name="apply_numbers">报名人数</string>
     <string name="full_amount_number">全款人数</string>
     <string name="data">%s数据</string>
+    <string name="people_num">人</string>
+    <string name="people_unit">人</string>
+    <string name="money_unit">元</string>
 
     <string-array name="home_choose_times">
         <item>本周</item>

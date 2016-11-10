@@ -27,10 +27,12 @@ import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.PieChartView;
 import com.ishow.ischool.widget.custom.RiseNumTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -93,6 +95,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     @BindView(R.id.home_choose_time_sp)
     MySpinner chooseTimeSpinner;
+
+    @BindView(R.id.pie_chart)
+    PieChartView pieChart;
 
     private int titlebarColor;
 
@@ -279,8 +284,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         });
         advancesReceivedTv.start();
 
-        refundNumTv.setText(marketHome.summary.refund_number);
-        refundMoneyTv.setText(marketHome.summary.refund_amount);
+        refundNumTv.setText(marketHome.summary.refund_number + getString(R.string.people_unit));
+        refundMoneyTv.setText(marketHome.summary.refund_amount + getString(R.string.money_unit));
 
         studentEntranceTv.setText(marketHome.summary.add_number);
         studentApplyTv.setText(marketHome.summary.apply_number);
@@ -289,7 +294,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
         int max = Math.max(marketHome.market.full_challenge, Math.max(marketHome.market.real, marketHome.market.full_base));
 
-        performancePb.setProgress(marketHome.market.real * 100 / max);
+        int real = marketHome.market.real * 100 / max;
+        performancePb.setProgress(real < 1 ? 1 : real);
         redTargetPb.setProgress(marketHome.market.full_base * 100 / max);
         rushTargetPb.setProgress(marketHome.market.full_challenge * 100 / max);
         performanceTv.setText(marketHome.market.real + "");
@@ -298,6 +304,14 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
         fullMoneyRateTv.setText(marketHome.process.full_amount_rate);
         applyRateTv.setText(marketHome.process.openclass_apply_rate);
+
+
+        List<String> list = new ArrayList<>();
+        list.add(marketHome.process.add_number);
+        list.add(marketHome.process.openclass_sign_number);
+        list.add(marketHome.process.apply_number);
+        list.add(marketHome.process.full_amount_number);
+        pieChart.setFloorProperty(list, marketHome.process.openclass_full_amount_apply_rate, marketHome.process.full_amount_rate);
     }
 
 }

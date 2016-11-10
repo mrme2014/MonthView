@@ -26,10 +26,12 @@ import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
+import com.ishow.ischool.widget.custom.PieChartView;
 import com.ishow.ischool.widget.custom.RiseNumTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,6 +84,8 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     @BindView(R.id.up_progress_title)
     TextView upProgressTitleTv;
+    @BindView(R.id.up_progress_subtitle)
+    TextView upProgressSubtitleTv;
     @BindView(R.id.process_title)
     TextView processTv;
 
@@ -90,6 +94,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     @BindView(R.id.home_choose_time_sp)
     MySpinner chooseTimeSpinner;
+
+    @BindView(R.id.pie_chart)
+    PieChartView pieChart;
 
     private int titlebarColor;
 
@@ -174,6 +181,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                         computerParams(TYPE_LAST_MONTH);
                         break;
                 }
+
+                processTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
+                upProgressSubtitleTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
                 taskGetHomeTeachData();
 
             }
@@ -190,16 +200,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.up_progress_title, R.id.process_title, R.id.performance_education_ll})
+    @OnClick({R.id.process_group, R.id.performance_education_ll})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.up_progress_title: {
-
-                break;
-            }
-            case R.id.process_title: {
-                break;
-            }
             case R.id.performance_education_ll:
                 JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
                 break;
@@ -259,7 +262,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     private void updateView(final EducationHome educationHome) {
 
-        advancesReceivedTv.withNumber(Integer.parseInt(educationHome.data.body[7]));
+        advancesReceivedTv.withNumber((int) Float.parseFloat(educationHome.data.body[7]));
         advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
             @Override
             public void onEndFinish() {
@@ -268,8 +271,8 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         });
         advancesReceivedTv.start();
 
-        refundNumTv.setText(Integer.parseInt(educationHome.data.body[4]) + Integer.parseInt(educationHome.data.body[5]) + "");
-        refundMoneyTv.setText(educationHome.data.body[6]);
+        refundNumTv.setText(Integer.parseInt(educationHome.data.body[4]) + Integer.parseInt(educationHome.data.body[5]) + getString(R.string.people_unit));
+        refundMoneyTv.setText(educationHome.data.body[6] + getString(R.string.money_unit));
 
         studentAllTv.setText(educationHome.data.body[0]);
         studentFinalTv.setText(educationHome.data.body[1]);
@@ -287,8 +290,16 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         redTargetTv.setText(educationHome.education.full_base + "%");
         rushTargetTv.setText(educationHome.education.full_challenge + "%");
 
-        fullPayRateTv.setText(educationHome.TeachingProcess.selfChartData.body[0].get(5));
         upgradeRateTv.setText(educationHome.TeachingProcess.selfChartData.body[0].get(4));
+        fullPayRateTv.setText(educationHome.TeachingProcess.selfChartData.body[0].get(5));
+
+
+        List<String> list = new ArrayList<>();
+        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(0));
+        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
+        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
+        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
+        pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
     }
 
 }

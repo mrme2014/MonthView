@@ -21,6 +21,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
+import com.ishow.ischool.business.teachprocess.TeachProcessActivity4Home;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -207,7 +208,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.process_group:
-                JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
+                JumpManager.jumpActivity(getActivity(), TeachProcessActivity4Home.class, Resource.NO_NEED_CHECK);
                 break;
         }
     }

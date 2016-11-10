@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.campusperformance.MonthTableBodyItem;
 import com.ishow.ischool.bean.campusperformance.MonthTableBodyRow;
@@ -34,7 +35,7 @@ public class MonthPerformanceTableRowAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return datas == null ? null : datas.get(position);
     }
 
     @Override
@@ -44,6 +45,7 @@ public class MonthPerformanceTableRowAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        LogUtil.d("TableRow", "position = " + position);
 //        ViewHolder viewHolder;
 //        if (convertView == null) {
 //            viewHolder = new ViewHolder();

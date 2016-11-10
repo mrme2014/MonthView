@@ -21,12 +21,12 @@ public class TabIndexFragment extends BaseFragment4Crm {
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
-    @BindView(R.id.title_radio)
-    RadioGroup mTitleRadioGroup;
-    @BindView(R.id.title_radio_1)
-    RadioButton titleRadioButton1;
-    @BindView(R.id.title_radio_2)
-    RadioButton titleRadioButton2;
+//    @BindView(R.id.title_radio)
+//    RadioGroup mTitleRadioGroup;
+//    @BindView(R.id.title_radio_1)
+//    RadioButton titleRadioButton1;
+//    @BindView(R.id.title_radio_2)
+//    RadioButton titleRadioButton2;
 
 
     FragmentAdapter mAdapter;

@@ -1,7 +1,6 @@
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
-    style="@style/ToolBarStyle"
-    android:paddingTop="@dimen/toolbar_padding_top">
+    style="@style/ToolBarStyle">
 
     <TextView
         android:id="@+id/toolbar_title"

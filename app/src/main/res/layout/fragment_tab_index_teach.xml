@@ -1,13 +1,262 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ishow.ischool.business.tabindex.TabIndexTeachFragment">
+    tools:context="com.ishow.ischool.business.tabindex.TabIndexMarketFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/home_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_index_bg"
+                android:orientation="vertical"
+                android:paddingTop="50dp">
+
+                <include layout="@layout/group_home_pre_pay"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal">
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_all"
+                        style="@style/home_count_group"
+                        android:text="0"
+                        app:label_text_top="@string/label_student_all" />
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_should"
+                        style="@style/home_count_group"
+                        android:text="0"
+                        app:label_text_top="@string/label_student_should" />
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_final"
+                        style="@style/home_count_group"
+                        android:text="0"
+                        app:label_text_top="@string/label_student_final" />
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/student_stop"
+                        style="@style/home_count_group"
+                        android:text="0"
+                        app:label_text_top="@string/label_student_stop" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/up_progress_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/icon_date_next"
+                    android:text="@string/home_up_progress"
+                    android:textSize="@dimen/sp15" />
+
+                <TextView
+                    android:id="@+id/up_progress_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="本周数据"
+                    android:textColor="@color/txt_9"
+                    android:textSize="@dimen/sp12" />
+
+                <com.commonlib.widget.LabelTextView
+                    android:id="@+id/up_progress_performance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="right"
+                    android:text="0%"
+                    android:textColor="@color/txt_9"
+                    app:label_text_color="@color/txt_9"
+                    app:label_text_left="@string/performance" />
+
+                <ProgressBar
+                    android:id="@+id/up_progress_bar_performance"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressDrawable="@drawable/progressbar_performance" />
+
+                <com.commonlib.widget.LabelTextView
+                    android:id="@+id/up_progress_red_target"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="right"
+                    android:text="0%"
+                    android:textColor="@color/txt_9"
+                    app:label_text_color="@color/txt_9"
+                    app:label_text_left="@string/red_target" />
+
+                <ProgressBar
+                    android:id="@+id/up_progress_bar_red_target"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressDrawable="@drawable/progressbar_red_target" />
+
+                <com.commonlib.widget.LabelTextView
+                    android:id="@+id/up_progress_rush_target"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="right"
+                    android:text="0%"
+                    android:textColor="@color/txt_9"
+                    app:label_text_color="@color/txt_9"
+                    app:label_text_left="@string/rush_target" />
+
+                <ProgressBar
+                    android:id="@+id/up_progress_bar_rush_target"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressDrawable="@drawable/progressbar_rush_target" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/process_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/full_pay_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawablePadding="28dp"
+                    android:drawableRight="@mipmap/icon_date_next"
+                    android:paddingBottom="20dp"
+                    android:text="97%"
+                    app:label_TB_padding="15"
+                    app:label_text_bottom="@string/full_pay_rate"
+                    app:label_text_bottom_color="@color/txt_9"
+                    app:label_text_bottom_size="12" />
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/process_title"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingTop="20dp"
+                    android:text="本周数据"
+                    android:textColor="@color/txt_9"
+                    android:textSize="@dimen/sp12"
+                    app:label_text_top_str="集团教学流程"
+                    app:label_top_padding="15" />
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/upgrade_rate"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_toLeftOf="@+id/process_full_money"
+                    android:layout_toStartOf="@+id/process_full_money"
+                    android:paddingBottom="20dp"
+                    android:text="97%"
+                    app:label_TB_padding="15"
+                    app:label_text_bottom="@string/upgrade_rate"
+                    app:label_text_bottom_color="@color/txt_9"
+                    app:label_text_bottom_size="12" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white"></View>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/home_titlebar_group"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_toolbar_height"
+        android:layout_gravity="center_horizontal"
+        android:background="#FF2883f6"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/default_toolbar_height"
+        android:paddingTop="@dimen/toolbar_padding_top">
+
+        <LinearLayout
+            android:id="@+id/title_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/title_radio_1"
+                android:layout_width="82dp"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/data_market"
+                android:textColor="@color/trans_txt_55"
+                android:textSize="@dimen/sp13" />
+
+            <RadioButton
+                android:id="@+id/title_radio_2"
+                android:layout_width="82dp"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/data_campus"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp14" />
+
+
+        </LinearLayout>
+
+        <com.commonlib.widget.base.MySpinner
+            android:id="@+id/home_choose_time_sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/icon_home_xiala"
+            android:gravity="center_vertical"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+</RelativeLayout>

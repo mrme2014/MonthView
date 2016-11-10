@@ -10,13 +10,15 @@ import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.commonlib.util.StatusBarCompat;
 import com.commonlib.widget.base.FragmentTabHost;
 import com.ishow.ischool.R;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabdata.TabDataFragment;
-import com.ishow.ischool.business.tabindex.TabIndexMarketFragment;
+import com.ishow.ischool.business.tabindex.TabIndexFragment;
 import com.ishow.ischool.business.tabme.TabMeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
@@ -43,15 +45,7 @@ public class MainActivity extends BaseActivity4Crm {
     @Override
     protected void initEnv() {
         super.initEnv();
-        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+        StatusBarCompat.compat(this);
     }
 
     @Override
@@ -63,7 +57,7 @@ public class MainActivity extends BaseActivity4Crm {
     protected void setUpView() {
 
         fragments = new ArrayList<>(4);
-        fragments.add(TabIndexMarketFragment.class);
+        fragments.add(TabIndexFragment.class);
         fragments.add(TabDataFragment.class);
         fragments.add(TabBusinessFragment.class);
         fragments.add(TabMeFragment.class);
@@ -75,7 +69,7 @@ public class MainActivity extends BaseActivity4Crm {
         titles.add(getString(R.string.tab_me));
 
         drawables = new ArrayList<>(4);
-        drawables.add(R.drawable.tab_data);
+        drawables.add(R.drawable.tab_index);
         drawables.add(R.drawable.tab_data);
         drawables.add(R.drawable.tab_business);
         drawables.add(R.drawable.tab_me);
@@ -90,6 +84,7 @@ public class MainActivity extends BaseActivity4Crm {
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.white);
         }
+        mTabHost.getTabWidget().setDividerDrawable(R.color.transparent);
     }
 
     private View getIndicatorView(int i) {

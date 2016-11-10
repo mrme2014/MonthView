@@ -78,4 +78,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }

@@ -157,7 +157,7 @@ public class PieChartView extends View {
         if (TextUtils.equals(rate1, "") && rate1 != null)
             this.rate1 = Integer.valueOf(rate1.substring(0, rate1.length() - 1));
         if (TextUtils.equals(rate2, "") && rate2 != null)
-            this.rate2 = Integer.valueOf(rate2.substring(0, rate1.length() - 1));
+            this.rate2 = Integer.valueOf(rate2.substring(0, rate2.length() - 1));
 
         invalidate();
     }

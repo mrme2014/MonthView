@@ -43,7 +43,7 @@ import butterknife.OnClick;
  * Created by MrS on 2016/11/8.
  */
 
-public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter, ComModel> implements ComIView, AdapterView.OnItemSelectedListener {
+public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePresenter, ComModel> implements ComIView, AdapterView.OnItemSelectedListener {
     @BindView(R.id.sales_avart_txt)
     AvatarImageView salesAvartTxt;
     @BindView(R.id.sales_job)
@@ -170,7 +170,7 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
             return;
         }
         this.process = process;
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + "--" + DateUtil.parseSecond2Str((long) end_time));
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
         List<String> list = new ArrayList<>();
         list.add(process.process.add_number);
         list.add(process.process.openclass_sign_number);
@@ -209,17 +209,17 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
         isUser = false;
 
         if (position == 0) {
-            begin_time = AppUtil.getWeekStart() + 12 * 3600;
-            end_time = AppUtil.getWeekEnd() + 12 * 3600;
+            begin_time = (int) AppUtil.getWeekStart();
+            end_time = (int) AppUtil.getWeekEnd();
         } else if (position == 1) {
-            begin_time = AppUtil.getLastMonthEnd24() + 12 * 3600;
-            end_time = AppUtil.getNextMonthStart24() + 12 * 3600;
+            begin_time = (int) AppUtil.getMonthStart();
+            end_time = (int) AppUtil.getMonthEnd();
         } else if (position == 2) {
-            begin_time = AppUtil.getWeekStart() - 7 * 24 * 3600 + 12 * 3600;
-            end_time = AppUtil.getWeekEnd() - 7 * 24 * 3600 + 12 * 3600;
+            begin_time = (int) AppUtil.getLastWeekStart();
+            end_time = (int) AppUtil.getLastWeekEnd();
         } else if (position == 3) {
-            begin_time = AppUtil.getLastMonthStart24() + 12 * 3600;
-            end_time = AppUtil.getLastMonthEnd24() + 12 * 3600;
+            begin_time = (int) AppUtil.getLastMonthStart();
+            end_time = (int) AppUtil.getLastMonthEnd();
         } else if (position == 4) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();

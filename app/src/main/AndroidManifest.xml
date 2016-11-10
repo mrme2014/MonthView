@@ -35,7 +35,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
-        <activity android:name=".business.companymarketsaleprocess.CompanyMarketSaleprocess">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -151,6 +151,7 @@
             android:name=".business.classmaneger.classlist.TeacherPickActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".business.address.AddressListActivity"></activity>
+        <activity android:name=".business.companymarketsaleprocess.CompanyMarketSaleprocessActivity" />
     </application>
 
 </manifest>

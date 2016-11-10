@@ -2,8 +2,6 @@ package com.ishow.ischool.business.student.detail;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,13 +9,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.commonlib.util.PermissionUtil;
+import com.commonlib.util.StatusBarCompat;
 import com.commonlib.util.StorageUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
@@ -43,8 +40,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.os.Build.VERSION.SDK_INT;
 
 public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresenter, StudentDetailModel> implements
         CommunFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener,
@@ -99,15 +94,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         }
         super.onCreate(savedInstanceState);
 
-        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+        StatusBarCompat.compat(this);
     }
 
     @Override

@@ -3,4 +3,5 @@
     <dimen name="student_detail_head_padding_bottom">25dp</dimen>
     <dimen name="translucent_padding_top">25dp</dimen>
     <dimen name="translucent_padding_top_1">15dp</dimen>
+    <dimen name="toolbar_padding_top">25dp</dimen>
 </resources>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_index_bg"
+        android:orientation="vertical"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/comm_blue"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="25dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/icon_home_circle" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <TextView
+                            android:id="@+id/label_index_advances_received"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/advances_received"
+                            android:textColor="#99FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/home_advances_received"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/label_index_advances_received"
+                            android:layout_marginTop="5dp"
+                            android:text="324000"
+                            android:textColor="@color/white"
+                            android:textSize="47sp" />
+
+                        <TextView
+                            android:id="@+id/index_refund"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/home_advances_received"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/label_refund"
+                            android:textColor="#99FFFFFF" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/index_refund"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/index_refund_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@mipmap/icon_home_refond_number"
+                                android:drawablePadding="4dp"
+                                android:text="12人"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:id="@+id/index_refund_money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:drawableLeft="@mipmap/icon_home_refond_money"
+                                android:drawablePadding="4dp"
+                                android:text="1200000元"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal">
+
+                    <com.commonlib.widget.LabelTextView
+                        style="@style/home_count_group"
+                        android:text="180"
+                        app:label_text_top="@string/label_student_all" />
+
+                    <com.commonlib.widget.LabelTextView
+                        style="@style/home_count_group"
+                        android:text="190"
+                        app:label_text_top="@string/label_student_final" />
+
+                    <com.commonlib.widget.LabelTextView
+                        style="@style/home_count_group"
+                        android:text="190"
+                        app:label_text_top="@string/label_student_should" />
+
+                    <com.commonlib.widget.LabelTextView
+                        style="@style/home_count_group"
+                        android:text="190"
+                        app:label_text_top="@string/label_student_refund" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:paddingTop="@dimen/toolbar_padding_top"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <RadioGroup
+                        android:id="@+id/title_radio"
+                        android:layout_width="164dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/title_radio_1"
+                            android:layout_width="82dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/radio_left"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/data_market"
+                            android:textColor="@color/selector_btn_blue_white_text"
+                            android:textSize="@dimen/sp13" />
+
+                        <RadioButton
+                            android:id="@+id/title_radio_2"
+                            android:layout_width="82dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/radio_right"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/data_campus"
+                            android:textColor="@color/selector_btn_blue_white_text"
+                            android:textSize="@dimen/sp13" />
+                    </RadioGroup>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/up_progress_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/icon_date_next"
+                    android:text="@string/home_up_progress"
+                    android:textSize="@dimen/sp15" />
+
+                <TextView
+                    android:id="@+id/up_progress_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="本周数据"
+                    android:textColor="@color/txt_9"
+                    android:textSize="@dimen/sp12" />
+
+                <TextView
+                    android:id="@+id/up_progress_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/performance"
+                    android:textColor="@color/txt_9" />
+
+                <ProgressBar
+                    android:id="@+id/up_progress_bar_1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progress="30"
+                    android:progressDrawable="@drawable/progressbar_performance" />
+
+                <TextView
+                    android:id="@+id/up_progress_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/red_target"
+                    android:textColor="@color/txt_9" />
+
+                <ProgressBar
+                    android:id="@+id/up_progress_bar_2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progress="20"
+                    android:progressDrawable="@drawable/progressbar_red_target" />
+
+                <TextView
+                    android:id="@+id/up_progress_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/rush_target"
+                    android:textColor="@color/txt_9" />
+
+                <ProgressBar
+                    android:id="@+id/up_progress_bar_3"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progress="40"
+                    android:progressDrawable="@drawable/progressbar_rush_target" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/process_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/process_full_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawablePadding="28dp"
+                    android:drawableRight="@mipmap/icon_date_next"
+                    android:paddingBottom="20dp"
+                    android:text="97%"
+                    app:label_TB_padding="15"
+                    app:label_text_bottom="全款率"
+                    app:label_text_bottom_color="@color/txt_9"
+                    app:label_text_bottom_size="12" />
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/process_title"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingTop="20dp"
+                    android:text="本周数据"
+                    android:textColor="@color/txt_9"
+                    android:textSize="@dimen/sp12"
+                    app:label_text_top_str="集团教学流程"
+                    app:label_top_padding="15" />
+
+                <com.commonlib.widget.TopBottomTextView
+                    android:id="@+id/up_rate_title"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_toLeftOf="@+id/process_full_money"
+                    android:layout_toStartOf="@+id/process_full_money"
+                    android:paddingBottom="20dp"
+                    android:text="97%"
+                    app:label_TB_padding="15"
+                    app:label_text_bottom="升学率"
+                    app:label_text_bottom_color="@color/txt_9"
+                    app:label_text_bottom_size="12" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white"></View>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

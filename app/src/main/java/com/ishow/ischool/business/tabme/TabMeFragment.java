@@ -44,7 +44,7 @@ import butterknife.OnClick;
 /**
  * Created by abel on 16/8/8.
  */
-public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implements MePresenter.Iview {
+public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implements MePresenter.Iview {
 
     @BindView(R.id.fm_me_header_avart)
     public CircleImageView fmMeHeaderAvart;
@@ -71,7 +71,7 @@ public class MeFragment extends BaseFragment4Crm<MePresenter, MeModel> implement
     private PositionInfo info;*/
 
     private String avartPath;
-    private String TAG = MeFragment.class.getSimpleName();
+    private String TAG = TabMeFragment.class.getSimpleName();
 
 
     @Override

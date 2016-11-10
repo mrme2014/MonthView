@@ -144,10 +144,9 @@ public class PieChartView extends View {
         //setFloorPercent(1, R.color.pie_color5, 60);
     }
 
-    /**
-     * @param rate1 需要绘制百分比的 第一个 floor的 百分比
-     * @param rate2 需要绘制百分比的 第二个 floor的 百分比
-     */
+
+   /*  * @param rate1 需要绘制百分比的 第一个 floor的 百分比
+     * @param rate2 需要绘制百分比的 第二个 floor的 百分比*/
     public void setFloorProperty(List<String> nums, String rate1, String rate2) {
         if (des == null) des = new ArrayList<>();
         des.add("带班人数");

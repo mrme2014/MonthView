@@ -8,8 +8,10 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.textservice.TextInfo;
 
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
@@ -24,8 +26,6 @@ import java.util.List;
  */
 
 public class PieChartView extends View {
-    private WeakReference<Bitmap> reference;
-    private Bitmap bitmap;
     private int width, height;
     private int floorHeight;
     private Paint paint, txtPaint, numPaint, percentPaint;
@@ -127,12 +127,15 @@ public class PieChartView extends View {
             if (i == 3)
                 setFloorPercent(canvas, 3, R.color.pie_color1, rate2);
             if (des != null && des.size() > 0) {
-                float textWidth = txtPaint.measureText(des.get(i));
+
                 Paint.FontMetrics metrics = txtPaint.getFontMetrics();
+                float textWidth = txtPaint.measureText(des.get(i));
                 float textHeight = metrics.descent - metrics.ascent;
-                float numWidth = numPaint.measureText(nums.get(i));
+
                 Paint.FontMetrics numMetrics = numPaint.getFontMetrics();
+                float numWidth = numPaint.measureText(nums.get(i));
                 float numHeight = numMetrics.descent - numMetrics.ascent;
+
                 canvas.drawText(des.get(i), width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
                 canvas.drawText(nums.get(i), width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
             }
@@ -142,18 +145,21 @@ public class PieChartView extends View {
     }
 
     /**
-     * @param des    每个floor的文本描述
-     * @param colors 每个floor的颜色值
+     * @param rate1 需要绘制百分比的 第一个 floor的 百分比
+     * @param rate2 需要绘制百分比的 第二个 floor的 百分比
      */
-    public void setFloorProperty(List<String> nums, int rate1, int rate2) {
+    public void setFloorProperty(List<String> nums, String rate1, String rate2) {
         if (des == null) des = new ArrayList<>();
         des.add("带班人数");
         des.add("公开课");
         des.add("报名人数");
         des.add("全款人数");
         this.nums = nums;
-        this.rate1 = rate1;
-        this.rate2 = rate2;
+        if (TextUtils.equals(rate1, "") && rate1 != null)
+            this.rate1 = Integer.valueOf(rate1.substring(0, rate1.length() - 1));
+        if (TextUtils.equals(rate2, "") && rate2 != null)
+            this.rate2 = Integer.valueOf(rate2.substring(0, rate1.length() - 1));
+
         invalidate();
     }
 

@@ -177,10 +177,9 @@ public class CompanyMarketSaleprocess extends BaseActivity4Crm<ComSalePresenter,
         list.add(process.process.openclass_apply_number);
         list.add(process.process.openclass_full_amount_number);
         String rate1 = process.process.openclass_apply_rate;
-        int angle1 = Integer.valueOf(rate1.substring(0, rate1.length() - 1));
+
         String rate2 = process.process.full_amount_rate;
-        int angle2 = Integer.valueOf(rate2.substring(0, rate1.length() - 1));
-        lineChart.setFloorProperty(list, angle1, angle2);
+        lineChart.setFloorProperty(list, rate1, rate2);
         salesTable1.setSpanedStr(getString(R.string.update_rate),
                 process.process.openclass_sign_number,
                 getString(R.string.fullpay_rate),

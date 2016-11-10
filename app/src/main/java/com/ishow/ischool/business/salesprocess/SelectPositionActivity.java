@@ -90,9 +90,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     private void getPositionData() {
         handProgressbar(true);
         TreeMap<String, Integer> map = new TreeMap<>();
-        if (campus_id != 1) {
-            map.put("campus_id", campus_id);
-        }
+        map.put("campus_id", campus_id);
         mPresenter.getOption(option, map);
     }
 

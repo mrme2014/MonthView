@@ -1,9 +1,9 @@
 package com.ishow.ischool.business.campusperformance.education;
 
 import android.graphics.Color;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +43,7 @@ import com.ishow.ischool.bean.campusperformance.EducationMonthResult;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.CampusManager;
+import com.ishow.ischool.util.ToastUtil;
 import com.ishow.ischool.widget.custom.ListViewForScrollView;
 import com.ishow.ischool.widget.table.MyMarkerView4;
 
@@ -670,7 +671,6 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (view.getId()) {
                 case R.id.inverse_layout:
                     if (isAllSelected) {
@@ -796,20 +796,41 @@ public class Performance4EduActivity extends BaseActivity4Crm<Performance4EduPre
                 case R.id.date_reset:
                     startDateFinished = false;
                     endDateFinished = false;
+                    mFilterStartTime = "";
+                    mFilterEndTime = "";
                     startDateTv.setText(getString(R.string.item_start_time) + " :   ");
                     endDateTv.setText(getString(R.string.item_end_time) + " :   ");
                     break;
                 case R.id.date_ok:
-                    if (mParamBeginDate == Integer.parseInt(mFilterStartTime) && mParamEndDate == Integer.parseInt(mFilterEndTime)) {
-                        mDatePopup.dismiss();
-                        break;
-                    }
-
-                    mPresenter.getEduMonthPerformance(mCampusParamAll, mFilterStartTime != null ? Integer.parseInt(mFilterStartTime) : null,
-                            mFilterEndTime != null ? Integer.parseInt(mFilterEndTime) : null);
-                    mParamBeginDate = Integer.parseInt(mFilterStartTime);
-                    mParamEndDate = Integer.parseInt(mFilterEndTime);
                     mDatePopup.dismiss();
+                    if (TextUtils.isEmpty(mFilterStartTime) && TextUtils.isEmpty(mFilterEndTime)) {
+                        ToastUtil.showToast(Performance4EduActivity.this, "请选择时间");
+                        break;
+                    } else {
+                        if (TextUtils.isEmpty(mFilterStartTime)) {
+                            String curYear = mFilterEndTime.substring(0, 4);
+                            int endMonth = Integer.parseInt(mFilterEndTime.substring(4, mFilterEndTime.length()));
+                            if (endMonth <= 6) {     // 上半年
+                                mFilterStartTime = curYear + "01";
+                            } else {
+                                mFilterStartTime = curYear + "07";
+                            }
+                        } else if (TextUtils.isEmpty(mFilterEndTime)) {
+                            String curYear = mFilterStartTime.substring(0, 4);
+                            int startMonth = Integer.parseInt(mFilterStartTime.substring(4, mFilterStartTime.length()));
+                            if (startMonth <= 6) {     // 上半年
+                                mFilterEndTime = curYear + "06";
+                            } else {
+                                mFilterEndTime = curYear + "12";
+                            }
+                        }
+                        if (mParamBeginDate == Integer.parseInt(mFilterStartTime) && mParamEndDate == Integer.parseInt(mFilterEndTime)) {
+                            break;
+                        }
+                        mParamBeginDate = Integer.parseInt(mFilterStartTime);
+                        mParamEndDate = Integer.parseInt(mFilterEndTime);
+                        mPresenter.getEduMonthPerformance(mCampusParamAll, mParamBeginDate, mParamEndDate);
+                    }
                     break;
                 case R.id.blank_view_date:
                     mDatePopup.dismiss();

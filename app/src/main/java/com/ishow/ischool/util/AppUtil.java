@@ -315,6 +315,8 @@ public class AppUtil {
         return c.getTime().getTime() / 1000;
     }
 
+
+
     public static long getMonthStart(String year, String month) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, Integer.parseInt(year));
@@ -386,10 +388,10 @@ public class AppUtil {
 
     public static int getTodayEnd() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
-        int time = (int) (c.getTimeInMillis() / 1000);
+        int time = (int) (c.getTimeInMillis() / 1000)+10*3600;
         return time;
     }
 
@@ -400,8 +402,51 @@ public class AppUtil {
     }
 
     public static int getDayAgo(int dayAgo) {  //N天前的 零点  时间戳
+        return getTodayEnd() - (dayAgo) * 24 * 3600+1;
+    }
 
-        return getTodayEnd() - dayAgo * 24 * 3600;
+    public static int getWeekStart() {
+       return getWeekEnd()-7*24*3600+1;
+    }
+
+    public static int getWeekEnd() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR,22);
+        c.set(Calendar.MINUTE,59);
+        c.set(Calendar.SECOND,59);
+        c.set(Calendar.DAY_OF_WEEK,7);
+        return (int) (c.getTime().getTime()/1000);
+    }
+
+    /*上月末  或者说 本月初   就可以用这个 */
+    public static int getLastMonthEnd24() {
+        Calendar c = Calendar.getInstance();
+        c.roll(Calendar.MONTH, -1);
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return (int) (c.getTime().getTime() / 1000);
+    }
+
+    public  static int getLastMonthStart24() {
+        Calendar c = Calendar.getInstance();
+        c.roll(Calendar.MONTH, -1);
+        c.set(Calendar.DAY_OF_MONTH,0);
+        c.set(Calendar.HOUR, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return (int) (c.getTime().getTime() / 1000);
+    }
+
+    /*本月末  或者说 下月初   就可以用这个 */
+    public static int getNextMonthStart24() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR,-1);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return (int) (c.getTimeInMillis() / 1000);
     }
 
     public static ArrayList<String> getSpinnerData() {
@@ -417,6 +462,18 @@ public class AppUtil {
 
         return list;
     }
+
+
+    public static List<String> getComMarketSaleProcessList() {
+        List<String> list = new ArrayList<>();
+        list.add("本周");
+        list.add("本月");
+        list.add("上周");
+        list.add("上月");
+        list.add("自定义");
+        return list;
+    }
+
 
     public static boolean hasSalesPermision() {
         User user = UserManager.getInstance().get();

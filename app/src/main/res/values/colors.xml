@@ -18,6 +18,8 @@
 
     <color name="colorPrimary">#FF2883f6</color>
     <color name="colorPrimaryDark">#FF2883f6</color>
+    <color name="colorPrimaryDark1">#303F9F</color>
+
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
@@ -72,7 +74,14 @@
     <color name="random_color18">#4682B4</color>
     <color name="random_color19">#2E8B57</color>
     <color name="random_color20">#778899</color>
-    
+
+
+    <color name="pie_color1">#b9d2fa</color>
+    <color name="pie_color2">#88b4f3</color>
+    <color name="pie_color3">#518fe6</color>
+    <color name="pie_color4">#397edd</color>
+    <color name="pie_color5">#699eea</color>
+    <color name="pie_color6">#2a6fcc</color>
     
     <!--  班级管理  -->
     <color name="class_primary">#4dd87b</color>

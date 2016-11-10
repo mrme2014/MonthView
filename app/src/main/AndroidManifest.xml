@@ -35,7 +35,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".business.companymarketsaleprocess.CompanyMarketSaleprocess">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

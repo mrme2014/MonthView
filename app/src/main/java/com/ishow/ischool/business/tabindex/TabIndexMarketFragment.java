@@ -18,10 +18,13 @@ import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.base.MySpinner;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.MarketHome;
+import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.RiseNumTextView;
 
@@ -191,7 +194,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.up_progress_title, R.id.process_title})
+    @OnClick({R.id.up_progress_title, R.id.process_title, R.id.performance_market_ll})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.up_progress_title: {
@@ -201,7 +204,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
             case R.id.process_title: {
                 break;
             }
-
+            case R.id.performance_market_ll:
+                JumpManager.jumpActivity(getActivity(), Performance4MarketActivity.class, Resource.NO_NEED_CHECK);
+                break;
         }
     }
 

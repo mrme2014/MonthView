@@ -166,7 +166,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
             list.add("0");
             list.add("0");
             list.add("0");
-            lineChart.setFloorProperty(list, 0, 0);
+            lineChart.setFloorProperty(list, "0%", "0%");
             return;
         }
         this.process = process;

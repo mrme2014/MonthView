@@ -192,10 +192,11 @@
 
             </RelativeLayout>
 
-            <View
+            <com.ishow.ischool.widget.custom.PieChartView
+                android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/white"></View>
+                android:background="@color/white"
+                android:layout_height="250dp" />
 
 
         </LinearLayout>

@@ -405,19 +405,6 @@ public class AppUtil {
         return getTodayEnd() - (dayAgo) * 24 * 3600+1;
     }
 
-    public static int getWeekStart() {
-       return getWeekEnd()-7*24*3600+1;
-    }
-
-    public static int getWeekEnd() {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR,22);
-        c.set(Calendar.MINUTE,59);
-        c.set(Calendar.SECOND,59);
-        c.set(Calendar.DAY_OF_WEEK,7);
-        return (int) (c.getTime().getTime()/1000);
-    }
-
     /*上月末  或者说 本月初   就可以用这个 */
     public static int getLastMonthEnd24() {
         Calendar c = Calendar.getInstance();

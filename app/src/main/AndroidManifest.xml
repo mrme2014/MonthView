@@ -157,6 +157,8 @@
         <activity
             android:name=".business.home.teach.TeachSummaryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity android:name=".business.teachprocess.TeachProcessActivity4Home" />
+
     </application>
 
 </manifest>

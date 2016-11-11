@@ -24,6 +24,7 @@ import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
 import com.ishow.ischool.business.home.market.MarketSummaryActivity;
 import com.ishow.ischool.business.home.teach.TeachSummaryActivity;
+import com.ishow.ischool.business.teachprocess.TeachProcessActivity4Home;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -210,7 +211,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.process_group:
-                JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
+                JumpManager.jumpActivity(getActivity(), TeachProcessActivity4Home.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.pre_pay_group:
                 Intent intent = new Intent(getActivity(), TeachSummaryActivity.class);
@@ -313,7 +314,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
-        pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
+        //pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
     }
 
 }

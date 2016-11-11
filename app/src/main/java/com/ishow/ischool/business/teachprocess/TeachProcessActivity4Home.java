@@ -1,4 +1,4 @@
-package com.ishow.ischool.business.companymarketsaleprocess;
+package com.ishow.ischool.business.teachprocess;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.commonlib.util.DateUtil;
@@ -16,11 +15,8 @@ import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
-import com.ishow.ischool.bean.saleprocess.ComMarketProcess;
-import com.ishow.ischool.bean.saleprocess.SaleTable1;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
-import com.ishow.ischool.business.salesprocess.SaleSatementTableFragment;
-import com.ishow.ischool.business.salesprocess.SaleStatementTableActivity;
+import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.salesprocess.SelectPositionActivity;
 import com.ishow.ischool.business.salesprocess.SelectSubordinateActivity;
@@ -29,40 +25,44 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.fragment.TimeSeletByUserDialog;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
+import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.PieChartView;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ishow.ischool.R.id.start_time;
+
 /**
- * Created by MrS on 2016/11/8.
+ * Created by mini on 16/11/9.
  */
 
-public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePresenter, ComModel> implements ComIView, AdapterView.OnItemSelectedListener {
+public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, TeachModel> implements TeachProcessConact.View, AdapterView.OnItemSelectedListener {
+    @BindView(R.id.sales_avart)
+    CircleImageView salesAvart;
     @BindView(R.id.sales_avart_txt)
     AvatarImageView salesAvartTxt;
     @BindView(R.id.sales_job)
     TopBottomTextView salesJob;
-    @BindView(R.id.sales_layout)
-    LinearLayout salesLayout;
     @BindView(R.id.sales_trends)
     TopBottomTextView salesTrends;
+    @BindView(R.id.table)
+    TopBottomTextView table;
     @BindView(R.id.sales_spinner)
     Spinner salesSpinner;
-    @BindView(R.id.lineChart)
-    PieChartView lineChart;
-    @BindView(R.id.sales_table1)
-    TopBottomTextView salesTable1;
+    @BindView(R.id.sales_chart)
+    PieChartView salesChart;
 
     int begin_time, end_time;
     private boolean isUser = true;
     private TimeSeletByUserDialog timeSeletByUser;
-    private SaleTable1 table1;
+    private TeachProcess mTeachProcessData;
 
     private int curuser_position_id;
     private int campus_id;
@@ -72,12 +72,12 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
     private String position_name;
     private int user_id;
     boolean isHeadQuatyer;
-    private ComMarketProcess process;
+    private TreeMap map;
     private ArrayList<String> des;
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_company_market_saleprocess, R.string.sale_process, MODE_BACK);
+        setContentView(R.layout.activity_teach_process_home, R.string.teach_process_title, MODE_BACK);
     }
 
     @Override
@@ -87,23 +87,20 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         //  campus_name = mUser.campusInfo.name;
         campus_name = "杭州校区";
         curuser_position_id = mUser.positionInfo.id;
-        isHeadQuatyer = campus_id == Constants.CAMPUS_HEADQUARTERS;
-          /*总部角色  拉取图表数据用现在接口，，，非总部的角色 用 市场------销售流程分析的接口*/
-        if (campus_id == Constants.CAMPUS_HEADQUARTERS) {
-            isHeadQuatyer = true;
-        }
+        isHeadQuatyer = (campus_id == Constants.CAMPUS_HEADQUARTERS);
+//        if (campus_id == Constants.CAMPUS_HEADQUARTERS) {
+//            isHeadQuatyer = true;
+//        }
         salesAvartTxt.setText(mUser.userInfo.user_name, mUser.userInfo.user_id, mUser.avatar.file_name);
         salesJob.setFirstTxt(mUser.userInfo.user_name);
         salesJob.setSecondTxt(mUser.positionInfo.title + " | " + campus_name);
-        // begin_time =  AppUtil.getWeekStart();
-        // end_time = AppUtil.getWeekEnd();
-
-        //  LogUtil.e(begin_time+"---setUpView--"+end_time);
     }
 
     private void getComMarketSaleProcess() {
-        mPresenter.getComMarketSaleprocesssChart(begin_time, end_time);
-        mPresenter.getComMarketSaleprocessTableData(begin_time, end_time);
+        if (map == null) map = new TreeMap();
+        map.put("start_time", start_time);
+        map.put("end_time", end_time);
+        mPresenter.getTeachProcessData(map);
     }
 
     @Override
@@ -121,7 +118,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         });
     }
 
-    @OnClick({R.id.sales_layout, R.id.sales_table1})
+    @OnClick({R.id.sales_layout, R.id.table})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sales_layout:
@@ -135,76 +132,90 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
                 intent1.putExtra("CAMPUS_NAME", campus_name);
                 JumpManager.jumpActivityForResult(this, intent1, REQUEST_CODE, Resource.NO_NEED_CHECK);
                 break;
-            case R.id.sales_table1:
-                if (table1 == null || table1.tablehead == null || table1.tablebody == null || table1.tablebody.size() == 0) {
+            case R.id.table:
+                if (mTeachProcessData == null || mTeachProcessData.tableListData_22 == null ||
+                        mTeachProcessData.tableListData_22.head == null ||
+                        mTeachProcessData.tableListData_22.body == null ||
+                        mTeachProcessData.tableListData_22.head.size() == 0 ||
+                        mTeachProcessData.tableListData_22.body.size() == 0) {
                     showToast(getString(R.string.no_value_show));
                     return;
                 }
-                Intent intent = new Intent(this, SaleStatementTableActivity.class);
-                intent.putExtra(SaleSatementTableFragment.SHOW_TABLE1, true);
                 Bundle bundle = new Bundle();
-                bundle.putStringArrayList(SaleSatementTableFragment.TABLE_HEAD, (ArrayList<String>) table1.tablehead);
-                bundle.putSerializable(SaleSatementTableFragment.TABLE_BODY, (Serializable) table1.tablebody);
+                bundle.putStringArrayList("table1_head", (ArrayList<String>) mTeachProcessData.tableListData_22.head);
+                bundle.putStringArrayList("table1_body", (ArrayList<String>) mTeachProcessData.tableListData_22.body.get(0));
+                Intent intent = new Intent(this, TeachProcessTableActivity.class);
+                intent.putExtra(TeachProcessTableActivity.SHOW_TABLE1, true);
+                if (mTeachProcessData.tableListData != null && mTeachProcessData.tableListData.head != null && mTeachProcessData.tableListData.body != null) {
+                    intent.putExtra(TeachProcessTableActivity.SHOW_MENU, true);
+                    bundle.putStringArrayList("table2_head", (ArrayList<String>) mTeachProcessData.tableListData.head);
+                    bundle.putSerializable("table2_body", (Serializable) mTeachProcessData.tableListData.body);
+                }
                 intent.putExtras(bundle);
-                JumpManager.jumpActivity(this, intent, Resource.NO_NEED_CHECK);
+                startActivity(intent);
                 break;
         }
     }
 
     @Override
-    public void getListSucess(SaleTable1 table1) {
-        this.table1 = table1;
-        //LogUtil.e(begin_time+"---"+(begin_time+12*3600)+"----"+end_time);
-
-    }
-
-    @Override
-    public void getChartSucess(ComMarketProcess process) {
+    public void getListSucess(TeachProcess teachProcess) {
+        this.mTeachProcessData = teachProcess;
         if (des == null) des = new ArrayList<>();
         des.add(getString(R.string.class_numbers));
         des.add(getString(R.string.open_class));
         des.add(getString(R.string.apply_numbers));
         des.add(getString(R.string.full_amount_number));
 
-        if (process == null || process.process == null) {
-            salesTable1.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
+        if (mTeachProcessData == null || mTeachProcessData.selfChartData == null) {
             List<String> list = new ArrayList<>();
             list.add("0");
             list.add("0");
             list.add("0");
             list.add("0");
             PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "30.5%").DrawPercentFloor(3, 0, "70.5%");
-            lineChart.invalidate(biulder);
-
-            return;
+            biulder.setPieChartBaseColor(R.color.colorPrimaryDark1).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "0%").DrawPercentFloor(3, 0, "0%");
+            salesChart.invalidate(biulder);
+        } else {
+            List<String> body = teachProcess.selfChartData.body.get(0);
+            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < 4; i ++) {
+                list.add(body.get(i));
+            }
+            String rate1 = body.get(4);
+            String rate2 = body.get(5);
+            PieChartView.Biulder biulder = new PieChartView.Biulder();
+            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "35%").DrawPercentFloor(3, 0, "45%");
+            salesChart.invalidate(biulder);
         }
-        this.process = process;
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time )) + " -- " + DateUtil.parseSecond2Str((long) end_time));
-        List<String> list = new ArrayList<>();
-        list.add(process.process.add_number);
-        list.add(process.process.openclass_sign_number);
-        list.add(process.process.openclass_apply_number);
-        list.add(process.process.openclass_full_amount_number);
 
-        String rate1 = process.process.openclass_apply_rate;
-        String rate2 = process.process.full_amount_rate;
-
-        PieChartView.Biulder biulder = new PieChartView.Biulder();
-        biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "36.565%").DrawPercentFloor(3, R.color.pie_color1, "50%");
-        lineChart.invalidate(biulder);
-        salesTable1.setSpanedStr(getString(R.string.update_rate),
-                process.process.openclass_sign_number,
-                getString(R.string.fullpay_rate),
-                process.process.full_amount_rate,
-                getString(R.string.tuikuan_rate),
-                process.process.openclass_apply_rate);
+        setUpLabel();
     }
 
     @Override
-    public void getListFailed(String msg) {
+    public void getListFaild(String msg) {
         showToast(msg);
     }
+
+    private void setUpLabel() {
+//        table.setVisibility(mTeachProcessData.tableListData_22 == null ? View.GONE : View.VISIBLE);
+        if (mTeachProcessData == null || mTeachProcessData.tableListData_22 == null
+                || mTeachProcessData.tableListData_22.head == null
+                || mTeachProcessData.tableListData_22.body == null
+                || mTeachProcessData.tableListData_22.head.size() == 0
+                || mTeachProcessData.tableListData_22.body.size() == 0) {
+            table.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
+            return;
+        }
+        List<String> rate = mTeachProcessData.tableListData_22.head;
+        List<String> number = mTeachProcessData.tableListData_22.body.get(0);
+        if (rate == null || number == null || rate.size() == 0 || number.size() == 0)
+            return;
+        int rate_size = rate.size();
+        int number_size = number.size();
+        table.setSpanedStr(rate.get(rate_size - 3), number.get(number_size - 3), rate.get(rate_size - 2), number.get(number_size - 2), rate.get(rate_size - 1), number.get(number_size - 1));
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -264,7 +275,6 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         }
         LogUtil.e(position + "-----" + begin_time + "----" + end_time);
         getComMarketSaleProcess();
-
     }
 
     @Override
@@ -286,14 +296,10 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
                 if (extra_campus != null && extra_campus != "")
                     campus_name = extra_campus;
 
-                LogUtil.e("onActivityResult" + campus_id);
                 if (campus_id == Constants.CAMPUS_HEADQUARTERS)
                     getComMarketSaleProcess();
                 else
                     startActivity2OldSaleProcessActivity(extra);
-
-            } else {
-                getComMarketSaleProcess();
             }
         } else if (requestCode == 101 && requestCode == REQUEST_CODE && data != null) {
             salesSpinner.setSelection(0);

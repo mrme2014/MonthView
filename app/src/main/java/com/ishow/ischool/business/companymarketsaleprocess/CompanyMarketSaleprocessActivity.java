@@ -184,7 +184,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         List<String> list = new ArrayList<>();
         list.add(process.process.add_number);
         list.add(process.process.openclass_sign_number);
-        list.add(process.process.openclass_apply_number);
+        list.add(process.process.apply_number);
         list.add(process.process.full_amount_number);
 
         String rate1 = process.process.openclass_apply_rate;

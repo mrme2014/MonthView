@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.tabindex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -22,6 +24,7 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.MarketHome;
 import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
 import com.ishow.ischool.business.companymarketsaleprocess.CompanyMarketSaleprocessActivity;
+import com.ishow.ischool.business.home.market.MarketSummaryActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -98,6 +101,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     @BindView(R.id.pie_chart)
     PieChartView pieChart;
+    @BindView(R.id.pre_pay_group)
+    FrameLayout prePayGroup;
 
     private int titlebarColor;
 
@@ -208,7 +213,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll})
+    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_title: {
@@ -221,6 +226,12 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
             }
             case R.id.performance_market_ll:
                 JumpManager.jumpActivity(getActivity(), Performance4MarketActivity.class, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.pre_pay_group:
+                Intent intent = new Intent(getActivity(), MarketSummaryActivity.class);
+                intent.putExtra(MarketSummaryActivity.P_START_TIME, params.get("begin_time"));
+                intent.putExtra(MarketSummaryActivity.P_END_TIME, params.get("end_time"));
+                JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
         }
     }
@@ -237,6 +248,11 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
                     @Override
                     public void onError(String msg) {
                         showToast(msg);
+                    }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return !isActivityFinished();
                     }
                 });
     }
@@ -279,6 +295,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
             @Override
             public void onEndFinish() {
+                if (isActivityFinished() || advancesReceivedTv == null) {
+                    return;
+                }
                 advancesReceivedTv.setText((int) marketHome.summary.prepayments + "");
             }
         });
@@ -312,6 +331,21 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         list.add(marketHome.process.apply_number);
         list.add(marketHome.process.full_amount_number);
         //pieChart.setFloorProperty(list, marketHome.process.openclass_full_amount_apply_rate, marketHome.process.full_amount_rate);
+
+        ArrayList<String> des = new ArrayList<>();
+        des.add(getString(R.string.campus_talk));
+        des.add(getString(R.string.open_class));
+        des.add(getString(R.string.apply_numbers));
+        des.add(getString(R.string.full_amount_number));
+
+        PieChartView.Biulder biulder = new PieChartView.Biulder();
+        biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
+                .setDrawNums(list)
+                .setDrawTxtDes(des)
+                .DrawPercentFloor(1, R.color.colorPrimaryDark1, marketHome.process.openclass_apply_rate)
+                .DrawPercentFloor(3, R.color.colorPrimaryDark1, marketHome.process.full_amount_rate);
+        pieChart.invalidateNoAnimation(biulder);
+
     }
 
 }

@@ -1,24 +1,20 @@
 package com.ishow.ischool.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.commonlib.util.StatusBarCompat;
 import com.commonlib.widget.base.FragmentTabHost;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.business.tabbusiness.TabBusinessFragment;
 import com.ishow.ischool.business.tabdata.TabDataFragment;
 import com.ishow.ischool.business.tabindex.TabIndexFragment;
 import com.ishow.ischool.business.tabme.TabMeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
@@ -28,8 +24,6 @@ import org.lzh.framework.updatepluginlib.strategy.UpdateStrategy;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-
-import static android.os.Build.VERSION.SDK_INT;
 
 public class MainActivity extends BaseActivity4Crm {
 
@@ -56,20 +50,24 @@ public class MainActivity extends BaseActivity4Crm {
     @Override
     protected void setUpView() {
 
-        fragments = new ArrayList<>(4);
-        fragments.add(TabIndexFragment.class);
+        fragments = new ArrayList<>();
+        drawables = new ArrayList<>();
+        titles = new ArrayList<>();
+
+        if (isHeadquarters()) {
+            fragments.add(TabIndexFragment.class);
+            titles.add(getString(R.string.tab_index));
+            drawables.add(R.drawable.tab_index);
+        }
+
         fragments.add(TabDataFragment.class);
         fragments.add(TabBusinessFragment.class);
         fragments.add(TabMeFragment.class);
 
-        titles = new ArrayList<>(4);
-        titles.add(getString(R.string.tab_index));
         titles.add(getString(R.string.tab_data));
         titles.add(getString(R.string.tab_business));
         titles.add(getString(R.string.tab_me));
 
-        drawables = new ArrayList<>(4);
-        drawables.add(R.drawable.tab_index);
         drawables.add(R.drawable.tab_data);
         drawables.add(R.drawable.tab_business);
         drawables.add(R.drawable.tab_me);
@@ -85,6 +83,10 @@ public class MainActivity extends BaseActivity4Crm {
             mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.white);
         }
         mTabHost.getTabWidget().setDividerDrawable(R.color.transparent);
+    }
+
+    private boolean isHeadquarters() {
+        return mUser.positionInfo.campusId == Constants.CAMPUS_HEADQUARTERS;
     }
 
     private View getIndicatorView(int i) {

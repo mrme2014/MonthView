@@ -299,7 +299,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
-        pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
+        //pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
     }
 
 }

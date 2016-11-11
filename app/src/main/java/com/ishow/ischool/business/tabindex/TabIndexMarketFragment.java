@@ -311,7 +311,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         list.add(marketHome.process.openclass_sign_number);
         list.add(marketHome.process.apply_number);
         list.add(marketHome.process.full_amount_number);
-        pieChart.setFloorProperty(list, marketHome.process.openclass_full_amount_apply_rate, marketHome.process.full_amount_rate);
+        //pieChart.setFloorProperty(list, marketHome.process.openclass_full_amount_apply_rate, marketHome.process.full_amount_rate);
     }
 
 }

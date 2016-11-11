@@ -174,13 +174,13 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
             list.add("0");
             list.add("0");
             PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark1).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "0").DrawPercentFloor(3, 0, "0");
+            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "30.5%").DrawPercentFloor(3, 0, "70.5%");
             lineChart.invalidate(biulder);
 
             return;
         }
         this.process = process;
-        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time )) + " -- " + DateUtil.parseSecond2Str((long) end_time));
         List<String> list = new ArrayList<>();
         list.add(process.process.add_number);
         list.add(process.process.openclass_sign_number);
@@ -191,7 +191,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         String rate2 = process.process.full_amount_rate;
 
         PieChartView.Biulder biulder = new PieChartView.Biulder();
-        biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "35%").DrawPercentFloor(3, 0, "45%");
+        biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "36.565%").DrawPercentFloor(3, R.color.pie_color1, "50%");
         lineChart.invalidate(biulder);
         salesTable1.setSpanedStr(getString(R.string.update_rate),
                 process.process.openclass_sign_number,

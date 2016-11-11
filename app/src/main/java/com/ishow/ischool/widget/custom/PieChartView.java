@@ -10,10 +10,12 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
-import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
+import com.nineoldandroids.animation.IntEvaluator;
+import com.nineoldandroids.animation.ValueAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +28,11 @@ public class PieChartView extends View {
     private int width, height;
     private int floorHeight;
     private Paint paint, txtPaint, numPaint, percentPaint;
-    private int floorCount = 4;
+    public int floorCount = 4;
 
-
-    public List<String> des;
-    public List<String> nums;
-    private int rate1;
-    private int rate2;
     private Biulder biulder;
+    private float timePercent;
+    private int curDrawArcIndex = 0;
 
     public PieChartView(Context context) {
         super(context);
@@ -92,24 +91,17 @@ public class PieChartView extends View {
         setMeasuredDimension(widthMeasureSpec, measureSpec);
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-    }
 
     private void drawBitmap(Canvas canvas) {
         if (biulder == null) {
             return;
         }
-
-        width = Math.max(getWidth(), (floorCount - 1) * floorHeight * 2);
-        height = Math.max(getHeight(), floorCount * floorHeight);
+        width = getWidth();
+        height = getHeight();
 
         if (biulder.baseColor != 0)
             paint.setColor(ContextCompat.getColor(getContext(), biulder.baseColor));
         /*当前 需要绘制的弧形的下标 */
-        int curDrawArcIndex = 0;
         for (int i = 0; i < floorCount; i++) {
             if (i == 0)
                 paint.setAlpha(90);
@@ -120,17 +112,13 @@ public class PieChartView extends View {
             else if (i == 3) {
                 paint.setAlpha(255);
             }
-            // RectF rectF = new RectF(floorHeight/2, floorHeight+floorHeight/2, width-floorHeight/2, height + 3* floorHeight-floorHeight/2);
-            //  canvas.drawArc(rectF, 0, 180 + 60, false, percentPaint);
             /*绘制圆*/
-            canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
-
-            /*绘制弧  且当前floor是 需要绘制的*/
-            if (biulder != null && biulder.floorIndex.contains(i)) {
-                setFloorPercent(canvas, i, biulder.floorColor.get(curDrawArcIndex) == 0 ? R.color.pie_color1 : biulder.floorColor.get(curDrawArcIndex), biulder.floorPercenter.get(curDrawArcIndex));
-                curDrawArcIndex++;
+            // 或者 canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
+            setFloorPercent(canvas, i, paint.getColor(), (int) ((floorCount - i) * timePercent * 180));
+            for (int j = 0; j < biulder.floorIndex.size(); j++) {
+                int color = biulder.floorColor.get(j);
+                setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
             }
-
             if (biulder.des != null && biulder.des.size() > 0) {
 
                 Paint.FontMetrics metrics = txtPaint.getFontMetrics();
@@ -145,8 +133,39 @@ public class PieChartView extends View {
                 canvas.drawText(biulder.nums.get(i), width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
             }
         }
+    }
 
-        //setFloorPercent(1, R.color.pie_color5, 60);
+    public void invalidate(PieChartView.Biulder biulder) {
+        this.biulder = biulder;
+        // invalidate();
+        startRoateAnimation();
+    }
+
+    private void startRoateAnimation() {
+        // curDrawArcIndex = 0;
+        final ValueAnimator anim = ValueAnimator.ofObject(new IntEvaluator(), 0, 100);
+        anim.setInterpolator(new AccelerateDecelerateInterpolator());
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int vale = (int) animation.getAnimatedValue();
+                timePercent = vale * 1.0f / 100;
+                postInvalidate();
+            }
+        });
+        anim.setDuration(2000);
+        anim.start();
+    }
+
+    public void setFloorPercent(final Canvas canvas, int floorIndex, int color, int angle) {
+        if (angle == 0)
+            return;
+        final RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
+        percentPaint.setStrokeWidth(floorHeight);
+        percentPaint.setStyle(Paint.Style.STROKE);
+        percentPaint.setColor(color);
+        canvas.drawArc(rectF, -180 - 3, angle + 3, false, percentPaint);
+
     }
 
     public static class Biulder {
@@ -184,47 +203,17 @@ public class PieChartView extends View {
 
             /*如果 包含 百分比 符号 就进行 分割*/
             if (!TextUtils.equals(floorRate, "") && floorRate != null && floorRate.contains("%")) {
-                int rate = Integer.valueOf(floorRate.substring(0, floorRate.length() - 1));
-                floorPercenter.add(rate);
+                String substring = floorRate.substring(0, floorRate.length() - 1);
+                float rate = Float.valueOf(substring);
+                float angle = rate * 180 / 100;
+                floorPercenter.add(Math.round(angle));
             } else if (!TextUtils.equals(floorRate, "") && floorRate != null) {
                 /*m没有百分比符号 就默认是数字 */
-                floorPercenter.add(Integer.valueOf(floorRate));
+                float rate = Float.valueOf(floorRate);
+                float angle = rate * 180 / 100;
+                floorPercenter.add(Math.round(angle));
             } else floorPercenter.add(0);
             return this;
         }
-    }
-
-    public void invalidate(PieChartView.Biulder biulder) {
-        this.biulder = biulder;
-        invalidate();
-    }
-
-    /*  * @param rate1 需要绘制百分比的 第一个 floor的 百分比
-      * @param rate2 需要绘制百分比的 第二个 floor的 百分比*//*
-    public voidsetFloorProperty(List<String> nums, String rate1, String rate2) {
-        if (des == null) des = new ArrayList<>();
-        des.add("带班人数");
-        des.add("公开课");
-        des.add("报名人数");
-        des.add("全款人数");
-        this.nums = nums;
-        if (TextUtils.equals(rate1, "") && rate1 != null)
-            this.rate1 = Integer.valueOf(rate1.substring(0, rate1.length() - 1));
-        if (TextUtils.equals(rate2, "") && rate2 != null)
-            this.rate2 = Integer.valueOf(rate2.substring(0, rate2.length() - 1));
-
-        invalidate();
-    }*/
-
-    public RectF setFloorPercent(Canvas canvas, int floorIndex, int color, int angle) {
-        LogUtil.e(angle + "setFloorPercent");
-        if (angle == 0)
-            return null;
-        RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
-        percentPaint.setStrokeWidth(floorHeight);
-        percentPaint.setStyle(Paint.Style.STROKE);
-        percentPaint.setColor(ContextCompat.getColor(getContext(), color));
-        canvas.drawArc(rectF, 0, 180 + angle, false, percentPaint);
-        return rectF;
     }
 }

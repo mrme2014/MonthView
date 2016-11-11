@@ -64,9 +64,6 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
     @Override
     protected void setUpView() {
         super.setUpView();
-        recycler.enableLoadMore(false);
-        recycler.enablePullToRefresh(false);
-        recycler.setOnRefreshListener(this);
         if (mUser.userInfo.campus_id == 1) {
             setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
             Menu menu = mToolbar.getMenu();
@@ -84,20 +81,13 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
-        getPositionData();
+//        getPositionData();
     }
 
     private void getPositionData() {
-        handProgressbar(true);
         TreeMap<String, Integer> map = new TreeMap<>();
         map.put("campus_id", campus_id);
         mPresenter.getOption(option, map);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-
-        return super.onMenuItemClick(item);
     }
 
     private void getCampusSucess(final ArrayList<CampusInfo> campusInfos) {
@@ -135,7 +125,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
     @Override
     public void onRefresh(int action) {
-        recycler.onRefreshCompleted();
+        getPositionData();
     }
 
     @Override
@@ -152,14 +142,12 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
 
     @Override
     public void getListSuccess(Marketposition marketpositions) {
-        handProgressbar(false);
         this.marketpositions = marketpositions;
         loadSuccess(marketpositions.Marketposition);
     }
 
     @Override
     public void getListFail(String msg) {
-        handProgressbar(false);
         showToast(msg);
         loadFailed();
     }

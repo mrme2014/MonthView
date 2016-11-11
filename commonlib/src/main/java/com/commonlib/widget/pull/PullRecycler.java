@@ -70,7 +70,7 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
                     if (mCurrentState == ACTION_IDLE && isLoadMoreEnabled && checkIfNeedLoadMore()) {
                         mCurrentState = ACTION_LOAD_MORE_LOADING;
                         adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_SHOW);
-                        mSwipeRefreshLayout.setEnabled(false);
+                        mSwipeRefreshLayout.setEnabled(false);              // 加载更多时，关闭下拉刷新
                         listener.onRefresh(ACTION_LOAD_MORE_LOADING);
                     }
                 }
@@ -142,6 +142,15 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
     }
 
     public void onRefreshCompleted() {
+        if (!isPullToRefreshEnabled) {          // 更新状态：是否支持下拉刷新
+            mSwipeRefreshLayout.setEnabled(false);
+        } else {
+            mSwipeRefreshLayout.setEnabled(true);
+        }
+        if (!mPageEnable) {
+//            enablePullToRefresh(false);         // 如果不支持分页，禁止下拉刷新
+            enableLoadMore(false);               // 如果不支持分页，禁止自动加载更多
+        }
         switch (mCurrentState) {
             case ACTION_PULL_TO_REFRESH:
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -149,9 +158,6 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
                 break;
             case ACTION_LOAD_MORE_LOADING:
                 adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_HIDE);
-                if (isPullToRefreshEnabled) {
-                    mSwipeRefreshLayout.setEnabled(true);
-                }
                 mCurrentState = ACTION_IDLE;
                 break;
             case ACTION_LOAD_MORE_END:
@@ -159,7 +165,6 @@ public class PullRecycler extends FrameLayout implements SwipeRefreshLayout.OnRe
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
                 adapter.onLoadMoreStateChanged(BaseListAdapter.ACTION_LOADMORE_END);
-                mSwipeRefreshLayout.setEnabled(true);
                 break;
             case ACTION_IDLE:       // 第一次有数据，经过筛选等操作后数据为空时（loadfail()）
                 if (mSwipeRefreshLayout.isRefreshing()) {

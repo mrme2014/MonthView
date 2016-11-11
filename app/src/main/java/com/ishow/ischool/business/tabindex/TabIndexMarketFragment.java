@@ -331,6 +331,21 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         list.add(marketHome.process.apply_number);
         list.add(marketHome.process.full_amount_number);
         //pieChart.setFloorProperty(list, marketHome.process.openclass_full_amount_apply_rate, marketHome.process.full_amount_rate);
+
+        ArrayList<String> des = new ArrayList<>();
+        des.add(getString(R.string.campus_talk));
+        des.add(getString(R.string.open_class));
+        des.add(getString(R.string.apply_numbers));
+        des.add(getString(R.string.full_amount_number));
+
+        PieChartView.Biulder biulder = new PieChartView.Biulder();
+        biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
+                .setDrawNums(list)
+                .setDrawTxtDes(des)
+                .DrawPercentFloor(1, R.color.colorPrimaryDark1, marketHome.process.openclass_apply_rate)
+                .DrawPercentFloor(3, R.color.colorPrimaryDark1, marketHome.process.full_amount_rate);
+        pieChart.invalidateNoAnimation(biulder);
+
     }
 
 }

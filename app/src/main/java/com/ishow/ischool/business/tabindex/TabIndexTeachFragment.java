@@ -22,7 +22,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
-import com.ishow.ischool.business.home.market.MarketSummaryActivity;
 import com.ishow.ischool.business.home.teach.TeachSummaryActivity;
 import com.ishow.ischool.business.teachprocess.TeachProcessActivity4Home;
 import com.ishow.ischool.common.api.ApiObserver;
@@ -314,7 +313,21 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
-        //pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
+//        pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
+
+        ArrayList<String> des = new ArrayList<>();
+        des.add(getString(R.string.class_numbers));
+        des.add(getString(R.string.open_class));
+        des.add(getString(R.string.apply_numbers));
+        des.add(getString(R.string.full_amount_number));
+
+        PieChartView.Biulder biulder = new PieChartView.Biulder();
+        biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
+                .setDrawNums(list)
+                .setDrawTxtDes(des)
+                .DrawPercentFloor(1, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(4))
+                .DrawPercentFloor(3, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(5));
+        pieChart.invalidateNoAnimation(biulder);
     }
 
 }

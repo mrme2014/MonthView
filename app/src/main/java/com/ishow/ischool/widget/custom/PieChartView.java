@@ -116,8 +116,13 @@ public class PieChartView extends View {
             // 或者 canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
             setFloorPercent(canvas, i, paint.getColor(), (int) ((floorCount - i) * timePercent * 180));
             for (int j = 0; j < biulder.floorIndex.size(); j++) {
-                int color = biulder.floorColor.get(j);
-                setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
+                if (i == biulder.floorIndex.get(j)) {
+                    int color = biulder.floorColor.get(j);
+                    if (color == 0) {
+                        color = R.color.pie_color1;
+                    }
+                    setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
+                }
             }
             if (biulder.des != null && biulder.des.size() > 0) {
 
@@ -141,6 +146,12 @@ public class PieChartView extends View {
         startRoateAnimation();
     }
 
+    public void invalidateNoAnimation(PieChartView.Biulder biulder) {
+        this.biulder = biulder;
+        timePercent = 1;
+        postInvalidate();
+    }
+
     private void startRoateAnimation() {
         // curDrawArcIndex = 0;
         final ValueAnimator anim = ValueAnimator.ofObject(new IntEvaluator(), 0, 100);
@@ -158,8 +169,11 @@ public class PieChartView extends View {
     }
 
     public void setFloorPercent(final Canvas canvas, int floorIndex, int color, int angle) {
-        if (angle == 0)
+        if (angle <= 0)
             return;
+        if (angle > 180) {
+            angle = 180;
+        }
         final RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
         percentPaint.setStrokeWidth(floorHeight);
         percentPaint.setStyle(Paint.Style.STROKE);
@@ -212,7 +226,9 @@ public class PieChartView extends View {
                 float rate = Float.valueOf(floorRate);
                 float angle = rate * 180 / 100;
                 floorPercenter.add(Math.round(angle));
-            } else floorPercenter.add(0);
+            } else {
+                floorPercenter.add(0);
+            }
             return this;
         }
     }

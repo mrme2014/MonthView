@@ -117,6 +117,7 @@ public class PieChartView extends View {
             setFloorPercent(canvas, i, paint.getColor(), (int) ((floorCount - i) * timePercent * 180));
             for (int j = 0; j < biulder.floorIndex.size(); j++) {
                 int color = biulder.floorColor.get(j);
+                if (color == 0) color = R.color.colorPrimaryDark1;
                 setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
             }
             if (biulder.des != null && biulder.des.size() > 0) {

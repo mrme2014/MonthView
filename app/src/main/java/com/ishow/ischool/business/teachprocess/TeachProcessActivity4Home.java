@@ -173,11 +173,11 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
             list.add("0");
             list.add("0");
             PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark1).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "0%").DrawPercentFloor(3, 0, "0%");
+            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "30%").DrawPercentFloor(3, 0, "40%");
             salesChart.invalidate(biulder);
         } else {
             List<String> body = teachProcess.selfChartData.body.get(0);
-            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time + 24 * 3600)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
+            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time )) + " -- " + DateUtil.parseSecond2Str((long) end_time));
             List<String> list = new ArrayList<>();
             for (int i = 0; i < 4; i ++) {
                 list.add(body.get(i));
@@ -185,7 +185,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
             String rate1 = body.get(4);
             String rate2 = body.get(5);
             PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, "35%").DrawPercentFloor(3, 0, "45%");
+            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, rate1).DrawPercentFloor(3, R.color.pie_color1, rate2);
             salesChart.invalidate(biulder);
         }
 

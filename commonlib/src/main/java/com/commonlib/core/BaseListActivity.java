@@ -125,9 +125,9 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
         }
 
         recycler.resetView();
-        if (!recycler.mPageEnable) {            // 如果不支持分页，第一次加载之后就关闭下拉刷新
-            recycler.enablePullToRefresh(false);
-        }
+//        if (!recycler.mPageEnable) {            // 如果不支持分页，第一次加载之后就关闭下拉刷新
+//            recycler.enablePullToRefresh(false);
+//        }
 
         if (recycler.mCurrentState == PullRecycler.ACTION_PULL_TO_REFRESH) {      // 下拉刷新，重置数据
             mDataList.clear();
@@ -142,14 +142,16 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
                 recycler.showEmptyView();
             }
         } else {
-//            if (recycler.mPageEnable) {
+            if (recycler.mPageEnable) {         // 如果支持分页
                 if (resultList.size() < Conf.DEFAULT_PAGESIZE_LISTVIEW) {     // 已经是最后一页了
                     recycler.enableLoadMore(false);
                     recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);
                 } else {
                     recycler.enableLoadMore(true);
                 }
-//            }
+            } else {
+                recycler.setLoadState(PullRecycler.ACTION_LOAD_MORE_END);
+            }
             mDataList.addAll(resultList);
             mAdapter.notifyDataSetChanged();
         }
@@ -162,10 +164,6 @@ public abstract class BaseListActivity<P extends BasePresenter, M extends BaseMo
     protected void loadFailed() {
         if (mCurrentPage == 1) {        // 不支持分页（mCurrentPage没有使用时，就是没有作分页处理，即mCurrentPage一直等于1）
             recycler.mPageEnable = false;
-        }
-
-        if (!recycler.mPageEnable) {        // 如果不支持分页，第一次加载之后就关闭下拉刷新
-            recycler.enablePullToRefresh(false);
         }
 
         if (mCurrentPage > 1) {             // 数据请求失败，mCurrentPage减1

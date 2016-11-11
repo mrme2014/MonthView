@@ -67,9 +67,6 @@ public class TeachSelectPositionActivity extends BaseListActivity4Crm<SalesProce
     @Override
     protected void setUpView() {
         super.setUpView();
-        recycler.enableLoadMore(false);
-        recycler.enablePullToRefresh(false);
-        recycler.setOnRefreshListener(this);
         if (mUser.userInfo.campus_id == 1) {
             setUpToolbar(R.string.select_subordinates, R.menu.menu_sale, MODE_BACK);
             Menu menu = mToolbar.getMenu();
@@ -87,22 +84,15 @@ public class TeachSelectPositionActivity extends BaseListActivity4Crm<SalesProce
         } else {
             setUpToolbar(R.string.select_subordinates, -1, MODE_BACK);
         }
-        getPositionData();
+//        getPositionData();
     }
 
     private void getPositionData() {
-        handProgressbar(true);
         TreeMap<String, Integer> map = new TreeMap<>();
         if (campus_id != 1) {
             map.put("campus_id", campus_id);
         }
         mPresenter.getOptionEducation(option, map);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-
-        return super.onMenuItemClick(item);
     }
 
     private void getCampusSucess(final ArrayList<CampusInfo> campusInfos) {
@@ -140,7 +130,7 @@ public class TeachSelectPositionActivity extends BaseListActivity4Crm<SalesProce
 
     @Override
     public void onRefresh(int action) {
-        recycler.onRefreshCompleted();
+        getPositionData();
     }
 
     @Override
@@ -157,14 +147,12 @@ public class TeachSelectPositionActivity extends BaseListActivity4Crm<SalesProce
 
     @Override
     public void getListSuccess(Educationposition educationposition) {
-        handProgressbar(false);
         this.educationposition = educationposition;
         loadSuccess(educationposition.Educationposition);
     }
 
     @Override
     public void getListFail(String msg) {
-        handProgressbar(false);
         showToast(msg);
         loadFailed();
     }

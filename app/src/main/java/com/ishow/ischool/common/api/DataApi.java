@@ -7,8 +7,10 @@ import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.statistics.EducationHome;
+import com.ishow.ischool.bean.statistics.EducationSummary;
 import com.ishow.ischool.bean.statistics.MarketHome;
 import com.ishow.ischool.bean.statistics.OtherStatisticsTable;
+import com.ishow.ischool.bean.statistics.Table;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 
 import java.util.HashMap;
@@ -115,4 +117,11 @@ public interface DataApi {
 
     @GET("/statistics/education/home")
     Observable<ApiResult<EducationHome>> getEducationHomeData(@QueryMap HashMap<String, Integer> params);
+
+    //    @HEAD("Cache-Control public, max-age=60")
+    @GET("/statistics/market/summary")
+    Observable<ApiResult<Table>> getHomeMarketSummary(@QueryMap HashMap<String, Integer> params);
+
+    @GET("/statistics/education/summary")
+    Observable<ApiResult<EducationSummary>> getHomeEducationSummary(@QueryMap HashMap<String, Integer> params);
 }

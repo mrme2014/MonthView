@@ -71,7 +71,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
     private int position_id;
     private String position_name;
     private int user_id;
-    boolean isHeadQuatyer;
+   // boolean isHeadQuatyer;
     private ComMarketProcess process;
     private ArrayList<String> des;
 
@@ -87,11 +87,11 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         //  campus_name = mUser.campusInfo.name;
         campus_name = "杭州校区";
         curuser_position_id = mUser.positionInfo.id;
-        isHeadQuatyer = campus_id == Constants.CAMPUS_HEADQUARTERS;
+       // isHeadQuatyer = campus_id == Constants.CAMPUS_HEADQUARTERS;
           /*总部角色  拉取图表数据用现在接口，，，非总部的角色 用 市场------销售流程分析的接口*/
-        if (campus_id == Constants.CAMPUS_HEADQUARTERS) {
+       /* if (campus_id == Constants.CAMPUS_HEADQUARTERS) {
             isHeadQuatyer = true;
-        }
+        }*/
         salesAvartTxt.setText(mUser.userInfo.user_name, mUser.userInfo.user_id, mUser.avatar.file_name);
         salesJob.setFirstTxt(mUser.userInfo.user_name);
         salesJob.setSecondTxt(mUser.positionInfo.title + " | " + campus_name);
@@ -185,7 +185,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         list.add(process.process.add_number);
         list.add(process.process.openclass_sign_number);
         list.add(process.process.openclass_apply_number);
-        list.add(process.process.openclass_full_amount_number);
+        list.add(process.process.full_amount_number);
 
         String rate1 = process.process.openclass_apply_rate;
         String rate2 = process.process.full_amount_rate;
@@ -194,11 +194,11 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, rate1).DrawPercentFloor(3, 0, rate2);
         lineChart.invalidate(biulder);
         salesTable1.setSpanedStr(getString(R.string.update_rate),
-                process.process.openclass_sign_number,
+                process.process.openclass_apply_rate,
                 getString(R.string.fullpay_rate),
                 process.process.full_amount_rate,
                 getString(R.string.tuikuan_rate),
-                process.process.openclass_apply_rate);
+                process.process.openclass_full_amount_apply_rate);
     }
 
     @Override
@@ -224,15 +224,19 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         if (position == 0) {
             begin_time = (int) AppUtil.getWeekStart();
             end_time = (int) AppUtil.getWeekEnd();
+            getComMarketSaleProcess();
         } else if (position == 1) {
             begin_time = (int) AppUtil.getMonthStart();
             end_time = (int) AppUtil.getMonthEnd();
+            getComMarketSaleProcess();
         } else if (position == 2) {
             begin_time = (int) AppUtil.getLastWeekStart();
             end_time = (int) AppUtil.getLastWeekEnd();
+            getComMarketSaleProcess();
         } else if (position == 3) {
             begin_time = (int) AppUtil.getLastMonthStart();
             end_time = (int) AppUtil.getLastMonthEnd();
+            getComMarketSaleProcess();
         } else if (position == 4) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
@@ -246,6 +250,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
                         begin_time = start_time;
                         end_time = over_time;
                         LogUtil.e("-setOnSelectResultCallback----" + begin_time + "----" + end_time);
+                        getComMarketSaleProcess();
                     }
 
                     @Override
@@ -263,7 +268,6 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
             }
         }
         LogUtil.e(position + "-----" + begin_time + "----" + end_time);
-        getComMarketSaleProcess();
 
     }
 

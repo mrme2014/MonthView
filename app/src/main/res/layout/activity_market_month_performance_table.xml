@@ -47,25 +47,6 @@
             android:scrollbars="none"
             android:background="@color/chart_head_gray_bg"/>
 
-        <com.ishow.ischool.widget.table.BodyHorizontalScrollView
-            android:id="@+id/sv_detail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/horizontal_divider_line"
-            android:layout_toRightOf="@id/vertical_divider_line"
-            android:overScrollMode="never"
-            android:scrollbars="none">
-
-            <ListView
-                android:id="@+id/lv_detail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:listSelector="#00000000"
-                android:dividerHeight="1px"
-                android:divider="@color/comm_line"
-                android:scrollbars="none" />
-        </com.ishow.ischool.widget.table.BodyHorizontalScrollView>
-
         <com.ishow.ischool.widget.table.HeadHorizontalScrollView
             android:id="@+id/sv_title"
             android:layout_width="wrap_content"
@@ -84,6 +65,26 @@
                 android:background="@color/chart_head_gray_bg"/>
 
         </com.ishow.ischool.widget.table.HeadHorizontalScrollView>
+
+        <com.ishow.ischool.widget.table.BodyHorizontalScrollView
+            android:id="@+id/sv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/lv_left"
+            android:layout_toEndOf="@+id/lv_left">
+
+            <ListView
+                android:id="@+id/lv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:listSelector="#00000000"
+                android:dividerHeight="1px"
+                android:divider="@color/comm_line"
+                android:scrollbars="none" />
+        </com.ishow.ischool.widget.table.BodyHorizontalScrollView>
 
     </RelativeLayout>
 

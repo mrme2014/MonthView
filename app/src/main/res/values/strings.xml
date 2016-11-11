@@ -342,6 +342,8 @@
     <string name="people_num">人</string>
     <string name="people_unit">人</string>
     <string name="money_unit">元</string>
+    <string name="group_market_summary_table">集团市场简报</string>
+    <string name="group_teach_summary_table">集团教学简报</string>
 
     <string-array name="home_choose_times">
         <item>本周</item>

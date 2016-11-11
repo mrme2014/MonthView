@@ -63,7 +63,7 @@ public class ActivityStackManager {
      */
     public void popActivity(Activity activity) {
         if (activity != null && mActivityStack.contains(activity)) {
-            activity.finish();
+//            activity.finish();
             LogUtil.d(TAG, "remove current activity:" + activity.getClass().getSimpleName());
             mActivityStack.remove(activity);
             activity = null;
@@ -76,8 +76,8 @@ public class ActivityStackManager {
                 LogUtil.e("remove current activity:" + mActivityStack.get(i).getClass().getSimpleName());
                 if (TextUtils.equals(mActivityStack.get(i).getClass().getSimpleName(), activity)) {
                     Activity remove = mActivityStack.remove(i);
-                    if (remove!=null)
-                        remove.finish();
+//                    if (remove!=null)
+//                        remove.finish();
                     break;
                 }
             }
@@ -109,6 +109,7 @@ public class ActivityStackManager {
     public void clear() {
         for (Activity activity : mActivityStack) {
             popActivity(activity);
+            activity.finish();
         }
     }
 

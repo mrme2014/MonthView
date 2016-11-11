@@ -139,8 +139,7 @@
         <activity
             android:name=".business.classattention.ClazCheckinTableActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"></activity>
-
+            android:screenOrientation="landscape" />
         <activity
             android:name=".business.classmaneger.classlist.ClassListActivity"
             android:screenOrientation="portrait" />
@@ -150,8 +149,14 @@
         <activity
             android:name=".business.classmaneger.classlist.TeacherPickActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.address.AddressListActivity"></activity>
+        <activity android:name=".business.address.AddressListActivity" />
         <activity android:name=".business.companymarketsaleprocess.CompanyMarketSaleprocessActivity" />
+        <activity
+            android:name=".business.home.market.MarketSummaryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".business.home.teach.TeachSummaryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>

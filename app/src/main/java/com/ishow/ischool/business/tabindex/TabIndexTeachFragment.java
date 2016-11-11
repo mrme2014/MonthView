@@ -1,5 +1,6 @@
 package com.ishow.ischool.business.tabindex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
+import com.ishow.ischool.business.home.market.MarketSummaryActivity;
+import com.ishow.ischool.business.home.teach.TeachSummaryActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
@@ -200,7 +203,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.process_group, R.id.performance_education_ll})
+    @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_education_ll:
@@ -208,6 +211,12 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 break;
             case R.id.process_group:
                 JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.pre_pay_group:
+                Intent intent = new Intent(getActivity(), TeachSummaryActivity.class);
+                intent.putExtra(TeachSummaryActivity.P_START_TIME, params.get("start_time"));
+                intent.putExtra(TeachSummaryActivity.P_END_TIME, params.get("end_time"));
+                JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
         }
     }
@@ -224,6 +233,11 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                     @Override
                     public void onError(String msg) {
                         showToast(msg);
+                    }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return !isActivityFinished();
                     }
                 });
     }

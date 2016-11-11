@@ -152,6 +152,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".business.address.AddressListActivity"></activity>
         <activity android:name=".business.companymarketsaleprocess.CompanyMarketSaleprocessActivity" />
+        <activity android:name=".business.teachprocess.TeachProcessActivity4Home" />
     </application>
 
 </manifest>

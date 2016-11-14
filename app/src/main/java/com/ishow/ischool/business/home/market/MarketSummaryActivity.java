@@ -46,7 +46,7 @@ public class MarketSummaryActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpView() {
-        tableFixHeaders.setEnabled(false);
+        tableFixHeaders.setLoading(true);
     }
 
     @Override
@@ -85,7 +85,6 @@ public class MarketSummaryActivity extends BaseActivity4Crm {
     }
 
     private void updateView(Table table) {
-        tableFixHeaders.setEnabled(true);
         String[][] tableData = new String[table.tablebody.length + 1][];
         tableData[0] = table.tablehead;
         for (int i = 0; i < table.tablebody.length; i++) {
@@ -94,5 +93,6 @@ public class MarketSummaryActivity extends BaseActivity4Crm {
         MatrixTableAdapter<String> matrixTableAdapter = new MatrixTableAdapter<String>(this, tableData);
         tableFixHeaders.setAdapter(matrixTableAdapter);
         tableFixHeaders.invalidate();
+        tableFixHeaders.setLoading(false);
     }
 }

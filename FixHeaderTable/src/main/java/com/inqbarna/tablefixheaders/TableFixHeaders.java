@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -66,6 +67,7 @@ public class TableFixHeaders extends ViewGroup {
     private VelocityTracker velocityTracker;
 
     private int touchSlop;
+    private boolean isloading;
 
     /**
      * Simple constructor to use when creating a view from code.
@@ -181,7 +183,7 @@ public class TableFixHeaders extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!isEnabled()) {
+        if (!isEnabled() || isLoading()) {
             return true;
         }
         if (velocityTracker == null) { // If we do not have velocity tracker
@@ -206,7 +208,13 @@ public class TableFixHeaders extends ViewGroup {
                 currentX = x2;
                 currentY = y2;
 
-                scrollBy(diffX, diffY);
+//                System.out.println("xbin: x2=" + x2 + "y2=" + y2 + " diffx=" + diffX + " diffY=" + diffY);
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    scrollBy(diffX, 0);
+                } else {
+                    scrollBy(0, diffY);
+                }
                 break;
             }
             case MotionEvent.ACTION_UP: {
@@ -227,6 +235,29 @@ public class TableFixHeaders extends ViewGroup {
             }
         }
         return true;
+    }
+
+    private boolean isLoading() {
+        return isloading;
+    }
+
+    public void setLoading(boolean isloading) {
+        this.isloading = isloading;
+        addSecond();
+
+    }
+
+    private void addSecond() {
+        if (!isLoading()) {
+            return;
+        }
+        second++;
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addSecond();
+            }
+        }, 300);
     }
 
     @Override
@@ -773,6 +804,33 @@ public class TableFixHeaders extends ViewGroup {
         final View view = makeView(row, column, right - left, bottom - top);
         view.layout(left, top, right, bottom);
         return view;
+    }
+
+    private int second;
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (isLoading()) {
+            final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
+            int textSize = (int) (14 * fontScale + 0.5f);
+            int width = canvas.getWidth();
+            int height = canvas.getHeight();
+            Paint textPaint = new Paint();
+            textPaint.setTextSize(textSize);
+            String text = "Loading...";
+            if (second % 4 == 1) {
+                text = "Loading";
+            } else if (second % 4 == 2) {
+                text = "Loading.";
+            } else if (second % 4 == 3) {
+                text = "Loading..";
+            } else if (second % 4 == 0) {
+                text = "Loading...";
+            }
+            System.out.println("xbin: second" + second);
+            canvas.drawText(text, width / 2 - textPaint.measureText("Loading...") / 2, height / 2, textPaint);
+        }
     }
 
     @Override

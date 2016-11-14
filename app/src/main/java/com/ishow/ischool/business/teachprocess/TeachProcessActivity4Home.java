@@ -37,8 +37,6 @@ import java.util.TreeMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.ishow.ischool.R.id.start_time;
-
 /**
  * Created by mini on 16/11/9.
  */
@@ -98,7 +96,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
 
     private void getComMarketSaleProcess() {
         if (map == null) map = new TreeMap();
-        map.put("start_time", start_time);
+        map.put("start_time", begin_time);
         map.put("end_time", end_time);
         mPresenter.getTeachProcessData(map);
     }

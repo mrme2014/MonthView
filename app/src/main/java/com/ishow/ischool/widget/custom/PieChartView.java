@@ -106,24 +106,24 @@ public class PieChartView extends View {
             if (i == 0)
                 paint.setAlpha(90);
             else if (i == 1)
-                paint.setAlpha(130);
+                paint.setAlpha(120);
             else if (i == 2)
-                paint.setAlpha(170);
+                paint.setAlpha(150);
             else if (i == 3) {
-                paint.setAlpha(255);
+                paint.setAlpha(180);
             }
             /*绘制圆*/
             // 或者 canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
             setFloorPercent(canvas, i, paint.getColor(), (int) ((floorCount - i) * timePercent * 180));
-            for (int j = 0; j < biulder.floorIndex.size(); j++) {
-                if (i == biulder.floorIndex.get(j)) {
-                    int color = biulder.floorColor.get(j);
-                    if (color == 0) {
-                        color = R.color.colorPrimaryDark1;
-                    }
-                    setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
-                }
-            }
+//            for (int j = 0; j < biulder.floorIndex.size(); j++) {
+//                if (i == biulder.floorIndex.get(j)) {
+//                    int color = biulder.floorColor.get(j);
+//                    if (color == 0) {
+//                        color = R.color.colorPrimaryDark1;
+//                    }
+//                    setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
+//                }
+//            }
             if (biulder.des != null && biulder.des.size() > 0) {
 
                 Paint.FontMetrics metrics = txtPaint.getFontMetrics();
@@ -174,12 +174,15 @@ public class PieChartView extends View {
         if (angle > 180) {
             angle = 180;
         }
+
         final RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
-        percentPaint.setStrokeWidth(floorHeight);
+        percentPaint.setStrokeWidth(floorHeight + 1);
         percentPaint.setStyle(Paint.Style.STROKE);
         percentPaint.setColor(color);
-        canvas.drawArc(rectF, -180 - 3, angle + 3, false, percentPaint);
-
+        if (floorIndex == 3) {
+            percentPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        }
+        canvas.drawArc(rectF, -180 - 3, angle + 6, false, percentPaint);
     }
 
     public static class Biulder {

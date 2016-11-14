@@ -2,6 +2,7 @@ package com.ishow.ischool.business.tabindex;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -42,7 +43,7 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TabIndexMarketFragment extends BaseFragment4Crm {
+public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndexFragment.TabFragment {
 
     @BindView(R.id.home_advances_received)
     RiseNumTextView advancesReceivedTv;
@@ -108,6 +109,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     HashMap<String, Integer> params = new HashMap<>();
 
+    private TabIndexFragment parentFragment;
 
     public TabIndexMarketFragment() {
         // Required empty public constructor
@@ -213,7 +215,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group})
+    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group, R.id.title_radio_2})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_title: {
@@ -232,6 +234,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
                 intent.putExtra(MarketSummaryActivity.P_START_TIME, params.get("begin_time"));
                 intent.putExtra(MarketSummaryActivity.P_END_TIME, params.get("end_time"));
                 JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.title_radio_2:
+                setCurrentItem(1);
                 break;
         }
     }
@@ -341,11 +346,22 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         PieChartView.Biulder biulder = new PieChartView.Biulder();
         biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
                 .setDrawNums(list)
-                .setDrawTxtDes(des)
-                .DrawPercentFloor(1, R.color.colorPrimaryDark1, marketHome.process.openclass_apply_rate)
-                .DrawPercentFloor(3, R.color.colorPrimaryDark1, marketHome.process.full_amount_rate);
+                .setDrawTxtDes(des);
+//                .DrawPercentFloor(1, R.color.colorPrimaryDark1, marketHome.process.openclass_apply_rate)
+//                .DrawPercentFloor(3, R.color.colorPrimaryDark1, marketHome.process.full_amount_rate);
         pieChart.invalidateNoAnimation(biulder);
 
     }
 
+    public Fragment setParentFragment(TabIndexFragment fragment) {
+        this.parentFragment = fragment;
+        return this;
+    }
+
+    @Override
+    public void setCurrentItem(int index) {
+        if (parentFragment != null) {
+            parentFragment.setCurrentItem(index);
+        }
+    }
 }

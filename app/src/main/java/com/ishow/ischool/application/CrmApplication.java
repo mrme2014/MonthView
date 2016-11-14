@@ -57,7 +57,7 @@ public class CrmApplication extends BaseApplication {
 
 
     private void initApi() {
-        ApiFactory.getInstance().build(getApplicationContext(), Env.SITE_URL, new Interceptor() {
+        ApiFactory.getInstance().build(getApplicationContext(), Env.getSiteUrl(), new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Token token = TokenManager.getToken();
@@ -110,7 +110,7 @@ public class CrmApplication extends BaseApplication {
         // Application中对Config进行配置
         final String TAG = "UpdateConfig";
         UpdateConfig.getConfig()
-                .url(Env.SITE_URL + "attribute/app/init?device_type=1&app_type=1")// 随便模拟的一个网络接口。
+                .url(Env.getSiteUrl() + "attribute/app/init?device_type=1&app_type=1")// 随便模拟的一个网络接口。
                 .jsonParser(new UpdateParser() {
                     @Override
                     public Update parse(String response) {

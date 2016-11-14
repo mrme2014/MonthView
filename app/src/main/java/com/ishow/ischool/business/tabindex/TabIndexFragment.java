@@ -2,8 +2,6 @@ package com.ishow.ischool.business.tabindex;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
@@ -39,10 +37,18 @@ public class TabIndexFragment extends BaseFragment4Crm {
     @Override
     public void init() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new TabIndexMarketFragment());
-        fragments.add(new TabIndexTeachFragment());
+        fragments.add(new TabIndexMarketFragment().setParentFragment(this));
+        fragments.add(new TabIndexTeachFragment().setParentFragment(this));
 
         mAdapter = new FragmentAdapter(getChildFragmentManager(), fragments);
         mViewPager.setAdapter(mAdapter);
+    }
+
+    public void setCurrentItem(int index) {
+        mViewPager.setCurrentItem(index);
+    }
+
+    public interface TabFragment {
+        void setCurrentItem(int index);
     }
 }

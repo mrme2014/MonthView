@@ -177,7 +177,7 @@
 
                 <com.commonlib.widget.TopBottomTextView
                     android:id="@+id/process_apply_rate"
-                    android:layout_width="60dp"
+                    android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="30dp"

@@ -73,6 +73,7 @@
             android:overScrollMode="never"
             android:scrollbars="none"
             android:layout_alignParentBottom="true"
+            android:layout_below="@id/sv_title"
             android:layout_toRightOf="@+id/lv_left"
             android:layout_toEndOf="@+id/lv_left">
 

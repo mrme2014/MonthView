@@ -22,7 +22,7 @@
                 android:orientation="vertical"
                 android:paddingTop="50dp">
 
-                <include layout="@layout/group_home_pre_pay"/>
+                <include layout="@layout/group_home_pre_pay" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -84,59 +84,71 @@
                     android:textColor="@color/txt_9"
                     android:textSize="@dimen/sp12" />
 
-                <com.commonlib.widget.LabelTextView
-                    android:id="@+id/up_progress_performance"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="right"
-                    android:textColor="@color/txt_9"
-                    app:label_text_color="@color/txt_9"
-                    app:label_text_left="@string/performance" />
+                    android:orientation="vertical"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="15dp">
 
-                <ProgressBar
-                    android:id="@+id/up_progress_bar_performance"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressDrawable="@drawable/progressbar_performance" />
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/up_progress_performance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/txt_9"
+                        app:label_text_size="@dimen/sp13"
+                        app:label_text_color="@color/txt_9"
+                        app:label_text_left="@string/performance" />
 
-                <com.commonlib.widget.LabelTextView
-                    android:id="@+id/up_progress_red_target"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="right"
-                    android:textColor="@color/txt_9"
-                    app:label_text_color="@color/txt_9"
-                    app:label_text_left="@string/red_target" />
+                    <ProgressBar
+                        android:id="@+id/up_progress_bar_performance"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="4dp"
+                        android:progressDrawable="@drawable/progressbar_performance" />
 
-                <ProgressBar
-                    android:id="@+id/up_progress_bar_red_target"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressDrawable="@drawable/progressbar_red_target" />
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/up_progress_red_target"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="right"
+                        android:textColor="@color/txt_9"
+                        app:label_text_size="@dimen/sp13"
+                        app:label_text_color="@color/txt_9"
+                        app:label_text_left="@string/red_target" />
 
-                <com.commonlib.widget.LabelTextView
-                    android:id="@+id/up_progress_rush_target"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="right"
-                    android:textColor="@color/txt_9"
-                    app:label_text_color="@color/txt_9"
-                    app:label_text_left="@string/rush_target" />
+                    <ProgressBar
+                        android:id="@+id/up_progress_bar_red_target"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="4dp"
+                        android:progressDrawable="@drawable/progressbar_red_target" />
 
-                <ProgressBar
-                    android:id="@+id/up_progress_bar_rush_target"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressDrawable="@drawable/progressbar_rush_target" />
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/up_progress_rush_target"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="right"
+                        android:textColor="@color/txt_9"
+                        app:label_text_size="@dimen/sp13"
+                        app:label_text_color="@color/txt_9"
+                        app:label_text_left="@string/rush_target" />
+
+                    <ProgressBar
+                        android:id="@+id/up_progress_bar_rush_target"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="4dp"
+                        android:progressDrawable="@drawable/progressbar_rush_target" />
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout
@@ -195,8 +207,8 @@
             <com.ishow.ischool.widget.custom.PieChartView
                 android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
-                android:background="@color/white"
-                android:layout_height="250dp" />
+                android:layout_height="250dp"
+                android:background="@color/white" />
 
 
         </LinearLayout>

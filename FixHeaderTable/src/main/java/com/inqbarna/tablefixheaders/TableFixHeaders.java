@@ -208,7 +208,13 @@ public class TableFixHeaders extends ViewGroup {
                 currentX = x2;
                 currentY = y2;
 
-                scrollBy(diffX, diffY);
+//                System.out.println("xbin: x2=" + x2 + "y2=" + y2 + " diffx=" + diffX + " diffY=" + diffY);
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    scrollBy(diffX, 0);
+                } else {
+                    scrollBy(0, diffY);
+                }
                 break;
             }
             case MotionEvent.ACTION_UP: {
@@ -242,13 +248,14 @@ public class TableFixHeaders extends ViewGroup {
     }
 
     private void addSecond() {
+        if (!isLoading()) {
+            return;
+        }
         second++;
         this.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (isLoading()) {
-                    addSecond();
-                }
+                addSecond();
             }
         }, 300);
     }

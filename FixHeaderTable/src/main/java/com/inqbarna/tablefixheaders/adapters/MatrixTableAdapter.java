@@ -13,7 +13,7 @@ import com.inqbarna.tablefixheaders.R;
 public class MatrixTableAdapter<T> extends BaseTableAdapter {
 
     private final static int WIDTH_DIP = 110;
-    private final static int HEIGHT_DIP = 62;
+    private final static int HEIGHT_DIP = 50;
 
     private final Context context;
 

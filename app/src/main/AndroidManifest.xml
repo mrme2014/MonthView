@@ -52,7 +52,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity1" />
         <activity android:name=".business.forgetpwd.ForgetPwdActivity2" />
         <activity android:name=".business.editpwd.EditPwdActivity" />

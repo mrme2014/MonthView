@@ -45,7 +45,7 @@ public class TeachSummaryActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpView() {
-
+        tableFixHeaders.setEnabled(false);
     }
 
     @Override
@@ -79,6 +79,7 @@ public class TeachSummaryActivity extends BaseActivity4Crm {
     }
 
     private void updateView(Table1 table) {
+        tableFixHeaders.setEnabled(true);
         String[][] tableData = new String[table.body.length + 1][];
         tableData[0] = table.head;
         for (int i = 0; i < table.body.length; i++) {

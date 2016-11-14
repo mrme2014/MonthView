@@ -3,7 +3,6 @@ package com.ishow.ischool.business.home.market;
 import android.content.res.Configuration;
 
 import com.commonlib.http.ApiFactory;
-import com.commonlib.util.LogUtil;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
 import com.inqbarna.tablefixheaders.adapters.MatrixTableAdapter;
 import com.ishow.ischool.R;
@@ -18,9 +17,6 @@ import java.util.HashMap;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.ishow.ischool.business.home.teach.TeachSummaryActivity.P_END_TIME;
-import static com.ishow.ischool.business.home.teach.TeachSummaryActivity.P_START_TIME;
 
 public class MarketSummaryActivity extends BaseActivity4Crm {
 
@@ -50,8 +46,9 @@ public class MarketSummaryActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpView() {
-
+        tableFixHeaders.setEnabled(false);
     }
+
     @Override
     protected void setUpData() {
         taskGetMarketSummary();
@@ -79,10 +76,16 @@ public class MarketSummaryActivity extends BaseActivity4Crm {
                     public void onError(String msg) {
 
                     }
+
+                    @Override
+                    protected boolean isAlive() {
+                        return !isActivityFinished();
+                    }
                 });
     }
 
     private void updateView(Table table) {
+        tableFixHeaders.setEnabled(true);
         String[][] tableData = new String[table.tablebody.length + 1][];
         tableData[0] = table.tablehead;
         for (int i = 0; i < table.tablebody.length; i++) {

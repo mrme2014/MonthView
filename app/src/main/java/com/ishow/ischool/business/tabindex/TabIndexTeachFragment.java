@@ -2,6 +2,7 @@ package com.ishow.ischool.business.tabindex;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -42,7 +43,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class TabIndexTeachFragment extends BaseFragment4Crm {
+public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexFragment.TabFragment {
 
     @BindView(R.id.home_advances_received)
     RiseNumTextView advancesReceivedTv;
@@ -104,6 +105,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
     private int titlebarColor;
 
     HashMap<String, Integer> params = new HashMap<>();
+    private TabIndexFragment parentFragment;
 
 
     public static TabIndexTeachFragment newInstance() {
@@ -203,7 +205,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         chooseTimeSpinner.setPosition(1);
     }
 
-    @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group})
+    @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group, R.id.title_radio_1})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_education_ll:
@@ -217,6 +219,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 intent.putExtra(TeachSummaryActivity.P_START_TIME, params.get("start_time"));
                 intent.putExtra(TeachSummaryActivity.P_END_TIME, params.get("end_time"));
                 JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
+                break;
+            case R.id.title_radio_1:
+                setCurrentItem(0);
                 break;
         }
     }
@@ -280,6 +285,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
             @Override
             public void onEndFinish() {
+                if (isActivityFinished() || advancesReceivedTv == null) {
+                    return;
+                }
                 advancesReceivedTv.setText(educationHome.data.body[7]);
             }
         });
@@ -324,10 +332,21 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         PieChartView.Biulder biulder = new PieChartView.Biulder();
         biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
                 .setDrawNums(list)
-                .setDrawTxtDes(des)
-                .DrawPercentFloor(1, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(4))
-                .DrawPercentFloor(3, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(5));
+                .setDrawTxtDes(des);
+//                .DrawPercentFloor(1, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(4))
+//                .DrawPercentFloor(3, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(5));
         pieChart.invalidateNoAnimation(biulder);
     }
 
+    public Fragment setParentFragment(TabIndexFragment fragment) {
+        this.parentFragment = fragment;
+        return this;
+    }
+
+    @Override
+    public void setCurrentItem(int index) {
+        if (parentFragment != null) {
+            parentFragment.setCurrentItem(index);
+        }
+    }
 }

@@ -36,7 +36,6 @@ import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.event.SignEvent;
 import com.ishow.ischool.fragment.ClassListFilterFragment;
-import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.CircleTransform;
 import com.ishow.ischool.widget.custom.CustomGridLayoutManager;
 import com.ishow.ischool.widget.custom.InterceptLayout;
@@ -334,18 +333,18 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             if (JumpManager.checkUserPermision(getApplicationContext(), Resource.EDUCATION_CLASSMANAGEMENT_CLASSSIGN, false)) {     // 如果没有签到权限，直接隐藏签到按钮
                 switch (data.classInfo.status) {
                     case 2:
-                        int day = AppUtil.getDayOfWeek();
+//                        int day = AppUtil.getDayOfWeek();
                         for (ClassTimeSlot classTimeSlot : data.classInfo.timeslot) {
-                            if (classTimeSlot.week == day) {
+//                            if (classTimeSlot.week == day) {
                                 if (data.classDynamic.checkin_status == 0) {
                                     signedTv.setVisibility(View.VISIBLE);
+                                    break;
                                 } else {
                                     signedTv.setVisibility(View.INVISIBLE);
                                 }
-                                break;
-                            } else {
-                                signedTv.setVisibility(View.INVISIBLE);
-                            }
+//                            } else {
+//                                signedTv.setVisibility(View.INVISIBLE);
+//                            }
                         }
                         break;
                     case 1:

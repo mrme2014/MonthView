@@ -109,7 +109,6 @@ public class LineChartFragment extends BaseFragment {
     public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth, int dataType) {
         mParamBeginDate = beginMonth;
         mParamEndDate = endMonth;
-        subtitleTv.setText(mParamBeginDate + "-" + mParamEndDate);
         ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(mCampusParamAll,
                 beginMonth, endMonth, dataType == -1 ? null : dataType, "campusTotal")
                 .subscribeOn(Schedulers.io())
@@ -117,6 +116,7 @@ public class LineChartFragment extends BaseFragment {
                 .subscribe(new ApiObserver<SignPerformanceResult>() {
                     @Override
                     public void onSuccess(SignPerformanceResult result) {
+                        subtitleTv.setText(mParamBeginDate + "-" + mParamEndDate);
                         lazyShow();
                         mYDatas = result.campusTotal;
                         setLineChartData(showCampus);

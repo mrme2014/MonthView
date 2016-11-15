@@ -92,8 +92,7 @@ public class BarChartFragment extends BaseFragment {
     public String campusParamAll = "";                     // 每次请求所有校区的
     public String campusParam = "";     // 默认所有
 
-    public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth) {
-        subtitleTv.setText(beginMonth + "-" + endMonth);
+    public void pullData(final ArrayList<CampusInfo> showCampus, final int beginMonth, final int endMonth) {
         campusParam = "";
         for (CampusInfo info : showCampus) {
             campusParam = campusParam + info.id + ",";
@@ -106,6 +105,7 @@ public class BarChartFragment extends BaseFragment {
                 .subscribe(new ApiObserver<SignAmountResult>() {
                     @Override
                     public void onSuccess(SignAmountResult result) {
+                        subtitleTv.setText(beginMonth + "-" + endMonth);
                         lazyShow();
                         mYDatas = result.signTotal;
                         mYDatas.add(new SignAmount());

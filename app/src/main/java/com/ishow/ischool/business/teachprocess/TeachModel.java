@@ -19,6 +19,6 @@ public class TeachModel implements TeachProcessConact.Model {
 
     @Override
     public Observable<ApiResult<TeachProcess>> getTeachProcessData(TreeMap<String, Integer> map) {
-        return ApiFactory.getInstance().getApi(DataApi.class).getTeatProcess(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return ApiFactory.getInstance().getApi(DataApi.class).getTeachProcess4Home(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

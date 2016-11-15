@@ -85,14 +85,15 @@ public class Performance4MarketActivity extends BaseActivity4Crm implements Perf
         } else if (Integer.parseInt(startMonth) < 10) {
             startMonth = "0" + startMonth;
         }
-        mFilterStartTime = curYear + startMonth;
-        String endMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1); //得到月，因为从0开始的，所以要加1
-        if (Integer.parseInt(endMonth) < 10) {
-            endMonth = "0" + endMonth;
-        }
-        mFilterEndTime = curYear + endMonth;
-        mFilterStartTime = mLastStartTime = curYear + startMonth;
-        mFilterEndTime = mLastEndTime = curYear + endMonth;
+        mFilterStartTime = mFilterEndTime = curYear + startMonth;
+        mLastStartTime = mLastEndTime = mFilterStartTime;
+//        String endMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1); //得到月，因为从0开始的，所以要加1
+//        if (Integer.parseInt(endMonth) < 10) {
+//            endMonth = "0" + endMonth;
+//        }
+//        mFilterEndTime = curYear + endMonth;
+//        mFilterStartTime = mLastStartTime = curYear + startMonth;
+//        mFilterEndTime = mLastEndTime = curYear + endMonth;
     }
 
     @Override

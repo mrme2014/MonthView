@@ -26,6 +26,8 @@ public  interface TeachProcessConact {
          * @return
          */
          Observable<ApiResult<TeachProcess>> getTeachProcessData(TreeMap<String, Integer> map);
+
+          Observable<ApiResult<TeachProcess>> getTeachProcessData4Self(TreeMap<String, Integer> map);
     }
 
     interface View extends BaseView {

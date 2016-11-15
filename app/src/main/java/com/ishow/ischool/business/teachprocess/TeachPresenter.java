@@ -25,7 +25,7 @@ import java.util.TreeMap;
 public class TeachPresenter extends TeachProcessConact.Presenter {
     @Override
     public void getTeachProcessData(TreeMap<String, Integer> map) {
-        mModel.getTeachProcessData(map).subscribe(new ApiObserver<TeachProcess>() {
+        mModel.getTeachProcessData4Self(map).subscribe(new ApiObserver<TeachProcess>() {
             @Override
             public void onSuccess(TeachProcess process) {
                 mView.getListSucess(process);
@@ -45,7 +45,7 @@ public class TeachPresenter extends TeachProcessConact.Presenter {
 
 
     public void initChart(HorizontalBarChart mChart) {
-       // mChart.setOnChartValueSelectedListener(this);
+        // mChart.setOnChartValueSelectedListener(this);
         // mChart.setHighlightEnabled(false);
 
         mChart.setDrawBarShadow(false);
@@ -55,7 +55,7 @@ public class TeachPresenter extends TeachProcessConact.Presenter {
 
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn
-       // mChart.setMaxVisibleValueCount(60);
+        // mChart.setMaxVisibleValueCount(60);
         // scaling can now only be done on x- and y-axis separately
         mChart.setPinchZoom(false);
 
@@ -91,7 +91,7 @@ public class TeachPresenter extends TeachProcessConact.Presenter {
 
     }
 
-    public void setData(HorizontalBarChart mChart,ArrayList<BarEntry> yVals1) {
+    public void setData(HorizontalBarChart mChart, ArrayList<BarEntry> yVals1) {
 
         float barWidth = 10f;
         BarDataSet set1;
@@ -120,7 +120,7 @@ public class TeachPresenter extends TeachProcessConact.Presenter {
 
 
     public ArrayList<String> getSpinnerData() {
-      return  AppUtil.getSpinnerData();
+        return AppUtil.getSpinnerData();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.commonlib.core;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,7 @@ import com.commonlib.core.util.GenericUtil;
  * Created by wqf on 16/4/28.
  * 宗旨：纯粹界面操作交互，不需要MP参与的行为，尽量V自己做，保证MVP职责清晰，P只有干净简洁的协助VM的业务逻辑操作，M只处理数据操作。
  */
-public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, IView {
     protected Toolbar mToolbar;
     protected TextView mToolbarTitle;
     public static final int MODE_BACK = 0;      // 左侧返回键
@@ -26,6 +27,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 
     public P mPresenter;
     public M mModel;
+    private ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,11 +201,27 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         }
     }
 
+    public void showLoading() {
+        if (mDialog == null) {
+            mDialog = new ProgressDialog(this);
+        }
+        mDialog.show();
+    }
+
+    public void dismissLoading() {
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.onDestroy();
+        }
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
         }
 
         ActivityStackManager.getInstance().popActivity(this);

@@ -100,6 +100,7 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
 
         if (body == null) {
             onError("response is null");
+            return;
         } else {
             if (body.error_no == 0) {
                 Type type = GenericUtil.getGenericClass(this);
@@ -107,6 +108,7 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
                     T result = body.getResultBean(type);
                     if (result == null) {
                         onError("data error");
+                        return;
                     } else {
                         try {
                             onSuccess(result);
@@ -124,6 +126,7 @@ public abstract class ApiObserver<T> implements Observer<ApiResult<T>> {
 
             } else {
                 onError(TextUtils.isEmpty(body.error_msg) ? body.error_no + "" : body.error_msg);
+                return;
             }
         }
 

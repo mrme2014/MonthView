@@ -1,6 +1,7 @@
 package com.commonlib.core;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,11 @@ import android.support.v4.app.Fragment;
 /**
  * Created by wqf on 16/8/25.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IView {
 
     protected Activity mActivity;
+
+    private ProgressDialog mDialog;
 
     @Override
     public void onAttach(Activity activity) {
@@ -57,9 +60,24 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    public void showLoading() {
+        if (mDialog == null) {
+            mDialog = new ProgressDialog(getContext());
+        }
+        mDialog.show();
+    }
+    public void dismissLoading() {
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
         if (mActivity != null) {
             mActivity = null;
         }

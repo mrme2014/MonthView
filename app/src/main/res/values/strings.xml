@@ -322,8 +322,8 @@
     <string name="tab_index">首页</string>
     <string name="advances_received">预收款(元)</string>
     <string name="label_student_all">上课人数</string>
-    <string name="label_student_final">实到人数</string>
-    <string name="label_student_should">应到人数</string>
+    <string name="label_student_final">实到人次</string>
+    <string name="label_student_should">应到人次</string>
     <string name="label_student_refund">退款人数</string>
     <string name="label_student_stop">停课人数</string>
     <string name="label_refund">退款</string>
@@ -334,7 +334,7 @@
     <string name="label_student_apply">报名人数</string>
     <string name="label_student_full_pay">全款人数</string>
     <string name="home_performance_progress">集团业绩完成进度</string>
-    <string name="market_process">集团销售流程</string>
+    <string name="market_process">销售流程(公开课)</string>
 
     <string name="full_pay_rate">全款率</string>
     <string name="upgrade_rate">升学率</string>
@@ -349,6 +349,9 @@
     <string name="group_market_summary_table">集团市场简报</string>
     <string name="group_teach_summary_table">集团教学简报</string>
     <string name="campus_talk">晨读/校聊</string>
+    <string name="up_grogress_rate_to_today">截止到今日</string>
+    <string name="income">收入(元)</string>
+    <string name="apply_rate">报名率</string>
 
     <string-array name="home_choose_times">
         <item>本周</item>

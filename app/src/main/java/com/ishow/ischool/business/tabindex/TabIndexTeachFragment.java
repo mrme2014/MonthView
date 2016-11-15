@@ -31,7 +31,6 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.PieChartView;
-import com.ishow.ischool.widget.custom.RiseNumTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +45,7 @@ import rx.schedulers.Schedulers;
 public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexFragment.TabFragment {
 
     @BindView(R.id.home_advances_received)
-    RiseNumTextView advancesReceivedTv;
+    TextView advancesReceivedTv;
     @BindView(R.id.index_refund_num)
     TextView refundNumTv;
     @BindView(R.id.index_refund_money)
@@ -98,6 +97,8 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
 
     @BindView(R.id.home_choose_time_sp)
     MySpinner chooseTimeSpinner;
+    @BindView(R.id.label_index_advances_received)
+    TextView labelIndexAdvancesReceivedTv;
 
     @BindView(R.id.pie_chart)
     PieChartView pieChart;
@@ -135,6 +136,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
 
     private void initView() {
         titlebarColor = getResources().getColor(R.color.colorPrimary);
+        labelIndexAdvancesReceivedTv.setText(R.string.income);
         final int max = UIUtil.dip2px(getActivity(), 200);
         homeScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -148,13 +150,6 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
         updateToolbarBg(0);
 
         AnimationSet animationSet = new AnimationSet(true);
-        //参数1：从哪个旋转角度开始
-        //参数2：转到什么角度
-        //后4个参数用于设置围绕着旋转的圆的圆心在哪里
-        //参数3：确定x轴坐标的类型，有ABSOLUT绝对坐标、RELATIVE_TO_SELF相对于自身坐标、RELATIVE_TO_PARENT相对于父控件的坐标
-        //参数4：x轴的值，0.5f表明是以自身这个控件的一半长度为x轴
-        //参数5：确定y轴坐标的类型
-        //参数6：y轴的值，0.5f表明是以自身这个控件的一半长度为x轴
         RotateAnimation rotateAnimation = new RotateAnimation(0, 360,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
@@ -188,7 +183,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
                 }
 
                 processTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
-                upProgressSubtitleTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
+//                upProgressSubtitleTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
                 taskGetHomeTeachData();
 
             }
@@ -202,7 +197,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
     }
 
     private void setupData() {
-        chooseTimeSpinner.setPosition(1);
+        chooseTimeSpinner.setPosition(0);
     }
 
     @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group, R.id.title_radio_1})
@@ -228,15 +223,20 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
 
 
     private void taskGetHomeTeachData() {
+        if (parentFragment.getCurrentItem() == 1) {
+            handProgressbar(true);
+        }
         ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<EducationHome>() {
                     @Override
                     public void onSuccess(EducationHome marketHome) {
+                        handProgressbar(false);
                         updateView(marketHome);
                     }
 
                     @Override
                     public void onError(String msg) {
+                        handProgressbar(false);
                         showToast(msg);
                     }
 
@@ -244,6 +244,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
                     protected boolean isAlive() {
                         return !isActivityFinished();
                     }
+
                 });
     }
 
@@ -281,17 +282,18 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
 
     private void updateView(final EducationHome educationHome) {
 
-        advancesReceivedTv.withNumber((int) Float.parseFloat(educationHome.data.body[7]));
-        advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
-            @Override
-            public void onEndFinish() {
-                if (isActivityFinished() || advancesReceivedTv == null) {
-                    return;
-                }
-                advancesReceivedTv.setText(educationHome.data.body[7]);
-            }
-        });
-        advancesReceivedTv.start();
+//        advancesReceivedTv.withNumber((int) Float.parseFloat(educationHome.data.body[7]));
+//        advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
+//            @Override
+//            public void onEndFinish() {
+//                if (isActivityFinished() || advancesReceivedTv == null) {
+//                    return;
+//                }
+//                DecimalFormat df = new DecimalFormat("###,###,###.##");
+//                advancesReceivedTv.setText(df.format(Double.parseDouble(educationHome.data.body[7])));
+//            }
+//        });
+//        advancesReceivedTv.start();
 
         refundNumTv.setText(Integer.parseInt(educationHome.data.body[4]) + Integer.parseInt(educationHome.data.body[5]) + getString(R.string.people_unit));
         refundMoneyTv.setText(educationHome.data.body[6] + getString(R.string.money_unit));
@@ -324,10 +326,10 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
 //        pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
 
         ArrayList<String> des = new ArrayList<>();
-        des.add(getString(R.string.class_numbers));
-        des.add(getString(R.string.open_class));
-        des.add(getString(R.string.apply_numbers));
-        des.add(getString(R.string.full_amount_number));
+        des.add(educationHome.TeachingProcess.selfChartData.head[0]);
+        des.add(educationHome.TeachingProcess.selfChartData.head[1]);
+        des.add(educationHome.TeachingProcess.selfChartData.head[2]);
+        des.add(educationHome.TeachingProcess.selfChartData.head[3]);
 
         PieChartView.Biulder biulder = new PieChartView.Biulder();
         biulder.setPieChartBaseColor(R.color.colorPrimaryDark)

@@ -22,7 +22,7 @@
                 android:orientation="vertical"
                 android:paddingTop="50dp">
 
-                <include layout="@layout/group_home_pre_pay"/>
+                <include layout="@layout/group_home_pre_pay" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="本周数据"
+                    android:text="@string/up_grogress_rate_to_today"
                     android:textColor="@color/txt_9"
                     android:textSize="@dimen/sp12" />
 
@@ -200,8 +200,8 @@
             <com.ishow.ischool.widget.custom.PieChartView
                 android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
-                android:background="@color/white"
-                android:layout_height="250dp" />
+                android:layout_height="250dp"
+                android:background="@color/white" />
 
 
         </LinearLayout>

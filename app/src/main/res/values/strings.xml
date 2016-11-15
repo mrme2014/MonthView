@@ -283,9 +283,9 @@
 
     <string name="data_teach_title">教学流程分析</string>
     <string name="student_statistics_total">(共%d人)</string>
-    <string name="update_rate">升学率</string>
-    <string name="fullpay_rate">全款率</string>
-    <string name="tuikuan_rate">退款率</string>
+    <string name="update_rate">总报名人数</string>
+    <string name="fullpay_rate">总全款人数</string>
+    <string name="tuikuan_rate">全款率</string>
     <string name="data_title_last_7">最近7日教学数据统计</string>
     <string name="history_claz">上课记录</string>
     <string name="history_claz_time">上课时间</string>
@@ -349,6 +349,8 @@
     <string name="group_market_summary_table">集团市场简报</string>
     <string name="group_teach_summary_table">集团教学简报</string>
     <string name="campus_talk">晨读/校聊</string>
+    <string name="campus_hangzhou">杭州校区</string>
+    <string name="campus_zongbu">总部</string>
 
     <string-array name="home_choose_times">
         <item>本周</item>

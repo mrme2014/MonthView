@@ -112,6 +112,10 @@ public interface DataApi {
     @GET("/statistics/education/processanalysishome")
     Observable<ApiResult<TeachProcess>> getTeatProcess(@QueryMap TreeMap<String, Integer> params);
 
+    //数据分析.教务教学.教学流程分析(statistics.education.teachingprocessanalysis) 接口
+    @GET("/statistics/education/teachingprocessanalysis")
+    Observable<ApiResult<TeachProcess>> getTeatProcess4Old(@QueryMap TreeMap<String, Integer> params);
+
     @GET("/statistics/market/home")
     Observable<ApiResult<MarketHome>> getMarketHomeData(@QueryMap HashMap<String, Integer> params);
 

@@ -55,7 +55,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
             end_time = bundle.getInt("end_time");
             if (end_time != 0)
                 endTime.setTipTxt(DateUtil.parseSecond2Str((long) end_time));
-            if (start_time != 0) startTime.setTipTxt(DateUtil.parseSecond2Str((long) (start_time+24*3600)));
+            if (start_time != 0) startTime.setTipTxt(DateUtil.parseSecond2Str((long) (start_time)));
         }
          LogUtil.e((start_time+1)+"--onCreateDialog--"+end_time);
         return dialog;
@@ -116,7 +116,7 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
 
     private void showDatePickDialog(final boolean pick_start) {
         PickerDialogFragment.Builder builder = new PickerDialogFragment.Builder();
-        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start ? start_time +24*3600: end_time).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
+        builder.setBackgroundDark(true).setDialogTitle(R.string.choose_date).setDateTime(pick_start ? start_time :end_time).setDialogType(PickerDialogFragment.PICK_TYPE_DATE);
         PickerDialogFragment fragment = builder.Build();
         fragment.show(getChildFragmentManager());
         fragment.addCallback(new PickerDialogFragment.Callback<Integer>() {
@@ -124,9 +124,9 @@ public class TimeSeletByUserDialog extends DialogFragment implements View.OnClic
             public void onPickResult(Integer selectIds, String... result) {
                 if (pick_start) {
                     startTime.setTipTxt(result[0]);
-                    start_time = selectIds-13*3600;
+                    start_time = selectIds;
                 } else {
-                    end_time = selectIds+11*3600;
+                    end_time = selectIds;
                     endTime.setTipTxt(result[0]);
                 }
             }

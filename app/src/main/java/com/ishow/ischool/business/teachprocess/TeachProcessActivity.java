@@ -179,7 +179,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         map.put("end_time", end_time);
         handProgressbar(true);
         mPresenter.getTeachProcessData(map);
-        LogUtil.e(start_time+"---"+end_time);
+        LogUtil.e(start_time + "---" + end_time);
     }
 
     @Override
@@ -187,12 +187,12 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         handProgressbar(false);
         this.teachProcess = process;
         //如果是总部账号 数据回来后 要 重新初始化 campus_id 等字段  principal==null 是是为了 只初始化一次
-        if (process != null && !process.option.isCampus && principal == null) {
+        if (process != null && process.option != null && !process.option.isCampus && principal == null) {
             principal = process.option;
             setUpPersonInfoByResult();
         }
         //如果 不是总部账号 那么process.principal  就会为空   campus_id
-        if (process != null && process.option.isCampus && campus_name == null && user_name == null && position_name == null) {
+        if (process != null && process.option != null && process.option.isCampus && campus_name == null && user_name == null && position_name == null) {
             principal = process.option;
             setUpPersonInfoByResult();
         }
@@ -243,10 +243,10 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 salesTrends.setSecondTxt("2016-09-01" + "--" + DateUtil.parseSecond2Str((long) end_time));
             }
         } else
-            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (start_time+24*3600)) + "--" + DateUtil.parseSecond2Str((long) end_time));
+            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (start_time + 24 * 3600)) + "--" + DateUtil.parseSecond2Str((long) end_time));
 
 
-       // LogUtil.e(oneday + "----" + start_time);
+        // LogUtil.e(oneday + "----" + start_time);
         // salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) start_time) + "--" + DateUtil.parseSecond2Str((long) end_time));
         salesTable1.setVisibility(teachProcess.tableListData_22 == null ? View.GONE : View.VISIBLE);
         if (teachProcess == null || teachProcess.tableListData_22 == null
@@ -395,7 +395,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
         if (position < mPresenter.getSpinnerData().size() - 2) {
             String selectTxt = mPresenter.getSpinnerData().get(position);
             String selectNum = selectTxt.substring(0, selectTxt.length() - 1);
-            dayAgo = Integer.parseInt(selectNum) ;
+            dayAgo = Integer.parseInt(selectNum);
             start_time = AppUtil.getDayAgo(dayAgo);
             end_time = AppUtil.getTodayEnd();
             getTeachProcessData();
@@ -407,13 +407,13 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
                 Bundle bundle = new Bundle();
-                bundle.putInt("start_time", start_time-12*3600);
-                bundle.putInt("end_time", end_time + 24 * 3600 - 1);
+                bundle.putInt("start_time", start_time);
+                bundle.putInt("end_time", end_time);
                 timeSeletByUser.setArguments(bundle);
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
-                        start_time = starttime+3600;
+                        start_time = starttime;
                         end_time = endtime;
                         //  LogUtil.e("timeSeletByUser" + start_time + "====" + end_time);
                         getTeachProcessData();
@@ -433,7 +433,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
-        // LogUtil.e("timeSeletByUser"+start_time+"===="+end_time);
+        LogUtil.e("---------------" + start_time + "====" + end_time);
     }
 
     @Override

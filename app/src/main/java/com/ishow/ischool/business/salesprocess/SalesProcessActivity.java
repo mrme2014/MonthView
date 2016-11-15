@@ -370,7 +370,7 @@ user_id	Int	0			指定看某个员工的	*/
                 timeSeletByUser.setOnSelectResultCallback(new TimeSeletByUserDialog.OnSelectResultCallback() {
                     @Override
                     public void onResult(int starttime, int endtime) {
-                        start_time = starttime + 3600;
+                        start_time = starttime;
                         end_time = endtime;
                         if (map == null) map = new TreeMap();
                         map.put("begin_time", starttime);
@@ -393,6 +393,7 @@ user_id	Int	0			指定看某个员工的	*/
             if (!timeSeletByUser.isAdded())
                 timeSeletByUser.show(getSupportFragmentManager(), "dialog");
         }
+        LogUtil.e("---------------" + start_time + "====" + end_time);
     }
 
     @Override

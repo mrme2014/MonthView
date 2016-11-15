@@ -225,7 +225,10 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
                 break;
             }
             case R.id.process_group: {
-                JumpManager.jumpActivity(getActivity(), CompanyMarketSaleprocessActivity.class, Resource.NO_NEED_CHECK);
+                int position = chooseTimeSpinner.getPosition();
+                Intent intent = new Intent(getActivity(), CompanyMarketSaleprocessActivity.class);
+                intent.putExtra("select_position",position);
+                JumpManager.jumpActivity(getActivity(),intent, Resource.NO_NEED_CHECK);
                 break;
             }
             case R.id.performance_market_ll:

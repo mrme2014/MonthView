@@ -44,7 +44,7 @@
     <string name="login_crm">登录集体管理系统</string>
     <string name="username_label">帐号</string>
 
-    <!--=================fragment——me==========================-->
+    <!--fragment——me-->
     <string name="fm_me_switch_campus">校区切换</string>
     <string name="fm_me_switch_role">角色切换</string>
     <string name="fm_me_notify_msg">消息通知</string>
@@ -53,7 +53,7 @@
     <string name="fm_me_kefu">客服</string>
     <string name="fm_me_version">当前版本号</string>
     <string name="fm_me_login_out">退出</string>
-    <!--======================个人资料===================================-->
+    <!--个人资料-->
     <string name="per_info_title">个人资料</string>
     <string name="per_info_avart">头像</string>
     <string name="per_info_xingming">姓名</string>
@@ -283,9 +283,9 @@
 
     <string name="data_teach_title">教学流程分析</string>
     <string name="student_statistics_total">(共%d人)</string>
-    <string name="update_rate">升学率</string>
-    <string name="fullpay_rate">全款率</string>
-    <string name="tuikuan_rate">退款率</string>
+    <string name="update_rate">总报名人数</string>
+    <string name="fullpay_rate">总全款人数</string>
+    <string name="tuikuan_rate">全款率</string>
     <string name="data_title_last_7">最近7日教学数据统计</string>
     <string name="history_claz">上课记录</string>
     <string name="history_claz_time">上课时间</string>
@@ -352,6 +352,8 @@
     <string name="up_grogress_rate_to_today">截止到今日</string>
     <string name="income">收入(元)</string>
     <string name="apply_rate">报名率</string>
+    <string name="campus_hangzhou">杭州校区</string>
+    <string name="campus_zongbu">总部</string>
 
     <string-array name="home_choose_times">
         <item>本周</item>

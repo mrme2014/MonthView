@@ -71,13 +71,19 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
     private int position_id;
     private String position_name;
     private int user_id;
-   // boolean isHeadQuatyer;
+    // boolean isHeadQuatyer;
     private ComMarketProcess process;
     private ArrayList<String> des;
+    private int selectPosition;
 
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_company_market_saleprocess, R.string.sale_process, MODE_BACK);
+        selectPosition = getIntent().getIntExtra("select_position", selectPosition);
+        if (selectPosition == 0) selectPosition = 0;
+        else if (selectPosition == 1) selectPosition = 2;
+        else if (selectPosition == 2) selectPosition = 1;
+        else if (selectPosition == 3) selectPosition = 3;
     }
 
     @Override
@@ -85,16 +91,16 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         // campus_id = mUser.campusInfo.id;
         campus_id = 2;
         //  campus_name = mUser.campusInfo.name;
-        campus_name = "杭州校区";
+        campus_name = getString(R.string.campus_hangzhou);
         curuser_position_id = mUser.positionInfo.id;
-       // isHeadQuatyer = campus_id == Constants.CAMPUS_HEADQUARTERS;
+        // isHeadQuatyer = campus_id == Constants.CAMPUS_HEADQUARTERS;
           /*总部角色  拉取图表数据用现在接口，，，非总部的角色 用 市场------销售流程分析的接口*/
        /* if (campus_id == Constants.CAMPUS_HEADQUARTERS) {
             isHeadQuatyer = true;
         }*/
         salesAvartTxt.setText(mUser.userInfo.user_name, mUser.userInfo.user_id, mUser.avatar.file_name);
         salesJob.setFirstTxt(mUser.userInfo.user_name);
-        salesJob.setSecondTxt(mUser.positionInfo.title + " | " + campus_name);
+        salesJob.setSecondTxt(mUser.positionInfo.title + " | " + getString(R.string.campus_zongbu));
         // begin_time =  AppUtil.getWeekStart();
         // end_time = AppUtil.getWeekEnd();
 
@@ -111,7 +117,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, AppUtil.getComMarketSaleProcessList());
         salesSpinner.setAdapter(adapter);
         salesSpinner.setOnItemSelectedListener(this);
-        salesSpinner.setSelection(0);
+        salesSpinner.setSelection(selectPosition);
         salesSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -161,7 +167,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
     @Override
     public void getChartSucess(ComMarketProcess process) {
         if (des == null) des = new ArrayList<>();
-        des.add(getString(R.string.class_numbers));
+        des.add(getString(R.string.campus_talk));
         des.add(getString(R.string.open_class));
         des.add(getString(R.string.apply_numbers));
         des.add(getString(R.string.full_amount_number));
@@ -184,8 +190,8 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         List<String> list = new ArrayList<>();
         list.add(process.process.add_number);
         list.add(process.process.openclass_sign_number);
-        list.add(process.process.apply_number);
-        list.add(process.process.full_amount_number);
+        list.add(process.process.openclass_apply_number);
+        list.add(process.process.openclass_full_amount_number);
 
         String rate1 = process.process.openclass_apply_rate;
         String rate2 = process.process.full_amount_rate;
@@ -194,11 +200,11 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, rate1).DrawPercentFloor(3, 0, rate2);
         lineChart.invalidate(biulder);
         salesTable1.setSpanedStr(getString(R.string.update_rate),
-                process.process.openclass_apply_rate,
+                process.process.apply_number,
                 getString(R.string.fullpay_rate),
-                process.process.full_amount_rate,
+                process.process.full_amount_number,
                 getString(R.string.tuikuan_rate),
-                process.process.openclass_full_amount_apply_rate);
+                process.process.full_amount_rate);
     }
 
     @Override

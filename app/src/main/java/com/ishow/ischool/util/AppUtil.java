@@ -388,10 +388,10 @@ public class AppUtil {
 
     public static int getTodayEnd() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
-        int time = (int) (c.getTimeInMillis() / 1000)+10*3600;
+        int time = (int) (c.getTimeInMillis() / 1000);
         return time;
     }
 

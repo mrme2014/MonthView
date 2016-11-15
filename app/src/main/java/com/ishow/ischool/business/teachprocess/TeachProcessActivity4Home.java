@@ -83,7 +83,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         // campus_id = mUser.campusInfo.id;
         campus_id = 2;
         //  campus_name = mUser.campusInfo.name;
-        campus_name = "杭州校区";
+        campus_name = getString(R.string.campus_hangzhou);
         curuser_position_id = mUser.positionInfo.id;
         isHeadQuatyer = (campus_id == Constants.CAMPUS_HEADQUARTERS);
 //        if (campus_id == Constants.CAMPUS_HEADQUARTERS) {
@@ -91,7 +91,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
 //        }
         salesAvartTxt.setText(mUser.userInfo.user_name, mUser.userInfo.user_id, mUser.avatar.file_name);
         salesJob.setFirstTxt(mUser.userInfo.user_name);
-        salesJob.setSecondTxt(mUser.positionInfo.title + " | " + campus_name);
+        salesJob.setSecondTxt(mUser.positionInfo.title + " | " + getString(R.string.campus_zongbu));
     }
 
     private void getComMarketSaleProcess() {

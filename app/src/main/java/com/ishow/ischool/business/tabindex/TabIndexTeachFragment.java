@@ -297,10 +297,10 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         valueAnimator.start();
 
         ArrayList<PieChartEntry> datas = new ArrayList<>();
-        datas.add(new PieChartEntry(R.color.pie_color1, getString(R.string.campus_talk), educationHome.TeachingProcess.selfChartData.body[0].get(0)));
-        datas.add(new PieChartEntry(R.color.pie_color2, getString(R.string.open_class), educationHome.TeachingProcess.selfChartData.body[0].get(1)));
-        datas.add(new PieChartEntry(R.color.pie_color3, getString(R.string.apply_numbers), educationHome.TeachingProcess.selfChartData.body[0].get(2)));
-        datas.add(new PieChartEntry(R.color.pie_color6, getString(R.string.full_amount_number), educationHome.TeachingProcess.selfChartData.body[0].get(3)));
+        datas.add(new PieChartEntry(R.color.pie_color1, educationHome.TeachingProcess.selfChartData.head[0], educationHome.TeachingProcess.selfChartData.body[0].get(0)));
+        datas.add(new PieChartEntry(R.color.pie_color2, educationHome.TeachingProcess.selfChartData.head[1], educationHome.TeachingProcess.selfChartData.body[0].get(1)));
+        datas.add(new PieChartEntry(R.color.pie_color3, educationHome.TeachingProcess.selfChartData.head[2], educationHome.TeachingProcess.selfChartData.body[0].get(2)));
+        datas.add(new PieChartEntry(R.color.pie_color6, educationHome.TeachingProcess.selfChartData.head[3], educationHome.TeachingProcess.selfChartData.body[0].get(3)));
         pieChart.setDatas(datas);
 
 

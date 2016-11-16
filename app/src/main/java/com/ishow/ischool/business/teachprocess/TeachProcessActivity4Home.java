@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
@@ -176,6 +177,8 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         datas.add(new PieChartEntry(R.color.pie_color6, teachProcess.selfChartData.head.get(3), teachProcess.selfChartData.body.get(0).get(3)));
         salesChart.setDatas(datas);
 
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
+        
         setUpLabel();
     }
 

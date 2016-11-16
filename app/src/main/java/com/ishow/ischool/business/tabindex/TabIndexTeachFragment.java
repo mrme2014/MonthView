@@ -167,7 +167,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.process_group:
-                JumpManager.jumpActivity(getActivity(), TeachProcessActivity4Home.class, Resource.NO_NEED_CHECK);
+                Intent processIntent = new Intent(getActivity(), TeachProcessActivity4Home.class);
+                processIntent.putExtra("select_position", mSpPosition);
+                JumpManager.jumpActivity(getActivity(), processIntent, Resource.NO_NEED_CHECK);
                 break;
             case R.id.pre_pay_group:
                 Intent intent = new Intent(getActivity(), TeachSummaryActivity.class);

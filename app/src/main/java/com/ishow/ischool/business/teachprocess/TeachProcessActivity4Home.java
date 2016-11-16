@@ -71,6 +71,17 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
     boolean isHeadQuatyer;
     private TreeMap map;
     private ArrayList<String> des;
+    private int selectPosition;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        selectPosition = getIntent().getIntExtra("select_position", selectPosition);
+        if (selectPosition == 0) selectPosition = 0;
+        else if (selectPosition == 1) selectPosition = 2;
+        else if (selectPosition == 2) selectPosition = 1;
+        else if (selectPosition == 3) selectPosition = 3;
+    }
 
     @Override
     protected void setUpContentView() {
@@ -105,7 +116,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, AppUtil.getComMarketSaleProcessList());
         salesSpinner.setAdapter(adapter);
         salesSpinner.setOnItemSelectedListener(this);
-        salesSpinner.setSelection(0);
+        salesSpinner.setSelection(selectPosition);
         salesSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -123,7 +134,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                 if (curuser_position_id == Constants.MORNING_READ_TEACHER || curuser_position_id == Constants.CHAT_COMMISSIONER) {
                     return;
                 }
-                Intent intent1 = new Intent(this, SelectPositionActivity.class);
+                Intent intent1 = new Intent(this, TeachSelectPositionActivity.class);
                 intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
                 intent1.putExtra("CAMPUS_ID", campus_id);
                 intent1.putExtra("CAMPUS_NAME", campus_name);

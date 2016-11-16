@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
@@ -16,7 +17,6 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
-import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.salesprocess.SelectPositionActivity;
 import com.ishow.ischool.business.salesprocess.SelectSubordinateActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -286,7 +286,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                 if (campus_id == Constants.CAMPUS_HEADQUARTERS)
                     getComMarketSaleProcess();
                 else
-                    startActivity2OldSaleProcessActivity(extra);
+                    startActivity2OldTeachProcessActivity(extra);
             }
         } else if (requestCode == 101 && requestCode == REQUEST_CODE && data != null) {
             salesSpinner.setSelection(0);
@@ -294,9 +294,9 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         }
     }
 
-    private void startActivity2OldSaleProcessActivity(SubordinateObject extra) {
+    private void startActivity2OldTeachProcessActivity(SubordinateObject extra) {
          /*要改的 这里*/
-        Intent intent = new Intent(this, SalesProcessActivity.class);
+        Intent intent = new Intent(this, TeachProcessActivity.class);
         intent.putExtra("user_id", user_id);
         intent.putExtra("campus_id", campus_id);
         intent.putExtra("position_id", position_id);
@@ -305,7 +305,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         intent.putExtra("end_time", end_time);
         intent.putExtra("campus_name", campus_name);
         intent.putExtra("extra", extra);
-        intent.putExtra("from_commarket", true);
+        intent.putExtra("from_teach4Home", true);
 
         startActivityForResult(intent, 101);
     }

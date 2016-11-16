@@ -93,6 +93,31 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     private boolean isUser;
     private TreeMap map;
 
+    //*********************这里是从集团市场 销售流程传过来的*****************************************//
+    private boolean from_teach4Home;
+    private SubordinateObject extra;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        user_id = getIntent().getIntExtra("user_id", user_id);
+        campus_id = getIntent().getIntExtra("campus_id", campus_id);
+        position_id = getIntent().getIntExtra("position_id", position_id);
+        position_name = getIntent().getStringExtra("position_name");
+        start_time = getIntent().getIntExtra("start_time", start_time);
+        end_time = getIntent().getIntExtra("end_time", end_time);
+        from_teach4Home = getIntent().getBooleanExtra("from_teach4Home", false);
+        campus_name = getIntent().getStringExtra("campus_name");
+        extra = getIntent().getParcelableExtra("extra");
+        //如果 是从  集团 市场 销售流程传过来的    下面三句代码 就不能再初始化了
+        if (!from_teach4Home) {
+            campus_id = mUser.campusInfo.id;
+            curuser_position_id = position_id = mUser.positionInfo.id;
+            user_id = mUser.userInfo.user_id;
+        }
+
+    }
+
     @Override
     protected void setUpContentView() {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
@@ -127,9 +152,9 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     @Override
     protected void setUpData() {
 
-        campus_id = mUser.campusInfo.id;
-        curuser_position_id = position_id = mUser.positionInfo.id;
-        user_id = mUser.userInfo.user_id;
+//        campus_id = mUser.campusInfo.id;
+//        curuser_position_id = position_id = mUser.positionInfo.id;
+//        user_id = mUser.userInfo.user_id;
         //user_id = 107;
 //        Calendar calendar = Calendar.getInstance();
 //        start_time = (int) AppUtil.getMonthStart(calendar.get(Calendar.YEAR) + "", calendar.get(Calendar.MONTH) + "");
@@ -148,29 +173,33 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
     }
 
     private void setUpPersonInfoByResult() {
-        if (principal != null) {
-            file_name = principal.avatar;
-            user_id = principal.user_id;
-            user_name = principal.user_name;
-            position_name = principal.position_name;
-            campus_name = principal.campus_name;
-            position_id = principal.position_id;
-            campus_id = principal.campus_id;
-            //setUpPersonInfo(file_name, user_id, user_name, position_name,campus_name, position_id);
+        if (!from_teach4Home) {
+            if (principal != null) {
+                file_name = principal.avatar;
+                user_id = principal.user_id;
+                user_name = principal.user_name;
+                position_name = principal.position_name;
+                campus_name = principal.campus_name;
+                position_id = principal.position_id;
+                campus_id = principal.campus_id;
+                //setUpPersonInfo(file_name, user_id, user_name, position_name,campus_name, position_id);
+            } else {
+                Avatar avatar = mUser.avatar;
+                UserInfo userInfo = mUser.userInfo;
+                CampusInfo campusInfo = mUser.campusInfo;
+                PositionInfo positionInfo = mUser.positionInfo;
+                campus_id = campusInfo.id;
+                curuser_position_id = position_id = positionInfo.id;
+                user_id = userInfo.user_id;
+                campus_name = campusInfo.name;
+                position_name = positionInfo.title;
+                file_name = avatar.file_name;
+                user_name = userInfo.user_name;
+            }
+            setUpPersonInfo(file_name, user_id, user_name, position_name, campus_name, position_id);
         } else {
-            Avatar avatar = mUser.avatar;
-            UserInfo userInfo = mUser.userInfo;
-            CampusInfo campusInfo = mUser.campusInfo;
-            PositionInfo positionInfo = mUser.positionInfo;
-            campus_id = campusInfo.id;
-            curuser_position_id = position_id = positionInfo.id;
-            user_id = userInfo.user_id;
-            campus_name = campusInfo.name;
-            position_name = positionInfo.title;
-            file_name = avatar.file_name;
-            user_name = userInfo.user_name;
+            setUpPersonInfo(extra.avatar, user_id, extra.user_name, position_name, campus_name, position_id);
         }
-        setUpPersonInfo(file_name, user_id, user_name, position_name, campus_name, position_id);
     }
 
     private void getTeachProcessData() {
@@ -352,6 +381,11 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 getTeachProcessData();
             } else {
                 //选择自己
+                if (from_teach4Home) {
+                    setResult(101, data);
+                    this.finish();
+                    return;
+                }
                 map.clear();
                 setUpData();
                 setUpPersonInfoByResult();

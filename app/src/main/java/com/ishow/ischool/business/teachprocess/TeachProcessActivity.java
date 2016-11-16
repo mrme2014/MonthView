@@ -243,7 +243,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 salesTrends.setSecondTxt("2016-09-01" + "--" + DateUtil.parseSecond2Str((long) end_time));
             }
         } else
-            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (start_time + 24 * 3600)) + "--" + DateUtil.parseSecond2Str((long) end_time));
+            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (start_time)) + "--" + DateUtil.parseSecond2Str((long) end_time));
 
 
         // LogUtil.e(oneday + "----" + start_time);

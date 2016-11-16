@@ -48,6 +48,10 @@ public class TabIndexFragment extends BaseFragment4Crm {
         mViewPager.setCurrentItem(index);
     }
 
+    public int getCurrentItem() {
+        return mViewPager.getCurrentItem();
+    }
+
     public interface TabFragment {
         void setCurrentItem(int index);
     }

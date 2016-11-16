@@ -88,10 +88,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:paddingBottom="15dp">
+                    android:paddingTop="15dp">
 
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/up_progress_performance"
@@ -99,9 +99,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="@color/txt_9"
-                        app:label_text_size="@dimen/sp13"
                         app:label_text_color="@color/txt_9"
-                        app:label_text_left="@string/performance" />
+                        app:label_text_left="@string/performance"
+                        app:label_text_size="@dimen/sp13" />
 
                     <ProgressBar
                         android:id="@+id/up_progress_bar_performance"
@@ -118,9 +118,9 @@
                         android:layout_marginTop="10dp"
                         android:gravity="right"
                         android:textColor="@color/txt_9"
-                        app:label_text_size="@dimen/sp13"
                         app:label_text_color="@color/txt_9"
-                        app:label_text_left="@string/red_target" />
+                        app:label_text_left="@string/red_target"
+                        app:label_text_size="@dimen/sp13" />
 
                     <ProgressBar
                         android:id="@+id/up_progress_bar_red_target"
@@ -137,9 +137,9 @@
                         android:layout_marginTop="10dp"
                         android:gravity="right"
                         android:textColor="@color/txt_9"
-                        app:label_text_size="@dimen/sp13"
                         app:label_text_color="@color/txt_9"
-                        app:label_text_left="@string/rush_target" />
+                        app:label_text_left="@string/rush_target"
+                        app:label_text_size="@dimen/sp13" />
 
                     <ProgressBar
                         android:id="@+id/up_progress_bar_rush_target"
@@ -175,7 +175,7 @@
 
                 <com.commonlib.widget.TopBottomTextView
                     android:id="@+id/process_title"
-                    android:layout_width="90dp"
+                    android:layout_width="112dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -198,7 +198,7 @@
                     android:paddingBottom="20dp"
                     android:text="1%"
                     app:label_TB_padding="15"
-                    app:label_text_bottom="公开课报名率"
+                    app:label_text_bottom="@string/apply_rate"
                     app:label_text_bottom_color="@color/txt_9"
                     app:label_text_bottom_size="12" />
 

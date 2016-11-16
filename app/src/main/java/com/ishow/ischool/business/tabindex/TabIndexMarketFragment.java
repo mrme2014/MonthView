@@ -1,5 +1,7 @@
 package com.ishow.ischool.business.tabindex;
 
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,9 +32,9 @@ import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.util.AnimatorUtil;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.PieChartView;
-import com.ishow.ischool.widget.custom.RiseNumTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +48,7 @@ import rx.schedulers.Schedulers;
 public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndexFragment.TabFragment {
 
     @BindView(R.id.home_advances_received)
-    RiseNumTextView advancesReceivedTv;
+    TextView advancesReceivedTv;
     @BindView(R.id.index_refund_num)
     TextView refundNumTv;
     @BindView(R.id.index_refund_money)
@@ -212,7 +214,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
 
     private void setupData() {
 //        taskGetHomeMarketData();
-        chooseTimeSpinner.setPosition(1);
+        chooseTimeSpinner.setPosition(0);
     }
 
     @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group, R.id.title_radio_2})
@@ -225,8 +227,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
             case R.id.process_group: {
                 int position = chooseTimeSpinner.getPosition();
                 Intent intent = new Intent(getActivity(), CompanyMarketSaleprocessActivity.class);
-                intent.putExtra("select_position",position);
-                JumpManager.jumpActivity(getActivity(),intent, Resource.NO_NEED_CHECK);
+                intent.putExtra("select_position", position);
+                JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
             }
             case R.id.performance_market_ll:
@@ -246,15 +248,20 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
 
 
     private void taskGetHomeMarketData() {
+        if (parentFragment.getCurrentItem() == 0) {
+            handProgressbar(true);
+        }
         ApiFactory.getInstance().getApi(DataApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<MarketHome>() {
                     @Override
                     public void onSuccess(MarketHome marketHome) {
+                        handProgressbar(false);
                         updateView(marketHome);
                     }
 
                     @Override
                     public void onError(String msg) {
+                        handProgressbar(false);
                         showToast(msg);
                     }
 
@@ -262,6 +269,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
                     protected boolean isAlive() {
                         return !isActivityFinished();
                     }
+
                 });
     }
 
@@ -298,48 +306,61 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
 
     private void updateView(final MarketHome marketHome) {
 
-        advancesReceivedTv.withNumber((int) marketHome.summary.prepayments);
-//        advancesReceivedTv.withNumber(324000);
-        advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
-            @Override
-            public void onEndFinish() {
-                if (isActivityFinished() || advancesReceivedTv == null) {
-                    return;
-                }
-                advancesReceivedTv.setText((int) marketHome.summary.prepayments + "");
-            }
-        });
-        advancesReceivedTv.start();
-
-        refundNumTv.setText(marketHome.summary.refund_number + getString(R.string.people_unit));
-        refundMoneyTv.setText(marketHome.summary.refund_amount + getString(R.string.money_unit));
-
-        studentEntranceTv.setText(marketHome.summary.add_number);
-        studentApplyTv.setText(marketHome.summary.apply_number);
-        studentFullPayTv.setText(marketHome.summary.full_amount_number);
-
-
         int max = Math.max(marketHome.market.full_challenge, Math.max(marketHome.market.real, marketHome.market.full_base));
 
         int real = marketHome.market.real * 100 / max;
-        performancePb.setProgress(real < 1 ? 1 : real);
-        redTargetPb.setProgress(marketHome.market.full_base * 100 / max);
-        rushTargetPb.setProgress(marketHome.market.full_challenge * 100 / max);
-        performanceTv.setText(marketHome.market.real + "");
-        redTargetTv.setText(marketHome.market.full_base + "");
-        rushTargetTv.setText(marketHome.market.full_challenge + "");
 
-        fullMoneyRateTv.setText(marketHome.process.full_amount_rate);
-        applyRateTv.setText(marketHome.process.openclass_apply_rate);
+        PropertyValuesHolder[] holders = new PropertyValuesHolder[14];
+        holders[0] = AnimatorUtil.getPropertyValuesHolder("advancesReceivedTv", (int)marketHome.summary.prepayments);
+        holders[1] = AnimatorUtil.getPropertyValuesHolder("refundNumTv", Integer.parseInt(marketHome.summary.refund_number));
+        holders[2] = AnimatorUtil.getPropertyValuesHolder("refundMoneyTv", (int)Float.parseFloat(marketHome.summary.refund_amount));
+        holders[3] = AnimatorUtil.getPropertyValuesHolder("studentEntranceTv", Integer.parseInt(marketHome.summary.add_number));
+        holders[4] = AnimatorUtil.getPropertyValuesHolder("studentApplyTv", Integer.parseInt(marketHome.summary.apply_number));
+        holders[5] = AnimatorUtil.getPropertyValuesHolder("studentFullPayTv", Integer.parseInt(marketHome.summary.full_amount_number));
+        holders[6] = AnimatorUtil.getPropertyValuesHolder("performancePb", real < 1 ? 1 : real);
+        holders[7] = AnimatorUtil.getPropertyValuesHolder("redTargetPb", marketHome.market.full_base * 100 / max);
+        holders[8] = AnimatorUtil.getPropertyValuesHolder("rushTargetPb", marketHome.market.full_challenge * 100 / max);
+        holders[9] = AnimatorUtil.getPropertyValuesHolder("performanceTv", marketHome.market.real);
+        holders[10] = AnimatorUtil.getPropertyValuesHolder("redTargetTv", marketHome.market.full_base);
+        holders[11] = AnimatorUtil.getPropertyValuesHolder("rushTargetTv", marketHome.market.full_challenge);
+        holders[12] = AnimatorUtil.getPropertyValuesHolder("fullMoneyRateTv", Float.parseFloat(marketHome.process.full_amount_rate.replace("%", "")));
+        holders[13] = AnimatorUtil.getPropertyValuesHolder("applyRateTv", Float.parseFloat(marketHome.process.openclass_apply_rate.replace("%", "")));
+
+        ValueAnimator valueAnimator = ValueAnimator.ofPropertyValuesHolder(holders);
+        valueAnimator.setDuration(1000);
+        final String ren = getString(R.string.people_unit);
+        final String yuan = getString(R.string.money_unit);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                int received = (int) animation.getAnimatedValue("advancesReceivedTv");
+                advancesReceivedTv.setText(AnimatorUtil.dfint.format(received));
+                refundNumTv.setText(animation.getAnimatedValue("refundNumTv") + ren);
+                refundMoneyTv.setText(AnimatorUtil.dfint.format(animation.getAnimatedValue("refundMoneyTv")) + yuan);
+
+                studentEntranceTv.setText(animation.getAnimatedValue("studentEntranceTv").toString());
+                studentApplyTv.setText(animation.getAnimatedValue("studentApplyTv").toString());
+                studentFullPayTv.setText(animation.getAnimatedValue("studentFullPayTv").toString());
+
+                performancePb.setProgress((int) animation.getAnimatedValue("performancePb"));
+                redTargetPb.setProgress((int) animation.getAnimatedValue("redTargetPb"));
+                rushTargetPb.setProgress((int) animation.getAnimatedValue("rushTargetPb"));
+                performanceTv.setText(animation.getAnimatedValue("performanceTv").toString());
+                redTargetTv.setText(animation.getAnimatedValue("redTargetTv").toString());
+                rushTargetTv.setText(animation.getAnimatedValue("rushTargetTv").toString());
+                fullMoneyRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("fullMoneyRateTv")) + "%");
+                applyRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("applyRateTv")) + "%");
+            }
+        });
+        valueAnimator.start();
 
 
         List<String> list = new ArrayList<>();
         list.add(marketHome.process.add_number);
         list.add(marketHome.process.openclass_sign_number);
-        list.add(marketHome.process.apply_number);
-        list.add(marketHome.process.full_amount_number);
-        //pieChart.setFloorProperty(list, marketHome.process.openclass_full_amount_apply_rate, marketHome.process.full_amount_rate);
-
+        list.add(marketHome.process.openclass_apply_number);
+        list.add(marketHome.process.openclass_full_amount_apply_rate);
         ArrayList<String> des = new ArrayList<>();
         des.add(getString(R.string.campus_talk));
         des.add(getString(R.string.open_class));

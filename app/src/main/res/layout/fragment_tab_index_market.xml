@@ -151,63 +151,68 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/process_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/white"
-                android:padding="10dp">
+                android:orientation="vertical">
 
-                <com.commonlib.widget.TopBottomTextView
-                    android:id="@+id/process_full_money_rate"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:drawablePadding="28dp"
-                    android:drawableRight="@mipmap/icon_date_next"
-                    android:paddingBottom="20dp"
-                    android:text="1%"
-                    app:label_TB_padding="15"
-                    app:label_text_bottom="全款率"
-                    app:label_text_bottom_color="@color/txt_9"
-                    app:label_text_bottom_size="12" />
+                    android:background="@color/white"
+                    android:padding="10dp">
 
-                <com.commonlib.widget.TopBottomTextView
-                    android:id="@+id/process_title"
-                    android:layout_width="112dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:paddingTop="20dp"
-                    android:textColor="@color/txt_9"
-                    android:textSize="@dimen/sp12"
-                    app:label_text_top_str="@string/market_process"
-                    app:label_top_padding="15" />
+                    <com.commonlib.widget.TopBottomTextView
+                        android:id="@+id/process_full_money_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:drawablePadding="28dp"
+                        android:drawableRight="@mipmap/icon_date_next"
+                        android:paddingBottom="20dp"
+                        android:text="1%"
+                        app:label_TB_padding="15"
+                        app:label_text_bottom="全款率"
+                        app:label_text_bottom_color="@color/txt_9"
+                        app:label_text_bottom_size="12" />
 
-                <com.commonlib.widget.TopBottomTextView
-                    android:id="@+id/process_apply_rate"
-                    android:layout_width="65dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="30dp"
-                    android:layout_toLeftOf="@+id/process_full_money_rate"
-                    android:layout_toStartOf="@+id/process_full_money_rate"
-                    android:paddingBottom="20dp"
-                    android:text="1%"
-                    app:label_TB_padding="15"
-                    app:label_text_bottom="@string/apply_rate"
-                    app:label_text_bottom_color="@color/txt_9"
-                    app:label_text_bottom_size="12" />
+                    <com.commonlib.widget.TopBottomTextView
+                        android:id="@+id/process_title"
+                        android:layout_width="112dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:paddingTop="20dp"
+                        android:textColor="@color/txt_9"
+                        android:textSize="@dimen/sp12"
+                        app:label_text_top_str="@string/market_process"
+                        app:label_top_padding="15" />
 
-            </RelativeLayout>
+                    <com.commonlib.widget.TopBottomTextView
+                        android:id="@+id/process_apply_rate"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="30dp"
+                        android:layout_toLeftOf="@+id/process_full_money_rate"
+                        android:layout_toStartOf="@+id/process_full_money_rate"
+                        android:paddingBottom="20dp"
+                        android:text="1%"
+                        app:label_TB_padding="15"
+                        app:label_text_bottom="@string/apply_rate"
+                        app:label_text_bottom_color="@color/txt_9"
+                        app:label_text_bottom_size="12" />
+                </RelativeLayout>
 
-            <com.ishow.ischool.widget.custom.PieChartView
-                android:id="@+id/pie_chart"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@color/white" />
+                <com.ishow.ischool.widget.custom.PieChartView
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@color/white" />
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

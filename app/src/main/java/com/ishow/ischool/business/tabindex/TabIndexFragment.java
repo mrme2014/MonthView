@@ -114,7 +114,7 @@ public class TabIndexFragment extends BaseFragment4Crm {
                 }
             }
         });
-        chooseTimeSpinner.setPosition(1);
+        chooseTimeSpinner.setPosition(0);
     }
 
     void setCurFragment(int index) {

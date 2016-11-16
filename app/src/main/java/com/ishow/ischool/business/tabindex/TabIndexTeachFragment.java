@@ -101,7 +101,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
     PieChartView pieChart;
 
     private int titlebarColor;
-    public int mSpPosition = 1;
+    public int mSpPosition = 0;
     private String mSpValue = "本周";
 
     HashMap<String, Integer> params = new HashMap<>();
@@ -157,7 +157,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
     }
 
     private void setupData() {
-        update(1, "上周", TYPE_LAST_WEEK);
+        update(mSpPosition, mSpValue, TYPE_WEEK);
     }
 
     @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group})
@@ -180,7 +180,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeTeachData() {
-        handProgressbar(true);
+        if (getContext() != null) {
+            handProgressbar(true);
+        }
         ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<EducationHome>() {
                     @Override

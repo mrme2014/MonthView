@@ -154,10 +154,12 @@
         <activity android:name=".business.companymarketsaleprocess.CompanyMarketSaleprocessActivity" />
         <activity
             android:name=".business.home.market.MarketSummaryActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".business.home.teach.TeachSummaryActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
         <activity android:name=".business.teachprocess.TeachProcessActivity4Home" />
 
     </application>

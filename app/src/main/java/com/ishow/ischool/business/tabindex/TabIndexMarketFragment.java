@@ -3,7 +3,6 @@ package com.ishow.ischool.business.tabindex;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -89,8 +88,6 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     @BindView(R.id.process_title)
     TextView processTv;
-    @BindView(R.id.process_group)
-    View processGroup;
 
     @BindView(R.id.home_circle_bg)
     ImageView homeCircleIv;
@@ -101,7 +98,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
     FrameLayout prePayGroup;
 
     private int titlebarColor;
-    public int mSpPosition = 1;
+    public int mSpPosition = 0;
     public String mSpValue = "本周";
 
     HashMap<String, Integer> params = new HashMap<>();
@@ -168,7 +165,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     private void setupData() {
 //        taskGetHomeMarketData();
-        update(1, "上周", TYPE_LAST_WEEK);
+        update(mSpPosition, mSpValue, TYPE_WEEK);
     }
 
     @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group})
@@ -198,7 +195,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeMarketData() {
-        handProgressbar(true);
+        if (getContext() != null) {
+            handProgressbar(true);
+        }
         ApiFactory.getInstance().getApi(DataApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<MarketHome>() {
                     @Override

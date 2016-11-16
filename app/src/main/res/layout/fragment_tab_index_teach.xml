@@ -20,14 +20,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_index_bg"
                 android:orientation="vertical"
-                android:paddingTop="50dp">
+                android:paddingTop="75dp">
 
                 <include layout="@layout/group_home_pre_pay" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginTop="30dp"
                     android:orientation="horizontal">
 
@@ -73,73 +73,86 @@
                     android:drawablePadding="5dp"
                     android:drawableRight="@mipmap/icon_date_next"
                     android:text="@string/home_up_progress"
-                    android:textSize="@dimen/sp15" />
+                    android:textSize="@dimen/sp15"
+                    android:textColor="@color/txt_3"/>
 
                 <TextView
                     android:id="@+id/up_progress_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:text="@string/up_grogress_rate_to_today"
                     android:textColor="@color/txt_9"
                     android:textSize="@dimen/sp12" />
 
-                <com.commonlib.widget.LabelTextView
-                    android:id="@+id/up_progress_performance"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="right"
-                    android:text="0%"
-                    android:textColor="@color/txt_9"
-                    app:label_text_color="@color/txt_9"
-                    app:label_text_left="@string/performance" />
+                    android:orientation="vertical"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="15dp">
 
-                <ProgressBar
-                    android:id="@+id/up_progress_bar_performance"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressDrawable="@drawable/progressbar_performance" />
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/up_progress_performance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="0%"
+                        android:textColor="@color/txt_9"
+                        app:label_text_size="@dimen/sp13"
+                        app:label_text_color="@color/txt_9"
+                        app:label_text_left="@string/performance" />
 
-                <com.commonlib.widget.LabelTextView
-                    android:id="@+id/up_progress_red_target"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="right"
-                    android:text="0%"
-                    android:textColor="@color/txt_9"
-                    app:label_text_color="@color/txt_9"
-                    app:label_text_left="@string/red_target" />
+                    <ProgressBar
+                        android:id="@+id/up_progress_bar_performance"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="6dp"
+                        android:progressDrawable="@drawable/progressbar_performance" />
 
-                <ProgressBar
-                    android:id="@+id/up_progress_bar_red_target"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressDrawable="@drawable/progressbar_red_target" />
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/up_progress_red_target"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="right"
+                        android:text="0%"
+                        android:textColor="@color/txt_9"
+                        app:label_text_size="@dimen/sp13"
+                        app:label_text_color="@color/txt_9"
+                        app:label_text_left="@string/red_target" />
 
-                <com.commonlib.widget.LabelTextView
-                    android:id="@+id/up_progress_rush_target"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="right"
-                    android:text="0%"
-                    android:textColor="@color/txt_9"
-                    app:label_text_color="@color/txt_9"
-                    app:label_text_left="@string/rush_target" />
+                    <ProgressBar
+                        android:id="@+id/up_progress_bar_red_target"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="6dp"
+                        android:progressDrawable="@drawable/progressbar_red_target" />
 
-                <ProgressBar
-                    android:id="@+id/up_progress_bar_rush_target"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressDrawable="@drawable/progressbar_rush_target" />
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/up_progress_rush_target"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="right"
+                        android:text="0%"
+                        android:textColor="@color/txt_9"
+                        app:label_text_size="@dimen/sp13"
+                        app:label_text_color="@color/txt_9"
+                        app:label_text_left="@string/rush_target" />
+
+                    <ProgressBar
+                        android:id="@+id/up_progress_bar_rush_target"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="6dp"
+                        android:progressDrawable="@drawable/progressbar_rush_target" />
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout
@@ -174,7 +187,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:paddingTop="20dp"
-                    android:text="本周数据"
                     android:textColor="@color/txt_9"
                     android:textSize="@dimen/sp12"
                     app:label_text_top_str="集团教学流程"
@@ -203,62 +215,12 @@
                 android:layout_height="250dp"
                 android:background="@color/white" />
 
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <RelativeLayout
-        android:id="@+id/home_titlebar_group"
+    <View
+        android:id="@+id/teach_title_bg"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_toolbar_height"
-        android:layout_gravity="center_horizontal"
-        android:background="#FF2883f6"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/default_toolbar_height"
-        android:paddingTop="@dimen/toolbar_padding_top">
-
-        <LinearLayout
-            android:id="@+id/title_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/title_radio_1"
-                android:layout_width="82dp"
-                android:layout_height="match_parent"
-                android:button="@null"
-                android:gravity="center"
-                android:text="@string/data_market"
-                android:textColor="@color/trans_txt_55"
-                android:textSize="@dimen/sp13" />
-
-            <RadioButton
-                android:id="@+id/title_radio_2"
-                android:layout_width="82dp"
-                android:layout_height="match_parent"
-                android:button="@null"
-                android:gravity="center"
-                android:text="@string/data_campus"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp14" />
-
-
-        </LinearLayout>
-
-        <com.commonlib.widget.base.MySpinner
-            android:id="@+id/home_choose_time_sp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/icon_home_xiala"
-            android:gravity="center_vertical"
-            android:textColor="@color/white" />
-
-    </RelativeLayout>
+        android:layout_height="75dp"
+        android:background="#FF2883f6" />
 </RelativeLayout>

@@ -114,16 +114,7 @@ public class PieChartView extends View {
             }
             /*绘制圆*/
             // 或者 canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
-            setFloorPercent(canvas, i, paint.getColor(), (int) ((floorCount - i) * timePercent * 180));
-//            for (int j = 0; j < biulder.floorIndex.size(); j++) {
-//                if (i == biulder.floorIndex.get(j)) {
-//                    int color = biulder.floorColor.get(j);
-//                    if (color == 0) {
-//                        color = R.color.colorPrimaryDark1;
-//                    }
-//                    setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
-//                }
-//            }
+            setFloorPercent(canvas, i, paint.getColor(), 180);
             if (biulder.des != null && biulder.des.size() > 0) {
 
                 Paint.FontMetrics metrics = txtPaint.getFontMetrics();
@@ -135,7 +126,7 @@ public class PieChartView extends View {
                 float numHeight = numMetrics.descent - numMetrics.ascent;
 
                 canvas.drawText(biulder.des.get(i), width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
-                canvas.drawText(biulder.nums.get(i), width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
+                canvas.drawText(Math.round(Integer.valueOf(biulder.nums.get(i)) * timePercent) + "", width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
             }
         }
     }
@@ -153,7 +144,6 @@ public class PieChartView extends View {
     }
 
     private void startRoateAnimation() {
-        // curDrawArcIndex = 0;
         final ValueAnimator anim = ValueAnimator.ofObject(new IntEvaluator(), 0, 100);
         anim.setInterpolator(new AccelerateDecelerateInterpolator());
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -164,7 +154,7 @@ public class PieChartView extends View {
                 postInvalidate();
             }
         });
-        anim.setDuration(2000);
+        anim.setDuration(2500);
         anim.start();
     }
 

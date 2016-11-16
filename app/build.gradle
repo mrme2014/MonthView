@@ -7,6 +7,12 @@ def getDate() {
     return formattedDate
 }
 
+def getDateHour() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd_HHmmss')
+    return formattedDate
+}
+
 android {
     signingConfigs {
         config {
@@ -68,8 +74,8 @@ android {
                 output.outputFile = new File(oldFile.parent, debugApkName)
             }
             if (variant.buildType.name.equals('debug800')) {
-                def debugApkName = 'ischool-' + variant.buildType.name + '-' + variant.getVersionName() + '.apk'
-                output.outputFile = new File(oldFile.parent, debugApkName)
+                def debug800ApkName = 'ischool-' + variant.buildType.name + '-' + variant.getVersionName() + '-' + getDateHour() + '.apk'
+                output.outputFile = new File(oldFile.parent, debug800ApkName)
             }
         }
     }

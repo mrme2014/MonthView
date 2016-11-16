@@ -81,6 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:text="@string/up_grogress_rate_to_today"
                     android:textColor="@color/txt_9"
                     android:textSize="@dimen/sp12" />
 

@@ -1,5 +1,7 @@
 package com.ishow.ischool.business.tabindex;
 
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
@@ -25,9 +27,9 @@ import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.DataApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
+import com.ishow.ischool.util.AnimatorUtil;
 import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.PieChartView;
-import com.ishow.ischool.widget.custom.RiseNumTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +44,7 @@ import rx.schedulers.Schedulers;
 public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     @BindView(R.id.home_advances_received)
-    RiseNumTextView advancesReceivedTv;
+    TextView advancesReceivedTv;
     @BindView(R.id.index_refund_num)
     TextView refundNumTv;
     @BindView(R.id.index_refund_money)
@@ -92,6 +94,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
     @BindView(R.id.home_circle_bg)
     ImageView homeCircleIv;
 
+    @BindView(R.id.label_index_advances_received)
+    TextView labelIndexAdvancesReceivedTv;
+
     @BindView(R.id.pie_chart)
     PieChartView pieChart;
 
@@ -111,13 +116,6 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.fragment_tab_index_teach;
     }
@@ -130,6 +128,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     private void initView() {
         titlebarColor = getResources().getColor(R.color.colorPrimary);
+        labelIndexAdvancesReceivedTv.setText(R.string.income);
         final int max = UIUtil.dip2px(getActivity(), 200);
         homeScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -143,13 +142,6 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         updateToolbarBg(0);
 
         AnimationSet animationSet = new AnimationSet(true);
-        //参数1：从哪个旋转角度开始
-        //参数2：转到什么角度
-        //后4个参数用于设置围绕着旋转的圆的圆心在哪里
-        //参数3：确定x轴坐标的类型，有ABSOLUT绝对坐标、RELATIVE_TO_SELF相对于自身坐标、RELATIVE_TO_PARENT相对于父控件的坐标
-        //参数4：x轴的值，0.5f表明是以自身这个控件的一半长度为x轴
-        //参数5：确定y轴坐标的类型
-        //参数6：y轴的值，0.5f表明是以自身这个控件的一半长度为x轴
         RotateAnimation rotateAnimation = new RotateAnimation(0, 360,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
@@ -188,17 +180,20 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeTeachData() {
+        handProgressbar(true);
         ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<EducationHome>() {
                     @Override
                     public void onSuccess(EducationHome marketHome) {
                         processTv.setText(getString(R.string.data, mSpValue));
                         upProgressSubtitleTv.setText(getString(R.string.data, mSpValue));
+                        handProgressbar(false);
                         updateView(marketHome);
                     }
 
                     @Override
                     public void onError(String msg) {
+                        handProgressbar(false);
                         showToast(msg);
                     }
 
@@ -206,6 +201,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                     protected boolean isAlive() {
                         return !isActivityFinished();
                     }
+
                 });
     }
 
@@ -246,60 +242,76 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     private void updateView(final EducationHome educationHome) {
 
-        advancesReceivedTv.withNumber((int) Float.parseFloat(educationHome.data.body[7]));
-        advancesReceivedTv.setOnEndListener(new RiseNumTextView.OnEndListener() {
+        float max = Math.max(educationHome.education.full_challenge, Math.max(educationHome.education.real, educationHome.education.full_base));
+
+        PropertyValuesHolder[] holders = new PropertyValuesHolder[15];
+        holders[0] = AnimatorUtil.getPropertyValuesHolder("advancesReceivedTv", (int) Float.parseFloat(educationHome.data.body[7]));
+        holders[1] = AnimatorUtil.getPropertyValuesHolder("refundNumTv", Integer.parseInt(educationHome.data.body[4]) + Integer.parseInt(educationHome.data.body[5]));
+        holders[2] = AnimatorUtil.getPropertyValuesHolder("refundMoneyTv", (int) Float.parseFloat(educationHome.data.body[6]));
+
+        holders[3] = AnimatorUtil.getPropertyValuesHolder("studentAllTv", Integer.parseInt(educationHome.data.body[0]));
+        holders[4] = AnimatorUtil.getPropertyValuesHolder("studentFinalTv", Integer.parseInt(educationHome.data.body[1]));
+        holders[5] = AnimatorUtil.getPropertyValuesHolder("studentShouldTv", Integer.parseInt(educationHome.data.body[2]));
+        holders[14] = AnimatorUtil.getPropertyValuesHolder("studentStopTv", Integer.parseInt(educationHome.data.body[3]));
+
+        holders[6] = AnimatorUtil.getPropertyValuesHolder("performancePb", educationHome.education.real * 100 / max);
+        holders[7] = AnimatorUtil.getPropertyValuesHolder("redTargetPb", educationHome.education.full_base * 100 / max);
+        holders[8] = AnimatorUtil.getPropertyValuesHolder("rushTargetPb", educationHome.education.full_challenge * 100 / max);
+
+        holders[9] = AnimatorUtil.getPropertyValuesHolder("performanceTv", educationHome.education.real);
+        holders[10] = AnimatorUtil.getPropertyValuesHolder("redTargetTv", educationHome.education.full_base);
+        holders[11] = AnimatorUtil.getPropertyValuesHolder("rushTargetTv", educationHome.education.full_challenge);
+
+        holders[12] = AnimatorUtil.getPropertyValuesHolder("upgradeRateTv", Float.parseFloat(educationHome.TeachingProcess.selfChartData.body[0].get(4).replace("%", "")));
+        holders[13] = AnimatorUtil.getPropertyValuesHolder("fullPayRateTv", Float.parseFloat(educationHome.TeachingProcess.selfChartData.body[0].get(5).replace("%", "")));
+
+        ValueAnimator valueAnimator = ValueAnimator.ofPropertyValuesHolder(holders);
+        valueAnimator.setDuration(1000);
+        final String ren = getString(R.string.people_unit);
+        final String yuan = getString(R.string.money_unit);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onEndFinish() {
-                if (isActivityFinished() || advancesReceivedTv == null) {
-                    return;
-                }
-                advancesReceivedTv.setText(educationHome.data.body[7]);
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                int received = (int) animation.getAnimatedValue("advancesReceivedTv");
+                advancesReceivedTv.setText(AnimatorUtil.dfint.format(received));
+                refundNumTv.setText(animation.getAnimatedValue("refundNumTv") + ren);
+                refundMoneyTv.setText(AnimatorUtil.dfint.format(animation.getAnimatedValue("refundMoneyTv")) + yuan);
+
+                studentAllTv.setText(animation.getAnimatedValue("studentAllTv").toString());
+                studentFinalTv.setText(animation.getAnimatedValue("studentFinalTv").toString());
+                studentShouldTv.setText(animation.getAnimatedValue("studentShouldTv").toString());
+                studentStopTv.setText(animation.getAnimatedValue("studentStopTv").toString());
+
+                performancePb.setProgress((int) (float) animation.getAnimatedValue("performancePb"));
+                redTargetPb.setProgress((int) (float) animation.getAnimatedValue("redTargetPb"));
+                rushTargetPb.setProgress((int) (float) animation.getAnimatedValue("rushTargetPb"));
+                performanceTv.setText(animation.getAnimatedValue("performanceTv") + "%");
+                redTargetTv.setText(animation.getAnimatedValue("redTargetTv") + "%");
+                rushTargetTv.setText(animation.getAnimatedValue("rushTargetTv") + "%");
+
+                upgradeRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("upgradeRateTv")) + "%");
+                fullPayRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("fullPayRateTv")) + "%");
             }
         });
-        advancesReceivedTv.start();
-
-        refundNumTv.setText(Integer.parseInt(educationHome.data.body[4]) + Integer.parseInt(educationHome.data.body[5]) + getString(R.string.people_unit));
-        refundMoneyTv.setText(educationHome.data.body[6] + getString(R.string.money_unit));
-
-        studentAllTv.setText(educationHome.data.body[0]);
-        studentFinalTv.setText(educationHome.data.body[1]);
-        studentShouldTv.setText(educationHome.data.body[2]);
-        studentStopTv.setText(educationHome.data.body[3]);
-
-
-        int max = (int) Math.max(educationHome.education.full_challenge, Math.max(educationHome.education.real, educationHome.education.full_base));
-
-        performancePb.setProgress((int) educationHome.education.real * 100 / max);
-        redTargetPb.setProgress((int) educationHome.education.full_base * 100 / max);
-        rushTargetPb.setProgress((int) educationHome.education.full_challenge * 100 / max);
-
-        performanceTv.setText(educationHome.education.real + "%");
-        redTargetTv.setText(educationHome.education.full_base + "%");
-        rushTargetTv.setText(educationHome.education.full_challenge + "%");
-
-        upgradeRateTv.setText(educationHome.TeachingProcess.selfChartData.body[0].get(4));
-        fullPayRateTv.setText(educationHome.TeachingProcess.selfChartData.body[0].get(5));
-
+        valueAnimator.start();
 
         List<String> list = new ArrayList<>();
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(0));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
         list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
-//        pieChart.setFloorProperty(list, educationHome.TeachingProcess.selfChartData.body[0].get(4), educationHome.TeachingProcess.selfChartData.body[0].get(5));
 
         ArrayList<String> des = new ArrayList<>();
-        des.add(getString(R.string.class_numbers));
-        des.add(getString(R.string.open_class));
-        des.add(getString(R.string.apply_numbers));
-        des.add(getString(R.string.full_amount_number));
+        des.add(educationHome.TeachingProcess.selfChartData.head[0]);
+        des.add(educationHome.TeachingProcess.selfChartData.head[1]);
+        des.add(educationHome.TeachingProcess.selfChartData.head[2]);
+        des.add(educationHome.TeachingProcess.selfChartData.head[3]);
 
         PieChartView.Biulder biulder = new PieChartView.Biulder();
         biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
                 .setDrawNums(list)
                 .setDrawTxtDes(des);
-//                .DrawPercentFloor(1, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(4))
-//                .DrawPercentFloor(3, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(5));
         pieChart.invalidateNoAnimation(biulder);
     }
 }

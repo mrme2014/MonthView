@@ -2,23 +2,19 @@ package com.ishow.ischool.business.tabindex;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.UIUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
-import com.commonlib.widget.base.MySpinner;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.EducationHome;
@@ -43,7 +39,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexFragment.TabFragment {
+public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     @BindView(R.id.home_advances_received)
     RiseNumTextView advancesReceivedTv;
@@ -81,8 +77,8 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
     TopBottomTextView upgradeRateTv;
 
 
-    @BindView(R.id.home_titlebar_group)
-    RelativeLayout titlebarGroup;
+    @BindView(R.id.teach_title_bg)
+    View titlebarGroup;
     @BindView(R.id.home_scroll)
     NestedScrollView homeScrollView;
 
@@ -96,13 +92,12 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
     @BindView(R.id.home_circle_bg)
     ImageView homeCircleIv;
 
-    @BindView(R.id.home_choose_time_sp)
-    MySpinner chooseTimeSpinner;
-
     @BindView(R.id.pie_chart)
     PieChartView pieChart;
 
     private int titlebarColor;
+    public int mSpPosition = 1;
+    private String mSpValue = "本周";
 
     HashMap<String, Integer> params = new HashMap<>();
     private TabIndexFragment parentFragment;
@@ -161,38 +156,6 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
         rotateAnimation.setDuration(2000);
         animationSet.addAnimation(rotateAnimation);
         homeCircleIv.startAnimation(animationSet);
-
-        String[] chooseTimes = getResources().getStringArray(R.array.home_choose_times);
-        ArrayList<String> chooseTimesArray = new ArrayList<>();
-        for (int i = 0; i < chooseTimes.length; i++) {
-            chooseTimesArray.add(chooseTimes[i]);
-        }
-        chooseTimeSpinner.setDatas(chooseTimesArray);
-
-        chooseTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        computerParams(TYPE_WEEK);
-                        break;
-                    case 1:
-                        computerParams(TYPE_LAST_WEEK);
-                        break;
-                    case 2:
-                        computerParams(TYPE_MONTH);
-                        break;
-                    case 3:
-                        computerParams(TYPE_LAST_MONTH);
-                        break;
-                }
-
-                processTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
-                upProgressSubtitleTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
-                taskGetHomeTeachData();
-
-            }
-        });
     }
 
     private void updateToolbarBg(int alph) {
@@ -202,10 +165,10 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
     }
 
     private void setupData() {
-        chooseTimeSpinner.setPosition(1);
+        update(1, "上周", TYPE_LAST_WEEK);
     }
 
-    @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group, R.id.title_radio_1})
+    @OnClick({R.id.process_group, R.id.performance_education_ll, R.id.pre_pay_group})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_education_ll:
@@ -220,9 +183,6 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
                 intent.putExtra(TeachSummaryActivity.P_END_TIME, params.get("end_time"));
                 JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
-            case R.id.title_radio_1:
-                setCurrentItem(0);
-                break;
         }
     }
 
@@ -232,6 +192,8 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
                 .subscribe(new ApiObserver<EducationHome>() {
                     @Override
                     public void onSuccess(EducationHome marketHome) {
+                        processTv.setText(getString(R.string.data, mSpValue));
+                        upProgressSubtitleTv.setText(getString(R.string.data, mSpValue));
                         updateView(marketHome);
                     }
 
@@ -252,7 +214,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
     private static final int TYPE_MONTH = 1;
     private static final int TYPE_LAST_MONTH = 2;
 
-    private void computerParams(int type) {
+    public void update(int spPosition, String spValue, int type) {
+        this.mSpPosition = spPosition;
+        this.mSpValue = spValue;
         //1:本月 2:上月 3:本周 4:上周
         switch (type) {
             case TYPE_WEEK:
@@ -276,6 +240,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
                 params.put("end_time", (int) AppUtil.getLastMonthEnd());
                 break;
         }
+        taskGetHomeTeachData();
     }
 
 
@@ -336,17 +301,5 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
 //                .DrawPercentFloor(1, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(4))
 //                .DrawPercentFloor(3, R.color.colorPrimaryDark1, educationHome.TeachingProcess.selfChartData.body[0].get(5));
         pieChart.invalidateNoAnimation(biulder);
-    }
-
-    public Fragment setParentFragment(TabIndexFragment fragment) {
-        this.parentFragment = fragment;
-        return this;
-    }
-
-    @Override
-    public void setCurrentItem(int index) {
-        if (parentFragment != null) {
-            parentFragment.setCurrentItem(index);
-        }
     }
 }

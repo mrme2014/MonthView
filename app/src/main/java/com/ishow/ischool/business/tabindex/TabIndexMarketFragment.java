@@ -2,24 +2,20 @@ package com.ishow.ischool.business.tabindex;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.UIUtil;
 import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
-import com.commonlib.widget.base.MySpinner;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.statistics.MarketHome;
@@ -43,7 +39,7 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndexFragment.TabFragment {
+public class TabIndexMarketFragment extends BaseFragment4Crm {
 
     @BindView(R.id.home_advances_received)
     RiseNumTextView advancesReceivedTv;
@@ -79,8 +75,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
     TopBottomTextView applyRateTv;
 
 
-    @BindView(R.id.home_titlebar_group)
-    RelativeLayout titlebarGroup;
+    @BindView(R.id.market_title_bg)
+    View titlebarGroup;
     @BindView(R.id.home_scroll)
     NestedScrollView homeScrollView;
 
@@ -97,19 +93,18 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
     @BindView(R.id.home_circle_bg)
     ImageView homeCircleIv;
 
-    @BindView(R.id.home_choose_time_sp)
-    MySpinner chooseTimeSpinner;
-
     @BindView(R.id.pie_chart)
     PieChartView pieChart;
     @BindView(R.id.pre_pay_group)
     FrameLayout prePayGroup;
 
     private int titlebarColor;
+    public int mSpPosition = -1;
+    public String mSpValue = "本周";
 
     HashMap<String, Integer> params = new HashMap<>();
-
-    private TabIndexFragment parentFragment;
+    private int mParamTimeType;
+    private int mParamTimeValue;
 
     public TabIndexMarketFragment() {
         // Required empty public constructor
@@ -168,40 +163,6 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
         rotateAnimation.setDuration(2000);
         animationSet.addAnimation(rotateAnimation);
         homeCircleIv.startAnimation(animationSet);
-
-        String[] chooseTimes = getResources().getStringArray(R.array.home_choose_times);
-        ArrayList<String> chooseTimesArray = new ArrayList<>();
-        for (int i = 0; i < chooseTimes.length; i++) {
-            chooseTimesArray.add(chooseTimes[i]);
-        }
-        chooseTimeSpinner.setDatas(chooseTimesArray);
-
-        chooseTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        computerParams(TYPE_WEEK);
-                        break;
-                    case 1:
-                        computerParams(TYPE_LAST_WEEK);
-                        break;
-                    case 2:
-                        computerParams(TYPE_MONTH);
-                        break;
-                    case 3:
-                        computerParams(TYPE_LAST_MONTH);
-                        break;
-                }
-                processTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
-                performanceSubtitleTv.setText(getString(R.string.data, chooseTimeSpinner.getSelectedValue()));
-
-                taskGetHomeMarketData();
-
-            }
-        });
-
-
     }
 
     private void updateToolbarBg(int alph) {
@@ -212,10 +173,10 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
 
     private void setupData() {
 //        taskGetHomeMarketData();
-        chooseTimeSpinner.setPosition(1);
+//        update(TYPE_LAST_WEEK);
     }
 
-    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group, R.id.title_radio_2})
+    @OnClick({R.id.performance_title, R.id.process_group, R.id.performance_market_ll, R.id.pre_pay_group})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.performance_title: {
@@ -223,9 +184,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
                 break;
             }
             case R.id.process_group: {
-                int position = chooseTimeSpinner.getPosition();
                 Intent intent = new Intent(getActivity(), CompanyMarketSaleprocessActivity.class);
-                intent.putExtra("select_position",position);
+                intent.putExtra("select_position", mSpPosition);
                 JumpManager.jumpActivity(getActivity(),intent, Resource.NO_NEED_CHECK);
                 break;
             }
@@ -238,9 +198,6 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
                 intent.putExtra(MarketSummaryActivity.P_END_TIME, params.get("end_time"));
                 JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
-            case R.id.title_radio_2:
-                setCurrentItem(1);
-                break;
         }
     }
 
@@ -250,6 +207,8 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
                 .subscribe(new ApiObserver<MarketHome>() {
                     @Override
                     public void onSuccess(MarketHome marketHome) {
+                        processTv.setText(getString(R.string.data, mSpValue));
+                        performanceSubtitleTv.setText(getString(R.string.data, mSpValue));
                         updateView(marketHome);
                     }
 
@@ -270,7 +229,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
     private static final int TYPE_MONTH = 1;
     private static final int TYPE_LAST_MONTH = 2;
 
-    private void computerParams(int type) {
+    public void update(int spPosition, String spValue, int type) {
+        this.mSpPosition = spPosition;
+        this.mSpValue = spValue;
         //1:本月 2:上月 3:本周 4:上周
         switch (type) {
             case TYPE_WEEK:
@@ -294,6 +255,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
                 params.put("end_time", (int) AppUtil.getLastMonthEnd());
                 break;
         }
+        taskGetHomeMarketData();
     }
 
     private void updateView(final MarketHome marketHome) {
@@ -354,17 +316,5 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
 //                .DrawPercentFloor(3, R.color.colorPrimaryDark1, marketHome.process.full_amount_rate);
         pieChart.invalidateNoAnimation(biulder);
 
-    }
-
-    public Fragment setParentFragment(TabIndexFragment fragment) {
-        this.parentFragment = fragment;
-        return this;
-    }
-
-    @Override
-    public void setCurrentItem(int index) {
-        if (parentFragment != null) {
-            parentFragment.setCurrentItem(index);
-        }
     }
 }

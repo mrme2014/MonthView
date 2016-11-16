@@ -41,7 +41,8 @@
                 android:gravity="center"
                 android:text="市场"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:background="@null"/>
 
             <RadioButton
                 android:id="@+id/title_radio_2"
@@ -51,7 +52,8 @@
                 android:gravity="center"
                 android:text="教学"
                 android:textColor="@color/trans_txt_55"
-                android:textSize="@dimen/sp16" />
+                android:textSize="@dimen/sp16"
+                android:background="@null"/>
         </LinearLayout>
 
         <com.commonlib.widget.base.MySpinner

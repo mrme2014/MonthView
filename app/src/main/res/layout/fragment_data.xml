@@ -4,61 +4,67 @@
     android:background="@color/comm_bg"
     android:orientation="vertical">
 
-    <!--<android.support.v7.widget.Toolbar-->
-    <!--android:id="@+id/toolbar"-->
-    <!--style="@style/ToolBarStyle"-->
-    <!--android:paddingTop="@dimen/translucent_padding_top">-->
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:minHeight="@dimen/default_toolbar_height"
-        android:paddingTop="@dimen/translucent_padding_top">
+        android:background="@color/colorPrimary" >
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:visibility="gone" />
+        <View
+            android:id="@+id/statubar_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_padding_top" />
 
-        <RadioGroup
-            android:id="@+id/title_radio"
-            android:layout_width="164dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/statubar_view"
+            android:gravity="center">
 
-            <RadioButton
-                android:id="@+id/title_radio_1"
-                android:layout_width="82dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/radio_left"
-                android:button="@null"
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/default_toolbar_height"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
                 android:gravity="center"
-                android:text="@string/data_market"
-                android:textColor="@color/selector_btn_blue_white_text"
-                android:textSize="@dimen/sp13" />
+                android:visibility="gone" />
 
-            <RadioButton
-                android:id="@+id/title_radio_2"
-                android:layout_width="82dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/radio_right"
-                android:button="@null"
+            <RadioGroup
+                android:id="@+id/title_radio"
+                android:layout_width="164dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/data_campus"
-                android:textColor="@color/selector_btn_blue_white_text"
-                android:textSize="@dimen/sp13" />
-        </RadioGroup>
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/title_radio_1"
+                    android:layout_width="82dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/radio_left"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/data_market"
+                    android:textColor="@color/selector_btn_blue_white_text"
+                    android:textSize="@dimen/sp13" />
+
+                <RadioButton
+                    android:id="@+id/title_radio_2"
+                    android:layout_width="82dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/radio_right"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/data_campus"
+                    android:textColor="@color/selector_btn_blue_white_text"
+                    android:textSize="@dimen/sp13" />
+            </RadioGroup>
+        </RelativeLayout>
 
     </RelativeLayout>
 

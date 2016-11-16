@@ -23,6 +23,7 @@ import com.commonlib.widget.TopBottomTextView;
 import com.commonlib.widget.base.MySpinner;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
 import com.ishow.ischool.business.home.teach.TeachSummaryActivity;
@@ -37,7 +38,6 @@ import com.ishow.ischool.widget.custom.PieChartView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -339,23 +339,14 @@ public class TabIndexTeachFragment extends BaseFragment4Crm implements TabIndexF
         });
         valueAnimator.start();
 
-        List<String> list = new ArrayList<>();
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(0));
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
+        ArrayList<PieChartEntry> datas = new ArrayList<>();
+        datas.add(new PieChartEntry(R.color.pie_color1, getString(R.string.campus_talk), educationHome.TeachingProcess.selfChartData.body[0].get(0)));
+        datas.add(new PieChartEntry(R.color.pie_color2, getString(R.string.open_class), educationHome.TeachingProcess.selfChartData.body[0].get(1)));
+        datas.add(new PieChartEntry(R.color.pie_color3, getString(R.string.apply_numbers), educationHome.TeachingProcess.selfChartData.body[0].get(2)));
+        datas.add(new PieChartEntry(R.color.pie_color6, getString(R.string.full_amount_number), educationHome.TeachingProcess.selfChartData.body[0].get(3)));
+        pieChart.setDatas(datas);
 
-        ArrayList<String> des = new ArrayList<>();
-        des.add(educationHome.TeachingProcess.selfChartData.head[0]);
-        des.add(educationHome.TeachingProcess.selfChartData.head[1]);
-        des.add(educationHome.TeachingProcess.selfChartData.head[2]);
-        des.add(educationHome.TeachingProcess.selfChartData.head[3]);
 
-        PieChartView.Biulder biulder = new PieChartView.Biulder();
-        biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
-                .setDrawNums(list)
-                .setDrawTxtDes(des);
-        pieChart.invalidateNoAnimation(biulder);
     }
 
     public Fragment setParentFragment(TabIndexFragment fragment) {

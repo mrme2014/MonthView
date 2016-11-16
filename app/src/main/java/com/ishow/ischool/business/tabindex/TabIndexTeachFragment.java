@@ -290,9 +290,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 performancePb.setProgress((int) (float) animation.getAnimatedValue("performancePb"));
                 redTargetPb.setProgress((int) (float) animation.getAnimatedValue("redTargetPb"));
                 rushTargetPb.setProgress((int) (float) animation.getAnimatedValue("rushTargetPb"));
-                performanceTv.setText(animation.getAnimatedValue("performanceTv") + "%");
-                redTargetTv.setText(animation.getAnimatedValue("redTargetTv") + "%");
-                rushTargetTv.setText(animation.getAnimatedValue("rushTargetTv") + "%");
+                performanceTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("performanceTv")) + "%");
+                redTargetTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("redTargetTv")) + "%");
+                rushTargetTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("rushTargetTv")) + "%");
 
                 upgradeRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("upgradeRateTv")) + "%");
                 fullPayRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("fullPayRateTv")) + "%");

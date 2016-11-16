@@ -117,12 +117,12 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
         // Required empty public constructor
     }
 
-    public static TabIndexMarketFragment newInstance() {
+   /* public static TabIndexMarketFragment newInstance() {
         TabIndexMarketFragment fragment = new TabIndexMarketFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -251,6 +251,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
         if (parentFragment.getCurrentItem() == 0) {
             handProgressbar(true);
         }
+
         ApiFactory.getInstance().getApi(DataApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<MarketHome>() {
                     @Override
@@ -311,9 +312,9 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
         int real = marketHome.market.real * 100 / max;
 
         PropertyValuesHolder[] holders = new PropertyValuesHolder[14];
-        holders[0] = AnimatorUtil.getPropertyValuesHolder("advancesReceivedTv", (int)marketHome.summary.prepayments);
+        holders[0] = AnimatorUtil.getPropertyValuesHolder("advancesReceivedTv", (int) marketHome.summary.prepayments);
         holders[1] = AnimatorUtil.getPropertyValuesHolder("refundNumTv", Integer.parseInt(marketHome.summary.refund_number));
-        holders[2] = AnimatorUtil.getPropertyValuesHolder("refundMoneyTv", (int)Float.parseFloat(marketHome.summary.refund_amount));
+        holders[2] = AnimatorUtil.getPropertyValuesHolder("refundMoneyTv", (int) Float.parseFloat(marketHome.summary.refund_amount));
         holders[3] = AnimatorUtil.getPropertyValuesHolder("studentEntranceTv", Integer.parseInt(marketHome.summary.add_number));
         holders[4] = AnimatorUtil.getPropertyValuesHolder("studentApplyTv", Integer.parseInt(marketHome.summary.apply_number));
         holders[5] = AnimatorUtil.getPropertyValuesHolder("studentFullPayTv", Integer.parseInt(marketHome.summary.full_amount_number));

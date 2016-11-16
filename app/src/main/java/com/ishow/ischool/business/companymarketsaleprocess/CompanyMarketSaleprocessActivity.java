@@ -16,6 +16,7 @@ import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.saleprocess.ComMarketProcess;
 import com.ishow.ischool.bean.saleprocess.SaleTable1;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
@@ -166,39 +167,32 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
 
     @Override
     public void getChartSucess(ComMarketProcess process) {
-        if (des == null) des = new ArrayList<>();
-        des.add(getString(R.string.campus_talk));
-        des.add(getString(R.string.open_class));
-        des.add(getString(R.string.apply_numbers));
-        des.add(getString(R.string.full_amount_number));
+
+        List<PieChartEntry> datas = lineChart.getDatas();
+        if (datas == null)
+            datas = new ArrayList<>();
+        else datas.clear();
 
         if (process == null || process.process == null) {
             salesTable1.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
-            List<String> list = new ArrayList<>();
-            list.add("0");
-            list.add("0");
-            list.add("0");
-            list.add("0");
-            PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "30.5%").DrawPercentFloor(3, 0, "70.5%");
-            lineChart.invalidate(biulder);
 
+            datas.add(new PieChartEntry(R.color.pie_color1, getString(R.string.campus_talk), "0"));
+            datas.add(new PieChartEntry(R.color.pie_color2, getString(R.string.open_class), "0"));
+            datas.add(new PieChartEntry(R.color.pie_color3, getString(R.string.apply_numbers), "0"));
+            datas.add(new PieChartEntry(R.color.pie_color6, getString(R.string.full_amount_number), "0"));
+
+            lineChart.setDatasNoAnimation(datas);
             return;
         }
         this.process = process;
         salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
-        List<String> list = new ArrayList<>();
-        list.add(process.process.add_number);
-        list.add(process.process.openclass_sign_number);
-        list.add(process.process.openclass_apply_number);
-        list.add(process.process.openclass_full_amount_number);
+        datas.add(new PieChartEntry(R.color.pie_color1, getString(R.string.campus_talk), process.process.add_number));
+        datas.add(new PieChartEntry(R.color.pie_color2, getString(R.string.open_class), process.process.openclass_sign_number));
+        datas.add(new PieChartEntry(R.color.pie_color3, getString(R.string.apply_numbers), process.process.openclass_apply_number));
+        datas.add(new PieChartEntry(R.color.pie_color6, getString(R.string.full_amount_number), process.process.openclass_full_amount_number));
 
-        String rate1 = process.process.openclass_apply_rate;
-        String rate2 = process.process.full_amount_rate;
+        lineChart.setDatas(datas);
 
-        PieChartView.Biulder biulder = new PieChartView.Biulder();
-        biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, 0, rate1).DrawPercentFloor(3, 0, rate2);
-        lineChart.invalidate(biulder);
         salesTable1.setSpanedStr(getString(R.string.update_rate),
                 process.process.apply_number,
                 getString(R.string.fullpay_rate),

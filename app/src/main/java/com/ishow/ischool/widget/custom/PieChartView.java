@@ -12,8 +12,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import com.commonlib.util.LogUtil;
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.nineoldandroids.animation.IntEvaluator;
 import com.nineoldandroids.animation.ValueAnimator;
 
@@ -32,7 +34,8 @@ public class PieChartView extends View {
 
     private Biulder biulder;
     private float timePercent;
-    private int curDrawArcIndex = 0;
+    private List<PieChartEntry> datas;
+
 
     public PieChartView(Context context) {
         super(context);
@@ -81,7 +84,33 @@ public class PieChartView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawBitmap(canvas);
+        drawPieChart(canvas);
+       // drawBitmap(canvas);
+    }
+
+    private void drawPieChart(Canvas canvas) {
+        if (datas == null || datas.size() <= 0)
+            return;
+        width = getWidth();
+        height = getHeight();
+
+        for (int i = 0; i <floorCount; i++) {
+
+            PieChartEntry entry = datas.get(i);
+            /*绘制底层圆弧*/
+            setFloorPercent(canvas, i, ContextCompat.getColor(getContext(), entry.floorColor), 180);
+
+            Paint.FontMetrics metrics = txtPaint.getFontMetrics();
+            float textWidth = txtPaint.measureText(entry.floorDes);
+            float textHeight = metrics.descent - metrics.ascent;
+
+            Paint.FontMetrics numMetrics = numPaint.getFontMetrics();
+            float numWidth = numPaint.measureText(entry.floorNum);
+            float numHeight = numMetrics.descent - numMetrics.ascent;
+
+            canvas.drawText(entry.floorDes, width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
+            canvas.drawText(Math.round(Integer.valueOf(entry.floorNum) * timePercent)+ "", width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
+        }
     }
 
     @Override
@@ -92,6 +121,7 @@ public class PieChartView extends View {
     }
 
 
+    @Deprecated
     private void drawBitmap(Canvas canvas) {
         if (biulder == null) {
             return;
@@ -114,16 +144,7 @@ public class PieChartView extends View {
             }
             /*绘制圆*/
             // 或者 canvas.drawCircle(width / 2, height, height - i * floorHeight, paint);
-            setFloorPercent(canvas, i, paint.getColor(), (int) ((floorCount - i) * timePercent * 180));
-//            for (int j = 0; j < biulder.floorIndex.size(); j++) {
-//                if (i == biulder.floorIndex.get(j)) {
-//                    int color = biulder.floorColor.get(j);
-//                    if (color == 0) {
-//                        color = R.color.colorPrimaryDark1;
-//                    }
-//                    setFloorPercent(canvas, biulder.floorIndex.get(j), ContextCompat.getColor(getContext(), color), (int) (timePercent * biulder.floorPercenter.get(j)));
-//                }
-//            }
+            setFloorPercent(canvas, i, paint.getColor(), 180);
             if (biulder.des != null && biulder.des.size() > 0) {
 
                 Paint.FontMetrics metrics = txtPaint.getFontMetrics();
@@ -135,25 +156,45 @@ public class PieChartView extends View {
                 float numHeight = numMetrics.descent - numMetrics.ascent;
 
                 canvas.drawText(biulder.des.get(i), width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
-                canvas.drawText(biulder.nums.get(i), width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
+                canvas.drawText(Math.round(90 * timePercent) + "", width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
             }
         }
     }
 
-    public void invalidate(PieChartView.Biulder biulder) {
-        this.biulder = biulder;
-        // invalidate();
+
+    private void setFloorPercent( Canvas canvas, int floorIndex, int color, int angle) {
+        if (angle <= 0)
+            return;
+        if (angle > 180) {
+            angle = 180;
+        }
+
+        RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
+        percentPaint.setStrokeWidth(floorHeight );
+        percentPaint.setStyle(Paint.Style.STROKE);
+        percentPaint.setColor(color);
+
+        canvas.drawArc(rectF, -180 - 3, angle + 6, false, percentPaint);
+        LogUtil.e("setFloorPercent"+rectF.toString());
+    }
+
+    public List<PieChartEntry> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(List<PieChartEntry> datas) {
+        this.datas = datas;
+       // invalidate();
         startRoateAnimation();
     }
 
-    public void invalidateNoAnimation(PieChartView.Biulder biulder) {
-        this.biulder = biulder;
+    public void setDatasNoAnimation(List<PieChartEntry> datas) {
+        this.datas = datas;
         timePercent = 1;
         postInvalidate();
     }
 
     private void startRoateAnimation() {
-        // curDrawArcIndex = 0;
         final ValueAnimator anim = ValueAnimator.ofObject(new IntEvaluator(), 0, 100);
         anim.setInterpolator(new AccelerateDecelerateInterpolator());
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -164,27 +205,26 @@ public class PieChartView extends View {
                 postInvalidate();
             }
         });
-        anim.setDuration(2000);
+        anim.setDuration(2500);
         anim.start();
     }
 
-    public void setFloorPercent(final Canvas canvas, int floorIndex, int color, int angle) {
-        if (angle <= 0)
-            return;
-        if (angle > 180) {
-            angle = 180;
-        }
 
-        final RectF rectF = new RectF((floorIndex - 1) * floorHeight + floorHeight / 2, floorIndex * floorHeight + floorHeight / 2, width - (floorIndex - 1) * floorHeight - floorHeight / 2, height + (floorCount - floorIndex) * floorHeight - floorHeight / 2);
-        percentPaint.setStrokeWidth(floorHeight + 1);
-        percentPaint.setStyle(Paint.Style.STROKE);
-        percentPaint.setColor(color);
-        if (floorIndex == 3) {
-            percentPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        }
-        canvas.drawArc(rectF, -180 - 3, angle + 6, false, percentPaint);
+    @Deprecated
+    public void invalidate(PieChartView.Biulder biulder) {
+        this.biulder = biulder;
+        // invalidate();
+        startRoateAnimation();
     }
 
+    @Deprecated
+    public void invalidateNoAnimation(PieChartView.Biulder biulder) {
+        this.biulder = biulder;
+        timePercent = 1;
+        postInvalidate();
+    }
+
+    @Deprecated
     public static class Biulder {
         public List<String> des;
         public List<String> nums;
@@ -223,12 +263,12 @@ public class PieChartView extends View {
                 String substring = floorRate.substring(0, floorRate.length() - 1);
                 float rate = Float.valueOf(substring);
                 float angle = rate * 180 / 100;
-                floorPercenter.add(Math.round(angle));
+                floorPercenter.add(60);
             } else if (!TextUtils.equals(floorRate, "") && floorRate != null) {
                 /*m没有百分比符号 就默认是数字 */
                 float rate = Float.valueOf(floorRate);
                 float angle = rate * 180 / 100;
-                floorPercenter.add(Math.round(angle));
+                floorPercenter.add(60);
             } else {
                 floorPercenter.add(0);
             }

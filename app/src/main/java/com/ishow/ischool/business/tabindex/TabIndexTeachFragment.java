@@ -19,6 +19,7 @@ import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.business.campusperformance.education.Performance4EduActivity;
 import com.ishow.ischool.business.home.teach.TeachSummaryActivity;
@@ -33,7 +34,6 @@ import com.ishow.ischool.widget.custom.PieChartView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -296,22 +296,13 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         });
         valueAnimator.start();
 
-        List<String> list = new ArrayList<>();
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(0));
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(1));
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(2));
-        list.add(educationHome.TeachingProcess.selfChartData.body[0].get(3));
+        ArrayList<PieChartEntry> datas = new ArrayList<>();
+        datas.add(new PieChartEntry(R.color.pie_color1, educationHome.TeachingProcess.selfChartData.head[0], educationHome.TeachingProcess.selfChartData.body[0].get(0)));
+        datas.add(new PieChartEntry(R.color.pie_color2, educationHome.TeachingProcess.selfChartData.head[1], educationHome.TeachingProcess.selfChartData.body[0].get(1)));
+        datas.add(new PieChartEntry(R.color.pie_color3, educationHome.TeachingProcess.selfChartData.head[2], educationHome.TeachingProcess.selfChartData.body[0].get(2)));
+        datas.add(new PieChartEntry(R.color.pie_color6, educationHome.TeachingProcess.selfChartData.head[3], educationHome.TeachingProcess.selfChartData.body[0].get(3)));
+        pieChart.setDatas(datas);
 
-        ArrayList<String> des = new ArrayList<>();
-        des.add(educationHome.TeachingProcess.selfChartData.head[0]);
-        des.add(educationHome.TeachingProcess.selfChartData.head[1]);
-        des.add(educationHome.TeachingProcess.selfChartData.head[2]);
-        des.add(educationHome.TeachingProcess.selfChartData.head[3]);
 
-        PieChartView.Biulder biulder = new PieChartView.Biulder();
-        biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
-                .setDrawNums(list)
-                .setDrawTxtDes(des);
-        pieChart.invalidateNoAnimation(biulder);
     }
 }

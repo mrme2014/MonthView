@@ -20,6 +20,7 @@ import com.commonlib.widget.LabelTextView;
 import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.statistics.MarketHome;
 import com.ishow.ischool.business.campusperformance.market.Performance4MarketActivity;
 import com.ishow.ischool.business.companymarketsaleprocess.CompanyMarketSaleprocessActivity;
@@ -34,7 +35,6 @@ import com.ishow.ischool.widget.custom.PieChartView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -307,25 +307,13 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         });
         valueAnimator.start();
 
+        ArrayList<PieChartEntry> datas = new ArrayList<>();
+        datas.add(new PieChartEntry(R.color.pie_color1, getString(R.string.campus_talk), marketHome.process.add_number));
+        datas.add(new PieChartEntry(R.color.pie_color2, getString(R.string.open_class), marketHome.process.openclass_sign_number));
+        datas.add(new PieChartEntry(R.color.pie_color3, getString(R.string.apply_numbers), marketHome.process.openclass_apply_number));
+        datas.add(new PieChartEntry(R.color.pie_color6, getString(R.string.full_amount_number), marketHome.process.openclass_full_amount_number));
+        pieChart.setDatas(datas);
 
-        List<String> list = new ArrayList<>();
-        list.add(marketHome.process.add_number);
-        list.add(marketHome.process.openclass_sign_number);
-        list.add(marketHome.process.openclass_apply_number);
-        list.add(marketHome.process.openclass_full_amount_number);
-        ArrayList<String> des = new ArrayList<>();
-        des.add(getString(R.string.campus_talk));
-        des.add(getString(R.string.open_class));
-        des.add(getString(R.string.apply_numbers));
-        des.add(getString(R.string.full_amount_number));
-
-        PieChartView.Biulder biulder = new PieChartView.Biulder();
-        biulder.setPieChartBaseColor(R.color.colorPrimaryDark)
-                .setDrawNums(list)
-                .setDrawTxtDes(des);
-//                .DrawPercentFloor(1, R.color.colorPrimaryDark1, marketHome.process.openclass_apply_rate)
-//                .DrawPercentFloor(3, R.color.colorPrimaryDark1, marketHome.process.full_amount_rate);
-        pieChart.invalidateNoAnimation(biulder);
 
     }
 }

@@ -9,12 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.commonlib.util.DateUtil;
-import com.commonlib.util.LogUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
+import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
 import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
@@ -158,34 +157,13 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
     @Override
     public void getListSucess(TeachProcess teachProcess) {
         this.mTeachProcessData = teachProcess;
-        if (des == null) des = new ArrayList<>();
-        des.add(getString(R.string.class_numbers));
-        des.add(getString(R.string.open_class));
-        des.add(getString(R.string.apply_numbers));
-        des.add(getString(R.string.full_amount_number));
 
-        if (mTeachProcessData == null || mTeachProcessData.selfChartData == null) {
-            List<String> list = new ArrayList<>();
-            list.add("0");
-            list.add("0");
-            list.add("0");
-            list.add("0");
-            PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, "30%").DrawPercentFloor(3, 0, "40%");
-            salesChart.invalidate(biulder);
-        } else {
-            List<String> body = teachProcess.selfChartData.body.get(0);
-            salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time )) + " -- " + DateUtil.parseSecond2Str((long) end_time));
-            List<String> list = new ArrayList<>();
-            for (int i = 0; i < 4; i ++) {
-                list.add(body.get(i));
-            }
-            String rate1 = body.get(4);
-            String rate2 = body.get(5);
-            PieChartView.Biulder biulder = new PieChartView.Biulder();
-            biulder.setPieChartBaseColor(R.color.colorPrimaryDark).setDrawNums(list).setDrawTxtDes(des).DrawPercentFloor(1, R.color.colorPrimaryDark, rate1).DrawPercentFloor(3, R.color.pie_color1, rate2);
-            salesChart.invalidate(biulder);
-        }
+        ArrayList<PieChartEntry> datas = new ArrayList<>();
+        datas.add(new PieChartEntry(R.color.pie_color1, teachProcess.selfChartData.head.get(0), teachProcess.selfChartData.body.get(0).get(0)));
+        datas.add(new PieChartEntry(R.color.pie_color2, teachProcess.selfChartData.head.get(1), teachProcess.selfChartData.body.get(0).get(1)));
+        datas.add(new PieChartEntry(R.color.pie_color3, teachProcess.selfChartData.head.get(2), teachProcess.selfChartData.body.get(0).get(2)));
+        datas.add(new PieChartEntry(R.color.pie_color6, teachProcess.selfChartData.head.get(3), teachProcess.selfChartData.body.get(0).get(3)));
+        salesChart.setDatas(datas);
 
         setUpLabel();
     }
@@ -254,7 +232,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                     public void onResult(int start_time, int over_time) {
                         begin_time = start_time;
                         end_time = over_time;
-                        LogUtil.e("-setOnSelectResultCallback----" + begin_time + "----" + end_time);
+//                        LogUtil.e("-setOnSelectResultCallback----" + begin_time + "----" + end_time);
                     }
 
                     @Override
@@ -271,7 +249,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                     timeSeletByUser.show(getSupportFragmentManager(), "dialog");
             }
         }
-        LogUtil.e(position + "-----" + begin_time + "----" + end_time);
+//        LogUtil.e(position + "-----" + begin_time + "----" + end_time);
         getComMarketSaleProcess();
     }
 

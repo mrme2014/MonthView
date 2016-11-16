@@ -70,7 +70,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void init() {
-        mPresenter.getCampusList();     //进入app获取所有校区信息
+//        mPresenter.getCampusList();     //进入app获取所有校区信息,转移到mainActivity获取
         ArrayList<Fragment> fragments = new ArrayList<>();
         ArrayList<String> titleList = new ArrayList<>();
 
@@ -142,6 +142,7 @@ public class TabDataFragment extends BaseFragment4Crm<TabDataPresenter, TabDataM
 
     @Override
     public void getListSuccess(ArrayList<CampusInfo> campusInfos) {
+        //已经转移到mainActivity
         CampusManager.getInstance().init(getActivity().getApplicationContext());
         CampusManager.getInstance().save(campusInfos);
     }

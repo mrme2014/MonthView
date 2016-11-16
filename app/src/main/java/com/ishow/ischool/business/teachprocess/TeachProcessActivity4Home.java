@@ -97,7 +97,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         if (map == null) map = new TreeMap();
         map.put("start_time", begin_time);
         map.put("end_time", end_time);
-        mPresenter.getTeachProcessData(map);
+        mPresenter.getTeachProcessData4Home(map);
     }
 
     @Override

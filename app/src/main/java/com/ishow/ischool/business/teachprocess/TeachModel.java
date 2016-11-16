@@ -18,7 +18,7 @@ import rx.schedulers.Schedulers;
 public class TeachModel implements TeachProcessConact.Model {
 
     @Override
-    public Observable<ApiResult<TeachProcess>> getTeachProcessData(TreeMap<String, Integer> map) {
+    public Observable<ApiResult<TeachProcess>> getTeachProcessData4Home(TreeMap<String, Integer> map) {
 
         return ApiFactory.getInstance().getApi(DataApi.class).getTeachProcess4Home(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }

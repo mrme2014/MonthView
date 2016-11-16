@@ -109,7 +109,7 @@ public class PieChartView extends View {
             float numHeight = numMetrics.descent - numMetrics.ascent;
 
             canvas.drawText(entry.floorDes, width / 2 - textWidth / 2, floorHeight * i + floorHeight / 2 - numHeight / 2 + textHeight / 2, txtPaint);
-            canvas.drawText(Math.round(80 * timePercent)+ "", width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
+            canvas.drawText(Math.round(Integer.valueOf(entry.floorNum) * timePercent)+ "", width / 2 - numWidth / 2, floorHeight * i + floorHeight / 2 + numHeight / 2 + textHeight / 2, numPaint);
         }
     }
 

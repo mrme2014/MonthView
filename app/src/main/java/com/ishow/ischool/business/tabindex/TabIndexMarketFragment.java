@@ -360,7 +360,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm implements TabIndex
         list.add(marketHome.process.add_number);
         list.add(marketHome.process.openclass_sign_number);
         list.add(marketHome.process.openclass_apply_number);
-        list.add(marketHome.process.openclass_full_amount_apply_rate);
+        list.add(marketHome.process.openclass_full_amount_number);
         ArrayList<String> des = new ArrayList<>();
         des.add(getString(R.string.campus_talk));
         des.add(getString(R.string.open_class));

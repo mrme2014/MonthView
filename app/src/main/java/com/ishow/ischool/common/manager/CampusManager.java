@@ -2,17 +2,23 @@ package com.ishow.ischool.common.manager;
 
 import android.content.Context;
 
+import com.commonlib.http.ApiFactory;
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.SpUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.user.CampusInfo;
+import com.ishow.ischool.common.api.ApiObserver;
+import com.ishow.ischool.common.api.MarketApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wqf on 16/8/22.
@@ -61,10 +67,29 @@ public class CampusManager {
                     it.remove();
                 }
             }
+            String data = gson.toJson(campusInfos);
+            persistDate(data);
         }
 
-        String data = gson.toJson(campusInfos);
-        persistDate(data);
+    }
+
+    public void getFromServer(Context context) {
+        init(context);
+        ApiFactory.getInstance().getApi(MarketApi.class).getCampusList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ApiObserver<ArrayList<CampusInfo>>() {
+                    @Override
+                    public void onSuccess(ArrayList<CampusInfo> campusInfos) {
+                        save(campusInfos);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+                });
+
     }
 
     public ArrayList<CampusInfo> get() {

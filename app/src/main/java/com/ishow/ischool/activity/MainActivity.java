@@ -15,6 +15,7 @@ import com.ishow.ischool.business.tabdata.TabDataFragment;
 import com.ishow.ischool.business.tabindex.TabIndexFragment;
 import com.ishow.ischool.business.tabme.TabMeFragment;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.common.manager.CampusManager;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
@@ -102,6 +103,7 @@ public class MainActivity extends BaseActivity4Crm {
         // 进入应用获取城市名然后保存起来
         LocManager.getInstance().startLocation();
         checkUpdate();
+        CampusManager.getInstance().getFromServer(getApplicationContext());
     }
 
 

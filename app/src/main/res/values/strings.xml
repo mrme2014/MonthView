@@ -351,7 +351,7 @@
     <string name="campus_talk">晨读/校聊</string>
     <string name="campus_hangzhou">杭州校区</string>
     <string name="campus_zongbu">总部</string>
-
+    <string name="saleprocess_open_class">销售流程(公开课)</string>
     <string-array name="home_choose_times">
         <item>本周</item>
         <item>上周</item>

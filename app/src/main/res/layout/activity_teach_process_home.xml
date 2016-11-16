@@ -83,7 +83,7 @@
                     app:label_text_bottom_size="11"
                     app:label_text_top_color="@color/txt_6"
                     app:label_text_top_size="14"
-                    app:label_text_top_str="业绩趋势"
+                    app:label_text_top_str="@string/saleprocess_open_class"
                     app:label_top_padding="25" />
 
                 <RelativeLayout

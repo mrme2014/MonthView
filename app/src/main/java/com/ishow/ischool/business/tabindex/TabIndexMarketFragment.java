@@ -178,7 +178,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
             case R.id.process_group: {
                 Intent intent = new Intent(getActivity(), CompanyMarketSaleprocessActivity.class);
                 intent.putExtra("select_position", mSpPosition);
-                JumpManager.jumpActivity(getActivity(),intent, Resource.NO_NEED_CHECK);
+                JumpManager.jumpActivity(getActivity(), intent, Resource.NO_NEED_CHECK);
                 break;
             }
             case R.id.performance_market_ll:
@@ -195,7 +195,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeMarketData() {
-        if (getContext() != null) {
+        if (getContext() != null && ((TabIndexFragment)getParentFragment()).getCurrentPage() == 0) {
             handProgressbar(true);
         }
         ApiFactory.getInstance().getApi(DataApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

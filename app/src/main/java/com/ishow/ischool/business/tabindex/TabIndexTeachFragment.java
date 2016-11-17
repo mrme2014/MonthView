@@ -182,7 +182,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeTeachData() {
-        if (getContext() != null) {
+        if (getContext() != null && ((TabIndexFragment) getParentFragment()).getCurrentPage() == 1) {
             handProgressbar(true);
         }
         ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -190,7 +190,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                     @Override
                     public void onSuccess(EducationHome marketHome) {
                         processTv.setText(getString(R.string.data, mSpValue));
-                        upProgressSubtitleTv.setText(getString(R.string.data, mSpValue));
+//                        upProgressSubtitleTv.setText(getString(R.string.data, mSpValue));
                         handProgressbar(false);
                         updateView(marketHome);
                     }

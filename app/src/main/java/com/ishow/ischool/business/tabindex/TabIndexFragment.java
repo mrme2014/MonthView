@@ -154,4 +154,8 @@ public class TabIndexFragment extends BaseFragment4Crm {
                 break;
         }
     }
+
+    public int getCurrentPage() {
+        return mViewPager.getCurrentItem();
+    }
 }

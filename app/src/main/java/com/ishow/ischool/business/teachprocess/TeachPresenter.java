@@ -23,6 +23,27 @@ import java.util.TreeMap;
  */
 
 public class TeachPresenter extends TeachProcessConact.Presenter {
+
+    @Override
+    public void getTeachProcessData4Home(TreeMap<String, Integer> map) {
+        mModel.getTeachProcessData4Home(map).subscribe(new ApiObserver<TeachProcess>() {
+            @Override
+            public void onSuccess(TeachProcess process) {
+                mView.getListSucess(process);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.getListFaild(msg);
+            }
+
+            @Override
+            protected boolean isAlive() {
+                return mView != null && !mView.isActivityFinished();
+            }
+        });
+    }
+
     @Override
     public void getTeachProcessData(TreeMap<String, Integer> map) {
         mModel.getTeachProcessData4Self(map).subscribe(new ApiObserver<TeachProcess>() {

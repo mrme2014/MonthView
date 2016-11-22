@@ -5,8 +5,6 @@ import android.animation.ValueAnimator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
-
 import java.text.DecimalFormat;
 
 
@@ -21,6 +19,7 @@ public class AnimatorUtil {
 
     public final static DecimalFormat dfint = new DecimalFormat("###,###,###");
     public final static DecimalFormat dffloat = new DecimalFormat("###,###,###.##");
+    public final static DecimalFormat dfpercent = new DecimalFormat("#.##%");
 
     public static void riseNum(final TextView textView, final int number, int duration) {
         int fromNumber = getFromNumber(number);

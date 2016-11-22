@@ -7,7 +7,7 @@ import com.ishow.ischool.BuildConfig;
  */
 public class Env {
     public static final String SITE_URL_RELEASE = "http://crmcore.ishowedu.com/";
-    public static final String SITE_URL_DEV = "http://crmcore-dev.ishowedu.com:800/";
+    public static final String SITE_URL_DEV = "http://crmcore-dev.ishowedu.com/";
     public static final String SITE_URL_800 = "http://crmcore-dev.ishowedu.com:800/";
     public static final String SITE_URL = BuildConfig.release ? SITE_URL_RELEASE : SITE_URL_DEV;
 

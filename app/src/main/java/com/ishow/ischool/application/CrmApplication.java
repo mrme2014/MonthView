@@ -66,12 +66,13 @@ public class CrmApplication extends BaseApplication {
                     HttpUrl url = newRequest.url().newBuilder().addQueryParameter("token", token == null ? "" : token.token).build();
                     newRequest = newRequest.newBuilder().url(url).build();
                 }
-                newRequest.newBuilder().addHeader("app_version_small", "0")
+                newRequest = newRequest.newBuilder().addHeader("app_version_small", "0")
                         .addHeader("api_version", "V2.0")
                         .addHeader("app_version", DeviceUtils.getAppVersionCode(getBaseContext()) + "")
                         .addHeader("app_os", "Android")
                         .addHeader("app_type", "1")
                         .build();
+
                 okhttp3.Response response = chain.proceed(newRequest);
 
                 String bodyString = "";

@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.commonlib.util.DateUtil;
 import com.commonlib.widget.TopBottomTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
@@ -16,7 +17,6 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.attribute.PieChartEntry;
 import com.ishow.ischool.bean.saleprocess.SubordinateObject;
 import com.ishow.ischool.bean.teachprocess.TeachProcess;
-import com.ishow.ischool.business.salesprocess.SalesProcessActivity;
 import com.ishow.ischool.business.salesprocess.SelectPositionActivity;
 import com.ishow.ischool.business.salesprocess.SelectSubordinateActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -71,6 +71,17 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
     boolean isHeadQuatyer;
     private TreeMap map;
     private ArrayList<String> des;
+    private int selectPosition;
+
+    @Override
+    protected void initEnv() {
+        super.initEnv();
+        selectPosition = getIntent().getIntExtra("select_position", selectPosition);
+        if (selectPosition == 0) selectPosition = 0;
+        else if (selectPosition == 1) selectPosition = 2;
+        else if (selectPosition == 2) selectPosition = 1;
+        else if (selectPosition == 3) selectPosition = 3;
+    }
 
     @Override
     protected void setUpContentView() {
@@ -97,7 +108,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         if (map == null) map = new TreeMap();
         map.put("start_time", begin_time);
         map.put("end_time", end_time);
-        mPresenter.getTeachProcessData(map);
+        mPresenter.getTeachProcessData4Home(map);
     }
 
     @Override
@@ -105,7 +116,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_sale_process_spiner_item, AppUtil.getComMarketSaleProcessList());
         salesSpinner.setAdapter(adapter);
         salesSpinner.setOnItemSelectedListener(this);
-        salesSpinner.setSelection(0);
+        salesSpinner.setSelection(selectPosition);
         salesSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -123,7 +134,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                 if (curuser_position_id == Constants.MORNING_READ_TEACHER || curuser_position_id == Constants.CHAT_COMMISSIONER) {
                     return;
                 }
-                Intent intent1 = new Intent(this, SelectPositionActivity.class);
+                Intent intent1 = new Intent(this, TeachSelectPositionActivity.class);
                 intent1.putExtra("REQUEST_CODE", REQUEST_CODE);
                 intent1.putExtra("CAMPUS_ID", campus_id);
                 intent1.putExtra("CAMPUS_NAME", campus_name);
@@ -165,6 +176,8 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         datas.add(new PieChartEntry(R.color.pie_color6, teachProcess.selfChartData.head.get(3), teachProcess.selfChartData.body.get(0).get(3)));
         salesChart.setDatas(datas);
 
+        salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
+        
         setUpLabel();
     }
 
@@ -275,7 +288,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                 if (campus_id == Constants.CAMPUS_HEADQUARTERS)
                     getComMarketSaleProcess();
                 else
-                    startActivity2OldSaleProcessActivity(extra);
+                    startActivity2OldTeachProcessActivity(extra);
             }
         } else if (requestCode == 101 && requestCode == REQUEST_CODE && data != null) {
             salesSpinner.setSelection(0);
@@ -283,9 +296,9 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         }
     }
 
-    private void startActivity2OldSaleProcessActivity(SubordinateObject extra) {
+    private void startActivity2OldTeachProcessActivity(SubordinateObject extra) {
          /*要改的 这里*/
-        Intent intent = new Intent(this, SalesProcessActivity.class);
+        Intent intent = new Intent(this, TeachProcessActivity.class);
         intent.putExtra("user_id", user_id);
         intent.putExtra("campus_id", campus_id);
         intent.putExtra("position_id", position_id);
@@ -294,7 +307,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         intent.putExtra("end_time", end_time);
         intent.putExtra("campus_name", campus_name);
         intent.putExtra("extra", extra);
-        intent.putExtra("from_commarket", true);
+        intent.putExtra("from_teach4Home", true);
 
         startActivityForResult(intent, 101);
     }

@@ -167,7 +167,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 JumpManager.jumpActivity(getActivity(), Performance4EduActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.process_group:
-                JumpManager.jumpActivity(getActivity(), TeachProcessActivity4Home.class, Resource.NO_NEED_CHECK);
+                Intent processIntent = new Intent(getActivity(), TeachProcessActivity4Home.class);
+                processIntent.putExtra("select_position", mSpPosition);
+                JumpManager.jumpActivity(getActivity(), processIntent, Resource.NO_NEED_CHECK);
                 break;
             case R.id.pre_pay_group:
                 Intent intent = new Intent(getActivity(), TeachSummaryActivity.class);
@@ -180,7 +182,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
 
     private void taskGetHomeTeachData() {
-        if (getContext() != null) {
+        if (getContext() != null && ((TabIndexFragment) getParentFragment()).getCurrentPage() == 1) {
             handProgressbar(true);
         }
         ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -188,7 +190,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                     @Override
                     public void onSuccess(EducationHome marketHome) {
                         processTv.setText(getString(R.string.data, mSpValue));
-                        upProgressSubtitleTv.setText(getString(R.string.data, mSpValue));
+//                        upProgressSubtitleTv.setText(getString(R.string.data, mSpValue));
                         handProgressbar(false);
                         updateView(marketHome);
                     }
@@ -288,9 +290,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
                 performancePb.setProgress((int) (float) animation.getAnimatedValue("performancePb"));
                 redTargetPb.setProgress((int) (float) animation.getAnimatedValue("redTargetPb"));
                 rushTargetPb.setProgress((int) (float) animation.getAnimatedValue("rushTargetPb"));
-                performanceTv.setText(animation.getAnimatedValue("performanceTv") + "%");
-                redTargetTv.setText(animation.getAnimatedValue("redTargetTv") + "%");
-                rushTargetTv.setText(animation.getAnimatedValue("rushTargetTv") + "%");
+                performanceTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("performanceTv")) + "%");
+                redTargetTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("redTargetTv")) + "%");
+                rushTargetTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("rushTargetTv")) + "%");
 
                 upgradeRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("upgradeRateTv")) + "%");
                 fullPayRateTv.setText(AnimatorUtil.dffloat.format(animation.getAnimatedValue("fullPayRateTv")) + "%");

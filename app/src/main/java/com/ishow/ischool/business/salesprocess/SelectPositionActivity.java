@@ -106,7 +106,7 @@ public class SelectPositionActivity extends BaseListActivity4Crm<SalesProcessPre
                 pick_campus = result[0];
                 ltv.setEllipsizeText(result[0], 7);
                 campus_id = campusInfos.get(selectIds[0]).id;
-                getPositionData();
+                setRefreshing();
             }
         });
     }

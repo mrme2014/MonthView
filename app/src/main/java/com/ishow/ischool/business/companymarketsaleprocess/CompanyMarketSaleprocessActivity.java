@@ -60,6 +60,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
     @BindView(R.id.sales_table1)
     TopBottomTextView salesTable1;
 
+
     int begin_time, end_time;
     private boolean isUser = true;
     private TimeSeletByUserDialog timeSeletByUser;
@@ -85,6 +86,12 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
         else if (selectPosition == 1) selectPosition = 2;
         else if (selectPosition == 2) selectPosition = 1;
         else if (selectPosition == 3) selectPosition = 3;
+
+        /*Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.\n哈哈哈哈哈哈\n这里又是一个换行");
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, "发送到"));*/
     }
 
     @Override

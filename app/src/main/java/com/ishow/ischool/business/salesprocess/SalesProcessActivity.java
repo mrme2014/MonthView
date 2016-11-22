@@ -272,7 +272,6 @@ public class SalesProcessActivity extends BaseActivity4Crm<SalesProcessPresenter
                 salesTable2.setSpanedStr(getString(R.string.apply_count), "0", getString(R.string.full_amount), "0", getString(R.string.full_amount_rate), "0");
         }
         final List<String> date = process.chart.date;
-        ;
         // start_time = DateUtil.date2Second(date.get(0));
         // end_time = DateUtil.date2Second(date.get(date.size() - 1)) + 24 * 3600;
         int oneday = AppUtil.getOneDayStart("2016-09-01");

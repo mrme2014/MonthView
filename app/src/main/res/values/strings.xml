@@ -366,4 +366,9 @@
         <item>上月</item>
     </string-array>
 
+
+
+    <string name="summary_weekly">周报</string>
+    <string name="str_share">分享</string>
+    <string name="str_share_to">分享到</string>
 </resources>

@@ -33,7 +33,6 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"
-                    app:text="fdadsa"
                     app:text_color="@color/colorPrimary" />
 
                 <com.commonlib.widget.TopBottomTextView
@@ -45,12 +44,12 @@
                     android:paddingRight="10dp"
                     app:label_TB_padding="6"
                     app:label_left_padding="10"
-                    app:label_text_bottom="user_position"
+                    app:label_text_bottom=""
                     app:label_text_bottom_color="@color/txt_9"
                     app:label_text_bottom_size="12"
                     app:label_text_top_color="@color/txt_2"
                     app:label_text_top_size="14"
-                    app:label_text_top_str="user_name"
+                    app:label_text_top_str=""
                     app:label_top_padding="32"
 
                     />
@@ -102,7 +101,6 @@
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:layout_height="250dp" />
-
 
             <com.commonlib.widget.TopBottomTextView
                 android:id="@+id/sales_table1"

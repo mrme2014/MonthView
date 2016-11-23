@@ -25,7 +25,7 @@ import com.ishow.ischool.business.campusperformance.education.Performance4EduAct
 import com.ishow.ischool.business.home.teach.TeachSummaryActivity;
 import com.ishow.ischool.business.teachprocess.TeachProcessActivity4Home;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AnimatorUtil;
@@ -185,7 +185,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         if (getContext() != null && ((TabIndexFragment) getParentFragment()).getCurrentPage() == 1) {
             handProgressbar(true);
         }
-        ApiFactory.getInstance().getApi(DataApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getEducationHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<EducationHome>() {
                     @Override
                     public void onSuccess(EducationHome marketHome) {

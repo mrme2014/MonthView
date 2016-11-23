@@ -44,7 +44,7 @@ import com.ishow.ischool.bean.campusperformance.SignPerformance;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.widget.table.MyMarkerView1;
 
@@ -109,7 +109,7 @@ public class LineChartFragment extends BaseFragment {
     public void pullData(final ArrayList<CampusInfo> showCampus, int beginMonth, int endMonth, int dataType) {
         mParamBeginDate = beginMonth;
         mParamEndDate = endMonth;
-        ApiFactory.getInstance().getApi(DataApi.class).getSignPerformance(mCampusParamAll,
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getSignPerformance(mCampusParamAll,
                 beginMonth, endMonth, dataType == -1 ? null : dataType, "campusTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

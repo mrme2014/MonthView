@@ -11,7 +11,8 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.university.Address;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.MarketApi;
-import com.ishow.ischool.common.api.University;
+import com.ishow.ischool.common.api.StudentApi;
+import com.ishow.ischool.common.api.UniversityApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class AddressListActivity extends BaseActivity4Crm {
     }
 
     private void taskGetCity(int id) {
-        ApiFactory.getInstance().getApi(University.class).getCityByProvinceId(id)
+        ApiFactory.getInstance().getApi(UniversityApi.class).getCityByProvinceId(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<ArrayList<Address>>() {
@@ -102,7 +103,7 @@ public class AddressListActivity extends BaseActivity4Crm {
     }
 
     private void taskGetProvice() {
-        ApiFactory.getInstance().getApi(University.class).getProvince()
+        ApiFactory.getInstance().getApi(UniversityApi.class).getProvince()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<ArrayList<Address>>() {
@@ -129,7 +130,7 @@ public class AddressListActivity extends BaseActivity4Crm {
         params.put("hometown_pid", pid + "");
         params.put("hometown_cid", cid + "");
         params.put("id", studentId + "");
-        ApiFactory.getInstance().getApi(MarketApi.class).editStudent(params).subscribeOn(Schedulers.io())
+        ApiFactory.getInstance().getApi(StudentApi.class).editStudent(params).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<Object>() {
                     @Override

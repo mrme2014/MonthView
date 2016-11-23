@@ -3,13 +3,13 @@ package com.ishow.ischool.business.home.teach;
 import android.content.res.Configuration;
 
 import com.commonlib.http.ApiFactory;
-import com.inqbarna.tablefixheaders.TableFixHeaders;
+import com.inqbarna.tablefixheaders.FixHeadersTableView;
 import com.inqbarna.tablefixheaders.adapters.MatrixTableAdapter;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.statistics.EducationSummary;
 import com.ishow.ischool.bean.statistics.Table1;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.util.AppUtil;
 
@@ -25,7 +25,7 @@ public class TeachSummaryActivity extends BaseActivity4Crm {
     public static final String P_END_TIME = "end_time";
 
     @BindView(R.id.table)
-    TableFixHeaders tableFixHeaders;
+    FixHeadersTableView tableFixHeaders;
 
     private HashMap<String, Integer> params = new HashMap<>();
     private int startTime;
@@ -63,7 +63,7 @@ public class TeachSummaryActivity extends BaseActivity4Crm {
         params.put("start_time", startTime == 0 ? (int) AppUtil.getLastWeekStart() : startTime);
         params.put("end_time", endTime == 0 ? (int) AppUtil.getLastWeekEnd() : endTime);
 
-        ApiFactory.getInstance().getApi(DataApi.class).getHomeEducationSummary(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getHomeEducationSummary(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<EducationSummary>() {
                     @Override
                     public void onSuccess(EducationSummary table) {

@@ -6,6 +6,7 @@ import com.ishow.ischool.bean.campusperformance.MonthTableData;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
+import com.ishow.ischool.bean.saleprocess.SaleTable1;
 import com.ishow.ischool.bean.statistics.EducationHome;
 import com.ishow.ischool.bean.statistics.EducationSummary;
 import com.ishow.ischool.bean.statistics.MarketHome;
@@ -30,7 +31,7 @@ import rx.Observable;
  * Created by MrS on 2016/9/19.
  */
 
-public interface DataApi {
+public interface StatisticsApi {
     /**
      * 名称	类型	是否必须	示例值	默认值	描述	排序
      * campus_id	Int	0			校区ID 总部身份选择校区时，需要传	0
@@ -133,4 +134,14 @@ public interface DataApi {
 
     @GET("/statistics/education/summary")
     Observable<ApiResult<EducationSummary>> getHomeEducationSummary(@QueryMap HashMap<String, Integer> params);
+
+    /*数据分析.市场.流程表格(statistics.market.processhome) 接口*/
+    @FormUrlEncoded
+    @POST("statistics/market/processhome")
+    Observable<ApiResult<SaleTable1>>  getComMarketSaleprocess(@Field("begin_time")int begin_time, @Field("end_time")int end_time);
+
+    /*数据分析.市场.流程图表(statistics.market.processchart) 接口*/
+    @FormUrlEncoded
+    @POST("statistics/market/processchart")
+    Observable<ApiResult<SaleTable1>>  getComMarketProcesschart(@Field("begin_time")int begin_time, @Field("end_time")int end_time);
 }

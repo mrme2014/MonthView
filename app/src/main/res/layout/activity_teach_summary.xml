@@ -9,7 +9,7 @@
 
     <include layout="@layout/widget_toolbar" />
 
-    <com.inqbarna.tablefixheaders.TableFixHeaders
+    <com.inqbarna.tablefixheaders.FixHeadersTableView
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

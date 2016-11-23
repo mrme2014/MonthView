@@ -14,7 +14,7 @@ import com.ishow.ischool.adpter.TableLeftItemAdapter;
 import com.ishow.ischool.bean.campusperformance.MonthTableData;
 import com.ishow.ischool.bean.campusperformance.MonthTableHead;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.widget.table.BodyHorizontalScrollView;
 import com.ishow.ischool.widget.table.HeadHorizontalScrollView;
@@ -48,7 +48,7 @@ public class MonthPerformance4MarketTableActivity extends BaseActivity4Crm {
     @Override
     protected void setUpData() {
         initView();
-        ApiFactory.getInstance().getApi(DataApi.class).getCampusMonth(1, mCampusIds, 201607, null)
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getCampusMonth(1, mCampusIds, 201607, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<MonthTableData>() {

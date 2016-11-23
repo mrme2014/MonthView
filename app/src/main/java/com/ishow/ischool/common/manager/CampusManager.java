@@ -10,7 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ishow.ischool.application.CrmApplication;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.CampusApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +75,7 @@ public class CampusManager {
 
     public void getFromServer(Context context) {
         init(context);
-        ApiFactory.getInstance().getApi(MarketApi.class).getCampusList()
+        ApiFactory.getInstance().getApi(CampusApi.class).getCampusList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<ArrayList<CampusInfo>>() {

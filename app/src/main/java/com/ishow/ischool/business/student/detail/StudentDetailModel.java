@@ -5,6 +5,7 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.api.UserApi;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import rx.schedulers.Schedulers;
 public class StudentDetailModel implements StudentDetailContract.Model {
     @Override
     public Observable<ApiResult<Student>> getStudent(HashMap<String, String> params) {
-        return ApiFactory.getInstance().getApi(MarketApi.class)
+        return ApiFactory.getInstance().getApi(StudentApi.class)
                 .getStudent(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -27,7 +28,7 @@ public class StudentDetailModel implements StudentDetailContract.Model {
 
     @Override
     public Observable<ApiResult<Object>> editStudent(HashMap<String, String> params) {
-        return ApiFactory.getInstance().getApi(MarketApi.class)
+        return ApiFactory.getInstance().getApi(StudentApi.class)
                 .editStudent(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -43,7 +44,7 @@ public class StudentDetailModel implements StudentDetailContract.Model {
         HashMap<String, String> params = new HashMap<>();
         params.put(Resource.RESOURCE_ID, Resource.MARKET_STUDENT_STATISTICS + "");
         params.put("id", user_id + "");
-        return ApiFactory.getInstance().getApi(MarketApi.class)
+        return ApiFactory.getInstance().getApi(StudentApi.class)
                 .getStudent(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

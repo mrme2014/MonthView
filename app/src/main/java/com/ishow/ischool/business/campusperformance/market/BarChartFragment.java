@@ -28,7 +28,7 @@ import com.ishow.ischool.bean.campusperformance.SignAmount;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.table.MyMarkerView2;
@@ -98,7 +98,7 @@ public class BarChartFragment extends BaseFragment {
             campusParam = campusParam + info.id + ",";
         }
         campusParam = campusParam.substring(0, campusParam.length() - 1);
-        ApiFactory.getInstance().getApi(DataApi.class).getSignAmount(1, campusParamAll,
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getSignAmount(1, campusParamAll,
                 beginMonth == -1 ? null : beginMonth, endMonth == -1 ? null : endMonth, null, "signTotal")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

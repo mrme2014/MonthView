@@ -4,6 +4,7 @@ import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.StudentList;
+import com.ishow.ischool.common.api.ClassesApi;
 import com.ishow.ischool.common.api.EducationApi;
 
 import rx.Observable;
@@ -16,7 +17,7 @@ import rx.schedulers.Schedulers;
 public class StudentListModel implements StudentListContract.Model {
 
     public Observable<ApiResult<StudentList>> getListStudent(int class_id) {
-        return ApiFactory.getInstance().getApi(EducationApi.class).listStudent(Resource.EDUCATION_CLASSMANAGEMENT_STUDENTDETAIL, 1, class_id)
+        return ApiFactory.getInstance().getApi(ClassesApi.class).listStudent(Resource.EDUCATION_CLASSMANAGEMENT_STUDENTDETAIL, 1, class_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

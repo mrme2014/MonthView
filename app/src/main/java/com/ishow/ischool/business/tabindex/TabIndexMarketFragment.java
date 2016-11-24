@@ -25,7 +25,7 @@ import com.ishow.ischool.business.campusperformance.market.Performance4MarketAct
 import com.ishow.ischool.business.companymarketsaleprocess.CompanyMarketSaleprocessActivity;
 import com.ishow.ischool.business.home.market.MarketSummaryActivity;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.util.AnimatorUtil;
@@ -198,7 +198,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         if (getContext() != null && ((TabIndexFragment)getParentFragment()).getCurrentPage() == 0) {
             handProgressbar(true);
         }
-        ApiFactory.getInstance().getApi(DataApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getMarketHomeData(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<MarketHome>() {
                     @Override
                     public void onSuccess(MarketHome marketHome) {

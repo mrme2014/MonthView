@@ -25,4 +25,11 @@ public class Constants {
     public static final int FROM_TEACH = 1;
     public static final int FROM_MARKET = 0;
 
+    public interface PaySate {
+        int unapply = 1;
+        int debt = 2;
+        int fullPay = 3;
+        int refund = 4;
+    }
+
 }

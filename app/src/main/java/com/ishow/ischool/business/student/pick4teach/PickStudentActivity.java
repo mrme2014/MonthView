@@ -17,7 +17,7 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.bean.attribute.AttrStudent;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.Attribute;
+import com.ishow.ischool.common.api.AttributeApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -68,7 +68,7 @@ public class PickStudentActivity extends BaseListActivity4Crm {
 
     private void taskStudentList4Teach(HashMap<String, String> params) {
         params.put("option", "campusAllStudent");
-        ApiFactory.getInstance().getApi(Attribute.class).getStudentList(params)
+        ApiFactory.getInstance().getApi(AttributeApi.class).getStudentList(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<AttrStudent>() {

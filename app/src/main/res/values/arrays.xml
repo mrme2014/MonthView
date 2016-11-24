@@ -4,6 +4,16 @@
         <item>登记时间</item>
         <item>上课时间</item>
     </string-array>
+    <string-array name="course_record_table_head">
+        <item>开课时间</item>
+        <item>办理方式</item>
+        <item>班级</item>
+        <item>课程</item>
+        <item>老师</item>
+        <item>学习顾问</item>
+        <item>状态</item>
+        <item>费用</item>
+    </string-array>
 
     <!--下面都是选择条件 或者筛选条件固定的  -->
     <array name="week_days">

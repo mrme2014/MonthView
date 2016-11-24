@@ -37,6 +37,7 @@ public class LabelTextView extends TextView {
     private float labelPadding;
     private boolean draw_bottom_line;
     private int bottom_line_color;
+    private float bottompadding;
 
     public LabelTextView(Context context) {
         super(context);
@@ -68,13 +69,15 @@ public class LabelTextView extends TextView {
         labelTextLeft = typedArray.getString(R.styleable.LabelTextView_label_text_left);
         labelTextRight = typedArray.getString(R.styleable.LabelTextView_label_text_right);
         labelTextBottom = typedArray.getString(R.styleable.LabelTextView_label_text_bottom);
-        labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.sp2px(getContext(), 14));
+        labelTextSize = typedArray.getInteger(R.styleable.LabelTextView_label_text_size, 14);
+        labelTextSize = UIUtil.sp2px(getContext(), labelTextSize);
         labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF222222);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
+        bottompadding = typedArray.getInteger(R.styleable.LabelTextView_label_btm_padding, 0);
 
         draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line, false);
         bottom_line_color = typedArray.getColor(R.styleable.LabelTextView_bottom_line_color, 0);
-
+        bottompadding = UIUtil.dip2px(getContext(), bottompadding);
         typedArray.recycle();
 
         labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -98,6 +101,7 @@ public class LabelTextView extends TextView {
 //        topOffset = UIUtil.dip2px(getContext(), 2.5f);
 
     }
+
     public void setLabelTextLeft(String labelTextLeft) {
         this.labelTextLeft = labelTextLeft;
         invalidate();
@@ -107,6 +111,7 @@ public class LabelTextView extends TextView {
         this.labelTextRight = labelTextRight;
         invalidate();
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -125,7 +130,7 @@ public class LabelTextView extends TextView {
         }
 
         if (!TextUtils.isEmpty(labelTextBottom)) {
-            canvas.drawText(labelTextBottom, (with - labelPaint.measureText(labelTextBottom)) / 2, height - labelPadding, labelPaint);
+            canvas.drawText(labelTextBottom, (with - labelPaint.measureText(labelTextBottom)) / 2, height - labelPadding - bottompadding, labelPaint);
         }
 
         /*绘制下划线 */
@@ -149,7 +154,7 @@ public class LabelTextView extends TextView {
         this.setAlpha(b ? 1.0f : 0.5f);
     }
 
-    public void setEllipsizeText(String text,int maxLength){
+    public void setEllipsizeText(String text, int maxLength) {
         if (TextUtils.isEmpty(text)) {
             setText("");
             return;
@@ -168,7 +173,7 @@ public class LabelTextView extends TextView {
     }
 
     private String ellipsizeString(String text, int maxLen) {
-        return text.length() >=maxLen ? text.substring(0, maxLen - 3) + "..." : text;
+        return text.length() >= maxLen ? text.substring(0, maxLen - 3) + "..." : text;
     }
 
     public int getMaxLength() {

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toolbar"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#e7e8ed"
+                android:drawableLeft="@drawable/icon_orange"
+                android:drawablePadding="9dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="@string/registration_apply_sure_info_again"
+                android:textColor="@color/txt_6"
+                android:textSize="@dimen/sp14" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/name"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_name" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/english_name"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_eng_name" />
+
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/phone"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_phone" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/identy"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_id1" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/course_type"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_course_type" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/date_want"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_date_want" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="9dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="@string/registration_apply_sure_info_date_empy"
+                android:textColor="@color/txt_6"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/chart_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="#f8f8f8"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="45dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:alpha="0.6"
+                        android:background="@color/chart_line" />
+<!--   app:label_btm_padding_later="10"-->
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/registra_left1"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="上午"
+                        android:textSize="@dimen/sp12"
+                        app:draw_bottom_line="true"
+                        app:label_btm_padding="10"
+                        app:label_text_bottom="09:00--11:30"
+                        app:label_text_color="@color/color_hint"
+                        app:bottom_line_color="@color/chart_line"
+                        app:label_text_size="10" />
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/registra_left2"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="中午"
+                        android:textSize="@dimen/sp12"
+                        app:draw_bottom_line="true"
+                        app:label_btm_padding="10"
+                        app:label_text_bottom="14:00--17:30"
+                        app:label_text_color="@color/color_hint"
+                        app:bottom_line_color="@color/chart_line"
+                        app:label_text_size="10" />
+
+
+                    <com.commonlib.widget.LabelTextView
+                        android:id="@+id/registra_left3"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="晚上"
+                        app:label_btm_padding="10"
+                        android:textSize="@dimen/sp12"
+                        app:draw_bottom_line="true"
+                        app:label_text_bottom="18:30--21:30"
+                        app:label_text_color="@color/color_hint"
+                        app:bottom_line_color="@color/chart_line"
+                        app:label_text_size="10" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.ishow.ischool.widget.custom.RegistraTableRowTextView
+                        android:id="@+id/registra_row1"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:textColor="@color/chart_head_gray_txt" />
+
+                    <com.ishow.ischool.widget.custom.RegistraTableRowTextView
+                        android:id="@+id/registra_row2"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:textColor="@color/chart_head_gray_txt" />
+
+
+                    <com.ishow.ischool.widget.custom.RegistraTableRowTextView
+                        android:id="@+id/registra_row3"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:textColor="@color/chart_head_gray_txt" />
+
+
+                    <com.ishow.ischool.widget.custom.RegistraTableRowTextView
+                        android:id="@+id/registra_row4"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white"
+                        android:textColor="@color/chart_head_gray_txt" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#e7e8ed"
+                android:drawableLeft="@drawable/icon_orange"
+                android:drawablePadding="9dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="@string/registration_apply_sure_info_money"
+                android:textColor="@color/txt_6"
+                android:textSize="@dimen/sp14" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/cheap_type"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_cheap_type" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/pay_type"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_pay_type" />
+
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/pay_money"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_pay_money" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/pay_real"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_pay_adjustMoney" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/pay_recept_no"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_apply_sure_info_pay_recipt_no" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/pay_date"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration_pay_date" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/sec_pay_date"
+                style="@style/registration_form_info_sure"
+                app:label_text_left="@string/registration__sec_pay_date" />
+
+            <com.commonlib.widget.LabelTextView
+                android:id="@+id/pay_memo"
+                style="@style/registration_form_info_sure"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:label_text_left="@string/registration_beizhu" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

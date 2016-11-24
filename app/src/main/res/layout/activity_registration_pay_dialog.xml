@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_round_corner"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@drawable/selector_btn_blue_text"
+            android:textSize="@dimen/sp13" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="收款"
+            android:textColor="@color/txt_2"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@drawable/selector_btn_blue_text"
+            android:textSize="@dimen/sp13" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <com.commonlib.widget.LabelTextView
+            style="@style/registration_form_label_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="@null"
+            app:draw_bottom_line="false"
+            app:label_text_color="@color/txt_2"
+            app:label_text_left="@string/registration_pay_way" />
+
+        <TextView
+            android:id="@+id/pay_way"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@mipmap/icon_list_next"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="请选择支付方式"
+            android:textColor="@color/txt_2" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <com.commonlib.widget.LabelTextView
+            style="@style/registration_form_label_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="@null"
+            android:ellipsize="end"
+            app:draw_bottom_line="false"
+            app:label_text_color="@color/txt_2"
+            android:maxLines="2"
+            app:label_text_left="@string/registration_pay_money1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="￥"
+            android:textColor="@color/txt_hint"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/pay_money"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:hint="0.00"
+            android:paddingRight="10dp"
+            android:textColor="@color/txt_hint"
+            android:textColorHint="@color/txt_hint"
+            android:inputType="numberDecimal"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

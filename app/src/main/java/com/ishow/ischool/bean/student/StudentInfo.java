@@ -71,6 +71,7 @@ public class StudentInfo implements Parcelable {
      * payed : 300
      * arrearage : 4380.00
      * all_user_ids : [33,30,27,26,25,31,28]
+     * intention_class_name:终极版
      */
 
     public int id;
@@ -134,6 +135,7 @@ public class StudentInfo implements Parcelable {
     public List<PayInfo> paylist_top3;
     public CommunicationInfo communication;
     public int old_class_state;
+    public String intention_class_name;
 
 
     @Override

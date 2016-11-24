@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="300dp"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:text="优惠方式"
+        android:textColor="@color/txt_9" />
+
+    <ListView
+        android:id="@+id/cheap_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@color/gray"
+        android:dividerHeight="1px"
+        android:headerDividersEnabled="false"
+        android:listSelector="@android:color/white">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/cheap_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@android:color/white" />
+</LinearLayout>

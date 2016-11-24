@@ -130,7 +130,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         //studentInfo
-        Intent intent = new Intent(this, registrationInfoConfirm.class);
+        Intent intent = new Intent(this, registrationInfoConfirmActivity.class);
         intent.putExtra(STUDENT_ID, student_id);
         intent.putExtra(STUDENT_STATUS, student_status);
         startActivity(intent);
@@ -244,8 +244,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
 
                         int childCount = payWayListLayout.getChildCount();
                         if (selectPayList == null) selectPayList = new ArrayList<PayType>();
-                        selectPayType.method_id = colum1;
-                        selectPayType.method_money = (Double.valueOf(money));
+
 
                         selectPayList.add(selectPayType);
                         //  selectColums.add(colum1);
@@ -332,10 +331,11 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                         //Integer position = selectColums.get(i);
                         // double money = selectMoneys.get(i);
                         try {//payType.id == 0 ? "现金" : payType.type
-                            object.put("method", payType.type);
+                            object.put("method", payType.method);
                             object.put("account_id", payType.id);
                             object.put("balance", payType.method_money);
                             object.put("method_id", payType.method_id);
+                            object.put("account",payType.name);
                             /*switch (position) {
                                 case 0:
                                     object.put("method_id", 1);
@@ -358,7 +358,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 }
 
                 mPresenter.payAction(student_id,
-                        array,
+                        array.toString(),
                         action,
                         (float) campus_price,
                         (float) totalRealMoney,

@@ -24,7 +24,7 @@ import butterknife.BindView;
  * Created by MrS on 2016/11/24.
  */
 
-public class registrationInfoConfirm extends BaseActivity4Crm<regisPresenter, regisModel> implements regisView {
+public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPresenter, regisModel> implements regisView {
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -117,13 +117,11 @@ public class registrationInfoConfirm extends BaseActivity4Crm<regisPresenter, re
             StudentInfo studentInfo = registraResult.studentInfo;
             List<RegistraInfo> payListInfo = registraResult.payListInfo;
             if (payListInfo != null && payListInfo.size() > 0) {
-                RegistraInfo registraInfo = payListInfo.get(payListInfo.size() - 1);
+                RegistraInfo registraInfo = payListInfo.get(payListInfo.size() - 2);
                 setUpRegistrationInfoFirst(registraInfo);
             }
 
             setUpStudentInfo(studentInfo);
-
-
         }
     }
 
@@ -136,21 +134,24 @@ public class registrationInfoConfirm extends BaseActivity4Crm<regisPresenter, re
 
     private void setUpRegistrationInfoFirst(RegistraInfo registraInfo) {
         String pay_info = registraInfo.pay_info;
-        Type type1 = new TypeToken<List<PayType>>() {}.getType();
+        Type type1 = new TypeToken<List<PayType>>() {
+        }.getType();
         Gson gson = new Gson();
-        List<PayType> typeList = gson.fromJson(pay_info,type1);
+        List<PayType> typeList = gson.fromJson(pay_info, type1);
         if (typeList != null) {
+            payMoney.setText(registraInfo.arrearage + "元");
+            payReal.setText(typeList.get(typeList.size() - 1).balance + "元");
             for (int i = 0; i < typeList.size(); i++) {
                 payType.append(typeList.get(i).method + "  ");
             }
         }
 
-        cheapType.setText(registraInfo.cheap == 1 ? "折扣" : "减免");
-        payMoney.setText(registraInfo.arrearage + "元");
-        payReal.setText(registraInfo.payed + "元");
+        cheapType.setText(registraInfo.preferential_course_name);
+
         payMemo.setText(registraInfo.memo + "");
         payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.pay_time)));
-        secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.pay_time)));
+        if (registraInfo.arrearage_time != 0)
+            secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.arrearage_time)));
         payReceptNo.setText(registraInfo.receipt_no);
 
     }

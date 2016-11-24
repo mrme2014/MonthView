@@ -13,7 +13,6 @@
     <color name="txt_6">#666666</color>
     <color name="txt_9">#999999</color>
     <color name="txt_red">#d83330</color>
-    <color name="txt_blue">#2883f6</color>
     <color name="txt_hint">#b6b6b6</color>
 
     <color name="colorPrimary">#FF2883f6</color>
@@ -37,7 +36,6 @@
 
 
     <color name="text_tuichu">#f25844</color>
-    <color name="fragment_me_bg">#2883f6</color>
     <color name="trans_bg_22">#22000000</color>
     <color name="trans_txt_55">#55FFFFFF</color>
     <color name="fill_color">#289FCD</color>

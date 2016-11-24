@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.classattend.ClazCheckTable;
 import com.ishow.ischool.bean.classattend.ClazStudentList;
+import com.ishow.ischool.bean.market.SummaryWeekly;
 import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleTable1;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
@@ -157,4 +158,12 @@ public interface MarketApi {
     @FormUrlEncoded
     @POST("statistics/market/processchart")
     Observable<ApiResult<SaleTable1>>  getComMarketProcesschart(@Field("begin_time")int begin_time, @Field("end_time")int end_time);
+
+    /*数据分析.市场.周报(statistics.market.weekly) 接口*/
+    @GET("statistics/market/weekly")
+    Observable<ApiResult<SummaryWeekly>> getSummaryWeekly(
+            @Query("campus_id") Integer campus_id,
+            @Query("begin_time") long begin_time,
+            @Query("end_time") long end_time
+    );
 }

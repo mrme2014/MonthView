@@ -405,8 +405,19 @@
     <style name="spinnerItemStyle">
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="spinnerDropDownItemStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:padding">10dp</item>
     </style>
+
+
+    <style name="weekly_font_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/txt_9</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:gravity">left</item>
+    </style>
+
 </resources>

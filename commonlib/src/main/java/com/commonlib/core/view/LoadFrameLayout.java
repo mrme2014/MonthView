@@ -77,6 +77,7 @@ public class LoadFrameLayout extends FrameLayout {
             }
             this.emptyView = emptyView;
             addView(this.emptyView);
+            this.emptyView.setVisibility(GONE);
         }
 
     }

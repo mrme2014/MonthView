@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingRight="10dp"
+    android:background="@drawable/touch_bg">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:layout_alignParentRight="true"
+        android:button="@drawable/selector_weekly_checked"
+        android:background="@null"
+        android:clickable="false"/>
+
+    <TextView
+        android:id="@+id/weekly_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/name_font_style"
+        android:text="晨读数据"
+        android:layout_alignBaseline="@id/checkbox"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/item1_key"
+        android:layout_width="200dp"
+        style="@style/weekly_font_style"
+        android:text="冲刺目标"
+        android:layout_below="@id/weekly_title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/item1_value"
+        style="@style/weekly_font_style"
+        android:text="122"
+        android:layout_toRightOf="@id/item1_key"
+        android:layout_alignBaseline="@id/item1_key"/>
+
+    <TextView
+        android:id="@+id/item2_key"
+        android:layout_width="200dp"
+        style="@style/weekly_font_style"
+        android:text="公开课现场"
+        android:layout_below="@id/item1_key"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/item2_value"
+        style="@style/weekly_font_style"
+        android:text="32"
+        android:layout_toRightOf="@id/item2_key"
+        android:layout_alignBaseline="@id/item2_key"/>
+
+    <TextView
+        android:id="@+id/item3_key"
+        android:layout_width="200dp"
+        style="@style/weekly_font_style"
+        android:text="实际报名"
+        android:layout_below="@id/item2_key"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/item3_value"
+        style="@style/weekly_font_style"
+        android:text="323"
+        android:layout_toRightOf="@id/item3_key"
+        android:layout_alignBaseline="@id/item3_key"/>
+
+    <TextView
+        android:id="@+id/item4_key"
+        android:layout_width="200dp"
+        style="@style/weekly_font_style"
+        android:text="实际全款"
+        android:layout_below="@id/item3_key"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/item4_value"
+        style="@style/weekly_font_style"
+        android:text="2344"
+        android:layout_toRightOf="@id/item4_key"
+        android:layout_alignBaseline="@id/item4_key"/>
+
+    <TextView
+        android:id="@+id/item5_key"
+        android:layout_width="200dp"
+        style="@style/weekly_font_style"
+        android:text="冲刺目标"
+        android:layout_below="@id/item4_key"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/item5_value"
+        style="@style/weekly_font_style"
+        android:text="94%"
+        android:layout_toRightOf="@id/item5_key"
+        android:layout_alignBaseline="@id/item5_key"/>
+
+</RelativeLayout>

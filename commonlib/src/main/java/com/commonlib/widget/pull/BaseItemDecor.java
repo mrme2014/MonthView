@@ -21,7 +21,7 @@ public class BaseItemDecor extends RecyclerView.ItemDecoration {
     private Context mContext;
 
     /**
-     * @param mContext
+     * @param context
      * @param leftMargin   单位:dp
      */
     public BaseItemDecor(Context context, int leftMargin) {

@@ -15,6 +15,8 @@ import com.commonlib.util.LogUtil;
 import com.commonlib.widget.event.RxBus;
 import com.commonlib.widget.imageloader.ImageLoaderUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Cons;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.bean.user.CampusInfo;
@@ -34,7 +36,6 @@ import com.ishow.ischool.event.ChangeRoleEvent;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
-import com.ishow.ischool.widget.pickerview.PickerDialogFragment;
 
 import java.util.List;
 
@@ -55,8 +56,8 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
 
     @BindView(R.id.fm_me_switch_role)
     public FmItemTextView fmMeSwitchRole;
-    @BindView(R.id.fm_me_notify_msg)
-    public FmItemTextView fmMeNotifyMsg;
+    @BindView(R.id.fm_me_summary_weekly)
+    public FmItemTextView fmMeSummaryWeekly;
     @BindView(R.id.fm_me_mornig_qrcode)
     FmItemTextView fmMeMornigQrcode;
     @BindView(R.id.fm_me_version)
@@ -84,6 +85,7 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
         user = UserManager.getInstance().get();
         if (user == null)
             return;
+        checkWeeklyPermission();
         UserInfo userInfo = user.userInfo;
         if (userInfo == null)
             return;
@@ -125,7 +127,7 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
     }
 
     /*头部个人信息点击事件*/
-    @OnClick({R.id.fm_me_header_layout, R.id.fm_me_switch_role, R.id.fm_me_notify_msg, R.id.fm_me_mornig_qrcode, R.id.fm_me_change_pwd,
+    @OnClick({R.id.fm_me_header_layout, R.id.fm_me_switch_role, R.id.fm_me_summary_weekly, R.id.fm_me_mornig_qrcode, R.id.fm_me_change_pwd,
             R.id.fm_me_kefu, R.id.fm_me_version, R.id.fm_me_login_out})
     void onClick(View view) {
         switch (view.getId()) {
@@ -136,14 +138,8 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
                 user = UserManager.getInstance().get();
                 mPresenter.switchRole(getChildFragmentManager(), user.campus, user.position, user.positionInfo);
                 break;
-            case R.id.fm_me_notify_msg:
-                PickerDialogFragment dialog = new PickerDialogFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("PICK_TITLE", R.string.choose_birthday);
-                bundle.putInt("PICK_TYPE", PickerDialogFragment.PICK_TYPE_DATE);
-                bundle.putInt("PICK_THEME", R.style.Comm_dialogfragment);//PickerDialogFragment.STYLE_NO_FRAME
-                dialog.setArguments(bundle);
-                dialog.show(getChildFragmentManager());
+            case R.id.fm_me_summary_weekly:
+                JumpManager.jumpActivity(getContext(), Summary4WeeklyActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.fm_me_mornig_qrcode:
                 JumpManager.jumpActivity(getContext(), MorningReadActivity.class, Resource.NO_NEED_CHECK);
@@ -198,6 +194,7 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
         RxBus.getInstance().post(campusInfo.name);
         LogUtil.e("changedUser post ChangeRoleEvent");
         com.ishow.ischool.common.rxbus.RxBus.getDefault().post(new ChangeRoleEvent(changedUser));
+        checkWeeklyPermission();
     }
 
     @Override
@@ -220,6 +217,16 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
                 fmAvartTxt.setVisibility(View.GONE);
                 ImageLoaderUtil.getInstance().loadImage(getActivity(), fmMeHeaderAvart, avartPath);
 
+            }
+        }
+    }
+
+
+    void checkWeeklyPermission() {
+        if (user.positionInfo.campusId != Constants.CAMPUS_HEADQUARTERS) {      // 非总部
+            if (user.positionInfo.id == Cons.Position.Xiaozhang ||
+                    user.positionInfo.id == Cons.Position.Shichangzongjian) {
+                fmMeSummaryWeekly.setVisibility(View.VISIBLE);
             }
         }
     }

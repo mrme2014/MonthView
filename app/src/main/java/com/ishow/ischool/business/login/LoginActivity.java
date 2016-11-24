@@ -68,7 +68,9 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
     @Override
     protected void setUpData() {
         String lastUserName = PreferencesUtils.getString(this, "last_user");
+        String lastPasswd = PreferencesUtils.getString(this, "last_passwd");
         usernameEt.setText(lastUserName);
+        passwdEt.setText(lastPasswd);
     }
 
     @OnClick(R.id.forget_passwd)
@@ -95,6 +97,7 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
     public void loginSuccess(User user) {
         handProgressbar(false);
         PreferencesUtils.put(this, "last_user", user.userInfo.mobile);
+        PreferencesUtils.put(this, "last_passwd", passwdEt.getText().toString());
         JumpManager.jumpActivity(this, MainActivity.class, Resource.NO_NEED_CHECK);
         finish();
     }

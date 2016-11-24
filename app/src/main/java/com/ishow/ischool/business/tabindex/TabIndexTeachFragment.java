@@ -128,7 +128,7 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
 
     private void initView() {
         titlebarColor = getResources().getColor(R.color.colorPrimary);
-        labelIndexAdvancesReceivedTv.setText(R.string.income);
+//        labelIndexAdvancesReceivedTv.setText(R.string.income);
         final int max = UIUtil.dip2px(getActivity(), 200);
         homeScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -249,9 +249,9 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         float max = Math.max(educationHome.education.full_challenge, Math.max(educationHome.education.real, educationHome.education.full_base));
 
         PropertyValuesHolder[] holders = new PropertyValuesHolder[15];
-        holders[0] = AnimatorUtil.getPropertyValuesHolder("advancesReceivedTv", (int) Float.parseFloat(educationHome.data.body[7]));
-        holders[1] = AnimatorUtil.getPropertyValuesHolder("refundNumTv", Integer.parseInt(educationHome.data.body[4]) + Integer.parseInt(educationHome.data.body[5]));
-        holders[2] = AnimatorUtil.getPropertyValuesHolder("refundMoneyTv", (int) Float.parseFloat(educationHome.data.body[6]));
+        holders[0] = AnimatorUtil.getPropertyValuesHolder("advancesReceivedTv", (int) Float.parseFloat(educationHome.data.body[6]));
+        holders[1] = AnimatorUtil.getPropertyValuesHolder("refundNumTv", Integer.parseInt(educationHome.data.body[4]));
+        holders[2] = AnimatorUtil.getPropertyValuesHolder("refundMoneyTv", (int) Float.parseFloat(educationHome.data.body[5]));
 
         holders[3] = AnimatorUtil.getPropertyValuesHolder("studentAllTv", Integer.parseInt(educationHome.data.body[0]));
         holders[4] = AnimatorUtil.getPropertyValuesHolder("studentFinalTv", Integer.parseInt(educationHome.data.body[1]));

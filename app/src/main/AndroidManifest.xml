@@ -161,7 +161,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity android:name=".business.teachprocess.TeachProcessActivity4Home" />
-        <activity android:name=".business.student.course.CourseRecordActivity"></activity>
+        <activity
+            android:name=".business.student.course.CourseRecordActivity"
+            android:screenOrientation="landscape"></activity>
         <activity android:name=".business.tabme.Summary4WeeklyActivity" />
     </application>
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Env;
 import com.ishow.ischool.util.QRCodeUtil;
 
 import butterknife.BindView;
@@ -33,6 +34,15 @@ public class QrcodeFragment extends DialogFragment {
     @BindView(R.id.qrtext)
     TextView qrtextTv;
 
+    public static QrcodeFragment newInstance(int studentId) {
+
+        Bundle args = new Bundle();
+        args.putInt("student_id", studentId);
+        QrcodeFragment fragment = new QrcodeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +59,9 @@ public class QrcodeFragment extends DialogFragment {
     }
 
     private void setUpView() {
-        qrcodeIv.setImageBitmap(QRCodeUtil.encodeAsBitmap("http://pre.im/i000", UIUtil.dip2px(getContext(), 100f), UIUtil.dip2px(getContext(), 100f)));
+        Bundle bundle = getArguments();
+        int studentId = bundle.getInt("student_id", 0);
+        qrcodeIv.setImageBitmap(QRCodeUtil.encodeAsBitmap(Env.getApplyUrl() + studentId, UIUtil.dip2px(getContext(), 100f), UIUtil.dip2px(getContext(), 100f)));
     }
 
     @OnClick({R.id.qrcode_close})

@@ -65,6 +65,7 @@ public class CourseRecordActivity extends BaseActivity4Crm {
                     @Override
                     public void onError(String msg) {
                         tableview.setLoading(false);
+                        tableview.setEnabled(false);
                         showToast(msg);
                     }
                 });

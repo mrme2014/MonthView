@@ -245,7 +245,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             infoGroup.setVisibility(View.VISIBLE);
         }
 
-        if (student.studentInfo.free_time == null || TextUtils.isEmpty(student.studentInfo.free_time)) {
+        if (student.studentInfo.pay_state != Constants.PaySate.unapply &&
+                (student.studentInfo.free_time == null || TextUtils.isEmpty(student.studentInfo.free_time))) {
             applyQrcodeIv.setVisibility(View.VISIBLE);
         } else {
             applyQrcodeIv.setVisibility(View.GONE);
@@ -340,7 +341,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 break;
             case R.id.apply_qrcode:
                 //show QRCORD
-                QrcodeFragment fragment = new QrcodeFragment();
+                QrcodeFragment fragment = QrcodeFragment.newInstance(studentId);
                 fragment.show(getSupportFragmentManager(), "");
                 break;
             case R.id.apply_btn:

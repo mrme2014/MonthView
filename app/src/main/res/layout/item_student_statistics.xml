@@ -18,27 +18,40 @@
         android:id="@+id/name"
         style="@style/name_font_style"
         android:layout_toRightOf="@id/avatar"
-        android:maxWidth="200dp"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:maxWidth="200dp" />
 
     <TextView
         android:id="@+id/state"
         style="@style/small_font_style"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@id/name"
+        android:textSize="@dimen/sp10" />
+
+    <TextView
+        android:id="@+id/lecturer"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@id/name"
         android:layout_alignParentBottom="true"
-        android:textSize="@dimen/sp10" />
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textSize="@dimen/sp13" />
 
     <TextView
         android:id="@+id/university"
         style="@style/normal_font_style"
-        android:layout_alignBottom="@id/state"
+        android:layout_alignBottom="@id/lecturer"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/state"
+        android:layout_toRightOf="@id/lecturer"
         android:drawableLeft="@mipmap/icon_adress"
         android:drawablePadding="4dp"
-        android:maxWidth="150dp"
+        android:lines="1"
         android:maxLines="1"
-        android:textColor="@color/txt_9"/>
+        android:maxWidth="150dp"
+        android:layout_marginRight="31dp"
+        android:textColor="@color/txt_9" />
 
     <ImageView
         android:id="@+id/phone"

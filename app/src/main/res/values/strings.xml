@@ -370,7 +370,10 @@
     <string name="summary_weekly">周报</string>
     <string name="str_share">分享</string>
     <string name="str_share_to">分享到</string>
-
+    <string name="down_payment">定金</string>
+    <string name="school_chat_attache">校聊专员</string>
+    <string name="guider">晨读讲师</string>
+    <string name="referral">转介绍</string>
 
     <!--报名-->
     <string name="registration_beizhu">备注</string>

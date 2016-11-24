@@ -25,7 +25,7 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 
@@ -81,6 +81,9 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
 
     public void startSearch(String searchKey) {
         mSearchKey = searchKey;
+        if (searchParams == null) {
+            init();
+        }
         searchParams.put("mobile_or_name", mSearchKey);
         setRefreshing();
     }
@@ -98,7 +101,7 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
         if (TextUtils.isEmpty(mSearchKey)) {
             loadFailed();
         } else {
-            ApiFactory.getInstance().getApi(MarketApi.class)
+            ApiFactory.getInstance().getApi(StudentApi.class)
                     .listStudentStatistics(Resource.MARKET_STUDENT_STATISTICS, searchParams, Conf.DEFAULT_PAGESIZE_LISTVIEW, mCurrentPage++)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

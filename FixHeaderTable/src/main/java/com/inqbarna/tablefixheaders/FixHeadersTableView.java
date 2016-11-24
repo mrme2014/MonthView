@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Brais Gabín (InQBarna)
  */
-public class TableFixHeaders extends ViewGroup {
+public class FixHeadersTableView extends ViewGroup {
     private int currentX;
     private int currentY;
 
@@ -75,7 +75,7 @@ public class TableFixHeaders extends ViewGroup {
      * @param context The Context the view is running in, through which it can
      *                access the current theme, resources, etc.
      */
-    public TableFixHeaders(Context context) {
+    public FixHeadersTableView(Context context) {
         this(context, null);
     }
 
@@ -93,7 +93,7 @@ public class TableFixHeaders extends ViewGroup {
      *                access the current theme, resources, etc.
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
-    public TableFixHeaders(Context context, AttributeSet attrs) {
+    public FixHeadersTableView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.headView = null;

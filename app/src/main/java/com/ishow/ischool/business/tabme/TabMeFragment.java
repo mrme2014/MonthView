@@ -29,6 +29,7 @@ import com.ishow.ischool.business.kefu.KefuActivity;
 import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
 import com.ishow.ischool.business.personinfo.PersonInfoActivity;
+import com.ishow.ischool.business.registrationform.registrationFormActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -148,12 +149,13 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
                 JumpManager.jumpActivity(getContext(), EditPwdActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.fm_me_kefu:
-                JumpManager.jumpActivity(getContext(), KefuActivity.class, Resource.NO_NEED_CHECK);
+               JumpManager.jumpActivity(getContext(), KefuActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.fm_me_login_out:
                 mPresenter.logout();
                 break;
             case R.id.fm_me_version:
+                JumpManager.jumpActivity(getContext(), registrationFormActivity.class, Resource.NO_NEED_CHECK);
 //                UpdateBuilder.create().check(getActivity());
                 break;
         }

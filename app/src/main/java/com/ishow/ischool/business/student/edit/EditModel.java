@@ -4,6 +4,7 @@ import com.commonlib.core.BaseModel;
 import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 
 import java.util.HashMap;
 
@@ -17,7 +18,7 @@ import rx.schedulers.Schedulers;
 public class EditModel implements BaseModel {
 
     public Observable<ApiResult<Object>> editStudent(HashMap<String, String> params) {
-        return ApiFactory.getInstance().getApi(MarketApi.class)
+        return ApiFactory.getInstance().getApi(StudentApi.class)
                 .editStudent(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

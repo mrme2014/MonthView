@@ -6,7 +6,8 @@ import com.ishow.ischool.bean.saleprocess.Marketposition;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.Subordinate;
 import com.ishow.ischool.bean.teachprocess.Educationposition;
-import com.ishow.ischool.common.api.DataApi;
+import com.ishow.ischool.common.api.AttributeApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.api.MarketApi;
 
 import java.util.TreeMap;
@@ -21,7 +22,7 @@ import rx.schedulers.Schedulers;
 public class SalesProcessModel implements SalesProcessContract.Model {
 
     public Observable<ApiResult<SaleProcess>> getSaleProcessData(TreeMap<String,Integer> map, int type) {
-        return ApiFactory.getInstance().getApi(DataApi.class).getSaleProcessData(-1,map)
+        return ApiFactory.getInstance().getApi(StatisticsApi.class).getSaleProcessData(-1,map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
@@ -29,21 +30,21 @@ public class SalesProcessModel implements SalesProcessContract.Model {
 
     @Override
     public Observable<ApiResult<Marketposition>> getOption(String option, TreeMap<String,Integer> map) {
-        return ApiFactory.getInstance().getApi(MarketApi.class).getOption(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return ApiFactory.getInstance().getApi(AttributeApi.class).getOption(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<ApiResult<Educationposition>> getOptionEducation(String option, TreeMap<String, Integer> map) {
-        return ApiFactory.getInstance().getApi(MarketApi.class).getOptionEducation(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return ApiFactory.getInstance().getApi(AttributeApi.class).getOptionEducation(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<ApiResult<Subordinate>> getOptionSubordinate(String option,  TreeMap<String,Integer> map) {
-        return ApiFactory.getInstance().getApi(MarketApi.class).getOptionSubordinate(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return ApiFactory.getInstance().getApi(AttributeApi.class).getOptionSubordinate(option,map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<ApiResult<Subordinate>> getOptionSubordinateKeyWords(String option,  TreeMap<String,Integer> map,String keywords) {
-        return ApiFactory.getInstance().getApi(MarketApi.class).getOptionSubordinateKeywords(option,map,keywords).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return ApiFactory.getInstance().getApi(AttributeApi.class).getOptionSubordinateKeywords(option,map,keywords).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/bg_student"
+        android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="@color/comm_blue"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
                 android:id="@+id/user_group"
@@ -67,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/avatar_layout"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
 
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/student_apply_state"
@@ -103,6 +105,39 @@
                         app:label_text_color="@color/trans_txt_55" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/info_layout_apply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/avatar_layout"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/apply_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_btn_white_trans"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="25dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/no_apply"
+                        android:textSize="@dimen/sp16" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/apply_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/info_layout"
+                    android:layout_marginLeft="40dp"
+                    android:src="@mipmap/icon_stu_code"
+                    android:visibility="gone" />
+
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -111,13 +146,13 @@
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 android:orientation="horizontal"
-                android:paddingTop="@dimen/translucent_padding_top"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:minHeight="@dimen/app_header_height"
                     android:orientation="horizontal">
 
@@ -135,10 +170,6 @@
                         android:text="10"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="75dp"
-                        android:layout_height="48dp" />
 
                 </LinearLayout>
 

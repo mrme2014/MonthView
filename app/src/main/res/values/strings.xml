@@ -357,6 +357,10 @@
     <string name="campus_hangzhou">杭州校区</string>
     <string name="campus_zongbu">总部</string>
     <string name="saleprocess_open_class">销售流程(公开课)</string>
+    <string name="str_course_record">课程记录</string>
+    <string name="qrtext">扫一扫:\n1.完善你的报名信息\n选择你的意向班级或者意向上课时间</string>
+    <string name="str_apply_table">报名表</string>
+    <string name="no_apply">未报名</string>
     <string-array name="home_choose_times">
         <item>本周</item>
         <item>上周</item>
@@ -365,10 +369,72 @@
     </string-array>
 
 
-
     <string name="summary_weekly">周报</string>
     <string name="str_share">分享</string>
     <string name="str_share_to">分享到</string>
     <string name="weekly_lastweek">上周(%1$s-%2$s)</string>
     <string name="weekly_beforelastweek">上上周(%1$s-%2$s)</string>
+
+
+    <string name="down_payment">定金</string>
+    <string name="school_chat_attache">校聊专员</string>
+    <string name="guider">晨读讲师</string>
+    <string name="referral">转介绍</string>
+
+    <!--报名-->
+    <string name="registration_beizhu">备注</string>
+    <string name="registration_beizhu_hnit">请填写需要备注的内容(选填)</string>
+    <string name="registration_class_guwen">课程顾问</string>
+    <string name="registration_pay_date">交款日期</string>
+    <string name="registration__sec_pay_date">补款日期</string>
+    <string name="registration__xuantian">补款日期(选填)</string>
+    <string name="registration_input_trade_num">请填写收据号(选填)</string>
+    <string name="registration_trade_num">收据号</string>
+    <string name="registration_pay_way_select">请选择你的付款方式与金额(必选)</string>
+    <string name="registration_pay_way">收款方式</string>
+    <string name="registration_cheap_way">优惠方式</string>
+    <string name="registration_no_cheap">选择优惠方式(选填)</string>
+    <string name="registration_pay_anather_way">其他支付方式</string>
+    <string name="registration_pay_money1">收款金额</string>
+    <string name="registration_pay_money_input">请输入收款金额</string>
+    <string name="registration_title">报名</string>
+    <string name="registration_title1">补款</string>
+    <string name="registration_real_money">实收</string>
+    <string name="registration_pick_acount">选择账号</string>
+    <string name="registration_pick_acount_no">请选择支付账号</string>
+    <string name="registration_pick_money_not">请输入支付金额</string>
+    <string name="registration_cheap_type_null">暂时没有优惠信息</string>
+    <string name="registration_cheap_time_invalide">有效期至</string>
+    <string name="registration_cheap_type_dazhe">打折</string>
+    <string name="registration_cheap_type_jianmian">减免</string>
+    <string name="registration_money_just">应收</string>
+    <string name="registration_trad_num">请填写收据单号</string>
+    <string name="registration_price_not">实际缴费不能大于应收费用</string>
+    <string name="registration_detail_list">收款详情</string>
+    <string name="registration_detail_list_title">收款记录</string>
+    <string name="registration_apply_sure_title">报名信息确认</string>
+    <string name="registration_apply_sure_haspay">已收款</string>
+    <string name="registration_apply_sure_notpay">欠款</string>
+    <string name="registration_apply_sure_info_again">请完善你的报名信息</string>
+    <string name="registration_apply_sure_info_name">姓名</string>
+    <string name="registration_apply_sure_info_name_hint">请填写姓名(必填)</string>
+    <string name="registration_apply_sure_info_eng_name">英文名</string>
+    <string name="registration_apply_sure_info_eng_name_hnit">英文名</string>
+    <string name="registration_apply_sure_info_phone">电话</string>
+    <string name="registration_apply_sure_info_phone_hint">请填写手机号码</string>
+    <string name="registration_apply_sure_info_id_hint">请填写15位或18位身份证号</string>
+    <string name="registration_apply_sure_info_id1">身份证</string>
+    <string name="registration_apply_sure_info_course_type">意向班级</string>
+    <string name="registration_apply_sure_info_course_type_hint">请填写课程类型</string>
+    <string name="registration_apply_sure_info_class_want">请填写课程类型</string>
+    <string name="registration_apply_sure_info_no_want_class">还没有意向班级?选个意向时间</string>
+    <string name="registration_apply_sure_info_date_want">意向时间</string>
+    <string name="registration_apply_sure_info_date_empy">空闲时间</string>
+
+    <string name="registration_apply_sure_info_money">缴费情况</string>
+    <string name="registration_apply_sure_info_cheap_type">优惠名</string>
+    <string name="registration_apply_sure_info_pay_type">收款方式</string>
+    <string name="registration_apply_sure_info_pay_money">金额</string>
+    <string name="registration_apply_sure_info_pay_adjustMoney">实收</string>
+    <string name="registration_apply_sure_info_pay_recipt_no">收据号</string>
 </resources>

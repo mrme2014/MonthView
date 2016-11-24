@@ -8,14 +8,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.commonlib.util.PermissionUtil;
 import com.commonlib.util.StatusBarCompat;
 import com.commonlib.util.StorageUtil;
+import com.commonlib.util.UIUtil;
 import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
@@ -26,6 +32,7 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
+import com.ishow.ischool.business.student.course.CourseRecordActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
@@ -72,7 +79,20 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     @BindView(R.id.fab)
     FloatingActionButton addFab;
 
-    public Student student;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.info_layout)
+    LinearLayout infoGroup;
+    @BindView(R.id.info_layout_apply)
+    LinearLayout infoApplyGroup;
+    @BindView(R.id.apply_btn)
+    TextView applyBtnTv;
+
+    @BindView(R.id.apply_qrcode)
+    ImageView applyQrcodeIv;
+
+    public Student student; // 可能为null
     public int studentId;
 
     private InfoFragment studentInfoFragment;
@@ -115,7 +135,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     @Override
     protected void setUpContentView() {
-        setContentView(R.layout.activity_student_detail, -1, -1, MODE_BACK);
+        setContentView(R.layout.activity_student_detail, -1, R.menu.menu_student_detail, MODE_BACK);
     }
 
     @Override
@@ -126,6 +146,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         mTabs.setTabGravity(TabLayout.GRAVITY_FILL);
         mTabs.setupWithViewPager(mViewPaper);
 
+        final int paddingTop = UIUtil.dip2px(this, 25);
         mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -134,11 +155,11 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 handleAlphaOnTitle(percentage);
             }
         });
+
     }
 
     private void handleAlphaOnTitle(float percentage) {
         titlebarTitleTv.setAlpha(percentage);
-        //mToolbar.getBackground().setAlpha((int) (255 * percentage));
     }
 
     private void initViewPager() {
@@ -215,6 +236,21 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
         studentInfoFragment.refresh();
         communicationListFragment.initData();
+
+        if (student.studentInfo.pay_state == Constants.PaySate.unapply) {
+            infoApplyGroup.setVisibility(View.VISIBLE);
+            infoGroup.setVisibility(View.INVISIBLE);
+        } else {
+            infoApplyGroup.setVisibility(View.INVISIBLE);
+            infoGroup.setVisibility(View.VISIBLE);
+        }
+
+        if (student.studentInfo.pay_state != Constants.PaySate.unapply &&
+                (student.studentInfo.free_time == null || TextUtils.isEmpty(student.studentInfo.free_time))) {
+            applyQrcodeIv.setVisibility(View.VISIBLE);
+        } else {
+            applyQrcodeIv.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -275,7 +311,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         return null;
     }
 
-    @OnClick({R.id.fab, R.id.student_avatar_iv})
+    @OnClick({R.id.fab, R.id.student_avatar_iv, R.id.apply_qrcode, R.id.apply_btn})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
@@ -302,6 +338,14 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                     });
                 }
 
+                break;
+            case R.id.apply_qrcode:
+                //show QRCORD
+                QrcodeFragment fragment = QrcodeFragment.newInstance(studentId);
+                fragment.show(getSupportFragmentManager(), "");
+                break;
+            case R.id.apply_btn:
+                // TODO 点击报名按钮
                 break;
         }
 
@@ -338,6 +382,14 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(this, CourseRecordActivity.class);
+        intent.putExtra(CourseRecordActivity.P_STUDENT_ID, studentId);
+        startActivity(intent);
+        return super.onMenuItemClick(item);
     }
 
     @Override

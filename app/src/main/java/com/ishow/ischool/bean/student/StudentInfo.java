@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class StudentInfo implements Parcelable {
 
+
+
     /**
      * id : 21
      * campus_id : 4
@@ -71,6 +73,7 @@ public class StudentInfo implements Parcelable {
      * payed : 300
      * arrearage : 4380.00
      * all_user_ids : [33,30,27,26,25,31,28]
+     * intention_class_name:终极版
      */
 
     public int id;
@@ -135,6 +138,9 @@ public class StudentInfo implements Parcelable {
     public CommunicationInfo communication;
     public int old_class_state;
 
+    public String intention_class_name;
+
+    public String free_time;
 
     @Override
     public int describeContents() {
@@ -204,6 +210,8 @@ public class StudentInfo implements Parcelable {
         dest.writeTypedList(this.paylist_top3);
         dest.writeParcelable(this.communication, flags);
         dest.writeInt(this.old_class_state);
+        dest.writeString(this.intention_class_name);
+        dest.writeString(this.free_time);
     }
 
     public StudentInfo() {
@@ -272,6 +280,8 @@ public class StudentInfo implements Parcelable {
         this.paylist_top3 = in.createTypedArrayList(PayInfo.CREATOR);
         this.communication = in.readParcelable(CommunicationInfo.class.getClassLoader());
         this.old_class_state = in.readInt();
+        this.intention_class_name = in.readString();
+        this.free_time = in.readString();
     }
 
     public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {

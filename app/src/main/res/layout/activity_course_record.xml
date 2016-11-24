@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_course_record"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ishow.ischool.business.student.course.CourseRecordActivity">
+
+    <include layout="@layout/widget_toolbar" />
+
+    <com.inqbarna.tablefixheaders.FixHeadersTableView
+        android:id="@+id/table"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
+</RelativeLayout>

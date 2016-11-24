@@ -58,7 +58,7 @@ public class MatrixTableAdapter<T> extends BaseTableAdapter {
             convertView.setPadding(10, 0, 0, 0);
             convertView.setBackgroundResource(R.drawable.table_item_bg);
         }
-        ((TextView) convertView).setText(table[row + 1][column + 1].toString());
+        ((TextView) convertView).setText(table[row + 1][column + 1] + "");
         return convertView;
     }
 

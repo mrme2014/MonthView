@@ -95,7 +95,7 @@ public class TableRowTextView extends TextView {
         for (int i = 0; i < list.size(); i++) {
             String needDraw = list.get(i) == null ? "null" : list.get(i);
             txtWidth = (int) txtPaint.measureText(needDraw);
-            if (cellWidth> txtWidth) {
+            if (cellWidth > txtWidth) {
                 canvas.drawText(needDraw, i * cellWidth + cellWidth / 2 - txtWidth / 2, (float) (height / 2) + txtHeight / 4, txtPaint);
             } else {
                 //String needDraw = list.get(i);
@@ -138,7 +138,7 @@ public class TableRowTextView extends TextView {
         int byteLength = txtWidth / txt.length();//10
         if (overLength <= byteLength)
             return 1;
-        int i = overLength / byteLength+1 ;
+        int i = overLength / byteLength + 1;
 
         return i < 0 ? 0 : i;
     }

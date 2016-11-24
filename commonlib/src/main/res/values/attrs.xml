@@ -8,7 +8,7 @@
         <attr name="label_padding" format="dimension" />
     </declare-styleable>
 
-
+<!--  <attr name="label_btm_padding_later"/>-->
     <declare-styleable name="LabelTextView">
         <attr name="label_text_top" format="string" />
         <attr name="label_text_left" format="string" />
@@ -17,6 +17,7 @@
         <attr name="label_text_size" />
         <attr name="label_text_color"/>
         <attr name="label_padding" />
+        <attr name="label_btm_padding" format="integer"></attr>
         <attr name="draw_bottom_line" format="boolean"></attr>
         <attr name="bottom_line_color" format="color|reference"></attr>
     </declare-styleable>

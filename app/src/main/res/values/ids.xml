@@ -3,4 +3,9 @@
     <item name="wheelview" type="id" />
     <item name="recycleview" type="id" />
     <item name="glide_tag_id" type="id"/>
+
+    <item name="registration_close_tag_paytype" type="id"/>
+    <item name="registration_close_tag_contenview" type="id"/>
+    <item name="registration_close_tag_money" type="id"/>
+    <item name="registration_close_tag_select_index" type="id"/>
 </resources>

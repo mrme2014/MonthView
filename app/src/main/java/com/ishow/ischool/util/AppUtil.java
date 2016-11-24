@@ -197,6 +197,20 @@ public class AppUtil {
     /**
      * @return
      */
+    public static ArrayList<String> getWeek() {
+        ArrayList<String> grades = new ArrayList<>();
+        grades.add("周二");
+        grades.add("周三");
+        grades.add("周四");
+        grades.add("周五");
+        grades.add("周六");
+        grades.add("周日");
+        return grades;
+    }
+
+    /**
+     * @return
+     */
     public static ArrayList<String> getGradeList() {
         ArrayList<String> grades = new ArrayList<>();
         grades.add("大一");
@@ -316,7 +330,6 @@ public class AppUtil {
     }
 
 
-
     public static long getMonthStart(String year, String month) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, Integer.parseInt(year));
@@ -402,14 +415,14 @@ public class AppUtil {
     }
 
     public static int getDayAgo(int dayAgo) {  //N天前的 零点  时间戳
-        return getTodayEnd() - (dayAgo) * 24 * 3600+1;
+        return getTodayEnd() - (dayAgo) * 24 * 3600 + 1;
     }
 
     /*本月末  或者说 下月初   就可以用这个 */
     public static int getNextMonthStart24() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        c.set(Calendar.HOUR,-1);
+        c.set(Calendar.HOUR, -1);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         return (int) (c.getTimeInMillis() / 1000);

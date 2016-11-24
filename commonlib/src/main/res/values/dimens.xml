@@ -6,4 +6,5 @@
 
     <dimen name="default_toolbar_height">50dp</dimen>
     <dimen name="default_textview_size">15sp</dimen>
+    <dimen name="registra_info_confirm_table_textview_size">8sp</dimen>
 </resources>

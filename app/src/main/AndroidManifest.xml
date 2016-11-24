@@ -165,6 +165,12 @@
             android:name=".business.student.course.CourseRecordActivity"
             android:screenOrientation="landscape"></activity>
         <activity android:name=".business.tabme.Summary4WeeklyActivity" />
+
+        <activity
+            android:name=".business.registrationform.registrationFormActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".business.registrationform.registraDetailActivity" />
+        <activity android:name=".business.registrationform.registrationInfoConfirm" />
     </application>
 
 </manifest>

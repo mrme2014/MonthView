@@ -169,11 +169,22 @@ public class SelectPayDialogFragment extends DialogFragment {
                 colum1 = selectIds[0];
                 colum2 = selectIds[1];
                 if (colum1 == 0) {
-                    selectPayType = bankPayList.get(selectIds[1]);
+                    selectPayType = bankPayList.get(colum2);
+                    selectPayType.method_id = 1;
+                    selectPayType.method = "刷卡";
                 } else if (colum1 == 1) {
                     selectPayType = apliPayList.get(colum2);
+                    selectPayType.method_id = 3;
+                    selectPayType.method = "支付宝";
+                } else if (colum1 == 2) {
+                    selectPayType = bankPayList.get(colum2);
+                    selectPayType.method_id = 4;
+                    selectPayType.method = "转账";
+                } else if (colum1 == 3) {
+                    selectPayType.method_id = 2;
+                    selectPayType.method = "现金";
                 }
-
+                // selectPayType.method_id = colum1;
                 pay_way_acount = result[1];
                 pay_way = result[0];
                 if (TextUtils.equals(pay_way_acount, "")) {
@@ -222,6 +233,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                     break;
                 }
                 if (callback != null) {
+                    selectPayType.method_money = (Double.valueOf(payMoney.getText().toString()));
                     callback.onSelect(colum1, colum2, selectPayType, pay_way, pay_way_acount, payMoney.getText().toString());
                     dismiss();
                 }

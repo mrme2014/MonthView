@@ -5,8 +5,6 @@ import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.registrationform.RegistraResult;
 import com.ishow.ischool.business.registrationform.PayType;
 
-import org.json.JSONArray;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,7 +53,7 @@ public interface RegistrationApi {
     @FormUrlEncoded
     @POST("market/payment/pay")
     Observable<ApiResult<JsonElement>> payAction(@Field("student_id") int student_id,
-                                                 @Field("pay_method_json") JSONArray pay_method_json,
+                                                 @Field("pay_method_json") String pay_method_json,
                                                  @Field("action") String action,
                                                  @Field("price") float price,
                                                  @Field("actual_price") float actual_price,

@@ -41,4 +41,6 @@ public class RegistraInfo {
     public int cheap;
     public int preferential_course_id;
     public String advisor_name;
+    public String preferential_course_name;
+    public int arrearage_time;
 }

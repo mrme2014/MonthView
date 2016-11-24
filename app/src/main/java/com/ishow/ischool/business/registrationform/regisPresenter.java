@@ -38,7 +38,7 @@ public class regisPresenter extends BasePresenter<regisModel, regisView> {
         });
     }
 
-    public void payAction(int studentid, JSONArray pay_method_json, String action, float price, float actual_price, int receipt_no, String memo, HashMap<String, Integer> time) {
+    public void payAction(int studentid, String pay_method_json, String action, float price, float actual_price, int receipt_no, String memo, HashMap<String, Integer> time) {
         mModel.payAction(studentid, pay_method_json, action, price, actual_price, receipt_no, memo, time).subscribe(new ApiObserver<JsonElement>() {
 
             @Override

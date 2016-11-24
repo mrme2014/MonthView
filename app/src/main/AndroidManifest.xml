@@ -168,7 +168,7 @@
             android:name=".business.registrationform.registrationFormActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".business.registrationform.registraDetailActivity" />
-        <activity android:name=".business.registrationform.registrationInfoConfirm" />
+        <activity android:name=".business.registrationform.registrationInfoConfirmActivity" />
     </application>
 
 </manifest>

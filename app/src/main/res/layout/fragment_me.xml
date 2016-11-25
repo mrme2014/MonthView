@@ -16,7 +16,7 @@
             android:id="@+id/fm_me_header_layout"
             android:layout_width="match_parent"
             android:layout_height="210dp"
-            android:background="@color/fragment_me_bg">
+            android:background="@color/comm_blue">
 
             <com.ishow.ischool.widget.custom.CircleImageView
                 android:id="@+id/fm_me_header_avart"
@@ -76,15 +76,13 @@
 
 
         <com.ishow.ischool.widget.custom.FmItemTextView
-            android:id="@+id/fm_me_notify_msg"
+            android:id="@+id/fm_me_summary_weekly"
             style="@style/fragment_textview_Wmatch_45height"
-            android:drawableLeft="@mipmap/icon_mine_message"
-            android:text="@string/fm_me_notify_msg"
-            app:draw_right_redPoint="true"
+            android:drawableLeft="@mipmap/icon_mine_weekly"
+            android:text="@string/fm_me_summary_weekly"
             app:tip_right_color="@android:color/holo_red_light"
             app:tip_right_padding="24"
-            android:visibility="gone"
-            />
+            android:visibility="gone"/>
 
 
         <com.ishow.ischool.widget.custom.FmItemTextView
@@ -112,7 +110,7 @@
         <com.ishow.ischool.widget.custom.FmItemTextView
             android:id="@+id/fm_me_version"
             style="@style/fragment_textview_Wmatch_45height"
-            android:drawableLeft="@mipmap/icon_mine_switch"
+            android:drawableLeft="@mipmap/icon_mine_version"
             android:text="@string/fm_me_version"
             app:tip_right_color="#999"
             app:tip_right_padding="24"/>
@@ -120,10 +118,12 @@
         <Button
             android:id="@+id/fm_me_login_out"
             style="@style/fragment_textview_Wmatch_45height"
+            android:layout_height="50dp"
             android:text="@string/fm_me_login_out"
             android:textColor="@color/text_tuichu"
             android:gravity="center"
             android:drawableRight="@null"
-            android:background="@drawable/bg_item_text_ripple" />
+            android:background="@drawable/bg_item_text_ripple"
+            android:textSize="@dimen/sp16"/>
     </LinearLayout>
 </ScrollView>

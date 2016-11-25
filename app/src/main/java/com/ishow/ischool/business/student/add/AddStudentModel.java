@@ -6,8 +6,6 @@ import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.common.api.CampusApi;
-import com.ishow.ischool.common.api.ClassesApi;
-import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.api.StudentApi;
 
 import java.util.ArrayList;

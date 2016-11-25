@@ -5,7 +5,6 @@ import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.university.SearchUniversityResult;
 import com.ishow.ischool.bean.university.UniversityInfoListResult;
-import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.api.UniversityApi;
 
 import rx.Observable;

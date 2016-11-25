@@ -5,6 +5,7 @@ import com.ishow.ischool.bean.campusperformance.EducationMonthResult;
 import com.ishow.ischool.bean.campusperformance.MonthTableData;
 import com.ishow.ischool.bean.campusperformance.SignAmountResult;
 import com.ishow.ischool.bean.campusperformance.SignPerformanceResult;
+import com.ishow.ischool.bean.market.SummaryWeekly;
 import com.ishow.ischool.bean.saleprocess.SaleProcess;
 import com.ishow.ischool.bean.saleprocess.SaleTable1;
 import com.ishow.ischool.bean.statistics.EducationHome;
@@ -144,4 +145,12 @@ public interface StatisticsApi {
     @FormUrlEncoded
     @POST("statistics/market/processchart")
     Observable<ApiResult<SaleTable1>>  getComMarketProcesschart(@Field("begin_time")int begin_time, @Field("end_time")int end_time);
+
+    /*数据分析.市场.周报(statistics.market.weekly) 接口*/
+    @GET("statistics/market/weekly")
+    Observable<ApiResult<SummaryWeekly>> getSummaryWeekly(
+            @Query("campus_id") Integer campus_id,
+            @Query("begin_time") long begin_time,
+            @Query("end_time") long end_time
+    );
 }

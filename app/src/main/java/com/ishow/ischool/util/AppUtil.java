@@ -308,6 +308,29 @@ public class AppUtil {
         return c.getTime().getTime() / 1000;
     }
 
+    /*The week before last*/
+    public static long getWeekBeforeLastStart() {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.roll(Calendar.WEEK_OF_YEAR, -2);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTime().getTime() / 1000;
+    }
+
+    public static long getWeekBeforeLastEnd() {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        c.roll(Calendar.WEEK_OF_YEAR, -2);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        return c.getTime().getTime() / 1000;
+    }
+
 
     public static long getLastMonthStart() {
         Calendar c = Calendar.getInstance();

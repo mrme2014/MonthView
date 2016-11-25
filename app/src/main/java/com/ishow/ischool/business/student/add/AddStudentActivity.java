@@ -17,7 +17,7 @@ import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.rxbus.RxBus;
 import com.ishow.ischool.fragment.SelectDialogFragment;
@@ -105,15 +105,15 @@ public class AddStudentActivity extends BaseActivity4Crm<AddStudentPresenter, Ad
         if (curPositionId == Cons.Position.Chendujiangshi) {
             fromIL.setDisable();
             fromIL.setContent("晨读");
-            source_id = MarketApi.TYPESOURCE_READING;
+            source_id = StudentApi.TYPESOURCE_READING;
         } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan) {
             fromIL.setDisable();
             fromIL.setContent("校聊");
-            source_id = MarketApi.TYPESOURCE_CHAT;
+            source_id = StudentApi.TYPESOURCE_CHAT;
         } else {
             fromIL.setDisable();
             fromIL.setContent("转介绍");
-            source_id = MarketApi.TYPESOURCE_RECOMMEND;
+            source_id = StudentApi.TYPESOURCE_RECOMMEND;
             referrerIL.setVisibility(View.VISIBLE);
         }
     }

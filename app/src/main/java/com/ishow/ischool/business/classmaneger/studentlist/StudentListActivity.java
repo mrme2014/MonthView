@@ -20,7 +20,7 @@ import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.widget.custom.AvatarImageView;
@@ -122,9 +122,9 @@ public class StudentListActivity extends BaseListActivity4Crm<StudentListPresent
             Student data = mDataList.get(position);
             name.setText(data.studentInfo.name);
             avatar.setText(data.studentInfo.name, data.studentInfo.id, data.avatarInfo == null ? "" : data.avatarInfo.file_name);
-            if (data.studentInfo.source == MarketApi.TYPESOURCE_READING && !TextUtils.isEmpty(data.studentInfo.guider_name)) {
+            if (data.studentInfo.source == StudentApi.TYPESOURCE_READING && !TextUtils.isEmpty(data.studentInfo.guider_name)) {
                 teacherTv.setText(getString(R.string.chendu, data.studentInfo.guider_name));
-            } else if (data.studentInfo.source == MarketApi.TYPESOURCE_CHAT && !TextUtils.isEmpty(data.studentInfo.school_chat_attache_name)) {
+            } else if (data.studentInfo.source == StudentApi.TYPESOURCE_CHAT && !TextUtils.isEmpty(data.studentInfo.school_chat_attache_name)) {
                 teacherTv.setText(getString(R.string.xiaoliao, data.studentInfo.school_chat_attache_name));
             } else {
                 teacherTv.setVisibility(View.GONE);

@@ -101,9 +101,9 @@ public class RegistraTableRowTextView extends TextView {
                 int cellValue = (iconList == null ? 0 : iconList.get(i));
                 Bitmap cellBitmap = null;
                 if (cellValue == 1) {
-                    cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_checkbox_week_active);
+                    cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_checkbox_weekly_active);
                 } else if (cellValue == 0) {
-                    cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_checkbox_week_nomal);
+                    cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_checkbox_weekly_normal);
                 }
                 canvas.drawBitmap(cellBitmap, i * cellWidth + cellWidth / 2 - cellBitmap.getWidth() / 2, (float) (height / 2) - cellBitmap.getHeight() / 2, txtPaint);
                 canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);//右边的线

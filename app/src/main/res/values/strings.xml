@@ -47,12 +47,13 @@
     <!--fragment——me-->
     <string name="fm_me_switch_campus">校区切换</string>
     <string name="fm_me_switch_role">角色切换</string>
+    <string name="fm_me_summary_weekly">我的周报</string>
     <string name="fm_me_notify_msg">消息通知</string>
     <string name="fm_me_mornig_qrcode">晨读二维码</string>
     <string name="fm_me_change_pwd">修改密码</string>
     <string name="fm_me_kefu">客服</string>
     <string name="fm_me_version">当前版本号</string>
-    <string name="fm_me_login_out">退出</string>
+    <string name="fm_me_login_out">退出登录</string>
     <!--个人资料-->
     <string name="per_info_title">个人资料</string>
     <string name="per_info_avart">头像</string>
@@ -338,6 +339,7 @@
 
     <string name="full_pay_rate">全款率</string>
     <string name="upgrade_rate">升学率</string>
+    <string name="refund_rate">退款率</string>
     <string name="class_numbers">带班人数</string>
     <string name="open_class">公开课</string>
     <string name="apply_numbers">报名人数</string>
@@ -370,6 +372,12 @@
     <string name="summary_weekly">周报</string>
     <string name="str_share">分享</string>
     <string name="str_share_to">分享到</string>
+    <string name="weekly_lastweek">上周(%1$s-%2$s)</string>
+    <string name="weekly_beforelastweek">上上周(%1$s-%2$s)</string>
+    <string name="weekly_lastweek_share">上周数据(%1$s-%2$s)</string>
+    <string name="weekly_beforelastweek_share">上上周数据(%1$s-%2$s)</string>
+
+
     <string name="down_payment">定金</string>
     <string name="school_chat_attache">校聊专员</string>
     <string name="guider">晨读讲师</string>

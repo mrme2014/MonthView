@@ -34,7 +34,7 @@ import com.ishow.ischool.bean.student.StudentList;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.student.add.AddStudentActivity;
 import com.ishow.ischool.business.student.detail.StudentDetailActivity;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.base.BaseListActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.rxbus.RxBus;
@@ -207,11 +207,11 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
 
         curPositionId = mUser.positionInfo.id;
         if (curPositionId == Cons.Position.Chendujiangshi) {
-            mSource = MarketApi.TYPESOURCE_READING + "";
-            filterParams.put("source", MarketApi.TYPESOURCE_READING + "");
+            mSource = StudentApi.TYPESOURCE_READING + "";
+            filterParams.put("source", StudentApi.TYPESOURCE_READING + "");
         } else if (curPositionId == Cons.Position.Xiaoliaozhuanyuan) {
-            mSource = MarketApi.TYPESOURCE_CHAT + "";
-            filterParams.put("source", MarketApi.TYPESOURCE_CHAT + "");
+            mSource = StudentApi.TYPESOURCE_CHAT + "";
+            filterParams.put("source", StudentApi.TYPESOURCE_CHAT + "");
         } else {
             mSource = "-1";
             filterParams.put("source", "-1");

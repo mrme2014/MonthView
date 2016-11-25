@@ -204,6 +204,11 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
 
     private void getTeachProcessData() {
         if (map == null) map = new TreeMap();
+        if (campus_id != Constants.CAMPUS_HEADQUARTERS && campus_id != 0) {
+            map.put("campus_id", campus_id);
+            map.put("position_id", position_id);
+            map.put("user_id", user_id);
+        }
         map.put("start_time", start_time);
         map.put("end_time", end_time);
         handProgressbar(true);
@@ -283,7 +288,7 @@ public class TeachProcessActivity extends BaseActivity4Crm<TeachPresenter, Teach
                 || teachProcess.tableListData_22.body == null
                 || teachProcess.tableListData_22.head.size() == 0
                 || teachProcess.tableListData_22.body.size() == 0) {
-            salesTable1.setSpanedStr(getString(R.string.update_rate), "0", getString(R.string.fullpay_rate), "0", getString(R.string.tuikuan_rate), "0");
+            salesTable1.setSpanedStr(getString(R.string.upgrade_rate), "0", getString(R.string.full_pay_rate), "0", getString(R.string.refund_rate), "0");
             return;
         }
         List<String> rate = teachProcess.tableListData_22.head;

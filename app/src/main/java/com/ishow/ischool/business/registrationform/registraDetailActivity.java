@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.commonlib.util.DateUtil;
+import com.commonlib.util.LogUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.BasicAdapter;
 import com.ishow.ischool.adpter.ViewHolder;
@@ -65,6 +67,23 @@ public class registraDetailActivity extends BaseActivity4Crm<regisPresenter, reg
                 getResources().getColor(R.color.text_tuichu),
                 getResources().getColor(R.color.colorAccent));
         swipeRefreshLayout.setOnRefreshListener(this);
+        detailList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                View childAt0 = detailList.getChildAt(0);
+                if (childAt0 != null) {
+                    LogUtil.e(childAt0.getTop() + "--" + detailList.getTop() + "----" + detailList.getPaddingTop());
+                }
+                if (childAt0 != null && childAt0.getTop() >= detailList.getPaddingTop())
+                    swipeRefreshLayout.setEnabled(true);
+                else swipeRefreshLayout.setEnabled(false);
+            }
+        });
     }
 
     @Override

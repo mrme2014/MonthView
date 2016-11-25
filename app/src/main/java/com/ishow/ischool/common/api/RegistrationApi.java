@@ -45,8 +45,8 @@ public interface RegistrationApi {
      * @param student_id      学员id
      * @param pay_method_json [{"method":"现金","method_id":2,"account_id":0,"account":"","balance":4500}]
      * @param action          action  操作类型。报名:apply,升学:upgrade,付款:pay
-     * @param price           所欠金额
-     * @param actual_price    实际缴款
+     * @param price           应交金额
+     * @param actual_price   实际缴款
      * @param time            第一次缴费时间 或者  第一次缴费时间和第二次补款时间(pay_time   arrearage_time)
      * @return
      */
@@ -60,6 +60,8 @@ public interface RegistrationApi {
                                                  @Field("receipt_no") int receipt_no,
                                                  @Field("memo") String memo,
                                                  @Field("app_type") int app_type,
+                                                 @Field("privilege_type")int privilege_type,
+                                                 @Field("privilege_price") double cheap_price,
                                                  @FieldMap HashMap<String, Integer> time);
 
     /*系统.付款方式.获取(system.paymentmethod.get) 接口*/

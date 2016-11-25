@@ -41,7 +41,6 @@ public class LabelTextView extends TextView {
 
     public LabelTextView(Context context) {
         super(context);
-        init(null);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -52,6 +51,7 @@ public class LabelTextView extends TextView {
 
     public LabelTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs);
     }
 
     public LabelTextView(Context context, AttributeSet attrs) {

@@ -37,7 +37,7 @@ public class LabelTextView extends TextView {
     private float labelPadding;
     private boolean draw_bottom_line;
     private int bottom_line_color;
-    private float bottompadding;
+   // private float bottompadding;
 
     public LabelTextView(Context context) {
         super(context);
@@ -69,15 +69,15 @@ public class LabelTextView extends TextView {
         labelTextLeft = typedArray.getString(R.styleable.LabelTextView_label_text_left);
         labelTextRight = typedArray.getString(R.styleable.LabelTextView_label_text_right);
         labelTextBottom = typedArray.getString(R.styleable.LabelTextView_label_text_bottom);
-        labelTextSize = typedArray.getInteger(R.styleable.LabelTextView_label_text_size, 14);
-        labelTextSize = UIUtil.sp2px(getContext(), labelTextSize);
+        labelTextSize = typedArray.getDimension(R.styleable.LabelTextView_label_text_size, UIUtil.sp2px(getContext(),14));
+      //  labelTextSize = UIUtil.sp2px(getContext(), labelTextSize);
         labelTextColor = typedArray.getColor(R.styleable.LabelTextView_label_text_color, 0xFF222222);
         labelPadding = typedArray.getDimension(R.styleable.LabelTextView_label_padding, 0);
-        bottompadding = typedArray.getInteger(R.styleable.LabelTextView_label_btm_padding, 0);
+        //bottompadding = typedArray.getInteger(R.styleable.LabelTextView_label_btm_padding, 0);
 
         draw_bottom_line = typedArray.getBoolean(R.styleable.LabelTextView_draw_bottom_line, false);
         bottom_line_color = typedArray.getColor(R.styleable.LabelTextView_bottom_line_color, 0);
-        bottompadding = UIUtil.dip2px(getContext(), bottompadding);
+      //  bottompadding = UIUtil.dip2px(getContext(), bottompadding);
         typedArray.recycle();
 
         labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -130,7 +130,7 @@ public class LabelTextView extends TextView {
         }
 
         if (!TextUtils.isEmpty(labelTextBottom)) {
-            canvas.drawText(labelTextBottom, (with - labelPaint.measureText(labelTextBottom)) / 2, height - labelPadding - bottompadding, labelPaint);
+            canvas.drawText(labelTextBottom, (with - labelPaint.measureText(labelTextBottom)) / 2, height - labelPadding, labelPaint);
         }
 
         /*绘制下划线 */

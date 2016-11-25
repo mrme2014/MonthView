@@ -140,7 +140,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         //studentInfo
-        Intent intent = new Intent(this, registraDetailActivity.class);
+        Intent intent = new Intent(this, registrationInfoConfirmActivity.class);
         intent.putExtra(STUDENT_ID, student_id);
         intent.putExtra(STUDENT_STATUS, student_status);
         startActivity(intent);
@@ -455,11 +455,16 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         SpUtil.getInstance(this).setValue("memo" + student_id, doCache ? getString(beizhu) : null);
         SpUtil.getInstance(this).setValue("totalRealMoney" + student_id, doCache ? (float) totalRealMoney : 0);
         SpUtil.getInstance(this).setValue("cheapTypeId" + student_id, cheapTypeId);
-        if (selectPayList != null) {Type type = new TypeToken<List<PayType>>() {}.getType();
-            Gson gson = new Gson();
-            String toJson = gson.toJson(selectPayList, type);
-            LogUtil.e("doCache" + toJson);
-            SpUtil.getInstance(this).setValue("pay_type_lisy" + student_id, doCache ? toJson : "");
+        if (selectPayList != null) {
+            if (doCache) {
+                Type type = new TypeToken<List<PayType>>() {
+                }.getType();
+                Gson gson = new Gson();
+                String toJson = gson.toJson(selectPayList, type);
+                LogUtil.e("doCache" + toJson);
+                SpUtil.getInstance(this).setValue("pay_type_lisy" + student_id, toJson);
+            } else SpUtil.getInstance(this).setValue("pay_type_lisy" + student_id, null);
+
         }
     }
 
@@ -467,17 +472,17 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         int student_id_read = SpUtil.getInstance(this).getIntegerValue("student_id" + student_id);
         if (student_id_read == 0)
             return;
-        regisCheap.setText(SpUtil.getInstance(this).getStringValue("cheap_name" + student_id) + "");
+        regisCheap.setText(SpUtil.getInstance(this).getStringValue("cheap_name" + student_id));
         totalRealMoney = SpUtil.getInstance(this).getFloatValue("totalRealMoney" + student_id);
         cheapTypePrice = SpUtil.getInstance(this).getFloatValue("cheap_price" + student_id);
         cheapTypeId = SpUtil.getInstance(this).getIntegerValue("cheapTypeId" + student_id_read);
         cheapType = SpUtil.getInstance(this).getIntegerValue("cheap_type" + student_id);
         fisrt_pay_time_unix = SpUtil.getInstance(this).getIntegerValue("fisrt_pay_time_unix" + student_id);
         sec_end_time_unix = SpUtil.getInstance(this).getIntegerValue("sec_end_time_unix" + student_id);
-        tradNum.setText(SpUtil.getInstance(this).getStringValue("trae_num" + student_id) + "");
-        payDate.setText(SpUtil.getInstance(this).getStringValue("pay_date" + student_id) + "");
-        secPayDate.setText(SpUtil.getInstance(this).getStringValue("sec_pay_date" + student_id) + "");
-        beizhu.setText(SpUtil.getInstance(this).getStringValue("memo" + student_id) + "");
+        tradNum.setText(SpUtil.getInstance(this).getStringValue("trae_num" + student_id));
+        payDate.setText(SpUtil.getInstance(this).getStringValue("pay_date" + student_id));
+        secPayDate.setText(SpUtil.getInstance(this).getStringValue("sec_pay_date" + student_id));
+        beizhu.setText(SpUtil.getInstance(this).getStringValue("memo" + student_id));
 
         resetRealMoney();
         String stringValue = SpUtil.getInstance(this).getStringValue("pay_type_lisy" + student_id);

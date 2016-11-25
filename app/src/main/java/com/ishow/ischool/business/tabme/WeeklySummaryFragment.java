@@ -86,17 +86,22 @@ public class WeeklySummaryFragment extends BaseFragment4Crm {
 //                        View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.weekly_headview, weeklyRecyclerView, false);
 //                        mWeeklyAdapter.setHeaderView(headerView);
                         weeklyRecyclerView.setAdapter(mAdapter);
-                        mAdapter.setOnItemClickListener(new WeeklyAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position, RecyclerView.ViewHolder viewHolder) {
-                                WeeklyAdapter.ViewHolder holder = (WeeklyAdapter.ViewHolder) viewHolder;
-                                // 改变CheckBox的状态
-                                holder.checkBox.toggle();
-                                // 将CheckBox的选中状况记录下来
-                                mAdapter.getmCheckedSparseArray().put(position, holder.checkBox.isChecked());
-//                                mAdapter.notifyItemChanged(position);
-                            }
-                        });
+//                        mAdapter.setOnItemClickListener(new WeeklyAdapter.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(int position, RecyclerView.ViewHolder viewHolder) {
+//                                WeeklyAdapter.ViewHolder holder = (WeeklyAdapter.ViewHolder) viewHolder;
+//                                // 改变CheckBox的状态
+//                                holder.checkBox.toggle();
+//                                if (holder.checkBox.isChecked()) {
+//                                    holder.itemView.setAlpha(0);
+//                                } else {
+//                                    holder.itemView.setAlpha(0.3f);
+//                                }
+//                                // 将CheckBox的选中状况记录下来
+//                                mAdapter.getmCheckedSparseArray().put(position, holder.checkBox.isChecked());
+////                                mAdapter.notifyItemChanged(position);
+//                            }
+//                        });
                     }
 
                     @Override
@@ -109,13 +114,14 @@ public class WeeklySummaryFragment extends BaseFragment4Crm {
 
     public String getShareContent() {
         if (mAdapter.getCheckedCount() > 0) {
+            int number = 1;
             StringBuilder content = new StringBuilder(mTitle + "\n\n");
             if (mSummaryWeekly != null && mSummaryWeekly.table != null) {
                 for (int i = 0; i < mSummaryWeekly.table.body.size(); i++) {
                     if (mAdapter.getmCheckedSparseArray().get(i)) {
                         List<String> head = mSummaryWeekly.table.head;
                         List<List<String>> body = mSummaryWeekly.table.body;
-                        content.append((i + 1) + "." + body.get(i).get(0) + "\n");
+                        content.append(number++ + "." + body.get(i).get(0) + "\n");
                         content.append(head.get(1) + "：" + body.get(i).get(1) + "\n");
                         content.append(head.get(2) + "：" + body.get(i).get(2) + "\n");
                         content.append(head.get(3) + "：" + body.get(i).get(3) + "\n");

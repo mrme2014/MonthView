@@ -7,8 +7,6 @@ import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.registrationform.RegistraResult;
 import com.ishow.ischool.common.api.ApiObserver;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +36,8 @@ public class regisPresenter extends BasePresenter<regisModel, regisView> {
         });
     }
 
-    public void payAction(int studentid, String pay_method_json, String action, float price, float actual_price, int receipt_no, String memo, HashMap<String, Integer> time) {
-        mModel.payAction(studentid, pay_method_json, action, price, actual_price, receipt_no, memo, time).subscribe(new ApiObserver<JsonElement>() {
+    public void payAction(int studentid, String pay_method_json, String action, float price, float actual_price, int receipt_no, String memo,int privilege_type,double cheap_price, HashMap<String, Integer> time) {
+        mModel.payAction(studentid, pay_method_json, action, price, actual_price, receipt_no, memo,privilege_type, cheap_price,time).subscribe(new ApiObserver<JsonElement>() {
 
             @Override
             public void onSuccess(JsonElement jsonElement) {

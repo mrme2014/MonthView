@@ -80,7 +80,6 @@
             style="@style/fragment_textview_Wmatch_45height"
             android:drawableLeft="@mipmap/icon_mine_weekly"
             android:text="@string/fm_me_summary_weekly"
-            app:draw_right_redPoint="true"
             app:tip_right_color="@android:color/holo_red_light"
             app:tip_right_padding="24"
             android:visibility="gone"/>

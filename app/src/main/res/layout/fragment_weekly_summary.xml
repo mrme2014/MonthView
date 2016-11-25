@@ -7,6 +7,7 @@
         android:id="@+id/weekly_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"
+        android:background="@color/comm_bg"/>
 
 </LinearLayout>

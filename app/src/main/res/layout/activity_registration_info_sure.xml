@@ -235,7 +235,6 @@
                 android:id="@+id/pay_memo"
                 style="@style/registration_form_info_sure"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 app:label_text_left="@string/registration_beizhu" />
         </LinearLayout>
     </ScrollView>

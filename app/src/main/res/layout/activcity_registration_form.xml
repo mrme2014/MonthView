@@ -23,7 +23,7 @@
                 android:id="@+id/regis_cheap"
                 style="@style/registration_form_label_text_style"
                 android:layout_marginTop="10dp"
-                android:text="@string/registration_no_cheap"
+                android:hint="@string/registration_no_cheap"
                 app:label_text_left="@string/registration_cheap_way" />
 
             <com.commonlib.widget.LabelTextView
@@ -48,7 +48,7 @@
                     android:layout_height="45dp"
                     android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:text="@string/registration_pay_way"
+                    android:hint="@string/registration_pay_way"
                     android:textColor="@color/txt_6" />
 
                 <LinearLayout

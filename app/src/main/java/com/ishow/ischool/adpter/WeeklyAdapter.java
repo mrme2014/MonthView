@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ishow.ischool.R;
@@ -104,12 +105,12 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
 
         holder.checkBox.setChecked(mCheckedSparseArray.get(position));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onItemClick(realPosition, holder);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mListener.onItemClick(realPosition, holder);
+//            }
+//        });
     }
 
     public int getRealPosition(ViewHolder holder) {
@@ -152,7 +153,7 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
         @BindView(R.id.checkbox)
         public AppCompatCheckBox checkBox;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             if (itemView == mHeaderView) return;
             ButterKnife.bind(this, itemView);
@@ -162,6 +163,17 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
 //                    mListener.onItemClick(getAdapterPosition(), this);
 //                }
 //            });
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        itemView.setAlpha(1);
+                    } else {
+                        itemView.setAlpha(0.3f);
+                    }
+                }
+            });
         }
     }
 

@@ -43,6 +43,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
+import static android.animation.ObjectAnimator.ofPropertyValuesHolder;
 import static com.ishow.ischool.R.id.share_layout;
 
 /**
@@ -71,7 +72,7 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
 
 
     int distanceX, distanceY;
-    int duration;
+    int duration, shareIconDuration;
 
     private FragmentAdapter mFragmentAdapter;
     WeeklySummaryFragment fragment1, fragment2;
@@ -149,8 +150,8 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
         int shareHeight = shareIv.getHeight();
         int[] sharePoint = new int[2];
         shareIv.getLocationInWindow(sharePoint);
-        distanceX = DeviceUtils.dip2px(Summary4WeeklyActivity.this, 100);
-        distanceY = DeviceUtils.dip2px(Summary4WeeklyActivity.this, 100);
+        distanceX = DeviceUtils.dip2px(Summary4WeeklyActivity.this, 80);
+        distanceY = DeviceUtils.dip2px(Summary4WeeklyActivity.this, 80);
     }
 
     void startAnim() {
@@ -158,7 +159,8 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
         PropertyValuesHolder sx, sy;
         PropertyValuesHolder alphaPvh;
         if (!isShown) {
-            duration = 500;
+            duration = 400;
+            shareIconDuration = 200;
             isShown = true;
             ptxLeft = PropertyValuesHolder.ofFloat("translationX", 0f, -distanceX);
             ptxRight = PropertyValuesHolder.ofFloat("translationX", 0f, distanceX);
@@ -169,6 +171,7 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
             shareLayout.setVisibility(View.VISIBLE);
         } else {
             duration = 200;
+            shareIconDuration = 100;
             isShown = false;
             ptxLeft = PropertyValuesHolder.ofFloat("translationX", -distanceX, 0f);
             ptxRight = PropertyValuesHolder.ofFloat("translationX", distanceX, 0f);
@@ -177,6 +180,8 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
             sy = PropertyValuesHolder.ofFloat("scaleY", 1f, 0f);
             alphaPvh = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
         }
+
+
 
         if (shareQqView == null) {
             shareQqView = getLayoutInflater().inflate(R.layout.view_share_qq, null);
@@ -218,12 +223,12 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
                 }
             });
         }
-        ObjectAnimator translationAnimatorLeft = ObjectAnimator.ofPropertyValuesHolder(shareQqView, ptxLeft, pty);
-        ObjectAnimator scaleAnimatorLeft = ObjectAnimator.ofPropertyValuesHolder(shareQqView, sx, sy);
-        ObjectAnimator alphaAnimatorLeft = ObjectAnimator.ofPropertyValuesHolder(shareQqView, alphaPvh);
-        ObjectAnimator translationAnimatorRight = ObjectAnimator.ofPropertyValuesHolder(shareWxView, ptxRight, pty);
-        ObjectAnimator scaleAnimatorRight = ObjectAnimator.ofPropertyValuesHolder(shareWxView, sx, sy);
-        ObjectAnimator alphaAnimatorRight = ObjectAnimator.ofPropertyValuesHolder(shareWxView, alphaPvh);
+        ObjectAnimator translationAnimatorLeft = ofPropertyValuesHolder(shareQqView, ptxLeft, pty);
+        ObjectAnimator scaleAnimatorLeft = ofPropertyValuesHolder(shareQqView, sx, sy);
+        ObjectAnimator alphaAnimatorLeft = ofPropertyValuesHolder(shareQqView, alphaPvh);
+        ObjectAnimator translationAnimatorRight = ofPropertyValuesHolder(shareWxView, ptxRight, pty);
+        ObjectAnimator scaleAnimatorRight = ofPropertyValuesHolder(shareWxView, sx, sy);
+        ObjectAnimator alphaAnimatorRight = ofPropertyValuesHolder(shareWxView, alphaPvh);
         AnimatorSet animSet = new AnimatorSet();
         animSet.play(translationAnimatorLeft).with(scaleAnimatorLeft).with(alphaAnimatorLeft).with(translationAnimatorRight).with(scaleAnimatorRight).with(alphaAnimatorRight);
         animSet.setDuration(duration);
@@ -248,6 +253,31 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
         public void onAnimationStart(Animator animation) {
             super.onAnimationStart(animation);
             isLoading = true;
+
+            // 分享按钮动画
+            ObjectAnimator shareIconAnim = ObjectAnimator.ofFloat(shareIv, "alpha", 1f, 0);
+            shareIconAnim.setDuration(shareIconDuration);
+            shareIconAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if (isShown) {
+                        shareIv.setImageResource(R.mipmap.icon_share_close);
+                    } else {
+                        shareIv.setImageResource(R.mipmap.icon_share);
+                    }
+                    PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat("alpha", 0, 1f);
+                    ObjectAnimator.ofPropertyValuesHolder(shareIv, pvhA).setDuration(shareIconDuration).start();
+                }
+            });
+            shareIconAnim.start();
+
+            // 背景动画
+            if (isShown) {
+                ObjectAnimator.ofFloat(shareLayout, "alpha", 0, 0.85f).setDuration(duration).start();
+            } else {
+                ObjectAnimator.ofFloat(shareLayout, "alpha", 0.85f, 0).setDuration(duration).start();
+            }
         }
 
         @Override

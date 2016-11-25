@@ -106,16 +106,20 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
     }
 
     private void initViewPager() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM:dd");
+        SimpleDateFormat sdf4Title = new SimpleDateFormat("MM.dd");
+        SimpleDateFormat sdf4Share = new SimpleDateFormat("MM月dd日");
         ArrayList<Fragment> fragments = new ArrayList<>();
 //        fragment1 = WeeklySummaryFragment.newInstance(AppUtil.getLastWeekStart(), AppUtil.getLastWeekEnd(), "上周");
 //        fragment2 = WeeklySummaryFragment.newInstance(AppUtil.getWeekBeforeLastStart(), AppUtil.getWeekBeforeLastEnd(), "上上周");
 //        titleLastWeek = getString(R.string.weekly_lastweek, sdf.format(AppUtil.getLastWeekStart() * 1000), sdf.format(AppUtil.getLastWeekEnd() * 1000));
 //        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek, sdf.format(AppUtil.getWeekBeforeLastStart() * 1000), sdf.format(AppUtil.getWeekBeforeLastEnd() * 1000));
-        titleLastWeek = getString(R.string.weekly_lastweek, sdf.format(1479052800L * 1000), sdf.format(1479657599L * 1000));
-        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek, sdf.format(1478448000L * 1000), sdf.format(1479052799L * 1000));
-        fragment1 = WeeklySummaryFragment.newInstance(1479052800, 1479657599, titleLastWeek);
-        fragment2 = WeeklySummaryFragment.newInstance(1478448000, 1479052799, titleBeforeLastWeek);
+        titleLastWeek = getString(R.string.weekly_lastweek, sdf4Title.format(1479052800L * 1000), sdf4Title.format(1479657599L * 1000));
+        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek, sdf4Title.format(1478448000L * 1000), sdf4Title.format(1479052799L * 1000));
+
+        fragment1 = WeeklySummaryFragment.newInstance(1479052800, 1479657599,
+                getString(R.string.weekly_lastweek_share, sdf4Share.format(1479052800L * 1000), sdf4Share.format(1479657599L * 1000)));
+        fragment2 = WeeklySummaryFragment.newInstance(1478448000, 1479052799,
+                getString(R.string.weekly_beforelastweek_share, sdf4Share.format(1478448000L * 1000), sdf4Share.format(1479052799L * 1000)));
         fragments.add(fragment1);
         fragments.add(fragment2);
 
@@ -235,7 +239,7 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
         if (TextUtils.isEmpty(content1) && TextUtils.isEmpty(content2)) {
             return null;
         } else {
-            return mUser.positionInfo.campus + ":\n" + content1 + "\n" + content2;
+            return mUser.positionInfo.campus + ":\n\n" + content1 + content2;
         }
     }
 

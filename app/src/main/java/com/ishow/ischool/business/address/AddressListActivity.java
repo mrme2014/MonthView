@@ -10,7 +10,6 @@ import com.commonlib.widget.pullrecyclerview.PullRecyclerView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.university.Address;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.api.UniversityApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;

@@ -374,6 +374,8 @@
     <string name="str_share_to">分享到</string>
     <string name="weekly_lastweek">上周(%1$s-%2$s)</string>
     <string name="weekly_beforelastweek">上上周(%1$s-%2$s)</string>
+    <string name="weekly_lastweek_share">上周数据(%1$s-%2$s)</string>
+    <string name="weekly_beforelastweek_share">上上周数据(%1$s-%2$s)</string>
 
 
     <string name="down_payment">定金</string>

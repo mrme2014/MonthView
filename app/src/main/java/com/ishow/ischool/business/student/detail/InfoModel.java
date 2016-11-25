@@ -2,7 +2,6 @@ package com.ishow.ischool.business.student.detail;
 
 import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
-import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.api.StudentApi;
 
 import java.util.HashMap;

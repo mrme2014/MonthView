@@ -199,12 +199,12 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                     showToast(R.string.registration_cheap_type_null);
                     break;
                 }
-                cheapListDialogFragment dialog = new cheapListDialogFragment();
+                CheapListDialogFragment dialog = new CheapListDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("cheap_list", cheapTypeList);
                 dialog.setArguments(bundle);
                 dialog.show(getSupportFragmentManager(), "dialog");
-                dialog.setOnItemClickListener(new cheapListDialogFragment.OnItemClickListener() {
+                dialog.setOnItemClickListener(new CheapListDialogFragment.OnItemClickListener() {
                     @Override
                     public void OnItemClickListener(String cheapTypeTitle, int cheapType1, double cheapTypePrice1, int cheapTypeId1) {
                         cheapType = cheapType1;                            //  折扣 减免        折扣比例 减免金额     折扣类型id

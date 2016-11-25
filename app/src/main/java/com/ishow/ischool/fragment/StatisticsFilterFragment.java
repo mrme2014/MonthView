@@ -32,7 +32,7 @@ import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.universitypick.UniversityPickActivity;
 import com.ishow.ischool.business.user.pick.PositionPickActivity;
 import com.ishow.ischool.business.user.pick.UserPickActivity;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.manager.CampusManager;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -221,9 +221,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         }
 
         if (mPositionId == Cons.Position.Chendujiangshi) {
-            mFilterSource = MarketApi.TYPESOURCE_READING + "";
+            mFilterSource = StudentApi.TYPESOURCE_READING + "";
         } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan) {
-            mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+            mFilterSource = StudentApi.TYPESOURCE_CHAT + "";
         } else if (mPositionId == Cons.Position.Xiaoyuanjingli || mPositionId == Cons.Position.Shichangzhuguan) {
 
             sources = new ArrayList<String>() {{
@@ -391,9 +391,9 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         mFilterSource = "";
         if (TextUtils.isEmpty(mFilterSource)) {
             if (mPositionId == Cons.Position.Chendujiangshi) {
-                mFilterSource = MarketApi.TYPESOURCE_READING + "";
+                mFilterSource = StudentApi.TYPESOURCE_READING + "";
             } else if (mPositionId == Cons.Position.Xiaoliaozhuanyuan) {
-                mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+                mFilterSource = StudentApi.TYPESOURCE_CHAT + "";
             } else {
                 mFilterSource = "-1";
             }
@@ -475,16 +475,16 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
                         sourceIL.setContent(mFilterSourceName);
                         switch (mFilterSourceName) {
                             case "晨读":
-                                mFilterSource = MarketApi.TYPESOURCE_READING + "";
+                                mFilterSource = StudentApi.TYPESOURCE_READING + "";
                                 break;
                             case "转介绍":
-                                mFilterSource = MarketApi.TYPESOURCE_RECOMMEND + "";
+                                mFilterSource = StudentApi.TYPESOURCE_RECOMMEND + "";
                                 break;
                             case "校聊":
-                                mFilterSource = MarketApi.TYPESOURCE_CHAT + "";
+                                mFilterSource = StudentApi.TYPESOURCE_CHAT + "";
                                 break;
                             case "全部来源":
-                                mFilterSource = MarketApi.TYPESOURCE_ALL + "";
+                                mFilterSource = StudentApi.TYPESOURCE_ALL + "";
                                 break;
                         }
 

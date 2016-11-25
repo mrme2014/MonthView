@@ -4,7 +4,6 @@ import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.student.Student;
-import com.ishow.ischool.common.api.MarketApi;
 import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.api.UserApi;
 

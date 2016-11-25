@@ -12,7 +12,7 @@ import com.ishow.ischool.adpter.WeeklyAdapter;
 import com.ishow.ischool.bean.market.SummaryWeekly;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.api.ApiObserver;
-import com.ishow.ischool.common.api.MarketApi;
+import com.ishow.ischool.common.api.StatisticsApi;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.common.rxbus.RxBus;
@@ -74,7 +74,7 @@ public class WeeklySummaryFragment extends BaseFragment4Crm {
         weeklyRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.weekly_list_divider));
         weeklyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ApiFactory.getInstance().getApi(MarketApi.class).getSummaryWeekly(mUser.userInfo.campus_id, mBeginTime, mEndTime)
+        ApiFactory.getInstance().getApi(StatisticsApi.class).getSummaryWeekly(mUser.userInfo.campus_id, mBeginTime, mEndTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiObserver<SummaryWeekly>() {
@@ -109,18 +109,18 @@ public class WeeklySummaryFragment extends BaseFragment4Crm {
 
     public String getShareContent() {
         if (mAdapter.getCheckedCount() > 0) {
-            StringBuilder content = new StringBuilder(mTitle + "\n");
+            StringBuilder content = new StringBuilder(mTitle + "\n\n");
             if (mSummaryWeekly != null && mSummaryWeekly.table != null) {
                 for (int i = 0; i < mSummaryWeekly.table.body.size(); i++) {
                     if (mAdapter.getmCheckedSparseArray().get(i)) {
                         List<String> head = mSummaryWeekly.table.head;
                         List<List<String>> body = mSummaryWeekly.table.body;
-                        content.append(body.get(i).get(0) + "\n");
+                        content.append((i + 1) + "." + body.get(i).get(0) + "\n");
                         content.append(head.get(1) + "：" + body.get(i).get(1) + "\n");
                         content.append(head.get(2) + "：" + body.get(i).get(2) + "\n");
                         content.append(head.get(3) + "：" + body.get(i).get(3) + "\n");
                         content.append(head.get(4) + "：" + body.get(i).get(4) + "\n");
-                        content.append(head.get(5) + "：" + body.get(i).get(5) + "\n");
+                        content.append(head.get(5) + "：" + body.get(i).get(5) + "\n\n");
                     }
                 }
             }

@@ -4,7 +4,6 @@ import com.commonlib.http.ApiFactory;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.CampusInfo;
 import com.ishow.ischool.common.api.CampusApi;
-import com.ishow.ischool.common.api.MarketApi;
 
 import java.util.ArrayList;
 

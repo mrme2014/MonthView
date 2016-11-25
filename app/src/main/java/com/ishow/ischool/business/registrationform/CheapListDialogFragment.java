@@ -32,7 +32,7 @@ import java.util.List;
  * Created by MrS on 2016/11/23.
  */
 
-public class cheapListDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class CheapListDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
     ListView cheapList;
     TextView cancel;
 

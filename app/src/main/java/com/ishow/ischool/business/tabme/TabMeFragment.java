@@ -155,7 +155,7 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
                 mPresenter.logout();
                 break;
             case R.id.fm_me_version:
-                JumpManager.jumpActivity(getContext(), registrationFormActivity.class, Resource.NO_NEED_CHECK);
+ //               JumpManager.jumpActivity(getContext(), registrationFormActivity.class, Resource.NO_NEED_CHECK);
 //                UpdateBuilder.create().check(getActivity());
                 break;
         }

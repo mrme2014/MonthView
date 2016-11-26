@@ -49,4 +49,5 @@ dependencies {
 
     compile 'org.lzh.nonview.updateplugin:UpdatePlugin:0.6.2'
 
+   /* compile 'com.android.support:support-fragment:24.2.0'*/
 }

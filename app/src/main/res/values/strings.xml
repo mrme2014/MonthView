@@ -440,4 +440,12 @@
     <string name="registration_apply_sure_info_pay_adjustMoney">实收</string>
     <string name="registration_apply_sure_info_pay_recipt_no">收据号</string>
     <string name="registration_exit_tip">是否将本次已填内容缓存，下次自动填充.</string>
+
+    <string name="apply_result_state_partMoney">定金</string>
+    <string name="apply_result_state_noMoney">未报名</string>
+    <string name="apply_result_state_fullMoney">全款</string>
+    <string name="login_change_env">点击切换，当前是%1$s</string>
+    <string name="login_change_env_dev8080">测试环境dev/8080</string>
+    <string name="login_change_env_dev800">测试环境dev/800</string>
+    <string name="login_change_env_pro">线上环境</string>
 </resources>

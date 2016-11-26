@@ -149,14 +149,17 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
                 JumpManager.jumpActivity(getContext(), EditPwdActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.fm_me_kefu:
-               JumpManager.jumpActivity(getContext(), KefuActivity.class, Resource.NO_NEED_CHECK);
+                JumpManager.jumpActivity(getContext(), KefuActivity.class, Resource.NO_NEED_CHECK);
                 break;
             case R.id.fm_me_login_out:
                 mPresenter.logout();
                 break;
             case R.id.fm_me_version:
- //               JumpManager.jumpActivity(getContext(), registrationFormActivity.class, Resource.NO_NEED_CHECK);
-//                UpdateBuilder.create().check(getActivity());
+                Intent intent = new Intent(getActivity(), registrationFormActivity.class);
+                intent.putExtra(registrationFormActivity.STUDENT_ID, 585);
+                intent.putExtra(registrationFormActivity.REQUEST_CODE, 100);
+                intent.putExtra(registrationFormActivity.STUDENT_STATUS, 1);
+                startActivityForResult(intent, 100);
                 break;
         }
     }
@@ -214,7 +217,7 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             avartPath = data.getStringExtra("tempath");
-            if (fmMeHeaderAvart != null && avartPath != null && avartPath != ""){
+            if (fmMeHeaderAvart != null && avartPath != null && avartPath != "") {
                 fmMeHeaderAvart.setVisibility(View.VISIBLE);
                 fmAvartTxt.setVisibility(View.GONE);
                 ImageLoaderUtil.getInstance().loadImage(getActivity(), fmMeHeaderAvart, avartPath);

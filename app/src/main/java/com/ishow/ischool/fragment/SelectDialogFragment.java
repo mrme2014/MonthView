@@ -84,7 +84,6 @@ public class SelectDialogFragment extends DialogFragment implements View.OnClick
         cancel.setOnClickListener(this);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
-
         return dialog;
     }
 

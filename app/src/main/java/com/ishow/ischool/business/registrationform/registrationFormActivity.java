@@ -183,7 +183,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             if (student_status == 2) {
                 regisCheap.setVisibility(View.GONE);
                 if (registraInfo != null) {
-                    realCampusPrice = campus_price = (int) registraInfo.get(0).arrearage;
+                    realCampusPrice = campus_price = registraInfo.get(0).arrearage;
                     //moneyJust.setText(getString(R.string.registration_money_just) + " ￥" + registraInfo.get(0).arrearage);
                     resetAdjustMoney();
                     if (registraInfo.get(0).pay_time != 0) {
@@ -195,12 +195,8 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 resetAdjustMoney();
                 //moneyJust.setText(getString(R.string.registration_money_just) + " ￥" + campus_price);
             }
-            if (fisrt_pay_time_unix != 0)
-                payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
-            else {
-                fisrt_pay_time_unix = AppUtil.getTodayStart();
-                payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
-            }
+            fisrt_pay_time_unix = AppUtil.getTodayStart();
+            payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
             if (sec_end_time_unix != 0)
                 secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(sec_end_time_unix)));
             guwen.setText(mUser.userInfo.user_name);
@@ -217,21 +213,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     @Override
     public void payActionSucess(String info) {
         handProgressbar(false);
-        //showToast(info);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog alertDialog = builder.setMessage(moneyReal.getText().toString() + "  " + moneyJust.getText().toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                doOrClearCache(false);
-                finishActivity();
-
-            }
-        }).create();
-        alertDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setCancelable(false);
-        alertDialog.show();
+        finishActivity();
     }
 
 
@@ -305,56 +287,78 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 });
                 break;
             case R.id.registration_save:
-                if (TextUtils.equals(tradNum.getText().toString(), "")) {
-                    showToast(R.string.registration_trad_num);
-                    return;
-                }
-                if (cheapType == 1 && cheapTypePrice != 0) {
-                    campus_price = (realCampusPrice * cheapTypePrice * 1.0 / 10);
-                }
-                if (totalRealMoney > campus_price) {
-                    showToast(R.string.registration_price_not);
-                    return;
-                }
-                handProgressbar(true);
-                HashMap<String, Integer> integerHashMap = new HashMap<>();
-                integerHashMap.put("pay_time", fisrt_pay_time_unix);
-                integerHashMap.put("advisor_id", mUser.userInfo.user_id);
-                if (sec_end_time_unix != 0) {
-                    integerHashMap.put("arrearage_time", sec_end_time_unix);
-                }
-                /*[{"method":"现金","method_id":2,"account_id":0,"account":"","balance":4500}]*/
-                /*// 付款方式'PaymentMethod' => array( 1 => '刷卡', 2 => '现金', 3 => '支付宝', 4 => '转账' ), */
-                JSONArray array = new JSONArray();
-                if (selectPayList != null) {
-                    for (int i = 0; i < selectPayList.size(); i++) {
-                        JSONObject object = new JSONObject();
-                        PayType payType = selectPayList.get(i);
-                        try {
-                            object.put("method", payType.method);
-                            object.put("account_id", payType.id);
-                            object.put("balance", payType.method_money);
-                            object.put("method_id", payType.method_id);
-                            object.put("account", payType.name);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        array.put(object);
-                    }
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                AlertDialog alertDialog = builder.setMessage(moneyReal.getText().toString() + "  " + moneyJust.getText().toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        realPayAction();
 
-                mPresenter.payAction(student_id,
-                        array.toString(),
-                        action,
-                        (float) campus_price,
-                        (float) totalRealMoney,
-                        Integer.parseInt(tradNum.getText().toString()),
-                        beizhu.getText().toString(),
-                        cheapTypeId,
-                        cheap_price,
-                        integerHashMap);
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+                alertDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.setCancelable(false);
+                alertDialog.show();
+                realPayAction();
                 break;
         }
+    }
+
+    private void realPayAction() {
+        if (TextUtils.equals(tradNum.getText().toString(), "")) {
+            showToast(R.string.registration_trad_num);
+            return;
+        }
+        if (cheapType == 1 && cheapTypePrice != 0) {
+            campus_price = (realCampusPrice * cheapTypePrice * 1.0 / 10);
+        }
+        if (totalRealMoney > campus_price) {
+            showToast(R.string.registration_price_not);
+            return;
+        }
+        handProgressbar(true);
+        HashMap<String, Integer> integerHashMap = new HashMap<>();
+        integerHashMap.put("pay_time", fisrt_pay_time_unix);
+        integerHashMap.put("advisor_id", mUser.userInfo.user_id);
+        if (sec_end_time_unix != 0) {
+            integerHashMap.put("arrearage_time", sec_end_time_unix);
+        }
+                /*[{"method":"现金","method_id":2,"account_id":0,"account":"","balance":4500}]*/
+                /*// 付款方式'PaymentMethod' => array( 1 => '刷卡', 2 => '现金', 3 => '支付宝', 4 => '转账' ), */
+        JSONArray array = new JSONArray();
+        if (selectPayList != null) {
+            for (int i = 0; i < selectPayList.size(); i++) {
+                JSONObject object = new JSONObject();
+                PayType payType = selectPayList.get(i);
+                try {
+                    object.put("method", payType.method);
+                    object.put("account_id", payType.id);
+                    object.put("balance", payType.method_money);
+                    object.put("method_id", payType.method_id);
+                    object.put("account", payType.name);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                array.put(object);
+            }
+        }
+
+        mPresenter.payAction(student_id,
+                array.toString(),
+                action,
+                (float) campus_price,
+                (float) totalRealMoney,
+                Integer.parseInt(tradNum.getText().toString()),
+                beizhu.getText().toString(),
+                cheapTypeId,
+                cheap_price,
+                integerHashMap);
     }
 
     private void addPayTypeItemView(PayType selectPayType, String payWay1, String payWayAcount, String money) {
@@ -371,7 +375,9 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             string.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.txt_9)), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             payAcountType.append(string);
         }
-        payAcount.setText("¥" + selectPayType.method_money);
+        DecimalFormat df = new DecimalFormat("###.###");
+        SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(selectPayType.method_money));
+        payAcount.setText(moneyRealStr);
         int childCount = payWayListLayout.getChildCount();
 
         //  selectColums.add(colum1);
@@ -407,7 +413,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
 
     private void resetAdjustMoney() {
         if (cheapType == 1 && cheapTypePrice != 0) {
-            campus_price = (campus_price * cheapTypePrice * 1.0 / 10);
+            campus_price = (campus_price * cheapTypePrice * 100.00 / 100);
         } else if (cheapType == 2) {
             campus_price -= cheapTypePrice;
         }
@@ -426,7 +432,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             return;
         }
         moneyReal.setText(getString(R.string.registration_real_money));
-        DecimalFormat df = new DecimalFormat("##.00");
+        DecimalFormat df = new DecimalFormat("###.###");
         SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(totalRealMoney));
         moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         moneyReal.append(moneyRealStr);
@@ -447,17 +453,17 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 public void onClick(DialogInterface dialog, int which) {
                     doOrClearCache(true);
                     dialog.dismiss();
-                    registrationFormActivity.this.finishActivity();
+                    registrationFormActivity.this.finish();
                 }
             }).setNegativeButton(getString(R.string.str_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    registrationFormActivity.this.finishActivity();
+                    registrationFormActivity.this.finish();
                 }
             }).create();
             alertDialog.show();
-        } else registrationFormActivity.this.finishActivity();
+        } else registrationFormActivity.this.finish();
     }
 
     private boolean isEmpty(TextView textView) {

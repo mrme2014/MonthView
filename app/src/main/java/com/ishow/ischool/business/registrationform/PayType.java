@@ -6,6 +6,7 @@ package com.ishow.ischool.business.registrationform;
 
 public class PayType {
 
+    /*'2为收款卡，3为退款卡，4为收款+退款卡，5为企业支付宝，6为个人支付宝'*/
     /**
      * id : 151
      * campus_id : 20
@@ -36,6 +37,7 @@ public class PayType {
     public int create_time;
     public int update_time;
     public String bankName;
+    public int type_id;
 
     public double method_money;
 

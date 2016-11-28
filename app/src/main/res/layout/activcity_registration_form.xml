@@ -105,6 +105,11 @@
                 android:id="@+id/beizhu"
                 style="@style/registration_form_label_text_style"
                 android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:maxHeight="90dp"
                 android:drawableRight="@null"
                 android:hint="@string/registration_beizhu_hnit"
                 app:label_text="@string/registration_beizhu" />

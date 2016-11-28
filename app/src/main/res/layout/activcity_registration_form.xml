@@ -165,7 +165,7 @@
             android:layout_marginLeft="20dp"
             android:background="@color/blue"
             android:gravity="center"
-            android:text="保存"
+            android:text="提交"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
     </LinearLayout>

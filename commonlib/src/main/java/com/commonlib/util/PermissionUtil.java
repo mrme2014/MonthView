@@ -52,6 +52,7 @@ public class PermissionUtil {
                 if (checker != null)
                     checker.onGrant(permissions[i], i);
             } else {
+                if (checker != null) checker.onDenied(permissions[i], i);
                /* boolean requestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i]);
                 if (requestPermissionRationale) {
                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
@@ -70,7 +71,7 @@ public class PermissionUtil {
                     }).create();
                     dialog.show();*/
                 }
-                if (checker != null) checker.onDenied(permissions[i], i);
+
             }
         }
     }

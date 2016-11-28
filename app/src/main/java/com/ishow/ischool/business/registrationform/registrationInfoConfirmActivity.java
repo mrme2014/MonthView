@@ -155,10 +155,15 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
             setUpFreeTimeTable(free_time_arr);
             StudentInfo studentInfo = registraResult.studentInfo;
             List<RegistraInfo> payListInfo = registraResult.payListInfo;
+            //  double totalRealMoney = 0;
             if (payListInfo != null && payListInfo.size() > 0) {
                 RegistraInfo registraInfo = payListInfo.get(payListInfo.size() - 1);
+                //       totalRealMoney += registraInfo.payed;
                 setUpRegistrationInfoFirst(registraInfo);
             }
+          /*  if (payListInfo != null && payListInfo.size() > 0) {
+                setUpRegistrationInfoFirst(payListInfo.get(payListInfo.size()), totalRealMoney);
+            }*/
 
             setUpStudentInfo(studentInfo);
         }
@@ -173,21 +178,24 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
 
     private void setUpRegistrationInfoFirst(RegistraInfo registraInfo) {
         String pay_info = registraInfo.pay_info;
-        Type type1 = new TypeToken<List<PayType>>() {}.getType();
+        Type type1 = new TypeToken<List<PayType>>() {
+        }.getType();
         Gson gson = new Gson();
         List<PayType> typeList = gson.fromJson(pay_info, type1);
         if (typeList != null) {
             payMoney.setText(registraInfo.arrearage + "元");
-            payReal.setText(typeList.get(typeList.size() - 1).balance + "元");
+            double payMoney = 0;
             for (int i = 0; i < typeList.size(); i++) {
                 payType.append(typeList.get(i).method + "  ");
+                payMoney += Double.valueOf(typeList.get(i).balance);
             }
+            payReal.setText(payMoney + "元");
         }
 
         cheapType.setText(registraInfo.preferential_course_name);
 
         payMemo.setText(registraInfo.memo + "");
-        payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.pay_time)));
+        payDate.setText(registraInfo.pay_time != 0 ? DateUtil.parseSecond2Str(Long.valueOf(registraInfo.pay_time)) : "- -");
         if (registraInfo.arrearage_time != 0)
             secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.arrearage_time)));
         payReceptNo.setText(registraInfo.receipt_no);
@@ -200,7 +208,7 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
         phone.setText(studentInfo.mobile);
         identy.setText(studentInfo.idcard);
         courseType.setText(studentInfo.intention_class_name);
-        dateWant.setText(DateUtil.parseSecond2Str(Long.valueOf(studentInfo.intention_time)));
+        dateWant.setText(studentInfo.intention_time != 0 ? DateUtil.parseSecond2Str(Long.valueOf(studentInfo.intention_time)) : "- -");
     }
 
     @Override

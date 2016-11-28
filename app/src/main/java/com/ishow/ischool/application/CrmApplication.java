@@ -56,7 +56,7 @@ public class CrmApplication extends BaseApplication {
     }
 
 
-    private void initApi() {
+    public void initApi() {
         ApiFactory.getInstance().build(getApplicationContext(), Env.getSiteUrl(), new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {

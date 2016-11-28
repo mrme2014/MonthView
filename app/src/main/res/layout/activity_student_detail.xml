@@ -69,7 +69,8 @@
                     android:layout_below="@id/avatar_layout"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
-                    android:visibility="invisible">
+                    android:visibility="invisible"
+                   >
 
                     <com.commonlib.widget.LabelTextView
                         android:id="@+id/student_apply_state"
@@ -113,7 +114,8 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                   >
 
                     <TextView
                         android:id="@+id/apply_btn"

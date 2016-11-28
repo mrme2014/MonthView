@@ -45,7 +45,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements PullRe
     }
 
     protected void setRefreshing() {
-        recycler.setRefreshingMainThread();
+        if (recycler!=null)recycler.setRefreshingMainThread();
     }
 
     protected boolean setPageEnable() {

@@ -3,6 +3,7 @@ package com.ishow.ischool.business.student.detail;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -32,6 +33,7 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
+import com.ishow.ischool.business.registrationform.registrationFormActivity;
 import com.ishow.ischool.business.student.course.CourseRecordActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
@@ -104,6 +106,9 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private String tempCropPath = StorageUtil.getTempDir().getAbsolutePath() + "/capture_crop.avatar";
     private int from;
     public boolean isNoEdit;
+    /*学生 报名和状态 和 学生id studentId    点击报名状态  跳转到报名页面 要传递的参数*/
+    private int pay_state;
+    private int reques_code = 100;
 
 
     @Override
@@ -224,6 +229,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     }
 
     private void updateView(Student student) {
+        pay_state = student.studentInfo.pay_state;
+        studentId = student.studentInfo.student_id;
 //        avatarTv.setText(student.studentInfo.name);
 //        avatarTv.setBackgroundColor(ColorUtil.getColorById(student.studentInfo.id));
         avatarTv.setText(student.studentInfo.name, student.studentInfo.id, student.avatarInfo.file_name);
@@ -311,7 +318,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         return null;
     }
 
-    @OnClick({R.id.fab, R.id.student_avatar_iv, R.id.apply_qrcode, R.id.apply_btn})
+    @OnClick({R.id.fab, R.id.student_avatar_iv, R.id.apply_qrcode, R.id.apply_btn, R.id.student_apply_state})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
@@ -344,8 +351,16 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 QrcodeFragment fragment = QrcodeFragment.newInstance(studentId);
                 fragment.show(getSupportFragmentManager(), "");
                 break;
+            case R.id.student_apply_state:
             case R.id.apply_btn:
-                // TODO 点击报名按钮
+                if (pay_state == 3 || pay_state == 4) {
+                    return;
+                }
+                Intent intent = new Intent(this, registrationFormActivity.class);
+                intent.putExtra(registrationFormActivity.STUDENT_ID, studentId);
+                intent.putExtra(registrationFormActivity.REQUEST_CODE, reques_code);
+                intent.putExtra(registrationFormActivity.STUDENT_STATUS, pay_state);
+                startActivityForResult(intent, reques_code);
                 break;
         }
 
@@ -385,6 +400,12 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtil.getInstance().notifyPermissionsChange(this, permissions, grantResults);
+    }
+
+    @Override
     public boolean onMenuItemClick(MenuItem item) {
         Intent intent = new Intent(this, CourseRecordActivity.class);
         intent.putExtra(CourseRecordActivity.P_STUDENT_ID, studentId);
@@ -395,6 +416,23 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == reques_code && resultCode == RESULT_OK && data != null) {
+            int apply_state = data.getIntExtra("apply_result", 0);
+            if (apply_state == 0) {
+
+            } else if (apply_state == 1) {
+                infoGroup.setVisibility(View.VISIBLE);
+                infoApplyGroup.setVisibility(View.GONE);
+                applyQrcodeIv.setVisibility(View.VISIBLE);
+                applyStateLtv.setText(getString(R.string.apply_result_state_partMoney));
+            } else if (apply_state == 2) {
+                infoGroup.setVisibility(View.VISIBLE);
+                infoApplyGroup.setVisibility(View.GONE);
+                applyQrcodeIv.setVisibility(View.VISIBLE);
+                applyStateLtv.setText(getString(R.string.apply_result_state_fullMoney));
+            }
+        }
 
         PhotoUtil.onActivityResult(this, tempPath, tempCropPath, requestCode, resultCode, data, new PhotoUtil.UploadListener() {
             @Override

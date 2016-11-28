@@ -431,6 +431,33 @@ public class AppUtil {
         return time;
     }
 
+    public static int TYPE_START = 1;
+    public static int TYPE_END = 2;
+
+    /**
+     * 获取指定时间的时间戳
+     * @param month 月
+     * @param day   日
+     * @param startOrEnd    一天的开始（0：0：0）or结束（23：59：59）
+     * @return
+     */
+    public static long getTimeStamp(int month, int day, int startOrEnd) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH, month - 1);       // 因为DAY_OF_MONTH是从0开始
+        c.set(Calendar.DAY_OF_MONTH, day);
+        if (startOrEnd == TYPE_START) {
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+        } else {
+            c.set(Calendar.HOUR_OF_DAY, 23);
+            c.set(Calendar.MINUTE, 59);
+            c.set(Calendar.SECOND, 59);
+        }
+        long time = (c.getTimeInMillis() / 1000);
+        return time;
+    }
+
     public static int getDayOfWeek() {
         Calendar c = Calendar.getInstance();
         int weekDay = c.get(Calendar.DAY_OF_WEEK);

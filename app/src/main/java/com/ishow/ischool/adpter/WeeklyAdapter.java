@@ -172,6 +172,7 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
                     } else {
                         itemView.setAlpha(0.3f);
                     }
+                    getmCheckedSparseArray().put(getAdapterPosition(), isChecked);
                 }
             });
         }

@@ -77,15 +77,15 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     TextView moneyJust;
     @BindView(R.id.registration_save)
     TextView registrationSave;
+    @BindView(R.id.click_add)
+    TextView clickAdd;
 
 
     private int fisrt_pay_time_unix;
     private int sec_end_time_unix;
 
     private List<PayType> selectPayList;
-    private ArrayList<CheapType> cheapTypeList = new ArrayList<>();
-    //private ArrayList<Integer> selectColums = new ArrayList<>();
-    //  private ArrayList<Double> selectMoneys = new ArrayList<>();
+    private ArrayList<CheapType> cheapTypeList;
 
     private int cheapTypeId;//优惠类型id
     private double totalRealMoney;//本次 实际累计收款
@@ -109,14 +109,15 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     @Override
     protected void initEnv() {
         super.initEnv();
-        getIntent().getIntExtra(STUDENT_ID, student_id);
-        getIntent().getIntExtra(STUDENT_STATUS, student_status);
-        getIntent().getIntExtra(REQUEST_CODE, request_code);
+        student_id = getIntent().getIntExtra(STUDENT_ID, student_id);
+        student_status = getIntent().getIntExtra(STUDENT_STATUS, student_status);
+        request_code = getIntent().getIntExtra(REQUEST_CODE, request_code);
 
     }
 
     @Override
     protected void setUpContentView() {
+        /*付款状态。1.未报名；2.欠款；3.已报名；4.退款'*/
         if (student_status == 1) {
             action = "apply";
             setContentView(R.layout.activcity_registration_form, R.string.registration_title, MODE_BACK);
@@ -124,6 +125,29 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             action = "pay";
             setContentView(R.layout.activcity_registration_form, R.string.registration_title1, R.menu.menu_registration, MODE_BACK);
         }
+    }
+
+    @Override
+    protected void onNavigationBtnClicked() {
+        checkIfNeedCache();
+    }
+
+    private void finishActivity() {
+        if (cheapType == 1 && cheapTypePrice != 0) {
+            campus_price = (realCampusPrice * cheapTypePrice * 1.0 / 10);
+        }
+        int state = 0;//定义 三种状态  0是未报名没做任状态 1是定金 2是全款
+        if (totalRealMoney == 0) {
+            state = 0;
+        } else if (campus_price - totalRealMoney > 0) {
+            state = 1;
+        } else if (campus_price - totalRealMoney >= 0) {
+            state = 2;
+        }
+        Intent intent = new Intent();
+        intent.putExtra("apply_result", state);
+        this.setResult(RESULT_OK, intent);
+        this.finish();
     }
 
     @Override
@@ -140,7 +164,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         //studentInfo
-        Intent intent = new Intent(this, registrationInfoConfirmActivity.class);
+        Intent intent = new Intent(this, registraDetailActivity.class);
         intent.putExtra(STUDENT_ID, student_id);
         intent.putExtra(STUDENT_STATUS, student_status);
         startActivity(intent);
@@ -173,6 +197,10 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             }
             if (fisrt_pay_time_unix != 0)
                 payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
+            else {
+                fisrt_pay_time_unix = AppUtil.getTodayStart();
+                payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
+            }
             if (sec_end_time_unix != 0)
                 secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(sec_end_time_unix)));
             guwen.setText(mUser.userInfo.user_name);
@@ -196,8 +224,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 doOrClearCache(false);
-                student_status++;
-                registrationFormActivity.this.finish();
+                finishActivity();
 
             }
         }).create();
@@ -208,11 +235,11 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     }
 
 
-    @OnClick({R.id.regis_cheap, R.id.pay_way, R.id.click_add, R.id.pay_way_hide_layout, R.id.pay_date, R.id.sec_pay_date, R.id.registration_save})
+    @OnClick({R.id.pay_way, R.id.click_add, R.id.pay_way_hide_layout, R.id.pay_date, R.id.sec_pay_date, R.id.registration_save, R.id.regis_cheap})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.regis_cheap: {
-                if (cheapTypeList == null) {
+                if (cheapTypeList == null || cheapTypeList.size() == 0) {
                     showToast(R.string.registration_cheap_type_null);
                     break;
                 }
@@ -395,7 +422,9 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     }
 
     private void resetRealMoney() {
-
+        if (totalRealMoney == 0) {
+            return;
+        }
         moneyReal.setText(getString(R.string.registration_real_money));
         DecimalFormat df = new DecimalFormat("##.00");
         SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(totalRealMoney));
@@ -418,17 +447,17 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 public void onClick(DialogInterface dialog, int which) {
                     doOrClearCache(true);
                     dialog.dismiss();
-                    registrationFormActivity.this.finish();
+                    registrationFormActivity.this.finishActivity();
                 }
             }).setNegativeButton(getString(R.string.str_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    registrationFormActivity.this.finish();
+                    registrationFormActivity.this.finishActivity();
                 }
             }).create();
             alertDialog.show();
-        } else this.finish();
+        } else registrationFormActivity.this.finishActivity();
     }
 
     private boolean isEmpty(TextView textView) {

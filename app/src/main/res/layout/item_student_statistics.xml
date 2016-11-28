@@ -51,7 +51,8 @@
         android:maxLines="1"
         android:maxWidth="150dp"
         android:layout_marginRight="31dp"
-        android:textColor="@color/txt_9" />
+        android:textColor="@color/txt_9"
+        android:gravity="left"/>
 
     <ImageView
         android:id="@+id/phone"

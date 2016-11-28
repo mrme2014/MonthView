@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.commonlib.application.ActivityStackManager;
 import com.commonlib.util.DateUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.login.LoginActivity;
+import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.fragment.SelectDialogFragment;
@@ -51,6 +53,13 @@ public class AppUtil {
         intent.putExtra("invalidate_token", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public static void logout(Context context) {
+        UserManager.getInstance().clear();
+        ActivityStackManager.getInstance().clear();
+        TokenManager.clear();
+        JumpManager.jumpActivity(context, LoginActivity.class, Resource.NO_NEED_CHECK);
     }
 
     /**

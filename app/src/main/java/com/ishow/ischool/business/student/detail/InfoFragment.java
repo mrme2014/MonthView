@@ -13,7 +13,6 @@ import com.commonlib.widget.LabelTextView;
 import com.ishow.ischool.R;
 import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
-import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.university.UniversityInfo;
 import com.ishow.ischool.business.address.AddressListActivity;
@@ -162,7 +161,7 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
             birthdayTv.setText(DateUtil.parseDate2Str((long) mStudent.birthday * 1000, "yyyy-MM-dd"));
         schoolTv.setText(mStudent.college_name);
         specialtyTv.setText(mStudent.major);
-        enterSchoolYear.setText(getString(R.string.year, mStudent.entering_school_year + ""));
+        enterSchoolYear.setText(mStudent.entering_school_year == 0 ? "" : getString(R.string.year, mStudent.entering_school_year + ""));
         idcardTv.setText(mStudent.idcard);
         wechatTv.setText(mStudent.wechat);
         parentPhoneTv.setText(mStudent.parents_call);
@@ -403,10 +402,6 @@ public class InfoFragment extends BaseFragment4Crm<InfoPresenter, InfoModel> imp
         }
         showToast(R.string.no_permission);
         return false;
-    }
-
-    private Student getStudent() {
-        return ((StudentDetailActivity) getActivity()).getStudent();
     }
 
     @Override

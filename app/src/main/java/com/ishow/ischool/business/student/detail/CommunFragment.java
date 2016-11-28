@@ -12,7 +12,6 @@ import com.ishow.ischool.R;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.market.Communication;
 import com.ishow.ischool.bean.market.CommunicationList;
-import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.rxbus.RxBus;
@@ -170,10 +169,6 @@ public class CommunFragment extends BaseFragment4Crm<CommunPresenter, CommunMode
 
     private StudentInfo getStudentInfo() {
         return ((StudentDetailActivity) getActivity()).getStudentInfo();
-    }
-
-    private Student getStudent() {
-        return ((StudentDetailActivity) getActivity()).getStudent();
     }
 
     public void refresh() {

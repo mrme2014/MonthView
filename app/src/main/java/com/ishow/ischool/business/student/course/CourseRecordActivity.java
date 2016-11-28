@@ -38,16 +38,18 @@ public class CourseRecordActivity extends BaseActivity4Crm {
     protected void initEnv() {
         super.initEnv();
         mId = getIntent().getIntExtra(P_STUDENT_ID, 0);
-        student_status= getIntent().getIntExtra(STUDENT_STATUS, 0);
+        student_status = getIntent().getIntExtra(STUDENT_STATUS, 0);
     }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Intent intent = new Intent(this,registrationInfoConfirmActivity.class);
+        Intent intent = new Intent(this, registrationInfoConfirmActivity.class);
         intent.putExtra(registrationFormActivity.STUDENT_ID, mId);
         intent.putExtra(registrationFormActivity.STUDENT_STATUS, student_status);
         startActivity(intent);
         return super.onMenuItemClick(item);
     }
+
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_course_record, R.string.str_course_record, R.menu.menu_course_record, MODE_BACK);
@@ -114,13 +116,13 @@ public class CourseRecordActivity extends BaseActivity4Crm {
             case 4://升学
             case 8://报名
                 if (classHistory.getPayListInfo().getCost() == 0) {
-                    return "全款";
+                    return getString(R.string.full_pay);
                 } else {
-                    return "欠款 " + classHistory.getPayListInfo().getCost() + "元";
+                    return getString(R.string.debt_pay, classHistory.getPayListInfo().getCost() + "");
                 }
             case 6://退费
             case 10://升学中退款
-                return "退费 " + (classHistory.getPayListInfo().getCost() * -1) + "元";
+                return getString(R.string.refund, (classHistory.getPayListInfo().getCost() * -1) + "");//"退费 " + (classHistory.getPayListInfo().getCost() * -1) + "元";
             default:
                 return "-";
         }

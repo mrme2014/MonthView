@@ -449,4 +449,7 @@
     <string name="login_change_env_dev8080">测试环境dev/8080</string>
     <string name="login_change_env_dev800">测试环境dev/800</string>
     <string name="login_change_env_pro">线上环境</string>
+    <string name="full_pay">全款</string>
+    <string name="debt_pay">欠款%s元</string>
+    <string name="refund">退费%s元</string>
 </resources>

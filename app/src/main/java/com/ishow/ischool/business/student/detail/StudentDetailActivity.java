@@ -107,7 +107,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     private int from;
     public boolean isNoEdit;
     /*学生 报名和状态 和 学生id studentId    点击报名状态  跳转到报名页面 要传递的参数*/
-    private int apply_state;
+    private int pay_state;
     private int reques_code = 100;
 
 
@@ -229,7 +229,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     }
 
     private void updateView(Student student) {
-        apply_state = student.studentInfo.apply_state;
+        pay_state = student.studentInfo.pay_state;
         studentId = student.studentInfo.student_id;
 //        avatarTv.setText(student.studentInfo.name);
 //        avatarTv.setBackgroundColor(ColorUtil.getColorById(student.studentInfo.id));
@@ -353,13 +353,13 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 break;
             case R.id.student_apply_state:
             case R.id.apply_btn:
-                if (apply_state == 3 || apply_state == 4) {
+                if (pay_state == 3 || pay_state == 4) {
                     return;
                 }
                 Intent intent = new Intent(this, registrationFormActivity.class);
                 intent.putExtra(registrationFormActivity.STUDENT_ID, studentId);
                 intent.putExtra(registrationFormActivity.REQUEST_CODE, reques_code);
-                intent.putExtra(registrationFormActivity.STUDENT_STATUS, apply_state);
+                intent.putExtra(registrationFormActivity.STUDENT_STATUS, pay_state);
                 startActivityForResult(intent, reques_code);
                 break;
         }

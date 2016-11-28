@@ -155,7 +155,7 @@
 
         <TextView
             android:id="@+id/registration_save"
-            android:layout_width="90dp"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:background="@color/blue"

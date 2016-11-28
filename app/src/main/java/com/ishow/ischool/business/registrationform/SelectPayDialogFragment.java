@@ -228,7 +228,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                         callback.onError(getContext().getString(R.string.registration_pick_money_not));
                     break;
                 }
-                if (TextUtils.equals(pay_way, "")) {
+                if (TextUtils.equals(pay_way, "")||pay_way==null) {
                     if (callback != null)
                         callback.onError(getContext().getString(R.string.registration_pick_acount_no));
                     break;

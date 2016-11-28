@@ -390,7 +390,7 @@
     <string name="registration_pay_date">交款日期</string>
     <string name="registration__sec_pay_date">补款日期</string>
     <string name="registration__xuantian">补款日期(选填)</string>
-    <string name="registration_input_trade_num">请填写收据号(选填)</string>
+    <string name="registration_input_trade_num">请填写收据号(必填)</string>
     <string name="registration_trade_num">收据号</string>
     <string name="registration_pay_way_select">请选择你的付款方式与金额(必选)</string>
     <string name="registration_pay_way">收款方式</string>

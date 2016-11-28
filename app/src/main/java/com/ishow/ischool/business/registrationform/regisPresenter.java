@@ -36,6 +36,21 @@ public class regisPresenter extends BasePresenter<regisModel, regisView> {
         });
     }
 
+    public void getStudentApplyInfo(int id, int status, String action, String fields) {
+        mModel.getStudentApplyInfo(id, status, action, fields).subscribe(new ApiObserver<RegistraResult>() {
+
+            @Override
+            public void onSuccess(RegistraResult RegistraResult) {
+                mView.getRegistraInfo(RegistraResult);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.getRegistraError(msg);
+            }
+        });
+    }
+
     public void payAction(int studentid, String pay_method_json, String action, float price, float actual_price, int receipt_no, String memo,int privilege_type,double cheap_price, HashMap<String, Integer> time) {
         mModel.payAction(studentid, pay_method_json, action, price, actual_price, receipt_no, memo,privilege_type, cheap_price,time).subscribe(new ApiObserver<JsonElement>() {
 

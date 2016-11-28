@@ -20,7 +20,7 @@
         android:layout_weight="1"
         android:divider="@color/gray"
         android:dividerHeight="1px"
-        android:headerDividersEnabled="false"
+        android:headerDividersEnabled="true"
         android:listSelector="@android:color/white">
 
     </ListView>

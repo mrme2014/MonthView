@@ -27,7 +27,6 @@ import com.ishow.ischool.business.editpwd.EditPwdActivity;
 import com.ishow.ischool.business.kefu.KefuActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
 import com.ishow.ischool.business.personinfo.PersonInfoActivity;
-import com.ishow.ischool.business.registrationform.registrationFormActivity;
 import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
@@ -154,11 +153,11 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
                 mPresenter.logout();
                 break;
             case R.id.fm_me_version:
-                Intent intent = new Intent(getActivity(), registrationFormActivity.class);
+               /* Intent intent = new Intent(getActivity(), registrationFormActivity.class);
                 intent.putExtra(registrationFormActivity.STUDENT_ID, 585);
                 intent.putExtra(registrationFormActivity.REQUEST_CODE, 100);
                 intent.putExtra(registrationFormActivity.STUDENT_STATUS, 1);
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, 100);*/
                 break;
         }
     }

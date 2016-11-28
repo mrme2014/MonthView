@@ -37,6 +37,13 @@ public interface RegistrationApi {
                                                                @Field("action") String action,
                                                                @Field("fields") String fields);
 
+    @FormUrlEncoded
+    @POST("market/payment/gopaymobileweb")
+    Observable<ApiResult<RegistraResult>> getStudentApplyInfo(@Field("id") int id,
+                                                         @Field("status") int status,
+                                                         @Field("action") String action,
+                                                         @Field("fields") String fields);
+
 
 
     /*学员付款(market.payment.pay) 接口*/

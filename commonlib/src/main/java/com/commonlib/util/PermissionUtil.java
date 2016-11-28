@@ -1,15 +1,10 @@
 package com.commonlib.util;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-
-import com.commonlib.R;
 
 /**
  * Created by MrS on 2016/8/15.
@@ -57,26 +52,27 @@ public class PermissionUtil {
                 if (checker != null)
                     checker.onGrant(permissions[i], i);
             } else {
-                boolean requestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i]);
+                if (checker != null) checker.onDenied(permissions[i], i);
+               /* boolean requestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i]);
                 if (requestPermissionRationale) {
                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
-                    final AlertDialog dialog = builder.create();
-                    int permission = 0;
+                    //   final AlertDialog dialog = builder.create();
+                    String permission = "";
                     if (permissions[i] == Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        permission = R.string.permission_storage_denid;
+                        permission = "存储权限被禁止,部分功能可能无法正常工作";
                     else if (permissions[i] == Manifest.permission.CAMERA)
-                        permission = R.string.permission_camera_denid;
+                        permission = "相机权限被禁止,部分功能可能无法正常工作.";
 
-                    builder.setMessage(permission).setPositiveButton(activity.getString(R.string.str_ok), new DialogInterface.OnClickListener() {
+                    AlertDialog dialog = builder.setMessage(permission).setPositiveButton(activity.getString(R.string.str_ok), new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                        public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
-                    });
-                    dialog.show();
+                    }).create();
+                    dialog.show();*/
                 }
-                if (checker != null) checker.onDenied(permissions[i], i);
+
             }
         }
     }
-}
+

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.MenuItem;
 
 import com.commonlib.http.ApiFactory;
-import com.commonlib.util.DateUtil;
 import com.inqbarna.tablefixheaders.FixHeadersTableView;
 import com.inqbarna.tablefixheaders.adapters.MatrixTableAdapter;
 import com.ishow.ischool.R;
@@ -15,6 +14,7 @@ import com.ishow.ischool.business.registrationform.registrationInfoConfirmActivi
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.util.TextUtil;
 
 import java.util.HashMap;
 
@@ -93,10 +93,15 @@ public class CourseRecordActivity extends BaseActivity4Crm {
 
         for (int i = 0; i < courseRecord.getLists().length; i++) {
             ClassHistory classHistory = courseRecord.getLists()[i];
-            tableData[i + 1] = new String[]{DateUtil.parseSecond2Str((long) classHistory.getClassInfo().getOpen_date()), classHistory.getClassHistoryInfo().getAction_name()
-                    , classHistory.getClassInfo().getCourse_type(), classHistory.getClassInfo().getName()
-                    , classHistory.getClassInfo().getTeacher_name(), classHistory.getClassInfo().getAdvisor_name()
-                    , classHistory.getClassHistoryInfo().getStatus_name(), parsePay(classHistory)};
+            tableData[i + 1] = new String[]{
+                    TextUtil.format4Table(classHistory.getClassInfo().getOpen_date()),
+                    TextUtil.format4Table(classHistory.getClassHistoryInfo().getAction_name()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getCourse_type()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getName()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getTeacher_name()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getAdvisor_name()),
+                    TextUtil.format4Table(classHistory.getClassHistoryInfo().getStatus_name()),
+                    parsePay(classHistory)};
         }
 
         MatrixTableAdapter<String> matrixTableAdapter = new MatrixTableAdapter<String>(this, tableData);

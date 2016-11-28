@@ -20,6 +20,7 @@ import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
 import com.ishow.ischool.R;
+import com.ishow.ischool.application.Constants;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentList;
@@ -150,6 +151,8 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
         TextView university;
         @BindView(R.id.phone)
         ImageView phone;
+        @BindView(R.id.lecturer)
+        TextView lecturerTv;
 
         public StatisticsListViewHolder(View itemView) {
             super(itemView);
@@ -162,13 +165,32 @@ public class StatisticsSearchFragment extends BaseListFragment<Student> {
             final String nameStr = data.studentInfo.name;
             final String phoneNumber = data.studentInfo.mobile;
             if (data != null) {
-//                PicUtils.loadUserHeader(StatisticsListActivity.this, data.StudentInfo., avatar);
                 avatar.setText(data.studentInfo.name, data.studentInfo.id, data.avatarInfo == null ? "" : data.avatarInfo.file_name);
                 name.setText(data.studentInfo.name);
                 university.setText(data.studentInfo.college_name);
-                state.setText(data.studentInfo.pay_state_name);
-                state.setBackgroundResource(R.drawable.bg_round_corner_gray);
+
+                if (data.studentInfo.pay_state == Constants.PaySate.debt) {
+                    state.setBackgroundResource(R.drawable.bg_round_corner_intermediate);
+                    state.setTextColor(getResources().getColor(R.color.class_intermediate));
+                    state.setText(getString(R.string.down_payment));
+                } else {
+                    state.setBackgroundResource(R.drawable.bg_round_corner_gray);
+                    state.setTextColor(getResources().getColor(R.color.txt_9));
+                    state.setText(data.studentInfo.pay_state_name);
+                }
+
+                String name = "";
+                if (data.studentInfo.guider_id != 0) {
+                    name = getString(R.string.guider) + " : " + data.studentInfo.guider_name;
+                } else if (data.studentInfo.school_chat_attache_id != 0) {
+                    name = getString(R.string.school_chat_attache) + " : " + data.studentInfo.school_chat_attache_name;
+                } else {
+                    name = getString(R.string.referral);
+                }
+
+                lecturerTv.setText(name);
             }
+
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

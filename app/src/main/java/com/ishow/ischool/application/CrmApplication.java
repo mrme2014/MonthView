@@ -68,7 +68,7 @@ public class CrmApplication extends BaseApplication {
                 }
                 newRequest = newRequest.newBuilder().addHeader("app_version_small", "0")
                         .addHeader("api_version", "V2.0")
-                        .addHeader("app_version", DeviceUtils.getAppVersionCode(getBaseContext()) + "")
+                        .addHeader("app_version", DeviceUtils.getVersionName(getBaseContext()) + "")
                         .addHeader("app_os", "Android")
                         .addHeader("app_type", "1")
                         .build();
@@ -103,6 +103,14 @@ public class CrmApplication extends BaseApplication {
                 return r;
             }
         });
+    }
+
+
+    public void changeEnv(int type) {
+        Env.build_type = type;
+        initUser();
+        initApi();
+
     }
 
 

@@ -47,7 +47,7 @@ public class SplashActivity extends BaseActivity4Crm {
 
     @Override
     protected void setUpData() {
-        if (TokenManager.isAvailable()) {
+        if (TokenManager.isAvailable() && mUser != null) {
             mHandler.sendEmptyMessageDelayed(WHAT_MAIN, 1000);
         } else {
             mHandler.sendEmptyMessageDelayed(WHAT_LOGIN, 1000);

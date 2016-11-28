@@ -36,8 +36,8 @@ public class FixHeadersTableView extends ViewGroup {
     private int scrollY;
     private int firstRow;
     private int firstColumn;
-    private int[] widths = new int[]{10};
-    private int[] heights = new int[]{10};
+    private int[] widths = new int[]{};
+    private int[] heights = new int[]{};
 
     @SuppressWarnings("unused")
     private View headView;
@@ -184,6 +184,9 @@ public class FixHeadersTableView extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled() || isLoading()) {
+            return true;
+        }
+        if (widths.length == 0 || heights.length == 0) {
             return true;
         }
         if (velocityTracker == null) { // If we do not have velocity tracker

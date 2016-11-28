@@ -90,10 +90,14 @@ public class CourseRecordActivity extends BaseActivity4Crm {
 
     private void updateView(CourseRecord courseRecord) {
 
-        String[][] tableData = new String[courseRecord.getLists().length + 1][];
+        int len = 0;
+        if (courseRecord.getLists() != null) {
+            len = courseRecord.getLists().length;
+        }
+        String[][] tableData = new String[len + 1][];
         tableData[0] = getResources().getStringArray(R.array.course_record_table_head);
 
-        for (int i = 0; i < courseRecord.getLists().length; i++) {
+        for (int i = 0; i < len; i++) {
             ClassHistory classHistory = courseRecord.getLists()[i];
             tableData[i + 1] = new String[]{
                     TextUtil.format4Table(classHistory.getClassInfo().getOpen_date()),

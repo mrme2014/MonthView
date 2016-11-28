@@ -45,11 +45,11 @@ public interface StatisticsApi {
      */
     //数据分析.市场.销售流程分析(statistics.market.process) 接口
     @FormUrlEncoded
-    @POST("/statistics/market/process")
+    @POST("/statistics/market/processtwo")
     Observable<ApiResult<SaleProcess>> getSaleProcessData(@Field("resources_id") int resources_id, @FieldMap TreeMap<String, Integer> map);
 
     @FormUrlEncoded
-    @POST("/statistics/market/process")
+    @POST("/statistics/market/processtwo")
     Observable<ApiResult<SaleProcess>> getSaleProcessData(
             @FieldMap HashMap<String, String> params);
 

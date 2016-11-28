@@ -26,7 +26,6 @@ import com.ishow.ischool.adpter.TimeSlotAdapter;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.classes.ClassList;
 import com.ishow.ischool.bean.classes.ClassPojo;
-import com.ishow.ischool.bean.classes.ClassTimeSlot;
 import com.ishow.ischool.bean.user.Campus;
 import com.ishow.ischool.business.classattention.ClassAttendActivity;
 import com.ishow.ischool.business.classattention.ClazCheckinTableActivity;
@@ -333,18 +332,10 @@ public class ClassListActivity extends BaseListActivity4Crm<ClassListPresenter, 
             if (JumpManager.checkUserPermision(getApplicationContext(), Resource.EDUCATION_CLASSMANAGEMENT_CLASSSIGN, false)) {     // 如果没有签到权限，直接隐藏签到按钮
                 switch (data.classInfo.status) {
                     case 2:
-//                        int day = AppUtil.getDayOfWeek();
-                        for (ClassTimeSlot classTimeSlot : data.classInfo.timeslot) {
-//                            if (classTimeSlot.week == day) {
-                                if (data.classDynamic.checkin_status == 0) {
-                                    signedTv.setVisibility(View.VISIBLE);
-                                    break;
-                                } else {
-                                    signedTv.setVisibility(View.INVISIBLE);
-                                }
-//                            } else {
-//                                signedTv.setVisibility(View.INVISIBLE);
-//                            }
+                        if (data.classDynamic.checkin_status == 0) {
+                            signedTv.setVisibility(View.VISIBLE);
+                        } else {
+                            signedTv.setVisibility(View.INVISIBLE);
                         }
                         break;
                     case 1:

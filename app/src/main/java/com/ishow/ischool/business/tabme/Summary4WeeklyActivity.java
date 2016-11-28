@@ -89,6 +89,7 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
             @Override
             public void call(WeeklyLoadEvent event) {
                 if (event.isLoadSuccess()) {
+                    showContentView();
                     shareIv.setVisibility(View.VISIBLE);
                 }
             }
@@ -103,47 +104,48 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
     @Override
     protected void setUpView() {
         showContentView();
-        initShare();
         initViewPager();
+        initShare();
     }
 
     private void initViewPager() {
         SimpleDateFormat sdf4Title = new SimpleDateFormat("MM.dd");
         SimpleDateFormat sdf4Share = new SimpleDateFormat("MM月dd日");
         ArrayList<Fragment> fragments = new ArrayList<>();
-//        fragment1 = WeeklySummaryFragment.newInstance(AppUtil.getLastWeekStart(), AppUtil.getLastWeekEnd(),
-//                getString(R.string.weekly_lastweek_share,
-//                        sdf4Share.format(AppUtil.getLastWeekStart() * 1000),
-//                        sdf4Share.format(AppUtil.getLastWeekEnd() * 1000)));
-//        fragment2 = WeeklySummaryFragment.newInstance(AppUtil.getWeekBeforeLastStart(), AppUtil.getWeekBeforeLastEnd(),
-//                getString(R.string.weekly_beforelastweek_share,
-//                        sdf4Share.format(AppUtil.getWeekBeforeLastStart() * 1000),
-//                        sdf4Share.format(AppUtil.getWeekBeforeLastEnd() * 1000)));
-//        titleLastWeek = getString(R.string.weekly_lastweek,
-//                sdf4Title.format(AppUtil.getLastWeekStart() * 1000),
-//                sdf4Title.format(AppUtil.getLastWeekEnd() * 1000));
-//        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek,
-//                sdf4Title.format(AppUtil.getWeekBeforeLastStart() * 1000),
-//                sdf4Title.format(AppUtil.getWeekBeforeLastEnd() * 1000));
+
+        fragment1 = WeeklySummaryFragment.newInstance(AppUtil.getLastWeekStart(), AppUtil.getLastWeekEnd(),
+                getString(R.string.weekly_lastweek_share,
+                        sdf4Share.format(AppUtil.getLastWeekStart() * 1000),
+                        sdf4Share.format(AppUtil.getLastWeekEnd() * 1000)));
+        fragment2 = WeeklySummaryFragment.newInstance(AppUtil.getWeekBeforeLastStart(), AppUtil.getWeekBeforeLastEnd(),
+                getString(R.string.weekly_beforelastweek_share,
+                        sdf4Share.format(AppUtil.getWeekBeforeLastStart() * 1000),
+                        sdf4Share.format(AppUtil.getWeekBeforeLastEnd() * 1000)));
+        titleLastWeek = getString(R.string.weekly_lastweek,
+                sdf4Title.format(AppUtil.getLastWeekStart() * 1000),
+                sdf4Title.format(AppUtil.getLastWeekEnd() * 1000));
+        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek,
+                sdf4Title.format(AppUtil.getWeekBeforeLastStart() * 1000),
+                sdf4Title.format(AppUtil.getWeekBeforeLastEnd() * 1000));
 
 
         // 应测试要求提供的测试数据，正式版本需切换上面注释代码
-        fragment1 = WeeklySummaryFragment.newInstance(AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START),
-                AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END),
-                getString(R.string.weekly_lastweek_share,
-                        sdf4Share.format(AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START) * 1000),
-                        sdf4Share.format(AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END) * 1000)));
-        fragment2 = WeeklySummaryFragment.newInstance(AppUtil.getTimeStamp(10, 31, AppUtil.TYPE_START),
-                AppUtil.getTimeStamp(11, 6, AppUtil.TYPE_END),
-                getString(R.string.weekly_beforelastweek_share,
-                        sdf4Share.format(AppUtil.getTimeStamp(10, 31, AppUtil.TYPE_START) * 1000),
-                        sdf4Share.format(AppUtil.getTimeStamp(11, 6, AppUtil.TYPE_END) * 1000)));
-        titleLastWeek = getString(R.string.weekly_lastweek,
-                sdf4Title.format(AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START) * 1000),
-                sdf4Title.format(AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END) * 1000));
-        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek,
-                sdf4Title.format(AppUtil.getTimeStamp(10, 31, AppUtil.TYPE_START) * 1000),
-                sdf4Title.format(AppUtil.getTimeStamp(11, 6, AppUtil.TYPE_END) * 1000));
+//        fragment1 = WeeklySummaryFragment.newInstance(AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START),
+//                AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END),
+//                getString(R.string.weekly_lastweek_share,
+//                        sdf4Share.format(AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START) * 1000),
+//                        sdf4Share.format(AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END) * 1000)));
+//        fragment2 = WeeklySummaryFragment.newInstance(AppUtil.getTimeStamp(10, 31, AppUtil.TYPE_START),
+//                AppUtil.getTimeStamp(11, 6, AppUtil.TYPE_END),
+//                getString(R.string.weekly_beforelastweek_share,
+//                        sdf4Share.format(AppUtil.getTimeStamp(10, 31, AppUtil.TYPE_START) * 1000),
+//                        sdf4Share.format(AppUtil.getTimeStamp(11, 6, AppUtil.TYPE_END) * 1000)));
+//        titleLastWeek = getString(R.string.weekly_lastweek,
+//                sdf4Title.format(AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START) * 1000),
+//                sdf4Title.format(AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END) * 1000));
+//        titleBeforeLastWeek = getString(R.string.weekly_beforelastweek,
+//                sdf4Title.format(AppUtil.getTimeStamp(10, 31, AppUtil.TYPE_START) * 1000),
+//                sdf4Title.format(AppUtil.getTimeStamp(11, 6, AppUtil.TYPE_END) * 1000));
 
         fragments.add(fragment1);
         fragments.add(fragment2);

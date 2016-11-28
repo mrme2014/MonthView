@@ -29,7 +29,7 @@
             android:singleLine="true"
             app:label_text="@string/username_label" />
 
-        <com.commonlib.widget.LabelEditText
+        <com.commonlib.widget.LabelCleanableEditText
             android:id="@+id/passwd_et"
             style="@style/login_edittext"
             android:layout_width="match_parent"

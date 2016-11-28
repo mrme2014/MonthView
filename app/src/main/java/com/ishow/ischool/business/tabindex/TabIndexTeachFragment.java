@@ -221,13 +221,19 @@ public class TabIndexTeachFragment extends BaseFragment4Crm {
         switch (type) {
             case TYPE_WEEK:
                 params.put("time_type", type);
-                params.put("start_time", (int) AppUtil.getWeekStart());
-                params.put("end_time", (int) AppUtil.getWeekEnd());
+//                params.put("start_time", (int) AppUtil.getWeekStart());
+//                params.put("end_time", (int) AppUtil.getWeekEnd());
+
+                params.put("start_time", (int) AppUtil.getTimeStamp(11, 14, AppUtil.TYPE_START));
+                params.put("end_time", (int) AppUtil.getTimeStamp(11, 20, AppUtil.TYPE_END));
                 break;
             case TYPE_LAST_WEEK:
                 params.put("time_type", type);
-                params.put("start_time", (int) AppUtil.getLastWeekStart());
-                params.put("end_time", (int) AppUtil.getLastWeekEnd());
+//                params.put("start_time", (int) AppUtil.getLastWeekStart());
+//                params.put("end_time", (int) AppUtil.getLastWeekEnd());
+
+                params.put("start_time", (int) AppUtil.getTimeStamp(11, 7, AppUtil.TYPE_START));
+                params.put("end_time", (int) AppUtil.getTimeStamp(11, 13, AppUtil.TYPE_END));
                 break;
             case TYPE_MONTH:
                 params.put("time_type", type);

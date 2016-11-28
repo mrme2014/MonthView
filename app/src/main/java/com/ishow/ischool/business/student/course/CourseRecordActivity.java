@@ -1,15 +1,20 @@
 package com.ishow.ischool.business.student.course;
 
+import android.content.Intent;
+import android.view.MenuItem;
+
 import com.commonlib.http.ApiFactory;
-import com.commonlib.util.DateUtil;
 import com.inqbarna.tablefixheaders.FixHeadersTableView;
 import com.inqbarna.tablefixheaders.adapters.MatrixTableAdapter;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.course.ClassHistory;
 import com.ishow.ischool.bean.course.CourseRecord;
+import com.ishow.ischool.business.registrationform.registrationFormActivity;
+import com.ishow.ischool.business.registrationform.registrationInfoConfirmActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
+import com.ishow.ischool.util.TextUtil;
 
 import java.util.HashMap;
 
@@ -22,17 +27,27 @@ import static com.ishow.ischool.R.id.table;
 public class CourseRecordActivity extends BaseActivity4Crm {
 
     public static final String P_STUDENT_ID = "studentId";
+    public static final String STUDENT_STATUS = "student_status";
     @BindView(table)
     FixHeadersTableView tableview;
     private int mId;
+    private int student_status;
 
 
     @Override
     protected void initEnv() {
         super.initEnv();
         mId = getIntent().getIntExtra(P_STUDENT_ID, 0);
+        student_status= getIntent().getIntExtra(STUDENT_STATUS, 0);
     }
-
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(this,registrationInfoConfirmActivity.class);
+        intent.putExtra(registrationFormActivity.STUDENT_ID, mId);
+        intent.putExtra(registrationFormActivity.STUDENT_STATUS, student_status);
+        startActivity(intent);
+        return super.onMenuItemClick(item);
+    }
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_course_record, R.string.str_course_record, R.menu.menu_course_record, MODE_BACK);
@@ -78,10 +93,15 @@ public class CourseRecordActivity extends BaseActivity4Crm {
 
         for (int i = 0; i < courseRecord.getLists().length; i++) {
             ClassHistory classHistory = courseRecord.getLists()[i];
-            tableData[i + 1] = new String[]{DateUtil.parseSecond2Str((long) classHistory.getClassInfo().getOpen_date()), classHistory.getClassHistoryInfo().getAction_name()
-                    , classHistory.getClassInfo().getCourse_type(), classHistory.getClassInfo().getName()
-                    , classHistory.getClassInfo().getTeacher_name(), classHistory.getClassInfo().getAdvisor_name()
-                    , classHistory.getClassHistoryInfo().getStatus_name(), parsePay(classHistory)};
+            tableData[i + 1] = new String[]{
+                    TextUtil.format4Table(classHistory.getClassInfo().getOpen_date()),
+                    TextUtil.format4Table(classHistory.getClassHistoryInfo().getAction_name()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getCourse_type()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getName()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getTeacher_name()),
+                    TextUtil.format4Table(classHistory.getClassInfo().getAdvisor_name()),
+                    TextUtil.format4Table(classHistory.getClassHistoryInfo().getStatus_name()),
+                    parsePay(classHistory)};
         }
 
         MatrixTableAdapter<String> matrixTableAdapter = new MatrixTableAdapter<String>(this, tableData);

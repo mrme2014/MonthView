@@ -17,10 +17,11 @@ public class Env {
     public static final int type_release = 1;
     public static final int type_debug = 2;
     public static final int type_debug800 = 3;
+    public static int build_type = BuildConfig.release_type;
 
     public static String getSiteUrl() {
         String siteUrl = SITE_URL_RELEASE;
-        switch (BuildConfig.release_type) {
+        switch (build_type) {
             case type_release:
                 siteUrl = SITE_URL_RELEASE;
                 break;
@@ -30,14 +31,13 @@ public class Env {
             case type_debug800:
                 siteUrl = SITE_URL_800;
                 break;
-
         }
         return siteUrl;
     }
 
     public static String getApplyUrl() {
         String siteUrl = APPLY_URL;
-        switch (BuildConfig.release_type) {
+        switch (build_type) {
             case type_release:
                 siteUrl = APPLY_URL;
                 break;

@@ -29,7 +29,7 @@
             android:singleLine="true"
             app:label_text="@string/username_label" />
 
-        <com.commonlib.widget.LabelEditText
+        <com.commonlib.widget.LabelCleanableEditText
             android:id="@+id/passwd_et"
             style="@style/login_edittext"
             android:layout_width="match_parent"
@@ -59,6 +59,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/forget_passwd" />
+
+        <RadioGroup
+            android:id="@+id/server_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="debug" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="debug800" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="release" />
+        </RadioGroup>
 
     </LinearLayout>
 </ScrollView>

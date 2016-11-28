@@ -405,6 +405,7 @@
     <string name="registration_pick_acount">选择账号</string>
     <string name="registration_pick_acount_no">请选择支付账号</string>
     <string name="registration_pick_money_not">请输入支付金额</string>
+    <string name="registration_pick_money_not_ok">输入的金额不合法</string>
     <string name="registration_cheap_type_null">暂时没有优惠信息</string>
     <string name="registration_cheap_time_invalide">有效期至</string>
     <string name="registration_cheap_type_dazhe">打折</string>

@@ -236,7 +236,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         avatarTv.setText(student.studentInfo.name, student.studentInfo.id, student.avatarInfo.file_name);
 
         usernameTv.setText(student.studentInfo.name);
-        applyStateLtv.setText(student.studentInfo.pay_state_name);
+        applyStateLtv.setText(student.studentInfo.pay_state_name.replace("欠款", "定金"));
         classHourLtv.setText(student.studentInfo.class_hour + "/" + student.studentInfo.class_hour_total);
         tuitionLtv.setText(student.studentInfo.payed + "");
         titlebarTitleTv.setText(student.studentInfo.name);

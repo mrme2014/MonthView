@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,8 +15,11 @@ import android.widget.Toast;
 import com.commonlib.util.LogUtil;
 import com.commonlib.util.PreferencesUtils;
 import com.commonlib.widget.LabelCleanableEditText;
+import com.ishow.ischool.BuildConfig;
 import com.ishow.ischool.R;
 import com.ishow.ischool.activity.MainActivity;
+import com.ishow.ischool.application.CrmApplication;
+import com.ishow.ischool.application.Env;
 import com.ishow.ischool.application.Resource;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.business.forgetpwd.ForgetPwdActivity1;
@@ -39,6 +44,9 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
 
     @BindView(R.id.login_layout)
     ScrollView mLoginSv;
+
+    @BindView(R.id.server_change)
+    RadioGroup serverChangeRg;
 
     @Override
     protected void setUpContentView() {
@@ -89,6 +97,38 @@ public class LoginActivity extends BaseActivity4Crm<LoginPresenter, LoginModel> 
             @Override
             public void afterTextChanged(Editable s) {
                 updateCleanable(s.length(), passwdEt.hasFocus());
+            }
+        });
+
+        setUpServerGroup();
+    }
+
+    private void setUpServerGroup() {
+        if (BuildConfig.release_type != Env.type_release) {
+            serverChangeRg.setVisibility(View.VISIBLE);
+        }
+        switch (Env.build_type) {
+            case Env.type_debug:
+                ((RadioButton) serverChangeRg.getChildAt(0)).setChecked(true);
+                break;
+            case Env.type_debug800:
+                ((RadioButton) serverChangeRg.getChildAt(1)).setChecked(true);
+                break;
+            case Env.type_release:
+                ((RadioButton) serverChangeRg.getChildAt(2)).setChecked(true);
+                break;
+        }
+
+        serverChangeRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == group.getChildAt(0).getId()) {
+                    ((CrmApplication) CrmApplication.getInstance()).changeEnv(Env.type_debug);
+                } else if (checkedId == group.getChildAt(1).getId()) {
+                    ((CrmApplication) CrmApplication.getInstance()).changeEnv(Env.type_debug800);
+                } else if (checkedId == group.getChildAt(2).getId()) {
+                    ((CrmApplication) CrmApplication.getInstance()).changeEnv(Env.type_release);
+                }
             }
         });
     }

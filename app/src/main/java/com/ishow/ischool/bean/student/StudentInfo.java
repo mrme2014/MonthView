@@ -15,7 +15,6 @@ import java.util.List;
 public class StudentInfo implements Parcelable {
 
 
-
     /**
      * id : 21
      * campus_id : 4
@@ -131,7 +130,7 @@ public class StudentInfo implements Parcelable {
     public String pay_state_name;
     public int class_hour_total;
     public int class_hour;
-    public int payed;
+    public float payed;
     public String arrearage;
     public ArrayList<Integer> all_user_ids;
     public List<PayInfo> paylist_top3;
@@ -142,152 +141,147 @@ public class StudentInfo implements Parcelable {
 
     public String free_time;
 
+
+    protected StudentInfo(Parcel in) {
+        id = in.readInt();
+        campus_id = in.readInt();
+        province_id = in.readInt();
+        city_id = in.readInt();
+        college_id = in.readInt();
+        name = in.readString();
+        password = in.readString();
+        mobile = in.readString();
+        wechat = in.readString();
+        qq = in.readString();
+        major = in.readString();
+        idcard = in.readString();
+        create_time = in.readInt();
+        update_time = in.readInt();
+        class_state = in.readInt();
+        pay_state = in.readInt();
+        upgrade_state = in.readInt();
+        apply_state = in.readInt();
+        course_type = in.readInt();
+        is_sgin = in.readInt();
+        avatar = in.readString();
+        student_id = in.readInt();
+        birthday = in.readInt();
+        grade = in.readInt();
+        english_name = in.readString();
+        source = in.readInt();
+        app_permission = in.readInt();
+        notes = in.readString();
+        entering_school_year = in.readInt();
+        hometown_pid = in.readInt();
+        hometown_cid = in.readInt();
+        parents_call = in.readString();
+        intention_class = in.readInt();
+        intention_time = in.readInt();
+        college_name = in.readString();
+        province_name = in.readString();
+        city_name = in.readString();
+        hometown_pid_name = in.readString();
+        hometown_cid_name = in.readString();
+        source_name = in.readString();
+        guider_id = in.readInt();
+        guider_name = in.readString();
+        campus_manager_id = in.readInt();
+        campus_manager_name = in.readString();
+        school_chat_attache_id = in.readInt();
+        school_chat_attache_name = in.readString();
+        charge_id = in.readInt();
+        charge_name = in.readString();
+        saler_id = in.readInt();
+        saler_name = in.readString();
+        advisor_id = in.readInt();
+        advisor_name = in.readString();
+        pay_state_name = in.readString();
+        class_hour_total = in.readInt();
+        class_hour = in.readInt();
+        payed = in.readFloat();
+        arrearage = in.readString();
+        paylist_top3 = in.createTypedArrayList(PayInfo.CREATOR);
+        communication = in.readParcelable(CommunicationInfo.class.getClassLoader());
+        old_class_state = in.readInt();
+        intention_class_name = in.readString();
+        free_time = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(campus_id);
+        dest.writeInt(province_id);
+        dest.writeInt(city_id);
+        dest.writeInt(college_id);
+        dest.writeString(name);
+        dest.writeString(password);
+        dest.writeString(mobile);
+        dest.writeString(wechat);
+        dest.writeString(qq);
+        dest.writeString(major);
+        dest.writeString(idcard);
+        dest.writeInt(create_time);
+        dest.writeInt(update_time);
+        dest.writeInt(class_state);
+        dest.writeInt(pay_state);
+        dest.writeInt(upgrade_state);
+        dest.writeInt(apply_state);
+        dest.writeInt(course_type);
+        dest.writeInt(is_sgin);
+        dest.writeString(avatar);
+        dest.writeInt(student_id);
+        dest.writeInt(birthday);
+        dest.writeInt(grade);
+        dest.writeString(english_name);
+        dest.writeInt(source);
+        dest.writeInt(app_permission);
+        dest.writeString(notes);
+        dest.writeInt(entering_school_year);
+        dest.writeInt(hometown_pid);
+        dest.writeInt(hometown_cid);
+        dest.writeString(parents_call);
+        dest.writeInt(intention_class);
+        dest.writeInt(intention_time);
+        dest.writeString(college_name);
+        dest.writeString(province_name);
+        dest.writeString(city_name);
+        dest.writeString(hometown_pid_name);
+        dest.writeString(hometown_cid_name);
+        dest.writeString(source_name);
+        dest.writeInt(guider_id);
+        dest.writeString(guider_name);
+        dest.writeInt(campus_manager_id);
+        dest.writeString(campus_manager_name);
+        dest.writeInt(school_chat_attache_id);
+        dest.writeString(school_chat_attache_name);
+        dest.writeInt(charge_id);
+        dest.writeString(charge_name);
+        dest.writeInt(saler_id);
+        dest.writeString(saler_name);
+        dest.writeInt(advisor_id);
+        dest.writeString(advisor_name);
+        dest.writeString(pay_state_name);
+        dest.writeInt(class_hour_total);
+        dest.writeInt(class_hour);
+        dest.writeFloat(payed);
+        dest.writeString(arrearage);
+        dest.writeTypedList(paylist_top3);
+        dest.writeParcelable(communication, flags);
+        dest.writeInt(old_class_state);
+        dest.writeString(intention_class_name);
+        dest.writeString(free_time);
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeInt(this.campus_id);
-        dest.writeInt(this.province_id);
-        dest.writeInt(this.city_id);
-        dest.writeInt(this.college_id);
-        dest.writeString(this.name);
-        dest.writeString(this.password);
-        dest.writeString(this.mobile);
-        dest.writeString(this.wechat);
-        dest.writeString(this.qq);
-        dest.writeString(this.major);
-        dest.writeString(this.idcard);
-        dest.writeInt(this.create_time);
-        dest.writeInt(this.update_time);
-        dest.writeInt(this.class_state);
-        dest.writeInt(this.pay_state);
-        dest.writeInt(this.upgrade_state);
-        dest.writeInt(this.apply_state);
-        dest.writeInt(this.course_type);
-        dest.writeInt(this.is_sgin);
-        dest.writeString(this.avatar);
-        dest.writeInt(this.student_id);
-        dest.writeInt(this.birthday);
-        dest.writeInt(this.grade);
-        dest.writeString(this.english_name);
-        dest.writeInt(this.source);
-        dest.writeInt(this.app_permission);
-        dest.writeString(this.notes);
-        dest.writeInt(this.entering_school_year);
-        dest.writeInt(this.hometown_pid);
-        dest.writeInt(this.hometown_cid);
-        dest.writeString(this.parents_call);
-        dest.writeInt(this.intention_class);
-        dest.writeInt(this.intention_time);
-        dest.writeString(this.college_name);
-        dest.writeString(this.province_name);
-        dest.writeString(this.city_name);
-        dest.writeString(this.hometown_pid_name);
-        dest.writeString(this.hometown_cid_name);
-        dest.writeString(this.source_name);
-        dest.writeInt(this.guider_id);
-        dest.writeString(this.guider_name);
-        dest.writeInt(this.campus_manager_id);
-        dest.writeString(this.campus_manager_name);
-        dest.writeInt(this.school_chat_attache_id);
-        dest.writeString(this.school_chat_attache_name);
-        dest.writeInt(this.charge_id);
-        dest.writeString(this.charge_name);
-        dest.writeInt(this.saler_id);
-        dest.writeString(this.saler_name);
-        dest.writeInt(this.advisor_id);
-        dest.writeString(this.advisor_name);
-        dest.writeString(this.pay_state_name);
-        dest.writeInt(this.class_hour_total);
-        dest.writeInt(this.class_hour);
-        dest.writeInt(this.payed);
-        dest.writeString(this.arrearage);
-        dest.writeList(this.all_user_ids);
-        dest.writeTypedList(this.paylist_top3);
-        dest.writeParcelable(this.communication, flags);
-        dest.writeInt(this.old_class_state);
-        dest.writeString(this.intention_class_name);
-        dest.writeString(this.free_time);
-    }
-
-    public StudentInfo() {
-    }
-
-    protected StudentInfo(Parcel in) {
-        this.id = in.readInt();
-        this.campus_id = in.readInt();
-        this.province_id = in.readInt();
-        this.city_id = in.readInt();
-        this.college_id = in.readInt();
-        this.name = in.readString();
-        this.password = in.readString();
-        this.mobile = in.readString();
-        this.wechat = in.readString();
-        this.qq = in.readString();
-        this.major = in.readString();
-        this.idcard = in.readString();
-        this.create_time = in.readInt();
-        this.update_time = in.readInt();
-        this.class_state = in.readInt();
-        this.pay_state = in.readInt();
-        this.upgrade_state = in.readInt();
-        this.apply_state = in.readInt();
-        this.course_type = in.readInt();
-        this.is_sgin = in.readInt();
-        this.avatar = in.readString();
-        this.student_id = in.readInt();
-        this.birthday = in.readInt();
-        this.grade = in.readInt();
-        this.english_name = in.readString();
-        this.source = in.readInt();
-        this.app_permission = in.readInt();
-        this.notes = in.readString();
-        this.entering_school_year = in.readInt();
-        this.hometown_pid = in.readInt();
-        this.hometown_cid = in.readInt();
-        this.parents_call = in.readString();
-        this.intention_class = in.readInt();
-        this.intention_time = in.readInt();
-        this.college_name = in.readString();
-        this.province_name = in.readString();
-        this.city_name = in.readString();
-        this.hometown_pid_name = in.readString();
-        this.hometown_cid_name = in.readString();
-        this.source_name = in.readString();
-        this.guider_id = in.readInt();
-        this.guider_name = in.readString();
-        this.campus_manager_id = in.readInt();
-        this.campus_manager_name = in.readString();
-        this.school_chat_attache_id = in.readInt();
-        this.school_chat_attache_name = in.readString();
-        this.charge_id = in.readInt();
-        this.charge_name = in.readString();
-        this.saler_id = in.readInt();
-        this.saler_name = in.readString();
-        this.advisor_id = in.readInt();
-        this.advisor_name = in.readString();
-        this.pay_state_name = in.readString();
-        this.class_hour_total = in.readInt();
-        this.class_hour = in.readInt();
-        this.payed = in.readInt();
-        this.arrearage = in.readString();
-        this.all_user_ids = new ArrayList<Integer>();
-        in.readList(this.all_user_ids, Integer.class.getClassLoader());
-        this.paylist_top3 = in.createTypedArrayList(PayInfo.CREATOR);
-        this.communication = in.readParcelable(CommunicationInfo.class.getClassLoader());
-        this.old_class_state = in.readInt();
-        this.intention_class_name = in.readString();
-        this.free_time = in.readString();
-    }
-
     public static final Creator<StudentInfo> CREATOR = new Creator<StudentInfo>() {
         @Override
-        public StudentInfo createFromParcel(Parcel source) {
-            return new StudentInfo(source);
+        public StudentInfo createFromParcel(Parcel in) {
+            return new StudentInfo(in);
         }
 
         @Override

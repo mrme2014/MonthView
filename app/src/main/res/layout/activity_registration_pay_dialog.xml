@@ -117,6 +117,9 @@
             android:textColorHint="@color/txt_hint"
             android:inputType="numberDecimal"
             android:textSize="28sp"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:maxEms="6"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

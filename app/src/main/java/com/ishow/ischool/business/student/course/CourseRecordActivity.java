@@ -1,5 +1,8 @@
 package com.ishow.ischool.business.student.course;
 
+import android.content.Intent;
+import android.view.MenuItem;
+
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.DateUtil;
 import com.inqbarna.tablefixheaders.FixHeadersTableView;
@@ -7,6 +10,8 @@ import com.inqbarna.tablefixheaders.adapters.MatrixTableAdapter;
 import com.ishow.ischool.R;
 import com.ishow.ischool.bean.course.ClassHistory;
 import com.ishow.ischool.bean.course.CourseRecord;
+import com.ishow.ischool.business.registrationform.registrationFormActivity;
+import com.ishow.ischool.business.registrationform.registrationInfoConfirmActivity;
 import com.ishow.ischool.common.api.ApiObserver;
 import com.ishow.ischool.common.api.StudentApi;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -22,17 +27,27 @@ import static com.ishow.ischool.R.id.table;
 public class CourseRecordActivity extends BaseActivity4Crm {
 
     public static final String P_STUDENT_ID = "studentId";
+    public static final String STUDENT_STATUS = "student_status";
     @BindView(table)
     FixHeadersTableView tableview;
     private int mId;
+    private int student_status;
 
 
     @Override
     protected void initEnv() {
         super.initEnv();
         mId = getIntent().getIntExtra(P_STUDENT_ID, 0);
+        student_status= getIntent().getIntExtra(STUDENT_STATUS, 0);
     }
-
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(this,registrationInfoConfirmActivity.class);
+        intent.putExtra(registrationFormActivity.STUDENT_ID, mId);
+        intent.putExtra(registrationFormActivity.STUDENT_STATUS, student_status);
+        startActivity(intent);
+        return super.onMenuItemClick(item);
+    }
     @Override
     protected void setUpContentView() {
         setContentView(R.layout.activity_course_record, R.string.str_course_record, R.menu.menu_course_record, MODE_BACK);

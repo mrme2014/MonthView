@@ -252,8 +252,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             infoGroup.setVisibility(View.VISIBLE);
         }
 
-        if (student.studentInfo.pay_state != Constants.PaySate.unapply &&
-                (student.studentInfo.free_time == null || TextUtils.isEmpty(student.studentInfo.free_time))) {
+        if (student.studentInfo.pay_state != Constants.PaySate.unapply && (student.studentInfo.free_time == null || TextUtils.isEmpty(student.studentInfo.free_time))) {
             applyQrcodeIv.setVisibility(View.VISIBLE);
         } else {
             applyQrcodeIv.setVisibility(View.GONE);
@@ -409,6 +408,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
     public boolean onMenuItemClick(MenuItem item) {
         Intent intent = new Intent(this, CourseRecordActivity.class);
         intent.putExtra(CourseRecordActivity.P_STUDENT_ID, studentId);
+        intent.putExtra(CourseRecordActivity.STUDENT_STATUS, pay_state);
         startActivity(intent);
         return super.onMenuItemClick(item);
     }
@@ -426,12 +426,15 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 infoApplyGroup.setVisibility(View.GONE);
                 applyQrcodeIv.setVisibility(View.VISIBLE);
                 applyStateLtv.setText(getString(R.string.apply_result_state_partMoney));
+                pay_state=2;
             } else if (apply_state == 2) {
                 infoGroup.setVisibility(View.VISIBLE);
                 infoApplyGroup.setVisibility(View.GONE);
                 applyQrcodeIv.setVisibility(View.VISIBLE);
                 applyStateLtv.setText(getString(R.string.apply_result_state_fullMoney));
+                pay_state=3;
             }
+            setUpData();
         }
 
         PhotoUtil.onActivityResult(this, tempPath, tempCropPath, requestCode, resultCode, data, new PhotoUtil.UploadListener() {

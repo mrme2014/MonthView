@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.commonlib.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
@@ -123,6 +124,14 @@ public class SelectPayDialogFragment extends DialogFragment {
             if (listApiResult != null) {
                 JsonElement result = listApiResult.getResult();
                 bankPayList = gson.fromJson(result, type1);
+                if (bankPayList != null && bankPayList.size() > 0) {
+                    for (int i = 0; i < bankPayList.size(); i++) {
+                        PayType payType = bankPayList.get(i);
+                        LogUtil.e(bankPayList.size()+"---"+payType.type_id);
+                        //检索出 银行卡中的收款卡
+                        if (payType.type_id != 2) bankPayList.remove(payType);
+                    }
+                }
             }
             if (payTypeList.size() >= 1) {
                 ApiResult<List<PayType>> listApiResultBank = payTypeList.get(1);
@@ -223,12 +232,18 @@ public class SelectPayDialogFragment extends DialogFragment {
                 else onGetPayListSucess(payTypeList);
                 break;
             case R.id.ok:
-                if (TextUtils.equals(payMoney.getText().toString(), "")) {
+                String string = payMoney.getText().toString();
+                if (TextUtils.equals(string, "")) {
                     if (callback != null)
                         callback.onError(getContext().getString(R.string.registration_pick_money_not));
                     break;
                 }
-                if (TextUtils.equals(pay_way, "")||pay_way==null) {
+                if (Double.valueOf(string) < 1) {
+                    if (callback != null)
+                        callback.onError(getContext().getString(R.string.registration_pick_money_not_ok));
+                    break;
+                }
+                if (TextUtils.equals(pay_way, "") || pay_way == null) {
                     if (callback != null)
                         callback.onError(getContext().getString(R.string.registration_pick_acount_no));
                     break;

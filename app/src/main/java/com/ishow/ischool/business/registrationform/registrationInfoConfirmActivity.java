@@ -123,7 +123,7 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
         } else if (student_status == 2) {
             action = "pay";
         }*/
-        mPresenter.getPayInfo(student_id, student_status, action, feilds);
+        mPresenter.getStudentApplyInfo(student_id, student_status, action, feilds);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
 
             @Override
             public void onDenied(String deniedPermission, int index) {
-
+                showToast(getString(R.string.permisson_quanxian_storage));
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         return super.onMenuItemClick(item);
@@ -156,7 +156,7 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
             StudentInfo studentInfo = registraResult.studentInfo;
             List<RegistraInfo> payListInfo = registraResult.payListInfo;
             if (payListInfo != null && payListInfo.size() > 0) {
-                RegistraInfo registraInfo = payListInfo.get(payListInfo.size() - 2);
+                RegistraInfo registraInfo = payListInfo.get(payListInfo.size() - 1);
                 setUpRegistrationInfoFirst(registraInfo);
             }
 
@@ -173,8 +173,7 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
 
     private void setUpRegistrationInfoFirst(RegistraInfo registraInfo) {
         String pay_info = registraInfo.pay_info;
-        Type type1 = new TypeToken<List<PayType>>() {
-        }.getType();
+        Type type1 = new TypeToken<List<PayType>>() {}.getType();
         Gson gson = new Gson();
         List<PayType> typeList = gson.fromJson(pay_info, type1);
         if (typeList != null) {
@@ -275,11 +274,11 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
      * @param b
      * @return
      */
-    public void  savePic(Bitmap b) {
+    public void savePic(Bitmap b) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US);
         File dir = StorageUtil.getTempDir();
         File outfile = new File(dir.getPath(), sdf.format(new Date()) + ".png");
-      //  String fname = outfile + "/" + sdf.format(new Date()) + ".png";
+        //  String fname = outfile + "/" + sdf.format(new Date()) + ".png";
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(outfile);

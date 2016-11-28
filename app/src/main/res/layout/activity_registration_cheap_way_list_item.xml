@@ -18,7 +18,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="圣诞大优惠"
+            android:text="@string/registration_apply_sure_info_pay_no_cheap"
             android:textColor="@color/txt_2"
             android:textSize="@dimen/sp16" />
 
@@ -29,7 +29,7 @@
             android:layout_marginTop="7dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="圣诞大优惠   圣诞大优惠"
+            android:text=""
             android:textColor="@color/txt_9" />
 
     </LinearLayout>

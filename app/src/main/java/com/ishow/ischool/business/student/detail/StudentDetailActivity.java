@@ -355,6 +355,8 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 if (pay_state == 3 || pay_state == 4) {
                     return;
                 }
+                if (mUser.positionInfo.id != Constants.COURSE_CONSULTANT)
+                    return;
                 Intent intent = new Intent(this, registrationFormActivity.class);
                 intent.putExtra(registrationFormActivity.STUDENT_ID, studentId);
                 intent.putExtra(registrationFormActivity.REQUEST_CODE, reques_code);
@@ -426,13 +428,13 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 infoApplyGroup.setVisibility(View.GONE);
                 applyQrcodeIv.setVisibility(View.VISIBLE);
                 applyStateLtv.setText(getString(R.string.apply_result_state_partMoney));
-                pay_state=2;
+                pay_state = 2;
             } else if (apply_state == 2) {
                 infoGroup.setVisibility(View.VISIBLE);
                 infoApplyGroup.setVisibility(View.GONE);
                 applyQrcodeIv.setVisibility(View.VISIBLE);
                 applyStateLtv.setText(getString(R.string.apply_result_state_fullMoney));
-                pay_state=3;
+                pay_state = 3;
             }
             setUpData();
         }

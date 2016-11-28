@@ -21,6 +21,11 @@ public class regisModel implements BaseModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable getStudentApplyInfo(int id, int status, String action, String fields) {
+        return ApiFactory.getInstance().getApi(RegistrationApi.class).getStudentApplyInfo(id, status, action, fields).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public Observable payAction(int student_id, String pay_method_json, String action, float price, float actual_price, int receipt_no, String memo,int privilege_type,double cheap_price, HashMap<String, Integer> time) {
         return ApiFactory.getInstance().getApi(RegistrationApi.class).payAction(student_id,
                 pay_method_json,

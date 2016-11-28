@@ -305,7 +305,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.setCancelable(false);
                 alertDialog.show();
-                realPayAction();
+                //realPayAction();
                 break;
         }
     }
@@ -413,7 +413,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
 
     private void resetAdjustMoney() {
         if (cheapType == 1 && cheapTypePrice != 0) {
-            campus_price = (campus_price * cheapTypePrice * 100.00 / 100);
+            campus_price = (campus_price * cheapTypePrice * 1.0 / 10);
         } else if (cheapType == 2) {
             campus_price -= cheapTypePrice;
         }

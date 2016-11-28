@@ -68,38 +68,57 @@ public class CheapListDialogFragment extends DialogFragment implements AdapterVi
         cancel.setOnClickListener(this);
         cheapListAdapter adapter = new cheapListAdapter(getContext(), cheapTypeList);
 
+
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.activity_registra_cheap_list_item_nocheap, null);
+        inflate.setOnClickListener(new headClick());
+
         cheapList.setAdapter(adapter);
         cheapList.setOnItemClickListener(this);
+        cheapList.addHeaderView(inflate);
         Window window = dialog.getWindow();
         window.setLayout(-1, -2);
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.gravity = Gravity.BOTTOM;
         window.setAttributes(attributes);
+        dialog.setCanceledOnTouchOutside(true);
         return dialog;
     }
+  class headClick implements View.OnClickListener{
 
+    @Override
+    public void onClick(View v) {
+        if (listener != null) {
+            listener.OnItemClickListener(getString(R.string.registration_apply_sure_info_pay_no_cheap),
+                  0,0,0);
+
+        }
+        CheapListDialogFragment.this.dismiss();
+    }
+}
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (listener != null) {
-            CheapType cheapType = cheapTypeList.get(position);
+            CheapType cheapType = cheapTypeList.get(position - 1);
             listener.OnItemClickListener(cheapType.name,
                     Integer.valueOf(cheapType.preferential_type),
                     Double.parseDouble(cheapType.preferential),
                     cheapType.id);
+
         }
         this.dismiss();
     }
 
     class cheapListAdapter extends BasicAdapter<CheapType> {
-
         public cheapListAdapter(Context context, List<CheapType> datas) {
             super(context, datas);
         }
 
         @Override
         public View getContentView(int position, View convertView, ViewGroup parent) {
-            CheapType cheapType = datas.get(position);
+
             ViewHolder holder = ViewHolder.get(context, convertView, parent, R.layout.activity_registration_cheap_way_list_item, position);
+
+            CheapType cheapType = datas.get(position);
             ((TextView) holder.getView(R.id.cheap_title)).setText(cheapType.name);
             TextView detail = (TextView) holder.getView(R.id.cheap_detail);
 
@@ -114,7 +133,9 @@ public class CheapListDialogFragment extends DialogFragment implements AdapterVi
             string.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.color_orange)), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             detail.append(string);
             detail.append("    " + getString(R.string.registration_cheap_time_invalide) + DateUtil.parseSecond2Str(Long.valueOf(cheapType.end_time)));
+
             return holder.getConvertView();
         }
     }
 }
+

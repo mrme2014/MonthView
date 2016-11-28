@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.commonlib.application.ActivityStackManager;
 import com.commonlib.util.DeviceUtils;
 import com.commonlib.util.LogUtil;
 import com.commonlib.widget.event.RxBus;
@@ -26,7 +25,6 @@ import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.bean.user.UserInfo;
 import com.ishow.ischool.business.editpwd.EditPwdActivity;
 import com.ishow.ischool.business.kefu.KefuActivity;
-import com.ishow.ischool.business.login.LoginActivity;
 import com.ishow.ischool.business.morningqrcode.MorningReadActivity;
 import com.ishow.ischool.business.personinfo.PersonInfoActivity;
 import com.ishow.ischool.business.registrationform.registrationFormActivity;
@@ -34,6 +32,7 @@ import com.ishow.ischool.common.base.BaseFragment4Crm;
 import com.ishow.ischool.common.manager.JumpManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.event.ChangeRoleEvent;
+import com.ishow.ischool.util.AppUtil;
 import com.ishow.ischool.widget.custom.AvatarImageView;
 import com.ishow.ischool.widget.custom.CircleImageView;
 import com.ishow.ischool.widget.custom.FmItemTextView;
@@ -166,9 +165,7 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
 
     @Override
     public void onNetSucess() {
-        UserManager.getInstance().clear();
-        ActivityStackManager.getInstance().clear();
-        JumpManager.jumpActivity(getContext(), LoginActivity.class, Resource.NO_NEED_CHECK);
+        AppUtil.logout(getActivity());
         getActivity().finish();
     }
 

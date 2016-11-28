@@ -213,6 +213,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             params.put("id", studentId + "");
             params.put("resources_id", "7");
             params.put("fields", "studentInfo,avatarInfo");
+            handProgressbar(true);
             mPresenter.getStudent(params);
         }
     }
@@ -224,6 +225,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     @Override
     public void onGetStudentSuccess(Student student) {
+        handProgressbar(false);
         this.student = student;
         updateView(student);
     }
@@ -262,6 +264,7 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
 
     @Override
     public void onGetStudentFailed(String msg) {
+        handProgressbar(false);
         showToast(msg);
     }
 
@@ -309,13 +312,6 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
         if (needRefresh) {
             RxBus.getDefault().post(getStudentInfo());
         }
-    }
-
-    public Student getStudent() {
-        if (student != null) {
-            return student;
-        }
-        return null;
     }
 
     @OnClick({R.id.fab, R.id.student_avatar_iv, R.id.apply_qrcode, R.id.apply_btn, R.id.student_apply_state})

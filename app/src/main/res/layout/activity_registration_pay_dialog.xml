@@ -114,7 +114,7 @@
             android:hint="0.00"
             android:paddingRight="10dp"
             android:textColor="@color/txt_hint"
-            android:textColorHint="@color/txt_hint"
+            android:textColorHint="@color/registra_pay_input"
             android:inputType="numberDecimal"
             android:textSize="28sp"
             android:maxLength="7"

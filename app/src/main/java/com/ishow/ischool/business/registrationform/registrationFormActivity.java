@@ -439,8 +439,8 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
             return;
         }
         moneyReal.setText(getString(R.string.registration_real_money));
-        DecimalFormat df = new DecimalFormat("0.00");
-        SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(totalRealMoney));
+        DecimalFormat df = new DecimalFormat("0.##");
+        SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(Math.abs(totalRealMoney)));
         moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange1)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         moneyReal.append(moneyRealStr);
 

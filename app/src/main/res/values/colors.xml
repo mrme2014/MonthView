@@ -89,4 +89,5 @@
     <color name="light_gray">#f8f9fa</color>
     <color name="gray3d">#ddd</color>
     <color name="registra_table_left">#f7f7f7</color>
+    <color name="registra_pay_input">#b7bac0</color>
 </resources>

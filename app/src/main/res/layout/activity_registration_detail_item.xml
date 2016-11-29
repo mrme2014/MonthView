@@ -31,17 +31,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/comm_blue" />
+                android:textColor="#2883f6" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/detail_tradNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="7dp"
-            android:alpha="0.4"
-            android:textColor="@color/comm_blue" />
+            android:layout_marginTop="5dp"
+            android:textColor="#72a9ee" />
 
         <TextView
             android:id="@+id/detail_date"
@@ -49,9 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="7dp"
-            android:alpha="0.4"
             android:text="2016-11-23 10:22"
-            android:textColor="@color/txt_9" />
+            android:textColor="#cfcfcf" />
     </LinearLayout>
 
 

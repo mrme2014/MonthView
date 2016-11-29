@@ -130,7 +130,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                         PayType payType = bankPayList.get(i);
                        // LogUtil.e(bankPayList.size() + "---" + payType.type_id);
                         //检索出 银行卡中的收款卡
-                        if (payType.type_id == 2)
+                        if (payType.type_id == 2||payType.type_id == 4)
                             tempBankPayList.add(payType);
                     }
                 }

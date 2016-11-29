@@ -188,7 +188,6 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
             for (int i = 0; i < typeList.size(); i++) {
                 payType.append(typeList.get(i).method + "  ");
             }
-
         }
 
         cheapType.setText(registraInfo.preferential_course_name);

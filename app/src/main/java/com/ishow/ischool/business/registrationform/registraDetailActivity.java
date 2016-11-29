@@ -107,7 +107,7 @@ public class registraDetailActivity extends BaseActivity4Crm<regisPresenter, reg
             for (int i = 0; i < payListInfo.size(); i++) {
                 hasPayed += payListInfo.get(i).payed;
             }
-            DecimalFormat df = new DecimalFormat("###.##");
+            DecimalFormat df = new DecimalFormat("0.00");
             detailHasPay.setText(getString(R.string.registration_apply_sure_haspay) + "  " + df.format(hasPayed));
         }
     }

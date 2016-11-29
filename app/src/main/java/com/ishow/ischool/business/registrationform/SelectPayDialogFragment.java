@@ -99,7 +99,7 @@ public class SelectPayDialogFragment extends DialogFragment {
         }).subscribe(new Subscriber<List<ApiResult<List<PayType>>>>() {
             @Override
             public void onCompleted() {
-
+                onGetPayListSucess(payTypeList);
             }
 
             @Override
@@ -110,7 +110,7 @@ public class SelectPayDialogFragment extends DialogFragment {
             @Override
             public void onNext(List<ApiResult<List<PayType>>> payTypeList1) {
                 payTypeList = payTypeList1;
-                onGetPayListSucess(payTypeList1);
+                // payTypeList = payTypeList1;
             }
         });
     }
@@ -154,21 +154,20 @@ public class SelectPayDialogFragment extends DialogFragment {
         fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback<int[]>() {
             @Override
             public ArrayList<String> endSelect(int colum, int selectPosition, String text) {
-                //有2列的 但是选中的是第二列 也就是职位列表的 不需要变化
+                //选中的是第一列 不需要更改数据源  直接返回
                 if (colum == 1)
                     return null;
-                if (colum == 0 && selectPosition == 0) {
+
+                if (colum == 0 && selectPosition == 0) {//银行卡
                     return getListString(bankPayList);
-                } else if (colum == 0 && selectPosition == 1) {
+                } else if (colum == 0 && selectPosition == 1) {//支付宝
                     return getListString(apliPayList);
-                } else if (colum == 0 && selectPosition == 2) {
+                } else if (colum == 0 && selectPosition == 2) {//转账
                     return getListString(bankPayList);
-                } else if (colum == 0 && selectPosition == 3) {
-                    ArrayList<String> empty = new ArrayList<String>();
-                    empty.add("");
-                    return empty;
+                } else if (colum == 0 && selectPosition == 3) {//现金
+                    return getListString(null);
+
                 }
-                //这里最后 走到到时选择了 现金 返回 null就可以了
                 return null;
             }
 
@@ -178,15 +177,15 @@ public class SelectPayDialogFragment extends DialogFragment {
                 colum1 = selectIds[0];
                 colum2 = selectIds[1];
                 if (colum1 == 0) {
-                    selectPayType = bankPayList.get(colum2);
+                    if (bankPayList != null) selectPayType = bankPayList.get(colum2);
                     selectPayType.method_id = 1;
                     selectPayType.method = "刷卡";
                 } else if (colum1 == 1) {
-                    selectPayType = apliPayList.get(colum2);
+                    if (apliPayList != null) selectPayType = apliPayList.get(colum2);
                     selectPayType.method_id = 3;
                     selectPayType.method = "支付宝";
                 } else if (colum1 == 2) {
-                    selectPayType = bankPayList.get(colum2);
+                    if (bankPayList != null) selectPayType = bankPayList.get(colum2);
                     selectPayType.method_id = 4;
                     selectPayType.method = "转账";
                 } else if (colum1 == 3) {
@@ -210,14 +209,13 @@ public class SelectPayDialogFragment extends DialogFragment {
     }
 
     private ArrayList<String> getListString(List<PayType> payTypeList) {
+        ArrayList<String> needDatas = new ArrayList<>();
         if (payTypeList != null) {
-            ArrayList<String> needDatas = new ArrayList<>();
             for (int i = 0; i < payTypeList.size(); i++) {
                 needDatas.add(payTypeList.get(i).name);
             }
-            return needDatas;
-        }
-        return null;
+        } else needDatas.add("");
+        return needDatas;
     }
 
     @OnClick({R.id.cancel, R.id.ok, R.id.pay_way})
@@ -238,7 +236,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                         callback.onError(getContext().getString(R.string.registration_pick_money_not));
                     break;
                 }
-                if (Double.valueOf(string) <=0) {
+                if (Double.valueOf(string) < 0.01) {
                     if (callback != null)
                         callback.onError(getContext().getString(R.string.registration_pick_money_not_ok));
                     break;

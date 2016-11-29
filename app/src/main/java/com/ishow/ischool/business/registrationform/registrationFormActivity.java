@@ -423,7 +423,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         moneyJust.setText(getString(R.string.registration_money_just));
         DecimalFormat df = new DecimalFormat("0.##");
         SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(campus_price));
-        moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange1)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         moneyJust.append(moneyRealStr);
         cheap_price = realCampusPrice - campus_price;
        // LogUtil.e("-------"+ Math.round(cheap_price));
@@ -440,7 +440,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         moneyReal.setText(getString(R.string.registration_real_money));
         DecimalFormat df = new DecimalFormat("0.##");
         SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(totalRealMoney));
-        moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange1)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         moneyReal.append(moneyRealStr);
 
     }

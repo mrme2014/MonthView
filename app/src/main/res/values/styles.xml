@@ -422,7 +422,7 @@
     <style name="registration_form_label_text_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">45dp</item>
-        <item name="label_text_color">@color/txt_6</item>
+        <item name="label_text_color">@color/txt_2</item>
         <item name="draw_bottom_line">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="label_padding">16dp</item>
@@ -432,7 +432,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:background">@color/white</item>
         <item name="android:textColorHint">@color/txt_9</item>
-        <item name="android:textColor">@color/txt_9</item>
+        <item name="android:textColor">@color/txt_2</item>
     </style>
 
     <style name="registration_form_info_sure" parent="registration_form_label_text_style">

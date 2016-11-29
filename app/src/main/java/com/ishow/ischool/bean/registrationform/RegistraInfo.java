@@ -28,9 +28,9 @@ public class RegistraInfo {
     public int id;
     public int apply_id;
     public int student_id;
-    public long class_cost;
-    public long payed;
-    public long arrearage;
+    public double class_cost;
+    public double payed;
+    public double arrearage;
     public int teacher_id;
     public int advisor_id;
     public int pay_time;

@@ -435,9 +435,9 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
     }
 
     private void resetRealMoney() {
-        if (totalRealMoney == 0) {
+        /*if (totalRealMoney == 0) {
             return;
-        }
+        }*/
         moneyReal.setText(getString(R.string.registration_real_money));
         DecimalFormat df = new DecimalFormat("0.##");
         SpannableString moneyRealStr = new SpannableString("  ¥" + df.format(Math.abs(totalRealMoney)));

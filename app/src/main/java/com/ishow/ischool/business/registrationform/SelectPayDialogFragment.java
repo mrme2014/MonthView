@@ -117,7 +117,8 @@ public class SelectPayDialogFragment extends DialogFragment {
 
     private void onGetPayListSucess(List<ApiResult<List<PayType>>> payTypeList) {
         if (payTypeList != null && payTypeList.size() > 0) {
-            Type type1 = new TypeToken<List<PayType>>() {}.getType();
+            Type type1 = new TypeToken<List<PayType>>() {
+            }.getType();
             Gson gson = new Gson();
             ApiResult<List<PayType>> listApiResult = payTypeList.get(0);
             if (listApiResult != null) {
@@ -126,7 +127,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                 if (bankPayList != null && bankPayList.size() > 0) {
                     for (int i = 0; i < bankPayList.size(); i++) {
                         PayType payType = bankPayList.get(i);
-                        LogUtil.e(bankPayList.size()+"---"+payType.type_id);
+                        LogUtil.e(bankPayList.size() + "---" + payType.type_id);
                         //检索出 银行卡中的收款卡
                         if (payType.type_id != 2) bankPayList.remove(payType);
                     }
@@ -237,7 +238,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                         callback.onError(getContext().getString(R.string.registration_pick_money_not));
                     break;
                 }
-                if (Double.valueOf(string) < 1) {
+                if (Double.valueOf(string) <=0) {
                     if (callback != null)
                         callback.onError(getContext().getString(R.string.registration_pick_money_not_ok));
                     break;

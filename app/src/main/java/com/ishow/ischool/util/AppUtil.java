@@ -431,6 +431,12 @@ public class AppUtil {
         return time;
     }
 
+    public static int getTodayNow() {
+        Calendar c = Calendar.getInstance();
+        int time = (int) (c.getTimeInMillis() / 1000);
+        return time;
+    }
+
     public static int getTodayEnd() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 23);

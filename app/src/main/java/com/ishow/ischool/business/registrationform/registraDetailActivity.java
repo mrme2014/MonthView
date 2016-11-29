@@ -17,6 +17,7 @@ import com.ishow.ischool.bean.registrationform.RegistraInfo;
 import com.ishow.ischool.bean.registrationform.RegistraResult;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +36,7 @@ public class registraDetailActivity extends BaseActivity4Crm<regisPresenter, reg
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private String action;
+    private String action = "pay";
     private String feilds = "payListInfo";
 
     private int student_id;
@@ -106,7 +107,8 @@ public class registraDetailActivity extends BaseActivity4Crm<regisPresenter, reg
             for (int i = 0; i < payListInfo.size(); i++) {
                 hasPayed += payListInfo.get(i).payed;
             }
-            detailHasPay.setText(getString(R.string.registration_apply_sure_haspay) + "  " + hasPayed);
+            DecimalFormat df = new DecimalFormat("###.##");
+            detailHasPay.setText(getString(R.string.registration_apply_sure_haspay) + "  " + df.format(hasPayed));
         }
     }
 
@@ -136,7 +138,10 @@ public class registraDetailActivity extends BaseActivity4Crm<regisPresenter, reg
         public View getContentView(int position, View convertView, ViewGroup parent) {
             RegistraInfo registraInfo = datas.get(position);
             ViewHolder holder = ViewHolder.get(context, convertView, parent, R.layout.activity_registration_detail_item, position);
-            ((TextView) holder.getView(R.id.detai_price)).setText("+" + registraInfo.payed);
+            if (registraInfo.payed > 0) {
+                ((TextView) holder.getView(R.id.detai_price)).setText("+" + registraInfo.payed);
+            } else ((TextView) holder.getView(R.id.detai_price)).setText(registraInfo.payed + "");
+
             ((TextView) holder.getView(R.id.pay)).setText(registraInfo.payed > 0 ? "收款" : "退款");
             ((TextView) holder.getView(R.id.detail_tradNum)).setText(getString(R.string.registration_trade_num) + ": " + registraInfo.receipt_no);
             ((TextView) holder.getView(R.id.detail_date)).setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.pay_time)));

@@ -195,7 +195,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 resetAdjustMoney();
                 //moneyJust.setText(getString(R.string.registration_money_just) + " ￥" + campus_price);
             }
-            fisrt_pay_time_unix = AppUtil.getTodayStart();
+            fisrt_pay_time_unix = AppUtil.getTodayNow();
             payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
             if (sec_end_time_unix != 0)
                 secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(sec_end_time_unix)));

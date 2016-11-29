@@ -36,8 +36,8 @@ public class FixHeadersTableView extends ViewGroup {
     private int scrollY;
     private int firstRow;
     private int firstColumn;
-    private int[] widths = new int[]{};
-    private int[] heights = new int[]{};
+    private int[] widths = new int[]{1};
+    private int[] heights = new int[]{1};
 
     @SuppressWarnings("unused")
     private View headView;
@@ -373,7 +373,7 @@ public class FixHeadersTableView extends ViewGroup {
      */
     @Override
     protected int computeHorizontalScrollExtent() {
-        if (widths == null) return 0;
+        if (widths == null || widths.length == 0) return 0;
         final float tableSize = width - widths[0];
         final float contentSize = sumArray(widths) - widths[0];
         final float percentageOfVisibleView = tableSize / contentSize;
@@ -386,7 +386,7 @@ public class FixHeadersTableView extends ViewGroup {
      */
     @Override
     protected int computeHorizontalScrollOffset() {
-        if (widths == null) return 0;
+        if (widths == null || widths.length == 0) return 0;
         final float maxScrollX = sumArray(widths) - width;
         final float percentageOfViewScrolled = getActualScrollX() / maxScrollX;
         final int maxHorizontalScrollOffset = width - widths[0] - computeHorizontalScrollExtent();

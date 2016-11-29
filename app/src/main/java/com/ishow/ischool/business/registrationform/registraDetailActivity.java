@@ -142,7 +142,7 @@ public class registraDetailActivity extends BaseActivity4Crm<regisPresenter, reg
                 ((TextView) holder.getView(R.id.detai_price)).setText("+" + registraInfo.payed);
             } else ((TextView) holder.getView(R.id.detai_price)).setText(registraInfo.payed + "");
 
-            ((TextView) holder.getView(R.id.pay)).setText(registraInfo.payed > 0 ? "收款" : "退款");
+            ((TextView) holder.getView(R.id.pay)).setText(registraInfo.payed >= 0 ? "收款" : "退款");
             ((TextView) holder.getView(R.id.detail_tradNum)).setText(getString(R.string.registration_trade_num) + ": " + registraInfo.receipt_no);
             ((TextView) holder.getView(R.id.detail_date)).setText(DateUtil.parseSecond2Str(Long.valueOf(registraInfo.pay_time)));
             return holder.getConvertView();

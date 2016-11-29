@@ -16,7 +16,6 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.commonlib.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
@@ -129,7 +128,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                     tempBankPayList = new ArrayList<>();
                     for (int i = 0; i < bankPayList.size(); i++) {
                         PayType payType = bankPayList.get(i);
-                        LogUtil.e(bankPayList.size() + "---" + payType.type_id);
+                       // LogUtil.e(bankPayList.size() + "---" + payType.type_id);
                         //检索出 银行卡中的收款卡
                         if (payType.type_id == 2)
                             tempBankPayList.add(payType);
@@ -184,7 +183,7 @@ public class SelectPayDialogFragment extends DialogFragment {
                     selectPayType.method_id = 1;
                     selectPayType.method = "刷卡";
                 } else if (colum1 == 1) {
-                    if (apliPayList != null) selectPayType = tempBankPayList.get(colum2);
+                    if (apliPayList != null) selectPayType = apliPayList.get(colum2);
                     selectPayType.method_id = 3;
                     selectPayType.method = "支付宝";
                 } else if (colum1 == 2) {

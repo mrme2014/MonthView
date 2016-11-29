@@ -11,6 +11,8 @@ public class Env {
     public static final String SITE_URL_800 = "http://crmcore-dev.ishowedu.com:800/";
     public static final String SITE_URL = BuildConfig.release ? SITE_URL_RELEASE : SITE_URL_DEV;
 
+    public static final String BUGLY_APP_ID = "ea526db474";
+
     public static final String APPLY_URL_DEV = "http://crm.ishowedu.com:8080/Comm/App/applyMessage/action/apply/student_id/";
     public static final String APPLY_URL = "http://crm.ishowedu.com:8080/Comm/App/applyMessage/action/apply/student_id/";
 

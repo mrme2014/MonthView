@@ -61,6 +61,7 @@ public class SelectPayDialogFragment extends DialogFragment {
 
     private List<PayType> bankPayList;
     private List<PayType> apliPayList;
+    private List<PayType> tempBankPayList;
 
     private PayType selectPayType = new PayType();
     private int colum1;
@@ -125,11 +126,13 @@ public class SelectPayDialogFragment extends DialogFragment {
                 JsonElement result = listApiResult.getResult();
                 bankPayList = gson.fromJson(result, type1);
                 if (bankPayList != null && bankPayList.size() > 0) {
+                    tempBankPayList = new ArrayList<>();
                     for (int i = 0; i < bankPayList.size(); i++) {
                         PayType payType = bankPayList.get(i);
                         LogUtil.e(bankPayList.size() + "---" + payType.type_id);
                         //检索出 银行卡中的收款卡
-                        if (payType.type_id != 2) bankPayList.remove(payType);
+                        if (payType.type_id == 2)
+                            tempBankPayList.add(payType);
                     }
                 }
             }
@@ -148,7 +151,7 @@ public class SelectPayDialogFragment extends DialogFragment {
         colums1Datas.add("转账");
         colums1Datas.add("现金");
         // .......
-        builder.setBackgroundDark(true).setDialogTitle(R.string.registration_pick_acount).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0, 2, colums1Datas, getListString(bankPayList));
+        builder.setBackgroundDark(true).setDialogTitle(R.string.registration_pick_acount).setDialogType(PickerDialogFragment.PICK_TYPE_OTHERS).setDatas(0, 2, colums1Datas, getListString(tempBankPayList));
         PickerDialogFragment fragment = builder.Build();
         fragment.show(getChildFragmentManager(), "dialog");
         fragment.addMultilinkPickCallback(new PickerDialogFragment.MultilinkPickCallback<int[]>() {
@@ -159,11 +162,11 @@ public class SelectPayDialogFragment extends DialogFragment {
                     return null;
 
                 if (colum == 0 && selectPosition == 0) {//银行卡
-                    return getListString(bankPayList);
+                    return getListString(tempBankPayList);
                 } else if (colum == 0 && selectPosition == 1) {//支付宝
                     return getListString(apliPayList);
                 } else if (colum == 0 && selectPosition == 2) {//转账
-                    return getListString(bankPayList);
+                    return getListString(tempBankPayList);
                 } else if (colum == 0 && selectPosition == 3) {//现金
                     return getListString(null);
 
@@ -177,15 +180,15 @@ public class SelectPayDialogFragment extends DialogFragment {
                 colum1 = selectIds[0];
                 colum2 = selectIds[1];
                 if (colum1 == 0) {
-                    if (bankPayList != null) selectPayType = bankPayList.get(colum2);
+                    if (tempBankPayList != null) selectPayType = tempBankPayList.get(colum2);
                     selectPayType.method_id = 1;
                     selectPayType.method = "刷卡";
                 } else if (colum1 == 1) {
-                    if (apliPayList != null) selectPayType = apliPayList.get(colum2);
+                    if (apliPayList != null) selectPayType = tempBankPayList.get(colum2);
                     selectPayType.method_id = 3;
                     selectPayType.method = "支付宝";
                 } else if (colum1 == 2) {
-                    if (bankPayList != null) selectPayType = bankPayList.get(colum2);
+                    if (tempBankPayList != null) selectPayType = tempBankPayList.get(colum2);
                     selectPayType.method_id = 4;
                     selectPayType.method = "转账";
                 } else if (colum1 == 3) {

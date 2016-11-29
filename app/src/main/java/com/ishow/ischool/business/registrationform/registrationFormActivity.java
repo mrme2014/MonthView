@@ -317,7 +317,10 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         }
         if (cheapType == 1 && cheapTypePrice != 0) {
             campus_price = (realCampusPrice * cheapTypePrice * 1.0 / 10);
+        } else if (cheapType == 2) {
+            campus_price -= cheapTypePrice;
         }
+
         if (totalRealMoney > campus_price) {
             showToast(R.string.registration_price_not);
             return;
@@ -423,8 +426,11 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         moneyJust.append(moneyRealStr);
         cheap_price = realCampusPrice - campus_price;
+       // LogUtil.e("-------"+ Math.round(cheap_price));
         campus_price = realCampusPrice;
 
+        cheap_price = Math.round(cheap_price*100)/100.00;
+        LogUtil.e("-------"+ Math.round(cheap_price));
     }
 
     private void resetRealMoney() {

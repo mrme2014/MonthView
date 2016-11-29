@@ -1,12 +1,12 @@
 package com.ishow.ischool.business.universitypick;
 
+import android.Manifest;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,7 +15,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.commonlib.util.LogUtil;
+import com.commonlib.util.PermissionUtil;
 import com.commonlib.widget.pull.BaseItemDecor;
 import com.commonlib.widget.pull.BaseViewHolder;
 import com.commonlib.widget.pull.PullRecycler;
@@ -64,56 +64,24 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
 
     private void init() {
         if (TextUtils.isEmpty(LocManager.getInstance().getCurCityName())) {
-            startLocation();
-        }
-        final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setQueryHint(getString(R.string.str_search_college_hint));
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                LogUtil.d("SearchView newText = " + newText);
-                mSearchKey = newText;
-                if (TextUtils.isEmpty(mSearchKey)) {
-//                    mCurrentPage = 1;
-                    loadFailed();
-                } else {
-                    setRefreshing();
+            PermissionUtil.getInstance().checkPermission(UniversityPickActivity.this, new PermissionUtil.PermissionChecker() {
+                @Override
+                public void onGrant(String grantPermission, int index) {
+                    startLocation();
                 }
-                return true;
-            }
-        });
-        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LogUtil.d("onClick");
-                isSearchFlag = true;
-//                mCurrentPage = 1;
-                loadFailed();
-            }
-        });
-        mSearchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                mSearchKey = "";
-                isSearchFlag = false;
-                mDataList.clear();
-                loadSuccess(originalDatas);
-                return false;
-            }
-        });
+                @Override
+                public void onDenied(String deniedPermission, int index) {
+                    // showToast();
+                }
+            }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION});
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtil.getInstance().notifyPermissionsChange(this, permissions, grantResults);
     }
 
     @Override
@@ -154,6 +122,7 @@ public class UniversityPickActivity extends BaseListActivity4Crm<UniversityPickP
                         String district = aMapLocation.getDistrict();
                         curCity = StringUtils.extractLocation(city, district);
                         mToolbarTitle.setText(curCity);
+                        recycler.setRefreshing();
                     } else {
                         //定位失败
                     }

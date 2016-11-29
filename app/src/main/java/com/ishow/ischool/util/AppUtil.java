@@ -156,7 +156,7 @@ public class AppUtil {
     public static ArrayList<String> getPayState() {
         ArrayList<String> stateList = new ArrayList<>();
         stateList.add("未报名");
-        stateList.add("欠款");
+        stateList.add("定金");
         stateList.add("全款");
         stateList.add("退款");
 

@@ -182,14 +182,13 @@ public class registrationInfoConfirmActivity extends BaseActivity4Crm<regisPrese
         }.getType();
         Gson gson = new Gson();
         List<PayType> typeList = gson.fromJson(pay_info, type1);
+        payReal.setText(registraInfo.payed + "元");
+        payMoney.setText(registraInfo.class_cost + "元");
         if (typeList != null) {
-            payMoney.setText(registraInfo.arrearage + "元");
-            double payMoney = 0;
             for (int i = 0; i < typeList.size(); i++) {
                 payType.append(typeList.get(i).method + "  ");
-                payMoney += Double.valueOf(typeList.get(i).balance);
             }
-            payReal.setText(payMoney + "元");
+
         }
 
         cheapType.setText(registraInfo.preferential_course_name);

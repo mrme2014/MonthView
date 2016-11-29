@@ -117,8 +117,7 @@ public class SelectPayDialogFragment extends DialogFragment {
 
     private void onGetPayListSucess(List<ApiResult<List<PayType>>> payTypeList) {
         if (payTypeList != null && payTypeList.size() > 0) {
-            Type type1 = new TypeToken<List<PayType>>() {
-            }.getType();
+            Type type1 = new TypeToken<List<PayType>>() {}.getType();
             Gson gson = new Gson();
             ApiResult<List<PayType>> listApiResult = payTypeList.get(0);
             if (listApiResult != null) {

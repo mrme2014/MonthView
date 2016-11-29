@@ -437,7 +437,7 @@
     <string name="registration_apply_sure_info_money">缴费情况</string>
     <string name="registration_apply_sure_info_cheap_type">优惠名</string>
     <string name="registration_apply_sure_info_pay_type">收款方式</string>
-    <string name="registration_apply_sure_info_pay_money">金额</string>
+    <string name="registration_apply_sure_info_pay_money">应收</string>
     <string name="registration_apply_sure_info_pay_adjustMoney">实收</string>
     <string name="registration_apply_sure_info_pay_recipt_no">收据号</string>
     <string name="registration_exit_tip">是否将本次已填内容缓存，下次自动填充.</string>

@@ -33,6 +33,7 @@ import com.ishow.ischool.bean.student.Student;
 import com.ishow.ischool.bean.student.StudentInfo;
 import com.ishow.ischool.bean.user.Avatar;
 import com.ishow.ischool.business.communication.add.CommunicationAddActivity;
+import com.ishow.ischool.business.registrationform.registraDetailActivity;
 import com.ishow.ischool.business.registrationform.registrationFormActivity;
 import com.ishow.ischool.business.student.course.CourseRecordActivity;
 import com.ishow.ischool.common.base.BaseActivity4Crm;
@@ -349,6 +350,10 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
             case R.id.student_apply_state:
             case R.id.apply_btn:
                 if (pay_state == 3 || pay_state == 4) {
+                    Intent intent = new Intent(this, registraDetailActivity.class);
+                    intent.putExtra(registrationFormActivity.STUDENT_ID, studentId);
+                    intent.putExtra(registrationFormActivity.STUDENT_STATUS, pay_state);
+                    startActivity(intent);
                     return;
                 }
                 if (mUser.positionInfo.id != Constants.COURSE_CONSULTANT)
@@ -425,12 +430,14 @@ public class StudentDetailActivity extends BaseActivity4Crm<StudentDetailPresent
                 applyQrcodeIv.setVisibility(View.VISIBLE);
                 applyStateLtv.setText(getString(R.string.apply_result_state_partMoney));
                 pay_state = 2;
+                RxBus.getDefault().post(new StudentInfo());//-------------------应测试要求 要求付完款学员列表要刷新
             } else if (apply_state == 2) {
                 infoGroup.setVisibility(View.VISIBLE);
                 infoApplyGroup.setVisibility(View.GONE);
                 applyQrcodeIv.setVisibility(View.VISIBLE);
                 applyStateLtv.setText(getString(R.string.apply_result_state_fullMoney));
                 pay_state = 3;
+                RxBus.getDefault().post(new StudentInfo());//-------------------应测试要求 要求付完款学员列表要刷新
             }
             setUpData();
         }

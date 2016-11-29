@@ -140,7 +140,9 @@ public class StudentInfo implements Parcelable {
     public String intention_class_name;
 
     public String free_time;
+    public StudentInfo() {
 
+    }
 
     protected StudentInfo(Parcel in) {
         id = in.readInt();

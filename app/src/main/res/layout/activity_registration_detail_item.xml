@@ -20,6 +20,7 @@
             android:layout_margin="7dp">
 
             <TextView
+                android:id="@+id/pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收款"

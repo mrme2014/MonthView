@@ -6,12 +6,14 @@ import com.commonlib.application.BaseApplication;
 import com.commonlib.http.ApiFactory;
 import com.commonlib.util.DeviceUtils;
 import com.commonlib.util.LogUtil;
+import com.ishow.ischool.BuildConfig;
 import com.ishow.ischool.bean.ApiResult;
 import com.ishow.ischool.bean.user.Token;
 import com.ishow.ischool.bean.user.User;
 import com.ishow.ischool.common.manager.TokenManager;
 import com.ishow.ischool.common.manager.UserManager;
 import com.ishow.ischool.util.AppUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.zaaach.citypicker.utils.LocManager;
 
 import org.json.JSONException;
@@ -44,6 +46,11 @@ public class CrmApplication extends BaseApplication {
         initUser();
         initApi();
         updateConfig();
+        initBugly();
+    }
+
+    private void initBugly() {
+        CrashReport.initCrashReport(getApplicationContext(), Env.BUGLY_APP_ID, BuildConfig.release_type != Env.type_release);
     }
 
     private void initUser() {

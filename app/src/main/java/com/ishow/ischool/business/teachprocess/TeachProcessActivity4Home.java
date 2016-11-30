@@ -177,7 +177,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         salesChart.setDatas(datas);
 
         salesTrends.setSecondTxt(DateUtil.parseSecond2Str((long) (begin_time)) + " -- " + DateUtil.parseSecond2Str((long) end_time));
-        
+
         setUpLabel();
     }
 
@@ -224,15 +224,19 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
         if (position == 0) {
             begin_time = (int) AppUtil.getWeekStart();
             end_time = (int) AppUtil.getWeekEnd();
+            getComMarketSaleProcess();
         } else if (position == 1) {
             begin_time = (int) AppUtil.getMonthStart();
             end_time = (int) AppUtil.getMonthEnd();
+            getComMarketSaleProcess();
         } else if (position == 2) {
             begin_time = (int) AppUtil.getLastWeekStart();
             end_time = (int) AppUtil.getLastWeekEnd();
+            getComMarketSaleProcess();
         } else if (position == 3) {
             begin_time = (int) AppUtil.getLastMonthStart();
             end_time = (int) AppUtil.getLastMonthEnd();
+            getComMarketSaleProcess();
         } else if (position == 4) {
             if (timeSeletByUser == null) {
                 timeSeletByUser = new TimeSeletByUserDialog();
@@ -245,6 +249,7 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
                     public void onResult(int start_time, int over_time) {
                         begin_time = start_time;
                         end_time = over_time;
+                        getComMarketSaleProcess();
 //                        LogUtil.e("-setOnSelectResultCallback----" + begin_time + "----" + end_time);
                     }
 
@@ -263,7 +268,6 @@ public class TeachProcessActivity4Home extends BaseActivity4Crm<TeachPresenter, 
             }
         }
 //        LogUtil.e(position + "-----" + begin_time + "----" + end_time);
-        getComMarketSaleProcess();
     }
 
     @Override

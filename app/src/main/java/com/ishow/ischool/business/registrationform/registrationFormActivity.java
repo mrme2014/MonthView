@@ -195,7 +195,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 resetAdjustMoney();
                 //moneyJust.setText(getString(R.string.registration_money_just) + " ￥" + campus_price);
             }
-            fisrt_pay_time_unix = AppUtil.getTodayNow();
+            fisrt_pay_time_unix = AppUtil.getTodayStart();
             payDate.setText(DateUtil.parseSecond2Str(Long.valueOf(fisrt_pay_time_unix)));
             if (sec_end_time_unix != 0)
                 secPayDate.setText(DateUtil.parseSecond2Str(Long.valueOf(sec_end_time_unix)));
@@ -323,6 +323,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
 
         if (totalRealMoney > campus_price) {
             showToast(R.string.registration_price_not);
+            campus_price = realCampusPrice;
             return;
         }
         handProgressbar(true);
@@ -357,7 +358,7 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
                 action,
                 (float) campus_price,
                 (float) totalRealMoney,
-                Integer.parseInt(tradNum.getText().toString()),
+                tradNum.getText().toString(),
                 beizhu.getText().toString(),
                 cheapTypeId,
                 cheap_price,
@@ -426,8 +427,8 @@ public class registrationFormActivity extends BaseActivity4Crm<regisPresenter, r
         moneyRealStr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(registrationFormActivity.this, R.color.color_orange1)), 0, moneyRealStr.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         moneyJust.append(moneyRealStr);
         cheap_price = realCampusPrice - campus_price;
-        cheap_price = Math.round(cheap_price*100)/100.00;
-       // LogUtil.e("-------"+ Math.round(cheap_price));
+        cheap_price = Math.round(cheap_price * 100) / 100.00;
+        // LogUtil.e("-------"+ Math.round(cheap_price));
         campus_price = realCampusPrice;
 
 

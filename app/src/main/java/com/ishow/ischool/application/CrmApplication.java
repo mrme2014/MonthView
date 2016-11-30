@@ -85,7 +85,7 @@ public class CrmApplication extends BaseApplication {
                 String bodyString = "";
                 if (response.isSuccessful()) {
                     bodyString = response.body().string();
-//                    LogUtil.d(this, "bodyString = " + bodyString);
+                //    LogUtil.e("okhttp = " + bodyString);
                     if (bodyString != null) {
                         JSONObject jsonObject = null;
                         try {

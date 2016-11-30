@@ -64,7 +64,7 @@ public interface RegistrationApi {
                                                  @Field("action") String action,
                                                  @Field("price") float price,
                                                  @Field("actual_price") float actual_price,
-                                                 @Field("receipt_no") int receipt_no,
+                                                 @Field("receipt_no") String receipt_no,
                                                  @Field("memo") String memo,
                                                  @Field("app_type") int app_type,
                                                  @Field("privilege_type")int privilege_type,

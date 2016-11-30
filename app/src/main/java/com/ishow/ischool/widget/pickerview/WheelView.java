@@ -220,7 +220,7 @@ public class WheelView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        firstLineAndSecondLineSpace = getMeasuredWidth()==0?360:getMeasuredWidth();
+        firstLineAndSecondLineSpace = getMeasuredWidth() == 0 ? 360 : getMeasuredWidth();
         controlWidth = getWidth();
         if (controlWidth != 0) {
             setMeasuredDimension(getWidth(), itemNumber * unitHeight);
@@ -274,7 +274,7 @@ public class WheelView extends View {
         for (ItemObject item : itemList) {
             if (item.isSelected()) {
                 if (onSelectListener != null)
-                    onSelectListener.endSelect(this,item.id, item.itemText);
+                    onSelectListener.endSelect(this, item.id, item.itemText);
                 break;
             }
         }
@@ -335,7 +335,7 @@ public class WheelView extends View {
                 if (itemList.get(i).isSelected()) {
                     newMove = (int) itemList.get(i).moveToSelected();
                     if (onSelectListener != null)
-                        onSelectListener.endSelect(this,itemList.get(i).id,
+                        onSelectListener.endSelect(this, itemList.get(i).id,
                                 itemList.get(i).itemText);
                     break;
                 }
@@ -345,7 +345,7 @@ public class WheelView extends View {
                 if (itemList.get(i).isSelected()) {
                     newMove = (int) itemList.get(i).moveToSelected();
                     if (onSelectListener != null)
-                        onSelectListener.endSelect(this,itemList.get(i).id,
+                        onSelectListener.endSelect(this, itemList.get(i).id,
                                 itemList.get(i).itemText);
                     break;
                 }
@@ -407,7 +407,7 @@ public class WheelView extends View {
                 for (ItemObject item : itemList) {
                     if (item.isSelected()) {
                         if (onSelectListener != null)
-                            onSelectListener.endSelect(WheelView.this,item.id, item.itemText);
+                            onSelectListener.endSelect(WheelView.this, item.id, item.itemText);
                         break;
                     }
                 }
@@ -468,9 +468,9 @@ public class WheelView extends View {
             bottomlinePaint.setStrokeWidth(lineWidth);
         }
         canvas.drawLine(firstLineAndSecondLineSpace, controlHeight / 2 - unitHeight / 2 + 2,
-                controlWidth- firstLineAndSecondLineSpace, controlHeight / 2 - unitHeight / 2 + 2, bottomlinePaint);
+                controlWidth - firstLineAndSecondLineSpace, controlHeight / 2 - unitHeight / 2 + 2, bottomlinePaint);
         canvas.drawLine(firstLineAndSecondLineSpace, controlHeight / 2 + unitHeight / 2 - 2,
-                controlWidth- firstLineAndSecondLineSpace, controlHeight / 2 + unitHeight / 2 - 2, bottomlinePaint);
+                controlWidth - firstLineAndSecondLineSpace, controlHeight / 2 + unitHeight / 2 - 2, bottomlinePaint);
 
     }
 
@@ -743,12 +743,19 @@ public class WheelView extends View {
             if (!isInView())
                 return;
 
+            /*if (itemText != null && itemText != "" && itemText.length() >= 5) {
+                String line1 = itemText.substring(0, itemText.length() / 2);
+                String line2 = itemText.substring(itemText.length() / 2, itemText.length());
+                canvas.drawText(line1, x + controlWidth / 2 - textPaint.measureText(line1) / 2, y + move + unitHeight / 2 - textRect.height() / 4, textPaint);
+                canvas.drawText(line2, x + controlWidth / 2 - textPaint.measureText(line2) / 2, y + move + unitHeight / 2 + textRect.height(), textPaint);
+            }
             // 绘制内容
-            canvas.drawText(itemText, x + controlWidth / 2 - textRect.width()
-                            / 2, y + move + unitHeight / 2 + textRect.height() / 2,
-                    textPaint);
+            else*/
+                canvas.drawText(itemText, x + controlWidth / 2 - textRect.width() / 2, y + move + unitHeight / 2 + textRect.height() / 2, textPaint);
 
+          //  LogUtil.e(controlWidth + "---" + textRect.width());
         }
+
 
         /**
          * 是否在可视界面内
@@ -822,7 +829,7 @@ public class WheelView extends View {
          * @param id
          * @param text
          */
-        public void endSelect(WheelView wheelView,int id, String text);
+        public void endSelect(WheelView wheelView, int id, String text);
 
         /**
          * 选中的内容

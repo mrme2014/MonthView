@@ -82,7 +82,7 @@
         <item name="normalTextSize">14sp</item>
         <item name="selectedTextColor">#333333</item>
         <item name="selectedTextSize">20sp</item>
-        <item name="unitHight">45dp</item>
+        <item name="unitHight">50dp</item>
     </style>
 
     <!--这个中间弹出方式  选择形式是 1.年月日  2.礼拜几 小时  分钟 3.时间段 小时  分钟-->

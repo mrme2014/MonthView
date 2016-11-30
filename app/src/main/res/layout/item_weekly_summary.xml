@@ -51,11 +51,32 @@
         android:layout_toRightOf="@id/item2_key"
         android:layout_alignBaseline="@id/item2_key"/>
 
+
+    <!--add  start-->
+
+    <TextView
+        android:id="@+id/item_key_add"
+        android:layout_width="200dp"
+        style="@style/weekly_font_style"
+        android:layout_below="@id/item2_key"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/item_value_add"
+        style="@style/weekly_font_style"
+        android:layout_toRightOf="@id/item_key_add"
+        android:layout_alignBaseline="@id/item_key_add"/>
+
+
+
+    <!--add end-->
+
     <TextView
         android:id="@+id/item3_key"
         android:layout_width="200dp"
         style="@style/weekly_font_style"
-        android:layout_below="@id/item2_key"
+        android:layout_below="@id/item_key_add"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"/>
 

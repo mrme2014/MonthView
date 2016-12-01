@@ -280,7 +280,7 @@ public class TabIndexMarketFragment extends BaseFragment4Crm {
         holders[9] = AnimatorUtil.getPropertyValuesHolder("performanceTv", marketHome.market.real);
         holders[10] = AnimatorUtil.getPropertyValuesHolder("redTargetTv", marketHome.market.full_base);
         holders[11] = AnimatorUtil.getPropertyValuesHolder("rushTargetTv", marketHome.market.full_challenge);
-        holders[12] = AnimatorUtil.getPropertyValuesHolder("fullMoneyRateTv", Float.parseFloat(marketHome.process.full_amount_rate.replace("%", "")));
+        holders[12] = AnimatorUtil.getPropertyValuesHolder("fullMoneyRateTv", Float.parseFloat(marketHome.process.openclass_full_amount_apply_rate.replace("%", "")));
         holders[13] = AnimatorUtil.getPropertyValuesHolder("applyRateTv", Float.parseFloat(marketHome.process.openclass_apply_rate.replace("%", "")));
 
         ValueAnimator valueAnimator = ValueAnimator.ofPropertyValuesHolder(holders);

@@ -101,7 +101,7 @@ public class RegistraTableRowTextView extends TextView {
                 int cellValue = (iconList == null ? 0 : iconList.get(i));
                 Bitmap cellBitmap = null;
                 if (cellValue == 1) {
-                    cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_checkbox_weekly_active);
+                    cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_checkbox_week_active2);
                 } else if (cellValue == 0) {
                     cellBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_checkbox_weekly_normal);
                 }

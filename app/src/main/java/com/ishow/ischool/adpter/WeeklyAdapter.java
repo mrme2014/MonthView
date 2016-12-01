@@ -92,16 +92,23 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
         List<String> keyDatas = mSummaryWeekly.table.head;
         List<List<String>> valueDatas = mSummaryWeekly.table.body;
         holder.weekly_title.setText(valueDatas.get(realPosition).get(0));
-        holder.item1_key.setText(keyDatas.get(1));
+
+        holder.item1_key.setText(keyDatas.get(0));
         holder.item1_value.setText(valueDatas.get(realPosition).get(1));
-        holder.item2_key.setText(keyDatas.get(2));
+
+        holder.item2_key.setText(keyDatas.get(1));
         holder.item2_value.setText(valueDatas.get(realPosition).get(2));
+
+        holder.item_key_add.setText(keyDatas.get(2));
+        holder.item_value_add.setText(valueDatas.get(realPosition).get(3));
+
         holder.item3_key.setText(keyDatas.get(3));
-        holder.item3_value.setText(valueDatas.get(realPosition).get(3));
+        holder.item3_value.setText(valueDatas.get(realPosition).get(4));
+
         holder.item4_key.setText(keyDatas.get(4));
-        holder.item4_value.setText(valueDatas.get(realPosition).get(4));
+        holder.item4_value.setText(valueDatas.get(realPosition).get(5));
         holder.item5_key.setText(keyDatas.get(5));
-        holder.item5_value.setText(valueDatas.get(realPosition).get(5));
+        holder.item5_value.setText(valueDatas.get(realPosition).get(6));
 
         holder.checkBox.setChecked(mCheckedSparseArray.get(position));
 
@@ -152,6 +159,11 @@ public class WeeklyAdapter extends RecyclerView.Adapter<WeeklyAdapter.ViewHolder
         TextView item5_value;
         @BindView(R.id.checkbox)
         public AppCompatCheckBox checkBox;
+
+        @BindView(R.id.item_key_add)
+        TextView item_key_add;
+        @BindView(R.id.item_value_add)
+        TextView item_value_add;
 
         public ViewHolder(final View itemView) {
             super(itemView);

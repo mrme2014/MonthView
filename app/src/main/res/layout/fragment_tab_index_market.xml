@@ -174,7 +174,7 @@
                         android:paddingBottom="20dp"
                         android:text="1%"
                         app:label_TB_padding="15"
-                        app:label_text_bottom="全款率"
+                        app:label_text_bottom="全款报名率"
                         app:label_text_bottom_color="@color/txt_9"
                         app:label_text_bottom_size="12" />
 

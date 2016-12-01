@@ -62,6 +62,7 @@ public class WeeklySummaryFragment extends BaseFragment4Crm {
             mEndTime = bundle.getLong("end_time");
             mTitle = bundle.getString("title");
         }
+
     }
 
     @Override
@@ -71,6 +72,7 @@ public class WeeklySummaryFragment extends BaseFragment4Crm {
 
     @Override
     public void init() {
+
         weeklyRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.weekly_list_divider));
         weeklyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

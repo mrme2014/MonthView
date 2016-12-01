@@ -22,12 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.commonlib.util.DeviceUtils;
+import com.commonlib.util.LogUtil;
+import com.commonlib.util.UIUtil;
 import com.ishow.ischool.R;
 import com.ishow.ischool.adpter.FragmentAdapter;
 import com.ishow.ischool.common.base.BaseActivity4Loading;
@@ -45,7 +48,6 @@ import butterknife.OnClick;
 import rx.functions.Action1;
 
 import static android.animation.ObjectAnimator.ofPropertyValuesHolder;
-import static com.ishow.ischool.R.id.share_layout;
 
 /**
  * Created by mini on 16/11/21.
@@ -59,8 +61,10 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
     ViewPager mViewPaper;
     @BindView(R.id.share_iv)
     ImageView shareIv;
-    @BindView(share_layout)
+    @BindView(R.id.share_layout)
     RelativeLayout shareLayout;
+    @BindView(R.id.viewParent)
+    LinearLayout viewParent;
 
 
     private List<ShareSpec> mShareSpecs;
@@ -109,6 +113,12 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
     }
 
     private void initViewPager() {
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mViewPaper.getLayoutParams();
+        if (layoutParams != null) {
+            layoutParams.height = UIUtil.getScreenHeightPixels(this) + UIUtil.dip2px(this, 90);
+            mViewPaper.setLayoutParams(layoutParams);
+            LogUtil.e(layoutParams.width + "----" + layoutParams.height);
+        }
         SimpleDateFormat sdf4Title = new SimpleDateFormat("MM.dd");
         SimpleDateFormat sdf4Share = new SimpleDateFormat("MM月dd日");
         ArrayList<Fragment> fragments = new ArrayList<>();
@@ -206,7 +216,6 @@ public class Summary4WeeklyActivity extends BaseActivity4Loading {
             sy = PropertyValuesHolder.ofFloat("scaleY", 1f, 0f);
             alphaPvh = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
         }
-
 
 
         if (shareQqView == null) {

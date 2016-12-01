@@ -482,7 +482,19 @@ user_id	Int	0			指定看某个员工的	*/
                     this.finish();
                     return;
                 }
-                setUpDataByResult();
+                Avatar avatar = mUser.avatar;
+                UserInfo userInfo = mUser.userInfo;
+                CampusInfo campusInfo = mUser.campusInfo;
+                PositionInfo positionInfo = mUser.positionInfo;
+                campus_id = campusInfo.id;
+                curuser_position_id = position_id = positionInfo.id;
+                user_id = userInfo.user_id;
+                campus_name = campusInfo.name;
+                position_name = positionInfo.title;
+                file_name = avatar.file_name;
+                user_name = userInfo.user_name;
+                //setUpDataByResult();
+                setUpPersonInfo(file_name,user_id,user_name,position_name,campus_name,campus_id);
                 salesSpinner.setSelection(0, true);
                 type_time = 7;
             }

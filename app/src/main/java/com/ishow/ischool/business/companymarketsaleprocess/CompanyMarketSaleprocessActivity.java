@@ -255,7 +255,7 @@ public class CompanyMarketSaleprocessActivity extends BaseActivity4Crm<ComSalePr
                     @Override
                     public void onResult(int start_time, int over_time) {
                         begin_time = start_time;
-                        end_time = over_time;
+                        end_time = over_time + 86399;
                         LogUtil.e("-setOnSelectResultCallback----" + begin_time + "----" + end_time);
                         getComMarketSaleProcess();
                     }

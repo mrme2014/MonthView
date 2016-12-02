@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -137,18 +138,19 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-//                LogUtil.d("SearchView newText = " + newText);
-                mSearchKey = newText;
+                mSearchKey = query;
                 if (searchFragment == null) {
                     searchFragment = StatisticsSearchFragment.newInstance(mCampusId, mSource);
                 }
                 searchFragment.startSearch(mSearchKey);
                 return true;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                LogUtil.d("SearchView newText = " + newText);
+                return false;
             }
         });
         mSearchView.setOnSearchClickListener(new View.OnClickListener() {
@@ -164,6 +166,8 @@ public class StatisticsListActivity extends BaseListActivity4Crm<StatisticsListP
                 return false;
             }
         });
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
 
         // recycleview上滑隐藏fab,下滑显示

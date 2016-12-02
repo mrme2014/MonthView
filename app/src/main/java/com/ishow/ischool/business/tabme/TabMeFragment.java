@@ -186,11 +186,14 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
         //更新本地 用户信息的 posiiotnInfo的 信息
         UserManager.getInstance().initCampusPositions(changedUser);
 
+        this.user = UserManager.getInstance().get();
         fmMeHeaderJob.setText(campusInfo.name + "  " + positionInfo.title);
 
-        if (positionInfo.id != Resource.ROLE_PERMISSION_CHENDU)
+        if (positionInfo.id != Resource.ROLE_PERMISSION_CHENDU) {
             fmMeMornigQrcode.setVisibility(View.GONE);
-        else fmMeMornigQrcode.setVisibility(View.VISIBLE);
+        } else {
+            fmMeMornigQrcode.setVisibility(View.VISIBLE);
+        }
 
         RxBus.getInstance().post(campusInfo.name);
         LogUtil.e("changedUser post ChangeRoleEvent");
@@ -224,11 +227,13 @@ public class TabMeFragment extends BaseFragment4Crm<MePresenter, MeModel> implem
 
 
     void checkWeeklyPermission() {
-        if (user.positionInfo.campusId != Constants.CAMPUS_HEADQUARTERS) {      // 非总部
-            if (user.positionInfo.id == Cons.Position.Xiaozhang ||
-                    user.positionInfo.id == Cons.Position.Shichangzongjian) {
-                fmMeSummaryWeekly.setVisibility(View.VISIBLE);
-            }
+        LogUtil.d("xbin user.positionInfo.id=" + user.positionInfo.id);
+        if (user.positionInfo.campusId != Constants.CAMPUS_HEADQUARTERS
+                && (user.positionInfo.id == Cons.Position.Xiaozhang ||
+                user.positionInfo.id == Cons.Position.Shichangzongjian)) {
+            fmMeSummaryWeekly.setVisibility(View.VISIBLE);
+        } else {
+            fmMeSummaryWeekly.setVisibility(View.GONE);
         }
     }
 }

@@ -195,7 +195,7 @@ public class StatisticsFilterFragment extends DialogFragment implements InputLin
         if (!isUserCampus) {        // 总部才显示“所属校区”筛选条件（默认杭州校区）
             campusIL.setVisibility(View.VISIBLE);
             if (TextUtils.isEmpty(mFilterCampusId) || mFilterCampusId.equals(Campus.HEADQUARTERS + "")) {
-                campusIL.setContent("杭州校区");
+                campusIL.setContent("总部");
             } else {
                 campusIL.setContent(CampusManager.getInstance().getCampusNameById(Integer.parseInt(mFilterCampusId)));
             }

@@ -86,7 +86,7 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
                         LogUtil.d("CityPickerActivity onLocationChanged", "district: " + district);
                         String location = StringUtils.extractLocation(city, district);
                         mCityAdapter.updateLocateState(LocateState.SUCCESS, location);
-                        SpUtil.getInstance(CityPickerActivity.this).setValue(LocManager.LOC_KEY, city);
+                        SpUtil.getInstance(CityPickerActivity.this).setValue(LocManager.LOC_KEY, location);
                     } else {
                         //定位失败
                         mCityAdapter.updateLocateState(LocateState.FAILED, null);

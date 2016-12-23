@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.calendar)
     void onCalendarClick() {
-        CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(2017, 1, 15, 1);
+        CalendarDialogFragment fragment = new CalendarDialogFragment();
         fragment.show(getSupportFragmentManager(), "dialog");
     }
 

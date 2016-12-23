@@ -1,5 +1,6 @@
 package monthview.ishow.com.monthview.calendar;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -56,6 +57,7 @@ public class MonthView extends View implements View.OnTouchListener {
     private int firstDayOfWeek;
     private int setDay, setYear, setMonth;
     private int maxDayOfMonth;
+    private float circleValue;//选中之后圆环的半径
 
     public MonthView(Context context) {
         super(context);
@@ -85,8 +87,8 @@ public class MonthView extends View implements View.OnTouchListener {
         defalutPaint.setColor(getResources().getColor(R.color.txt_9));
 
         leftRightPd = UIUtil.dip2px(context, 10);
-        setNeedWeekTitle(true);
-        upMonthDyas(0);
+        //setNeedWeekTitle(true);
+        //upMonthDyas(0);
 
         this.setOnTouchListener(this);
 
@@ -183,7 +185,7 @@ public class MonthView extends View implements View.OnTouchListener {
             if (i == selectDay) {
                 float circlex = i % 7 * cellWidth + cellWidth / 2;
                 float circley = i / 7 * cellWidth + weekTitleHeight + leftRightPd + monthTitleHeight + cellWidth / 4;
-                canvas.drawCircle(circlex, circley, cellWidth / 2, selectPaint);
+                canvas.drawCircle(circlex, circley, circleValue, selectPaint);
                 normalPaint.setColor(Color.WHITE);
                 canvas.drawText(text, textx, texty, normalPaint);
             }
@@ -231,6 +233,7 @@ public class MonthView extends View implements View.OnTouchListener {
           /*这里是避免listview的复用导致 多个monthview有被同时选中的情况*/
         if (year == setYear && month == setMonth) {
             selectDay = setDay + firstDayOfWeek - 2;
+            startAnimation();
         } else
             selectDay = -1;
 
@@ -279,15 +282,28 @@ public class MonthView extends View implements View.OnTouchListener {
                 int touchDay = indexY * 7 + indexX - 1;
                 if (touchDay >= dayOfMonth + firstDayOfWeek - 2 && touchDay < maxDayOfMonth + firstDayOfWeek - 1) {
                     selectDay = touchDay;
-                    invalidate();
+                    startAnimation();
                     if (callback != null)
                         callback.onSelect(year, month, selectDay - firstDayOfWeek + 2);
                 }
 
-               // LogUtil.e("ACTION_DOWN v1 =" + v1 + "--v2=" + v2 + "--indexX=" + indexX + "--indexY" + indexY);
+                //LogUtil.e("ACTION_DOWN v1 =" + v1 + "--v2=" + v2 + "--indexX=" + indexX + "--indexY" + indexY);
             }
         }
         return true;
+    }
+
+    private void startAnimation() {
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(cellWidth / 4, cellWidth / 2);
+        valueAnimator.setDuration(300);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                circleValue = (float) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+        valueAnimator.start();
     }
 
     public interface onCalendarDaySelectCallback {

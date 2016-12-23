@@ -57,7 +57,7 @@ public class HourView extends View implements View.OnTouchListener {
         hourPaint.setTextSize(UIUtil.sp2px(context, 12));
 
         selectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        selectPaint.setColor(getResources().getColor(R.color.comm_greeen));
+        selectPaint.setColor(getResources().getColor(R.color.comm_green));
         selectPaint.setStyle(Paint.Style.FILL);
 
         // Paint.FontMetrics metrics = hourPaint.getFontMetrics();

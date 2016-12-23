@@ -12,6 +12,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show calendar" />
+
+
+        <Button
+            android:id="@+id/hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show huors" />
 
         <monthview.ishow.com.monthview.calendar.WeekTitle
             android:layout_width="match_parent"

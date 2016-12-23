@@ -1,15 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
-    <color name="color_gray">#EFEFEF</color>
+    <color name="comm_blue">#2883f6</color>
+    <color name="comm_yellow">#ffa500</color>
+    <color name="comm_green">#62d05c</color>
+    <color name="comm_bg">#e7e8ea</color>
+    <color name="comm_line">#d9dadd</color>
     <color name="color_app_bg">#f1f1f1</color>
 
     <color name="txt_2">#222222</color>
+    <color name="txt_3">#333333</color>
+    <color name="txt_6">#666666</color>
     <color name="txt_9">#999999</color>
+    <color name="txt_red">#d83330</color>
+    <color name="txt_hint">#b6b6b6</color>
 
-    <color name="comm_blue">#2883f6</color>
-    <color name="comm_greeen">#62d05c</color>
+    <color name="colorPrimary">#FF2883f6</color>
+    <color name="colorPrimaryDark">#FF2883f6</color>
+    <color name="colorPrimaryDark1">#303F9F</color>
+
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="alph_99_white">#99FFFFFF</color>
+
+
+    <!--现在这三个颜色只是 为了  copy原来资源 不报错      之后会改色值的-->
+    <color name="green">#20af1f</color>
+    <color name="theme">#20af1f</color>
+    <color name="green_press">#47a657</color>
+    <color name="blue">#538DEC</color>
+    <color name="blue_press">#5799CD</color>
+    <color name="gray">#EFEFEF</color>
+    <color name="color_orange">#fda428</color>
+    <color name="color_orange1">#f86300</color>
+
+    <color name="text_tuichu">#f25844</color>
+    <color name="trans_bg_22">#22000000</color>
+    <color name="trans_txt_55">#55FFFFFF</color>
+    <color name="fill_color">#289FCD</color>
+    <color name="sale_apply_fill_color_">#61cdfd</color>
+    <color name="sale_full_fill_color_">#a98de7</color>
+    <color name="sale_gray_txt_color_">#999</color>
+    <color name="chart_gray_txt">#959595</color>
+    <color name="chart_head_gray_bg">#e7e8ea</color>
+    <color name="chart_head_gray_txt">#eaeaec</color>
+    <color name="chart_line">#dadadc</color>
+    <color name="chart_blue">#61cdfd</color>
+    <color name="chart_red">#f69087</color>
+    <color name="chart_green">#7fe385</color>
+
+
+
+    <color name="random_color1">#708090</color>
+    <color name="random_color2">#008080</color>
+    <color name="random_color3">#D2B48C</color>
+    <color name="random_color4">#4682B4</color>
+    <color name="random_color5">#a3bc56</color>
+    <color name="random_color6">#fd9d9e</color>
+    <color name="random_color7">#60c0dd</color>
+    <color name="random_color8">#8063a0</color>
+    <color name="random_color9">#ffd700</color>
+    <color name="random_color10">#09b55a</color>
+    <color name="random_color11">#7e81db</color>
+    <color name="random_color12">#da78dd</color>
+    <color name="random_color13">#20B2AA</color>
+    <color name="random_color14">#F08080</color>
+    <color name="random_color15">#800080</color>
+    <color name="random_color16">#FF6347</color>
+    <color name="random_color17">#FF8C00</color>
+    <color name="random_color18">#4682B4</color>
+    <color name="random_color19">#2E8B57</color>
+    <color name="random_color20">#778899</color>
+
+
+    <color name="pie_color1">#b9d2fa</color>
+    <color name="pie_color2">#88b4f3</color>
+    <color name="pie_color3">#518fe6</color>
+    <color name="pie_color4">#397edd</color>
+    <color name="pie_color5">#699eea</color>
+    <color name="pie_color6">#2a6fcc</color>
+
+    <!--  班级管理  -->
+    <color name="class_primary">#4dd87b</color>
+    <color name="class_intermediate">#55a9fd</color>
+    <color name="class_senior">#ffbc3c</color>
+    <color name="class_movie">#8e7ee4</color>
+    <color name="light_gray">#f8f9fa</color>
+    <color name="gray3d">#ddd</color>
+    <color name="registra_table_left">#f7f7f7</color>
+    <color name="registra_pay_input">#b7bac0</color>
+    <color name="tablayout_bg">#f2f3f4</color>
+    <color name="calendar_radiobtn_unSelected">#93c0fa</color>
+    <color name="calendar_title_unSelected">#b6b6b6</color>
 </resources>

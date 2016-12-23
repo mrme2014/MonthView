@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="23dp" />
+            <solid android:color="@color/blue_press" />
+            <size android:width="70dp" android:height="30dp"></size>
+            <!--  <padding android:bottom="5dp" android:left="10dp" android:right="10dp" android:top="5dp"></padding>-->
+        </shape>
+    </item>
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="23dp" />
+            <solid android:color="@color/comm_blue" />
+            <size android:width="70dp" android:height="30dp"></size>
+            <!--  <padding android:bottom="5dp" android:left="10dp" android:right="10dp" android:top="5dp"></padding>-->
+        </shape>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="23dp" />
+            <solid android:color="@color/calendar_radiobtn_unSelected" />
+            <size android:width="70dp" android:height="30dp"></size>
+            <!--  <padding android:bottom="5dp" android:left="10dp" android:right="10dp" android:top="5dp"></padding>-->
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="23dp" />
+            <solid android:color="@color/calendar_radiobtn_unSelected" />
+            <size android:width="70dp" android:height="30dp"></size>
+            <!--  <padding android:bottom="5dp" android:left="10dp" android:right="10dp" android:top="5dp"></padding>-->
+        </shape>
+    </item>
+</selector>

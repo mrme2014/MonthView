@@ -10,4 +10,13 @@
         <item>五</item>
         <item>六</item>
     </string-array>
+
+    <string name="claz_calendar_title">%1$d年\n%2$d月%3$d日</string>
+    <string name="history_claz_time">上课时间</string>
+    <string name="open_class_date_morning">上午</string>
+    <string name="open_class_date_noon">下午</string>
+    <string name="open_class_date_afternoon">晚上</string>
+    <string name="open_claz_calendar_clear">清除</string>
+    <string name="open_class_hour_qcode_hour">二维码有效时间</string>
+    <string name="open_class_hour_select_qcode_hour">请选择起止时间</string>
 </resources>

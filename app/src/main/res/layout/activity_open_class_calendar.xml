@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/calendar_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@mipmap/icon_list_delete" />
+
+
+        <TextView
+            android:id="@+id/calendar_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/txt_2"
+            android:layout_alignParentRight="true"
+            android:padding="12dp"
+            android:text="@string/open_claz_calendar_clear"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/calendar_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/history_claz_time"
+            android:gravity="center_vertical"
+            android:textColor="@color/calendar_title_unSelected"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/calendar_group"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/calendar_mornig"
+                style="@style/radio_button"
+                android:text="@string/open_class_date_morning" />
+
+            <RadioButton
+                android:id="@+id/calendar_noon"
+                style="@style/radio_button"
+                android:text="@string/open_class_date_noon" />
+
+            <RadioButton
+                android:id="@+id/calendar_afternoon"
+                style="@style/radio_button"
+                android:text="@string/open_class_date_afternoon" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <com.commonlib.widget.calendar.WeekTitle
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+       />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ListView
+            android:id="@+id/listview_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:dividerHeight="0px"></ListView>
+
+        <RadioButton
+            android:id="@+id/calendar_sure"
+            android:layout_width="110dp"
+            android:layout_height="45dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/calendar_btn_conner_blue"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:button="@null"
+            android:textSize="16sp" />
+    </FrameLayout>
+</LinearLayout>

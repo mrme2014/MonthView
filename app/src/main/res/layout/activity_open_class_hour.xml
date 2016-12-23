@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/hour_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:src="@mipmap/icon_list_delete" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hour_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/open_class_hour_qcode_hour"
+                android:textColor="@color/txt_2"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/hour_title_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hour_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="@string/open_class_hour_select_qcode_hour"
+                android:textColor="@color/txt_9"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.commonlib.widget.calendar.HourView
+        android:id="@+id/HourView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/calendar_sure"
+        android:layout_width="187dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/calendar_btn_conner_blue"
+        android:gravity="center"
+        android:text="确定"
+        android:layout_marginBottom="12.5dp"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -1,0 +1,55 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:loading="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            loading:indicatorName="BallPulse"
+            loading:indicatorColor="@color/comm_blue"/>
+    </LinearLayout>
+
+    <!--<ProgressBar-->
+    <!--style="@android:style/Widget.ProgressBar.Small"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_vertical" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/footer"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:ellipsize="end"-->
+    <!--android:singleLine="true" />-->
+
+    <LinearLayout
+        android:id="@+id/end_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="加载更多..."
+            android:textColor="@color/txt_9"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

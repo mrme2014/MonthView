@@ -18,12 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import monthview.ishow.com.monthview.R;
+import monthview.ishow.com.monthview.widget.HourView;
 
 /**
  * Created by MrS on 2016/12/7.
  */
 
-public class HourDialogFragment extends DialogFragment implements HourView.hourSelectCallback {
+public class HourDialogFragment extends DialogFragment implements monthview.ishow.com.monthview.widget.HourView.hourSelectCallback {
     @BindView(R.id.HourView)
     HourView HourView;
     @BindView(R.id.calendar_sure)

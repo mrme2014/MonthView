@@ -1,4 +1,4 @@
-package monthview.ishow.com.monthview.UIUtil;
+package monthview.ishow.com.monthview.uiutil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

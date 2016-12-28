@@ -17,11 +17,6 @@
         <item name="android:layout_marginLeft">16dp</item>
     </style>
 
-    <style name="Comm_dialogfragment_windowAnimationStyle">
-        <item name="android:windowEnterAnimation">@anim/slide_from_top</item>
-        <item name="android:windowExitAnimation">@anim/slide_to_top</item>
-    </style>
-
     <!--底部弹出dialog的方式-->
     <style name="Select_dialog" parent="android:style/Theme.Translucent">
         <item name="android:windowIsFloating">true</item>
@@ -35,5 +30,45 @@
     <style name="Select_dialog_windowAnimationStyle">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <style name="Comm_dialogfragment">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--如果 不要 上下滑入式动画  去掉下面这句话-->
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowAnimationStyle">@style/Comm_dialogfragment_windowAnimationStyle
+        </item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Comm_dialogfragment_windowAnimationStyle">
+        <item name="android:windowEnterAnimation">@anim/slide_from_top</item>
+        <item name="android:windowExitAnimation">@anim/slide_to_top</item>
+    </style>
+
+    <!--左边弹出dialog的方式-->
+    <style name="slide_from_to_left_theme" parent="android:style/Theme.Translucent">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--如果 不要 上下滑入式动画  去掉下面这句话-->
+        <item name="android:windowAnimationStyle">@style/slide_from_to_left_animation</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="slide_from_to_left_animation">
+        <item name="android:windowEnterAnimation">@anim/slide_from_left</item>
+        <item name="android:windowExitAnimation">@anim/slide_to_left</item>
+    </style>
+
+    <style name="RecyclerViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:overScrollMode">ifContentScrolls</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:background">@android:color/white</item>
     </style>
 </resources>

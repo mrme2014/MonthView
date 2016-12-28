@@ -1,4 +1,4 @@
-package monthview.ishow.com.monthview.UIUtil;
+package monthview.ishow.com.monthview.uiutil;
 
 import android.app.Activity;
 import android.content.Context;

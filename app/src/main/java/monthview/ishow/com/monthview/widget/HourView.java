@@ -1,4 +1,4 @@
-package monthview.ishow.com.monthview.calendar;
+package monthview.ishow.com.monthview.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import monthview.ishow.com.monthview.R;
-import monthview.ishow.com.monthview.UIUtil.UIUtil;
+import monthview.ishow.com.monthview.uiutil.UIUtil;
 
 
 /**

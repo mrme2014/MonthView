@@ -1,4 +1,4 @@
-package monthview.ishow.com.monthview.calendar;
+package monthview.ishow.com.monthview.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import monthview.ishow.com.monthview.R;
-import monthview.ishow.com.monthview.UIUtil.UIUtil;
+import monthview.ishow.com.monthview.uiutil.UIUtil;
 
 /**
  * Created by MrS on 2016/12/6.
@@ -88,7 +88,7 @@ public class MonthView extends View implements View.OnTouchListener {
 
         leftRightPd = UIUtil.dip2px(context, 10);
         //setNeedWeekTitle(true);
-        //upMonthDyas(0);
+        upMonthDyas(0);
 
         this.setOnTouchListener(this);
 
